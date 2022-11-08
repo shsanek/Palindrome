@@ -13,6 +13,6 @@
 #include "../Base/Registers.h"
 
 void installCommandFunction();
-void runCommand(Context* context);
+void runCommand();
 
 #endif /* Base_h */

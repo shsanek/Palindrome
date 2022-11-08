@@ -23,61 +23,61 @@ uint8_t readLast3Bit(uint8_t byte) {
 
 
 #define TWO_OPERAND_ADDRESS_MEMORY_MRM_16(BASE, sR, fR, lR) \
-uint8_t* addressMemoryMRM16Base##BASE(Context* context, uint8_t mod) {\
-    int16_t shift = *register16u(context, fR) + *register16u(context, lR);\
-    uint8_t* base = mem(context, sR) + shift;\
+uint8_t* addressMemoryMRM16Base##BASE(uint8_t mod) {\
+    int16_t shift = *register16u(fR) + *register16u(lR);\
+    uint8_t* base = mem(sR) + shift;\
     switch(mod) {\
         case 0:\
             return base;\
         case 1:\
-            return base + ((int16_t)read8(context));\
+            return base + ((int16_t)read8());\
         case 2:\
-            return base + read16(context);\
+            return base + read16();\
     }\
     return NULL;\
 }\
 
 #define ONE_OPERAND_ADDRESS_MEMORY_MRM_16(BASE, sR, fR) \
-uint8_t* addressMemoryMRM16Base##BASE(Context* context, uint8_t mod) {\
-    int16_t shift = *register16u(context, fR);\
-    uint8_t* base = mem(context, sR) + shift;\
+uint8_t* addressMemoryMRM16Base##BASE(uint8_t mod) {\
+    int16_t shift = *register16u(fR);\
+    uint8_t* base = mem(sR) + shift;\
     switch(mod) {\
         case 0:\
             return base;\
         case 1:\
-            return base + ((int16_t)read8(context));\
+            return base + ((int16_t)read8());\
         case 2:\
-            return base + read16(context);\
+            return base + read16();\
     }\
     return NULL;\
 }\
 
 #define ONE_OPERAND_ADDRESS_MEMORY_MRM_32(BASE, sR, fR)\
-uint8_t* addressMemoryMRM32Base##BASE(Context* context, uint8_t mod) {\
-    int16_t shift = *register32u(context, fR);\
-    uint8_t* base = mem(context, sR) + shift;\
+uint8_t* addressMemoryMRM32Base##BASE(uint8_t mod) {\
+    int16_t shift = *register32u(fR);\
+    uint8_t* base = mem(sR) + shift;\
     switch(mod) {\
         case 0:\
             return base;\
         case 1:\
-            return base + ((int16_t)read8(context));\
+            return base + ((int16_t)read8());\
         case 2:\
-            return base + read32(context);\
+            return base + read32();\
     }\
     return NULL;\
 }
 
 #define ADDRESS_MEMORY_SIB(BASE, sR, fR)\
-uint8_t* addressMemoryMRM32IBBase##BASE(Context* context, uint8_t mod, uint32_t shift) {\
-    uint32_t rShift = *register32u(context, fR);\
-    uint8_t* base = mem(context, sR) + rShift + shift;\
+uint8_t* addressMemoryMRM32IBBase##BASE(uint8_t mod, uint32_t shift) {\
+    uint32_t rShift = *register32u(fR);\
+    uint8_t* base = mem(sR) + rShift + shift;\
     switch(mod) {\
         case 0:\
             return base;\
         case 1:\
-            return base + ((int16_t)read8(context));\
+            return base + ((int16_t)read8());\
         case 2:\
-            return base + read32(context);\
+            return base + read32();\
     }\
     return NULL;\
 }
@@ -123,58 +123,58 @@ uint8_t getScaleSIB(uint8_t scale, uint8_t index) {
     return 0;
 }
 
-int8_t* readRegisterMRM8(Context* context, uint8_t mrmByte) {
-    return register8(context, readMiddle3Bit(mrmByte));
+int8_t* readRegisterMRM8(uint8_t mrmByte) {
+    return register8(readMiddle3Bit(mrmByte));
 }
 
-int16_t* readRegisterMRM16(Context* context, uint8_t mrmByte) {
-    return register16(context, readMiddle3Bit(mrmByte));
+int16_t* readRegisterMRM16(uint8_t mrmByte) {
+    return register16(readMiddle3Bit(mrmByte));
 }
 
-int32_t* readRegisterMRM32(Context* context, uint8_t mrmByte) {
-    return register32(context, readMiddle3Bit(mrmByte));
+int32_t* readRegisterMRM32(uint8_t mrmByte) {
+    return register32(readMiddle3Bit(mrmByte));
 }
 
-uint8_t* addressMemoryMRM32IBBase5(Context* context, uint8_t mod, uint32_t shift) {
-    uint32_t rShift = *register32u(context, BR_EBP_F);
-    uint8_t* base = mem(context, SR_DS) + rShift + shift;
+uint8_t* addressMemoryMRM32IBBase5(uint8_t mod, uint32_t shift) {
+    uint32_t rShift = *register32u(BR_EBP_F);
+    uint8_t* base = mem(SR_DS) + rShift + shift;
     switch(mod) {
         case 0:
-            return mem(context, SR_DS) + read32(context) + shift;
+            return mem(SR_DS) + read32() + shift;
         case 1:
-            return base + ((int16_t)read8(context));
+            return base + ((int16_t)read8());
         case 2:
-            return base + read32(context);
+            return base + read32();
     }
     return NULL;
 }
 
-uint8_t* addressMemoryMRM32IB(Context* context, uint8_t mod) {
-    uint8_t sibByte = read8u(context);
+uint8_t* addressMemoryMRM32IB(uint8_t mod) {
+    uint8_t sibByte = read8u();
     uint8_t scaleByte = readFirst2Bit(sibByte);
     uint8_t indexByte = readMiddle3Bit(sibByte);
     uint8_t baseByte = readLast3Bit(sibByte);
 
     uint8_t scale = getScaleSIB(scaleByte, indexByte);
-    uint32_t shift = context->registers[indexByte] * scale;
+    uint32_t shift = context.registers[indexByte] * scale;
 
     switch(baseByte) {
         case 0:
-            return addressMemoryMRM32IBBase0(context, mod, shift);
+            return addressMemoryMRM32IBBase0(mod, shift);
         case 1:
-            return addressMemoryMRM32IBBase1(context, mod, shift);
+            return addressMemoryMRM32IBBase1(mod, shift);
         case 2:
-            return addressMemoryMRM32IBBase2(context, mod, shift);
+            return addressMemoryMRM32IBBase2(mod, shift);
         case 3:
-            return addressMemoryMRM32IBBase3(context, mod, shift);
+            return addressMemoryMRM32IBBase3(mod, shift);
         case 4:
-            return addressMemoryMRM32IBBase4(context, mod, shift);
+            return addressMemoryMRM32IBBase4(mod, shift);
         case 5:
-            return addressMemoryMRM32IBBase5(context, mod, shift);
+            return addressMemoryMRM32IBBase5(mod, shift);
         case 6:
-            return addressMemoryMRM32IBBase6(context, mod, shift);
+            return addressMemoryMRM32IBBase6(mod, shift);
         case 7:
-            return addressMemoryMRM32IBBase7(context, mod, shift);
+            return addressMemoryMRM32IBBase7(mod, shift);
         default:
             return NULL;
     }
@@ -182,86 +182,114 @@ uint8_t* addressMemoryMRM32IB(Context* context, uint8_t mod) {
     return NULL;
 }
 
-uint8_t* addressMemoryMRM32Base5(Context* context, uint8_t mod) {
-    int16_t shift = *register16u(context, BR_EBP_F);
-    uint8_t* base = mem(context, SR_SS);
+uint8_t* addressMemoryMRM32Base5(uint8_t mod) {
+    int16_t shift = *register32u(BR_EBP_F);
+    uint8_t* base = mem(SR_SS);
     switch(mod) {
         case 0:
-            return mem(context, SR_DS) + read32(context);
+            return mem(SR_DS) + read32();
         case 1:
-            return base + shift + ((int16_t)read8(context));
+            return base + shift + ((int16_t)read8());
         case 2:
-            return base + shift + read32(context);
+            return base + shift + read32();
     }
     return NULL;
 }
 
-uint8_t* addressMemoryMRM16Base6(Context* context, uint8_t mod) {
-    int16_t shift = *register16u(context, BR_BP);
-    uint8_t* base = mem(context, SR_SS);
+uint8_t* addressMemoryMRM16Base6(uint8_t mod) {
+    int16_t shift = *register16u(BR_BP);
+    uint8_t* base = mem(SR_SS);
     switch(mod) {
         case 0:
-            return mem(context, SR_DS) + read16(context);
+            return mem(SR_DS) + read16();
         case 1:
-            return base + shift + ((int16_t)read8(context));
+            return base + shift + ((int16_t)read8());
         case 2:
-            return base + shift + read16(context);
+            return base + shift + read16();
     }
     return NULL;
 }
 
 
-uint8_t* readAddressMRM16(Context* context, uint8_t mrmByte) {
+uint8_t* readAddressMRM8(uint8_t mrmByte) {
     uint8_t mod = readFirst2Bit(mrmByte);
     uint8_t base = readLast3Bit(mrmByte);
     if (mod == 3) {
-        return (uint8_t*)register16(context, base);
+        return (uint8_t*)register8(base);
     }
     switch(base) {
         case 0:
-            return addressMemoryMRM16Base0(context, mod);
+            return addressMemoryMRM16Base0(mod);
         case 1:
-            return addressMemoryMRM16Base1(context, mod);
+            return addressMemoryMRM16Base1(mod);
         case 2:
-            return addressMemoryMRM16Base2(context, mod);
+            return addressMemoryMRM16Base2(mod);
         case 3:
-            return addressMemoryMRM16Base3(context, mod);
+            return addressMemoryMRM16Base3(mod);
         case 4:
-            return addressMemoryMRM16Base4(context, mod);
+            return addressMemoryMRM16Base4(mod);
         case 5:
-            return addressMemoryMRM16Base5(context, mod);
+            return addressMemoryMRM16Base5(mod);
         case 6:
-            return addressMemoryMRM16Base6(context, mod);
+            return addressMemoryMRM16Base6(mod);
         case 7:
-            return addressMemoryMRM16Base7(context, mod);
+            return addressMemoryMRM16Base7(mod);
         default:
             return NULL;
     }
 }
 
-uint8_t* readAddressMRM32(Context* context, uint8_t mrmByte) {
+uint8_t* readAddressMRM16(uint8_t mrmByte) {
     uint8_t mod = readFirst2Bit(mrmByte);
     uint8_t base = readLast3Bit(mrmByte);
     if (mod == 3) {
-        return (uint8_t*)register32(context, base);
+        return (uint8_t*)register16(base);
     }
     switch(base) {
         case 0:
-            return addressMemoryMRM32Base0(context, mod);
+            return addressMemoryMRM16Base0(mod);
         case 1:
-            return addressMemoryMRM32Base1(context, mod);
+            return addressMemoryMRM16Base1(mod);
         case 2:
-            return addressMemoryMRM32Base2(context, mod);
+            return addressMemoryMRM16Base2(mod);
         case 3:
-            return addressMemoryMRM32Base3(context, mod);
+            return addressMemoryMRM16Base3(mod);
         case 4:
-            return addressMemoryMRM32IB(context, mod);
+            return addressMemoryMRM16Base4(mod);
         case 5:
-            return addressMemoryMRM32Base5(context, mod);
+            return addressMemoryMRM16Base5(mod);
         case 6:
-            return addressMemoryMRM32Base6(context, mod);
+            return addressMemoryMRM16Base6(mod);
         case 7:
-            return addressMemoryMRM32Base7(context, mod);
+            return addressMemoryMRM16Base7(mod);
+        default:
+            return NULL;
+    }
+}
+
+uint8_t* readAddressMRM32(uint8_t mrmByte) {
+    uint8_t mod = readFirst2Bit(mrmByte);
+    uint8_t base = readLast3Bit(mrmByte);
+    if (mod == 3) {
+        return (uint8_t*)register32(base);
+    }
+    switch(base) {
+        case 0:
+            return addressMemoryMRM32Base0(mod);
+        case 1:
+            return addressMemoryMRM32Base1(mod);
+        case 2:
+            return addressMemoryMRM32Base2(mod);
+        case 3:
+            return addressMemoryMRM32Base3(mod);
+        case 4:
+            return addressMemoryMRM32IB(mod);
+        case 5:
+            return addressMemoryMRM32Base5(mod);
+        case 6:
+            return addressMemoryMRM32Base6(mod);
+        case 7:
+            return addressMemoryMRM32Base7(mod);
         default:
             return NULL;
     }

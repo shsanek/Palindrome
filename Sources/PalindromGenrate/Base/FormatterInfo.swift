@@ -5,6 +5,7 @@ struct FormatterInfo {
     let variation: UInt16
     var vars: [(name: String, value: String)]
     var prefixs: [CommandPrefix]
+    var additionalInfo: [FormatterAdditionalInfo] = []
 
     func update(_ block: (_ info: inout FormatterInfo) -> Void) -> Self {
         var info = self
@@ -13,50 +14,138 @@ struct FormatterInfo {
     }
 }
 
+enum FormatterAdditionalInfo {
+    case sign
+
+    case bigData
+    case littleData
+    case changeableData
+    case fixOperand(_ fix: Int)
+    case fixData(_ fix: Int)
+
+    case bigAddress
+    case littleAddress
+    case fixAddress(_ fix: Int)
+}
+
 extension FormatterInfo {
-    var bigAddressSize: String {
-        if mode == .mod32 || !prefixs.contains(.addressSizePrefix) {
-            return "32"
-        } else {
-            return "16"
-        }
-    }
-
-    var littleAddressSize: String {
-        if mode == .mod32 || !prefixs.contains(.addressSizePrefix) {
-            return "16"
-        } else {
-            return "8"
-        }
-    }
-
-    var changeDataSize: String {
-        if flags.contains("w") {
-            if mode == .mod32 && !prefixs.contains(.dataSizePrefix) {
-                return "32"
-            } else {
-                return "16"
+    var operandSize: Int {
+        for info in additionalInfo {
+            switch info {
+            case .fixOperand(let fix):
+                return fix
+            default:
+                continue;
             }
+        }
+        return dataSize
+    }
+
+    var addressSize: Int {
+        for info in additionalInfo {
+            switch info {
+            case .bigAddress:
+                if mode == .mod32 && !prefixs.contains(.addressSizePrefix) {
+                    return 32
+                } else {
+                    return 16
+                }
+            case .littleAddress:
+                if mode == .mod32 && !prefixs.contains(.addressSizePrefix) {
+                    return 16
+                } else {
+                    return 8
+                }
+            case .fixAddress(let fix):
+                return fix
+            default:
+                continue
+            }
+        }
+        if mode == .mod32 && !prefixs.contains(.addressSizePrefix) {
+            return 32
         } else {
-            return "8"
+            return 16
         }
     }
 
+    var addressMask: String {
+        switch addressSize {
+        case 32:
+            return "0xFFFFFFFF"
+        case 16:
+            return "0xFFFF"
+        case 8:
+            return "0xFF"
+        default:
+            return "0xFFFFFFFF"
+        }
+    }
 
-    var bigDataSize: String {
+    var dataSize: Int {
+        for info in additionalInfo {
+            switch info {
+            case .bigData:
+                if mode == .mod32 && !prefixs.contains(.dataSizePrefix) {
+                    return 32
+                } else {
+                    return 16
+                }
+            case .changeableData:
+                if flags.contains("w") {
+                    if mode == .mod32 && !prefixs.contains(.dataSizePrefix) {
+                        return 32
+                    } else {
+                        return 16
+                    }
+                } else {
+                    return 8
+                }
+            case .fixData(let fix):
+                return fix
+            case .littleData:
+                if mode == .mod32 && !prefixs.contains(.dataSizePrefix) {
+                    return 16
+                } else {
+                    return 8
+                }
+            default:
+                continue
+            }
+        }
         if mode == .mod32 && !prefixs.contains(.dataSizePrefix) {
-            return "32"
+            return 32
         } else {
-            return "16"
+            return 16
+        }
+    }
+
+    var dataMask: String {
+        switch dataSize {
+        case 32:
+            return "0xFFFFFFFF"
+        case 16:
+            return "0xFFFF"
+        case 8:
+            return "0xFF"
+        default:
+            return "0xFFFFFFFF"
         }
     }
 
     var sign: String {
+        for info in additionalInfo {
+            switch info {
+            case .sign:
+                return ""
+            default:
+                return "u"
+            }
+        }
         if flags.contains("s") {
-            return ""
-        } else {
             return "u"
         }
+        return ""
     }
 }
 
@@ -71,6 +160,6 @@ extension FormatterInfo {
     }
 
     var functionName: String {
-        "handlerCommand\(mode == .mod32 ? "32" : "16")Code\(variation)" + prefixs.map { "Prefix\($0)" }.joined()
+        "handlerCommand\(mode == .mod32 ? "32" : "16")Code\(variation.rawHex)" + Array(Set(prefixs)).sorted(by: { $0.rawValue < $1.rawValue }).map { "P\($0.rawValue)" }.joined()
     }
 }

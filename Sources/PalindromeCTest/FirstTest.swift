@@ -6,54 +6,83 @@ final class FirstTest: XCTestCase {
     func test00() throws {
         let wrapContext = WrapContext()
         wrapContext.setMemory(
-            [0xBB, 0x11, 0x00, 0xB9, 0x0D, 0x00, 0xB4, 0x0E, 0x8A, 0x07, 0x43,
-             0xCD, 0x10, 0xE2, 0xF9, 0xCD, 0x20, 0x48, 0x65, 0x6C, 0x6C, 0x6F,
-             0x2C, 0x20, 0x57, 0x6F, 0x72, 0x6C, 0x64, 0x21]
+            "BB1100B90D00B40E8A0743CD10E2F9CD2048656C6C6F2C20576F726C6421"
         )
-        var result = "";
-        wrapContext.setFunction(0x10) { context in
-            if let string = String(bytes: [context.uAL], encoding: .utf8) {
-                result.append(string)
-            }
-        }
 
-        wrapContext.setFunction(0x20) { context in
-            context.end = 1
-        }
+        wrapContext.context?[0].mod = 0
 
         while wrapContext.state == .normal {
             wrapContext.runCommand()
         }
 
+        let cString = wrapContext.context?[0].text
+        let result = String(cString: cString!)
+
         XCTAssert("Hello, World!" == result)
+    }
+
+    func test01() throws {
+        let wrapContext = WrapContext()
+        wrapContext.context?[0].mod = 1
+        wrapContext.setMemory(
+            """
+            8d4c2404
+            83e4f0
+            ff71fc
+            55
+            89e5
+            51
+            83ec04
+            83ec0c
+            6a0a
+            e80b000000
+            83c410
+            8d4dfc
+            c9
+            8d61fc
+            c3
+            55
+            89e583ec08
+            837d0800
+            7507
+            b801000000
+            eb16
+            8b4508
+            83e801
+            83ec0c
+            50
+            e8deffffff
+            83c410
+            0faf4508
+            c9
+            c3
+            """
+        )
+
+        while wrapContext.state == .normal {
+            wrapContext.runCommand()
+        }
+        let value = register32(UInt8(BR_EAX_F))?[0]
+
+        XCTAssert(3628800 == value)
     }
 
     func test00Performance() {
         let wrapContext = WrapContext()
         wrapContext.setMemory(
-            [0xBB, 0x11, 0x00, 0xB9, 0x0D, 0x00, 0xB4, 0x0E, 0x8A, 0x07, 0x43,
-             0xCD, 0x10, 0xE2, 0xF9, 0xCD, 0x20, 0x48, 0x65, 0x6C, 0x6C, 0x6F,
-             0x2C, 0x20, 0x57, 0x6F, 0x72, 0x6C, 0x64, 0x21]
+            "BB1100B90D00B40E8A0743CD10E2F9CD2048656C6C6F2C20576F726C6421"
         )
-        var result = ""
-        wrapContext.setFunction(0x10) { context in
-            if let string = String(bytes: [context.uAL], encoding: .utf8) {
-                result.append(string)
-            }
-        }
-
-        wrapContext.setFunction(0x20) { context in
-            context.end = 1
-        }
-
+        wrapContext.context?[0].mod = 0
         measure {
             for _ in 0..<10000 {
-                result = ""
                 wrapContext.context?[0].index = wrapContext.context?[0].program
                 wrapContext.context?[0].end = 0
+                wrapContext.context?[0].cursor = 0
                 while wrapContext.state == .normal {
                     wrapContext.runCommand()
                 }
+                let cString = wrapContext.context?[0].text
+                let result = String(cString: cString!)
                 XCTAssert("Hello, World!" == result)
             }
         }

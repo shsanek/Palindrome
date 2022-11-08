@@ -5,6 +5,10 @@ final class Generator {
         self.commands.append(command)
     }
 
+    public func addCommands(_ commands: [Command]) {
+        commands.forEach { self.commands.append($0) }
+    }
+
     func generateAllCommand(_ installFormat: (String) -> String) -> String {
         let installGenerate = FunctionGenerator()
         let functionGenerate = FunctionGenerator()

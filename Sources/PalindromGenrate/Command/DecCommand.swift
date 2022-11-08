@@ -9,8 +9,13 @@ fileprivate let decCommand = Command(
         ]
     ),
     functionFormatter: Formatter(
-        customizers: [.functionName, .vars, .prefixBigData, .bigData],
-        baseFormatter: TemplateFormat(template: "*register%dataSizeu(context, reg) -= 1;")
+        customizers: [
+            .prefixData,
+            .functionName,
+            .vars,
+            .settings([.bigData]),
+            "*register%dataSizeu(reg) -= 1;"
+        ]
     ),
     installFormatter: InitialFormatter()
 )

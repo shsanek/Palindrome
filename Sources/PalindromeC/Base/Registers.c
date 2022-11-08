@@ -27,26 +27,26 @@ uint32_t register32Address(uint8_t registerIndex) {
     return byteIndex;
 }
 
-int8_t* register8(Context* context, uint8_t registerIndex) {
-    return (int8_t*)(context->registers + register8Address(registerIndex));
+int8_t* register8(uint8_t registerIndex) {
+    return (int8_t*)(context.registers + register8Address(registerIndex));
 }
 
-int16_t* register16(Context* context, uint8_t registerIndex) {
-    return (int16_t*)(context->registers + register16Address(registerIndex));
+int16_t* register16(uint8_t registerIndex) {
+    return (int16_t*)(context.registers + register16Address(registerIndex));
 }
 
-int32_t* register32(Context* context, uint8_t registerIndex) {
-    return (int32_t*)(context->registers + register32Address(registerIndex));
+int32_t* register32(uint8_t registerIndex) {
+    return (int32_t*)(context.registers + register32Address(registerIndex));
 }
 
-uint8_t* register8u(Context* context, uint8_t registerIndex) {
-    return (uint8_t*)(context->registers + register8Address(registerIndex));
+uint8_t* register8u(uint8_t registerIndex) {
+    return (uint8_t*)(context.registers + register8Address(registerIndex));
 }
 
-uint16_t* register16u(Context* context, uint8_t registerIndex) {
-    return (uint16_t*)(context->registers + register16Address(registerIndex));
+uint16_t* register16u(uint8_t registerIndex) {
+    return (uint16_t*)(context.registers + register16Address(registerIndex));
 }
 
-uint32_t* register32u(Context* context, uint8_t registerIndex) {
-    return (uint32_t*)(context->registers + register32Address(registerIndex));
+uint32_t* register32u(uint8_t registerIndex) {
+    return (uint32_t*)(context.registers + register32Address(registerIndex));
 }

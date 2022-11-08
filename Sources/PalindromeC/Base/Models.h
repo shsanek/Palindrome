@@ -10,21 +10,6 @@
 
 #include <stdio.h>
 
-typedef void (*ASM_FUNCTION)(
-    uint8_t mod,
-    uint8_t commandPrefix,
-    uint8_t operandSizePrefix,
-    uint8_t changeSegmentPrefix
-);
-
-typedef struct ASMFunction {
-    ASM_FUNCTION function;
-    char mrmActive;
-    char addr;
-    char data;
-    char name[3];
-} ASMFunction;
-
 typedef struct CommandPrefixInfo {
     uint8_t commandPrefix;
     uint8_t addressSizePrefix;
@@ -42,14 +27,17 @@ typedef struct CommandInfo {
 } CommandInfo;
 
 typedef void (*InterruptCallFunction)(
-    void* context, uint8_t index
+    uint8_t index
 );
 
 typedef struct Context {
     uint16_t* segmentRegisters;
-    uint8_t* program;
-    uint8_t* index;
     uint8_t* registers;
+    uint8_t* flags;
+
+    uint8_t* index;
+
+    uint8_t* program;
     uint8_t* memory;
 
     uint8_t* currentStack;
@@ -61,10 +49,14 @@ typedef struct Context {
 
     uint8_t mod;
 
+    uint16_t cursor;
+    uint8_t *text;
 
+
+    void (*SetFlags)(struct Context* context, uint8_t index);
     CommandInfo lastCommandInfo;
 
-    InterruptCallFunction* functions;
+    InterruptCallFunction functions[256];
 
     char end;
 
@@ -72,7 +64,9 @@ typedef struct Context {
 
 } Context;
 
-Context* makeContext(uint16_t memorySize);
-void freeContext(Context* context);
+extern Context context;
+
+Context* resetContext(uint16_t memorySize);
+void freeContext();
 
 #endif /* Models_h */

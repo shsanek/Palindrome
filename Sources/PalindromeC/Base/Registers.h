@@ -65,11 +65,11 @@
 #define SR_FS (0x04)
 #define SR_GS (0x05)
 
-int8_t* register8(Context* context, uint8_t registerIndex);
-int16_t* register16(Context* context, uint8_t registerIndex);
-int32_t* register32(Context* context, uint8_t registerIndex);
-uint8_t* register8u(Context* context, uint8_t registerIndex);
-uint16_t* register16u(Context* context, uint8_t registerIndex);
-uint32_t* register32u(Context* context, uint8_t registerIndex);
+int8_t* register8(uint8_t registerIndex);
+int16_t* register16(uint8_t registerIndex);
+int32_t* register32(uint8_t registerIndex);
+uint8_t* register8u(uint8_t registerIndex);
+uint16_t* register16u(uint8_t registerIndex);
+uint32_t* register32u(uint8_t registerIndex);
 
 #endif /* Header_h */

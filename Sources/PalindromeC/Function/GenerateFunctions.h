@@ -11,11 +11,9 @@
 #include <stdio.h>
 #include "BaseFunction.h"
 
-typedef void (*CommandFunction)(
-    Context* context
-);
+typedef void (*CommandFunction)();
 
-CommandFunction commandFunctions16[512];
-CommandFunction commandFunctions32[512];
+CommandFunction commandFunctions16[256 * 8];
+CommandFunction commandFunctions32[256 * 8];
 
 #endif /* GenerateFunctions_h */

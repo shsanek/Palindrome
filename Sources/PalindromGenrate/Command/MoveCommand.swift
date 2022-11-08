@@ -9,7 +9,15 @@ fileprivate let moveMRMCommand = Command(
             .init(name: "d", indexBit: 1, count: 1)
         ]
     ),
-    functionFormatter: Formatter.defaultMRM(TemplateFormat(template: "*(%dataType*)target = *(%dataType*)source;")),
+    functionFormatter: Formatter(
+        customizers: [
+            .prefixData,
+            .functionName,
+            .settings([.changeableData, .bigAddress]),
+            .mrm,
+            "*(%dataType*)target = *(%dataType*)source;"
+        ]
+    ),
     installFormatter: InitialFormatter()
 )
 
@@ -25,11 +33,17 @@ fileprivate let moveDataCommand = Command(
         ]
     ),
     functionFormatter: Formatter(
-        customizers: [.functionName, .vars, .prefixData, .changeableData],
-        baseFormatter: TemplateFormat(template: "*register%dataSizeu(context, reg) = read%dataSizeu(context);")
+        customizers: [
+            .prefixData,
+            .functionName,
+            .vars,
+            .settings([.changeableData]),
+            "*register%dataSizeu(reg) = read%dataSizeu();"
+        ]
     ),
     installFormatter: InitialFormatter()
 )
+
 
 func appendMoveCommand(generator: Generator) {
     generator.addCommand(moveMRMCommand)

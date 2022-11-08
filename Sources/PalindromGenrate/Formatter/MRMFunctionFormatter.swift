@@ -4,7 +4,8 @@ struct FunctionBodyFormatter: IFormatter {
     func format(with info: FormatterInfo) -> String? {
         let generator = FunctionGenerator()
         let name = info.functionName;
-        generator.add("void \(name)(Context *context) {")
+        generator.add("//\(info.command.name)")
+        generator.add("void \(name)() {")
         generator.add(baseFormatter.format(with: info))
         generator.add("}")
         return generator.text
@@ -16,62 +17,23 @@ struct MRMFunctionFormatter: IFormatter {
 
     func format(with info: FormatterInfo) -> String? {
         let generator = FunctionGenerator()
-        generator.add("uint8_t mrmByte = read8u(context);")
+        generator.add("uint8_t mrmByte = read8u();")
         addPrepare(generator, with: info)
         generator.add(baseFormatter.format(with: info))
         return generator.text
     }
 
     private func addPrepare(_ generator: FunctionGenerator, with info: FormatterInfo) {
-        let type = "\(info.sign)int\(info.changeDataSize)_t"
-        let registerFunction = "(\(type)*)readRegisterMRM\(info.changeDataSize)(context, mrmByte);"
-        let addressFunction = "(\(type)*)readAddressMRM\(info.mode == .mod32 ? "32" : "16")(context, mrmByte);"
+        let registerFunction = "(uint8_t*)readRegisterMRM%dataSize(mrmByte)"
+        let addressFunction = "(uint8_t*)readAddressMRM%dataSize(mrmByte)"
 
         let prepareGenerator = FunctionGenerator()
-        prepareGenerator.add("\(type)* target = \(addressFunction);")
-        prepareGenerator.add("\(type)* source = \(registerFunction);")
+        prepareGenerator.add("uint8_t* target = \(addressFunction);")
+        prepareGenerator.add("uint8_t* source = \(registerFunction);")
         if info.flags.contains("d") {
             prepareGenerator.swich(a: "target", b: "source")
         }
         generator.add(prepareGenerator.text)
-    }
-}
-
-struct PrefixDataFunctionFormatter: IFormatter {
-    let baseFormatter: IFormatter
-
-    func format(with info: FormatterInfo) -> String? {
-        let generator = FunctionGenerator()
-        if info.mode == .mod32 && info.flags.contains("w") {
-            generator.add("if (context->lastCommandInfo.prefixInfo.operandSizePrefix) {")
-            let prefixInfo = info.update { $0.prefixs += [.dataSizePrefix] }
-            generator.add(baseFormatter.format(with: prefixInfo))
-            generator.add("} else {")
-            generator.add(baseFormatter.format(with: info))
-            generator.add("}")
-        } else {
-            generator.add(baseFormatter.format(with: info))
-        }
-        return generator.text
-    }
-}
-
-struct PrefixBigDataFunctionFormatter: IFormatter {
-    let baseFormatter: IFormatter
-
-    func format(with info: FormatterInfo) -> String? {
-        let generator = FunctionGenerator()
-        if info.mode == .mod32 {
-            generator.add("if (context->lastCommandInfo.prefixInfo.operandSizePrefix) {")
-            let prefixInfo = info.update { $0.prefixs += [.dataSizePrefix] }
-            generator.add(baseFormatter.format(with: prefixInfo))
-            generator.add("} else {")
-            generator.add(baseFormatter.format(with: info))
-            generator.add("}")
-        } else {
-            generator.add(baseFormatter.format(with: info))
-        }
-        return generator.text
     }
 }
 
@@ -81,12 +43,25 @@ struct PrefixAddressFunctionFormatter: IFormatter {
     func format(with info: FormatterInfo) -> String? {
         let generator = FunctionGenerator()
         if info.mode == .mod32 {
-            generator.add("if (context->lastCommandInfo.prefixInfo.operandSizePrefix) {")
+            let prefixInfo = info.update { $0.prefixs += [.addressSizePrefix] }
+            generator.add(baseFormatter.format(with: prefixInfo))
+            generator.add(baseFormatter.format(with: info))
+        } else {
+            generator.add(baseFormatter.format(with: info))
+        }
+        return generator.text
+    }
+}
+
+struct PrefixDataFunctionFormatter: IFormatter {
+    let baseFormatter: IFormatter
+
+    func format(with info: FormatterInfo) -> String? {
+        let generator = FunctionGenerator()
+        if info.mode == .mod32 {
             let prefixInfo = info.update { $0.prefixs += [.dataSizePrefix] }
             generator.add(baseFormatter.format(with: prefixInfo))
-            generator.add("} else {")
             generator.add(baseFormatter.format(with: info))
-            generator.add("}")
         } else {
             generator.add(baseFormatter.format(with: info))
         }
@@ -107,48 +82,50 @@ struct VarsFunctionFormatter: IFormatter {
     }
 }
 
-struct ChangeableDataTemplateFormat: IFormatter {
+struct ReplaceTemplateFormat: IFormatter {
     let baseFormatter: IFormatter
 
+    init(baseFormatter: IFormatter) {
+        self.baseFormatter = baseFormatter
+    }
+
     func format(with info: FormatterInfo) -> String? {
-        baseFormatter.format(with: info)?
-            .replacingOccurrences(of: "%dataType", with: "\(info.sign)int\(info.changeDataSize)_t")
-            .replacingOccurrences(of: "%dataSize", with: info.changeDataSize)
+        var text = baseFormatter.format(with: info)
+        for h in info.vars {
+            text = text?.replacingOccurrences(of: "%\(h.name)", with: h.value)
+        }
+        return text?
+            .replacingOccurrences(of: "%addressMask", with: info.addressMask)
+            .replacingOccurrences(of: "%addressSize", with: "\(info.addressSize)")
+            .replacingOccurrences(of: "%dataType", with: "\(info.sign)int\(info.dataSize)_t")
+            .replacingOccurrences(of: "%dataSize", with: "\(info.dataSize)")
+            .replacingOccurrences(of: "%dataMask", with: info.dataMask)
             .replacingOccurrences(of: "%sType", with: info.sign)
+            .replacingOccurrences(of: "%sign", with: info.sign)
+            .replacingOccurrences(of: "%operandSize", with: "\(info.operandSize)")
     }
 }
 
-struct BigDataTemplateFormat: IFormatter {
+struct SetInfoFormat: IFormatter {
     let baseFormatter: IFormatter
+    let setting: [FormatterAdditionalInfo]
 
-    func format(with info: FormatterInfo) -> String? {
-        baseFormatter.format(with: info)?
-            .replacingOccurrences(of: "%dataType", with: "\(info.sign)int\(info.bigDataSize)_t")
-            .replacingOccurrences(of: "%dataSize", with: info.bigDataSize)
-            .replacingOccurrences(of: "%sType", with: info.sign)
+    init(baseFormatter: IFormatter, setting: [FormatterAdditionalInfo]) {
+        self.baseFormatter = baseFormatter
+        self.setting = setting
     }
-}
-
-struct BigAddressTemplateFormat: IFormatter {
-    let baseFormatter: IFormatter
 
     func format(with info: FormatterInfo) -> String? {
-        baseFormatter.format(with: info)?
-            .replacingOccurrences(of: "%addressSize", with: info.bigAddressSize)
-    }
-}
-
-struct LittleAddressTemplateFormat: IFormatter {
-    let baseFormatter: IFormatter
-
-    func format(with info: FormatterInfo) -> String? {
-        baseFormatter.format(with: info)?
-            .replacingOccurrences(of: "%addressSize", with: info.littleAddressSize)
+        baseFormatter.format(with: info.update { $0.additionalInfo = setting })
     }
 }
 
 struct TemplateFormat: IFormatter {
     let template: String
+
+    init(_ template: String) {
+        self.template = template
+    }
 
     func format(with info: FormatterInfo) -> String? {
         template
@@ -167,36 +144,59 @@ struct BaseFormat: IFormatter {
     }
 }
 
+struct CustomFormat: IFormatter {
+    let baseFormatter: IFormatter
+    let customFormatter: IFormatter
+
+    func format(with info: FormatterInfo) -> String? {
+        let generator = FunctionGenerator()
+        generator.add(customFormatter.format(with: info))
+        generator.add(baseFormatter.format(with: info))
+        return generator.text
+    }
+}
+
+//info.flags.contains("w")
+
 enum FormatCustomizer {
     case mrm
 
     case vars
 
+    case formatter(IFormatter)
+
     case prefixAddress
     case prefixData
-    case prefixBigData
 
     case functionName
 
-    case littleAddress
-    case bigAddress
+    case replace
+    case settings(_ info: [FormatterAdditionalInfo])
 
-    case changeableData
-    case bigData
+    case nnn(_ variations: [(code: String, formatter: IFormatter)])
+}
+
+extension FormatCustomizer: ExpressibleByStringLiteral {
+    init(stringLiteral value: StringLiteralType) {
+        self = .formatter(TemplateFormat(value))
+    }
+}
+
+extension FormatCustomizer {
+    static func template(_ text: String) -> Self {
+        return .formatter(TemplateFormat(text))
+    }
 }
 
 final class Formatter: IFormatter {
     let customizers: [FormatCustomizer]
-    let baseFormatter: IFormatter
 
-    private lazy var rootFormatter = generateRootFormatter(with: customizers, formatter: baseFormatter)
+    private lazy var rootFormatter = generateRootFormatter(with: customizers, formatter: TemplateFormat(""))
 
     init(
-        customizers: [FormatCustomizer],
-        baseFormatter: IFormatter
+        customizers: [FormatCustomizer]
     ) {
         self.customizers = customizers
-        self.baseFormatter = baseFormatter
     }
 
     func format(with info: FormatterInfo) -> String? {
@@ -216,33 +216,24 @@ final class Formatter: IFormatter {
     private func formatter(for customizer: FormatCustomizer, formatter: IFormatter) -> IFormatter {
         switch customizer {
         case .mrm:
-            return MRMFunctionFormatter(baseFormatter: formatter)
+            return ReplaceTemplateFormat(baseFormatter: MRMFunctionFormatter(baseFormatter: formatter))
         case .prefixData:
             return PrefixDataFunctionFormatter(baseFormatter: formatter)
         case .prefixAddress:
             return PrefixAddressFunctionFormatter(baseFormatter: formatter)
-        case .prefixBigData:
-            return PrefixBigDataFunctionFormatter(baseFormatter: formatter)
         case .functionName:
             return FunctionBodyFormatter(baseFormatter: formatter)
-        case .littleAddress:
-            return LittleAddressTemplateFormat(baseFormatter: formatter)
-        case .bigAddress:
-            return BigAddressTemplateFormat(baseFormatter: formatter)
-        case .changeableData:
-            return ChangeableDataTemplateFormat(baseFormatter: formatter)
-        case .bigData:
-            return BigDataTemplateFormat(baseFormatter: formatter)
+        case .settings(let info):
+            return SetInfoFormat(baseFormatter: formatter, setting: info)
         case .vars:
             return VarsFunctionFormatter(baseFormatter: formatter)
+        case .formatter(let custom):
+            return ReplaceTemplateFormat(baseFormatter: CustomFormat(baseFormatter: formatter, customFormatter: custom))
+        case .nnn(let variations):
+            return ReplaceTemplateFormat(baseFormatter: NNNFunctionFormatter(baseFormatter: formatter, variations: variations))
+        case .replace:
+            return ReplaceTemplateFormat(baseFormatter: formatter)
         }
-    }
-}
-
-extension Formatter {
-    static func defaultMRM(_ baseFormatter: IFormatter) -> Formatter {
-        let customizer: [FormatCustomizer] = [.functionName, .prefixData, .mrm, .changeableData]
-        return Formatter(customizers: customizer, baseFormatter: baseFormatter)
     }
 }
 
@@ -250,7 +241,99 @@ struct InitialFormatter: IFormatter {
     func format(with info: FormatterInfo) -> String? {
         let generator = FunctionGenerator()
         let name = info.functionName;
-        generator.add("commandFunctions\(info.mode == .mod32 ? "32" : "16")[\(info.variation)] = \(name);")
+        if info.mode == .mod32 {
+            generator.add("commandFunctions32[\(info.variation)] = \(info.functionName);")
+            if info.command.format.hasPrefixAddress {
+                generator.add("commandFunctions32[\(info.variation) | 0x0200 ] = \(info.update { $0.prefixs += [.addressSizePrefix] }.functionName);")
+            }
+            if info.command.format.hasPrefixData {
+                generator.add("commandFunctions32[\(info.variation) | 0x0400] = \(info.update { $0.prefixs += [.dataSizePrefix] }.functionName);")
+            }
+            if info.command.format.hasPrefixData && info.command.format.hasPrefixAddress {
+                generator.add("commandFunctions32[\(info.variation) | 0x0200 | 0x0400] = \(info.update { $0.prefixs += [.dataSizePrefix, .addressSizePrefix] }.functionName);")
+            }
+        } else {
+            generator.add("commandFunctions16[\(info.variation)] = \(name);")
+        }
         return generator.text
+    }
+}
+
+struct NNNFunctionFormatter: IFormatter {
+    let baseFormatter: IFormatter
+    let variations: [(String, IFormatter)]
+
+    init(baseFormatter: IFormatter, variations: [(String, IFormatter)]) {
+        self.baseFormatter = baseFormatter
+        self.variations = variations
+    }
+
+    func format(with info: FormatterInfo) -> String? {
+        let generator = FunctionGenerator()
+        generator.add("uint8_t mrmByte = read8u();")
+        generator.add("uint8_t nnn = readMiddle3Bit(mrmByte);")
+        addPrepare(generator, with: info)
+        generator.add("switch (nnn) {")
+        for variation in variations {
+            generator.add("case \(variation.0): {")
+            generator.add(variation.1.format(with: info))
+            generator.add("}")
+            generator.add("break;")
+        }
+        generator.add("}")
+        generator.add(baseFormatter.format(with: info))
+        return generator.text
+    }
+
+    private func addPrepare(_ generator: FunctionGenerator, with info: FormatterInfo) {
+        let addressFunction = "(uint8_t*)readAddressMRM%addressSize(mrmByte)"
+
+        let prepareGenerator = FunctionGenerator()
+        prepareGenerator.add("uint8_t* target = \(addressFunction);")
+        if info.flags.contains("d") {
+            prepareGenerator.swich(a: "target", b: "source")
+        }
+        generator.add(prepareGenerator.text)
+    }
+}
+
+
+struct VariationsFormatter: IFormatter {
+    let baseFormatter: IFormatter
+    let variations: [(UInt16, IFormatter)]
+
+    init(baseFormatter: IFormatter, variations: [(UInt16, IFormatter)]) {
+        self.baseFormatter = baseFormatter
+        self.variations = variations
+    }
+
+    func format(with info: FormatterInfo) -> String? {
+        let generator = FunctionGenerator()
+        generator.add("uint8_t mrmByte = read8u();")
+        generator.add("uint8_t nnn = readMiddle3Bit(mrmByte);")
+        addPrepare(generator, with: info)
+        var isNotFirst = false
+        for variation in variations {
+            let prefix = isNotFirst ? "} else " : ""
+            generator.add(prefix + "if (nnn == \(variation.0)) {")
+            generator.add(variation.1.format(with: info))
+            isNotFirst = true
+        }
+        if isNotFirst {
+            generator.add("}")
+        }
+        generator.add(baseFormatter.format(with: info))
+        return generator.text
+    }
+
+    private func addPrepare(_ generator: FunctionGenerator, with info: FormatterInfo) {
+        let addressFunction = "(uint8_t*)readAddressMRM%addressSize(mrmByte)"
+
+        let prepareGenerator = FunctionGenerator()
+        prepareGenerator.add("uint8_t* target = \(addressFunction);")
+        if info.flags.contains("d") {
+            prepareGenerator.swich(a: "target", b: "source")
+        }
+        generator.add(prepareGenerator.text)
     }
 }

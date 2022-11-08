@@ -13,11 +13,12 @@
 
 uint8_t readMiddle3Bit(uint8_t byte);
 
-int8_t* readRegisterMRM8(Context* context, uint8_t mrmByte);
-int16_t* readRegisterMRM16(Context* context, uint8_t mrmByte);
-int32_t* readRegisterMRM32(Context* context, uint8_t mrmByte);
+int8_t* readRegisterMRM8(uint8_t mrmByte);
+int16_t* readRegisterMRM16(uint8_t mrmByte);
+int32_t* readRegisterMRM32(uint8_t mrmByte);
 
-uint8_t* readAddressMRM16(Context* context, uint8_t mrmByte);
-uint8_t* readAddressMRM32(Context* context, uint8_t mrmByte);
+uint8_t* readAddressMRM8(uint8_t mrmByte);
+uint8_t* readAddressMRM16(uint8_t mrmByte);
+uint8_t* readAddressMRM32(uint8_t mrmByte);
 
 #endif /* MRM_h */

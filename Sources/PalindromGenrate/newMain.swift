@@ -11,6 +11,7 @@ func generate() {
     appendLoopCommand(generator: generator)
     appendIntCommand(generator: generator)
     appendStackCommand(generator: generator)
+    appendSpecialCommand(generator: generator)
 
     var text = "#include \"GenerateFunctions.h\"\n"
 
@@ -21,12 +22,13 @@ func generate() {
 
 private func installGenerate(_ content: String) -> String {
     let base = """
-    void mCommandFunctionEmpty(Context* context) {
+    void mCommandFunctionEmpty() {
+    context.end = 2;
     printf("function not implementation\\n");
     }
 
     void installCommandFunction() {
-    for(int i = 0; i < 512; i++) {
+    for(int i = 0; i < 256 * 8; i++) {
     commandFunctions16[i] = mCommandFunctionEmpty;
     commandFunctions32[i] = mCommandFunctionEmpty;
     }

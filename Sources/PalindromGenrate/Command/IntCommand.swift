@@ -7,13 +7,13 @@ fileprivate let intCommand = Command(
         inlines: []
     ),
     functionFormatter: Formatter(
-        customizers: [.functionName],
-        baseFormatter: TemplateFormat(
-            template: """
-            uint8_t addr = read8u(context);
-            context->functions[addr](context, addr);
+        customizers: [
+            .functionName,
             """
-        )
+            uint8_t addr = read8u();
+            context.functions[addr](addr);
+            """
+        ]
     ),
     installFormatter: InitialFormatter()
 )
