@@ -15,4 +15,9 @@
 void installCommandFunction();
 void runCommand();
 
+void resetStack();
+
+void pushInStack32u(uint32_t value);
+void pushInStack32(int32_t value);
+
 #endif /* Base_h */

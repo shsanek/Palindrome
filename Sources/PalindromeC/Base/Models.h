@@ -62,6 +62,8 @@ typedef struct Context {
 
     void *additionalContext;
 
+    uint32_t memorySize;
+
 } Context;
 
 extern Context context;

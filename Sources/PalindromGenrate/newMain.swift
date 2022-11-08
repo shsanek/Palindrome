@@ -12,7 +12,8 @@ func generate() {
     appendIntCommand(generator: generator)
     appendStackCommand(generator: generator)
     appendSpecialCommand(generator: generator)
-
+    appendMultCommand(generator: generator)
+    appendF6F7Command(generator: generator)
     var text = "#include \"GenerateFunctions.h\"\n"
 
     text = text + generator.generateAllCommand(installGenerate)

@@ -12,8 +12,9 @@
 #include "Base/MRM.h"
 #include "Function/GenerateFunctions.h"
 
-
 void getCommand() {
+    // printf("%llX:", (uint64_t)(context.index - context.memory));
+
     uint16_t command = 0;
     uint8_t commandPrefix = 0;
     //Код F0 - префикс блокировки шины, команда LOCK ("lock" - запирать). Этот префикс употребляется только с теми командами, которые поддерживают такую возможность - возможность блокировки шины.
@@ -72,10 +73,13 @@ void getCommand() {
         context.index++;
     }
 
+    // printf("0x");
     if (*(context.index) == 0x0F) {
         context.index++;
+        // printf("0F");
         command |= 0x0100;
     }
+    // printf("%X\n", (*context.index));
 
     command |= (uint16_t)(*context.index);
     context.index++;
@@ -103,4 +107,16 @@ void runCommand() {
     } else {
         runCommand16();
     }
+}
+
+void pushInStack32u(uint32_t value) {
+    uint32_t* sp = register32u(BR_SP);
+    *sp -= 32 / 8;
+    *(uint32_t*)(mem(SR_SS) + *sp) = value;
+}
+
+void pushInStack32(int32_t value) {
+    uint32_t* sp = register32u(BR_SP);
+    *sp -= 32 / 8;
+    *(int32_t*)(mem(SR_SS) + *sp) = value;
 }

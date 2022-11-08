@@ -1,9 +1,14 @@
+var countCommand = 0
+
 struct FunctionBodyFormatter: IFormatter {
     let baseFormatter: IFormatter
 
     func format(with info: FormatterInfo) -> String? {
         let generator = FunctionGenerator()
         let name = info.functionName;
+        if info.prefixs.isEmpty && info.mode == .mod32 {
+            countCommand += 1
+        }
         generator.add("//\(info.command.name)")
         generator.add("void \(name)() {")
         generator.add(baseFormatter.format(with: info))

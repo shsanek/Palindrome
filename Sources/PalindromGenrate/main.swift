@@ -9,3 +9,4 @@ import Foundation
 
 generate()
 
+print("GENERATE \(countCommand)")

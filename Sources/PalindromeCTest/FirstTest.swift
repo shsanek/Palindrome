@@ -67,6 +67,68 @@ final class FirstTest: XCTestCase {
         XCTAssert(3628800 == value)
     }
 
+    func test02() throws {
+        let wrapContext = WrapContext()
+        wrapContext.context?[0].mod = 1
+        pushInStack32(10)
+        pushInStack32u(0)
+        wrapContext.setMemory(
+            """
+            8b442404
+            ba01000000
+            85c0
+            740b
+            8d7600
+            0fafd0
+            83e801
+            75f8
+            89d0
+            c3
+            """
+        )
+
+        while wrapContext.state == .normal {
+            wrapContext.runCommand()
+        }
+        let value = register32(UInt8(BR_EAX_F))?[0]
+
+        XCTAssert(3628800 == value)
+    }
+
+    func test02Performance() {
+        let wrapContext = WrapContext()
+        wrapContext.context?[0].mod = 1
+        wrapContext.setMemory(
+        """
+        8b442404
+        ba01000000
+        85c0
+        740b
+        8d7600
+        0fafd0
+        83e801
+        75f8
+        89d0
+        c3
+        """
+        )
+        measure {
+            for _ in 0..<10000 {
+                resetStack()
+
+                pushInStack32(10)
+                pushInStack32u(0)
+
+                while wrapContext.state == .normal {
+                    wrapContext.runCommand()
+                }
+                let value = register32(UInt8(BR_EAX_F))?[0]
+
+                XCTAssert(3628800 == value)
+            }
+        }
+    }
+
     func test00Performance() {
         let wrapContext = WrapContext()
         wrapContext.setMemory(
@@ -75,9 +137,7 @@ final class FirstTest: XCTestCase {
         wrapContext.context?[0].mod = 0
         measure {
             for _ in 0..<10000 {
-                wrapContext.context?[0].index = wrapContext.context?[0].program
-                wrapContext.context?[0].end = 0
-                wrapContext.context?[0].cursor = 0
+                resetStack()
                 while wrapContext.state == .normal {
                     wrapContext.runCommand()
                 }
@@ -88,7 +148,7 @@ final class FirstTest: XCTestCase {
         }
     }
 
-    func test01Performance() {
+    func test00SwiftPerformance() {
         let context = HelloWoldPerformFunction()
         var result = ""
         context.callBacks[0x10] = {
@@ -110,6 +170,15 @@ final class FirstTest: XCTestCase {
         }
     }
 
+    func test02SwiftPerformance() {
+        measure {
+            for _ in 0..<10000 {
+                let value = factorial(number: 10)
+                XCTAssert(3628800 == value)
+            }
+        }
+    }
+
     final class HelloWoldPerformFunction {
         var callBacks = [UInt8: (Character) -> Void]()
         var end = 0
@@ -125,4 +194,11 @@ final class FirstTest: XCTestCase {
             }
         }
     }
+}
+
+func factorial(number: Int32) -> Int32 {
+    if (number == 0) {
+        return 1
+    }
+    return number * factorial(number: number - 1)
 }

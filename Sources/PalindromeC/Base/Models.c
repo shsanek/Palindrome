@@ -34,19 +34,40 @@ void setBaseFunction() {
     context.functions[0x10] = printSymbol;
 }
 
-int first = 0;
+void resetStack() {
+    for (int i = 0; i < 8; i++) {
+        context.registers[i] = 0;
+        context.segmentRegisters[i] = 0;
+    }
+
+    for (int i = 0; i < 8; i++) {
+        context.segmentRegisters[0] = 0;
+        ((uint32_t*)context.segmentRegisters)[0] = 0;
+    }
+
+    context.currentStack = context.stack;
+    context.currentCallStack = context.callStack;
+
+    context.currentCallStack[0] = context.outInstruction;
+    context.currentCallStack += 1;
+
+    reg_flags = 0;
+    context.segmentRegisters[SR_SS] = 0;
+    *register32u(BR_SP) = context.memorySize;
+
+    context.cursor = 0;
+    context.end = 0;
+    context.index = context.program;
+}
+
+int isInstall = 0;
 
 Context* resetContext(uint16_t memorySize) {
-    if (first) {
-        freeContext();
-    }
-    first = 1;
+    freeContext();
+    isInstall = 1;
     uint16_t* segmentRegisters = malloc(sizeof(uint16_t) * 8);
     uint8_t* registers = malloc(sizeof(uint32_t) * 8);
-    for (int i = 0; i < 8; i++) {
-        registers[i] = 0;
-        segmentRegisters[i] = 0;
-    }
+
     uint8_t* memory = malloc(memorySize);
     uint8_t mod = 0;
 
@@ -70,28 +91,22 @@ Context* resetContext(uint16_t memorySize) {
     context.outInstruction[0] = 0xCD;
     context.outInstruction[1] = 0x20;
 
+    context.memorySize = memorySize;
+
     int stackSize = 1024 * sizeof(void*);
     context.stack = malloc(1024 * sizeof(void*));
     context.callStack = malloc(1048 * sizeof(void*));
 
-    context.currentStack = context.stack;
-    context.currentCallStack = context.callStack;
+    resetStack();
 
-    context.currentCallStack[0] = context.outInstruction;
-    context.currentCallStack += 1;
-
-    reg_flags = 0;
-    context.segmentRegisters[SR_SS] = 0;
-    *register32u(BR_SP) = memorySize;
-
-    for (int i = 0; i < 8; i++) {
-        segmentRegisters[0] = 0;
-        ((uint32_t*)segmentRegisters)[0] = 0;
-    }
     return &context;
 }
 
+
 void freeContext() {
+    if (!isInstall) {
+        return;
+    }
     free(context.memory);
     free(context.registers);
     free(context.segmentRegisters);
@@ -99,5 +114,5 @@ void freeContext() {
     free(context.stack);
     free(context.callStack);
     free(context.text);
-    first = 0;
+    isInstall = 0;
 }
