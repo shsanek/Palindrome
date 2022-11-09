@@ -48,6 +48,10 @@
 
 #define SET_FLAG(flag, value) { reg_flags ^= (-(int32_t)((value) & 0x1) ^ reg_flags) & (1UL << flag); }
 
+#define PARITY16(x)  (parity_lookup[((x)>>8)&0xff]^parity_lookup[(x)&0xff]^GET_FLAG(PF))
+#define PARITY32(x)  (PARITY16((x)&0xffff)^PARITY16(((x)>>16)&0xffff)^GET_FLAG(PF))
+extern uint16_t parity_lookup[256];
+
 typedef enum {
     t_UNKNOWN=0,
     t_ADD8,t_ADD16,t_ADD32,
@@ -95,6 +99,7 @@ extern LazyFlagType lazyFlagType;
 extern uint8_t oldcf;
 
 void FillFlags();
+void FillFlagsNoCFOF(void);
 
 #define COND0x00 (GET_FLAG(OF) == 1)
 #define COND0x01 (GET_FLAG(OF) == 0)

@@ -12,9 +12,8 @@ fileprivate let incCommand = Command(
         customizers: [
             .prefixData,
             .functionName,
-            .vars,
             .settings([.bigData]),
-            "*register%dataSizeu(reg) += 1;"
+            "reg_%reg_%dataSizeu += 1;"
         ]
     ),
     installFormatter: InitialFormatter()

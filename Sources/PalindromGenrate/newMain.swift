@@ -14,6 +14,9 @@ func generate() {
     appendSpecialCommand(generator: generator)
     appendMultCommand(generator: generator)
     appendF6F7Command(generator: generator)
+    appendSwipeCommand(generator: generator)
+    appendMockCommand(generator: generator)
+    
     var text = "#include \"GenerateFunctions.h\"\n"
 
     text = text + generator.generateAllCommand(installGenerate)
@@ -26,6 +29,7 @@ private func installGenerate(_ content: String) -> String {
     void mCommandFunctionEmpty() {
     context.end = 2;
     printf("function not implementation\\n");
+    *((uint8_t*)NULL) = 0;
     }
 
     void installCommandFunction() {

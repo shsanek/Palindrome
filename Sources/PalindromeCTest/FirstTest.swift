@@ -95,105 +95,105 @@ final class FirstTest: XCTestCase {
         XCTAssert(3628800 == value)
     }
 
-    func test02Performance() {
-        let wrapContext = WrapContext()
-        wrapContext.context?[0].mod = 1
-        wrapContext.setMemory(
-        """
-        8b442404
-        ba01000000
-        85c0
-        740b
-        8d7600
-        0fafd0
-        83e801
-        75f8
-        89d0
-        c3
-        """
-        )
-        measure {
-            for _ in 0..<10000 {
-                resetStack()
-
-                pushInStack32(10)
-                pushInStack32u(0)
-
-                while wrapContext.state == .normal {
-                    wrapContext.runCommand()
-                }
-                let value = register32(UInt8(BR_EAX_F))?[0]
-
-                XCTAssert(3628800 == value)
-            }
-        }
-    }
-
-    func test00Performance() {
-        let wrapContext = WrapContext()
-        wrapContext.setMemory(
-            "BB1100B90D00B40E8A0743CD10E2F9CD2048656C6C6F2C20576F726C6421"
-        )
-        wrapContext.context?[0].mod = 0
-        measure {
-            for _ in 0..<10000 {
-                resetStack()
-                while wrapContext.state == .normal {
-                    wrapContext.runCommand()
-                }
-                let cString = wrapContext.context?[0].text
-                let result = String(cString: cString!)
-                XCTAssert("Hello, World!" == result)
-            }
-        }
-    }
-
-    func test00SwiftPerformance() {
-        let context = HelloWoldPerformFunction()
-        var result = ""
-        context.callBacks[0x10] = {
-            result.append("\($0)")
-        }
-        context.callBacks[0x20] = { _ in
-            context.end = 1
-        }
-        measure {
-            for _ in 0..<10000 {
-                result = ""
-                context.index = 0
-                context.end = 0
-                while context.end == 0 {
-                    context.run()
-                }
-                XCTAssert("Hello, World!" == result)
-            }
-        }
-    }
-
-    func test02SwiftPerformance() {
-        measure {
-            for _ in 0..<10000 {
-                let value = factorial(number: 10)
-                XCTAssert(3628800 == value)
-            }
-        }
-    }
-
-    final class HelloWoldPerformFunction {
-        var callBacks = [UInt8: (Character) -> Void]()
-        var end = 0
-        var index = 0
-        let text = "Hello, World!"
-
-        func run() {
-            let a = text[text.index(text.startIndex, offsetBy: index)]
-            callBacks[0x10]?(a)
-            index += 1
-            if index == text.count {
-                callBacks[0x20]?("0")
-            }
-        }
-    }
+//    func test02Performance() {
+//        let wrapContext = WrapContext()
+//        wrapContext.context?[0].mod = 1
+//        wrapContext.setMemory(
+//        """
+//        8b442404
+//        ba01000000
+//        85c0
+//        740b
+//        8d7600
+//        0fafd0
+//        83e801
+//        75f8
+//        89d0
+//        c3
+//        """
+//        )
+//        measure {
+//            for _ in 0..<10000 {
+//                resetStack()
+//
+//                pushInStack32(10)
+//                pushInStack32u(0)
+//
+//                while wrapContext.state == .normal {
+//                    wrapContext.runCommand()
+//                }
+//                let value = register32(UInt8(BR_EAX_F))?[0]
+//
+//                XCTAssert(3628800 == value)
+//            }
+//        }
+//    }
+//
+//    func test00Performance() {
+//        let wrapContext = WrapContext()
+//        wrapContext.setMemory(
+//            "BB1100B90D00B40E8A0743CD10E2F9CD2048656C6C6F2C20576F726C6421"
+//        )
+//        wrapContext.context?[0].mod = 0
+//        measure {
+//            for _ in 0..<10000 {
+//                resetStack()
+//                while wrapContext.state == .normal {
+//                    wrapContext.runCommand()
+//                }
+//                let cString = wrapContext.context?[0].text
+//                let result = String(cString: cString!)
+//                XCTAssert("Hello, World!" == result)
+//            }
+//        }
+//    }
+//
+//    func test00SwiftPerformance() {
+//        let context = HelloWoldPerformFunction()
+//        var result = ""
+//        context.callBacks[0x10] = {
+//            result.append("\($0)")
+//        }
+//        context.callBacks[0x20] = { _ in
+//            context.end = 1
+//        }
+//        measure {
+//            for _ in 0..<10000 {
+//                result = ""
+//                context.index = 0
+//                context.end = 0
+//                while context.end == 0 {
+//                    context.run()
+//                }
+//                XCTAssert("Hello, World!" == result)
+//            }
+//        }
+//    }
+//
+//    func test02SwiftPerformance() {
+//        measure {
+//            for _ in 0..<10000 {
+//                let value = factorial(number: 10)
+//                XCTAssert(3628800 == value)
+//            }
+//        }
+//    }
+//
+//    final class HelloWoldPerformFunction {
+//        var callBacks = [UInt8: (Character) -> Void]()
+//        var end = 0
+//        var index = 0
+//        let text = "Hello, World!"
+//
+//        func run() {
+//            let a = text[text.index(text.startIndex, offsetBy: index)]
+//            callBacks[0x10]?(a)
+//            index += 1
+//            if index == text.count {
+//                callBacks[0x20]?("0")
+//            }
+//        }
+//    }
 }
 
 func factorial(number: Int32) -> Int32 {

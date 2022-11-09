@@ -98,6 +98,7 @@ Context* resetContext(uint16_t memorySize) {
     context.callStack = malloc(1048 * sizeof(void*));
 
     resetStack();
+    setRegisterPointers();
 
     return &context;
 }

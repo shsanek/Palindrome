@@ -36,14 +36,12 @@ fileprivate let moveDataCommand = Command(
         customizers: [
             .prefixData,
             .functionName,
-            .vars,
             .settings([.changeableData]),
-            "*register%dataSizeu(reg) = read%dataSizeu();"
+            "reg_%reg_%dataSizeu = read%dataSizeu();"
         ]
     ),
     installFormatter: InitialFormatter()
 )
-
 
 func appendMoveCommand(generator: Generator) {
     generator.addCommand(moveMRMCommand)

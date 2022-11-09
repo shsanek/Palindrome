@@ -16,9 +16,8 @@ fileprivate let pushRegCommand = Command(
             .vars,
             .settings([.bigData, .bigAddress]),
             """
-            uint%addressSize_t* sp = register%addressSizeu(BR_SP);
-            *sp -= %dataSize / 8;
-            *(uint%dataSize_t*)(mem(SR_SS) + *sp) = *register%dataSizeu(reg);
+            reg_SP_%addressSizeu -= %dataSize / 8;
+            *(uint%dataSize_t*)(mem(SR_SS) + reg_SP_%addressSizeu) = reg_%reg_%dataSizeu;
             """
         ]
     ),
@@ -40,9 +39,8 @@ fileprivate let pushData1Command = Command(
             .vars,
             .settings([.fixData(8), .bigAddress]),
             """
-            uint%addressSize_t* sp = register%addressSizeu(BR_SP);
-            *sp -= %dataSize / 8;
-            *(uint%dataSize_t*)(mem(SR_SS) + *sp) = read%dataSize%sign();
+            reg_SP_%addressSizeu -= %dataSize / 8;
+            *(uint%dataSize_t*)(mem(SR_SS) + reg_SP_%addressSizeu) = read%dataSize%sign();
             """
         ]
     ),
@@ -133,9 +131,8 @@ fileprivate let popRegCommand = Command(
             .vars,
             .settings([.bigData, .bigAddress]),
             """
-            uint%addressSize_t* sp = register%addressSizeu(BR_SP);
-            *register%dataSizeu(reg) = *(uint%dataSize_t*)(mem(SR_SS) + *sp);
-            *sp += %dataSize / 8;
+            reg_%reg_%dataSizeu = *(uint%dataSize_t*)(mem(SR_SS) + reg_SP_%addressSizeu);
+            reg_SP_%addressSizeu += %dataSize / 8;
             """
         ]
     ),
@@ -158,9 +155,9 @@ fileprivate let leaveCommand = Command(
             .functionName,
             .settings([.bigData, .bigAddress]),
             """
-            *register%addressSizeu(BR_SP) = *register%addressSizeu(BR_BP);
-            *register%dataSizeu(BR_BP) = *(uint%dataSize_t*)(mem(SR_SS) + *register%addressSizeu(BR_SP));
-            *register%dataSizeu(BR_SP) += %dataSize / 8;
+            reg_SP_%addressSizeu = reg_BP_%addressSizeu;
+            reg_BP_%addressSizeu = *(uint%dataSize_t*)(mem(SR_SS) + reg_SP_%addressSizeu);
+            reg_SP_%addressSizeu += %dataSize / 8;
             """
         ]
     ),

@@ -73,7 +73,7 @@ final class FunctionGenerator {
             } else {
                 tab -= line.filter( { $0 == "}" || $0 == ")" || $0 == "]" }).count
             }
-            text += (0..<tab).map { _ in "\t" }.joined() + line + "\n"
+            text += (0..<max(0, tab)).map { _ in "\t" }.joined() + line + "\n"
             if let separate = line.lastIndex(where: { $0 == "}" || $0 == ")" || $0 == "]" }) {
                 tab += line[separate..<line.endIndex].filter( { $0 == "{" || $0 == "(" || $0 == "[" }).count
             } else {

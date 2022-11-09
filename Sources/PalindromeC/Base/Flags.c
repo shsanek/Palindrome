@@ -441,5 +441,304 @@ void FillFlags() {
         return 0;
     }
     lazyFlagType=t_UNKNOWN;
-    return reg_flags;
+}
+
+
+void FillFlagsNoCFOF(void) {
+    switch (lazyFlagType) {
+    case t_UNKNOWN:
+        return;
+    case t_ADD8:
+        DOFLAG_AF;
+        DOFLAG_ZFb;
+        DOFLAG_SFb;
+        DOFLAG_PF;
+        break;
+    case t_ADD16:
+        DOFLAG_AF;
+        DOFLAG_ZFw;
+        DOFLAG_SFw;
+        DOFLAG_PF;
+        break;
+    case t_ADD32:
+        DOFLAG_AF;
+        DOFLAG_ZFd;
+        DOFLAG_SFd;
+        DOFLAG_PF;
+        break;
+    case t_ADC8:
+        DOFLAG_AF;
+        DOFLAG_ZFb;
+        DOFLAG_SFb;
+        DOFLAG_PF;
+        break;
+    case t_ADC16:
+        DOFLAG_AF;
+        DOFLAG_ZFw;
+        DOFLAG_SFw;
+        DOFLAG_PF;
+        break;
+    case t_ADC32:
+        DOFLAG_AF;
+        DOFLAG_ZFd;
+        DOFLAG_SFd;
+        DOFLAG_PF;
+        break;
+
+
+    case t_SBB8:
+        DOFLAG_AF;
+        DOFLAG_ZFb;
+        DOFLAG_SFb;
+        DOFLAG_PF;
+        break;
+    case t_SBB16:
+        DOFLAG_AF;
+        DOFLAG_ZFw;
+        DOFLAG_SFw;
+        DOFLAG_PF;
+        break;
+    case t_SBB32:
+        DOFLAG_AF;
+        DOFLAG_ZFd;
+        DOFLAG_SFd;
+        DOFLAG_PF;
+        break;
+
+
+    case t_SUB8:
+    case t_CMP8:
+        DOFLAG_AF;
+        DOFLAG_ZFb;
+        DOFLAG_SFb;
+        DOFLAG_PF;
+        break;
+    case t_SUB16:
+    case t_CMP16:
+        DOFLAG_AF;
+        DOFLAG_ZFw;
+        DOFLAG_SFw;
+        DOFLAG_PF;
+        break;
+    case t_SUB32:
+    case t_CMP32:
+        DOFLAG_AF;
+        DOFLAG_ZFd;
+        DOFLAG_SFd;
+        DOFLAG_PF;
+        break;
+
+
+    case t_OR8:
+        SET_FLAG(AF,0);
+        DOFLAG_ZFb;
+        DOFLAG_SFb;
+        DOFLAG_PF;
+        break;
+    case t_OR16:
+        SET_FLAG(AF,0);
+        DOFLAG_ZFw;
+        DOFLAG_SFw;
+        DOFLAG_PF;
+        break;
+    case t_OR32:
+        SET_FLAG(AF,0);
+        DOFLAG_ZFd;
+        DOFLAG_SFd;
+        DOFLAG_PF;
+        break;
+
+
+    case t_TEST8:
+    case t_AND8:
+        SET_FLAG(AF,0);
+        DOFLAG_ZFb;
+        DOFLAG_SFb;
+        DOFLAG_PF;
+        break;
+    case t_TEST16:
+    case t_AND16:
+        SET_FLAG(AF,0);
+        DOFLAG_ZFw;
+        DOFLAG_SFw;
+        DOFLAG_PF;
+        break;
+    case t_TEST32:
+    case t_AND32:
+        SET_FLAG(AF,0);
+        DOFLAG_ZFd;
+        DOFLAG_SFd;
+        DOFLAG_PF;
+        break;
+
+
+    case t_XOR8:
+        SET_FLAG(AF,0);
+        DOFLAG_ZFb;
+        DOFLAG_SFb;
+        DOFLAG_PF;
+        break;
+    case t_XOR16:
+        SET_FLAG(AF,0);
+        DOFLAG_ZFw;
+        DOFLAG_SFw;
+        DOFLAG_PF;
+        break;
+    case t_XOR32:
+        SET_FLAG(AF,0);
+        DOFLAG_ZFd;
+        DOFLAG_SFd;
+        DOFLAG_PF;
+        break;
+
+
+    case t_SHL8:
+        DOFLAG_ZFb;
+        DOFLAG_SFb;
+        DOFLAG_PF;
+        SET_FLAG(AF,(LazyFlagVarB8&0x1f));
+        break;
+    case t_SHL16:
+        DOFLAG_ZFw;
+        DOFLAG_SFw;
+        DOFLAG_PF;
+        SET_FLAG(AF,(LazyFlagVarB16&0x1f));
+        break;
+    case t_SHL32:
+        DOFLAG_ZFd;
+        DOFLAG_SFd;
+        DOFLAG_PF;
+        SET_FLAG(AF,(LazyFlagVarB32&0x1f));
+        break;
+
+
+    case t_DSHL16:
+        DOFLAG_ZFw;
+        DOFLAG_SFw;
+        DOFLAG_PF;
+        break;
+    case t_DSHL32:
+        DOFLAG_ZFd;
+        DOFLAG_SFd;
+        DOFLAG_PF;
+        break;
+
+
+    case t_SHR8:
+        DOFLAG_ZFb;
+        DOFLAG_SFb;
+        DOFLAG_PF;
+        SET_FLAG(AF,(LazyFlagVarB8&0x1f));
+        break;
+    case t_SHR16:
+        DOFLAG_ZFw;
+        DOFLAG_SFw;
+        DOFLAG_PF;
+        SET_FLAG(AF,(LazyFlagVarB16&0x1f));
+        break;
+    case t_SHR32:
+        DOFLAG_ZFd;
+        DOFLAG_SFd;
+        DOFLAG_PF;
+        SET_FLAG(AF,(LazyFlagVarB32&0x1f));
+        break;
+
+
+    case t_DSHR16:    /* Hmm this is not correct for shift higher than 16 */
+        DOFLAG_ZFw;
+        DOFLAG_SFw;
+        DOFLAG_PF;
+        break;
+    case t_DSHR32:
+        DOFLAG_ZFd;
+        DOFLAG_SFd;
+        DOFLAG_PF;
+        break;
+
+
+    case t_SAR8:
+        DOFLAG_ZFb;
+        DOFLAG_SFb;
+        DOFLAG_PF;
+        SET_FLAG(AF,(LazyFlagVarB8&0x1f));
+        break;
+    case t_SAR16:
+        DOFLAG_ZFw;
+        DOFLAG_SFw;
+        DOFLAG_PF;
+        SET_FLAG(AF,(LazyFlagVarB16&0x1f));
+        break;
+    case t_SAR32:
+        DOFLAG_ZFd;
+        DOFLAG_SFd;
+        DOFLAG_PF;
+        SET_FLAG(AF,(LazyFlagVarB32&0x1f));
+        break;
+
+    case t_INC8:
+        SET_FLAG(AF,(LazyFlagResultContainer8 & 0x0f) == 0);
+        DOFLAG_ZFb;
+        DOFLAG_SFb;
+        DOFLAG_PF;
+        break;
+    case t_INC16:
+        SET_FLAG(AF,(LazyFlagResultContainer16 & 0x0f) == 0);
+        DOFLAG_ZFw;
+        DOFLAG_SFw;
+        DOFLAG_PF;
+        break;
+    case t_INC32:
+        SET_FLAG(AF,(LazyFlagResultContainer32 & 0x0f) == 0);
+        DOFLAG_ZFd;
+        DOFLAG_SFd;
+        DOFLAG_PF;
+        break;
+
+    case t_DEC8:
+        SET_FLAG(AF,(LazyFlagResultContainer8 & 0x0f) == 0x0f);
+        DOFLAG_ZFb;
+        DOFLAG_SFb;
+        DOFLAG_PF;
+        break;
+    case t_DEC16:
+        SET_FLAG(AF,(LazyFlagResultContainer16 & 0x0f) == 0x0f);
+        DOFLAG_ZFw;
+        DOFLAG_SFw;
+        DOFLAG_PF;
+        break;
+    case t_DEC32:
+        SET_FLAG(AF,(LazyFlagResultContainer32 & 0x0f) == 0x0f);
+        DOFLAG_ZFd;
+        DOFLAG_SFd;
+        DOFLAG_PF;
+        break;
+
+    case t_NEG8:
+        SET_FLAG(AF,(LazyFlagResultContainer8 & 0x0f) != 0);
+        DOFLAG_ZFb;
+        DOFLAG_SFb;
+        DOFLAG_PF;
+        break;
+    case t_NEG16:
+        SET_FLAG(AF,(LazyFlagResultContainer16 & 0x0f) != 0);
+        DOFLAG_ZFw;
+        DOFLAG_SFw;
+        DOFLAG_PF;
+        break;
+    case t_NEG32:
+        SET_FLAG(AF,(LazyFlagResultContainer32 & 0x0f) != 0);
+        DOFLAG_ZFd;
+        DOFLAG_SFd;
+        DOFLAG_PF;
+        break;
+
+
+    case t_DIV:
+    case t_MUL:
+        break;
+
+    default:
+        break;
+    }
+    lazyFlagType=t_UNKNOWN;
 }
