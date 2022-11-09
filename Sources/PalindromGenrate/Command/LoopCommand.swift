@@ -117,9 +117,34 @@ fileprivate let jmpCondCommand = Command(
     installFormatter: InitialFormatter()
 )
 
+fileprivate let bigJmpCondCommand = Command(
+    code: 0x0180,
+    name: "J(cond)",
+    format: .init(
+        hasPrefixAddress: false,
+        hasPrefixData: false,
+        inlines: [.init(name: "cond", indexBit: 0, count: 4)]
+    ),
+    functionFormatter: Formatter(
+        customizers: [
+            .functionName,
+            .settings([.bigAddress]),
+            """
+            FillFlags();
+            int%addressSize_t address = read%addressSize();
+            if COND%cond {
+            context.index += address;
+            }
+            """
+        ]
+    ),
+    installFormatter: InitialFormatter()
+)
+
 func appendLoopCommand(generator: Generator) {
     generator.addCommand(loopCommand)
     generator.addCommand(jmpCommand)
+    generator.addCommand(bigJmpCondCommand)
     generator.addCommand(callCommand)
     generator.addCommand(returnCommand)
     generator.addCommand(jmpCondCommand)

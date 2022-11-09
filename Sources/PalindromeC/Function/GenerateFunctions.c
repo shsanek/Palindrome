@@ -1018,6 +1018,134 @@ void handlerCommand16Code00E2() {
 void handlerCommand16Code00EB() {
 	context.index += read8();
 }
+//J(cond)
+void handlerCommand16Code0180() {
+	FillFlags();
+	int16_t address = read16();
+	if COND0x00 {
+		context.index += address;
+	}
+}
+//J(cond)
+void handlerCommand16Code0181() {
+	FillFlags();
+	int16_t address = read16();
+	if COND0x01 {
+		context.index += address;
+	}
+}
+//J(cond)
+void handlerCommand16Code0182() {
+	FillFlags();
+	int16_t address = read16();
+	if COND0x02 {
+		context.index += address;
+	}
+}
+//J(cond)
+void handlerCommand16Code0183() {
+	FillFlags();
+	int16_t address = read16();
+	if COND0x03 {
+		context.index += address;
+	}
+}
+//J(cond)
+void handlerCommand16Code0184() {
+	FillFlags();
+	int16_t address = read16();
+	if COND0x04 {
+		context.index += address;
+	}
+}
+//J(cond)
+void handlerCommand16Code0185() {
+	FillFlags();
+	int16_t address = read16();
+	if COND0x05 {
+		context.index += address;
+	}
+}
+//J(cond)
+void handlerCommand16Code0186() {
+	FillFlags();
+	int16_t address = read16();
+	if COND0x06 {
+		context.index += address;
+	}
+}
+//J(cond)
+void handlerCommand16Code0187() {
+	FillFlags();
+	int16_t address = read16();
+	if COND0x07 {
+		context.index += address;
+	}
+}
+//J(cond)
+void handlerCommand16Code0188() {
+	FillFlags();
+	int16_t address = read16();
+	if COND0x08 {
+		context.index += address;
+	}
+}
+//J(cond)
+void handlerCommand16Code0189() {
+	FillFlags();
+	int16_t address = read16();
+	if COND0x09 {
+		context.index += address;
+	}
+}
+//J(cond)
+void handlerCommand16Code018A() {
+	FillFlags();
+	int16_t address = read16();
+	if COND0x0A {
+		context.index += address;
+	}
+}
+//J(cond)
+void handlerCommand16Code018B() {
+	FillFlags();
+	int16_t address = read16();
+	if COND0x0B {
+		context.index += address;
+	}
+}
+//J(cond)
+void handlerCommand16Code018C() {
+	FillFlags();
+	int16_t address = read16();
+	if COND0x0C {
+		context.index += address;
+	}
+}
+//J(cond)
+void handlerCommand16Code018D() {
+	FillFlags();
+	int16_t address = read16();
+	if COND0x0D {
+		context.index += address;
+	}
+}
+//J(cond)
+void handlerCommand16Code018E() {
+	FillFlags();
+	int16_t address = read16();
+	if COND0x0E {
+		context.index += address;
+	}
+}
+//J(cond)
+void handlerCommand16Code018F() {
+	FillFlags();
+	int16_t address = read16();
+	if COND0x0F {
+		context.index += address;
+	}
+}
 //Call
 void handlerCommand16Code00E8() {
 	context.currentCallStack[0] = context.index + 16 / 8;
@@ -1709,6 +1837,230 @@ void handlerCommand16Code00F3() {
 	value = read8u();
 	value = read8u();
 	value = read8u();
+}
+//Math
+void handlerCommand16Code0190() {
+	uint8_t cond = 0x00;
+	uint8_t mrmByte = read8u();
+	uint8_t nnn = readMiddle3Bit(mrmByte);
+	uint8_t* target = (uint8_t*)readAddressMRM8(mrmByte);
+	switch (nnn) {
+		case 0x00: {
+			// SET(cond)
+			*target = COND0x00 ? 1 : 0;
+		}
+		break;
+	}
+}
+//Math
+void handlerCommand16Code0191() {
+	uint8_t cond = 0x01;
+	uint8_t mrmByte = read8u();
+	uint8_t nnn = readMiddle3Bit(mrmByte);
+	uint8_t* target = (uint8_t*)readAddressMRM8(mrmByte);
+	switch (nnn) {
+		case 0x00: {
+			// SET(cond)
+			*target = COND0x01 ? 1 : 0;
+		}
+		break;
+	}
+}
+//Math
+void handlerCommand16Code0192() {
+	uint8_t cond = 0x02;
+	uint8_t mrmByte = read8u();
+	uint8_t nnn = readMiddle3Bit(mrmByte);
+	uint8_t* target = (uint8_t*)readAddressMRM8(mrmByte);
+	switch (nnn) {
+		case 0x00: {
+			// SET(cond)
+			*target = COND0x02 ? 1 : 0;
+		}
+		break;
+	}
+}
+//Math
+void handlerCommand16Code0193() {
+	uint8_t cond = 0x03;
+	uint8_t mrmByte = read8u();
+	uint8_t nnn = readMiddle3Bit(mrmByte);
+	uint8_t* target = (uint8_t*)readAddressMRM8(mrmByte);
+	switch (nnn) {
+		case 0x00: {
+			// SET(cond)
+			*target = COND0x03 ? 1 : 0;
+		}
+		break;
+	}
+}
+//Math
+void handlerCommand16Code0194() {
+	uint8_t cond = 0x04;
+	uint8_t mrmByte = read8u();
+	uint8_t nnn = readMiddle3Bit(mrmByte);
+	uint8_t* target = (uint8_t*)readAddressMRM8(mrmByte);
+	switch (nnn) {
+		case 0x00: {
+			// SET(cond)
+			*target = COND0x04 ? 1 : 0;
+		}
+		break;
+	}
+}
+//Math
+void handlerCommand16Code0195() {
+	uint8_t cond = 0x05;
+	uint8_t mrmByte = read8u();
+	uint8_t nnn = readMiddle3Bit(mrmByte);
+	uint8_t* target = (uint8_t*)readAddressMRM8(mrmByte);
+	switch (nnn) {
+		case 0x00: {
+			// SET(cond)
+			*target = COND0x05 ? 1 : 0;
+		}
+		break;
+	}
+}
+//Math
+void handlerCommand16Code0196() {
+	uint8_t cond = 0x06;
+	uint8_t mrmByte = read8u();
+	uint8_t nnn = readMiddle3Bit(mrmByte);
+	uint8_t* target = (uint8_t*)readAddressMRM8(mrmByte);
+	switch (nnn) {
+		case 0x00: {
+			// SET(cond)
+			*target = COND0x06 ? 1 : 0;
+		}
+		break;
+	}
+}
+//Math
+void handlerCommand16Code0197() {
+	uint8_t cond = 0x07;
+	uint8_t mrmByte = read8u();
+	uint8_t nnn = readMiddle3Bit(mrmByte);
+	uint8_t* target = (uint8_t*)readAddressMRM8(mrmByte);
+	switch (nnn) {
+		case 0x00: {
+			// SET(cond)
+			*target = COND0x07 ? 1 : 0;
+		}
+		break;
+	}
+}
+//Math
+void handlerCommand16Code0198() {
+	uint8_t cond = 0x08;
+	uint8_t mrmByte = read8u();
+	uint8_t nnn = readMiddle3Bit(mrmByte);
+	uint8_t* target = (uint8_t*)readAddressMRM8(mrmByte);
+	switch (nnn) {
+		case 0x00: {
+			// SET(cond)
+			*target = COND0x08 ? 1 : 0;
+		}
+		break;
+	}
+}
+//Math
+void handlerCommand16Code0199() {
+	uint8_t cond = 0x09;
+	uint8_t mrmByte = read8u();
+	uint8_t nnn = readMiddle3Bit(mrmByte);
+	uint8_t* target = (uint8_t*)readAddressMRM8(mrmByte);
+	switch (nnn) {
+		case 0x00: {
+			// SET(cond)
+			*target = COND0x09 ? 1 : 0;
+		}
+		break;
+	}
+}
+//Math
+void handlerCommand16Code019A() {
+	uint8_t cond = 0x0A;
+	uint8_t mrmByte = read8u();
+	uint8_t nnn = readMiddle3Bit(mrmByte);
+	uint8_t* target = (uint8_t*)readAddressMRM8(mrmByte);
+	switch (nnn) {
+		case 0x00: {
+			// SET(cond)
+			*target = COND0x0A ? 1 : 0;
+		}
+		break;
+	}
+}
+//Math
+void handlerCommand16Code019B() {
+	uint8_t cond = 0x0B;
+	uint8_t mrmByte = read8u();
+	uint8_t nnn = readMiddle3Bit(mrmByte);
+	uint8_t* target = (uint8_t*)readAddressMRM8(mrmByte);
+	switch (nnn) {
+		case 0x00: {
+			// SET(cond)
+			*target = COND0x0B ? 1 : 0;
+		}
+		break;
+	}
+}
+//Math
+void handlerCommand16Code019C() {
+	uint8_t cond = 0x0C;
+	uint8_t mrmByte = read8u();
+	uint8_t nnn = readMiddle3Bit(mrmByte);
+	uint8_t* target = (uint8_t*)readAddressMRM8(mrmByte);
+	switch (nnn) {
+		case 0x00: {
+			// SET(cond)
+			*target = COND0x0C ? 1 : 0;
+		}
+		break;
+	}
+}
+//Math
+void handlerCommand16Code019D() {
+	uint8_t cond = 0x0D;
+	uint8_t mrmByte = read8u();
+	uint8_t nnn = readMiddle3Bit(mrmByte);
+	uint8_t* target = (uint8_t*)readAddressMRM8(mrmByte);
+	switch (nnn) {
+		case 0x00: {
+			// SET(cond)
+			*target = COND0x0D ? 1 : 0;
+		}
+		break;
+	}
+}
+//Math
+void handlerCommand16Code019E() {
+	uint8_t cond = 0x0E;
+	uint8_t mrmByte = read8u();
+	uint8_t nnn = readMiddle3Bit(mrmByte);
+	uint8_t* target = (uint8_t*)readAddressMRM8(mrmByte);
+	switch (nnn) {
+		case 0x00: {
+			// SET(cond)
+			*target = COND0x0E ? 1 : 0;
+		}
+		break;
+	}
+}
+//Math
+void handlerCommand16Code019F() {
+	uint8_t cond = 0x0F;
+	uint8_t mrmByte = read8u();
+	uint8_t nnn = readMiddle3Bit(mrmByte);
+	uint8_t* target = (uint8_t*)readAddressMRM8(mrmByte);
+	switch (nnn) {
+		case 0x00: {
+			// SET(cond)
+			*target = COND0x0F ? 1 : 0;
+		}
+		break;
+	}
 }
 //ADD
 void handlerCommand32Code0000P66() {
@@ -3660,6 +4012,134 @@ void handlerCommand32Code00E2() {
 void handlerCommand32Code00EB() {
 	context.index += read8();
 }
+//J(cond)
+void handlerCommand32Code0180() {
+	FillFlags();
+	int32_t address = read32();
+	if COND0x00 {
+		context.index += address;
+	}
+}
+//J(cond)
+void handlerCommand32Code0181() {
+	FillFlags();
+	int32_t address = read32();
+	if COND0x01 {
+		context.index += address;
+	}
+}
+//J(cond)
+void handlerCommand32Code0182() {
+	FillFlags();
+	int32_t address = read32();
+	if COND0x02 {
+		context.index += address;
+	}
+}
+//J(cond)
+void handlerCommand32Code0183() {
+	FillFlags();
+	int32_t address = read32();
+	if COND0x03 {
+		context.index += address;
+	}
+}
+//J(cond)
+void handlerCommand32Code0184() {
+	FillFlags();
+	int32_t address = read32();
+	if COND0x04 {
+		context.index += address;
+	}
+}
+//J(cond)
+void handlerCommand32Code0185() {
+	FillFlags();
+	int32_t address = read32();
+	if COND0x05 {
+		context.index += address;
+	}
+}
+//J(cond)
+void handlerCommand32Code0186() {
+	FillFlags();
+	int32_t address = read32();
+	if COND0x06 {
+		context.index += address;
+	}
+}
+//J(cond)
+void handlerCommand32Code0187() {
+	FillFlags();
+	int32_t address = read32();
+	if COND0x07 {
+		context.index += address;
+	}
+}
+//J(cond)
+void handlerCommand32Code0188() {
+	FillFlags();
+	int32_t address = read32();
+	if COND0x08 {
+		context.index += address;
+	}
+}
+//J(cond)
+void handlerCommand32Code0189() {
+	FillFlags();
+	int32_t address = read32();
+	if COND0x09 {
+		context.index += address;
+	}
+}
+//J(cond)
+void handlerCommand32Code018A() {
+	FillFlags();
+	int32_t address = read32();
+	if COND0x0A {
+		context.index += address;
+	}
+}
+//J(cond)
+void handlerCommand32Code018B() {
+	FillFlags();
+	int32_t address = read32();
+	if COND0x0B {
+		context.index += address;
+	}
+}
+//J(cond)
+void handlerCommand32Code018C() {
+	FillFlags();
+	int32_t address = read32();
+	if COND0x0C {
+		context.index += address;
+	}
+}
+//J(cond)
+void handlerCommand32Code018D() {
+	FillFlags();
+	int32_t address = read32();
+	if COND0x0D {
+		context.index += address;
+	}
+}
+//J(cond)
+void handlerCommand32Code018E() {
+	FillFlags();
+	int32_t address = read32();
+	if COND0x0E {
+		context.index += address;
+	}
+}
+//J(cond)
+void handlerCommand32Code018F() {
+	FillFlags();
+	int32_t address = read32();
+	if COND0x0F {
+		context.index += address;
+	}
+}
 //Call
 void handlerCommand32Code00E8P66() {
 	context.currentCallStack[0] = context.index + 16 / 8;
@@ -5040,6 +5520,454 @@ void handlerCommand32Code00F3() {
 	value = read8u();
 	value = read8u();
 }
+//Math
+void handlerCommand32Code0190P66() {
+	uint8_t cond = 0x00;
+	uint8_t mrmByte = read8u();
+	uint8_t nnn = readMiddle3Bit(mrmByte);
+	uint8_t* target = (uint8_t*)readAddressMRM8(mrmByte);
+	switch (nnn) {
+		case 0x00: {
+			// SET(cond)
+			*target = COND0x00 ? 1 : 0;
+		}
+		break;
+	}
+}
+//Math
+void handlerCommand32Code0190() {
+	uint8_t cond = 0x00;
+	uint8_t mrmByte = read8u();
+	uint8_t nnn = readMiddle3Bit(mrmByte);
+	uint8_t* target = (uint8_t*)readAddressMRM8(mrmByte);
+	switch (nnn) {
+		case 0x00: {
+			// SET(cond)
+			*target = COND0x00 ? 1 : 0;
+		}
+		break;
+	}
+}
+//Math
+void handlerCommand32Code0191P66() {
+	uint8_t cond = 0x01;
+	uint8_t mrmByte = read8u();
+	uint8_t nnn = readMiddle3Bit(mrmByte);
+	uint8_t* target = (uint8_t*)readAddressMRM8(mrmByte);
+	switch (nnn) {
+		case 0x00: {
+			// SET(cond)
+			*target = COND0x01 ? 1 : 0;
+		}
+		break;
+	}
+}
+//Math
+void handlerCommand32Code0191() {
+	uint8_t cond = 0x01;
+	uint8_t mrmByte = read8u();
+	uint8_t nnn = readMiddle3Bit(mrmByte);
+	uint8_t* target = (uint8_t*)readAddressMRM8(mrmByte);
+	switch (nnn) {
+		case 0x00: {
+			// SET(cond)
+			*target = COND0x01 ? 1 : 0;
+		}
+		break;
+	}
+}
+//Math
+void handlerCommand32Code0192P66() {
+	uint8_t cond = 0x02;
+	uint8_t mrmByte = read8u();
+	uint8_t nnn = readMiddle3Bit(mrmByte);
+	uint8_t* target = (uint8_t*)readAddressMRM8(mrmByte);
+	switch (nnn) {
+		case 0x00: {
+			// SET(cond)
+			*target = COND0x02 ? 1 : 0;
+		}
+		break;
+	}
+}
+//Math
+void handlerCommand32Code0192() {
+	uint8_t cond = 0x02;
+	uint8_t mrmByte = read8u();
+	uint8_t nnn = readMiddle3Bit(mrmByte);
+	uint8_t* target = (uint8_t*)readAddressMRM8(mrmByte);
+	switch (nnn) {
+		case 0x00: {
+			// SET(cond)
+			*target = COND0x02 ? 1 : 0;
+		}
+		break;
+	}
+}
+//Math
+void handlerCommand32Code0193P66() {
+	uint8_t cond = 0x03;
+	uint8_t mrmByte = read8u();
+	uint8_t nnn = readMiddle3Bit(mrmByte);
+	uint8_t* target = (uint8_t*)readAddressMRM8(mrmByte);
+	switch (nnn) {
+		case 0x00: {
+			// SET(cond)
+			*target = COND0x03 ? 1 : 0;
+		}
+		break;
+	}
+}
+//Math
+void handlerCommand32Code0193() {
+	uint8_t cond = 0x03;
+	uint8_t mrmByte = read8u();
+	uint8_t nnn = readMiddle3Bit(mrmByte);
+	uint8_t* target = (uint8_t*)readAddressMRM8(mrmByte);
+	switch (nnn) {
+		case 0x00: {
+			// SET(cond)
+			*target = COND0x03 ? 1 : 0;
+		}
+		break;
+	}
+}
+//Math
+void handlerCommand32Code0194P66() {
+	uint8_t cond = 0x04;
+	uint8_t mrmByte = read8u();
+	uint8_t nnn = readMiddle3Bit(mrmByte);
+	uint8_t* target = (uint8_t*)readAddressMRM8(mrmByte);
+	switch (nnn) {
+		case 0x00: {
+			// SET(cond)
+			*target = COND0x04 ? 1 : 0;
+		}
+		break;
+	}
+}
+//Math
+void handlerCommand32Code0194() {
+	uint8_t cond = 0x04;
+	uint8_t mrmByte = read8u();
+	uint8_t nnn = readMiddle3Bit(mrmByte);
+	uint8_t* target = (uint8_t*)readAddressMRM8(mrmByte);
+	switch (nnn) {
+		case 0x00: {
+			// SET(cond)
+			*target = COND0x04 ? 1 : 0;
+		}
+		break;
+	}
+}
+//Math
+void handlerCommand32Code0195P66() {
+	uint8_t cond = 0x05;
+	uint8_t mrmByte = read8u();
+	uint8_t nnn = readMiddle3Bit(mrmByte);
+	uint8_t* target = (uint8_t*)readAddressMRM8(mrmByte);
+	switch (nnn) {
+		case 0x00: {
+			// SET(cond)
+			*target = COND0x05 ? 1 : 0;
+		}
+		break;
+	}
+}
+//Math
+void handlerCommand32Code0195() {
+	uint8_t cond = 0x05;
+	uint8_t mrmByte = read8u();
+	uint8_t nnn = readMiddle3Bit(mrmByte);
+	uint8_t* target = (uint8_t*)readAddressMRM8(mrmByte);
+	switch (nnn) {
+		case 0x00: {
+			// SET(cond)
+			*target = COND0x05 ? 1 : 0;
+		}
+		break;
+	}
+}
+//Math
+void handlerCommand32Code0196P66() {
+	uint8_t cond = 0x06;
+	uint8_t mrmByte = read8u();
+	uint8_t nnn = readMiddle3Bit(mrmByte);
+	uint8_t* target = (uint8_t*)readAddressMRM8(mrmByte);
+	switch (nnn) {
+		case 0x00: {
+			// SET(cond)
+			*target = COND0x06 ? 1 : 0;
+		}
+		break;
+	}
+}
+//Math
+void handlerCommand32Code0196() {
+	uint8_t cond = 0x06;
+	uint8_t mrmByte = read8u();
+	uint8_t nnn = readMiddle3Bit(mrmByte);
+	uint8_t* target = (uint8_t*)readAddressMRM8(mrmByte);
+	switch (nnn) {
+		case 0x00: {
+			// SET(cond)
+			*target = COND0x06 ? 1 : 0;
+		}
+		break;
+	}
+}
+//Math
+void handlerCommand32Code0197P66() {
+	uint8_t cond = 0x07;
+	uint8_t mrmByte = read8u();
+	uint8_t nnn = readMiddle3Bit(mrmByte);
+	uint8_t* target = (uint8_t*)readAddressMRM8(mrmByte);
+	switch (nnn) {
+		case 0x00: {
+			// SET(cond)
+			*target = COND0x07 ? 1 : 0;
+		}
+		break;
+	}
+}
+//Math
+void handlerCommand32Code0197() {
+	uint8_t cond = 0x07;
+	uint8_t mrmByte = read8u();
+	uint8_t nnn = readMiddle3Bit(mrmByte);
+	uint8_t* target = (uint8_t*)readAddressMRM8(mrmByte);
+	switch (nnn) {
+		case 0x00: {
+			// SET(cond)
+			*target = COND0x07 ? 1 : 0;
+		}
+		break;
+	}
+}
+//Math
+void handlerCommand32Code0198P66() {
+	uint8_t cond = 0x08;
+	uint8_t mrmByte = read8u();
+	uint8_t nnn = readMiddle3Bit(mrmByte);
+	uint8_t* target = (uint8_t*)readAddressMRM8(mrmByte);
+	switch (nnn) {
+		case 0x00: {
+			// SET(cond)
+			*target = COND0x08 ? 1 : 0;
+		}
+		break;
+	}
+}
+//Math
+void handlerCommand32Code0198() {
+	uint8_t cond = 0x08;
+	uint8_t mrmByte = read8u();
+	uint8_t nnn = readMiddle3Bit(mrmByte);
+	uint8_t* target = (uint8_t*)readAddressMRM8(mrmByte);
+	switch (nnn) {
+		case 0x00: {
+			// SET(cond)
+			*target = COND0x08 ? 1 : 0;
+		}
+		break;
+	}
+}
+//Math
+void handlerCommand32Code0199P66() {
+	uint8_t cond = 0x09;
+	uint8_t mrmByte = read8u();
+	uint8_t nnn = readMiddle3Bit(mrmByte);
+	uint8_t* target = (uint8_t*)readAddressMRM8(mrmByte);
+	switch (nnn) {
+		case 0x00: {
+			// SET(cond)
+			*target = COND0x09 ? 1 : 0;
+		}
+		break;
+	}
+}
+//Math
+void handlerCommand32Code0199() {
+	uint8_t cond = 0x09;
+	uint8_t mrmByte = read8u();
+	uint8_t nnn = readMiddle3Bit(mrmByte);
+	uint8_t* target = (uint8_t*)readAddressMRM8(mrmByte);
+	switch (nnn) {
+		case 0x00: {
+			// SET(cond)
+			*target = COND0x09 ? 1 : 0;
+		}
+		break;
+	}
+}
+//Math
+void handlerCommand32Code019AP66() {
+	uint8_t cond = 0x0A;
+	uint8_t mrmByte = read8u();
+	uint8_t nnn = readMiddle3Bit(mrmByte);
+	uint8_t* target = (uint8_t*)readAddressMRM8(mrmByte);
+	switch (nnn) {
+		case 0x00: {
+			// SET(cond)
+			*target = COND0x0A ? 1 : 0;
+		}
+		break;
+	}
+}
+//Math
+void handlerCommand32Code019A() {
+	uint8_t cond = 0x0A;
+	uint8_t mrmByte = read8u();
+	uint8_t nnn = readMiddle3Bit(mrmByte);
+	uint8_t* target = (uint8_t*)readAddressMRM8(mrmByte);
+	switch (nnn) {
+		case 0x00: {
+			// SET(cond)
+			*target = COND0x0A ? 1 : 0;
+		}
+		break;
+	}
+}
+//Math
+void handlerCommand32Code019BP66() {
+	uint8_t cond = 0x0B;
+	uint8_t mrmByte = read8u();
+	uint8_t nnn = readMiddle3Bit(mrmByte);
+	uint8_t* target = (uint8_t*)readAddressMRM8(mrmByte);
+	switch (nnn) {
+		case 0x00: {
+			// SET(cond)
+			*target = COND0x0B ? 1 : 0;
+		}
+		break;
+	}
+}
+//Math
+void handlerCommand32Code019B() {
+	uint8_t cond = 0x0B;
+	uint8_t mrmByte = read8u();
+	uint8_t nnn = readMiddle3Bit(mrmByte);
+	uint8_t* target = (uint8_t*)readAddressMRM8(mrmByte);
+	switch (nnn) {
+		case 0x00: {
+			// SET(cond)
+			*target = COND0x0B ? 1 : 0;
+		}
+		break;
+	}
+}
+//Math
+void handlerCommand32Code019CP66() {
+	uint8_t cond = 0x0C;
+	uint8_t mrmByte = read8u();
+	uint8_t nnn = readMiddle3Bit(mrmByte);
+	uint8_t* target = (uint8_t*)readAddressMRM8(mrmByte);
+	switch (nnn) {
+		case 0x00: {
+			// SET(cond)
+			*target = COND0x0C ? 1 : 0;
+		}
+		break;
+	}
+}
+//Math
+void handlerCommand32Code019C() {
+	uint8_t cond = 0x0C;
+	uint8_t mrmByte = read8u();
+	uint8_t nnn = readMiddle3Bit(mrmByte);
+	uint8_t* target = (uint8_t*)readAddressMRM8(mrmByte);
+	switch (nnn) {
+		case 0x00: {
+			// SET(cond)
+			*target = COND0x0C ? 1 : 0;
+		}
+		break;
+	}
+}
+//Math
+void handlerCommand32Code019DP66() {
+	uint8_t cond = 0x0D;
+	uint8_t mrmByte = read8u();
+	uint8_t nnn = readMiddle3Bit(mrmByte);
+	uint8_t* target = (uint8_t*)readAddressMRM8(mrmByte);
+	switch (nnn) {
+		case 0x00: {
+			// SET(cond)
+			*target = COND0x0D ? 1 : 0;
+		}
+		break;
+	}
+}
+//Math
+void handlerCommand32Code019D() {
+	uint8_t cond = 0x0D;
+	uint8_t mrmByte = read8u();
+	uint8_t nnn = readMiddle3Bit(mrmByte);
+	uint8_t* target = (uint8_t*)readAddressMRM8(mrmByte);
+	switch (nnn) {
+		case 0x00: {
+			// SET(cond)
+			*target = COND0x0D ? 1 : 0;
+		}
+		break;
+	}
+}
+//Math
+void handlerCommand32Code019EP66() {
+	uint8_t cond = 0x0E;
+	uint8_t mrmByte = read8u();
+	uint8_t nnn = readMiddle3Bit(mrmByte);
+	uint8_t* target = (uint8_t*)readAddressMRM8(mrmByte);
+	switch (nnn) {
+		case 0x00: {
+			// SET(cond)
+			*target = COND0x0E ? 1 : 0;
+		}
+		break;
+	}
+}
+//Math
+void handlerCommand32Code019E() {
+	uint8_t cond = 0x0E;
+	uint8_t mrmByte = read8u();
+	uint8_t nnn = readMiddle3Bit(mrmByte);
+	uint8_t* target = (uint8_t*)readAddressMRM8(mrmByte);
+	switch (nnn) {
+		case 0x00: {
+			// SET(cond)
+			*target = COND0x0E ? 1 : 0;
+		}
+		break;
+	}
+}
+//Math
+void handlerCommand32Code019FP66() {
+	uint8_t cond = 0x0F;
+	uint8_t mrmByte = read8u();
+	uint8_t nnn = readMiddle3Bit(mrmByte);
+	uint8_t* target = (uint8_t*)readAddressMRM8(mrmByte);
+	switch (nnn) {
+		case 0x00: {
+			// SET(cond)
+			*target = COND0x0F ? 1 : 0;
+		}
+		break;
+	}
+}
+//Math
+void handlerCommand32Code019F() {
+	uint8_t cond = 0x0F;
+	uint8_t mrmByte = read8u();
+	uint8_t nnn = readMiddle3Bit(mrmByte);
+	uint8_t* target = (uint8_t*)readAddressMRM8(mrmByte);
+	switch (nnn) {
+		case 0x00: {
+			// SET(cond)
+			*target = COND0x0F ? 1 : 0;
+		}
+		break;
+	}
+}
  
 
 void mCommandFunctionEmpty() {
@@ -5146,6 +6074,22 @@ void installCommandFunction() {
 	commandFunctions16[79] = handlerCommand16Code004F;
 	commandFunctions16[226] = handlerCommand16Code00E2;
 	commandFunctions16[235] = handlerCommand16Code00EB;
+	commandFunctions16[384] = handlerCommand16Code0180;
+	commandFunctions16[385] = handlerCommand16Code0181;
+	commandFunctions16[386] = handlerCommand16Code0182;
+	commandFunctions16[387] = handlerCommand16Code0183;
+	commandFunctions16[388] = handlerCommand16Code0184;
+	commandFunctions16[389] = handlerCommand16Code0185;
+	commandFunctions16[390] = handlerCommand16Code0186;
+	commandFunctions16[391] = handlerCommand16Code0187;
+	commandFunctions16[392] = handlerCommand16Code0188;
+	commandFunctions16[393] = handlerCommand16Code0189;
+	commandFunctions16[394] = handlerCommand16Code018A;
+	commandFunctions16[395] = handlerCommand16Code018B;
+	commandFunctions16[396] = handlerCommand16Code018C;
+	commandFunctions16[397] = handlerCommand16Code018D;
+	commandFunctions16[398] = handlerCommand16Code018E;
+	commandFunctions16[399] = handlerCommand16Code018F;
 	commandFunctions16[232] = handlerCommand16Code00E8;
 	commandFunctions16[195] = handlerCommand16Code00C3;
 	commandFunctions16[112] = handlerCommand16Code0070;
@@ -5210,6 +6154,22 @@ void installCommandFunction() {
 	commandFunctions16[462] = handlerCommand16Code01CE;
 	commandFunctions16[463] = handlerCommand16Code01CF;
 	commandFunctions16[243] = handlerCommand16Code00F3;
+	commandFunctions16[400] = handlerCommand16Code0190;
+	commandFunctions16[401] = handlerCommand16Code0191;
+	commandFunctions16[402] = handlerCommand16Code0192;
+	commandFunctions16[403] = handlerCommand16Code0193;
+	commandFunctions16[404] = handlerCommand16Code0194;
+	commandFunctions16[405] = handlerCommand16Code0195;
+	commandFunctions16[406] = handlerCommand16Code0196;
+	commandFunctions16[407] = handlerCommand16Code0197;
+	commandFunctions16[408] = handlerCommand16Code0198;
+	commandFunctions16[409] = handlerCommand16Code0199;
+	commandFunctions16[410] = handlerCommand16Code019A;
+	commandFunctions16[411] = handlerCommand16Code019B;
+	commandFunctions16[412] = handlerCommand16Code019C;
+	commandFunctions16[413] = handlerCommand16Code019D;
+	commandFunctions16[414] = handlerCommand16Code019E;
+	commandFunctions16[415] = handlerCommand16Code019F;
 	commandFunctions32[0] = handlerCommand32Code0000;
 	commandFunctions32[0 | 0x0400] = handlerCommand32Code0000P66;
 	commandFunctions32[1] = handlerCommand32Code0001;
@@ -5394,6 +6354,22 @@ void installCommandFunction() {
 	commandFunctions32[79 | 0x0400] = handlerCommand32Code004FP66;
 	commandFunctions32[226] = handlerCommand32Code00E2;
 	commandFunctions32[235] = handlerCommand32Code00EB;
+	commandFunctions32[384] = handlerCommand32Code0180;
+	commandFunctions32[385] = handlerCommand32Code0181;
+	commandFunctions32[386] = handlerCommand32Code0182;
+	commandFunctions32[387] = handlerCommand32Code0183;
+	commandFunctions32[388] = handlerCommand32Code0184;
+	commandFunctions32[389] = handlerCommand32Code0185;
+	commandFunctions32[390] = handlerCommand32Code0186;
+	commandFunctions32[391] = handlerCommand32Code0187;
+	commandFunctions32[392] = handlerCommand32Code0188;
+	commandFunctions32[393] = handlerCommand32Code0189;
+	commandFunctions32[394] = handlerCommand32Code018A;
+	commandFunctions32[395] = handlerCommand32Code018B;
+	commandFunctions32[396] = handlerCommand32Code018C;
+	commandFunctions32[397] = handlerCommand32Code018D;
+	commandFunctions32[398] = handlerCommand32Code018E;
+	commandFunctions32[399] = handlerCommand32Code018F;
 	commandFunctions32[232] = handlerCommand32Code00E8;
 	commandFunctions32[232 | 0x0400] = handlerCommand32Code00E8P66;
 	commandFunctions32[195] = handlerCommand32Code00C3;
@@ -5534,4 +6510,36 @@ void installCommandFunction() {
 	commandFunctions32[462] = handlerCommand32Code01CE;
 	commandFunctions32[463] = handlerCommand32Code01CF;
 	commandFunctions32[243] = handlerCommand32Code00F3;
+	commandFunctions32[400] = handlerCommand32Code0190;
+	commandFunctions32[400 | 0x0400] = handlerCommand32Code0190P66;
+	commandFunctions32[401] = handlerCommand32Code0191;
+	commandFunctions32[401 | 0x0400] = handlerCommand32Code0191P66;
+	commandFunctions32[402] = handlerCommand32Code0192;
+	commandFunctions32[402 | 0x0400] = handlerCommand32Code0192P66;
+	commandFunctions32[403] = handlerCommand32Code0193;
+	commandFunctions32[403 | 0x0400] = handlerCommand32Code0193P66;
+	commandFunctions32[404] = handlerCommand32Code0194;
+	commandFunctions32[404 | 0x0400] = handlerCommand32Code0194P66;
+	commandFunctions32[405] = handlerCommand32Code0195;
+	commandFunctions32[405 | 0x0400] = handlerCommand32Code0195P66;
+	commandFunctions32[406] = handlerCommand32Code0196;
+	commandFunctions32[406 | 0x0400] = handlerCommand32Code0196P66;
+	commandFunctions32[407] = handlerCommand32Code0197;
+	commandFunctions32[407 | 0x0400] = handlerCommand32Code0197P66;
+	commandFunctions32[408] = handlerCommand32Code0198;
+	commandFunctions32[408 | 0x0400] = handlerCommand32Code0198P66;
+	commandFunctions32[409] = handlerCommand32Code0199;
+	commandFunctions32[409 | 0x0400] = handlerCommand32Code0199P66;
+	commandFunctions32[410] = handlerCommand32Code019A;
+	commandFunctions32[410 | 0x0400] = handlerCommand32Code019AP66;
+	commandFunctions32[411] = handlerCommand32Code019B;
+	commandFunctions32[411 | 0x0400] = handlerCommand32Code019BP66;
+	commandFunctions32[412] = handlerCommand32Code019C;
+	commandFunctions32[412 | 0x0400] = handlerCommand32Code019CP66;
+	commandFunctions32[413] = handlerCommand32Code019D;
+	commandFunctions32[413 | 0x0400] = handlerCommand32Code019DP66;
+	commandFunctions32[414] = handlerCommand32Code019E;
+	commandFunctions32[414 | 0x0400] = handlerCommand32Code019EP66;
+	commandFunctions32[415] = handlerCommand32Code019F;
+	commandFunctions32[415 | 0x0400] = handlerCommand32Code019FP66;
 }

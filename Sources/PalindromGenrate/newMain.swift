@@ -16,6 +16,7 @@ func generate() {
     appendF6F7Command(generator: generator)
     appendSwipeCommand(generator: generator)
     appendMockCommand(generator: generator)
+    append0F90Command(generator: generator)
     
     var text = "#include \"GenerateFunctions.h\"\n"
 

@@ -47,6 +47,7 @@ public final class WrapContext {
         }
     }
 
+
     deinit {
         freeContext()
     }
@@ -59,6 +60,13 @@ public final class WrapContext {
         for container in memory.enumerated() {
             context?[0].memory[container.offset] = container.element
         }
+    }
+
+    public func setMemory(_ data: Data) {
+        let array = data.withUnsafeBytes {
+            [UInt8](UnsafeBufferPointer(start: $0, count: data.count))
+        }
+        setMemory(array)
     }
 
     public func setMemory(_ text: String) {

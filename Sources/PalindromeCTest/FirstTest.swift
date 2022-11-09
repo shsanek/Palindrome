@@ -11,9 +11,7 @@ final class FirstTest: XCTestCase {
 
         wrapContext.context?[0].mod = 0
 
-        while wrapContext.state == .normal {
-            wrapContext.runCommand()
-        }
+        run16ToEnd()
 
         let cString = wrapContext.context?[0].text
         let result = String(cString: cString!)
@@ -59,9 +57,8 @@ final class FirstTest: XCTestCase {
             """
         )
 
-        while wrapContext.state == .normal {
-            wrapContext.runCommand()
-        }
+        run32ToEnd()
+
         let value = register32(UInt8(BR_EAX_F))?[0]
 
         XCTAssert(3628800 == value)
@@ -87,12 +84,33 @@ final class FirstTest: XCTestCase {
             """
         )
 
-        while wrapContext.state == .normal {
-            wrapContext.runCommand()
-        }
+        run32ToEnd()
+
         let value = register32(UInt8(BR_EAX_F))?[0]
 
         XCTAssert(3628800 == value)
+    }
+
+    let basePath = "/Users/alexandershipin/Documents/projects/Palindrome/Sources/TestSource/"
+
+    func test03() throws {
+        let wrapContext = WrapContext()
+        wrapContext.context?[0].mod = 1
+
+        let programm = try! Data(
+            contentsOf: URL.init(
+                fileURLWithPath: basePath + "FactorialTest/factorial.bin"
+            )
+        )
+        wrapContext.setMemory(programm)
+
+        run32ToEnd()
+
+        let cString = wrapContext.context?[0].text
+        let result = String(cString: cString!)
+
+        print(result)
+
     }
 
 //    func test02Performance() {
@@ -119,9 +137,8 @@ final class FirstTest: XCTestCase {
 //                pushInStack32(10)
 //                pushInStack32u(0)
 //
-//                while wrapContext.state == .normal {
-//                    wrapContext.runCommand()
-//                }
+//                run32ToEnd()
+//
 //                let value = register32(UInt8(BR_EAX_F))?[0]
 //
 //                XCTAssert(3628800 == value)

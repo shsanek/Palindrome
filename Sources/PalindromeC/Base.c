@@ -13,7 +13,7 @@
 #include "Function/GenerateFunctions.h"
 
 void getCommand() {
-    // printf("%llX:", (uint64_t)(context.index - context.memory));
+    printf("%llX:", (uint64_t)(context.index - context.memory));
 
     uint16_t command = 0;
     uint8_t commandPrefix = 0;
@@ -22,7 +22,7 @@ void getCommand() {
     //Коды F2, F3 - префиксы повторения, команда REP ("repeat" - повторять) и другие команды этой группы. Такие префиксы употребляются только с цепочечными командами. Префиксы группы REP позволяют организовать циклическое выполнение цепочечной команды. Смотрите страницу   Цепочечные команды.
     //
     //Код F1 - нет такого префикса и нет такой команды. Тут следует заметить, что это единственный код для первого байта команды, который все еще остается свободным. Поневоле напрашивается мысль о существовании некоторой недокументированной возможности ...
-    if (*(context.index) == 0xF0 || *(context.index) == 0xF2 || *(context.index) == 0xF3) {
+    if (*(context.index) == 0xF0 || *(context.index) == 0xF2) {
         commandPrefix = *(context.index);
         context.index++;
     }
@@ -73,13 +73,13 @@ void getCommand() {
         context.index++;
     }
 
-    // printf("0x");
+    printf("0x");
     if (*(context.index) == 0x0F) {
         context.index++;
-        // printf("0F");
+        printf("0F");
         command |= 0x0100;
     }
-    // printf("%X\n", (*context.index));
+    printf("%X\n", (*context.index));
 
     command |= (uint16_t)(*context.index);
     context.index++;
@@ -102,6 +102,7 @@ void runCommand32() {
 }
 
 void runCommand() {
+    context.lastCommandInfo.command = 0;
     if (context.mod) {
         runCommand32();
     } else {
@@ -119,4 +120,18 @@ void pushInStack32(int32_t value) {
     uint32_t* sp = register32u(BR_SP);
     *sp -= 32 / 8;
     *(int32_t*)(mem(SR_SS) + *sp) = value;
+}
+
+void run32ToEnd() {
+    context.mod = 1;
+    while (context.end == 0) {
+        runCommand32();
+    }
+}
+
+void run16ToEnd() {
+    context.mod = 0;
+    while (context.end == 0) {
+        runCommand16();
+    }
 }
