@@ -45,19 +45,17 @@ uint16_t parity_lookup[256] = {
   1, 0, 0, 1, 0, 1, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1
   };
 
-#define DOFLAG_PF    reg_flags=(reg_flags & ~GET_FLAG(PF)) | (parity_lookup[LazyFlagResultContainer8] & GET_FLAG(PF));
+#define DOFLAG_PF    SET_FLAG(PF, (parity_lookup[LazyFlagResultContainer8] & GET_FLAG(PF)));
 
-#define DOFLAG_AF    reg_flags=(reg_flags & ~GET_FLAG(AF)) | (((LazyFlagVarA8 ^ LazyFlagVarB8) ^ LazyFlagResultContainer8) & 0x10U);
+#define DOFLAG_AF    SET_FLAG(AF, (((LazyFlagVarA8 ^ LazyFlagVarB8) ^ LazyFlagResultContainer8) & 0x10U));
 
 #define DOFLAG_ZFb    SET_FLAG(ZF,LazyFlagResultContainer8==0);
 #define DOFLAG_ZFw    SET_FLAG(ZF,LazyFlagResultContainer16==0);
 #define DOFLAG_ZFd    SET_FLAG(ZF,LazyFlagResultContainer32==0);
 
-#define DOFLAG_SFb    reg_flags=(reg_flags & ~GET_FLAG(SF)) | ((LazyFlagResultContainer8 & 0x80U) >> 0U);
-#define DOFLAG_SFw    reg_flags=(reg_flags & ~GET_FLAG(SF)) | ((LazyFlagResultContainer16 & 0x8000U) >> 8U);
-#define DOFLAG_SFd    reg_flags=(reg_flags & ~GET_FLAG(SF)) | ((LazyFlagResultContainer32 & 0x80000000U) >> 24U);
-
-#define SETCF(NEWBIT) reg_flags=(reg_flags & ~GET_FLAG(CF))|(NEWBIT);
+#define DOFLAG_SFb    SET_FLAG(SF, ((LazyFlagResultContainer8 & 0x80U) >> 0U));
+#define DOFLAG_SFw    SET_FLAG(SF, ((LazyFlagResultContainer16 & 0x8000U) >> 8U));
+#define DOFLAG_SFd    SET_FLAG(SF, ((LazyFlagResultContainer32 & 0x80000000U) >> 24U));
 
 void FillFlags() {
     switch (lazyFlagType) {

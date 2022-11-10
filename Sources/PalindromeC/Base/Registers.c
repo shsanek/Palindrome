@@ -9,14 +9,14 @@
 
 uint8_t register8Address(uint8_t registerIndex) {
     uint8_t registerSize = 4;
-    uint8_t byteShift = registerSize - 1 - (registerIndex > 3 ? 1 : 0);
+    uint8_t byteShift = (registerIndex > 3 ? 1 : 0);
     uint8_t byteIndex = registerIndex % 4 * registerSize;
     return byteIndex + byteShift;
 }
 
 uint16_t register16Address(uint8_t registerIndex) {
     uint8_t registerSize = 4;
-    uint8_t byteShift = registerSize - 2;
+    uint8_t byteShift = 0;
     uint8_t byteIndex = registerIndex * registerSize;
     return byteIndex + byteShift;
 }

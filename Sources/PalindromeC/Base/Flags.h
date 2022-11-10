@@ -46,7 +46,7 @@
 
 #define GET_FLAG(flag) ((uint8_t)((reg_flags >> flag) & 0x1))
 
-#define SET_FLAG(flag, value) { reg_flags ^= (-(int32_t)((value) & 0x1) ^ reg_flags) & (1UL << flag); }
+#define SET_FLAG(flag, value) { reg_flags ^= (-(int32_t)((value ? 1 : 0)) ^ reg_flags) & (1UL << flag); }
 
 #define PARITY16(x)  (parity_lookup[((x)>>8)&0xff]^parity_lookup[(x)&0xff]^GET_FLAG(PF))
 #define PARITY32(x)  (PARITY16((x)&0xffff)^PARITY16(((x)>>16)&0xffff)^GET_FLAG(PF))

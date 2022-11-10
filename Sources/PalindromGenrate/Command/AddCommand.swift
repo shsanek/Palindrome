@@ -176,8 +176,8 @@ func appendAddCommand(generator: Generator) {
             symbol: [
                 ("0x0", "+", "ADD", true, false, false),
                 ("0x1", "|", "OR", true, false, true),
-                ("0x2", "+", "AND", true, true, false),
-                ("0x3", "-", "SUB", true, true, false),
+                ("0x2", "+", "ADC", true, true, false),
+                ("0x3", "-", "SBB", true, true, false),
                 ("0x4", "&", "AND", true, false, true),
                 ("0x5", "-", "SUB", true, false, false),
                 ("0x6", "^", "XOR", true, false, true),

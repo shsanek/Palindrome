@@ -109,8 +109,8 @@ final class FirstTest: XCTestCase {
         let cString = wrapContext.context?[0].text
         let result = String(cString: cString!)
 
-        print(result)
-
+        let realResult = (0..<10).map({ "\(factorial(number: Int32($0)))" }).joined()
+        XCTAssert(result == realResult)
     }
 
 //    func test02Performance() {

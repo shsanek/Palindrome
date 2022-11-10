@@ -4,8 +4,9 @@ func generate() {
     let file = "/Users/alexandershipin/Documents/projects/Palindrome/Sources/PalindromeC/Function/GenerateFunctions.c"
     let generator = Generator()
 
-    appendAddCommand(generator: generator)
     appendMoveCommand(generator: generator)
+
+    appendAddCommand(generator: generator)
     appendIncCommand(generator: generator)
     appendDecCommand(generator: generator)
     appendLoopCommand(generator: generator)

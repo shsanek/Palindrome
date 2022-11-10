@@ -29,8 +29,8 @@ struct MRMFunctionFormatter: IFormatter {
     }
 
     private func addPrepare(_ generator: FunctionGenerator, with info: FormatterInfo) {
-        let registerFunction = "(uint8_t*)readRegisterMRM%dataSize(mrmByte)"
-        let addressFunction = "(uint8_t*)readAddressMRM%dataSize(mrmByte)"
+        var registerFunction = "(uint8_t*)readRegisterMRM%dataSize(mrmByte)"
+        var addressFunction = "(uint8_t*)readAddressMRM%dataSize(mrmByte)"
 
         let prepareGenerator = FunctionGenerator()
         prepareGenerator.add("uint8_t* target = \(addressFunction);")

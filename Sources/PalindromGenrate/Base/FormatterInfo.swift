@@ -26,6 +26,9 @@ enum FormatterAdditionalInfo {
     case bigAddress
     case littleAddress
     case fixAddress(_ fix: Int)
+
+    case mrmRegisterSize(info: [FormatterAdditionalInfo])
+    case mrmAddressSize(info: [FormatterAdditionalInfo])
 }
 
 extension FormatterInfo {

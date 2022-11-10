@@ -43,6 +43,28 @@ fileprivate let jmpCommand = Command(
     installFormatter: InitialFormatter()
 )
 
+fileprivate let jmpBigCommand = Command(
+    code: 0x00E9,
+    name: "Jmp",
+    format: .init(
+        hasPrefixAddress: false,
+        hasPrefixData: true,
+        inlines: []
+    ),
+    functionFormatter: Formatter(
+        customizers: [
+            .prefixData,
+            .functionName,
+            .vars,
+            .settings([.bigData]),
+            """
+            context.index += read%dataSize();
+            """
+        ]
+    ),
+    installFormatter: InitialFormatter()
+)
+
 fileprivate let callCommand = Command(
     code: 0x00E8,
     name: "Call",
@@ -144,6 +166,7 @@ fileprivate let bigJmpCondCommand = Command(
 func appendLoopCommand(generator: Generator) {
     generator.addCommand(loopCommand)
     generator.addCommand(jmpCommand)
+    generator.addCommand(jmpBigCommand)
     generator.addCommand(bigJmpCondCommand)
     generator.addCommand(callCommand)
     generator.addCommand(returnCommand)
