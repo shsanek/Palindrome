@@ -1,11 +1,11 @@
 import Foundation
 
 extension UInt8 {
-    var hex: String {
+    public var hex: String {
         String(format: "0x%02X", self)
     }
 
-    var rawHex: String {
+    public var rawHex: String {
         String(format: "%02X", self).uppercased()
     }
 
@@ -32,7 +32,7 @@ extension UInt8 {
 }
 
 extension UInt16 {
-    var rawHex: String {
+    public var rawHex: String {
         UInt8((self >> 8) & 0x00FF).rawHex + UInt8(self & 0x00FF).rawHex
     }
 

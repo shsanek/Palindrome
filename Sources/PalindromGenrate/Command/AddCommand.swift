@@ -41,7 +41,7 @@ extension Command {
             LazyFlagVarB%dataSize = *(int%dataSize_t*)source;
             \(useCF ? "FillFlags();" : "")
             \(useCF ? "oldcf = GET_FLAG(CF);" : "")
-            LazyFlagResultContainer%dataSize = LazyFlagVarA%dataSize \(symbol) LazyFlagVarB%dataSize \(useCF ? "\(symbol) oldcf" : "");
+            LazyFlagResultContainer%dataSize = ((%signint%dataSize_t)LazyFlagVarA%dataSize) \(symbol) ((%signint%dataSize_t)LazyFlagVarB%dataSize) \(useCF ? "\(symbol) oldcf" : "");
             lazyFlagType = t_\(name)%dataSize;
             \(set ? "*(int%dataSize_t*)target = LazyFlagResultContainer%dataSize;" : "")
             """,
@@ -65,13 +65,13 @@ extension Command {
                         .template(
                         """
                         uint8_t* target = (uint8_t*)register%dataSizeu(BR_AX);
-                        LazyFlagVarA%dataSize = *(int%dataSize_t*)target;
+                        LazyFlagVarA%dataSize = *(%signint%dataSize_t*)target;
                         LazyFlagVarB%dataSize = read%dataSizeu();
                         \(useCF ? "FillFlags();" : "")
                         \(useCF ? "oldcf = GET_FLAG(CF);" : "")
-                        LazyFlagResultContainer%dataSize = LazyFlagVarA%dataSize \(symbol) LazyFlagVarB%dataSize \(useCF ? "\(symbol) oldcf" : "");
+                        LazyFlagResultContainer%dataSize = (((%signint%dataSize_t)LazyFlagVarA%dataSize) \(symbol) ((%signint%dataSize_t)LazyFlagVarB%dataSize)) \(useCF ? "\(symbol) oldcf" : "");
                         lazyFlagType = t_\(name)%dataSize;
-                        \(set ? "*(int%dataSize_t*)target = LazyFlagResultContainer%dataSize;" : "")
+                        \(set ? "*(uint%dataSize_t*)target = LazyFlagResultContainer%dataSize;" : "")
                         """
                         )
                     ]
@@ -147,10 +147,10 @@ extension Command {
             templates: symbol.map {
                 ($0.0, """
                 LazyFlagVarA%dataSize = *(int%dataSize_t*)target;
-                LazyFlagVarB%dataSize = read%operandSize();
+                LazyFlagVarB%dataSize = ((%signint%dataSize_t)read%operandSize%sign());
                 \($0.4 ? "FillFlags();" : "")
                 \($0.4 ? "oldcf = GET_FLAG(CF);" : "")
-                LazyFlagResultContainer%dataSize = LazyFlagVarA%dataSize \($0.1) (\($0.5 ? "": "(%signint%operandSize_t)")LazyFlagVarB%dataSize) \($0.4 ? "\($0.1) oldcf" : "");
+                LazyFlagResultContainer%dataSize = ((%signint%dataSize_t)LazyFlagVarA%dataSize) \($0.1) ((%signint%dataSize_t)LazyFlagVarB%dataSize) \($0.4 ? "\($0.1) oldcf" : "");
                 lazyFlagType = t_\($0.2)%dataSize;
                 \($0.3 ? "*(int%dataSize_t*)target = LazyFlagResultContainer%dataSize;" : "")
                 """

@@ -18,21 +18,25 @@ func generate() {
     appendSwipeCommand(generator: generator)
     appendMockCommand(generator: generator)
     append0F90Command(generator: generator)
-    
-    var text = "#include \"GenerateFunctions.h\"\n"
 
-    text = text + generator.generateAllCommand(installGenerate)
+    let fileGenerator = FunctionGenerator()
+    fileGenerator.add("""
+        #include "GenerateFunctions.h"
+        void mCommandFunctionEmpty() {
+        context.end = 2;
+        printf("function not implementation\\n");
+        *((uint8_t*)NULL) = 0;
+        }
+        """
+    )
+
+    let text = fileGenerator.text + generator.generateAllCommand(installGenerate)
 
     try! text.write(toFile: file, atomically: true, encoding: .utf8)
 }
 
 private func installGenerate(_ content: String) -> String {
     let base = """
-    void mCommandFunctionEmpty() {
-    context.end = 2;
-    printf("function not implementation\\n");
-    *((uint8_t*)NULL) = 0;
-    }
 
     void installCommandFunction() {
     for(int i = 0; i < 256 * 8; i++) {

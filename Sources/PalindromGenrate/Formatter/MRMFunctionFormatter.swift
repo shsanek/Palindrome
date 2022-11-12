@@ -283,9 +283,10 @@ struct NNNFunctionFormatter: IFormatter {
             generator.add("case \(variation.0): {")
             generator.add(variation.1.format(with: info))
             generator.add("}")
-            generator.add("break;")
+            generator.add("return;")
         }
         generator.add("}")
+        generator.add("mCommandFunctionEmpty();")
         generator.add(baseFormatter.format(with: info))
         return generator.text
     }

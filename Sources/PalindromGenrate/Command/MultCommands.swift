@@ -95,10 +95,10 @@ let multlCommand8Data = Command(
     functionFormatter: Formatter(
         customizers: [
             .functionName,
-            .settings([.fixData(8), .bigAddress]),
+            .settings([.bigData, .fixOperand(8), .bigAddress]),
             .mrm,
             """
-            int%dataSize_t source1 = read%dataSize();
+            int%dataSize_t source1 = (int%dataSize_t)read%operandSize();
             int%dataSize_t source2 = *(int%dataSize_t*)target;
             target = source;
             """,

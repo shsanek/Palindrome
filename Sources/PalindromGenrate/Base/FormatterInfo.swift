@@ -142,13 +142,13 @@ extension FormatterInfo {
             case .sign:
                 return ""
             default:
-                return "u"
+                continue
             }
         }
         if flags.contains("s") {
-            return "u"
+            return ""
         }
-        return ""
+        return "u"
     }
 }
 
