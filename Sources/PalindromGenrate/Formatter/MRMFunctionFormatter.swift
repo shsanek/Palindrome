@@ -29,8 +29,8 @@ struct MRMFunctionFormatter: IFormatter {
     }
 
     private func addPrepare(_ generator: FunctionGenerator, with info: FormatterInfo) {
-        var registerFunction = "(uint8_t*)readRegisterMRM%dataSize(mrmByte)"
-        var addressFunction = "(uint8_t*)readAddressMRM%dataSize(mrmByte)"
+        let registerFunction = "(uint8_t*)readRegisterMRM%dataSize(mrmByte)"
+        let addressFunction = "(uint8_t*)readAddressMRM\(info.mode == .mod32 ? "32" : "16")For%dataSize(mrmByte)"
 
         let prepareGenerator = FunctionGenerator()
         prepareGenerator.add("uint8_t* target = \(addressFunction);")
@@ -291,48 +291,7 @@ struct NNNFunctionFormatter: IFormatter {
     }
 
     private func addPrepare(_ generator: FunctionGenerator, with info: FormatterInfo) {
-        let addressFunction = "(uint8_t*)readAddressMRM%addressSize(mrmByte)"
-
-        let prepareGenerator = FunctionGenerator()
-        prepareGenerator.add("uint8_t* target = \(addressFunction);")
-        if info.flags.contains("d") {
-            prepareGenerator.swich(a: "target", b: "source")
-        }
-        generator.add(prepareGenerator.text)
-    }
-}
-
-
-struct VariationsFormatter: IFormatter {
-    let baseFormatter: IFormatter
-    let variations: [(UInt16, IFormatter)]
-
-    init(baseFormatter: IFormatter, variations: [(UInt16, IFormatter)]) {
-        self.baseFormatter = baseFormatter
-        self.variations = variations
-    }
-
-    func format(with info: FormatterInfo) -> String? {
-        let generator = FunctionGenerator()
-        generator.add("uint8_t mrmByte = read8u();")
-        generator.add("uint8_t nnn = readMiddle3Bit(mrmByte);")
-        addPrepare(generator, with: info)
-        var isNotFirst = false
-        for variation in variations {
-            let prefix = isNotFirst ? "} else " : ""
-            generator.add(prefix + "if (nnn == \(variation.0)) {")
-            generator.add(variation.1.format(with: info))
-            isNotFirst = true
-        }
-        if isNotFirst {
-            generator.add("}")
-        }
-        generator.add(baseFormatter.format(with: info))
-        return generator.text
-    }
-
-    private func addPrepare(_ generator: FunctionGenerator, with info: FormatterInfo) {
-        let addressFunction = "(uint8_t*)readAddressMRM%addressSize(mrmByte)"
+        let addressFunction = "(uint8_t*)readAddressMRM\(info.mode == .mod32 ? "32" : "16")For%addressSize(mrmByte)"
 
         let prepareGenerator = FunctionGenerator()
         prepareGenerator.add("uint8_t* target = \(addressFunction);")

@@ -80,7 +80,7 @@ fileprivate let moveBEMoveCommand = Command(
             .settings([.bigData]),
             "uint8_t mrmByte = read8u();",
             "int%dataSize_t* target = (int%dataSize_t*)readRegisterMRM%dataSize(mrmByte);",
-            "int8_t* source = (int8_t*)readAddressMRM8(mrmByte);",
+            "int8_t* source = (int8_t*)readAddressMRM32For8(mrmByte);",
             "*target = (int%dataSize_t)*source;"
         ]
     ),
@@ -101,7 +101,7 @@ fileprivate let moveBFMoveCommand = Command(
             .settings([]),
             "uint8_t mrmByte = read8u();",
             "int32_t* target = (int32_t*)readRegisterMRM32(mrmByte);",
-            "int16_t* source = (int16_t*)readAddressMRM16(mrmByte);",
+            "int16_t* source = (int16_t*)readAddressMRM32For16(mrmByte);",
             "*target = (int32_t)*source;"
         ]
     ),
@@ -124,7 +124,7 @@ fileprivate let moveB6MoveCommand = Command(
             .settings([.bigData]),
             "uint8_t mrmByte = read8u();",
             "uint%dataSize_t* target = (uint%dataSize_t*)readRegisterMRM%dataSize(mrmByte);",
-            "uint8_t* source = (uint8_t*)readAddressMRM8(mrmByte);",
+            "uint8_t* source = (uint8_t*)readAddressMRM32For8(mrmByte);",
             "*target = (uint%dataSize_t)*source;"
         ]
     ),
@@ -145,7 +145,7 @@ fileprivate let moveB7MoveCommand = Command(
             .settings([]),
             "uint8_t mrmByte = read8u();",
             "uint32_t* target = (uint32_t*)readRegisterMRM32(mrmByte);",
-            "uint16_t* source = (uint16_t*)readAddressMRM16(mrmByte);",
+            "uint16_t* source = (uint16_t*)readAddressMRM32For16(mrmByte);",
             "*target = (uint32_t)*source;"
         ]
     ),
