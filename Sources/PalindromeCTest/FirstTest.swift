@@ -147,6 +147,27 @@ final class FirstTest: XCTestCase {
 
         let programm = try! Data(
             contentsOf: URL.init(
+                fileURLWithPath: basePath + "SortTest/sortO1.bin"
+            )
+        )
+        wrapContext.setMemory(programm)
+
+        run32ToEnd()
+
+        let cString = wrapContext.context?[0].text
+        let result = String(cString: cString!)
+
+        print(result)
+
+        TAssert(result == "-2 0 1 2 3 ")
+    }
+
+    func test06() throws {
+        let wrapContext = WrapContext()
+        wrapContext.context?[0].mod = 1
+
+        let programm = try! Data(
+            contentsOf: URL.init(
                 fileURLWithPath: basePath + "NegTest/neg.bin"
             )
         )
@@ -160,7 +181,7 @@ final class FirstTest: XCTestCase {
         TAssert(result == "-10")
     }
 
-    func test06() throws {
+    func test07() throws {
         let wrapContext = WrapContext()
         wrapContext.context?[0].mod = 1
 

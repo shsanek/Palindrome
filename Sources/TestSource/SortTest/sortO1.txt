@@ -1,0 +1,202 @@
+00000000 <main>:
+   0:    53                       push   %ebx
+   1:    57                       push   %edi
+   2:    56                       push   %esi
+   3:    83 ec 14                 sub    $0x14,%esp
+   6:    c7 04 24 03 00 00 00     movl   $0x3,(%esp)
+   d:    c7 44 24 04 02 00 00     movl   $0x2,0x4(%esp)
+  14:    00
+  15:    c7 44 24 08 00 00 00     movl   $0x0,0x8(%esp)
+  1c:    00
+  1d:    c7 44 24 0c 01 00 00     movl   $0x1,0xc(%esp)
+  24:    00
+  25:    c7 44 24 10 fe ff ff     movl   $0xfffffffe,0x10(%esp)
+  2c:    ff
+  2d:    31 c0                    xor    %eax,%eax
+  2f:    eb 15                    jmp    46 <main+0x46>
+  31:    90                       nop
+  32:    90                       nop
+  33:    90                       nop
+  34:    90                       nop
+  35:    90                       nop
+  36:    90                       nop
+  37:    90                       nop
+  38:    90                       nop
+  39:    90                       nop
+  3a:    90                       nop
+  3b:    90                       nop
+  3c:    90                       nop
+  3d:    90                       nop
+  3e:    90                       nop
+  3f:    90                       nop
+  40:    40                       inc    %eax
+  41:    83 f8 05                 cmp    $0x5,%eax
+  44:    74 21                    je     67 <main+0x67>
+  46:    85 c0                    test   %eax,%eax
+  48:    74 f6                    je     40 <main+0x40>
+  4a:    31 c9                    xor    %ecx,%ecx
+  4c:    eb 07                    jmp    55 <main+0x55>
+  4e:    90                       nop
+  4f:    90                       nop
+  50:    41                       inc    %ecx
+  51:    39 c8                    cmp    %ecx,%eax
+  53:    74 eb                    je     40 <main+0x40>
+  55:    8b 14 84                 mov    (%esp,%eax,4),%edx
+  58:    8b 34 8c                 mov    (%esp,%ecx,4),%esi
+  5b:    39 f2                    cmp    %esi,%edx
+  5d:    7d f1                    jge    50 <main+0x50>
+  5f:    89 14 8c                 mov    %edx,(%esp,%ecx,4)
+  62:    89 34 84                 mov    %esi,(%esp,%eax,4)
+  65:    eb e9                    jmp    50 <main+0x50>
+  67:    31 f6                    xor    %esi,%esi
+  69:    bf 67 66 66 66           mov    $0x66666667,%edi
+  6e:    eb 0e                    jmp    7e <main+0x7e>
+  70:    50                       push   %eax
+  71:    90                       nop
+  72:    90                       nop
+  73:    58                       pop    %eax
+  74:    50                       push   %eax
+  75:    90                       nop
+  76:    90                       nop
+  77:    58                       pop    %eax
+  78:    46                       inc    %esi
+  79:    83 fe 05                 cmp    $0x5,%esi
+  7c:    74 4b                    je     c9 <main+0xc9>
+  7e:    8b 0c b4                 mov    (%esp,%esi,4),%ecx
+  81:    85 c9                    test   %ecx,%ecx
+  83:    78 0b                    js     90 <main+0x90>
+  85:    85 c9                    test   %ecx,%ecx
+  87:    75 11                    jne    9a <main+0x9a>
+  89:    eb e5                    jmp    70 <main+0x70>
+  8b:    90                       nop
+  8c:    90                       nop
+  8d:    90                       nop
+  8e:    90                       nop
+  8f:    90                       nop
+  90:    50                       push   %eax
+  91:    90                       nop
+  92:    90                       nop
+  93:    58                       pop    %eax
+  94:    f7 d9                    neg    %ecx
+  96:    85 c9                    test   %ecx,%ecx
+  98:    74 d6                    je     70 <main+0x70>
+  9a:    31 db                    xor    %ebx,%ebx
+  9c:    85 c9                    test   %ecx,%ecx
+  9e:    7e 16                    jle    b6 <main+0xb6>
+  a0:    89 c8                    mov    %ecx,%eax
+  a2:    f7 ef                    imul   %edi
+  a4:    89 d0                    mov    %edx,%eax
+  a6:    c1 e8 1f                 shr    $0x1f,%eax
+  a9:    c1 fa 02                 sar    $0x2,%edx
+  ac:    01 c2                    add    %eax,%edx
+  ae:    43                       inc    %ebx
+  af:    83 f9 09                 cmp    $0x9,%ecx
+  b2:    89 d1                    mov    %edx,%ecx
+  b4:    7f ea                    jg     a0 <main+0xa0>
+  b6:    85 db                    test   %ebx,%ebx
+  b8:    74 ba                    je     74 <main+0x74>
+  ba:    90                       nop
+  bb:    90                       nop
+  bc:    90                       nop
+  bd:    90                       nop
+  be:    90                       nop
+  bf:    90                       nop
+  c0:    50                       push   %eax
+  c1:    90                       nop
+  c2:    90                       nop
+  c3:    58                       pop    %eax
+  c4:    4b                       dec    %ebx
+  c5:    75 f9                    jne    c0 <main+0xc0>
+  c7:    eb ab                    jmp    74 <main+0x74>
+  c9:    31 c0                    xor    %eax,%eax
+  cb:    83 c4 14                 add    $0x14,%esp
+  ce:    5e                       pop    %esi
+  cf:    5f                       pop    %edi
+  d0:    5b                       pop    %ebx
+  d1:    c3                       ret
+  d2:    90                       nop
+  d3:    90                       nop
+  d4:    90                       nop
+  d5:    90                       nop
+  d6:    90                       nop
+  d7:    90                       nop
+  d8:    90                       nop
+  d9:    90                       nop
+  da:    90                       nop
+  db:    90                       nop
+  dc:    90                       nop
+  dd:    90                       nop
+  de:    90                       nop
+  df:    90                       nop
+
+000000e0 <printINT>:
+  e0:    57                       push   %edi
+  e1:    56                       push   %esi
+  e2:    8b 4c 24 0c              mov    0xc(%esp),%ecx
+  e6:    85 c9                    test   %ecx,%ecx
+  e8:    78 3f                    js     129 <printINT+0x49>
+  ea:    85 c9                    test   %ecx,%ecx
+  ec:    74 45                    je     133 <printINT+0x53>
+  ee:    31 f6                    xor    %esi,%esi
+  f0:    85 c9                    test   %ecx,%ecx
+  f2:    7e 22                    jle    116 <printINT+0x36>
+  f4:    bf 67 66 66 66           mov    $0x66666667,%edi
+  f9:    90                       nop
+  fa:    90                       nop
+  fb:    90                       nop
+  fc:    90                       nop
+  fd:    90                       nop
+  fe:    90                       nop
+  ff:    90                       nop
+ 100:    89 c8                    mov    %ecx,%eax
+ 102:    f7 ef                    imul   %edi
+ 104:    89 d0                    mov    %edx,%eax
+ 106:    c1 e8 1f                 shr    $0x1f,%eax
+ 109:    c1 fa 02                 sar    $0x2,%edx
+ 10c:    01 c2                    add    %eax,%edx
+ 10e:    46                       inc    %esi
+ 10f:    83 f9 09                 cmp    $0x9,%ecx
+ 112:    89 d1                    mov    %edx,%ecx
+ 114:    7f ea                    jg     100 <printINT+0x20>
+ 116:    85 f6                    test   %esi,%esi
+ 118:    74 1d                    je     137 <printINT+0x57>
+ 11a:    90                       nop
+ 11b:    90                       nop
+ 11c:    90                       nop
+ 11d:    90                       nop
+ 11e:    90                       nop
+ 11f:    90                       nop
+ 120:    50                       push   %eax
+ 121:    90                       nop
+ 122:    90                       nop
+ 123:    58                       pop    %eax
+ 124:    4e                       dec    %esi
+ 125:    75 f9                    jne    120 <printINT+0x40>
+ 127:    eb 0e                    jmp    137 <printINT+0x57>
+ 129:    50                       push   %eax
+ 12a:    90                       nop
+ 12b:    90                       nop
+ 12c:    58                       pop    %eax
+ 12d:    f7 d9                    neg    %ecx
+ 12f:    85 c9                    test   %ecx,%ecx
+ 131:    75 bb                    jne    ee <printINT+0xe>
+ 133:    50                       push   %eax
+ 134:    90                       nop
+ 135:    90                       nop
+ 136:    58                       pop    %eax
+ 137:    5e                       pop    %esi
+ 138:    5f                       pop    %edi
+ 139:    c3                       ret
+ 13a:    90                       nop
+ 13b:    90                       nop
+ 13c:    90                       nop
+ 13d:    90                       nop
+ 13e:    90                       nop
+ 13f:    90                       nop
+
+00000140 <printSymbol>:
+ 140:    50                       push   %eax
+ 141:    90                       nop
+ 142:    90                       nop
+ 143:    58                       pop    %eax
+ 144:    c3                       ret    
