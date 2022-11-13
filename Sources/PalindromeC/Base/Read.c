@@ -38,7 +38,7 @@ int32_t read32() {
 }
 
 uint32_t read32u() {
-    uint16_t read = *((uint32_t*)context.index);
+    uint32_t read = *((uint32_t*)context.index);
     context.index += 4;
     return read;
 }

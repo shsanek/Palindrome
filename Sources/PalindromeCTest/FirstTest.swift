@@ -2,7 +2,14 @@ import XCTest
 import PalindromeC
 import Palindrome
 
+
 final class FirstTest: XCTestCase {
+
+    override class func tearDown() {
+        super.tearDown()
+        printAllCommands()
+    }
+
     func test00() throws {
         let wrapContext = WrapContext()
         wrapContext.setMemory(
@@ -16,7 +23,7 @@ final class FirstTest: XCTestCase {
         let cString = wrapContext.context?[0].text
         let result = String(cString: cString!)
 
-        XCTAssert("Hello, World!" == result)
+        TAssert("Hello, World!" == result)
     }
 
     func test01() throws {
@@ -61,7 +68,7 @@ final class FirstTest: XCTestCase {
 
         let value = register32(UInt8(BR_EAX_F))?[0]
 
-        XCTAssert(3628800 == value)
+        TAssert(3628800 == value)
     }
 
     func test02() throws {
@@ -88,7 +95,7 @@ final class FirstTest: XCTestCase {
 
         let value = register32(UInt8(BR_EAX_F))?[0]
 
-        XCTAssert(3628800 == value)
+        TAssert(3628800 == value)
     }
 
     let basePath = "/Users/alexandershipin/Documents/projects/Palindrome/Sources/TestSource/"
@@ -110,7 +117,47 @@ final class FirstTest: XCTestCase {
         let result = String(cString: cString!)
 
         let realResult = (0..<10).map({ "\(factorial(number: Int32($0)))" }).joined()
-        XCTAssert(result == realResult)
+        TAssert(result == realResult)
+    }
+
+    func test04() throws {
+        let wrapContext = WrapContext()
+        wrapContext.context?[0].mod = 1
+
+        let programm = try! Data(
+            contentsOf: URL.init(
+                fileURLWithPath: basePath + "SortTest/sort.bin"
+            )
+        )
+        wrapContext.setMemory(programm)
+
+        run32ToEnd()
+
+        let cString = wrapContext.context?[0].text
+        let result = String(cString: cString!)
+
+        print(result)
+
+        TAssert(result == "-2 0 1 2 3 ")
+    }
+
+    func test05() throws {
+        let wrapContext = WrapContext()
+        wrapContext.context?[0].mod = 1
+
+        let programm = try! Data(
+            contentsOf: URL.init(
+                fileURLWithPath: basePath + "NegTest/neg.bin"
+            )
+        )
+        wrapContext.setMemory(programm)
+
+        run32ToEnd()
+
+        let cString = wrapContext.context?[0].text
+        let result = String(cString: cString!)
+
+        TAssert(result == "-10")
     }
 
 //    func test02Performance() {

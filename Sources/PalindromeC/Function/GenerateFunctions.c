@@ -1,4 +1,9 @@
 #include "GenerateFunctions.h"
+void mCommandFunctionEmpty() {
+	context.end = 2;
+	printf("function not implementation\n");
+	*((uint8_t*)NULL) = 0;
+}
 //Move
 void handlerCommand16Code0088() {
 	uint8_t mrmByte = read8u();
@@ -148,7 +153,7 @@ void handlerCommand16Code0000() {
 	uint8_t* source = (uint8_t*)readRegisterMRM8(mrmByte);
 	LazyFlagVarA8 = *(int8_t*)target;
 	LazyFlagVarB8 = *(int8_t*)source;
-	LazyFlagResultContainer8 = LazyFlagVarA8 + LazyFlagVarB8 ;
+	LazyFlagResultContainer8 = ((uint8_t)LazyFlagVarA8) + ((uint8_t)LazyFlagVarB8) ;
 	lazyFlagType = t_ADD8;
 	*(int8_t*)target = LazyFlagResultContainer8;
 }
@@ -159,7 +164,7 @@ void handlerCommand16Code0001() {
 	uint8_t* source = (uint8_t*)readRegisterMRM16(mrmByte);
 	LazyFlagVarA16 = *(int16_t*)target;
 	LazyFlagVarB16 = *(int16_t*)source;
-	LazyFlagResultContainer16 = LazyFlagVarA16 + LazyFlagVarB16 ;
+	LazyFlagResultContainer16 = ((uint16_t)LazyFlagVarA16) + ((uint16_t)LazyFlagVarB16) ;
 	lazyFlagType = t_ADD16;
 	*(int16_t*)target = LazyFlagResultContainer16;
 }
@@ -170,7 +175,7 @@ void handlerCommand16Code0002() {
 	uint8_t* target = (uint8_t*)readRegisterMRM8(mrmByte);
 	LazyFlagVarA8 = *(int8_t*)target;
 	LazyFlagVarB8 = *(int8_t*)source;
-	LazyFlagResultContainer8 = LazyFlagVarA8 + LazyFlagVarB8 ;
+	LazyFlagResultContainer8 = ((uint8_t)LazyFlagVarA8) + ((uint8_t)LazyFlagVarB8) ;
 	lazyFlagType = t_ADD8;
 	*(int8_t*)target = LazyFlagResultContainer8;
 }
@@ -181,27 +186,27 @@ void handlerCommand16Code0003() {
 	uint8_t* target = (uint8_t*)readRegisterMRM16(mrmByte);
 	LazyFlagVarA16 = *(int16_t*)target;
 	LazyFlagVarB16 = *(int16_t*)source;
-	LazyFlagResultContainer16 = LazyFlagVarA16 + LazyFlagVarB16 ;
+	LazyFlagResultContainer16 = ((uint16_t)LazyFlagVarA16) + ((uint16_t)LazyFlagVarB16) ;
 	lazyFlagType = t_ADD16;
 	*(int16_t*)target = LazyFlagResultContainer16;
 }
 //ADD
 void handlerCommand16Code0004() {
 	uint8_t* target = (uint8_t*)register8u(BR_AX);
-	LazyFlagVarA8 = *(int8_t*)target;
+	LazyFlagVarA8 = *(uint8_t*)target;
 	LazyFlagVarB8 = read8u();
-	LazyFlagResultContainer8 = LazyFlagVarA8 + LazyFlagVarB8 ;
+	LazyFlagResultContainer8 = (((uint8_t)LazyFlagVarA8) + ((uint8_t)LazyFlagVarB8)) ;
 	lazyFlagType = t_ADD8;
-	*(int8_t*)target = LazyFlagResultContainer8;
+	*(uint8_t*)target = LazyFlagResultContainer8;
 }
 //ADD
 void handlerCommand16Code0005() {
 	uint8_t* target = (uint8_t*)register16u(BR_AX);
-	LazyFlagVarA16 = *(int16_t*)target;
+	LazyFlagVarA16 = *(uint16_t*)target;
 	LazyFlagVarB16 = read16u();
-	LazyFlagResultContainer16 = LazyFlagVarA16 + LazyFlagVarB16 ;
+	LazyFlagResultContainer16 = (((uint16_t)LazyFlagVarA16) + ((uint16_t)LazyFlagVarB16)) ;
 	lazyFlagType = t_ADD16;
-	*(int16_t*)target = LazyFlagResultContainer16;
+	*(uint16_t*)target = LazyFlagResultContainer16;
 }
 //OR
 void handlerCommand16Code0008() {
@@ -210,7 +215,7 @@ void handlerCommand16Code0008() {
 	uint8_t* source = (uint8_t*)readRegisterMRM8(mrmByte);
 	LazyFlagVarA8 = *(int8_t*)target;
 	LazyFlagVarB8 = *(int8_t*)source;
-	LazyFlagResultContainer8 = LazyFlagVarA8 | LazyFlagVarB8 ;
+	LazyFlagResultContainer8 = ((uint8_t)LazyFlagVarA8) | ((uint8_t)LazyFlagVarB8) ;
 	lazyFlagType = t_OR8;
 	*(int8_t*)target = LazyFlagResultContainer8;
 }
@@ -221,7 +226,7 @@ void handlerCommand16Code0009() {
 	uint8_t* source = (uint8_t*)readRegisterMRM16(mrmByte);
 	LazyFlagVarA16 = *(int16_t*)target;
 	LazyFlagVarB16 = *(int16_t*)source;
-	LazyFlagResultContainer16 = LazyFlagVarA16 | LazyFlagVarB16 ;
+	LazyFlagResultContainer16 = ((uint16_t)LazyFlagVarA16) | ((uint16_t)LazyFlagVarB16) ;
 	lazyFlagType = t_OR16;
 	*(int16_t*)target = LazyFlagResultContainer16;
 }
@@ -232,7 +237,7 @@ void handlerCommand16Code000A() {
 	uint8_t* target = (uint8_t*)readRegisterMRM8(mrmByte);
 	LazyFlagVarA8 = *(int8_t*)target;
 	LazyFlagVarB8 = *(int8_t*)source;
-	LazyFlagResultContainer8 = LazyFlagVarA8 | LazyFlagVarB8 ;
+	LazyFlagResultContainer8 = ((uint8_t)LazyFlagVarA8) | ((uint8_t)LazyFlagVarB8) ;
 	lazyFlagType = t_OR8;
 	*(int8_t*)target = LazyFlagResultContainer8;
 }
@@ -243,27 +248,27 @@ void handlerCommand16Code000B() {
 	uint8_t* target = (uint8_t*)readRegisterMRM16(mrmByte);
 	LazyFlagVarA16 = *(int16_t*)target;
 	LazyFlagVarB16 = *(int16_t*)source;
-	LazyFlagResultContainer16 = LazyFlagVarA16 | LazyFlagVarB16 ;
+	LazyFlagResultContainer16 = ((uint16_t)LazyFlagVarA16) | ((uint16_t)LazyFlagVarB16) ;
 	lazyFlagType = t_OR16;
 	*(int16_t*)target = LazyFlagResultContainer16;
 }
 //OR
 void handlerCommand16Code000C() {
 	uint8_t* target = (uint8_t*)register8u(BR_AX);
-	LazyFlagVarA8 = *(int8_t*)target;
+	LazyFlagVarA8 = *(uint8_t*)target;
 	LazyFlagVarB8 = read8u();
-	LazyFlagResultContainer8 = LazyFlagVarA8 | LazyFlagVarB8 ;
+	LazyFlagResultContainer8 = (((uint8_t)LazyFlagVarA8) | ((uint8_t)LazyFlagVarB8)) ;
 	lazyFlagType = t_OR8;
-	*(int8_t*)target = LazyFlagResultContainer8;
+	*(uint8_t*)target = LazyFlagResultContainer8;
 }
 //OR
 void handlerCommand16Code000D() {
 	uint8_t* target = (uint8_t*)register16u(BR_AX);
-	LazyFlagVarA16 = *(int16_t*)target;
+	LazyFlagVarA16 = *(uint16_t*)target;
 	LazyFlagVarB16 = read16u();
-	LazyFlagResultContainer16 = LazyFlagVarA16 | LazyFlagVarB16 ;
+	LazyFlagResultContainer16 = (((uint16_t)LazyFlagVarA16) | ((uint16_t)LazyFlagVarB16)) ;
 	lazyFlagType = t_OR16;
-	*(int16_t*)target = LazyFlagResultContainer16;
+	*(uint16_t*)target = LazyFlagResultContainer16;
 }
 //ADC
 void handlerCommand16Code0010() {
@@ -274,7 +279,7 @@ void handlerCommand16Code0010() {
 	LazyFlagVarB8 = *(int8_t*)source;
 	FillFlags();
 	oldcf = GET_FLAG(CF);
-	LazyFlagResultContainer8 = LazyFlagVarA8 + LazyFlagVarB8 + oldcf;
+	LazyFlagResultContainer8 = ((uint8_t)LazyFlagVarA8) + ((uint8_t)LazyFlagVarB8) + oldcf;
 	lazyFlagType = t_ADC8;
 	*(int8_t*)target = LazyFlagResultContainer8;
 }
@@ -287,7 +292,7 @@ void handlerCommand16Code0011() {
 	LazyFlagVarB16 = *(int16_t*)source;
 	FillFlags();
 	oldcf = GET_FLAG(CF);
-	LazyFlagResultContainer16 = LazyFlagVarA16 + LazyFlagVarB16 + oldcf;
+	LazyFlagResultContainer16 = ((uint16_t)LazyFlagVarA16) + ((uint16_t)LazyFlagVarB16) + oldcf;
 	lazyFlagType = t_ADC16;
 	*(int16_t*)target = LazyFlagResultContainer16;
 }
@@ -300,7 +305,7 @@ void handlerCommand16Code0012() {
 	LazyFlagVarB8 = *(int8_t*)source;
 	FillFlags();
 	oldcf = GET_FLAG(CF);
-	LazyFlagResultContainer8 = LazyFlagVarA8 + LazyFlagVarB8 + oldcf;
+	LazyFlagResultContainer8 = ((uint8_t)LazyFlagVarA8) + ((uint8_t)LazyFlagVarB8) + oldcf;
 	lazyFlagType = t_ADC8;
 	*(int8_t*)target = LazyFlagResultContainer8;
 }
@@ -313,31 +318,31 @@ void handlerCommand16Code0013() {
 	LazyFlagVarB16 = *(int16_t*)source;
 	FillFlags();
 	oldcf = GET_FLAG(CF);
-	LazyFlagResultContainer16 = LazyFlagVarA16 + LazyFlagVarB16 + oldcf;
+	LazyFlagResultContainer16 = ((uint16_t)LazyFlagVarA16) + ((uint16_t)LazyFlagVarB16) + oldcf;
 	lazyFlagType = t_ADC16;
 	*(int16_t*)target = LazyFlagResultContainer16;
 }
 //ADC
 void handlerCommand16Code0014() {
 	uint8_t* target = (uint8_t*)register8u(BR_AX);
-	LazyFlagVarA8 = *(int8_t*)target;
+	LazyFlagVarA8 = *(uint8_t*)target;
 	LazyFlagVarB8 = read8u();
 	FillFlags();
 	oldcf = GET_FLAG(CF);
-	LazyFlagResultContainer8 = LazyFlagVarA8 + LazyFlagVarB8 + oldcf;
+	LazyFlagResultContainer8 = (((uint8_t)LazyFlagVarA8) + ((uint8_t)LazyFlagVarB8)) + oldcf;
 	lazyFlagType = t_ADC8;
-	*(int8_t*)target = LazyFlagResultContainer8;
+	*(uint8_t*)target = LazyFlagResultContainer8;
 }
 //ADC
 void handlerCommand16Code0015() {
 	uint8_t* target = (uint8_t*)register16u(BR_AX);
-	LazyFlagVarA16 = *(int16_t*)target;
+	LazyFlagVarA16 = *(uint16_t*)target;
 	LazyFlagVarB16 = read16u();
 	FillFlags();
 	oldcf = GET_FLAG(CF);
-	LazyFlagResultContainer16 = LazyFlagVarA16 + LazyFlagVarB16 + oldcf;
+	LazyFlagResultContainer16 = (((uint16_t)LazyFlagVarA16) + ((uint16_t)LazyFlagVarB16)) + oldcf;
 	lazyFlagType = t_ADC16;
-	*(int16_t*)target = LazyFlagResultContainer16;
+	*(uint16_t*)target = LazyFlagResultContainer16;
 }
 //SBB
 void handlerCommand16Code0018() {
@@ -348,7 +353,7 @@ void handlerCommand16Code0018() {
 	LazyFlagVarB8 = *(int8_t*)source;
 	FillFlags();
 	oldcf = GET_FLAG(CF);
-	LazyFlagResultContainer8 = LazyFlagVarA8 - LazyFlagVarB8 - oldcf;
+	LazyFlagResultContainer8 = ((uint8_t)LazyFlagVarA8) - ((uint8_t)LazyFlagVarB8) - oldcf;
 	lazyFlagType = t_SBB8;
 	*(int8_t*)target = LazyFlagResultContainer8;
 }
@@ -361,7 +366,7 @@ void handlerCommand16Code0019() {
 	LazyFlagVarB16 = *(int16_t*)source;
 	FillFlags();
 	oldcf = GET_FLAG(CF);
-	LazyFlagResultContainer16 = LazyFlagVarA16 - LazyFlagVarB16 - oldcf;
+	LazyFlagResultContainer16 = ((uint16_t)LazyFlagVarA16) - ((uint16_t)LazyFlagVarB16) - oldcf;
 	lazyFlagType = t_SBB16;
 	*(int16_t*)target = LazyFlagResultContainer16;
 }
@@ -374,7 +379,7 @@ void handlerCommand16Code001A() {
 	LazyFlagVarB8 = *(int8_t*)source;
 	FillFlags();
 	oldcf = GET_FLAG(CF);
-	LazyFlagResultContainer8 = LazyFlagVarA8 - LazyFlagVarB8 - oldcf;
+	LazyFlagResultContainer8 = ((uint8_t)LazyFlagVarA8) - ((uint8_t)LazyFlagVarB8) - oldcf;
 	lazyFlagType = t_SBB8;
 	*(int8_t*)target = LazyFlagResultContainer8;
 }
@@ -387,31 +392,31 @@ void handlerCommand16Code001B() {
 	LazyFlagVarB16 = *(int16_t*)source;
 	FillFlags();
 	oldcf = GET_FLAG(CF);
-	LazyFlagResultContainer16 = LazyFlagVarA16 - LazyFlagVarB16 - oldcf;
+	LazyFlagResultContainer16 = ((uint16_t)LazyFlagVarA16) - ((uint16_t)LazyFlagVarB16) - oldcf;
 	lazyFlagType = t_SBB16;
 	*(int16_t*)target = LazyFlagResultContainer16;
 }
 //SBB
 void handlerCommand16Code001C() {
 	uint8_t* target = (uint8_t*)register8u(BR_AX);
-	LazyFlagVarA8 = *(int8_t*)target;
+	LazyFlagVarA8 = *(uint8_t*)target;
 	LazyFlagVarB8 = read8u();
 	FillFlags();
 	oldcf = GET_FLAG(CF);
-	LazyFlagResultContainer8 = LazyFlagVarA8 - LazyFlagVarB8 - oldcf;
+	LazyFlagResultContainer8 = (((uint8_t)LazyFlagVarA8) - ((uint8_t)LazyFlagVarB8)) - oldcf;
 	lazyFlagType = t_SBB8;
-	*(int8_t*)target = LazyFlagResultContainer8;
+	*(uint8_t*)target = LazyFlagResultContainer8;
 }
 //SBB
 void handlerCommand16Code001D() {
 	uint8_t* target = (uint8_t*)register16u(BR_AX);
-	LazyFlagVarA16 = *(int16_t*)target;
+	LazyFlagVarA16 = *(uint16_t*)target;
 	LazyFlagVarB16 = read16u();
 	FillFlags();
 	oldcf = GET_FLAG(CF);
-	LazyFlagResultContainer16 = LazyFlagVarA16 - LazyFlagVarB16 - oldcf;
+	LazyFlagResultContainer16 = (((uint16_t)LazyFlagVarA16) - ((uint16_t)LazyFlagVarB16)) - oldcf;
 	lazyFlagType = t_SBB16;
-	*(int16_t*)target = LazyFlagResultContainer16;
+	*(uint16_t*)target = LazyFlagResultContainer16;
 }
 //AND
 void handlerCommand16Code0020() {
@@ -420,7 +425,7 @@ void handlerCommand16Code0020() {
 	uint8_t* source = (uint8_t*)readRegisterMRM8(mrmByte);
 	LazyFlagVarA8 = *(int8_t*)target;
 	LazyFlagVarB8 = *(int8_t*)source;
-	LazyFlagResultContainer8 = LazyFlagVarA8 & LazyFlagVarB8 ;
+	LazyFlagResultContainer8 = ((uint8_t)LazyFlagVarA8) & ((uint8_t)LazyFlagVarB8) ;
 	lazyFlagType = t_AND8;
 	*(int8_t*)target = LazyFlagResultContainer8;
 }
@@ -431,7 +436,7 @@ void handlerCommand16Code0021() {
 	uint8_t* source = (uint8_t*)readRegisterMRM16(mrmByte);
 	LazyFlagVarA16 = *(int16_t*)target;
 	LazyFlagVarB16 = *(int16_t*)source;
-	LazyFlagResultContainer16 = LazyFlagVarA16 & LazyFlagVarB16 ;
+	LazyFlagResultContainer16 = ((uint16_t)LazyFlagVarA16) & ((uint16_t)LazyFlagVarB16) ;
 	lazyFlagType = t_AND16;
 	*(int16_t*)target = LazyFlagResultContainer16;
 }
@@ -442,7 +447,7 @@ void handlerCommand16Code0022() {
 	uint8_t* target = (uint8_t*)readRegisterMRM8(mrmByte);
 	LazyFlagVarA8 = *(int8_t*)target;
 	LazyFlagVarB8 = *(int8_t*)source;
-	LazyFlagResultContainer8 = LazyFlagVarA8 & LazyFlagVarB8 ;
+	LazyFlagResultContainer8 = ((uint8_t)LazyFlagVarA8) & ((uint8_t)LazyFlagVarB8) ;
 	lazyFlagType = t_AND8;
 	*(int8_t*)target = LazyFlagResultContainer8;
 }
@@ -453,27 +458,27 @@ void handlerCommand16Code0023() {
 	uint8_t* target = (uint8_t*)readRegisterMRM16(mrmByte);
 	LazyFlagVarA16 = *(int16_t*)target;
 	LazyFlagVarB16 = *(int16_t*)source;
-	LazyFlagResultContainer16 = LazyFlagVarA16 & LazyFlagVarB16 ;
+	LazyFlagResultContainer16 = ((uint16_t)LazyFlagVarA16) & ((uint16_t)LazyFlagVarB16) ;
 	lazyFlagType = t_AND16;
 	*(int16_t*)target = LazyFlagResultContainer16;
 }
 //AND
 void handlerCommand16Code0024() {
 	uint8_t* target = (uint8_t*)register8u(BR_AX);
-	LazyFlagVarA8 = *(int8_t*)target;
+	LazyFlagVarA8 = *(uint8_t*)target;
 	LazyFlagVarB8 = read8u();
-	LazyFlagResultContainer8 = LazyFlagVarA8 & LazyFlagVarB8 ;
+	LazyFlagResultContainer8 = (((uint8_t)LazyFlagVarA8) & ((uint8_t)LazyFlagVarB8)) ;
 	lazyFlagType = t_AND8;
-	*(int8_t*)target = LazyFlagResultContainer8;
+	*(uint8_t*)target = LazyFlagResultContainer8;
 }
 //AND
 void handlerCommand16Code0025() {
 	uint8_t* target = (uint8_t*)register16u(BR_AX);
-	LazyFlagVarA16 = *(int16_t*)target;
+	LazyFlagVarA16 = *(uint16_t*)target;
 	LazyFlagVarB16 = read16u();
-	LazyFlagResultContainer16 = LazyFlagVarA16 & LazyFlagVarB16 ;
+	LazyFlagResultContainer16 = (((uint16_t)LazyFlagVarA16) & ((uint16_t)LazyFlagVarB16)) ;
 	lazyFlagType = t_AND16;
-	*(int16_t*)target = LazyFlagResultContainer16;
+	*(uint16_t*)target = LazyFlagResultContainer16;
 }
 //SUB
 void handlerCommand16Code0028() {
@@ -482,7 +487,7 @@ void handlerCommand16Code0028() {
 	uint8_t* source = (uint8_t*)readRegisterMRM8(mrmByte);
 	LazyFlagVarA8 = *(int8_t*)target;
 	LazyFlagVarB8 = *(int8_t*)source;
-	LazyFlagResultContainer8 = LazyFlagVarA8 - LazyFlagVarB8 ;
+	LazyFlagResultContainer8 = ((uint8_t)LazyFlagVarA8) - ((uint8_t)LazyFlagVarB8) ;
 	lazyFlagType = t_SUB8;
 	*(int8_t*)target = LazyFlagResultContainer8;
 }
@@ -493,7 +498,7 @@ void handlerCommand16Code0029() {
 	uint8_t* source = (uint8_t*)readRegisterMRM16(mrmByte);
 	LazyFlagVarA16 = *(int16_t*)target;
 	LazyFlagVarB16 = *(int16_t*)source;
-	LazyFlagResultContainer16 = LazyFlagVarA16 - LazyFlagVarB16 ;
+	LazyFlagResultContainer16 = ((uint16_t)LazyFlagVarA16) - ((uint16_t)LazyFlagVarB16) ;
 	lazyFlagType = t_SUB16;
 	*(int16_t*)target = LazyFlagResultContainer16;
 }
@@ -504,7 +509,7 @@ void handlerCommand16Code002A() {
 	uint8_t* target = (uint8_t*)readRegisterMRM8(mrmByte);
 	LazyFlagVarA8 = *(int8_t*)target;
 	LazyFlagVarB8 = *(int8_t*)source;
-	LazyFlagResultContainer8 = LazyFlagVarA8 - LazyFlagVarB8 ;
+	LazyFlagResultContainer8 = ((uint8_t)LazyFlagVarA8) - ((uint8_t)LazyFlagVarB8) ;
 	lazyFlagType = t_SUB8;
 	*(int8_t*)target = LazyFlagResultContainer8;
 }
@@ -515,27 +520,27 @@ void handlerCommand16Code002B() {
 	uint8_t* target = (uint8_t*)readRegisterMRM16(mrmByte);
 	LazyFlagVarA16 = *(int16_t*)target;
 	LazyFlagVarB16 = *(int16_t*)source;
-	LazyFlagResultContainer16 = LazyFlagVarA16 - LazyFlagVarB16 ;
+	LazyFlagResultContainer16 = ((uint16_t)LazyFlagVarA16) - ((uint16_t)LazyFlagVarB16) ;
 	lazyFlagType = t_SUB16;
 	*(int16_t*)target = LazyFlagResultContainer16;
 }
 //SUB
 void handlerCommand16Code002C() {
 	uint8_t* target = (uint8_t*)register8u(BR_AX);
-	LazyFlagVarA8 = *(int8_t*)target;
+	LazyFlagVarA8 = *(uint8_t*)target;
 	LazyFlagVarB8 = read8u();
-	LazyFlagResultContainer8 = LazyFlagVarA8 - LazyFlagVarB8 ;
+	LazyFlagResultContainer8 = (((uint8_t)LazyFlagVarA8) - ((uint8_t)LazyFlagVarB8)) ;
 	lazyFlagType = t_SUB8;
-	*(int8_t*)target = LazyFlagResultContainer8;
+	*(uint8_t*)target = LazyFlagResultContainer8;
 }
 //SUB
 void handlerCommand16Code002D() {
 	uint8_t* target = (uint8_t*)register16u(BR_AX);
-	LazyFlagVarA16 = *(int16_t*)target;
+	LazyFlagVarA16 = *(uint16_t*)target;
 	LazyFlagVarB16 = read16u();
-	LazyFlagResultContainer16 = LazyFlagVarA16 - LazyFlagVarB16 ;
+	LazyFlagResultContainer16 = (((uint16_t)LazyFlagVarA16) - ((uint16_t)LazyFlagVarB16)) ;
 	lazyFlagType = t_SUB16;
-	*(int16_t*)target = LazyFlagResultContainer16;
+	*(uint16_t*)target = LazyFlagResultContainer16;
 }
 //XOR
 void handlerCommand16Code0030() {
@@ -544,7 +549,7 @@ void handlerCommand16Code0030() {
 	uint8_t* source = (uint8_t*)readRegisterMRM8(mrmByte);
 	LazyFlagVarA8 = *(int8_t*)target;
 	LazyFlagVarB8 = *(int8_t*)source;
-	LazyFlagResultContainer8 = LazyFlagVarA8 ^ LazyFlagVarB8 ;
+	LazyFlagResultContainer8 = ((uint8_t)LazyFlagVarA8) ^ ((uint8_t)LazyFlagVarB8) ;
 	lazyFlagType = t_XOR8;
 	*(int8_t*)target = LazyFlagResultContainer8;
 }
@@ -555,7 +560,7 @@ void handlerCommand16Code0031() {
 	uint8_t* source = (uint8_t*)readRegisterMRM16(mrmByte);
 	LazyFlagVarA16 = *(int16_t*)target;
 	LazyFlagVarB16 = *(int16_t*)source;
-	LazyFlagResultContainer16 = LazyFlagVarA16 ^ LazyFlagVarB16 ;
+	LazyFlagResultContainer16 = ((uint16_t)LazyFlagVarA16) ^ ((uint16_t)LazyFlagVarB16) ;
 	lazyFlagType = t_XOR16;
 	*(int16_t*)target = LazyFlagResultContainer16;
 }
@@ -566,7 +571,7 @@ void handlerCommand16Code0032() {
 	uint8_t* target = (uint8_t*)readRegisterMRM8(mrmByte);
 	LazyFlagVarA8 = *(int8_t*)target;
 	LazyFlagVarB8 = *(int8_t*)source;
-	LazyFlagResultContainer8 = LazyFlagVarA8 ^ LazyFlagVarB8 ;
+	LazyFlagResultContainer8 = ((uint8_t)LazyFlagVarA8) ^ ((uint8_t)LazyFlagVarB8) ;
 	lazyFlagType = t_XOR8;
 	*(int8_t*)target = LazyFlagResultContainer8;
 }
@@ -577,27 +582,27 @@ void handlerCommand16Code0033() {
 	uint8_t* target = (uint8_t*)readRegisterMRM16(mrmByte);
 	LazyFlagVarA16 = *(int16_t*)target;
 	LazyFlagVarB16 = *(int16_t*)source;
-	LazyFlagResultContainer16 = LazyFlagVarA16 ^ LazyFlagVarB16 ;
+	LazyFlagResultContainer16 = ((uint16_t)LazyFlagVarA16) ^ ((uint16_t)LazyFlagVarB16) ;
 	lazyFlagType = t_XOR16;
 	*(int16_t*)target = LazyFlagResultContainer16;
 }
 //XOR
 void handlerCommand16Code0034() {
 	uint8_t* target = (uint8_t*)register8u(BR_AX);
-	LazyFlagVarA8 = *(int8_t*)target;
+	LazyFlagVarA8 = *(uint8_t*)target;
 	LazyFlagVarB8 = read8u();
-	LazyFlagResultContainer8 = LazyFlagVarA8 ^ LazyFlagVarB8 ;
+	LazyFlagResultContainer8 = (((uint8_t)LazyFlagVarA8) ^ ((uint8_t)LazyFlagVarB8)) ;
 	lazyFlagType = t_XOR8;
-	*(int8_t*)target = LazyFlagResultContainer8;
+	*(uint8_t*)target = LazyFlagResultContainer8;
 }
 //XOR
 void handlerCommand16Code0035() {
 	uint8_t* target = (uint8_t*)register16u(BR_AX);
-	LazyFlagVarA16 = *(int16_t*)target;
+	LazyFlagVarA16 = *(uint16_t*)target;
 	LazyFlagVarB16 = read16u();
-	LazyFlagResultContainer16 = LazyFlagVarA16 ^ LazyFlagVarB16 ;
+	LazyFlagResultContainer16 = (((uint16_t)LazyFlagVarA16) ^ ((uint16_t)LazyFlagVarB16)) ;
 	lazyFlagType = t_XOR16;
-	*(int16_t*)target = LazyFlagResultContainer16;
+	*(uint16_t*)target = LazyFlagResultContainer16;
 }
 //CMP
 void handlerCommand16Code0038() {
@@ -606,7 +611,7 @@ void handlerCommand16Code0038() {
 	uint8_t* source = (uint8_t*)readRegisterMRM8(mrmByte);
 	LazyFlagVarA8 = *(int8_t*)target;
 	LazyFlagVarB8 = *(int8_t*)source;
-	LazyFlagResultContainer8 = LazyFlagVarA8 - LazyFlagVarB8 ;
+	LazyFlagResultContainer8 = ((uint8_t)LazyFlagVarA8) - ((uint8_t)LazyFlagVarB8) ;
 	lazyFlagType = t_CMP8;
 }
 //CMP
@@ -616,7 +621,7 @@ void handlerCommand16Code0039() {
 	uint8_t* source = (uint8_t*)readRegisterMRM16(mrmByte);
 	LazyFlagVarA16 = *(int16_t*)target;
 	LazyFlagVarB16 = *(int16_t*)source;
-	LazyFlagResultContainer16 = LazyFlagVarA16 - LazyFlagVarB16 ;
+	LazyFlagResultContainer16 = ((uint16_t)LazyFlagVarA16) - ((uint16_t)LazyFlagVarB16) ;
 	lazyFlagType = t_CMP16;
 }
 //CMP
@@ -626,7 +631,7 @@ void handlerCommand16Code003A() {
 	uint8_t* target = (uint8_t*)readRegisterMRM8(mrmByte);
 	LazyFlagVarA8 = *(int8_t*)target;
 	LazyFlagVarB8 = *(int8_t*)source;
-	LazyFlagResultContainer8 = LazyFlagVarA8 - LazyFlagVarB8 ;
+	LazyFlagResultContainer8 = ((uint8_t)LazyFlagVarA8) - ((uint8_t)LazyFlagVarB8) ;
 	lazyFlagType = t_CMP8;
 }
 //CMP
@@ -636,23 +641,23 @@ void handlerCommand16Code003B() {
 	uint8_t* target = (uint8_t*)readRegisterMRM16(mrmByte);
 	LazyFlagVarA16 = *(int16_t*)target;
 	LazyFlagVarB16 = *(int16_t*)source;
-	LazyFlagResultContainer16 = LazyFlagVarA16 - LazyFlagVarB16 ;
+	LazyFlagResultContainer16 = ((uint16_t)LazyFlagVarA16) - ((uint16_t)LazyFlagVarB16) ;
 	lazyFlagType = t_CMP16;
 }
 //CMP
 void handlerCommand16Code003C() {
 	uint8_t* target = (uint8_t*)register8u(BR_AX);
-	LazyFlagVarA8 = *(int8_t*)target;
+	LazyFlagVarA8 = *(uint8_t*)target;
 	LazyFlagVarB8 = read8u();
-	LazyFlagResultContainer8 = LazyFlagVarA8 - LazyFlagVarB8 ;
+	LazyFlagResultContainer8 = (((uint8_t)LazyFlagVarA8) - ((uint8_t)LazyFlagVarB8)) ;
 	lazyFlagType = t_CMP8;
 }
 //CMP
 void handlerCommand16Code003D() {
 	uint8_t* target = (uint8_t*)register16u(BR_AX);
-	LazyFlagVarA16 = *(int16_t*)target;
+	LazyFlagVarA16 = *(uint16_t*)target;
 	LazyFlagVarB16 = read16u();
-	LazyFlagResultContainer16 = LazyFlagVarA16 - LazyFlagVarB16 ;
+	LazyFlagResultContainer16 = (((uint16_t)LazyFlagVarA16) - ((uint16_t)LazyFlagVarB16)) ;
 	lazyFlagType = t_CMP16;
 }
 //TEST
@@ -662,7 +667,7 @@ void handlerCommand16Code0084() {
 	uint8_t* source = (uint8_t*)readRegisterMRM8(mrmByte);
 	LazyFlagVarA8 = *(int8_t*)target;
 	LazyFlagVarB8 = *(int8_t*)source;
-	LazyFlagResultContainer8 = LazyFlagVarA8 & LazyFlagVarB8 ;
+	LazyFlagResultContainer8 = ((uint8_t)LazyFlagVarA8) & ((uint8_t)LazyFlagVarB8) ;
 	lazyFlagType = t_TEST8;
 }
 //TEST
@@ -672,23 +677,23 @@ void handlerCommand16Code0085() {
 	uint8_t* source = (uint8_t*)readRegisterMRM16(mrmByte);
 	LazyFlagVarA16 = *(int16_t*)target;
 	LazyFlagVarB16 = *(int16_t*)source;
-	LazyFlagResultContainer16 = LazyFlagVarA16 & LazyFlagVarB16 ;
+	LazyFlagResultContainer16 = ((uint16_t)LazyFlagVarA16) & ((uint16_t)LazyFlagVarB16) ;
 	lazyFlagType = t_TEST16;
 }
 //TEST
 void handlerCommand16Code00A8() {
 	uint8_t* target = (uint8_t*)register8u(BR_AX);
-	LazyFlagVarA8 = *(int8_t*)target;
+	LazyFlagVarA8 = *(uint8_t*)target;
 	LazyFlagVarB8 = read8u();
-	LazyFlagResultContainer8 = LazyFlagVarA8 & LazyFlagVarB8 ;
+	LazyFlagResultContainer8 = (((uint8_t)LazyFlagVarA8) & ((uint8_t)LazyFlagVarB8)) ;
 	lazyFlagType = t_TEST8;
 }
 //TEST
 void handlerCommand16Code00A9() {
 	uint8_t* target = (uint8_t*)register16u(BR_AX);
-	LazyFlagVarA16 = *(int16_t*)target;
+	LazyFlagVarA16 = *(uint16_t*)target;
 	LazyFlagVarB16 = read16u();
-	LazyFlagResultContainer16 = LazyFlagVarA16 & LazyFlagVarB16 ;
+	LazyFlagResultContainer16 = (((uint16_t)LazyFlagVarA16) & ((uint16_t)LazyFlagVarB16)) ;
 	lazyFlagType = t_TEST16;
 }
 //Math
@@ -699,72 +704,73 @@ void handlerCommand16Code0080() {
 	switch (nnn) {
 		case 0x0: {
 			LazyFlagVarA8 = *(int8_t*)target;
-			LazyFlagVarB8 = read8();
-			LazyFlagResultContainer8 = LazyFlagVarA8 + ((uint8_t)LazyFlagVarB8) ;
+			LazyFlagVarB8 = ((uint8_t)read8u());
+			LazyFlagResultContainer8 = ((uint8_t)LazyFlagVarA8) + ((uint8_t)LazyFlagVarB8) ;
 			lazyFlagType = t_ADD8;
 			*(int8_t*)target = LazyFlagResultContainer8;
 		}
-		break;
+		return;
 		case 0x1: {
 			LazyFlagVarA8 = *(int8_t*)target;
-			LazyFlagVarB8 = read8();
-			LazyFlagResultContainer8 = LazyFlagVarA8 | (LazyFlagVarB8) ;
+			LazyFlagVarB8 = ((uint8_t)read8u());
+			LazyFlagResultContainer8 = ((uint8_t)LazyFlagVarA8) | ((uint8_t)LazyFlagVarB8) ;
 			lazyFlagType = t_OR8;
 			*(int8_t*)target = LazyFlagResultContainer8;
 		}
-		break;
+		return;
 		case 0x2: {
 			LazyFlagVarA8 = *(int8_t*)target;
-			LazyFlagVarB8 = read8();
+			LazyFlagVarB8 = ((uint8_t)read8u());
 			FillFlags();
 			oldcf = GET_FLAG(CF);
-			LazyFlagResultContainer8 = LazyFlagVarA8 + ((uint8_t)LazyFlagVarB8) + oldcf;
+			LazyFlagResultContainer8 = ((uint8_t)LazyFlagVarA8) + ((uint8_t)LazyFlagVarB8) + oldcf;
 			lazyFlagType = t_ADC8;
 			*(int8_t*)target = LazyFlagResultContainer8;
 		}
-		break;
+		return;
 		case 0x3: {
 			LazyFlagVarA8 = *(int8_t*)target;
-			LazyFlagVarB8 = read8();
+			LazyFlagVarB8 = ((uint8_t)read8u());
 			FillFlags();
 			oldcf = GET_FLAG(CF);
-			LazyFlagResultContainer8 = LazyFlagVarA8 - ((uint8_t)LazyFlagVarB8) - oldcf;
+			LazyFlagResultContainer8 = ((uint8_t)LazyFlagVarA8) - ((uint8_t)LazyFlagVarB8) - oldcf;
 			lazyFlagType = t_SBB8;
 			*(int8_t*)target = LazyFlagResultContainer8;
 		}
-		break;
+		return;
 		case 0x4: {
 			LazyFlagVarA8 = *(int8_t*)target;
-			LazyFlagVarB8 = read8();
-			LazyFlagResultContainer8 = LazyFlagVarA8 & (LazyFlagVarB8) ;
+			LazyFlagVarB8 = ((uint8_t)read8u());
+			LazyFlagResultContainer8 = ((uint8_t)LazyFlagVarA8) & ((uint8_t)LazyFlagVarB8) ;
 			lazyFlagType = t_AND8;
 			*(int8_t*)target = LazyFlagResultContainer8;
 		}
-		break;
+		return;
 		case 0x5: {
 			LazyFlagVarA8 = *(int8_t*)target;
-			LazyFlagVarB8 = read8();
-			LazyFlagResultContainer8 = LazyFlagVarA8 - ((uint8_t)LazyFlagVarB8) ;
+			LazyFlagVarB8 = ((uint8_t)read8u());
+			LazyFlagResultContainer8 = ((uint8_t)LazyFlagVarA8) - ((uint8_t)LazyFlagVarB8) ;
 			lazyFlagType = t_SUB8;
 			*(int8_t*)target = LazyFlagResultContainer8;
 		}
-		break;
+		return;
 		case 0x6: {
 			LazyFlagVarA8 = *(int8_t*)target;
-			LazyFlagVarB8 = read8();
-			LazyFlagResultContainer8 = LazyFlagVarA8 ^ (LazyFlagVarB8) ;
+			LazyFlagVarB8 = ((uint8_t)read8u());
+			LazyFlagResultContainer8 = ((uint8_t)LazyFlagVarA8) ^ ((uint8_t)LazyFlagVarB8) ;
 			lazyFlagType = t_XOR8;
 			*(int8_t*)target = LazyFlagResultContainer8;
 		}
-		break;
+		return;
 		case 0x7: {
 			LazyFlagVarA8 = *(int8_t*)target;
-			LazyFlagVarB8 = read8();
-			LazyFlagResultContainer8 = LazyFlagVarA8 - ((uint8_t)LazyFlagVarB8) ;
+			LazyFlagVarB8 = ((uint8_t)read8u());
+			LazyFlagResultContainer8 = ((uint8_t)LazyFlagVarA8) - ((uint8_t)LazyFlagVarB8) ;
 			lazyFlagType = t_CMP8;
 		}
-		break;
+		return;
 	}
+	mCommandFunctionEmpty();
 }
 //Math
 void handlerCommand16Code0081() {
@@ -774,72 +780,73 @@ void handlerCommand16Code0081() {
 	switch (nnn) {
 		case 0x0: {
 			LazyFlagVarA16 = *(int16_t*)target;
-			LazyFlagVarB16 = read16();
-			LazyFlagResultContainer16 = LazyFlagVarA16 + ((uint16_t)LazyFlagVarB16) ;
+			LazyFlagVarB16 = ((uint16_t)read16u());
+			LazyFlagResultContainer16 = ((uint16_t)LazyFlagVarA16) + ((uint16_t)LazyFlagVarB16) ;
 			lazyFlagType = t_ADD16;
 			*(int16_t*)target = LazyFlagResultContainer16;
 		}
-		break;
+		return;
 		case 0x1: {
 			LazyFlagVarA16 = *(int16_t*)target;
-			LazyFlagVarB16 = read16();
-			LazyFlagResultContainer16 = LazyFlagVarA16 | (LazyFlagVarB16) ;
+			LazyFlagVarB16 = ((uint16_t)read16u());
+			LazyFlagResultContainer16 = ((uint16_t)LazyFlagVarA16) | ((uint16_t)LazyFlagVarB16) ;
 			lazyFlagType = t_OR16;
 			*(int16_t*)target = LazyFlagResultContainer16;
 		}
-		break;
+		return;
 		case 0x2: {
 			LazyFlagVarA16 = *(int16_t*)target;
-			LazyFlagVarB16 = read16();
+			LazyFlagVarB16 = ((uint16_t)read16u());
 			FillFlags();
 			oldcf = GET_FLAG(CF);
-			LazyFlagResultContainer16 = LazyFlagVarA16 + ((uint16_t)LazyFlagVarB16) + oldcf;
+			LazyFlagResultContainer16 = ((uint16_t)LazyFlagVarA16) + ((uint16_t)LazyFlagVarB16) + oldcf;
 			lazyFlagType = t_ADC16;
 			*(int16_t*)target = LazyFlagResultContainer16;
 		}
-		break;
+		return;
 		case 0x3: {
 			LazyFlagVarA16 = *(int16_t*)target;
-			LazyFlagVarB16 = read16();
+			LazyFlagVarB16 = ((uint16_t)read16u());
 			FillFlags();
 			oldcf = GET_FLAG(CF);
-			LazyFlagResultContainer16 = LazyFlagVarA16 - ((uint16_t)LazyFlagVarB16) - oldcf;
+			LazyFlagResultContainer16 = ((uint16_t)LazyFlagVarA16) - ((uint16_t)LazyFlagVarB16) - oldcf;
 			lazyFlagType = t_SBB16;
 			*(int16_t*)target = LazyFlagResultContainer16;
 		}
-		break;
+		return;
 		case 0x4: {
 			LazyFlagVarA16 = *(int16_t*)target;
-			LazyFlagVarB16 = read16();
-			LazyFlagResultContainer16 = LazyFlagVarA16 & (LazyFlagVarB16) ;
+			LazyFlagVarB16 = ((uint16_t)read16u());
+			LazyFlagResultContainer16 = ((uint16_t)LazyFlagVarA16) & ((uint16_t)LazyFlagVarB16) ;
 			lazyFlagType = t_AND16;
 			*(int16_t*)target = LazyFlagResultContainer16;
 		}
-		break;
+		return;
 		case 0x5: {
 			LazyFlagVarA16 = *(int16_t*)target;
-			LazyFlagVarB16 = read16();
-			LazyFlagResultContainer16 = LazyFlagVarA16 - ((uint16_t)LazyFlagVarB16) ;
+			LazyFlagVarB16 = ((uint16_t)read16u());
+			LazyFlagResultContainer16 = ((uint16_t)LazyFlagVarA16) - ((uint16_t)LazyFlagVarB16) ;
 			lazyFlagType = t_SUB16;
 			*(int16_t*)target = LazyFlagResultContainer16;
 		}
-		break;
+		return;
 		case 0x6: {
 			LazyFlagVarA16 = *(int16_t*)target;
-			LazyFlagVarB16 = read16();
-			LazyFlagResultContainer16 = LazyFlagVarA16 ^ (LazyFlagVarB16) ;
+			LazyFlagVarB16 = ((uint16_t)read16u());
+			LazyFlagResultContainer16 = ((uint16_t)LazyFlagVarA16) ^ ((uint16_t)LazyFlagVarB16) ;
 			lazyFlagType = t_XOR16;
 			*(int16_t*)target = LazyFlagResultContainer16;
 		}
-		break;
+		return;
 		case 0x7: {
 			LazyFlagVarA16 = *(int16_t*)target;
-			LazyFlagVarB16 = read16();
-			LazyFlagResultContainer16 = LazyFlagVarA16 - ((uint16_t)LazyFlagVarB16) ;
+			LazyFlagVarB16 = ((uint16_t)read16u());
+			LazyFlagResultContainer16 = ((uint16_t)LazyFlagVarA16) - ((uint16_t)LazyFlagVarB16) ;
 			lazyFlagType = t_CMP16;
 		}
-		break;
+		return;
 	}
+	mCommandFunctionEmpty();
 }
 //Math
 void handlerCommand16Code0082() {
@@ -849,72 +856,73 @@ void handlerCommand16Code0082() {
 	switch (nnn) {
 		case 0x0: {
 			LazyFlagVarA8 = *(int8_t*)target;
-			LazyFlagVarB8 = read8();
-			LazyFlagResultContainer8 = LazyFlagVarA8 + ((uint8_t)LazyFlagVarB8) ;
+			LazyFlagVarB8 = ((int8_t)read8());
+			LazyFlagResultContainer8 = ((int8_t)LazyFlagVarA8) + ((int8_t)LazyFlagVarB8) ;
 			lazyFlagType = t_ADD8;
 			*(int8_t*)target = LazyFlagResultContainer8;
 		}
-		break;
+		return;
 		case 0x1: {
 			LazyFlagVarA8 = *(int8_t*)target;
-			LazyFlagVarB8 = read8();
-			LazyFlagResultContainer8 = LazyFlagVarA8 | (LazyFlagVarB8) ;
+			LazyFlagVarB8 = ((int8_t)read8());
+			LazyFlagResultContainer8 = ((int8_t)LazyFlagVarA8) | ((int8_t)LazyFlagVarB8) ;
 			lazyFlagType = t_OR8;
 			*(int8_t*)target = LazyFlagResultContainer8;
 		}
-		break;
+		return;
 		case 0x2: {
 			LazyFlagVarA8 = *(int8_t*)target;
-			LazyFlagVarB8 = read8();
+			LazyFlagVarB8 = ((int8_t)read8());
 			FillFlags();
 			oldcf = GET_FLAG(CF);
-			LazyFlagResultContainer8 = LazyFlagVarA8 + ((uint8_t)LazyFlagVarB8) + oldcf;
+			LazyFlagResultContainer8 = ((int8_t)LazyFlagVarA8) + ((int8_t)LazyFlagVarB8) + oldcf;
 			lazyFlagType = t_ADC8;
 			*(int8_t*)target = LazyFlagResultContainer8;
 		}
-		break;
+		return;
 		case 0x3: {
 			LazyFlagVarA8 = *(int8_t*)target;
-			LazyFlagVarB8 = read8();
+			LazyFlagVarB8 = ((int8_t)read8());
 			FillFlags();
 			oldcf = GET_FLAG(CF);
-			LazyFlagResultContainer8 = LazyFlagVarA8 - ((uint8_t)LazyFlagVarB8) - oldcf;
+			LazyFlagResultContainer8 = ((int8_t)LazyFlagVarA8) - ((int8_t)LazyFlagVarB8) - oldcf;
 			lazyFlagType = t_SBB8;
 			*(int8_t*)target = LazyFlagResultContainer8;
 		}
-		break;
+		return;
 		case 0x4: {
 			LazyFlagVarA8 = *(int8_t*)target;
-			LazyFlagVarB8 = read8();
-			LazyFlagResultContainer8 = LazyFlagVarA8 & (LazyFlagVarB8) ;
+			LazyFlagVarB8 = ((int8_t)read8());
+			LazyFlagResultContainer8 = ((int8_t)LazyFlagVarA8) & ((int8_t)LazyFlagVarB8) ;
 			lazyFlagType = t_AND8;
 			*(int8_t*)target = LazyFlagResultContainer8;
 		}
-		break;
+		return;
 		case 0x5: {
 			LazyFlagVarA8 = *(int8_t*)target;
-			LazyFlagVarB8 = read8();
-			LazyFlagResultContainer8 = LazyFlagVarA8 - ((uint8_t)LazyFlagVarB8) ;
+			LazyFlagVarB8 = ((int8_t)read8());
+			LazyFlagResultContainer8 = ((int8_t)LazyFlagVarA8) - ((int8_t)LazyFlagVarB8) ;
 			lazyFlagType = t_SUB8;
 			*(int8_t*)target = LazyFlagResultContainer8;
 		}
-		break;
+		return;
 		case 0x6: {
 			LazyFlagVarA8 = *(int8_t*)target;
-			LazyFlagVarB8 = read8();
-			LazyFlagResultContainer8 = LazyFlagVarA8 ^ (LazyFlagVarB8) ;
+			LazyFlagVarB8 = ((int8_t)read8());
+			LazyFlagResultContainer8 = ((int8_t)LazyFlagVarA8) ^ ((int8_t)LazyFlagVarB8) ;
 			lazyFlagType = t_XOR8;
 			*(int8_t*)target = LazyFlagResultContainer8;
 		}
-		break;
+		return;
 		case 0x7: {
 			LazyFlagVarA8 = *(int8_t*)target;
-			LazyFlagVarB8 = read8();
-			LazyFlagResultContainer8 = LazyFlagVarA8 - ((uint8_t)LazyFlagVarB8) ;
+			LazyFlagVarB8 = ((int8_t)read8());
+			LazyFlagResultContainer8 = ((int8_t)LazyFlagVarA8) - ((int8_t)LazyFlagVarB8) ;
 			lazyFlagType = t_CMP8;
 		}
-		break;
+		return;
 	}
+	mCommandFunctionEmpty();
 }
 //Math
 void handlerCommand16Code0083() {
@@ -924,72 +932,73 @@ void handlerCommand16Code0083() {
 	switch (nnn) {
 		case 0x0: {
 			LazyFlagVarA16 = *(int16_t*)target;
-			LazyFlagVarB16 = read8();
-			LazyFlagResultContainer16 = LazyFlagVarA16 + ((uint8_t)LazyFlagVarB16) ;
+			LazyFlagVarB16 = ((int16_t)read8());
+			LazyFlagResultContainer16 = ((int16_t)LazyFlagVarA16) + ((int16_t)LazyFlagVarB16) ;
 			lazyFlagType = t_ADD16;
 			*(int16_t*)target = LazyFlagResultContainer16;
 		}
-		break;
+		return;
 		case 0x1: {
 			LazyFlagVarA16 = *(int16_t*)target;
-			LazyFlagVarB16 = read8();
-			LazyFlagResultContainer16 = LazyFlagVarA16 | (LazyFlagVarB16) ;
+			LazyFlagVarB16 = ((int16_t)read8());
+			LazyFlagResultContainer16 = ((int16_t)LazyFlagVarA16) | ((int16_t)LazyFlagVarB16) ;
 			lazyFlagType = t_OR16;
 			*(int16_t*)target = LazyFlagResultContainer16;
 		}
-		break;
+		return;
 		case 0x2: {
 			LazyFlagVarA16 = *(int16_t*)target;
-			LazyFlagVarB16 = read8();
+			LazyFlagVarB16 = ((int16_t)read8());
 			FillFlags();
 			oldcf = GET_FLAG(CF);
-			LazyFlagResultContainer16 = LazyFlagVarA16 + ((uint8_t)LazyFlagVarB16) + oldcf;
+			LazyFlagResultContainer16 = ((int16_t)LazyFlagVarA16) + ((int16_t)LazyFlagVarB16) + oldcf;
 			lazyFlagType = t_ADC16;
 			*(int16_t*)target = LazyFlagResultContainer16;
 		}
-		break;
+		return;
 		case 0x3: {
 			LazyFlagVarA16 = *(int16_t*)target;
-			LazyFlagVarB16 = read8();
+			LazyFlagVarB16 = ((int16_t)read8());
 			FillFlags();
 			oldcf = GET_FLAG(CF);
-			LazyFlagResultContainer16 = LazyFlagVarA16 - ((uint8_t)LazyFlagVarB16) - oldcf;
+			LazyFlagResultContainer16 = ((int16_t)LazyFlagVarA16) - ((int16_t)LazyFlagVarB16) - oldcf;
 			lazyFlagType = t_SBB16;
 			*(int16_t*)target = LazyFlagResultContainer16;
 		}
-		break;
+		return;
 		case 0x4: {
 			LazyFlagVarA16 = *(int16_t*)target;
-			LazyFlagVarB16 = read8();
-			LazyFlagResultContainer16 = LazyFlagVarA16 & (LazyFlagVarB16) ;
+			LazyFlagVarB16 = ((int16_t)read8());
+			LazyFlagResultContainer16 = ((int16_t)LazyFlagVarA16) & ((int16_t)LazyFlagVarB16) ;
 			lazyFlagType = t_AND16;
 			*(int16_t*)target = LazyFlagResultContainer16;
 		}
-		break;
+		return;
 		case 0x5: {
 			LazyFlagVarA16 = *(int16_t*)target;
-			LazyFlagVarB16 = read8();
-			LazyFlagResultContainer16 = LazyFlagVarA16 - ((uint8_t)LazyFlagVarB16) ;
+			LazyFlagVarB16 = ((int16_t)read8());
+			LazyFlagResultContainer16 = ((int16_t)LazyFlagVarA16) - ((int16_t)LazyFlagVarB16) ;
 			lazyFlagType = t_SUB16;
 			*(int16_t*)target = LazyFlagResultContainer16;
 		}
-		break;
+		return;
 		case 0x6: {
 			LazyFlagVarA16 = *(int16_t*)target;
-			LazyFlagVarB16 = read8();
-			LazyFlagResultContainer16 = LazyFlagVarA16 ^ (LazyFlagVarB16) ;
+			LazyFlagVarB16 = ((int16_t)read8());
+			LazyFlagResultContainer16 = ((int16_t)LazyFlagVarA16) ^ ((int16_t)LazyFlagVarB16) ;
 			lazyFlagType = t_XOR16;
 			*(int16_t*)target = LazyFlagResultContainer16;
 		}
-		break;
+		return;
 		case 0x7: {
 			LazyFlagVarA16 = *(int16_t*)target;
-			LazyFlagVarB16 = read8();
-			LazyFlagResultContainer16 = LazyFlagVarA16 - ((uint8_t)LazyFlagVarB16) ;
+			LazyFlagVarB16 = ((int16_t)read8());
+			LazyFlagResultContainer16 = ((int16_t)LazyFlagVarA16) - ((int16_t)LazyFlagVarB16) ;
 			lazyFlagType = t_CMP16;
 		}
-		break;
+		return;
 	}
+	mCommandFunctionEmpty();
 }
 //Inc
 void handlerCommand16Code0040() {
@@ -1460,15 +1469,16 @@ void handlerCommand16Code00FF() {
 			// MOVEL
 			*target = read8u();
 		}
-		break;
+		return;
 		case 0x6: {
 			// PUSH
 			uint16_t* sp = register16u(BR_SP);
 			*sp -= 16 / 8;
 			*(uint16_t*)(mem(SR_SS) + *sp) = *(uint16_t*)target;
 		}
-		break;
+		return;
 	}
+	mCommandFunctionEmpty();
 }
 //Push
 void handlerCommand16Code006A() {
@@ -1523,14 +1533,14 @@ void handlerCommand16Code0069() {
 //Mul
 void handlerCommand16Code006B() {
 	uint8_t mrmByte = read8u();
-	uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
-	uint8_t* source = (uint8_t*)readRegisterMRM8(mrmByte);
-	int8_t source1 = read8();
-	int8_t source2 = *(int8_t*)target;
+	uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
+	uint8_t* source = (uint8_t*)readRegisterMRM16(mrmByte);
+	int16_t source1 = (int16_t)read8();
+	int16_t source2 = *(int16_t*)target;
 	target = source;
-	int16_t tmp = (int16_t)source1 * (int16_t)source2;
-	uint8_t value = source1 * source2;
-	*((int8_t*)target) = value;
+	int32_t tmp = (int32_t)source1 * (int32_t)source2;
+	int16_t value = source1 * source2;
+	*((int16_t*)target) = value;
 	SET_FLAG(ZF, value == 0);
 	SET_FLAG(CF, value != tmp);
 	SET_FLAG(OF, value != tmp);
@@ -1549,12 +1559,12 @@ void handlerCommand16Code00F6() {
 			LazyFlagResultContainer8 = LazyFlagVarA8 & ((uint8_t)LazyFlagVarB8);
 			lazyFlagType = t_TEST8;
 		}
-		break;
+		return;
 		case 0x02: {
 			// NOT
 			*(int8_t*)target = ~(*(int8_t*)target);
 		}
-		break;
+		return;
 		case 0x03: {
 			// NEG
 			LazyFlagVarA8 = *(int8_t*)target;
@@ -1562,7 +1572,7 @@ void handlerCommand16Code00F6() {
 			*(int8_t*)target = LazyFlagResultContainer8;
 			lazyFlagType = t_NEG8;
 		}
-		break;
+		return;
 		case 0x04: {
 			reg_AX_16=((uint16_t)reg_AL_8)*((uint16_t)(*(uint8_t*)target));
 			FillFlagsNoCFOF();
@@ -1574,7 +1584,7 @@ void handlerCommand16Code00F6() {
 				SET_FLAG(CF,0);SET_FLAG(OF,0);
 			}
 		}
-		break;
+		return;
 		case 0x05: {
 			reg_AX_16 = reg_AL_8 * (*((int8_t*)target));
 			FillFlagsNoCFOF();
@@ -1586,7 +1596,7 @@ void handlerCommand16Code00F6() {
 				SET_FLAG(CF,1);SET_FLAG(OF,1);
 			}
 		}
-		break;
+		return;
 		case 0x06: {
 			uint8_t val= *(uint8_t*)(target);
 			uint16_t quo=reg_AX_16 / val;
@@ -1599,7 +1609,7 @@ void handlerCommand16Code00F6() {
 			SET_FLAG(CF,((rem&3) >= 1 && (rem&3) <= 2));
 			SET_FLAG(PF,parity_lookup[rem&0xff]^parity_lookup[quo8&0xff]^GET_FLAG(PF));
 		}
-		break;
+		return;
 		case 0x07: {
 			int16_t val= *(int8_t*)(target);
 			int16_t quo= ((int16_t)reg_AX_16) / val;
@@ -1612,8 +1622,9 @@ void handlerCommand16Code00F6() {
 			SET_FLAG(CF,((rem&3) >= 1 && (rem&3) <= 2));
 			SET_FLAG(PF,parity_lookup[rem&0xff]^parity_lookup[quo8s&0xff]^GET_FLAG(PF));
 		}
-		break;
+		return;
 	}
+	mCommandFunctionEmpty();
 }
 //Math
 void handlerCommand16Code00F7() {
@@ -1628,12 +1639,12 @@ void handlerCommand16Code00F7() {
 			LazyFlagResultContainer16 = LazyFlagVarA16 & ((uint16_t)LazyFlagVarB16);
 			lazyFlagType = t_TEST16;
 		}
-		break;
+		return;
 		case 0x02: {
 			// NOT
 			*(int16_t*)target = ~(*(int16_t*)target);
 		}
-		break;
+		return;
 		case 0x03: {
 			// NEG
 			LazyFlagVarA16 = *(int16_t*)target;
@@ -1641,7 +1652,7 @@ void handlerCommand16Code00F7() {
 			*(int16_t*)target = LazyFlagResultContainer16;
 			lazyFlagType = t_NEG16;
 		}
-		break;
+		return;
 		case 0x04: {
 			uint32_t tempu=(uint32_t)reg_AX_16*(uint32_t)(*(uint16_t*)(target));
 			reg_AX_16=(uint16_t)(tempu);
@@ -1655,7 +1666,7 @@ void handlerCommand16Code00F7() {
 				SET_FLAG(CF,0);SET_FLAG(OF,0);
 			}
 		}
-		break;
+		return;
 		case 0x05: {
 			int32_t temps=reg_AX_16 * (*((int16_t*)target));
 			reg_AX_16=(uint16_t)(temps);
@@ -1669,7 +1680,7 @@ void handlerCommand16Code00F7() {
 				SET_FLAG(CF,1);SET_FLAG(OF,1);
 			}
 		}
-		break;
+		return;
 		case 0x06: {
 			uint16_t val= *(uint16_t*)(target);
 			uint32_t num=((uint32_t)reg_DX_16<<16)|reg_AX_16;
@@ -1683,7 +1694,7 @@ void handlerCommand16Code00F7() {
 			SET_FLAG(CF,((rem&3) >= 1 && (rem&3) <= 2));
 			SET_FLAG(PF,PARITY16(rem&0xffff)^PARITY16(quo16&0xffff)^GET_FLAG(PF));
 		}
-		break;
+		return;
 		case 0x07: {
 			int32_t val=*(int16_t*)(target);
 			int32_t num=(int32_t)(((uint32_t)reg_DX_16<<16u)|(unsigned int)reg_AX_16);
@@ -1697,8 +1708,9 @@ void handlerCommand16Code00F7() {
 			SET_FLAG(CF,((rem&3) >= 1 && (rem&3) <= 2));
 			SET_FLAG(PF,PARITY16(rem&0xffff)^PARITY16(quo16s&0xffff)^GET_FLAG(PF));
 		}
-		break;
+		return;
 	}
+	mCommandFunctionEmpty();
 }
 //XCHG
 void handlerCommand16Code0090() {
@@ -1903,8 +1915,9 @@ void handlerCommand16Code0190() {
 			// SET(cond)
 			*target = COND0x00 ? 1 : 0;
 		}
-		break;
+		return;
 	}
+	mCommandFunctionEmpty();
 }
 //Math
 void handlerCommand16Code0191() {
@@ -1917,8 +1930,9 @@ void handlerCommand16Code0191() {
 			// SET(cond)
 			*target = COND0x01 ? 1 : 0;
 		}
-		break;
+		return;
 	}
+	mCommandFunctionEmpty();
 }
 //Math
 void handlerCommand16Code0192() {
@@ -1931,8 +1945,9 @@ void handlerCommand16Code0192() {
 			// SET(cond)
 			*target = COND0x02 ? 1 : 0;
 		}
-		break;
+		return;
 	}
+	mCommandFunctionEmpty();
 }
 //Math
 void handlerCommand16Code0193() {
@@ -1945,8 +1960,9 @@ void handlerCommand16Code0193() {
 			// SET(cond)
 			*target = COND0x03 ? 1 : 0;
 		}
-		break;
+		return;
 	}
+	mCommandFunctionEmpty();
 }
 //Math
 void handlerCommand16Code0194() {
@@ -1959,8 +1975,9 @@ void handlerCommand16Code0194() {
 			// SET(cond)
 			*target = COND0x04 ? 1 : 0;
 		}
-		break;
+		return;
 	}
+	mCommandFunctionEmpty();
 }
 //Math
 void handlerCommand16Code0195() {
@@ -1973,8 +1990,9 @@ void handlerCommand16Code0195() {
 			// SET(cond)
 			*target = COND0x05 ? 1 : 0;
 		}
-		break;
+		return;
 	}
+	mCommandFunctionEmpty();
 }
 //Math
 void handlerCommand16Code0196() {
@@ -1987,8 +2005,9 @@ void handlerCommand16Code0196() {
 			// SET(cond)
 			*target = COND0x06 ? 1 : 0;
 		}
-		break;
+		return;
 	}
+	mCommandFunctionEmpty();
 }
 //Math
 void handlerCommand16Code0197() {
@@ -2001,8 +2020,9 @@ void handlerCommand16Code0197() {
 			// SET(cond)
 			*target = COND0x07 ? 1 : 0;
 		}
-		break;
+		return;
 	}
+	mCommandFunctionEmpty();
 }
 //Math
 void handlerCommand16Code0198() {
@@ -2015,8 +2035,9 @@ void handlerCommand16Code0198() {
 			// SET(cond)
 			*target = COND0x08 ? 1 : 0;
 		}
-		break;
+		return;
 	}
+	mCommandFunctionEmpty();
 }
 //Math
 void handlerCommand16Code0199() {
@@ -2029,8 +2050,9 @@ void handlerCommand16Code0199() {
 			// SET(cond)
 			*target = COND0x09 ? 1 : 0;
 		}
-		break;
+		return;
 	}
+	mCommandFunctionEmpty();
 }
 //Math
 void handlerCommand16Code019A() {
@@ -2043,8 +2065,9 @@ void handlerCommand16Code019A() {
 			// SET(cond)
 			*target = COND0x0A ? 1 : 0;
 		}
-		break;
+		return;
 	}
+	mCommandFunctionEmpty();
 }
 //Math
 void handlerCommand16Code019B() {
@@ -2057,8 +2080,9 @@ void handlerCommand16Code019B() {
 			// SET(cond)
 			*target = COND0x0B ? 1 : 0;
 		}
-		break;
+		return;
 	}
+	mCommandFunctionEmpty();
 }
 //Math
 void handlerCommand16Code019C() {
@@ -2071,8 +2095,9 @@ void handlerCommand16Code019C() {
 			// SET(cond)
 			*target = COND0x0C ? 1 : 0;
 		}
-		break;
+		return;
 	}
+	mCommandFunctionEmpty();
 }
 //Math
 void handlerCommand16Code019D() {
@@ -2085,8 +2110,9 @@ void handlerCommand16Code019D() {
 			// SET(cond)
 			*target = COND0x0D ? 1 : 0;
 		}
-		break;
+		return;
 	}
+	mCommandFunctionEmpty();
 }
 //Math
 void handlerCommand16Code019E() {
@@ -2099,8 +2125,9 @@ void handlerCommand16Code019E() {
 			// SET(cond)
 			*target = COND0x0E ? 1 : 0;
 		}
-		break;
+		return;
 	}
+	mCommandFunctionEmpty();
 }
 //Math
 void handlerCommand16Code019F() {
@@ -2113,8 +2140,9 @@ void handlerCommand16Code019F() {
 			// SET(cond)
 			*target = COND0x0F ? 1 : 0;
 		}
-		break;
+		return;
 	}
+	mCommandFunctionEmpty();
 }
 //Move
 void handlerCommand32Code0088P66() {
@@ -2326,7 +2354,8 @@ void handlerCommand32Code00C7() {
 	uint8_t mrmByte = read8u();
 	uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
 	uint8_t* source = (uint8_t*)readRegisterMRM32(mrmByte);
-	*(uint32_t*)target = read32u();
+    uint32_t a = read32u();
+	*(uint32_t*)target = a;
 }
 //MOVZX
 void handlerCommand32Code01B7() {
@@ -2393,7 +2422,7 @@ void handlerCommand32Code0000P66() {
 	uint8_t* source = (uint8_t*)readRegisterMRM8(mrmByte);
 	LazyFlagVarA8 = *(int8_t*)target;
 	LazyFlagVarB8 = *(int8_t*)source;
-	LazyFlagResultContainer8 = LazyFlagVarA8 + LazyFlagVarB8 ;
+	LazyFlagResultContainer8 = ((uint8_t)LazyFlagVarA8) + ((uint8_t)LazyFlagVarB8) ;
 	lazyFlagType = t_ADD8;
 	*(int8_t*)target = LazyFlagResultContainer8;
 }
@@ -2404,7 +2433,7 @@ void handlerCommand32Code0000() {
 	uint8_t* source = (uint8_t*)readRegisterMRM8(mrmByte);
 	LazyFlagVarA8 = *(int8_t*)target;
 	LazyFlagVarB8 = *(int8_t*)source;
-	LazyFlagResultContainer8 = LazyFlagVarA8 + LazyFlagVarB8 ;
+	LazyFlagResultContainer8 = ((uint8_t)LazyFlagVarA8) + ((uint8_t)LazyFlagVarB8) ;
 	lazyFlagType = t_ADD8;
 	*(int8_t*)target = LazyFlagResultContainer8;
 }
@@ -2415,7 +2444,7 @@ void handlerCommand32Code0001P66() {
 	uint8_t* source = (uint8_t*)readRegisterMRM16(mrmByte);
 	LazyFlagVarA16 = *(int16_t*)target;
 	LazyFlagVarB16 = *(int16_t*)source;
-	LazyFlagResultContainer16 = LazyFlagVarA16 + LazyFlagVarB16 ;
+	LazyFlagResultContainer16 = ((uint16_t)LazyFlagVarA16) + ((uint16_t)LazyFlagVarB16) ;
 	lazyFlagType = t_ADD16;
 	*(int16_t*)target = LazyFlagResultContainer16;
 }
@@ -2426,7 +2455,7 @@ void handlerCommand32Code0001() {
 	uint8_t* source = (uint8_t*)readRegisterMRM32(mrmByte);
 	LazyFlagVarA32 = *(int32_t*)target;
 	LazyFlagVarB32 = *(int32_t*)source;
-	LazyFlagResultContainer32 = LazyFlagVarA32 + LazyFlagVarB32 ;
+	LazyFlagResultContainer32 = ((uint32_t)LazyFlagVarA32) + ((uint32_t)LazyFlagVarB32) ;
 	lazyFlagType = t_ADD32;
 	*(int32_t*)target = LazyFlagResultContainer32;
 }
@@ -2437,7 +2466,7 @@ void handlerCommand32Code0002P66() {
 	uint8_t* target = (uint8_t*)readRegisterMRM8(mrmByte);
 	LazyFlagVarA8 = *(int8_t*)target;
 	LazyFlagVarB8 = *(int8_t*)source;
-	LazyFlagResultContainer8 = LazyFlagVarA8 + LazyFlagVarB8 ;
+	LazyFlagResultContainer8 = ((uint8_t)LazyFlagVarA8) + ((uint8_t)LazyFlagVarB8) ;
 	lazyFlagType = t_ADD8;
 	*(int8_t*)target = LazyFlagResultContainer8;
 }
@@ -2448,7 +2477,7 @@ void handlerCommand32Code0002() {
 	uint8_t* target = (uint8_t*)readRegisterMRM8(mrmByte);
 	LazyFlagVarA8 = *(int8_t*)target;
 	LazyFlagVarB8 = *(int8_t*)source;
-	LazyFlagResultContainer8 = LazyFlagVarA8 + LazyFlagVarB8 ;
+	LazyFlagResultContainer8 = ((uint8_t)LazyFlagVarA8) + ((uint8_t)LazyFlagVarB8) ;
 	lazyFlagType = t_ADD8;
 	*(int8_t*)target = LazyFlagResultContainer8;
 }
@@ -2459,7 +2488,7 @@ void handlerCommand32Code0003P66() {
 	uint8_t* target = (uint8_t*)readRegisterMRM16(mrmByte);
 	LazyFlagVarA16 = *(int16_t*)target;
 	LazyFlagVarB16 = *(int16_t*)source;
-	LazyFlagResultContainer16 = LazyFlagVarA16 + LazyFlagVarB16 ;
+	LazyFlagResultContainer16 = ((uint16_t)LazyFlagVarA16) + ((uint16_t)LazyFlagVarB16) ;
 	lazyFlagType = t_ADD16;
 	*(int16_t*)target = LazyFlagResultContainer16;
 }
@@ -2470,45 +2499,45 @@ void handlerCommand32Code0003() {
 	uint8_t* target = (uint8_t*)readRegisterMRM32(mrmByte);
 	LazyFlagVarA32 = *(int32_t*)target;
 	LazyFlagVarB32 = *(int32_t*)source;
-	LazyFlagResultContainer32 = LazyFlagVarA32 + LazyFlagVarB32 ;
+	LazyFlagResultContainer32 = ((uint32_t)LazyFlagVarA32) + ((uint32_t)LazyFlagVarB32) ;
 	lazyFlagType = t_ADD32;
 	*(int32_t*)target = LazyFlagResultContainer32;
 }
 //ADD
 void handlerCommand32Code0004P66() {
 	uint8_t* target = (uint8_t*)register8u(BR_AX);
-	LazyFlagVarA8 = *(int8_t*)target;
+	LazyFlagVarA8 = *(uint8_t*)target;
 	LazyFlagVarB8 = read8u();
-	LazyFlagResultContainer8 = LazyFlagVarA8 + LazyFlagVarB8 ;
+	LazyFlagResultContainer8 = (((uint8_t)LazyFlagVarA8) + ((uint8_t)LazyFlagVarB8)) ;
 	lazyFlagType = t_ADD8;
-	*(int8_t*)target = LazyFlagResultContainer8;
+	*(uint8_t*)target = LazyFlagResultContainer8;
 }
 //ADD
 void handlerCommand32Code0004() {
 	uint8_t* target = (uint8_t*)register8u(BR_AX);
-	LazyFlagVarA8 = *(int8_t*)target;
+	LazyFlagVarA8 = *(uint8_t*)target;
 	LazyFlagVarB8 = read8u();
-	LazyFlagResultContainer8 = LazyFlagVarA8 + LazyFlagVarB8 ;
+	LazyFlagResultContainer8 = (((uint8_t)LazyFlagVarA8) + ((uint8_t)LazyFlagVarB8)) ;
 	lazyFlagType = t_ADD8;
-	*(int8_t*)target = LazyFlagResultContainer8;
+	*(uint8_t*)target = LazyFlagResultContainer8;
 }
 //ADD
 void handlerCommand32Code0005P66() {
 	uint8_t* target = (uint8_t*)register16u(BR_AX);
-	LazyFlagVarA16 = *(int16_t*)target;
+	LazyFlagVarA16 = *(uint16_t*)target;
 	LazyFlagVarB16 = read16u();
-	LazyFlagResultContainer16 = LazyFlagVarA16 + LazyFlagVarB16 ;
+	LazyFlagResultContainer16 = (((uint16_t)LazyFlagVarA16) + ((uint16_t)LazyFlagVarB16)) ;
 	lazyFlagType = t_ADD16;
-	*(int16_t*)target = LazyFlagResultContainer16;
+	*(uint16_t*)target = LazyFlagResultContainer16;
 }
 //ADD
 void handlerCommand32Code0005() {
 	uint8_t* target = (uint8_t*)register32u(BR_AX);
-	LazyFlagVarA32 = *(int32_t*)target;
+	LazyFlagVarA32 = *(uint32_t*)target;
 	LazyFlagVarB32 = read32u();
-	LazyFlagResultContainer32 = LazyFlagVarA32 + LazyFlagVarB32 ;
+	LazyFlagResultContainer32 = (((uint32_t)LazyFlagVarA32) + ((uint32_t)LazyFlagVarB32)) ;
 	lazyFlagType = t_ADD32;
-	*(int32_t*)target = LazyFlagResultContainer32;
+	*(uint32_t*)target = LazyFlagResultContainer32;
 }
 //OR
 void handlerCommand32Code0008P66() {
@@ -2517,7 +2546,7 @@ void handlerCommand32Code0008P66() {
 	uint8_t* source = (uint8_t*)readRegisterMRM8(mrmByte);
 	LazyFlagVarA8 = *(int8_t*)target;
 	LazyFlagVarB8 = *(int8_t*)source;
-	LazyFlagResultContainer8 = LazyFlagVarA8 | LazyFlagVarB8 ;
+	LazyFlagResultContainer8 = ((uint8_t)LazyFlagVarA8) | ((uint8_t)LazyFlagVarB8) ;
 	lazyFlagType = t_OR8;
 	*(int8_t*)target = LazyFlagResultContainer8;
 }
@@ -2528,7 +2557,7 @@ void handlerCommand32Code0008() {
 	uint8_t* source = (uint8_t*)readRegisterMRM8(mrmByte);
 	LazyFlagVarA8 = *(int8_t*)target;
 	LazyFlagVarB8 = *(int8_t*)source;
-	LazyFlagResultContainer8 = LazyFlagVarA8 | LazyFlagVarB8 ;
+	LazyFlagResultContainer8 = ((uint8_t)LazyFlagVarA8) | ((uint8_t)LazyFlagVarB8) ;
 	lazyFlagType = t_OR8;
 	*(int8_t*)target = LazyFlagResultContainer8;
 }
@@ -2539,7 +2568,7 @@ void handlerCommand32Code0009P66() {
 	uint8_t* source = (uint8_t*)readRegisterMRM16(mrmByte);
 	LazyFlagVarA16 = *(int16_t*)target;
 	LazyFlagVarB16 = *(int16_t*)source;
-	LazyFlagResultContainer16 = LazyFlagVarA16 | LazyFlagVarB16 ;
+	LazyFlagResultContainer16 = ((uint16_t)LazyFlagVarA16) | ((uint16_t)LazyFlagVarB16) ;
 	lazyFlagType = t_OR16;
 	*(int16_t*)target = LazyFlagResultContainer16;
 }
@@ -2550,7 +2579,7 @@ void handlerCommand32Code0009() {
 	uint8_t* source = (uint8_t*)readRegisterMRM32(mrmByte);
 	LazyFlagVarA32 = *(int32_t*)target;
 	LazyFlagVarB32 = *(int32_t*)source;
-	LazyFlagResultContainer32 = LazyFlagVarA32 | LazyFlagVarB32 ;
+	LazyFlagResultContainer32 = ((uint32_t)LazyFlagVarA32) | ((uint32_t)LazyFlagVarB32) ;
 	lazyFlagType = t_OR32;
 	*(int32_t*)target = LazyFlagResultContainer32;
 }
@@ -2561,7 +2590,7 @@ void handlerCommand32Code000AP66() {
 	uint8_t* target = (uint8_t*)readRegisterMRM8(mrmByte);
 	LazyFlagVarA8 = *(int8_t*)target;
 	LazyFlagVarB8 = *(int8_t*)source;
-	LazyFlagResultContainer8 = LazyFlagVarA8 | LazyFlagVarB8 ;
+	LazyFlagResultContainer8 = ((uint8_t)LazyFlagVarA8) | ((uint8_t)LazyFlagVarB8) ;
 	lazyFlagType = t_OR8;
 	*(int8_t*)target = LazyFlagResultContainer8;
 }
@@ -2572,7 +2601,7 @@ void handlerCommand32Code000A() {
 	uint8_t* target = (uint8_t*)readRegisterMRM8(mrmByte);
 	LazyFlagVarA8 = *(int8_t*)target;
 	LazyFlagVarB8 = *(int8_t*)source;
-	LazyFlagResultContainer8 = LazyFlagVarA8 | LazyFlagVarB8 ;
+	LazyFlagResultContainer8 = ((uint8_t)LazyFlagVarA8) | ((uint8_t)LazyFlagVarB8) ;
 	lazyFlagType = t_OR8;
 	*(int8_t*)target = LazyFlagResultContainer8;
 }
@@ -2583,7 +2612,7 @@ void handlerCommand32Code000BP66() {
 	uint8_t* target = (uint8_t*)readRegisterMRM16(mrmByte);
 	LazyFlagVarA16 = *(int16_t*)target;
 	LazyFlagVarB16 = *(int16_t*)source;
-	LazyFlagResultContainer16 = LazyFlagVarA16 | LazyFlagVarB16 ;
+	LazyFlagResultContainer16 = ((uint16_t)LazyFlagVarA16) | ((uint16_t)LazyFlagVarB16) ;
 	lazyFlagType = t_OR16;
 	*(int16_t*)target = LazyFlagResultContainer16;
 }
@@ -2594,45 +2623,45 @@ void handlerCommand32Code000B() {
 	uint8_t* target = (uint8_t*)readRegisterMRM32(mrmByte);
 	LazyFlagVarA32 = *(int32_t*)target;
 	LazyFlagVarB32 = *(int32_t*)source;
-	LazyFlagResultContainer32 = LazyFlagVarA32 | LazyFlagVarB32 ;
+	LazyFlagResultContainer32 = ((uint32_t)LazyFlagVarA32) | ((uint32_t)LazyFlagVarB32) ;
 	lazyFlagType = t_OR32;
 	*(int32_t*)target = LazyFlagResultContainer32;
 }
 //OR
 void handlerCommand32Code000CP66() {
 	uint8_t* target = (uint8_t*)register8u(BR_AX);
-	LazyFlagVarA8 = *(int8_t*)target;
+	LazyFlagVarA8 = *(uint8_t*)target;
 	LazyFlagVarB8 = read8u();
-	LazyFlagResultContainer8 = LazyFlagVarA8 | LazyFlagVarB8 ;
+	LazyFlagResultContainer8 = (((uint8_t)LazyFlagVarA8) | ((uint8_t)LazyFlagVarB8)) ;
 	lazyFlagType = t_OR8;
-	*(int8_t*)target = LazyFlagResultContainer8;
+	*(uint8_t*)target = LazyFlagResultContainer8;
 }
 //OR
 void handlerCommand32Code000C() {
 	uint8_t* target = (uint8_t*)register8u(BR_AX);
-	LazyFlagVarA8 = *(int8_t*)target;
+	LazyFlagVarA8 = *(uint8_t*)target;
 	LazyFlagVarB8 = read8u();
-	LazyFlagResultContainer8 = LazyFlagVarA8 | LazyFlagVarB8 ;
+	LazyFlagResultContainer8 = (((uint8_t)LazyFlagVarA8) | ((uint8_t)LazyFlagVarB8)) ;
 	lazyFlagType = t_OR8;
-	*(int8_t*)target = LazyFlagResultContainer8;
+	*(uint8_t*)target = LazyFlagResultContainer8;
 }
 //OR
 void handlerCommand32Code000DP66() {
 	uint8_t* target = (uint8_t*)register16u(BR_AX);
-	LazyFlagVarA16 = *(int16_t*)target;
+	LazyFlagVarA16 = *(uint16_t*)target;
 	LazyFlagVarB16 = read16u();
-	LazyFlagResultContainer16 = LazyFlagVarA16 | LazyFlagVarB16 ;
+	LazyFlagResultContainer16 = (((uint16_t)LazyFlagVarA16) | ((uint16_t)LazyFlagVarB16)) ;
 	lazyFlagType = t_OR16;
-	*(int16_t*)target = LazyFlagResultContainer16;
+	*(uint16_t*)target = LazyFlagResultContainer16;
 }
 //OR
 void handlerCommand32Code000D() {
 	uint8_t* target = (uint8_t*)register32u(BR_AX);
-	LazyFlagVarA32 = *(int32_t*)target;
+	LazyFlagVarA32 = *(uint32_t*)target;
 	LazyFlagVarB32 = read32u();
-	LazyFlagResultContainer32 = LazyFlagVarA32 | LazyFlagVarB32 ;
+	LazyFlagResultContainer32 = (((uint32_t)LazyFlagVarA32) | ((uint32_t)LazyFlagVarB32)) ;
 	lazyFlagType = t_OR32;
-	*(int32_t*)target = LazyFlagResultContainer32;
+	*(uint32_t*)target = LazyFlagResultContainer32;
 }
 //ADC
 void handlerCommand32Code0010P66() {
@@ -2643,7 +2672,7 @@ void handlerCommand32Code0010P66() {
 	LazyFlagVarB8 = *(int8_t*)source;
 	FillFlags();
 	oldcf = GET_FLAG(CF);
-	LazyFlagResultContainer8 = LazyFlagVarA8 + LazyFlagVarB8 + oldcf;
+	LazyFlagResultContainer8 = ((uint8_t)LazyFlagVarA8) + ((uint8_t)LazyFlagVarB8) + oldcf;
 	lazyFlagType = t_ADC8;
 	*(int8_t*)target = LazyFlagResultContainer8;
 }
@@ -2656,7 +2685,7 @@ void handlerCommand32Code0010() {
 	LazyFlagVarB8 = *(int8_t*)source;
 	FillFlags();
 	oldcf = GET_FLAG(CF);
-	LazyFlagResultContainer8 = LazyFlagVarA8 + LazyFlagVarB8 + oldcf;
+	LazyFlagResultContainer8 = ((uint8_t)LazyFlagVarA8) + ((uint8_t)LazyFlagVarB8) + oldcf;
 	lazyFlagType = t_ADC8;
 	*(int8_t*)target = LazyFlagResultContainer8;
 }
@@ -2669,7 +2698,7 @@ void handlerCommand32Code0011P66() {
 	LazyFlagVarB16 = *(int16_t*)source;
 	FillFlags();
 	oldcf = GET_FLAG(CF);
-	LazyFlagResultContainer16 = LazyFlagVarA16 + LazyFlagVarB16 + oldcf;
+	LazyFlagResultContainer16 = ((uint16_t)LazyFlagVarA16) + ((uint16_t)LazyFlagVarB16) + oldcf;
 	lazyFlagType = t_ADC16;
 	*(int16_t*)target = LazyFlagResultContainer16;
 }
@@ -2682,7 +2711,7 @@ void handlerCommand32Code0011() {
 	LazyFlagVarB32 = *(int32_t*)source;
 	FillFlags();
 	oldcf = GET_FLAG(CF);
-	LazyFlagResultContainer32 = LazyFlagVarA32 + LazyFlagVarB32 + oldcf;
+	LazyFlagResultContainer32 = ((uint32_t)LazyFlagVarA32) + ((uint32_t)LazyFlagVarB32) + oldcf;
 	lazyFlagType = t_ADC32;
 	*(int32_t*)target = LazyFlagResultContainer32;
 }
@@ -2695,7 +2724,7 @@ void handlerCommand32Code0012P66() {
 	LazyFlagVarB8 = *(int8_t*)source;
 	FillFlags();
 	oldcf = GET_FLAG(CF);
-	LazyFlagResultContainer8 = LazyFlagVarA8 + LazyFlagVarB8 + oldcf;
+	LazyFlagResultContainer8 = ((uint8_t)LazyFlagVarA8) + ((uint8_t)LazyFlagVarB8) + oldcf;
 	lazyFlagType = t_ADC8;
 	*(int8_t*)target = LazyFlagResultContainer8;
 }
@@ -2708,7 +2737,7 @@ void handlerCommand32Code0012() {
 	LazyFlagVarB8 = *(int8_t*)source;
 	FillFlags();
 	oldcf = GET_FLAG(CF);
-	LazyFlagResultContainer8 = LazyFlagVarA8 + LazyFlagVarB8 + oldcf;
+	LazyFlagResultContainer8 = ((uint8_t)LazyFlagVarA8) + ((uint8_t)LazyFlagVarB8) + oldcf;
 	lazyFlagType = t_ADC8;
 	*(int8_t*)target = LazyFlagResultContainer8;
 }
@@ -2721,7 +2750,7 @@ void handlerCommand32Code0013P66() {
 	LazyFlagVarB16 = *(int16_t*)source;
 	FillFlags();
 	oldcf = GET_FLAG(CF);
-	LazyFlagResultContainer16 = LazyFlagVarA16 + LazyFlagVarB16 + oldcf;
+	LazyFlagResultContainer16 = ((uint16_t)LazyFlagVarA16) + ((uint16_t)LazyFlagVarB16) + oldcf;
 	lazyFlagType = t_ADC16;
 	*(int16_t*)target = LazyFlagResultContainer16;
 }
@@ -2734,53 +2763,53 @@ void handlerCommand32Code0013() {
 	LazyFlagVarB32 = *(int32_t*)source;
 	FillFlags();
 	oldcf = GET_FLAG(CF);
-	LazyFlagResultContainer32 = LazyFlagVarA32 + LazyFlagVarB32 + oldcf;
+	LazyFlagResultContainer32 = ((uint32_t)LazyFlagVarA32) + ((uint32_t)LazyFlagVarB32) + oldcf;
 	lazyFlagType = t_ADC32;
 	*(int32_t*)target = LazyFlagResultContainer32;
 }
 //ADC
 void handlerCommand32Code0014P66() {
 	uint8_t* target = (uint8_t*)register8u(BR_AX);
-	LazyFlagVarA8 = *(int8_t*)target;
+	LazyFlagVarA8 = *(uint8_t*)target;
 	LazyFlagVarB8 = read8u();
 	FillFlags();
 	oldcf = GET_FLAG(CF);
-	LazyFlagResultContainer8 = LazyFlagVarA8 + LazyFlagVarB8 + oldcf;
+	LazyFlagResultContainer8 = (((uint8_t)LazyFlagVarA8) + ((uint8_t)LazyFlagVarB8)) + oldcf;
 	lazyFlagType = t_ADC8;
-	*(int8_t*)target = LazyFlagResultContainer8;
+	*(uint8_t*)target = LazyFlagResultContainer8;
 }
 //ADC
 void handlerCommand32Code0014() {
 	uint8_t* target = (uint8_t*)register8u(BR_AX);
-	LazyFlagVarA8 = *(int8_t*)target;
+	LazyFlagVarA8 = *(uint8_t*)target;
 	LazyFlagVarB8 = read8u();
 	FillFlags();
 	oldcf = GET_FLAG(CF);
-	LazyFlagResultContainer8 = LazyFlagVarA8 + LazyFlagVarB8 + oldcf;
+	LazyFlagResultContainer8 = (((uint8_t)LazyFlagVarA8) + ((uint8_t)LazyFlagVarB8)) + oldcf;
 	lazyFlagType = t_ADC8;
-	*(int8_t*)target = LazyFlagResultContainer8;
+	*(uint8_t*)target = LazyFlagResultContainer8;
 }
 //ADC
 void handlerCommand32Code0015P66() {
 	uint8_t* target = (uint8_t*)register16u(BR_AX);
-	LazyFlagVarA16 = *(int16_t*)target;
+	LazyFlagVarA16 = *(uint16_t*)target;
 	LazyFlagVarB16 = read16u();
 	FillFlags();
 	oldcf = GET_FLAG(CF);
-	LazyFlagResultContainer16 = LazyFlagVarA16 + LazyFlagVarB16 + oldcf;
+	LazyFlagResultContainer16 = (((uint16_t)LazyFlagVarA16) + ((uint16_t)LazyFlagVarB16)) + oldcf;
 	lazyFlagType = t_ADC16;
-	*(int16_t*)target = LazyFlagResultContainer16;
+	*(uint16_t*)target = LazyFlagResultContainer16;
 }
 //ADC
 void handlerCommand32Code0015() {
 	uint8_t* target = (uint8_t*)register32u(BR_AX);
-	LazyFlagVarA32 = *(int32_t*)target;
+	LazyFlagVarA32 = *(uint32_t*)target;
 	LazyFlagVarB32 = read32u();
 	FillFlags();
 	oldcf = GET_FLAG(CF);
-	LazyFlagResultContainer32 = LazyFlagVarA32 + LazyFlagVarB32 + oldcf;
+	LazyFlagResultContainer32 = (((uint32_t)LazyFlagVarA32) + ((uint32_t)LazyFlagVarB32)) + oldcf;
 	lazyFlagType = t_ADC32;
-	*(int32_t*)target = LazyFlagResultContainer32;
+	*(uint32_t*)target = LazyFlagResultContainer32;
 }
 //SBB
 void handlerCommand32Code0018P66() {
@@ -2791,7 +2820,7 @@ void handlerCommand32Code0018P66() {
 	LazyFlagVarB8 = *(int8_t*)source;
 	FillFlags();
 	oldcf = GET_FLAG(CF);
-	LazyFlagResultContainer8 = LazyFlagVarA8 - LazyFlagVarB8 - oldcf;
+	LazyFlagResultContainer8 = ((uint8_t)LazyFlagVarA8) - ((uint8_t)LazyFlagVarB8) - oldcf;
 	lazyFlagType = t_SBB8;
 	*(int8_t*)target = LazyFlagResultContainer8;
 }
@@ -2804,7 +2833,7 @@ void handlerCommand32Code0018() {
 	LazyFlagVarB8 = *(int8_t*)source;
 	FillFlags();
 	oldcf = GET_FLAG(CF);
-	LazyFlagResultContainer8 = LazyFlagVarA8 - LazyFlagVarB8 - oldcf;
+	LazyFlagResultContainer8 = ((uint8_t)LazyFlagVarA8) - ((uint8_t)LazyFlagVarB8) - oldcf;
 	lazyFlagType = t_SBB8;
 	*(int8_t*)target = LazyFlagResultContainer8;
 }
@@ -2817,7 +2846,7 @@ void handlerCommand32Code0019P66() {
 	LazyFlagVarB16 = *(int16_t*)source;
 	FillFlags();
 	oldcf = GET_FLAG(CF);
-	LazyFlagResultContainer16 = LazyFlagVarA16 - LazyFlagVarB16 - oldcf;
+	LazyFlagResultContainer16 = ((uint16_t)LazyFlagVarA16) - ((uint16_t)LazyFlagVarB16) - oldcf;
 	lazyFlagType = t_SBB16;
 	*(int16_t*)target = LazyFlagResultContainer16;
 }
@@ -2830,7 +2859,7 @@ void handlerCommand32Code0019() {
 	LazyFlagVarB32 = *(int32_t*)source;
 	FillFlags();
 	oldcf = GET_FLAG(CF);
-	LazyFlagResultContainer32 = LazyFlagVarA32 - LazyFlagVarB32 - oldcf;
+	LazyFlagResultContainer32 = ((uint32_t)LazyFlagVarA32) - ((uint32_t)LazyFlagVarB32) - oldcf;
 	lazyFlagType = t_SBB32;
 	*(int32_t*)target = LazyFlagResultContainer32;
 }
@@ -2843,7 +2872,7 @@ void handlerCommand32Code001AP66() {
 	LazyFlagVarB8 = *(int8_t*)source;
 	FillFlags();
 	oldcf = GET_FLAG(CF);
-	LazyFlagResultContainer8 = LazyFlagVarA8 - LazyFlagVarB8 - oldcf;
+	LazyFlagResultContainer8 = ((uint8_t)LazyFlagVarA8) - ((uint8_t)LazyFlagVarB8) - oldcf;
 	lazyFlagType = t_SBB8;
 	*(int8_t*)target = LazyFlagResultContainer8;
 }
@@ -2856,7 +2885,7 @@ void handlerCommand32Code001A() {
 	LazyFlagVarB8 = *(int8_t*)source;
 	FillFlags();
 	oldcf = GET_FLAG(CF);
-	LazyFlagResultContainer8 = LazyFlagVarA8 - LazyFlagVarB8 - oldcf;
+	LazyFlagResultContainer8 = ((uint8_t)LazyFlagVarA8) - ((uint8_t)LazyFlagVarB8) - oldcf;
 	lazyFlagType = t_SBB8;
 	*(int8_t*)target = LazyFlagResultContainer8;
 }
@@ -2869,7 +2898,7 @@ void handlerCommand32Code001BP66() {
 	LazyFlagVarB16 = *(int16_t*)source;
 	FillFlags();
 	oldcf = GET_FLAG(CF);
-	LazyFlagResultContainer16 = LazyFlagVarA16 - LazyFlagVarB16 - oldcf;
+	LazyFlagResultContainer16 = ((uint16_t)LazyFlagVarA16) - ((uint16_t)LazyFlagVarB16) - oldcf;
 	lazyFlagType = t_SBB16;
 	*(int16_t*)target = LazyFlagResultContainer16;
 }
@@ -2882,53 +2911,53 @@ void handlerCommand32Code001B() {
 	LazyFlagVarB32 = *(int32_t*)source;
 	FillFlags();
 	oldcf = GET_FLAG(CF);
-	LazyFlagResultContainer32 = LazyFlagVarA32 - LazyFlagVarB32 - oldcf;
+	LazyFlagResultContainer32 = ((uint32_t)LazyFlagVarA32) - ((uint32_t)LazyFlagVarB32) - oldcf;
 	lazyFlagType = t_SBB32;
 	*(int32_t*)target = LazyFlagResultContainer32;
 }
 //SBB
 void handlerCommand32Code001CP66() {
 	uint8_t* target = (uint8_t*)register8u(BR_AX);
-	LazyFlagVarA8 = *(int8_t*)target;
+	LazyFlagVarA8 = *(uint8_t*)target;
 	LazyFlagVarB8 = read8u();
 	FillFlags();
 	oldcf = GET_FLAG(CF);
-	LazyFlagResultContainer8 = LazyFlagVarA8 - LazyFlagVarB8 - oldcf;
+	LazyFlagResultContainer8 = (((uint8_t)LazyFlagVarA8) - ((uint8_t)LazyFlagVarB8)) - oldcf;
 	lazyFlagType = t_SBB8;
-	*(int8_t*)target = LazyFlagResultContainer8;
+	*(uint8_t*)target = LazyFlagResultContainer8;
 }
 //SBB
 void handlerCommand32Code001C() {
 	uint8_t* target = (uint8_t*)register8u(BR_AX);
-	LazyFlagVarA8 = *(int8_t*)target;
+	LazyFlagVarA8 = *(uint8_t*)target;
 	LazyFlagVarB8 = read8u();
 	FillFlags();
 	oldcf = GET_FLAG(CF);
-	LazyFlagResultContainer8 = LazyFlagVarA8 - LazyFlagVarB8 - oldcf;
+	LazyFlagResultContainer8 = (((uint8_t)LazyFlagVarA8) - ((uint8_t)LazyFlagVarB8)) - oldcf;
 	lazyFlagType = t_SBB8;
-	*(int8_t*)target = LazyFlagResultContainer8;
+	*(uint8_t*)target = LazyFlagResultContainer8;
 }
 //SBB
 void handlerCommand32Code001DP66() {
 	uint8_t* target = (uint8_t*)register16u(BR_AX);
-	LazyFlagVarA16 = *(int16_t*)target;
+	LazyFlagVarA16 = *(uint16_t*)target;
 	LazyFlagVarB16 = read16u();
 	FillFlags();
 	oldcf = GET_FLAG(CF);
-	LazyFlagResultContainer16 = LazyFlagVarA16 - LazyFlagVarB16 - oldcf;
+	LazyFlagResultContainer16 = (((uint16_t)LazyFlagVarA16) - ((uint16_t)LazyFlagVarB16)) - oldcf;
 	lazyFlagType = t_SBB16;
-	*(int16_t*)target = LazyFlagResultContainer16;
+	*(uint16_t*)target = LazyFlagResultContainer16;
 }
 //SBB
 void handlerCommand32Code001D() {
 	uint8_t* target = (uint8_t*)register32u(BR_AX);
-	LazyFlagVarA32 = *(int32_t*)target;
+	LazyFlagVarA32 = *(uint32_t*)target;
 	LazyFlagVarB32 = read32u();
 	FillFlags();
 	oldcf = GET_FLAG(CF);
-	LazyFlagResultContainer32 = LazyFlagVarA32 - LazyFlagVarB32 - oldcf;
+	LazyFlagResultContainer32 = (((uint32_t)LazyFlagVarA32) - ((uint32_t)LazyFlagVarB32)) - oldcf;
 	lazyFlagType = t_SBB32;
-	*(int32_t*)target = LazyFlagResultContainer32;
+	*(uint32_t*)target = LazyFlagResultContainer32;
 }
 //AND
 void handlerCommand32Code0020P66() {
@@ -2937,7 +2966,7 @@ void handlerCommand32Code0020P66() {
 	uint8_t* source = (uint8_t*)readRegisterMRM8(mrmByte);
 	LazyFlagVarA8 = *(int8_t*)target;
 	LazyFlagVarB8 = *(int8_t*)source;
-	LazyFlagResultContainer8 = LazyFlagVarA8 & LazyFlagVarB8 ;
+	LazyFlagResultContainer8 = ((uint8_t)LazyFlagVarA8) & ((uint8_t)LazyFlagVarB8) ;
 	lazyFlagType = t_AND8;
 	*(int8_t*)target = LazyFlagResultContainer8;
 }
@@ -2948,7 +2977,7 @@ void handlerCommand32Code0020() {
 	uint8_t* source = (uint8_t*)readRegisterMRM8(mrmByte);
 	LazyFlagVarA8 = *(int8_t*)target;
 	LazyFlagVarB8 = *(int8_t*)source;
-	LazyFlagResultContainer8 = LazyFlagVarA8 & LazyFlagVarB8 ;
+	LazyFlagResultContainer8 = ((uint8_t)LazyFlagVarA8) & ((uint8_t)LazyFlagVarB8) ;
 	lazyFlagType = t_AND8;
 	*(int8_t*)target = LazyFlagResultContainer8;
 }
@@ -2959,7 +2988,7 @@ void handlerCommand32Code0021P66() {
 	uint8_t* source = (uint8_t*)readRegisterMRM16(mrmByte);
 	LazyFlagVarA16 = *(int16_t*)target;
 	LazyFlagVarB16 = *(int16_t*)source;
-	LazyFlagResultContainer16 = LazyFlagVarA16 & LazyFlagVarB16 ;
+	LazyFlagResultContainer16 = ((uint16_t)LazyFlagVarA16) & ((uint16_t)LazyFlagVarB16) ;
 	lazyFlagType = t_AND16;
 	*(int16_t*)target = LazyFlagResultContainer16;
 }
@@ -2970,7 +2999,7 @@ void handlerCommand32Code0021() {
 	uint8_t* source = (uint8_t*)readRegisterMRM32(mrmByte);
 	LazyFlagVarA32 = *(int32_t*)target;
 	LazyFlagVarB32 = *(int32_t*)source;
-	LazyFlagResultContainer32 = LazyFlagVarA32 & LazyFlagVarB32 ;
+	LazyFlagResultContainer32 = ((uint32_t)LazyFlagVarA32) & ((uint32_t)LazyFlagVarB32) ;
 	lazyFlagType = t_AND32;
 	*(int32_t*)target = LazyFlagResultContainer32;
 }
@@ -2981,7 +3010,7 @@ void handlerCommand32Code0022P66() {
 	uint8_t* target = (uint8_t*)readRegisterMRM8(mrmByte);
 	LazyFlagVarA8 = *(int8_t*)target;
 	LazyFlagVarB8 = *(int8_t*)source;
-	LazyFlagResultContainer8 = LazyFlagVarA8 & LazyFlagVarB8 ;
+	LazyFlagResultContainer8 = ((uint8_t)LazyFlagVarA8) & ((uint8_t)LazyFlagVarB8) ;
 	lazyFlagType = t_AND8;
 	*(int8_t*)target = LazyFlagResultContainer8;
 }
@@ -2992,7 +3021,7 @@ void handlerCommand32Code0022() {
 	uint8_t* target = (uint8_t*)readRegisterMRM8(mrmByte);
 	LazyFlagVarA8 = *(int8_t*)target;
 	LazyFlagVarB8 = *(int8_t*)source;
-	LazyFlagResultContainer8 = LazyFlagVarA8 & LazyFlagVarB8 ;
+	LazyFlagResultContainer8 = ((uint8_t)LazyFlagVarA8) & ((uint8_t)LazyFlagVarB8) ;
 	lazyFlagType = t_AND8;
 	*(int8_t*)target = LazyFlagResultContainer8;
 }
@@ -3003,7 +3032,7 @@ void handlerCommand32Code0023P66() {
 	uint8_t* target = (uint8_t*)readRegisterMRM16(mrmByte);
 	LazyFlagVarA16 = *(int16_t*)target;
 	LazyFlagVarB16 = *(int16_t*)source;
-	LazyFlagResultContainer16 = LazyFlagVarA16 & LazyFlagVarB16 ;
+	LazyFlagResultContainer16 = ((uint16_t)LazyFlagVarA16) & ((uint16_t)LazyFlagVarB16) ;
 	lazyFlagType = t_AND16;
 	*(int16_t*)target = LazyFlagResultContainer16;
 }
@@ -3014,45 +3043,45 @@ void handlerCommand32Code0023() {
 	uint8_t* target = (uint8_t*)readRegisterMRM32(mrmByte);
 	LazyFlagVarA32 = *(int32_t*)target;
 	LazyFlagVarB32 = *(int32_t*)source;
-	LazyFlagResultContainer32 = LazyFlagVarA32 & LazyFlagVarB32 ;
+	LazyFlagResultContainer32 = ((uint32_t)LazyFlagVarA32) & ((uint32_t)LazyFlagVarB32) ;
 	lazyFlagType = t_AND32;
 	*(int32_t*)target = LazyFlagResultContainer32;
 }
 //AND
 void handlerCommand32Code0024P66() {
 	uint8_t* target = (uint8_t*)register8u(BR_AX);
-	LazyFlagVarA8 = *(int8_t*)target;
+	LazyFlagVarA8 = *(uint8_t*)target;
 	LazyFlagVarB8 = read8u();
-	LazyFlagResultContainer8 = LazyFlagVarA8 & LazyFlagVarB8 ;
+	LazyFlagResultContainer8 = (((uint8_t)LazyFlagVarA8) & ((uint8_t)LazyFlagVarB8)) ;
 	lazyFlagType = t_AND8;
-	*(int8_t*)target = LazyFlagResultContainer8;
+	*(uint8_t*)target = LazyFlagResultContainer8;
 }
 //AND
 void handlerCommand32Code0024() {
 	uint8_t* target = (uint8_t*)register8u(BR_AX);
-	LazyFlagVarA8 = *(int8_t*)target;
+	LazyFlagVarA8 = *(uint8_t*)target;
 	LazyFlagVarB8 = read8u();
-	LazyFlagResultContainer8 = LazyFlagVarA8 & LazyFlagVarB8 ;
+	LazyFlagResultContainer8 = (((uint8_t)LazyFlagVarA8) & ((uint8_t)LazyFlagVarB8)) ;
 	lazyFlagType = t_AND8;
-	*(int8_t*)target = LazyFlagResultContainer8;
+	*(uint8_t*)target = LazyFlagResultContainer8;
 }
 //AND
 void handlerCommand32Code0025P66() {
 	uint8_t* target = (uint8_t*)register16u(BR_AX);
-	LazyFlagVarA16 = *(int16_t*)target;
+	LazyFlagVarA16 = *(uint16_t*)target;
 	LazyFlagVarB16 = read16u();
-	LazyFlagResultContainer16 = LazyFlagVarA16 & LazyFlagVarB16 ;
+	LazyFlagResultContainer16 = (((uint16_t)LazyFlagVarA16) & ((uint16_t)LazyFlagVarB16)) ;
 	lazyFlagType = t_AND16;
-	*(int16_t*)target = LazyFlagResultContainer16;
+	*(uint16_t*)target = LazyFlagResultContainer16;
 }
 //AND
 void handlerCommand32Code0025() {
 	uint8_t* target = (uint8_t*)register32u(BR_AX);
-	LazyFlagVarA32 = *(int32_t*)target;
+	LazyFlagVarA32 = *(uint32_t*)target;
 	LazyFlagVarB32 = read32u();
-	LazyFlagResultContainer32 = LazyFlagVarA32 & LazyFlagVarB32 ;
+	LazyFlagResultContainer32 = (((uint32_t)LazyFlagVarA32) & ((uint32_t)LazyFlagVarB32)) ;
 	lazyFlagType = t_AND32;
-	*(int32_t*)target = LazyFlagResultContainer32;
+	*(uint32_t*)target = LazyFlagResultContainer32;
 }
 //SUB
 void handlerCommand32Code0028P66() {
@@ -3061,7 +3090,7 @@ void handlerCommand32Code0028P66() {
 	uint8_t* source = (uint8_t*)readRegisterMRM8(mrmByte);
 	LazyFlagVarA8 = *(int8_t*)target;
 	LazyFlagVarB8 = *(int8_t*)source;
-	LazyFlagResultContainer8 = LazyFlagVarA8 - LazyFlagVarB8 ;
+	LazyFlagResultContainer8 = ((uint8_t)LazyFlagVarA8) - ((uint8_t)LazyFlagVarB8) ;
 	lazyFlagType = t_SUB8;
 	*(int8_t*)target = LazyFlagResultContainer8;
 }
@@ -3072,7 +3101,7 @@ void handlerCommand32Code0028() {
 	uint8_t* source = (uint8_t*)readRegisterMRM8(mrmByte);
 	LazyFlagVarA8 = *(int8_t*)target;
 	LazyFlagVarB8 = *(int8_t*)source;
-	LazyFlagResultContainer8 = LazyFlagVarA8 - LazyFlagVarB8 ;
+	LazyFlagResultContainer8 = ((uint8_t)LazyFlagVarA8) - ((uint8_t)LazyFlagVarB8) ;
 	lazyFlagType = t_SUB8;
 	*(int8_t*)target = LazyFlagResultContainer8;
 }
@@ -3083,7 +3112,7 @@ void handlerCommand32Code0029P66() {
 	uint8_t* source = (uint8_t*)readRegisterMRM16(mrmByte);
 	LazyFlagVarA16 = *(int16_t*)target;
 	LazyFlagVarB16 = *(int16_t*)source;
-	LazyFlagResultContainer16 = LazyFlagVarA16 - LazyFlagVarB16 ;
+	LazyFlagResultContainer16 = ((uint16_t)LazyFlagVarA16) - ((uint16_t)LazyFlagVarB16) ;
 	lazyFlagType = t_SUB16;
 	*(int16_t*)target = LazyFlagResultContainer16;
 }
@@ -3094,7 +3123,7 @@ void handlerCommand32Code0029() {
 	uint8_t* source = (uint8_t*)readRegisterMRM32(mrmByte);
 	LazyFlagVarA32 = *(int32_t*)target;
 	LazyFlagVarB32 = *(int32_t*)source;
-	LazyFlagResultContainer32 = LazyFlagVarA32 - LazyFlagVarB32 ;
+	LazyFlagResultContainer32 = ((uint32_t)LazyFlagVarA32) - ((uint32_t)LazyFlagVarB32) ;
 	lazyFlagType = t_SUB32;
 	*(int32_t*)target = LazyFlagResultContainer32;
 }
@@ -3105,7 +3134,7 @@ void handlerCommand32Code002AP66() {
 	uint8_t* target = (uint8_t*)readRegisterMRM8(mrmByte);
 	LazyFlagVarA8 = *(int8_t*)target;
 	LazyFlagVarB8 = *(int8_t*)source;
-	LazyFlagResultContainer8 = LazyFlagVarA8 - LazyFlagVarB8 ;
+	LazyFlagResultContainer8 = ((uint8_t)LazyFlagVarA8) - ((uint8_t)LazyFlagVarB8) ;
 	lazyFlagType = t_SUB8;
 	*(int8_t*)target = LazyFlagResultContainer8;
 }
@@ -3116,7 +3145,7 @@ void handlerCommand32Code002A() {
 	uint8_t* target = (uint8_t*)readRegisterMRM8(mrmByte);
 	LazyFlagVarA8 = *(int8_t*)target;
 	LazyFlagVarB8 = *(int8_t*)source;
-	LazyFlagResultContainer8 = LazyFlagVarA8 - LazyFlagVarB8 ;
+	LazyFlagResultContainer8 = ((uint8_t)LazyFlagVarA8) - ((uint8_t)LazyFlagVarB8) ;
 	lazyFlagType = t_SUB8;
 	*(int8_t*)target = LazyFlagResultContainer8;
 }
@@ -3127,7 +3156,7 @@ void handlerCommand32Code002BP66() {
 	uint8_t* target = (uint8_t*)readRegisterMRM16(mrmByte);
 	LazyFlagVarA16 = *(int16_t*)target;
 	LazyFlagVarB16 = *(int16_t*)source;
-	LazyFlagResultContainer16 = LazyFlagVarA16 - LazyFlagVarB16 ;
+	LazyFlagResultContainer16 = ((uint16_t)LazyFlagVarA16) - ((uint16_t)LazyFlagVarB16) ;
 	lazyFlagType = t_SUB16;
 	*(int16_t*)target = LazyFlagResultContainer16;
 }
@@ -3138,45 +3167,45 @@ void handlerCommand32Code002B() {
 	uint8_t* target = (uint8_t*)readRegisterMRM32(mrmByte);
 	LazyFlagVarA32 = *(int32_t*)target;
 	LazyFlagVarB32 = *(int32_t*)source;
-	LazyFlagResultContainer32 = LazyFlagVarA32 - LazyFlagVarB32 ;
+	LazyFlagResultContainer32 = ((uint32_t)LazyFlagVarA32) - ((uint32_t)LazyFlagVarB32) ;
 	lazyFlagType = t_SUB32;
 	*(int32_t*)target = LazyFlagResultContainer32;
 }
 //SUB
 void handlerCommand32Code002CP66() {
 	uint8_t* target = (uint8_t*)register8u(BR_AX);
-	LazyFlagVarA8 = *(int8_t*)target;
+	LazyFlagVarA8 = *(uint8_t*)target;
 	LazyFlagVarB8 = read8u();
-	LazyFlagResultContainer8 = LazyFlagVarA8 - LazyFlagVarB8 ;
+	LazyFlagResultContainer8 = (((uint8_t)LazyFlagVarA8) - ((uint8_t)LazyFlagVarB8)) ;
 	lazyFlagType = t_SUB8;
-	*(int8_t*)target = LazyFlagResultContainer8;
+	*(uint8_t*)target = LazyFlagResultContainer8;
 }
 //SUB
 void handlerCommand32Code002C() {
 	uint8_t* target = (uint8_t*)register8u(BR_AX);
-	LazyFlagVarA8 = *(int8_t*)target;
+	LazyFlagVarA8 = *(uint8_t*)target;
 	LazyFlagVarB8 = read8u();
-	LazyFlagResultContainer8 = LazyFlagVarA8 - LazyFlagVarB8 ;
+	LazyFlagResultContainer8 = (((uint8_t)LazyFlagVarA8) - ((uint8_t)LazyFlagVarB8)) ;
 	lazyFlagType = t_SUB8;
-	*(int8_t*)target = LazyFlagResultContainer8;
+	*(uint8_t*)target = LazyFlagResultContainer8;
 }
 //SUB
 void handlerCommand32Code002DP66() {
 	uint8_t* target = (uint8_t*)register16u(BR_AX);
-	LazyFlagVarA16 = *(int16_t*)target;
+	LazyFlagVarA16 = *(uint16_t*)target;
 	LazyFlagVarB16 = read16u();
-	LazyFlagResultContainer16 = LazyFlagVarA16 - LazyFlagVarB16 ;
+	LazyFlagResultContainer16 = (((uint16_t)LazyFlagVarA16) - ((uint16_t)LazyFlagVarB16)) ;
 	lazyFlagType = t_SUB16;
-	*(int16_t*)target = LazyFlagResultContainer16;
+	*(uint16_t*)target = LazyFlagResultContainer16;
 }
 //SUB
 void handlerCommand32Code002D() {
 	uint8_t* target = (uint8_t*)register32u(BR_AX);
-	LazyFlagVarA32 = *(int32_t*)target;
+	LazyFlagVarA32 = *(uint32_t*)target;
 	LazyFlagVarB32 = read32u();
-	LazyFlagResultContainer32 = LazyFlagVarA32 - LazyFlagVarB32 ;
+	LazyFlagResultContainer32 = (((uint32_t)LazyFlagVarA32) - ((uint32_t)LazyFlagVarB32)) ;
 	lazyFlagType = t_SUB32;
-	*(int32_t*)target = LazyFlagResultContainer32;
+	*(uint32_t*)target = LazyFlagResultContainer32;
 }
 //XOR
 void handlerCommand32Code0030P66() {
@@ -3185,7 +3214,7 @@ void handlerCommand32Code0030P66() {
 	uint8_t* source = (uint8_t*)readRegisterMRM8(mrmByte);
 	LazyFlagVarA8 = *(int8_t*)target;
 	LazyFlagVarB8 = *(int8_t*)source;
-	LazyFlagResultContainer8 = LazyFlagVarA8 ^ LazyFlagVarB8 ;
+	LazyFlagResultContainer8 = ((uint8_t)LazyFlagVarA8) ^ ((uint8_t)LazyFlagVarB8) ;
 	lazyFlagType = t_XOR8;
 	*(int8_t*)target = LazyFlagResultContainer8;
 }
@@ -3196,7 +3225,7 @@ void handlerCommand32Code0030() {
 	uint8_t* source = (uint8_t*)readRegisterMRM8(mrmByte);
 	LazyFlagVarA8 = *(int8_t*)target;
 	LazyFlagVarB8 = *(int8_t*)source;
-	LazyFlagResultContainer8 = LazyFlagVarA8 ^ LazyFlagVarB8 ;
+	LazyFlagResultContainer8 = ((uint8_t)LazyFlagVarA8) ^ ((uint8_t)LazyFlagVarB8) ;
 	lazyFlagType = t_XOR8;
 	*(int8_t*)target = LazyFlagResultContainer8;
 }
@@ -3207,7 +3236,7 @@ void handlerCommand32Code0031P66() {
 	uint8_t* source = (uint8_t*)readRegisterMRM16(mrmByte);
 	LazyFlagVarA16 = *(int16_t*)target;
 	LazyFlagVarB16 = *(int16_t*)source;
-	LazyFlagResultContainer16 = LazyFlagVarA16 ^ LazyFlagVarB16 ;
+	LazyFlagResultContainer16 = ((uint16_t)LazyFlagVarA16) ^ ((uint16_t)LazyFlagVarB16) ;
 	lazyFlagType = t_XOR16;
 	*(int16_t*)target = LazyFlagResultContainer16;
 }
@@ -3218,7 +3247,7 @@ void handlerCommand32Code0031() {
 	uint8_t* source = (uint8_t*)readRegisterMRM32(mrmByte);
 	LazyFlagVarA32 = *(int32_t*)target;
 	LazyFlagVarB32 = *(int32_t*)source;
-	LazyFlagResultContainer32 = LazyFlagVarA32 ^ LazyFlagVarB32 ;
+	LazyFlagResultContainer32 = ((uint32_t)LazyFlagVarA32) ^ ((uint32_t)LazyFlagVarB32) ;
 	lazyFlagType = t_XOR32;
 	*(int32_t*)target = LazyFlagResultContainer32;
 }
@@ -3229,7 +3258,7 @@ void handlerCommand32Code0032P66() {
 	uint8_t* target = (uint8_t*)readRegisterMRM8(mrmByte);
 	LazyFlagVarA8 = *(int8_t*)target;
 	LazyFlagVarB8 = *(int8_t*)source;
-	LazyFlagResultContainer8 = LazyFlagVarA8 ^ LazyFlagVarB8 ;
+	LazyFlagResultContainer8 = ((uint8_t)LazyFlagVarA8) ^ ((uint8_t)LazyFlagVarB8) ;
 	lazyFlagType = t_XOR8;
 	*(int8_t*)target = LazyFlagResultContainer8;
 }
@@ -3240,7 +3269,7 @@ void handlerCommand32Code0032() {
 	uint8_t* target = (uint8_t*)readRegisterMRM8(mrmByte);
 	LazyFlagVarA8 = *(int8_t*)target;
 	LazyFlagVarB8 = *(int8_t*)source;
-	LazyFlagResultContainer8 = LazyFlagVarA8 ^ LazyFlagVarB8 ;
+	LazyFlagResultContainer8 = ((uint8_t)LazyFlagVarA8) ^ ((uint8_t)LazyFlagVarB8) ;
 	lazyFlagType = t_XOR8;
 	*(int8_t*)target = LazyFlagResultContainer8;
 }
@@ -3251,7 +3280,7 @@ void handlerCommand32Code0033P66() {
 	uint8_t* target = (uint8_t*)readRegisterMRM16(mrmByte);
 	LazyFlagVarA16 = *(int16_t*)target;
 	LazyFlagVarB16 = *(int16_t*)source;
-	LazyFlagResultContainer16 = LazyFlagVarA16 ^ LazyFlagVarB16 ;
+	LazyFlagResultContainer16 = ((uint16_t)LazyFlagVarA16) ^ ((uint16_t)LazyFlagVarB16) ;
 	lazyFlagType = t_XOR16;
 	*(int16_t*)target = LazyFlagResultContainer16;
 }
@@ -3262,45 +3291,45 @@ void handlerCommand32Code0033() {
 	uint8_t* target = (uint8_t*)readRegisterMRM32(mrmByte);
 	LazyFlagVarA32 = *(int32_t*)target;
 	LazyFlagVarB32 = *(int32_t*)source;
-	LazyFlagResultContainer32 = LazyFlagVarA32 ^ LazyFlagVarB32 ;
+	LazyFlagResultContainer32 = ((uint32_t)LazyFlagVarA32) ^ ((uint32_t)LazyFlagVarB32) ;
 	lazyFlagType = t_XOR32;
 	*(int32_t*)target = LazyFlagResultContainer32;
 }
 //XOR
 void handlerCommand32Code0034P66() {
 	uint8_t* target = (uint8_t*)register8u(BR_AX);
-	LazyFlagVarA8 = *(int8_t*)target;
+	LazyFlagVarA8 = *(uint8_t*)target;
 	LazyFlagVarB8 = read8u();
-	LazyFlagResultContainer8 = LazyFlagVarA8 ^ LazyFlagVarB8 ;
+	LazyFlagResultContainer8 = (((uint8_t)LazyFlagVarA8) ^ ((uint8_t)LazyFlagVarB8)) ;
 	lazyFlagType = t_XOR8;
-	*(int8_t*)target = LazyFlagResultContainer8;
+	*(uint8_t*)target = LazyFlagResultContainer8;
 }
 //XOR
 void handlerCommand32Code0034() {
 	uint8_t* target = (uint8_t*)register8u(BR_AX);
-	LazyFlagVarA8 = *(int8_t*)target;
+	LazyFlagVarA8 = *(uint8_t*)target;
 	LazyFlagVarB8 = read8u();
-	LazyFlagResultContainer8 = LazyFlagVarA8 ^ LazyFlagVarB8 ;
+	LazyFlagResultContainer8 = (((uint8_t)LazyFlagVarA8) ^ ((uint8_t)LazyFlagVarB8)) ;
 	lazyFlagType = t_XOR8;
-	*(int8_t*)target = LazyFlagResultContainer8;
+	*(uint8_t*)target = LazyFlagResultContainer8;
 }
 //XOR
 void handlerCommand32Code0035P66() {
 	uint8_t* target = (uint8_t*)register16u(BR_AX);
-	LazyFlagVarA16 = *(int16_t*)target;
+	LazyFlagVarA16 = *(uint16_t*)target;
 	LazyFlagVarB16 = read16u();
-	LazyFlagResultContainer16 = LazyFlagVarA16 ^ LazyFlagVarB16 ;
+	LazyFlagResultContainer16 = (((uint16_t)LazyFlagVarA16) ^ ((uint16_t)LazyFlagVarB16)) ;
 	lazyFlagType = t_XOR16;
-	*(int16_t*)target = LazyFlagResultContainer16;
+	*(uint16_t*)target = LazyFlagResultContainer16;
 }
 //XOR
 void handlerCommand32Code0035() {
 	uint8_t* target = (uint8_t*)register32u(BR_AX);
-	LazyFlagVarA32 = *(int32_t*)target;
+	LazyFlagVarA32 = *(uint32_t*)target;
 	LazyFlagVarB32 = read32u();
-	LazyFlagResultContainer32 = LazyFlagVarA32 ^ LazyFlagVarB32 ;
+	LazyFlagResultContainer32 = (((uint32_t)LazyFlagVarA32) ^ ((uint32_t)LazyFlagVarB32)) ;
 	lazyFlagType = t_XOR32;
-	*(int32_t*)target = LazyFlagResultContainer32;
+	*(uint32_t*)target = LazyFlagResultContainer32;
 }
 //CMP
 void handlerCommand32Code0038P66() {
@@ -3309,7 +3338,7 @@ void handlerCommand32Code0038P66() {
 	uint8_t* source = (uint8_t*)readRegisterMRM8(mrmByte);
 	LazyFlagVarA8 = *(int8_t*)target;
 	LazyFlagVarB8 = *(int8_t*)source;
-	LazyFlagResultContainer8 = LazyFlagVarA8 - LazyFlagVarB8 ;
+	LazyFlagResultContainer8 = ((uint8_t)LazyFlagVarA8) - ((uint8_t)LazyFlagVarB8) ;
 	lazyFlagType = t_CMP8;
 }
 //CMP
@@ -3319,7 +3348,7 @@ void handlerCommand32Code0038() {
 	uint8_t* source = (uint8_t*)readRegisterMRM8(mrmByte);
 	LazyFlagVarA8 = *(int8_t*)target;
 	LazyFlagVarB8 = *(int8_t*)source;
-	LazyFlagResultContainer8 = LazyFlagVarA8 - LazyFlagVarB8 ;
+	LazyFlagResultContainer8 = ((uint8_t)LazyFlagVarA8) - ((uint8_t)LazyFlagVarB8) ;
 	lazyFlagType = t_CMP8;
 }
 //CMP
@@ -3329,7 +3358,7 @@ void handlerCommand32Code0039P66() {
 	uint8_t* source = (uint8_t*)readRegisterMRM16(mrmByte);
 	LazyFlagVarA16 = *(int16_t*)target;
 	LazyFlagVarB16 = *(int16_t*)source;
-	LazyFlagResultContainer16 = LazyFlagVarA16 - LazyFlagVarB16 ;
+	LazyFlagResultContainer16 = ((uint16_t)LazyFlagVarA16) - ((uint16_t)LazyFlagVarB16) ;
 	lazyFlagType = t_CMP16;
 }
 //CMP
@@ -3339,7 +3368,7 @@ void handlerCommand32Code0039() {
 	uint8_t* source = (uint8_t*)readRegisterMRM32(mrmByte);
 	LazyFlagVarA32 = *(int32_t*)target;
 	LazyFlagVarB32 = *(int32_t*)source;
-	LazyFlagResultContainer32 = LazyFlagVarA32 - LazyFlagVarB32 ;
+	LazyFlagResultContainer32 = ((uint32_t)LazyFlagVarA32) - ((uint32_t)LazyFlagVarB32) ;
 	lazyFlagType = t_CMP32;
 }
 //CMP
@@ -3349,7 +3378,7 @@ void handlerCommand32Code003AP66() {
 	uint8_t* target = (uint8_t*)readRegisterMRM8(mrmByte);
 	LazyFlagVarA8 = *(int8_t*)target;
 	LazyFlagVarB8 = *(int8_t*)source;
-	LazyFlagResultContainer8 = LazyFlagVarA8 - LazyFlagVarB8 ;
+	LazyFlagResultContainer8 = ((uint8_t)LazyFlagVarA8) - ((uint8_t)LazyFlagVarB8) ;
 	lazyFlagType = t_CMP8;
 }
 //CMP
@@ -3359,7 +3388,7 @@ void handlerCommand32Code003A() {
 	uint8_t* target = (uint8_t*)readRegisterMRM8(mrmByte);
 	LazyFlagVarA8 = *(int8_t*)target;
 	LazyFlagVarB8 = *(int8_t*)source;
-	LazyFlagResultContainer8 = LazyFlagVarA8 - LazyFlagVarB8 ;
+	LazyFlagResultContainer8 = ((uint8_t)LazyFlagVarA8) - ((uint8_t)LazyFlagVarB8) ;
 	lazyFlagType = t_CMP8;
 }
 //CMP
@@ -3369,7 +3398,7 @@ void handlerCommand32Code003BP66() {
 	uint8_t* target = (uint8_t*)readRegisterMRM16(mrmByte);
 	LazyFlagVarA16 = *(int16_t*)target;
 	LazyFlagVarB16 = *(int16_t*)source;
-	LazyFlagResultContainer16 = LazyFlagVarA16 - LazyFlagVarB16 ;
+	LazyFlagResultContainer16 = ((uint16_t)LazyFlagVarA16) - ((uint16_t)LazyFlagVarB16) ;
 	lazyFlagType = t_CMP16;
 }
 //CMP
@@ -3379,39 +3408,39 @@ void handlerCommand32Code003B() {
 	uint8_t* target = (uint8_t*)readRegisterMRM32(mrmByte);
 	LazyFlagVarA32 = *(int32_t*)target;
 	LazyFlagVarB32 = *(int32_t*)source;
-	LazyFlagResultContainer32 = LazyFlagVarA32 - LazyFlagVarB32 ;
+	LazyFlagResultContainer32 = ((uint32_t)LazyFlagVarA32) - ((uint32_t)LazyFlagVarB32) ;
 	lazyFlagType = t_CMP32;
 }
 //CMP
 void handlerCommand32Code003CP66() {
 	uint8_t* target = (uint8_t*)register8u(BR_AX);
-	LazyFlagVarA8 = *(int8_t*)target;
+	LazyFlagVarA8 = *(uint8_t*)target;
 	LazyFlagVarB8 = read8u();
-	LazyFlagResultContainer8 = LazyFlagVarA8 - LazyFlagVarB8 ;
+	LazyFlagResultContainer8 = (((uint8_t)LazyFlagVarA8) - ((uint8_t)LazyFlagVarB8)) ;
 	lazyFlagType = t_CMP8;
 }
 //CMP
 void handlerCommand32Code003C() {
 	uint8_t* target = (uint8_t*)register8u(BR_AX);
-	LazyFlagVarA8 = *(int8_t*)target;
+	LazyFlagVarA8 = *(uint8_t*)target;
 	LazyFlagVarB8 = read8u();
-	LazyFlagResultContainer8 = LazyFlagVarA8 - LazyFlagVarB8 ;
+	LazyFlagResultContainer8 = (((uint8_t)LazyFlagVarA8) - ((uint8_t)LazyFlagVarB8)) ;
 	lazyFlagType = t_CMP8;
 }
 //CMP
 void handlerCommand32Code003DP66() {
 	uint8_t* target = (uint8_t*)register16u(BR_AX);
-	LazyFlagVarA16 = *(int16_t*)target;
+	LazyFlagVarA16 = *(uint16_t*)target;
 	LazyFlagVarB16 = read16u();
-	LazyFlagResultContainer16 = LazyFlagVarA16 - LazyFlagVarB16 ;
+	LazyFlagResultContainer16 = (((uint16_t)LazyFlagVarA16) - ((uint16_t)LazyFlagVarB16)) ;
 	lazyFlagType = t_CMP16;
 }
 //CMP
 void handlerCommand32Code003D() {
 	uint8_t* target = (uint8_t*)register32u(BR_AX);
-	LazyFlagVarA32 = *(int32_t*)target;
+	LazyFlagVarA32 = *(uint32_t*)target;
 	LazyFlagVarB32 = read32u();
-	LazyFlagResultContainer32 = LazyFlagVarA32 - LazyFlagVarB32 ;
+	LazyFlagResultContainer32 = (((uint32_t)LazyFlagVarA32) - ((uint32_t)LazyFlagVarB32)) ;
 	lazyFlagType = t_CMP32;
 }
 //TEST
@@ -3421,7 +3450,7 @@ void handlerCommand32Code0084P66() {
 	uint8_t* source = (uint8_t*)readRegisterMRM8(mrmByte);
 	LazyFlagVarA8 = *(int8_t*)target;
 	LazyFlagVarB8 = *(int8_t*)source;
-	LazyFlagResultContainer8 = LazyFlagVarA8 & LazyFlagVarB8 ;
+	LazyFlagResultContainer8 = ((uint8_t)LazyFlagVarA8) & ((uint8_t)LazyFlagVarB8) ;
 	lazyFlagType = t_TEST8;
 }
 //TEST
@@ -3431,7 +3460,7 @@ void handlerCommand32Code0084() {
 	uint8_t* source = (uint8_t*)readRegisterMRM8(mrmByte);
 	LazyFlagVarA8 = *(int8_t*)target;
 	LazyFlagVarB8 = *(int8_t*)source;
-	LazyFlagResultContainer8 = LazyFlagVarA8 & LazyFlagVarB8 ;
+	LazyFlagResultContainer8 = ((uint8_t)LazyFlagVarA8) & ((uint8_t)LazyFlagVarB8) ;
 	lazyFlagType = t_TEST8;
 }
 //TEST
@@ -3441,7 +3470,7 @@ void handlerCommand32Code0085P66() {
 	uint8_t* source = (uint8_t*)readRegisterMRM16(mrmByte);
 	LazyFlagVarA16 = *(int16_t*)target;
 	LazyFlagVarB16 = *(int16_t*)source;
-	LazyFlagResultContainer16 = LazyFlagVarA16 & LazyFlagVarB16 ;
+	LazyFlagResultContainer16 = ((uint16_t)LazyFlagVarA16) & ((uint16_t)LazyFlagVarB16) ;
 	lazyFlagType = t_TEST16;
 }
 //TEST
@@ -3451,39 +3480,39 @@ void handlerCommand32Code0085() {
 	uint8_t* source = (uint8_t*)readRegisterMRM32(mrmByte);
 	LazyFlagVarA32 = *(int32_t*)target;
 	LazyFlagVarB32 = *(int32_t*)source;
-	LazyFlagResultContainer32 = LazyFlagVarA32 & LazyFlagVarB32 ;
+	LazyFlagResultContainer32 = ((uint32_t)LazyFlagVarA32) & ((uint32_t)LazyFlagVarB32) ;
 	lazyFlagType = t_TEST32;
 }
 //TEST
 void handlerCommand32Code00A8P66() {
 	uint8_t* target = (uint8_t*)register8u(BR_AX);
-	LazyFlagVarA8 = *(int8_t*)target;
+	LazyFlagVarA8 = *(uint8_t*)target;
 	LazyFlagVarB8 = read8u();
-	LazyFlagResultContainer8 = LazyFlagVarA8 & LazyFlagVarB8 ;
+	LazyFlagResultContainer8 = (((uint8_t)LazyFlagVarA8) & ((uint8_t)LazyFlagVarB8)) ;
 	lazyFlagType = t_TEST8;
 }
 //TEST
 void handlerCommand32Code00A8() {
 	uint8_t* target = (uint8_t*)register8u(BR_AX);
-	LazyFlagVarA8 = *(int8_t*)target;
+	LazyFlagVarA8 = *(uint8_t*)target;
 	LazyFlagVarB8 = read8u();
-	LazyFlagResultContainer8 = LazyFlagVarA8 & LazyFlagVarB8 ;
+	LazyFlagResultContainer8 = (((uint8_t)LazyFlagVarA8) & ((uint8_t)LazyFlagVarB8)) ;
 	lazyFlagType = t_TEST8;
 }
 //TEST
 void handlerCommand32Code00A9P66() {
 	uint8_t* target = (uint8_t*)register16u(BR_AX);
-	LazyFlagVarA16 = *(int16_t*)target;
+	LazyFlagVarA16 = *(uint16_t*)target;
 	LazyFlagVarB16 = read16u();
-	LazyFlagResultContainer16 = LazyFlagVarA16 & LazyFlagVarB16 ;
+	LazyFlagResultContainer16 = (((uint16_t)LazyFlagVarA16) & ((uint16_t)LazyFlagVarB16)) ;
 	lazyFlagType = t_TEST16;
 }
 //TEST
 void handlerCommand32Code00A9() {
 	uint8_t* target = (uint8_t*)register32u(BR_AX);
-	LazyFlagVarA32 = *(int32_t*)target;
+	LazyFlagVarA32 = *(uint32_t*)target;
 	LazyFlagVarB32 = read32u();
-	LazyFlagResultContainer32 = LazyFlagVarA32 & LazyFlagVarB32 ;
+	LazyFlagResultContainer32 = (((uint32_t)LazyFlagVarA32) & ((uint32_t)LazyFlagVarB32)) ;
 	lazyFlagType = t_TEST32;
 }
 //Math
@@ -3494,72 +3523,73 @@ void handlerCommand32Code0080P66() {
 	switch (nnn) {
 		case 0x0: {
 			LazyFlagVarA8 = *(int8_t*)target;
-			LazyFlagVarB8 = read8();
-			LazyFlagResultContainer8 = LazyFlagVarA8 + ((uint8_t)LazyFlagVarB8) ;
+			LazyFlagVarB8 = ((uint8_t)read8u());
+			LazyFlagResultContainer8 = ((uint8_t)LazyFlagVarA8) + ((uint8_t)LazyFlagVarB8) ;
 			lazyFlagType = t_ADD8;
 			*(int8_t*)target = LazyFlagResultContainer8;
 		}
-		break;
+		return;
 		case 0x1: {
 			LazyFlagVarA8 = *(int8_t*)target;
-			LazyFlagVarB8 = read8();
-			LazyFlagResultContainer8 = LazyFlagVarA8 | (LazyFlagVarB8) ;
+			LazyFlagVarB8 = ((uint8_t)read8u());
+			LazyFlagResultContainer8 = ((uint8_t)LazyFlagVarA8) | ((uint8_t)LazyFlagVarB8) ;
 			lazyFlagType = t_OR8;
 			*(int8_t*)target = LazyFlagResultContainer8;
 		}
-		break;
+		return;
 		case 0x2: {
 			LazyFlagVarA8 = *(int8_t*)target;
-			LazyFlagVarB8 = read8();
+			LazyFlagVarB8 = ((uint8_t)read8u());
 			FillFlags();
 			oldcf = GET_FLAG(CF);
-			LazyFlagResultContainer8 = LazyFlagVarA8 + ((uint8_t)LazyFlagVarB8) + oldcf;
+			LazyFlagResultContainer8 = ((uint8_t)LazyFlagVarA8) + ((uint8_t)LazyFlagVarB8) + oldcf;
 			lazyFlagType = t_ADC8;
 			*(int8_t*)target = LazyFlagResultContainer8;
 		}
-		break;
+		return;
 		case 0x3: {
 			LazyFlagVarA8 = *(int8_t*)target;
-			LazyFlagVarB8 = read8();
+			LazyFlagVarB8 = ((uint8_t)read8u());
 			FillFlags();
 			oldcf = GET_FLAG(CF);
-			LazyFlagResultContainer8 = LazyFlagVarA8 - ((uint8_t)LazyFlagVarB8) - oldcf;
+			LazyFlagResultContainer8 = ((uint8_t)LazyFlagVarA8) - ((uint8_t)LazyFlagVarB8) - oldcf;
 			lazyFlagType = t_SBB8;
 			*(int8_t*)target = LazyFlagResultContainer8;
 		}
-		break;
+		return;
 		case 0x4: {
 			LazyFlagVarA8 = *(int8_t*)target;
-			LazyFlagVarB8 = read8();
-			LazyFlagResultContainer8 = LazyFlagVarA8 & (LazyFlagVarB8) ;
+			LazyFlagVarB8 = ((uint8_t)read8u());
+			LazyFlagResultContainer8 = ((uint8_t)LazyFlagVarA8) & ((uint8_t)LazyFlagVarB8) ;
 			lazyFlagType = t_AND8;
 			*(int8_t*)target = LazyFlagResultContainer8;
 		}
-		break;
+		return;
 		case 0x5: {
 			LazyFlagVarA8 = *(int8_t*)target;
-			LazyFlagVarB8 = read8();
-			LazyFlagResultContainer8 = LazyFlagVarA8 - ((uint8_t)LazyFlagVarB8) ;
+			LazyFlagVarB8 = ((uint8_t)read8u());
+			LazyFlagResultContainer8 = ((uint8_t)LazyFlagVarA8) - ((uint8_t)LazyFlagVarB8) ;
 			lazyFlagType = t_SUB8;
 			*(int8_t*)target = LazyFlagResultContainer8;
 		}
-		break;
+		return;
 		case 0x6: {
 			LazyFlagVarA8 = *(int8_t*)target;
-			LazyFlagVarB8 = read8();
-			LazyFlagResultContainer8 = LazyFlagVarA8 ^ (LazyFlagVarB8) ;
+			LazyFlagVarB8 = ((uint8_t)read8u());
+			LazyFlagResultContainer8 = ((uint8_t)LazyFlagVarA8) ^ ((uint8_t)LazyFlagVarB8) ;
 			lazyFlagType = t_XOR8;
 			*(int8_t*)target = LazyFlagResultContainer8;
 		}
-		break;
+		return;
 		case 0x7: {
 			LazyFlagVarA8 = *(int8_t*)target;
-			LazyFlagVarB8 = read8();
-			LazyFlagResultContainer8 = LazyFlagVarA8 - ((uint8_t)LazyFlagVarB8) ;
+			LazyFlagVarB8 = ((uint8_t)read8u());
+			LazyFlagResultContainer8 = ((uint8_t)LazyFlagVarA8) - ((uint8_t)LazyFlagVarB8) ;
 			lazyFlagType = t_CMP8;
 		}
-		break;
+		return;
 	}
+	mCommandFunctionEmpty();
 }
 //Math
 void handlerCommand32Code0080() {
@@ -3569,72 +3599,73 @@ void handlerCommand32Code0080() {
 	switch (nnn) {
 		case 0x0: {
 			LazyFlagVarA8 = *(int8_t*)target;
-			LazyFlagVarB8 = read8();
-			LazyFlagResultContainer8 = LazyFlagVarA8 + ((uint8_t)LazyFlagVarB8) ;
+			LazyFlagVarB8 = ((uint8_t)read8u());
+			LazyFlagResultContainer8 = ((uint8_t)LazyFlagVarA8) + ((uint8_t)LazyFlagVarB8) ;
 			lazyFlagType = t_ADD8;
 			*(int8_t*)target = LazyFlagResultContainer8;
 		}
-		break;
+		return;
 		case 0x1: {
 			LazyFlagVarA8 = *(int8_t*)target;
-			LazyFlagVarB8 = read8();
-			LazyFlagResultContainer8 = LazyFlagVarA8 | (LazyFlagVarB8) ;
+			LazyFlagVarB8 = ((uint8_t)read8u());
+			LazyFlagResultContainer8 = ((uint8_t)LazyFlagVarA8) | ((uint8_t)LazyFlagVarB8) ;
 			lazyFlagType = t_OR8;
 			*(int8_t*)target = LazyFlagResultContainer8;
 		}
-		break;
+		return;
 		case 0x2: {
 			LazyFlagVarA8 = *(int8_t*)target;
-			LazyFlagVarB8 = read8();
+			LazyFlagVarB8 = ((uint8_t)read8u());
 			FillFlags();
 			oldcf = GET_FLAG(CF);
-			LazyFlagResultContainer8 = LazyFlagVarA8 + ((uint8_t)LazyFlagVarB8) + oldcf;
+			LazyFlagResultContainer8 = ((uint8_t)LazyFlagVarA8) + ((uint8_t)LazyFlagVarB8) + oldcf;
 			lazyFlagType = t_ADC8;
 			*(int8_t*)target = LazyFlagResultContainer8;
 		}
-		break;
+		return;
 		case 0x3: {
 			LazyFlagVarA8 = *(int8_t*)target;
-			LazyFlagVarB8 = read8();
+			LazyFlagVarB8 = ((uint8_t)read8u());
 			FillFlags();
 			oldcf = GET_FLAG(CF);
-			LazyFlagResultContainer8 = LazyFlagVarA8 - ((uint8_t)LazyFlagVarB8) - oldcf;
+			LazyFlagResultContainer8 = ((uint8_t)LazyFlagVarA8) - ((uint8_t)LazyFlagVarB8) - oldcf;
 			lazyFlagType = t_SBB8;
 			*(int8_t*)target = LazyFlagResultContainer8;
 		}
-		break;
+		return;
 		case 0x4: {
 			LazyFlagVarA8 = *(int8_t*)target;
-			LazyFlagVarB8 = read8();
-			LazyFlagResultContainer8 = LazyFlagVarA8 & (LazyFlagVarB8) ;
+			LazyFlagVarB8 = ((uint8_t)read8u());
+			LazyFlagResultContainer8 = ((uint8_t)LazyFlagVarA8) & ((uint8_t)LazyFlagVarB8) ;
 			lazyFlagType = t_AND8;
 			*(int8_t*)target = LazyFlagResultContainer8;
 		}
-		break;
+		return;
 		case 0x5: {
 			LazyFlagVarA8 = *(int8_t*)target;
-			LazyFlagVarB8 = read8();
-			LazyFlagResultContainer8 = LazyFlagVarA8 - ((uint8_t)LazyFlagVarB8) ;
+			LazyFlagVarB8 = ((uint8_t)read8u());
+			LazyFlagResultContainer8 = ((uint8_t)LazyFlagVarA8) - ((uint8_t)LazyFlagVarB8) ;
 			lazyFlagType = t_SUB8;
 			*(int8_t*)target = LazyFlagResultContainer8;
 		}
-		break;
+		return;
 		case 0x6: {
 			LazyFlagVarA8 = *(int8_t*)target;
-			LazyFlagVarB8 = read8();
-			LazyFlagResultContainer8 = LazyFlagVarA8 ^ (LazyFlagVarB8) ;
+			LazyFlagVarB8 = ((uint8_t)read8u());
+			LazyFlagResultContainer8 = ((uint8_t)LazyFlagVarA8) ^ ((uint8_t)LazyFlagVarB8) ;
 			lazyFlagType = t_XOR8;
 			*(int8_t*)target = LazyFlagResultContainer8;
 		}
-		break;
+		return;
 		case 0x7: {
 			LazyFlagVarA8 = *(int8_t*)target;
-			LazyFlagVarB8 = read8();
-			LazyFlagResultContainer8 = LazyFlagVarA8 - ((uint8_t)LazyFlagVarB8) ;
+			LazyFlagVarB8 = ((uint8_t)read8u());
+			LazyFlagResultContainer8 = ((uint8_t)LazyFlagVarA8) - ((uint8_t)LazyFlagVarB8) ;
 			lazyFlagType = t_CMP8;
 		}
-		break;
+		return;
 	}
+	mCommandFunctionEmpty();
 }
 //Math
 void handlerCommand32Code0081P66() {
@@ -3644,72 +3675,73 @@ void handlerCommand32Code0081P66() {
 	switch (nnn) {
 		case 0x0: {
 			LazyFlagVarA16 = *(int16_t*)target;
-			LazyFlagVarB16 = read16();
-			LazyFlagResultContainer16 = LazyFlagVarA16 + ((uint16_t)LazyFlagVarB16) ;
+			LazyFlagVarB16 = ((uint16_t)read16u());
+			LazyFlagResultContainer16 = ((uint16_t)LazyFlagVarA16) + ((uint16_t)LazyFlagVarB16) ;
 			lazyFlagType = t_ADD16;
 			*(int16_t*)target = LazyFlagResultContainer16;
 		}
-		break;
+		return;
 		case 0x1: {
 			LazyFlagVarA16 = *(int16_t*)target;
-			LazyFlagVarB16 = read16();
-			LazyFlagResultContainer16 = LazyFlagVarA16 | (LazyFlagVarB16) ;
+			LazyFlagVarB16 = ((uint16_t)read16u());
+			LazyFlagResultContainer16 = ((uint16_t)LazyFlagVarA16) | ((uint16_t)LazyFlagVarB16) ;
 			lazyFlagType = t_OR16;
 			*(int16_t*)target = LazyFlagResultContainer16;
 		}
-		break;
+		return;
 		case 0x2: {
 			LazyFlagVarA16 = *(int16_t*)target;
-			LazyFlagVarB16 = read16();
+			LazyFlagVarB16 = ((uint16_t)read16u());
 			FillFlags();
 			oldcf = GET_FLAG(CF);
-			LazyFlagResultContainer16 = LazyFlagVarA16 + ((uint16_t)LazyFlagVarB16) + oldcf;
+			LazyFlagResultContainer16 = ((uint16_t)LazyFlagVarA16) + ((uint16_t)LazyFlagVarB16) + oldcf;
 			lazyFlagType = t_ADC16;
 			*(int16_t*)target = LazyFlagResultContainer16;
 		}
-		break;
+		return;
 		case 0x3: {
 			LazyFlagVarA16 = *(int16_t*)target;
-			LazyFlagVarB16 = read16();
+			LazyFlagVarB16 = ((uint16_t)read16u());
 			FillFlags();
 			oldcf = GET_FLAG(CF);
-			LazyFlagResultContainer16 = LazyFlagVarA16 - ((uint16_t)LazyFlagVarB16) - oldcf;
+			LazyFlagResultContainer16 = ((uint16_t)LazyFlagVarA16) - ((uint16_t)LazyFlagVarB16) - oldcf;
 			lazyFlagType = t_SBB16;
 			*(int16_t*)target = LazyFlagResultContainer16;
 		}
-		break;
+		return;
 		case 0x4: {
 			LazyFlagVarA16 = *(int16_t*)target;
-			LazyFlagVarB16 = read16();
-			LazyFlagResultContainer16 = LazyFlagVarA16 & (LazyFlagVarB16) ;
+			LazyFlagVarB16 = ((uint16_t)read16u());
+			LazyFlagResultContainer16 = ((uint16_t)LazyFlagVarA16) & ((uint16_t)LazyFlagVarB16) ;
 			lazyFlagType = t_AND16;
 			*(int16_t*)target = LazyFlagResultContainer16;
 		}
-		break;
+		return;
 		case 0x5: {
 			LazyFlagVarA16 = *(int16_t*)target;
-			LazyFlagVarB16 = read16();
-			LazyFlagResultContainer16 = LazyFlagVarA16 - ((uint16_t)LazyFlagVarB16) ;
+			LazyFlagVarB16 = ((uint16_t)read16u());
+			LazyFlagResultContainer16 = ((uint16_t)LazyFlagVarA16) - ((uint16_t)LazyFlagVarB16) ;
 			lazyFlagType = t_SUB16;
 			*(int16_t*)target = LazyFlagResultContainer16;
 		}
-		break;
+		return;
 		case 0x6: {
 			LazyFlagVarA16 = *(int16_t*)target;
-			LazyFlagVarB16 = read16();
-			LazyFlagResultContainer16 = LazyFlagVarA16 ^ (LazyFlagVarB16) ;
+			LazyFlagVarB16 = ((uint16_t)read16u());
+			LazyFlagResultContainer16 = ((uint16_t)LazyFlagVarA16) ^ ((uint16_t)LazyFlagVarB16) ;
 			lazyFlagType = t_XOR16;
 			*(int16_t*)target = LazyFlagResultContainer16;
 		}
-		break;
+		return;
 		case 0x7: {
 			LazyFlagVarA16 = *(int16_t*)target;
-			LazyFlagVarB16 = read16();
-			LazyFlagResultContainer16 = LazyFlagVarA16 - ((uint16_t)LazyFlagVarB16) ;
+			LazyFlagVarB16 = ((uint16_t)read16u());
+			LazyFlagResultContainer16 = ((uint16_t)LazyFlagVarA16) - ((uint16_t)LazyFlagVarB16) ;
 			lazyFlagType = t_CMP16;
 		}
-		break;
+		return;
 	}
+	mCommandFunctionEmpty();
 }
 //Math
 void handlerCommand32Code0081() {
@@ -3719,72 +3751,73 @@ void handlerCommand32Code0081() {
 	switch (nnn) {
 		case 0x0: {
 			LazyFlagVarA32 = *(int32_t*)target;
-			LazyFlagVarB32 = read32();
-			LazyFlagResultContainer32 = LazyFlagVarA32 + ((uint32_t)LazyFlagVarB32) ;
+			LazyFlagVarB32 = ((uint32_t)read32u());
+			LazyFlagResultContainer32 = ((uint32_t)LazyFlagVarA32) + ((uint32_t)LazyFlagVarB32) ;
 			lazyFlagType = t_ADD32;
 			*(int32_t*)target = LazyFlagResultContainer32;
 		}
-		break;
+		return;
 		case 0x1: {
 			LazyFlagVarA32 = *(int32_t*)target;
-			LazyFlagVarB32 = read32();
-			LazyFlagResultContainer32 = LazyFlagVarA32 | (LazyFlagVarB32) ;
+			LazyFlagVarB32 = ((uint32_t)read32u());
+			LazyFlagResultContainer32 = ((uint32_t)LazyFlagVarA32) | ((uint32_t)LazyFlagVarB32) ;
 			lazyFlagType = t_OR32;
 			*(int32_t*)target = LazyFlagResultContainer32;
 		}
-		break;
+		return;
 		case 0x2: {
 			LazyFlagVarA32 = *(int32_t*)target;
-			LazyFlagVarB32 = read32();
+			LazyFlagVarB32 = ((uint32_t)read32u());
 			FillFlags();
 			oldcf = GET_FLAG(CF);
-			LazyFlagResultContainer32 = LazyFlagVarA32 + ((uint32_t)LazyFlagVarB32) + oldcf;
+			LazyFlagResultContainer32 = ((uint32_t)LazyFlagVarA32) + ((uint32_t)LazyFlagVarB32) + oldcf;
 			lazyFlagType = t_ADC32;
 			*(int32_t*)target = LazyFlagResultContainer32;
 		}
-		break;
+		return;
 		case 0x3: {
 			LazyFlagVarA32 = *(int32_t*)target;
-			LazyFlagVarB32 = read32();
+			LazyFlagVarB32 = ((uint32_t)read32u());
 			FillFlags();
 			oldcf = GET_FLAG(CF);
-			LazyFlagResultContainer32 = LazyFlagVarA32 - ((uint32_t)LazyFlagVarB32) - oldcf;
+			LazyFlagResultContainer32 = ((uint32_t)LazyFlagVarA32) - ((uint32_t)LazyFlagVarB32) - oldcf;
 			lazyFlagType = t_SBB32;
 			*(int32_t*)target = LazyFlagResultContainer32;
 		}
-		break;
+		return;
 		case 0x4: {
 			LazyFlagVarA32 = *(int32_t*)target;
-			LazyFlagVarB32 = read32();
-			LazyFlagResultContainer32 = LazyFlagVarA32 & (LazyFlagVarB32) ;
+			LazyFlagVarB32 = ((uint32_t)read32u());
+			LazyFlagResultContainer32 = ((uint32_t)LazyFlagVarA32) & ((uint32_t)LazyFlagVarB32) ;
 			lazyFlagType = t_AND32;
 			*(int32_t*)target = LazyFlagResultContainer32;
 		}
-		break;
+		return;
 		case 0x5: {
 			LazyFlagVarA32 = *(int32_t*)target;
-			LazyFlagVarB32 = read32();
-			LazyFlagResultContainer32 = LazyFlagVarA32 - ((uint32_t)LazyFlagVarB32) ;
+			LazyFlagVarB32 = ((uint32_t)read32u());
+			LazyFlagResultContainer32 = ((uint32_t)LazyFlagVarA32) - ((uint32_t)LazyFlagVarB32) ;
 			lazyFlagType = t_SUB32;
 			*(int32_t*)target = LazyFlagResultContainer32;
 		}
-		break;
+		return;
 		case 0x6: {
 			LazyFlagVarA32 = *(int32_t*)target;
-			LazyFlagVarB32 = read32();
-			LazyFlagResultContainer32 = LazyFlagVarA32 ^ (LazyFlagVarB32) ;
+			LazyFlagVarB32 = ((uint32_t)read32u());
+			LazyFlagResultContainer32 = ((uint32_t)LazyFlagVarA32) ^ ((uint32_t)LazyFlagVarB32) ;
 			lazyFlagType = t_XOR32;
 			*(int32_t*)target = LazyFlagResultContainer32;
 		}
-		break;
+		return;
 		case 0x7: {
 			LazyFlagVarA32 = *(int32_t*)target;
-			LazyFlagVarB32 = read32();
-			LazyFlagResultContainer32 = LazyFlagVarA32 - ((uint32_t)LazyFlagVarB32) ;
+			LazyFlagVarB32 = ((uint32_t)read32u());
+			LazyFlagResultContainer32 = ((uint32_t)LazyFlagVarA32) - ((uint32_t)LazyFlagVarB32) ;
 			lazyFlagType = t_CMP32;
 		}
-		break;
+		return;
 	}
+	mCommandFunctionEmpty();
 }
 //Math
 void handlerCommand32Code0082() {
@@ -3794,72 +3827,73 @@ void handlerCommand32Code0082() {
 	switch (nnn) {
 		case 0x0: {
 			LazyFlagVarA8 = *(int8_t*)target;
-			LazyFlagVarB8 = read8();
-			LazyFlagResultContainer8 = LazyFlagVarA8 + ((uint8_t)LazyFlagVarB8) ;
+			LazyFlagVarB8 = ((int8_t)read8());
+			LazyFlagResultContainer8 = ((int8_t)LazyFlagVarA8) + ((int8_t)LazyFlagVarB8) ;
 			lazyFlagType = t_ADD8;
 			*(int8_t*)target = LazyFlagResultContainer8;
 		}
-		break;
+		return;
 		case 0x1: {
 			LazyFlagVarA8 = *(int8_t*)target;
-			LazyFlagVarB8 = read8();
-			LazyFlagResultContainer8 = LazyFlagVarA8 | (LazyFlagVarB8) ;
+			LazyFlagVarB8 = ((int8_t)read8());
+			LazyFlagResultContainer8 = ((int8_t)LazyFlagVarA8) | ((int8_t)LazyFlagVarB8) ;
 			lazyFlagType = t_OR8;
 			*(int8_t*)target = LazyFlagResultContainer8;
 		}
-		break;
+		return;
 		case 0x2: {
 			LazyFlagVarA8 = *(int8_t*)target;
-			LazyFlagVarB8 = read8();
+			LazyFlagVarB8 = ((int8_t)read8());
 			FillFlags();
 			oldcf = GET_FLAG(CF);
-			LazyFlagResultContainer8 = LazyFlagVarA8 + ((uint8_t)LazyFlagVarB8) + oldcf;
+			LazyFlagResultContainer8 = ((int8_t)LazyFlagVarA8) + ((int8_t)LazyFlagVarB8) + oldcf;
 			lazyFlagType = t_ADC8;
 			*(int8_t*)target = LazyFlagResultContainer8;
 		}
-		break;
+		return;
 		case 0x3: {
 			LazyFlagVarA8 = *(int8_t*)target;
-			LazyFlagVarB8 = read8();
+			LazyFlagVarB8 = ((int8_t)read8());
 			FillFlags();
 			oldcf = GET_FLAG(CF);
-			LazyFlagResultContainer8 = LazyFlagVarA8 - ((uint8_t)LazyFlagVarB8) - oldcf;
+			LazyFlagResultContainer8 = ((int8_t)LazyFlagVarA8) - ((int8_t)LazyFlagVarB8) - oldcf;
 			lazyFlagType = t_SBB8;
 			*(int8_t*)target = LazyFlagResultContainer8;
 		}
-		break;
+		return;
 		case 0x4: {
 			LazyFlagVarA8 = *(int8_t*)target;
-			LazyFlagVarB8 = read8();
-			LazyFlagResultContainer8 = LazyFlagVarA8 & (LazyFlagVarB8) ;
+			LazyFlagVarB8 = ((int8_t)read8());
+			LazyFlagResultContainer8 = ((int8_t)LazyFlagVarA8) & ((int8_t)LazyFlagVarB8) ;
 			lazyFlagType = t_AND8;
 			*(int8_t*)target = LazyFlagResultContainer8;
 		}
-		break;
+		return;
 		case 0x5: {
 			LazyFlagVarA8 = *(int8_t*)target;
-			LazyFlagVarB8 = read8();
-			LazyFlagResultContainer8 = LazyFlagVarA8 - ((uint8_t)LazyFlagVarB8) ;
+			LazyFlagVarB8 = ((int8_t)read8());
+			LazyFlagResultContainer8 = ((int8_t)LazyFlagVarA8) - ((int8_t)LazyFlagVarB8) ;
 			lazyFlagType = t_SUB8;
 			*(int8_t*)target = LazyFlagResultContainer8;
 		}
-		break;
+		return;
 		case 0x6: {
 			LazyFlagVarA8 = *(int8_t*)target;
-			LazyFlagVarB8 = read8();
-			LazyFlagResultContainer8 = LazyFlagVarA8 ^ (LazyFlagVarB8) ;
+			LazyFlagVarB8 = ((int8_t)read8());
+			LazyFlagResultContainer8 = ((int8_t)LazyFlagVarA8) ^ ((int8_t)LazyFlagVarB8) ;
 			lazyFlagType = t_XOR8;
 			*(int8_t*)target = LazyFlagResultContainer8;
 		}
-		break;
+		return;
 		case 0x7: {
 			LazyFlagVarA8 = *(int8_t*)target;
-			LazyFlagVarB8 = read8();
-			LazyFlagResultContainer8 = LazyFlagVarA8 - ((uint8_t)LazyFlagVarB8) ;
+			LazyFlagVarB8 = ((int8_t)read8());
+			LazyFlagResultContainer8 = ((int8_t)LazyFlagVarA8) - ((int8_t)LazyFlagVarB8) ;
 			lazyFlagType = t_CMP8;
 		}
-		break;
+		return;
 	}
+	mCommandFunctionEmpty();
 }
 //Math
 void handlerCommand32Code0083P66() {
@@ -3869,72 +3903,73 @@ void handlerCommand32Code0083P66() {
 	switch (nnn) {
 		case 0x0: {
 			LazyFlagVarA16 = *(int16_t*)target;
-			LazyFlagVarB16 = read8();
-			LazyFlagResultContainer16 = LazyFlagVarA16 + ((uint8_t)LazyFlagVarB16) ;
+			LazyFlagVarB16 = ((int16_t)read8());
+			LazyFlagResultContainer16 = ((int16_t)LazyFlagVarA16) + ((int16_t)LazyFlagVarB16) ;
 			lazyFlagType = t_ADD16;
 			*(int16_t*)target = LazyFlagResultContainer16;
 		}
-		break;
+		return;
 		case 0x1: {
 			LazyFlagVarA16 = *(int16_t*)target;
-			LazyFlagVarB16 = read8();
-			LazyFlagResultContainer16 = LazyFlagVarA16 | (LazyFlagVarB16) ;
+			LazyFlagVarB16 = ((int16_t)read8());
+			LazyFlagResultContainer16 = ((int16_t)LazyFlagVarA16) | ((int16_t)LazyFlagVarB16) ;
 			lazyFlagType = t_OR16;
 			*(int16_t*)target = LazyFlagResultContainer16;
 		}
-		break;
+		return;
 		case 0x2: {
 			LazyFlagVarA16 = *(int16_t*)target;
-			LazyFlagVarB16 = read8();
+			LazyFlagVarB16 = ((int16_t)read8());
 			FillFlags();
 			oldcf = GET_FLAG(CF);
-			LazyFlagResultContainer16 = LazyFlagVarA16 + ((uint8_t)LazyFlagVarB16) + oldcf;
+			LazyFlagResultContainer16 = ((int16_t)LazyFlagVarA16) + ((int16_t)LazyFlagVarB16) + oldcf;
 			lazyFlagType = t_ADC16;
 			*(int16_t*)target = LazyFlagResultContainer16;
 		}
-		break;
+		return;
 		case 0x3: {
 			LazyFlagVarA16 = *(int16_t*)target;
-			LazyFlagVarB16 = read8();
+			LazyFlagVarB16 = ((int16_t)read8());
 			FillFlags();
 			oldcf = GET_FLAG(CF);
-			LazyFlagResultContainer16 = LazyFlagVarA16 - ((uint8_t)LazyFlagVarB16) - oldcf;
+			LazyFlagResultContainer16 = ((int16_t)LazyFlagVarA16) - ((int16_t)LazyFlagVarB16) - oldcf;
 			lazyFlagType = t_SBB16;
 			*(int16_t*)target = LazyFlagResultContainer16;
 		}
-		break;
+		return;
 		case 0x4: {
 			LazyFlagVarA16 = *(int16_t*)target;
-			LazyFlagVarB16 = read8();
-			LazyFlagResultContainer16 = LazyFlagVarA16 & (LazyFlagVarB16) ;
+			LazyFlagVarB16 = ((int16_t)read8());
+			LazyFlagResultContainer16 = ((int16_t)LazyFlagVarA16) & ((int16_t)LazyFlagVarB16) ;
 			lazyFlagType = t_AND16;
 			*(int16_t*)target = LazyFlagResultContainer16;
 		}
-		break;
+		return;
 		case 0x5: {
 			LazyFlagVarA16 = *(int16_t*)target;
-			LazyFlagVarB16 = read8();
-			LazyFlagResultContainer16 = LazyFlagVarA16 - ((uint8_t)LazyFlagVarB16) ;
+			LazyFlagVarB16 = ((int16_t)read8());
+			LazyFlagResultContainer16 = ((int16_t)LazyFlagVarA16) - ((int16_t)LazyFlagVarB16) ;
 			lazyFlagType = t_SUB16;
 			*(int16_t*)target = LazyFlagResultContainer16;
 		}
-		break;
+		return;
 		case 0x6: {
 			LazyFlagVarA16 = *(int16_t*)target;
-			LazyFlagVarB16 = read8();
-			LazyFlagResultContainer16 = LazyFlagVarA16 ^ (LazyFlagVarB16) ;
+			LazyFlagVarB16 = ((int16_t)read8());
+			LazyFlagResultContainer16 = ((int16_t)LazyFlagVarA16) ^ ((int16_t)LazyFlagVarB16) ;
 			lazyFlagType = t_XOR16;
 			*(int16_t*)target = LazyFlagResultContainer16;
 		}
-		break;
+		return;
 		case 0x7: {
 			LazyFlagVarA16 = *(int16_t*)target;
-			LazyFlagVarB16 = read8();
-			LazyFlagResultContainer16 = LazyFlagVarA16 - ((uint8_t)LazyFlagVarB16) ;
+			LazyFlagVarB16 = ((int16_t)read8());
+			LazyFlagResultContainer16 = ((int16_t)LazyFlagVarA16) - ((int16_t)LazyFlagVarB16) ;
 			lazyFlagType = t_CMP16;
 		}
-		break;
+		return;
 	}
+	mCommandFunctionEmpty();
 }
 //Math
 void handlerCommand32Code0083() {
@@ -3944,72 +3979,73 @@ void handlerCommand32Code0083() {
 	switch (nnn) {
 		case 0x0: {
 			LazyFlagVarA32 = *(int32_t*)target;
-			LazyFlagVarB32 = read8();
-			LazyFlagResultContainer32 = LazyFlagVarA32 + ((uint8_t)LazyFlagVarB32) ;
+			LazyFlagVarB32 = ((int32_t)read8());
+			LazyFlagResultContainer32 = ((int32_t)LazyFlagVarA32) + ((int32_t)LazyFlagVarB32) ;
 			lazyFlagType = t_ADD32;
 			*(int32_t*)target = LazyFlagResultContainer32;
 		}
-		break;
+		return;
 		case 0x1: {
 			LazyFlagVarA32 = *(int32_t*)target;
-			LazyFlagVarB32 = read8();
-			LazyFlagResultContainer32 = LazyFlagVarA32 | (LazyFlagVarB32) ;
+			LazyFlagVarB32 = ((int32_t)read8());
+			LazyFlagResultContainer32 = ((int32_t)LazyFlagVarA32) | ((int32_t)LazyFlagVarB32) ;
 			lazyFlagType = t_OR32;
 			*(int32_t*)target = LazyFlagResultContainer32;
 		}
-		break;
+		return;
 		case 0x2: {
 			LazyFlagVarA32 = *(int32_t*)target;
-			LazyFlagVarB32 = read8();
+			LazyFlagVarB32 = ((int32_t)read8());
 			FillFlags();
 			oldcf = GET_FLAG(CF);
-			LazyFlagResultContainer32 = LazyFlagVarA32 + ((uint8_t)LazyFlagVarB32) + oldcf;
+			LazyFlagResultContainer32 = ((int32_t)LazyFlagVarA32) + ((int32_t)LazyFlagVarB32) + oldcf;
 			lazyFlagType = t_ADC32;
 			*(int32_t*)target = LazyFlagResultContainer32;
 		}
-		break;
+		return;
 		case 0x3: {
 			LazyFlagVarA32 = *(int32_t*)target;
-			LazyFlagVarB32 = read8();
+			LazyFlagVarB32 = ((int32_t)read8());
 			FillFlags();
 			oldcf = GET_FLAG(CF);
-			LazyFlagResultContainer32 = LazyFlagVarA32 - ((uint8_t)LazyFlagVarB32) - oldcf;
+			LazyFlagResultContainer32 = ((int32_t)LazyFlagVarA32) - ((int32_t)LazyFlagVarB32) - oldcf;
 			lazyFlagType = t_SBB32;
 			*(int32_t*)target = LazyFlagResultContainer32;
 		}
-		break;
+		return;
 		case 0x4: {
 			LazyFlagVarA32 = *(int32_t*)target;
-			LazyFlagVarB32 = read8();
-			LazyFlagResultContainer32 = LazyFlagVarA32 & (LazyFlagVarB32) ;
+			LazyFlagVarB32 = ((int32_t)read8());
+			LazyFlagResultContainer32 = ((int32_t)LazyFlagVarA32) & ((int32_t)LazyFlagVarB32) ;
 			lazyFlagType = t_AND32;
 			*(int32_t*)target = LazyFlagResultContainer32;
 		}
-		break;
+		return;
 		case 0x5: {
 			LazyFlagVarA32 = *(int32_t*)target;
-			LazyFlagVarB32 = read8();
-			LazyFlagResultContainer32 = LazyFlagVarA32 - ((uint8_t)LazyFlagVarB32) ;
+			LazyFlagVarB32 = ((int32_t)read8());
+			LazyFlagResultContainer32 = ((int32_t)LazyFlagVarA32) - ((int32_t)LazyFlagVarB32) ;
 			lazyFlagType = t_SUB32;
 			*(int32_t*)target = LazyFlagResultContainer32;
 		}
-		break;
+		return;
 		case 0x6: {
 			LazyFlagVarA32 = *(int32_t*)target;
-			LazyFlagVarB32 = read8();
-			LazyFlagResultContainer32 = LazyFlagVarA32 ^ (LazyFlagVarB32) ;
+			LazyFlagVarB32 = ((int32_t)read8());
+			LazyFlagResultContainer32 = ((int32_t)LazyFlagVarA32) ^ ((int32_t)LazyFlagVarB32) ;
 			lazyFlagType = t_XOR32;
 			*(int32_t*)target = LazyFlagResultContainer32;
 		}
-		break;
+		return;
 		case 0x7: {
 			LazyFlagVarA32 = *(int32_t*)target;
-			LazyFlagVarB32 = read8();
-			LazyFlagResultContainer32 = LazyFlagVarA32 - ((uint8_t)LazyFlagVarB32) ;
+			LazyFlagVarB32 = ((int32_t)read8());
+			LazyFlagResultContainer32 = ((int32_t)LazyFlagVarA32) - ((int32_t)LazyFlagVarB32) ;
 			lazyFlagType = t_CMP32;
 		}
-		break;
+		return;
 	}
+	mCommandFunctionEmpty();
 }
 //Inc
 void handlerCommand32Code0040P66() {
@@ -4862,15 +4898,16 @@ void handlerCommand32Code00FFP66P67() {
 			// MOVEL
 			*target = read8u();
 		}
-		break;
+		return;
 		case 0x6: {
 			// PUSH
 			uint16_t* sp = register16u(BR_SP);
 			*sp -= 16 / 8;
 			*(uint16_t*)(mem(SR_SS) + *sp) = *(uint16_t*)target;
 		}
-		break;
+		return;
 	}
+	mCommandFunctionEmpty();
 }
 //Ofther
 void handlerCommand32Code00FFP67() {
@@ -4882,15 +4919,16 @@ void handlerCommand32Code00FFP67() {
 			// MOVEL
 			*target = read8u();
 		}
-		break;
+		return;
 		case 0x6: {
 			// PUSH
 			uint16_t* sp = register16u(BR_SP);
 			*sp -= 32 / 8;
 			*(uint32_t*)(mem(SR_SS) + *sp) = *(uint32_t*)target;
 		}
-		break;
+		return;
 	}
+	mCommandFunctionEmpty();
 }
 //Ofther
 void handlerCommand32Code00FFP66() {
@@ -4902,15 +4940,16 @@ void handlerCommand32Code00FFP66() {
 			// MOVEL
 			*target = read8u();
 		}
-		break;
+		return;
 		case 0x6: {
 			// PUSH
 			uint32_t* sp = register32u(BR_SP);
 			*sp -= 16 / 8;
 			*(uint16_t*)(mem(SR_SS) + *sp) = *(uint16_t*)target;
 		}
-		break;
+		return;
 	}
+	mCommandFunctionEmpty();
 }
 //Ofther
 void handlerCommand32Code00FF() {
@@ -4922,15 +4961,16 @@ void handlerCommand32Code00FF() {
 			// MOVEL
 			*target = read8u();
 		}
-		break;
+		return;
 		case 0x6: {
 			// PUSH
 			uint32_t* sp = register32u(BR_SP);
 			*sp -= 32 / 8;
 			*(uint32_t*)(mem(SR_SS) + *sp) = *(uint32_t*)target;
 		}
-		break;
+		return;
 	}
+	mCommandFunctionEmpty();
 }
 //Push
 void handlerCommand32Code006AP67() {
@@ -5061,14 +5101,14 @@ void handlerCommand32Code0069() {
 //Mul
 void handlerCommand32Code006B() {
 	uint8_t mrmByte = read8u();
-	uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
-	uint8_t* source = (uint8_t*)readRegisterMRM8(mrmByte);
-	int8_t source1 = read8();
-	int8_t source2 = *(int8_t*)target;
+	uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
+	uint8_t* source = (uint8_t*)readRegisterMRM32(mrmByte);
+	int32_t source1 = (int32_t)read8();
+	int32_t source2 = *(int32_t*)target;
 	target = source;
-	int16_t tmp = (int16_t)source1 * (int16_t)source2;
-	uint8_t value = source1 * source2;
-	*((int8_t*)target) = value;
+	int64_t tmp = (int64_t)source1 * (int64_t)source2;
+	int32_t value = source1 * source2;
+	*((int32_t*)target) = value;
 	SET_FLAG(ZF, value == 0);
 	SET_FLAG(CF, value != tmp);
 	SET_FLAG(OF, value != tmp);
@@ -5087,12 +5127,12 @@ void handlerCommand32Code00F6P66() {
 			LazyFlagResultContainer8 = LazyFlagVarA8 & ((uint8_t)LazyFlagVarB8);
 			lazyFlagType = t_TEST8;
 		}
-		break;
+		return;
 		case 0x02: {
 			// NOT
 			*(int8_t*)target = ~(*(int8_t*)target);
 		}
-		break;
+		return;
 		case 0x03: {
 			// NEG
 			LazyFlagVarA8 = *(int8_t*)target;
@@ -5100,7 +5140,7 @@ void handlerCommand32Code00F6P66() {
 			*(int8_t*)target = LazyFlagResultContainer8;
 			lazyFlagType = t_NEG8;
 		}
-		break;
+		return;
 		case 0x04: {
 			reg_AX_16=((uint16_t)reg_AL_8)*((uint16_t)(*(uint8_t*)target));
 			FillFlagsNoCFOF();
@@ -5112,7 +5152,7 @@ void handlerCommand32Code00F6P66() {
 				SET_FLAG(CF,0);SET_FLAG(OF,0);
 			}
 		}
-		break;
+		return;
 		case 0x05: {
 			reg_AX_16 = reg_AL_8 * (*((int8_t*)target));
 			FillFlagsNoCFOF();
@@ -5124,7 +5164,7 @@ void handlerCommand32Code00F6P66() {
 				SET_FLAG(CF,1);SET_FLAG(OF,1);
 			}
 		}
-		break;
+		return;
 		case 0x06: {
 			uint8_t val= *(uint8_t*)(target);
 			uint16_t quo=reg_AX_16 / val;
@@ -5137,7 +5177,7 @@ void handlerCommand32Code00F6P66() {
 			SET_FLAG(CF,((rem&3) >= 1 && (rem&3) <= 2));
 			SET_FLAG(PF,parity_lookup[rem&0xff]^parity_lookup[quo8&0xff]^GET_FLAG(PF));
 		}
-		break;
+		return;
 		case 0x07: {
 			int16_t val= *(int8_t*)(target);
 			int16_t quo= ((int16_t)reg_AX_16) / val;
@@ -5150,8 +5190,9 @@ void handlerCommand32Code00F6P66() {
 			SET_FLAG(CF,((rem&3) >= 1 && (rem&3) <= 2));
 			SET_FLAG(PF,parity_lookup[rem&0xff]^parity_lookup[quo8s&0xff]^GET_FLAG(PF));
 		}
-		break;
+		return;
 	}
+	mCommandFunctionEmpty();
 }
 //Math
 void handlerCommand32Code00F6() {
@@ -5166,12 +5207,12 @@ void handlerCommand32Code00F6() {
 			LazyFlagResultContainer8 = LazyFlagVarA8 & ((uint8_t)LazyFlagVarB8);
 			lazyFlagType = t_TEST8;
 		}
-		break;
+		return;
 		case 0x02: {
 			// NOT
 			*(int8_t*)target = ~(*(int8_t*)target);
 		}
-		break;
+		return;
 		case 0x03: {
 			// NEG
 			LazyFlagVarA8 = *(int8_t*)target;
@@ -5179,7 +5220,7 @@ void handlerCommand32Code00F6() {
 			*(int8_t*)target = LazyFlagResultContainer8;
 			lazyFlagType = t_NEG8;
 		}
-		break;
+		return;
 		case 0x04: {
 			reg_AX_16=((uint16_t)reg_AL_8)*((uint16_t)(*(uint8_t*)target));
 			FillFlagsNoCFOF();
@@ -5191,7 +5232,7 @@ void handlerCommand32Code00F6() {
 				SET_FLAG(CF,0);SET_FLAG(OF,0);
 			}
 		}
-		break;
+		return;
 		case 0x05: {
 			reg_AX_16 = reg_AL_8 * (*((int8_t*)target));
 			FillFlagsNoCFOF();
@@ -5203,7 +5244,7 @@ void handlerCommand32Code00F6() {
 				SET_FLAG(CF,1);SET_FLAG(OF,1);
 			}
 		}
-		break;
+		return;
 		case 0x06: {
 			uint8_t val= *(uint8_t*)(target);
 			uint16_t quo=reg_AX_16 / val;
@@ -5216,7 +5257,7 @@ void handlerCommand32Code00F6() {
 			SET_FLAG(CF,((rem&3) >= 1 && (rem&3) <= 2));
 			SET_FLAG(PF,parity_lookup[rem&0xff]^parity_lookup[quo8&0xff]^GET_FLAG(PF));
 		}
-		break;
+		return;
 		case 0x07: {
 			int16_t val= *(int8_t*)(target);
 			int16_t quo= ((int16_t)reg_AX_16) / val;
@@ -5229,8 +5270,9 @@ void handlerCommand32Code00F6() {
 			SET_FLAG(CF,((rem&3) >= 1 && (rem&3) <= 2));
 			SET_FLAG(PF,parity_lookup[rem&0xff]^parity_lookup[quo8s&0xff]^GET_FLAG(PF));
 		}
-		break;
+		return;
 	}
+	mCommandFunctionEmpty();
 }
 //Math
 void handlerCommand32Code00F7P66() {
@@ -5245,12 +5287,12 @@ void handlerCommand32Code00F7P66() {
 			LazyFlagResultContainer16 = LazyFlagVarA16 & ((uint16_t)LazyFlagVarB16);
 			lazyFlagType = t_TEST16;
 		}
-		break;
+		return;
 		case 0x02: {
 			// NOT
 			*(int16_t*)target = ~(*(int16_t*)target);
 		}
-		break;
+		return;
 		case 0x03: {
 			// NEG
 			LazyFlagVarA16 = *(int16_t*)target;
@@ -5258,7 +5300,7 @@ void handlerCommand32Code00F7P66() {
 			*(int16_t*)target = LazyFlagResultContainer16;
 			lazyFlagType = t_NEG16;
 		}
-		break;
+		return;
 		case 0x04: {
 			uint32_t tempu=(uint32_t)reg_AX_16*(uint32_t)(*(uint16_t*)(target));
 			reg_AX_16=(uint16_t)(tempu);
@@ -5272,7 +5314,7 @@ void handlerCommand32Code00F7P66() {
 				SET_FLAG(CF,0);SET_FLAG(OF,0);
 			}
 		}
-		break;
+		return;
 		case 0x05: {
 			int32_t temps=reg_AX_16 * (*((int16_t*)target));
 			reg_AX_16=(uint16_t)(temps);
@@ -5286,7 +5328,7 @@ void handlerCommand32Code00F7P66() {
 				SET_FLAG(CF,1);SET_FLAG(OF,1);
 			}
 		}
-		break;
+		return;
 		case 0x06: {
 			uint16_t val= *(uint16_t*)(target);
 			uint32_t num=((uint32_t)reg_DX_16<<16)|reg_AX_16;
@@ -5300,7 +5342,7 @@ void handlerCommand32Code00F7P66() {
 			SET_FLAG(CF,((rem&3) >= 1 && (rem&3) <= 2));
 			SET_FLAG(PF,PARITY16(rem&0xffff)^PARITY16(quo16&0xffff)^GET_FLAG(PF));
 		}
-		break;
+		return;
 		case 0x07: {
 			int32_t val=*(int16_t*)(target);
 			int32_t num=(int32_t)(((uint32_t)reg_DX_16<<16u)|(unsigned int)reg_AX_16);
@@ -5314,8 +5356,9 @@ void handlerCommand32Code00F7P66() {
 			SET_FLAG(CF,((rem&3) >= 1 && (rem&3) <= 2));
 			SET_FLAG(PF,PARITY16(rem&0xffff)^PARITY16(quo16s&0xffff)^GET_FLAG(PF));
 		}
-		break;
+		return;
 	}
+	mCommandFunctionEmpty();
 }
 //Math
 void handlerCommand32Code00F7() {
@@ -5330,12 +5373,12 @@ void handlerCommand32Code00F7() {
 			LazyFlagResultContainer32 = LazyFlagVarA32 & ((uint32_t)LazyFlagVarB32);
 			lazyFlagType = t_TEST32;
 		}
-		break;
+		return;
 		case 0x02: {
 			// NOT
 			*(int32_t*)target = ~(*(int32_t*)target);
 		}
-		break;
+		return;
 		case 0x03: {
 			// NEG
 			LazyFlagVarA32 = *(int32_t*)target;
@@ -5343,7 +5386,7 @@ void handlerCommand32Code00F7() {
 			*(int32_t*)target = LazyFlagResultContainer32;
 			lazyFlagType = t_NEG32;
 		}
-		break;
+		return;
 		case 0x04: {
 			uint64_t tempu=(uint64_t)reg_AX_32*(uint64_t)(*(uint32_t*)(target));
 			reg_AX_32=(uint32_t)(tempu);
@@ -5357,7 +5400,7 @@ void handlerCommand32Code00F7() {
 				SET_FLAG(CF,0);SET_FLAG(OF,0);
 			}
 		}
-		break;
+		return;
 		case 0x05: {
 			int64_t temps=((int64_t)(reg_AX_32))*((int64_t)(*(int32_t*)(target)));
 			reg_AX_32=(uint32_t)(temps);
@@ -5373,7 +5416,7 @@ void handlerCommand32Code00F7() {
 				SET_FLAG(CF,1);SET_FLAG(OF,1);
 			}
 		}
-		break;
+		return;
 		case 0x06: {
 			uint32_t val= *(uint32_t*)(target);
 			uint64_t num=(((uint64_t)reg_DX_32)<<32)|reg_AX_32;
@@ -5387,7 +5430,7 @@ void handlerCommand32Code00F7() {
 			SET_FLAG(CF,((rem&3) >= 1 && (rem&3) <= 2));
 			SET_FLAG(PF,PARITY32(rem&0xffffffff)^PARITY32(quo32&0xffffffff)^GET_FLAG(PF));
 		}
-		break;
+		return;
 		case 0x07: {
 			int64_t val=*(int32_t*)(target);
 			int64_t num=(int64_t)((((uint64_t)reg_DX_32)<<(uint64_t)32)|(uint64_t)reg_AX_32);
@@ -5401,8 +5444,9 @@ void handlerCommand32Code00F7() {
 			SET_FLAG(CF,((rem&3) >= 1 && (rem&3) <= 2));
 			SET_FLAG(PF,PARITY32((uint32_t)rem&0xffffffffu)^PARITY32((uint32_t)quo32s&0xffffffffu)^GET_FLAG(PF));
 		}
-		break;
+		return;
 	}
+	mCommandFunctionEmpty();
 }
 //XCHG
 void handlerCommand32Code0090P66() {
@@ -5679,8 +5723,9 @@ void handlerCommand32Code0190P66() {
 			// SET(cond)
 			*target = COND0x00 ? 1 : 0;
 		}
-		break;
+		return;
 	}
+	mCommandFunctionEmpty();
 }
 //Math
 void handlerCommand32Code0190() {
@@ -5693,8 +5738,9 @@ void handlerCommand32Code0190() {
 			// SET(cond)
 			*target = COND0x00 ? 1 : 0;
 		}
-		break;
+		return;
 	}
+	mCommandFunctionEmpty();
 }
 //Math
 void handlerCommand32Code0191P66() {
@@ -5707,8 +5753,9 @@ void handlerCommand32Code0191P66() {
 			// SET(cond)
 			*target = COND0x01 ? 1 : 0;
 		}
-		break;
+		return;
 	}
+	mCommandFunctionEmpty();
 }
 //Math
 void handlerCommand32Code0191() {
@@ -5721,8 +5768,9 @@ void handlerCommand32Code0191() {
 			// SET(cond)
 			*target = COND0x01 ? 1 : 0;
 		}
-		break;
+		return;
 	}
+	mCommandFunctionEmpty();
 }
 //Math
 void handlerCommand32Code0192P66() {
@@ -5735,8 +5783,9 @@ void handlerCommand32Code0192P66() {
 			// SET(cond)
 			*target = COND0x02 ? 1 : 0;
 		}
-		break;
+		return;
 	}
+	mCommandFunctionEmpty();
 }
 //Math
 void handlerCommand32Code0192() {
@@ -5749,8 +5798,9 @@ void handlerCommand32Code0192() {
 			// SET(cond)
 			*target = COND0x02 ? 1 : 0;
 		}
-		break;
+		return;
 	}
+	mCommandFunctionEmpty();
 }
 //Math
 void handlerCommand32Code0193P66() {
@@ -5763,8 +5813,9 @@ void handlerCommand32Code0193P66() {
 			// SET(cond)
 			*target = COND0x03 ? 1 : 0;
 		}
-		break;
+		return;
 	}
+	mCommandFunctionEmpty();
 }
 //Math
 void handlerCommand32Code0193() {
@@ -5777,8 +5828,9 @@ void handlerCommand32Code0193() {
 			// SET(cond)
 			*target = COND0x03 ? 1 : 0;
 		}
-		break;
+		return;
 	}
+	mCommandFunctionEmpty();
 }
 //Math
 void handlerCommand32Code0194P66() {
@@ -5791,8 +5843,9 @@ void handlerCommand32Code0194P66() {
 			// SET(cond)
 			*target = COND0x04 ? 1 : 0;
 		}
-		break;
+		return;
 	}
+	mCommandFunctionEmpty();
 }
 //Math
 void handlerCommand32Code0194() {
@@ -5805,8 +5858,9 @@ void handlerCommand32Code0194() {
 			// SET(cond)
 			*target = COND0x04 ? 1 : 0;
 		}
-		break;
+		return;
 	}
+	mCommandFunctionEmpty();
 }
 //Math
 void handlerCommand32Code0195P66() {
@@ -5819,8 +5873,9 @@ void handlerCommand32Code0195P66() {
 			// SET(cond)
 			*target = COND0x05 ? 1 : 0;
 		}
-		break;
+		return;
 	}
+	mCommandFunctionEmpty();
 }
 //Math
 void handlerCommand32Code0195() {
@@ -5833,8 +5888,9 @@ void handlerCommand32Code0195() {
 			// SET(cond)
 			*target = COND0x05 ? 1 : 0;
 		}
-		break;
+		return;
 	}
+	mCommandFunctionEmpty();
 }
 //Math
 void handlerCommand32Code0196P66() {
@@ -5847,8 +5903,9 @@ void handlerCommand32Code0196P66() {
 			// SET(cond)
 			*target = COND0x06 ? 1 : 0;
 		}
-		break;
+		return;
 	}
+	mCommandFunctionEmpty();
 }
 //Math
 void handlerCommand32Code0196() {
@@ -5861,8 +5918,9 @@ void handlerCommand32Code0196() {
 			// SET(cond)
 			*target = COND0x06 ? 1 : 0;
 		}
-		break;
+		return;
 	}
+	mCommandFunctionEmpty();
 }
 //Math
 void handlerCommand32Code0197P66() {
@@ -5875,8 +5933,9 @@ void handlerCommand32Code0197P66() {
 			// SET(cond)
 			*target = COND0x07 ? 1 : 0;
 		}
-		break;
+		return;
 	}
+	mCommandFunctionEmpty();
 }
 //Math
 void handlerCommand32Code0197() {
@@ -5889,8 +5948,9 @@ void handlerCommand32Code0197() {
 			// SET(cond)
 			*target = COND0x07 ? 1 : 0;
 		}
-		break;
+		return;
 	}
+	mCommandFunctionEmpty();
 }
 //Math
 void handlerCommand32Code0198P66() {
@@ -5903,8 +5963,9 @@ void handlerCommand32Code0198P66() {
 			// SET(cond)
 			*target = COND0x08 ? 1 : 0;
 		}
-		break;
+		return;
 	}
+	mCommandFunctionEmpty();
 }
 //Math
 void handlerCommand32Code0198() {
@@ -5917,8 +5978,9 @@ void handlerCommand32Code0198() {
 			// SET(cond)
 			*target = COND0x08 ? 1 : 0;
 		}
-		break;
+		return;
 	}
+	mCommandFunctionEmpty();
 }
 //Math
 void handlerCommand32Code0199P66() {
@@ -5931,8 +5993,9 @@ void handlerCommand32Code0199P66() {
 			// SET(cond)
 			*target = COND0x09 ? 1 : 0;
 		}
-		break;
+		return;
 	}
+	mCommandFunctionEmpty();
 }
 //Math
 void handlerCommand32Code0199() {
@@ -5945,8 +6008,9 @@ void handlerCommand32Code0199() {
 			// SET(cond)
 			*target = COND0x09 ? 1 : 0;
 		}
-		break;
+		return;
 	}
+	mCommandFunctionEmpty();
 }
 //Math
 void handlerCommand32Code019AP66() {
@@ -5959,8 +6023,9 @@ void handlerCommand32Code019AP66() {
 			// SET(cond)
 			*target = COND0x0A ? 1 : 0;
 		}
-		break;
+		return;
 	}
+	mCommandFunctionEmpty();
 }
 //Math
 void handlerCommand32Code019A() {
@@ -5973,8 +6038,9 @@ void handlerCommand32Code019A() {
 			// SET(cond)
 			*target = COND0x0A ? 1 : 0;
 		}
-		break;
+		return;
 	}
+	mCommandFunctionEmpty();
 }
 //Math
 void handlerCommand32Code019BP66() {
@@ -5987,8 +6053,9 @@ void handlerCommand32Code019BP66() {
 			// SET(cond)
 			*target = COND0x0B ? 1 : 0;
 		}
-		break;
+		return;
 	}
+	mCommandFunctionEmpty();
 }
 //Math
 void handlerCommand32Code019B() {
@@ -6001,8 +6068,9 @@ void handlerCommand32Code019B() {
 			// SET(cond)
 			*target = COND0x0B ? 1 : 0;
 		}
-		break;
+		return;
 	}
+	mCommandFunctionEmpty();
 }
 //Math
 void handlerCommand32Code019CP66() {
@@ -6015,8 +6083,9 @@ void handlerCommand32Code019CP66() {
 			// SET(cond)
 			*target = COND0x0C ? 1 : 0;
 		}
-		break;
+		return;
 	}
+	mCommandFunctionEmpty();
 }
 //Math
 void handlerCommand32Code019C() {
@@ -6029,8 +6098,9 @@ void handlerCommand32Code019C() {
 			// SET(cond)
 			*target = COND0x0C ? 1 : 0;
 		}
-		break;
+		return;
 	}
+	mCommandFunctionEmpty();
 }
 //Math
 void handlerCommand32Code019DP66() {
@@ -6043,8 +6113,9 @@ void handlerCommand32Code019DP66() {
 			// SET(cond)
 			*target = COND0x0D ? 1 : 0;
 		}
-		break;
+		return;
 	}
+	mCommandFunctionEmpty();
 }
 //Math
 void handlerCommand32Code019D() {
@@ -6057,8 +6128,9 @@ void handlerCommand32Code019D() {
 			// SET(cond)
 			*target = COND0x0D ? 1 : 0;
 		}
-		break;
+		return;
 	}
+	mCommandFunctionEmpty();
 }
 //Math
 void handlerCommand32Code019EP66() {
@@ -6071,8 +6143,9 @@ void handlerCommand32Code019EP66() {
 			// SET(cond)
 			*target = COND0x0E ? 1 : 0;
 		}
-		break;
+		return;
 	}
+	mCommandFunctionEmpty();
 }
 //Math
 void handlerCommand32Code019E() {
@@ -6085,8 +6158,9 @@ void handlerCommand32Code019E() {
 			// SET(cond)
 			*target = COND0x0E ? 1 : 0;
 		}
-		break;
+		return;
 	}
+	mCommandFunctionEmpty();
 }
 //Math
 void handlerCommand32Code019FP66() {
@@ -6099,8 +6173,9 @@ void handlerCommand32Code019FP66() {
 			// SET(cond)
 			*target = COND0x0F ? 1 : 0;
 		}
-		break;
+		return;
 	}
+	mCommandFunctionEmpty();
 }
 //Math
 void handlerCommand32Code019F() {
@@ -6113,16 +6188,12 @@ void handlerCommand32Code019F() {
 			// SET(cond)
 			*target = COND0x0F ? 1 : 0;
 		}
-		break;
+		return;
 	}
+	mCommandFunctionEmpty();
 }
  
 
-void mCommandFunctionEmpty() {
-	context.end = 2;
-	printf("function not implementation\n");
-	*((uint8_t*)NULL) = 0;
-}
 void installCommandFunction() {
 	for(int i = 0; i < 256 * 8; i++) {
 		commandFunctions16[i] = mCommandFunctionEmpty;

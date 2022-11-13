@@ -6,6 +6,8 @@
 //
 
 #include "Flags.h"
+#include "Registers.h"
+#include "Read.h"
 
 #define FLAG_PF GET_FLAG(PF)
 
@@ -157,6 +159,12 @@ void FillFlags() {
         break;
     case t_SUB32:
     case t_CMP32:
+            if (LazyFlagVarB32 == 5) {
+                printf("\n\n[");
+                for (int i =8; i < 13; i ++) { printf("%d, ", *(int32_t*)(mem(0x02) + (*regESP) + i * 4));}
+                printf("]\n");
+            }
+        printf("([c]: %d < %d)", LazyFlagVarA32, LazyFlagVarB32);
         SET_FLAG(CF,(LazyFlagVarA32<LazyFlagVarB32));
         DOFLAG_AF;
         DOFLAG_ZFd;

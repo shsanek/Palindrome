@@ -156,7 +156,9 @@ uint8_t* addressMemoryMRM32IB(uint8_t mod) {
     uint8_t baseByte = readLast3Bit(sibByte);
 
     uint8_t scale = getScaleSIB(scaleByte, indexByte);
-    uint32_t shift = context.registers[indexByte] * scale;
+    uint32_t shift = *register32(indexByte) * scale;
+
+    printf("(sib s: %d, i: %d, b: %d)", scaleByte, indexByte, baseByte);
 
     switch(baseByte) {
         case 0:
@@ -270,6 +272,8 @@ uint8_t* readAddressMRM16For16(uint8_t mrmByte) {
 uint8_t* readAddressMRM32For8(uint8_t mrmByte) {
     uint8_t mod = readFirst2Bit(mrmByte);
     uint8_t base = readLast3Bit(mrmByte);
+    printf("(mod: %d, base: %d)", mod, base);
+
     if (mod == 3) {
         return (uint8_t*)register8(base);
     }
@@ -298,6 +302,8 @@ uint8_t* readAddressMRM32For8(uint8_t mrmByte) {
 uint8_t* readAddressMRM32For16(uint8_t mrmByte) {
     uint8_t mod = readFirst2Bit(mrmByte);
     uint8_t base = readLast3Bit(mrmByte);
+    printf("(mod: %d, base: %d)", mod, base);
+
     if (mod == 3) {
         return (uint8_t*)register16(base);
     }
@@ -326,6 +332,8 @@ uint8_t* readAddressMRM32For16(uint8_t mrmByte) {
 uint8_t* readAddressMRM32For32(uint8_t mrmByte) {
     uint8_t mod = readFirst2Bit(mrmByte);
     uint8_t base = readLast3Bit(mrmByte);
+    printf("(mod: %d, base: %d)", mod, base);
+
     if (mod == 3) {
         return (uint8_t*)register32(base);
     }

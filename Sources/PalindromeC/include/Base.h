@@ -12,6 +12,8 @@
 #include "../Base/Models.h"
 #include "../Base/Registers.h"
 
+extern uint8_t *debugCommands;
+
 void installCommandFunction();
 void runCommand();
 

@@ -11,6 +11,18 @@
 #include "Base/Registers.h"
 #include "Base/MRM.h"
 #include "Function/GenerateFunctions.h"
+#include <stdlib.h>
+
+uint8_t *debugCommands = NULL;
+
+void clearDebugCommands() {
+    if (!debugCommands) {
+        debugCommands = malloc(512);
+    }
+    for (int i = 0; i < 512; i++) {
+        debugCommands[i] = 0;
+    }
+}
 
 void getCommand() {
     printf("%llX:", (uint64_t)(context.index - context.memory));
@@ -74,12 +86,18 @@ void getCommand() {
     }
 
     printf("0x");
+
+    uint16_t debugCommand = 0;
+
     if (*(context.index) == 0x0F) {
         context.index++;
         printf("0F");
         command |= 0x0100;
+        debugCommand |= 0x0100;
     }
-    printf("%X\n", (*context.index));
+    printf("%X", (*context.index));
+    debugCommand |= (*context.index);
+    debugCommands[debugCommand] = 1;
 
     command |= (uint16_t)(*context.index);
     context.index++;
@@ -99,6 +117,7 @@ void runCommand16() {
 void runCommand32() {
     getCommand();
     commandFunctions32[context.lastCommandInfo.command]();
+    printf("\n");
 }
 
 void runCommand() {
@@ -124,6 +143,7 @@ void pushInStack32(int32_t value) {
 
 void run32ToEnd() {
     context.mod = 1;
+    clearDebugCommands();
     while (context.end == 0) {
         runCommand32();
     }
@@ -131,6 +151,7 @@ void run32ToEnd() {
 
 void run16ToEnd() {
     context.mod = 0;
+    clearDebugCommands();
     while (context.end == 0) {
         runCommand16();
     }
