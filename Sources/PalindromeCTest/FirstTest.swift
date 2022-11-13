@@ -160,6 +160,25 @@ final class FirstTest: XCTestCase {
         TAssert(result == "-10")
     }
 
+    func test06() throws {
+        let wrapContext = WrapContext()
+        wrapContext.context?[0].mod = 1
+
+        let programm = try! Data(
+            contentsOf: URL.init(
+                fileURLWithPath: basePath + "FpuTest/fpu.bin"
+            )
+        )
+        wrapContext.setMemory(programm)
+
+        run32ToEnd()
+
+        let cString = wrapContext.context?[0].text
+        let result = String(cString: cString!)
+
+        TAssert(result == "100")
+    }
+
 //    func test02Performance() {
 //        let wrapContext = WrapContext()
 //        wrapContext.context?[0].mod = 1
