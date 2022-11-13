@@ -1,0 +1,118 @@
+00000000 <main>:
+   0:    55                       push   %ebp
+   1:    89 e5                    mov    %esp,%ebp
+   3:    83 ec 28                 sub    $0x28,%esp
+   6:    c7 45 fc 00 00 00 00     movl   $0x0,-0x4(%ebp)
+   d:    c7 45 f8 00 00 20 41     movl   $0x41200000,-0x8(%ebp)
+  14:    c7 45 f4 00 00 20 41     movl   $0x41200000,-0xc(%ebp)
+  1b:    d9 45 f8                 flds   -0x8(%ebp)
+  1e:    d9 45 f4                 flds   -0xc(%ebp)
+  21:    de c9                    fmulp  %st,%st(1)
+  23:    d9 5d f0                 fstps  -0x10(%ebp)
+  26:    d9 45 f0                 flds   -0x10(%ebp)
+  29:    d9 7d ea                 fnstcw -0x16(%ebp)
+  2c:    0f b7 45 ea              movzwl -0x16(%ebp),%eax
+  30:    0d 00 0c 00 00           or     $0xc00,%eax
+  35:    66 89 45 e8              mov    %ax,-0x18(%ebp)
+  39:    d9 6d e8                 fldcw  -0x18(%ebp)
+  3c:    db 5d ec                 fistpl -0x14(%ebp)
+  3f:    d9 6d ea                 fldcw  -0x16(%ebp)
+  42:    8b 45 ec                 mov    -0x14(%ebp),%eax
+  45:    89 04 24                 mov    %eax,(%esp)
+  48:    e8 fc ff ff ff           call   49 <main+0x49>
+  4d:    31 c0                    xor    %eax,%eax
+  4f:    83 c4 28                 add    $0x28,%esp
+  52:    5d                       pop    %ebp
+  53:    c3                       ret
+  54:    90                       nop
+  55:    90                       nop
+  56:    90                       nop
+  57:    90                       nop
+  58:    90                       nop
+  59:    90                       nop
+  5a:    90                       nop
+  5b:    90                       nop
+  5c:    90                       nop
+  5d:    90                       nop
+  5e:    90                       nop
+  5f:    90                       nop
+
+00000060 <printINT>:
+  60:    55                       push   %ebp
+  61:    89 e5                    mov    %esp,%ebp
+  63:    83 ec 28                 sub    $0x28,%esp
+  66:    8b 45 08                 mov    0x8(%ebp),%eax
+  69:    83 7d 08 00              cmpl   $0x0,0x8(%ebp)
+  6d:    0f 8d 14 00 00 00        jge    87 <printINT+0x27>
+  73:    c7 04 24 2d 00 00 00     movl   $0x2d,(%esp)
+  7a:    e8 fc ff ff ff           call   7b <printINT+0x1b>
+  7f:    31 c0                    xor    %eax,%eax
+  81:    2b 45 08                 sub    0x8(%ebp),%eax
+  84:    89 45 08                 mov    %eax,0x8(%ebp)
+  87:    83 7d 08 00              cmpl   $0x0,0x8(%ebp)
+  8b:    0f 85 11 00 00 00        jne    a2 <printINT+0x42>
+  91:    c7 04 24 30 00 00 00     movl   $0x30,(%esp)
+  98:    e8 fc ff ff ff           call   99 <printINT+0x39>
+  9d:    e9 7b 00 00 00           jmp    11d <printINT+0xbd>
+  a2:    c7 45 ec 00 00 00 00     movl   $0x0,-0x14(%ebp)
+  a9:    83 7d 08 00              cmpl   $0x0,0x8(%ebp)
+  ad:    0f 8e 33 00 00 00        jle    e6 <printINT+0x86>
+  b3:    8b 45 08                 mov    0x8(%ebp),%eax
+  b6:    b9 0a 00 00 00           mov    $0xa,%ecx
+  bb:    99                       cltd
+  bc:    f7 f9                    idiv   %ecx
+  be:    83 c2 30                 add    $0x30,%edx
+  c1:    88 d1                    mov    %dl,%cl
+  c3:    8b 45 ec                 mov    -0x14(%ebp),%eax
+  c6:    88 4c 05 f0              mov    %cl,-0x10(%ebp,%eax,1)
+  ca:    8b 45 08                 mov    0x8(%ebp),%eax
+  cd:    b9 0a 00 00 00           mov    $0xa,%ecx
+  d2:    99                       cltd
+  d3:    f7 f9                    idiv   %ecx
+  d5:    89 45 08                 mov    %eax,0x8(%ebp)
+  d8:    8b 45 ec                 mov    -0x14(%ebp),%eax
+  db:    83 c0 01                 add    $0x1,%eax
+  de:    89 45 ec                 mov    %eax,-0x14(%ebp)
+  e1:    e9 c3 ff ff ff           jmp    a9 <printINT+0x49>
+  e6:    c7 45 e8 00 00 00 00     movl   $0x0,-0x18(%ebp)
+  ed:    8b 45 e8                 mov    -0x18(%ebp),%eax
+  f0:    3b 45 ec                 cmp    -0x14(%ebp),%eax
+  f3:    0f 8d 24 00 00 00        jge    11d <printINT+0xbd>
+  f9:    8b 45 ec                 mov    -0x14(%ebp),%eax
+  fc:    83 e8 01                 sub    $0x1,%eax
+  ff:    2b 45 e8                 sub    -0x18(%ebp),%eax
+ 102:    0f be 44 05 f0           movsbl -0x10(%ebp,%eax,1),%eax
+ 107:    89 04 24                 mov    %eax,(%esp)
+ 10a:    e8 fc ff ff ff           call   10b <printINT+0xab>
+ 10f:    8b 45 e8                 mov    -0x18(%ebp),%eax
+ 112:    83 c0 01                 add    $0x1,%eax
+ 115:    89 45 e8                 mov    %eax,-0x18(%ebp)
+ 118:    e9 d0 ff ff ff           jmp    ed <printINT+0x8d>
+ 11d:    83 c4 28                 add    $0x28,%esp
+ 120:    5d                       pop    %ebp
+ 121:    c3                       ret
+ 122:    90                       nop
+ 123:    90                       nop
+ 124:    90                       nop
+ 125:    90                       nop
+ 126:    90                       nop
+ 127:    90                       nop
+ 128:    90                       nop
+ 129:    90                       nop
+ 12a:    90                       nop
+ 12b:    90                       nop
+ 12c:    90                       nop
+ 12d:    90                       nop
+ 12e:    90                       nop
+ 12f:    90                       nop
+
+00000130 <printSymbol>:
+ 130:    55                       push   %ebp
+ 131:    89 e5                    mov    %esp,%ebp
+ 133:    8a 45 08                 mov    0x8(%ebp),%al
+ 136:    50                       push   %eax
+ 137:    90                       nop
+ 138:    90                       nop
+ 139:    58                       pop    %eax
+ 13a:    5d                       pop    %ebp
+ 13b:    c3                       ret    
