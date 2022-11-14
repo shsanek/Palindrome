@@ -25,10 +25,11 @@ void printINT(int a) {
 }
 
 void printSymbol(char a) {
-    __asm__ (
-        "push %eax;"
-        "nop;"
-        "nop;"
-        "pop %eax;"
+    asm (
+        "mov %0, %%al;"
+        "int $0x10;"
+        :"=rm"(a)
+        :
+        : "%al"
     );
 }

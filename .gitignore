@@ -91,3 +91,5 @@ iOSInjectionProject/
 .DS_Store
 .swiftpm
 Sources/TestSource/hello.c
+Sources/TestSource/dump.txt
+Sources/TestSource/compile.sh

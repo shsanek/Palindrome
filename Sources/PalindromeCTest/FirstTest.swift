@@ -18,7 +18,7 @@ final class FirstTest: XCTestCase {
 
         wrapContext.context?[0].mod = 0
 
-        run16ToEnd()
+        run16ToEndWithStop(10000)
 
         let cString = wrapContext.context?[0].text
         let result = String(cString: cString!)
@@ -64,7 +64,7 @@ final class FirstTest: XCTestCase {
             """
         )
 
-        run32ToEnd()
+        run32ToEndWithStop(10000)
 
         let value = register32(UInt8(BR_EAX_F))?[0]
 
@@ -91,7 +91,7 @@ final class FirstTest: XCTestCase {
             """
         )
 
-        run32ToEnd()
+        run32ToEndWithStop(10000)
 
         let value = register32(UInt8(BR_EAX_F))?[0]
 
@@ -111,7 +111,27 @@ final class FirstTest: XCTestCase {
         )
         wrapContext.setMemory(programm)
 
-        run32ToEnd()
+        run32ToEndWithStop(10000)
+
+        let cString = wrapContext.context?[0].text
+        let result = String(cString: cString!)
+
+        let realResult = (0..<10).map({ "\(factorial(number: Int32($0)))" }).joined()
+        TAssert(result == realResult)
+    }
+
+    func test03_O1() throws {
+        let wrapContext = WrapContext()
+        wrapContext.context?[0].mod = 1
+
+        let programm = try! Data(
+            contentsOf: URL.init(
+                fileURLWithPath: basePath + "FactorialTest/factorialO1.bin"
+            )
+        )
+        wrapContext.setMemory(programm)
+
+        run32ToEndWithStop(10000)
 
         let cString = wrapContext.context?[0].text
         let result = String(cString: cString!)
@@ -131,7 +151,28 @@ final class FirstTest: XCTestCase {
         )
         wrapContext.setMemory(programm)
 
-        run32ToEnd()
+        run32ToEndWithStop(10000)
+
+        let cString = wrapContext.context?[0].text
+        let result = String(cString: cString!)
+
+        print(result)
+
+        TAssert(result == "-2 0 1 2 3 ")
+    }
+
+    func test04_O1() throws {
+        let wrapContext = WrapContext()
+        wrapContext.context?[0].mod = 1
+
+        let programm = try! Data(
+            contentsOf: URL.init(
+                fileURLWithPath: basePath + "SortTest/sortO1.bin"
+            )
+        )
+        wrapContext.setMemory(programm)
+
+        run32ToEndWithStop(10000)
 
         let cString = wrapContext.context?[0].text
         let result = String(cString: cString!)
@@ -147,33 +188,12 @@ final class FirstTest: XCTestCase {
 
         let programm = try! Data(
             contentsOf: URL.init(
-                fileURLWithPath: basePath + "SortTest/sortO1.bin"
-            )
-        )
-        wrapContext.setMemory(programm)
-
-        run32ToEnd()
-
-        let cString = wrapContext.context?[0].text
-        let result = String(cString: cString!)
-
-        print(result)
-
-        TAssert(result == "-2 0 1 2 3 ")
-    }
-
-    func test06() throws {
-        let wrapContext = WrapContext()
-        wrapContext.context?[0].mod = 1
-
-        let programm = try! Data(
-            contentsOf: URL.init(
                 fileURLWithPath: basePath + "NegTest/neg.bin"
             )
         )
         wrapContext.setMemory(programm)
 
-        run32ToEnd()
+        run32ToEndWithStop(10000)
 
         let cString = wrapContext.context?[0].text
         let result = String(cString: cString!)
@@ -181,7 +201,26 @@ final class FirstTest: XCTestCase {
         TAssert(result == "-10")
     }
 
-    func test07() throws {
+    func test05_O1() throws {
+        let wrapContext = WrapContext()
+        wrapContext.context?[0].mod = 1
+
+        let programm = try! Data(
+            contentsOf: URL.init(
+                fileURLWithPath: basePath + "NegTest/negO1.bin"
+            )
+        )
+        wrapContext.setMemory(programm)
+
+        run32ToEndWithStop(10000)
+
+        let cString = wrapContext.context?[0].text
+        let result = String(cString: cString!)
+
+        TAssert(result == "-10")
+    }
+
+    func test06() throws {
         let wrapContext = WrapContext()
         wrapContext.context?[0].mod = 1
 
@@ -192,7 +231,7 @@ final class FirstTest: XCTestCase {
         )
         wrapContext.setMemory(programm)
 
-        run32ToEnd()
+        run32ToEndWithStop(10000)
 
         let cString = wrapContext.context?[0].text
         let result = String(cString: cString!)

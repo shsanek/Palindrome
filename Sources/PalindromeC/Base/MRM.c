@@ -24,7 +24,7 @@ uint8_t readLast3Bit(uint8_t byte) {
 
 #define TWO_OPERAND_ADDRESS_MEMORY_MRM_16(BASE, sR, fR, lR) \
 uint8_t* addressMemoryMRM16Base##BASE(uint8_t mod) {\
-    int16_t shift = *register16u(fR) + *register16u(lR);\
+    int16_t shift = *register16(fR) + *register16(lR);\
     uint8_t* base = mem(sR) + shift;\
     switch(mod) {\
         case 0:\
@@ -39,7 +39,7 @@ uint8_t* addressMemoryMRM16Base##BASE(uint8_t mod) {\
 
 #define ONE_OPERAND_ADDRESS_MEMORY_MRM_16(BASE, sR, fR) \
 uint8_t* addressMemoryMRM16Base##BASE(uint8_t mod) {\
-    int16_t shift = *register16u(fR);\
+    int16_t shift = *register16(fR);\
     uint8_t* base = mem(sR) + shift;\
     switch(mod) {\
         case 0:\
@@ -54,7 +54,7 @@ uint8_t* addressMemoryMRM16Base##BASE(uint8_t mod) {\
 
 #define ONE_OPERAND_ADDRESS_MEMORY_MRM_32(BASE, sR, fR)\
 uint8_t* addressMemoryMRM32Base##BASE(uint8_t mod) {\
-    int16_t shift = *register32u(fR);\
+    int32_t shift = *register32(fR);\
     uint8_t* base = mem(sR) + shift;\
     switch(mod) {\
         case 0:\
@@ -68,8 +68,8 @@ uint8_t* addressMemoryMRM32Base##BASE(uint8_t mod) {\
 }
 
 #define ADDRESS_MEMORY_SIB(BASE, sR, fR)\
-uint8_t* addressMemoryMRM32IBBase##BASE(uint8_t mod, uint32_t shift) {\
-    uint32_t rShift = *register32u(fR);\
+uint8_t* addressMemoryMRM32IBBase##BASE(uint8_t mod, int32_t shift) {\
+    int32_t rShift = *register32(fR);\
     uint8_t* base = mem(sR) + rShift + shift;\
     switch(mod) {\
         case 0:\
@@ -135,8 +135,8 @@ int32_t* readRegisterMRM32(uint8_t mrmByte) {
     return register32(readMiddle3Bit(mrmByte));
 }
 
-uint8_t* addressMemoryMRM32IBBase5(uint8_t mod, uint32_t shift) {
-    uint32_t rShift = *register32u(BR_EBP_F);
+uint8_t* addressMemoryMRM32IBBase5(uint8_t mod, int32_t shift) {
+    int32_t rShift = *register32(BR_EBP_F);
     uint8_t* base = mem(SR_SS) + rShift + shift;
     switch(mod) {
         case 0:
@@ -156,7 +156,7 @@ uint8_t* addressMemoryMRM32IB(uint8_t mod) {
     uint8_t baseByte = readLast3Bit(sibByte);
 
     uint8_t scale = getScaleSIB(scaleByte, indexByte);
-    uint32_t shift = *register32(indexByte) * scale;
+    int32_t shift = *register32(indexByte) * scale;
 
     printf("(sib s: %d, i: %d, b: %d)", scaleByte, indexByte, baseByte);
 

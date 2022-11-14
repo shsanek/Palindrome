@@ -18,14 +18,15 @@ func generate() {
     appendSwipeCommand(generator: generator)
     appendMockCommand(generator: generator)
     append0F90Command(generator: generator)
+    appendBitShiftCommand(generator: generator)
 
     let fileGenerator = FunctionGenerator()
     fileGenerator.add("""
         #include "GenerateFunctions.h"
         void mCommandFunctionEmpty() {
         context.end = 2;
-        printf("function not implementation\\n");
-        *((uint8_t*)NULL) = 0;
+        printf("function not implementation %X\\n", context.lastCommandInfo.command);
+        //*((uint8_t*)NULL) = 0;
         }
         """
     )

@@ -16,6 +16,7 @@ int fact(int num) {
     return num * fact(num - 1);
 }
 
+// этот принт не умеет в 0
 void printINT(int a) {
     char text[16];
     if (a < 0) {
@@ -34,11 +35,11 @@ void printINT(int a) {
 }
 
 void printSymbol(char a) {
-    __asm__ (
-        "push %eax;"
-        "nop;"
-        "nop;"
-        "pop %eax;"
+    asm (
+        "mov %0, %%al;"
+        "int $0x10;"
+        :"=rm"(a)
+        :
+        : "%al"
     );
 }
-

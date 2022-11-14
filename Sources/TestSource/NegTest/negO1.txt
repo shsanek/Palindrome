@@ -1,0 +1,129 @@
+00000000 <main>:
+   0:    57                       push   %edi
+   1:    56                       push   %esi
+   2:    83 ec 11                 sub    $0x11,%esp
+   5:    c6 44 24 01 2d           movb   $0x2d,0x1(%esp)
+   a:    8a 44 24 01              mov    0x1(%esp),%al
+   e:    cd 10                    int    $0x10
+  10:    b9 0a 00 00 00           mov    $0xa,%ecx
+  15:    be fe ff ff ff           mov    $0xfffffffe,%esi
+  1a:    bf 67 66 66 66           mov    $0x66666667,%edi
+  1f:    90                       nop
+  20:    89 c8                    mov    %ecx,%eax
+  22:    f7 ef                    imul   %edi
+  24:    89 d0                    mov    %edx,%eax
+  26:    c1 e8 1f                 shr    $0x1f,%eax
+  29:    c1 fa 02                 sar    $0x2,%edx
+  2c:    01 c2                    add    %eax,%edx
+  2e:    8d 04 12                 lea    (%edx,%edx,1),%eax
+  31:    8d 04 80                 lea    (%eax,%eax,4),%eax
+  34:    29 c1                    sub    %eax,%ecx
+  36:    80 c1 30                 add    $0x30,%cl
+  39:    88 4c 34 03              mov    %cl,0x3(%esp,%esi,1)
+  3d:    46                       inc    %esi
+  3e:    89 d1                    mov    %edx,%ecx
+  40:    75 de                    jne    20 <main+0x20>
+  42:    b9 02 00 00 00           mov    $0x2,%ecx
+  47:    90                       nop
+  48:    90                       nop
+  49:    90                       nop
+  4a:    90                       nop
+  4b:    90                       nop
+  4c:    90                       nop
+  4d:    90                       nop
+  4e:    90                       nop
+  4f:    90                       nop
+  50:    0f b6 04 0c              movzbl (%esp,%ecx,1),%eax
+  54:    88 04 24                 mov    %al,(%esp)
+  57:    8a 04 24                 mov    (%esp),%al
+  5a:    cd 10                    int    $0x10
+  5c:    49                       dec    %ecx
+  5d:    75 f1                    jne    50 <main+0x50>
+  5f:    31 c0                    xor    %eax,%eax
+  61:    83 c4 11                 add    $0x11,%esp
+  64:    5e                       pop    %esi
+  65:    5f                       pop    %edi
+  66:    c3                       ret
+  67:    90                       nop
+  68:    90                       nop
+  69:    90                       nop
+  6a:    90                       nop
+  6b:    90                       nop
+  6c:    90                       nop
+  6d:    90                       nop
+  6e:    90                       nop
+  6f:    90                       nop
+
+00000070 <printINT>:
+  70:    53                       push   %ebx
+  71:    57                       push   %edi
+  72:    56                       push   %esi
+  73:    83 ec 14                 sub    $0x14,%esp
+  76:    8b 4c 24 24              mov    0x24(%esp),%ecx
+  7a:    85 c9                    test   %ecx,%ecx
+  7c:    79 0d                    jns    8b <printINT+0x1b>
+  7e:    c6 44 24 04 2d           movb   $0x2d,0x4(%esp)
+  83:    8a 44 24 04              mov    0x4(%esp),%al
+  87:    cd 10                    int    $0x10
+  89:    f7 d9                    neg    %ecx
+  8b:    31 f6                    xor    %esi,%esi
+  8d:    85 c9                    test   %ecx,%ecx
+  8f:    7e 36                    jle    c7 <printINT+0x57>
+  91:    bf 67 66 66 66           mov    $0x66666667,%edi
+  96:    90                       nop
+  97:    90                       nop
+  98:    90                       nop
+  99:    90                       nop
+  9a:    90                       nop
+  9b:    90                       nop
+  9c:    90                       nop
+  9d:    90                       nop
+  9e:    90                       nop
+  9f:    90                       nop
+  a0:    89 c8                    mov    %ecx,%eax
+  a2:    f7 ef                    imul   %edi
+  a4:    89 d0                    mov    %edx,%eax
+  a6:    c1 e8 1f                 shr    $0x1f,%eax
+  a9:    c1 fa 02                 sar    $0x2,%edx
+  ac:    01 c2                    add    %eax,%edx
+  ae:    8d 04 12                 lea    (%edx,%edx,1),%eax
+  b1:    8d 04 80                 lea    (%eax,%eax,4),%eax
+  b4:    89 cb                    mov    %ecx,%ebx
+  b6:    29 c3                    sub    %eax,%ebx
+  b8:    80 c3 30                 add    $0x30,%bl
+  bb:    88 5c 34 04              mov    %bl,0x4(%esp,%esi,1)
+  bf:    46                       inc    %esi
+  c0:    83 f9 09                 cmp    $0x9,%ecx
+  c3:    89 d1                    mov    %edx,%ecx
+  c5:    7f d9                    jg     a0 <printINT+0x30>
+  c7:    85 f6                    test   %esi,%esi
+  c9:    74 17                    je     e2 <printINT+0x72>
+  cb:    90                       nop
+  cc:    90                       nop
+  cd:    90                       nop
+  ce:    90                       nop
+  cf:    90                       nop
+  d0:    0f b6 44 34 03           movzbl 0x3(%esp,%esi,1),%eax
+  d5:    88 44 24 03              mov    %al,0x3(%esp)
+  d9:    8a 44 24 03              mov    0x3(%esp),%al
+  dd:    cd 10                    int    $0x10
+  df:    4e                       dec    %esi
+  e0:    75 ee                    jne    d0 <printINT+0x60>
+  e2:    83 c4 14                 add    $0x14,%esp
+  e5:    5e                       pop    %esi
+  e6:    5f                       pop    %edi
+  e7:    5b                       pop    %ebx
+  e8:    c3                       ret
+  e9:    90                       nop
+  ea:    90                       nop
+  eb:    90                       nop
+  ec:    90                       nop
+  ed:    90                       nop
+  ee:    90                       nop
+  ef:    90                       nop
+
+000000f0 <printSymbol>:
+  f0:    8a 44 24 04              mov    0x4(%esp),%al
+  f4:    cd 10                    int    $0x10
+  f6:    c3                       ret
+

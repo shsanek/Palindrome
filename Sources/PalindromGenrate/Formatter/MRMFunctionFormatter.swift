@@ -108,6 +108,8 @@ struct ReplaceTemplateFormat: IFormatter {
             .replacingOccurrences(of: "%sType", with: info.sign)
             .replacingOccurrences(of: "%sign", with: info.sign)
             .replacingOccurrences(of: "%operandSize", with: "\(info.operandSize)")
+            .replacingOccurrences(of: "%2dataSize", with: "\(info.dataSize * 2)")
+            .replacingOccurrences(of: "%1/2dataSize", with: "\(info.dataSize / 2)")
     }
 }
 
@@ -178,7 +180,7 @@ enum FormatCustomizer {
     case replace
     case settings(_ info: [FormatterAdditionalInfo])
 
-    case nnn(_ variations: [(code: String, formatter: IFormatter)])
+    case nnn(_ variations: [(code: String, formatter: IFormatter)], prepare: IFormatter? = nil)
 }
 
 extension FormatCustomizer: ExpressibleByStringLiteral {
@@ -234,8 +236,8 @@ final class Formatter: IFormatter {
             return VarsFunctionFormatter(baseFormatter: formatter)
         case .formatter(let custom):
             return ReplaceTemplateFormat(baseFormatter: CustomFormat(baseFormatter: formatter, customFormatter: custom))
-        case .nnn(let variations):
-            return ReplaceTemplateFormat(baseFormatter: NNNFunctionFormatter(baseFormatter: formatter, variations: variations))
+        case .nnn(let variations, let prepare):
+            return ReplaceTemplateFormat(baseFormatter: NNNFunctionFormatter(baseFormatter: formatter, variations: variations, prepare: prepare))
         case .replace:
             return ReplaceTemplateFormat(baseFormatter: formatter)
         }
@@ -267,10 +269,12 @@ struct InitialFormatter: IFormatter {
 struct NNNFunctionFormatter: IFormatter {
     let baseFormatter: IFormatter
     let variations: [(String, IFormatter)]
+    let prepare: IFormatter?
 
-    init(baseFormatter: IFormatter, variations: [(String, IFormatter)]) {
+    init(baseFormatter: IFormatter, variations: [(String, IFormatter)], prepare: IFormatter?) {
         self.baseFormatter = baseFormatter
         self.variations = variations
+        self.prepare = prepare
     }
 
     func format(with info: FormatterInfo) -> String? {
@@ -281,6 +285,7 @@ struct NNNFunctionFormatter: IFormatter {
         generator.add("switch (nnn) {")
         for variation in variations {
             generator.add("case \(variation.0): {")
+            generator.add(prepare?.format(with: info))
             generator.add(variation.1.format(with: info))
             generator.add("}")
             generator.add("return;")

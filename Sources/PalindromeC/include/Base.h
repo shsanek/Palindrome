@@ -25,4 +25,7 @@ void pushInStack32(int32_t value);
 void run32ToEnd();
 void run16ToEnd();
 
+void run32ToEndWithStop(int count);
+void run16ToEndWithStop(int count);
+
 #endif /* Base_h */

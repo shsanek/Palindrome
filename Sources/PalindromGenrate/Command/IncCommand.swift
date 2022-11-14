@@ -13,7 +13,9 @@ fileprivate let incCommand = Command(
             .prefixData,
             .functionName,
             .settings([.bigData]),
-            "reg_%reg_%dataSizeu += 1;"
+            "reg_%reg_%dataSizeu += 1;",
+            "LazyFlagResultContainer%dataSize = reg_%reg_%dataSizeu;",
+            "lazyFlagType = t_INC%dataSize;"
         ]
     ),
     installFormatter: InitialFormatter()

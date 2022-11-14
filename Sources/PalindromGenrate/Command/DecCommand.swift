@@ -1,6 +1,6 @@
 fileprivate let decCommand = Command(
     code: 0x0048,
-    name: "Inc",
+    name: "Dec",
     format: .init(
         hasPrefixAddress: false,
         hasPrefixData: true,
@@ -13,7 +13,9 @@ fileprivate let decCommand = Command(
             .prefixData,
             .functionName,
             .settings([.bigData]),
-            "reg_%reg_%dataSizeu -= 1;"
+            "reg_%reg_%dataSizeu -= 1;",
+            "LazyFlagResultContainer%dataSize = reg_%reg_%dataSizeu;",
+            "lazyFlagType = t_DEC%dataSize;"
         ]
     ),
     installFormatter: InitialFormatter()

@@ -156,3 +156,21 @@ void run16ToEnd() {
         runCommand16();
     }
 }
+
+void run32ToEndWithStop(int count) {
+    context.mod = 1;
+    clearDebugCommands();
+    while (context.end == 0 && count > 0) {
+        runCommand32();
+        count--;
+    }
+}
+
+void run16ToEndWithStop(int count) {
+    context.mod = 0;
+    clearDebugCommands();
+    while (context.end == 0 && count > 0) {
+        runCommand16();
+        count--;
+    }
+}
