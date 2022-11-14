@@ -20,6 +20,8 @@ func generate() {
     append0F90Command(generator: generator)
     appendBitShiftCommand(generator: generator)
 
+    fpuGenerator(generator: generator)
+
     let fileGenerator = FunctionGenerator()
     fileGenerator.add("""
         #include "GenerateFunctions.h"
@@ -34,6 +36,18 @@ func generate() {
     let text = fileGenerator.text + generator.generateAllCommand(installGenerate)
 
     try! text.write(toFile: file, atomically: true, encoding: .utf8)
+}
+
+func fpuGenerator(generator: Generator) {
+    let fpuGenerator = FPUGenerator()
+    appendFPUMoveCommand(generator: fpuGenerator)
+    appendFPUAddCommand(generator: fpuGenerator)
+    appendFPUSubCommand(generator: fpuGenerator)
+    appendFPUDivCommand(generator: fpuGenerator)
+    appendFPUMulCommand(generator: fpuGenerator)
+    appendFPUControlCommand(generator: fpuGenerator)
+
+    fpuGenerator.generateAllCommand(generator: generator)
 }
 
 private func installGenerate(_ content: String) -> String {

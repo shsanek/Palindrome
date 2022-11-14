@@ -2578,6 +2578,993 @@ void handlerCommand16Code00C1() {
 	}
 	mCommandFunctionEmpty();
 }
+//FPU
+void handlerCommand16Code00D9() {
+	uint8_t mrmByte = read8u();
+	uint8_t nnn = readMiddle3Bit(mrmByte);
+	switch (nnn) {
+		case 0x00: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				// OPA 001, OPB 000
+				// FPU Move
+				double* valueA = fpuStack + fpuStackIndex;
+				double* target = valueA;
+				double* valueB = fpuStack + fpuStackIndex + (mrmByte & 7);
+				double* source = valueB;
+				*target = *source;
+			} else {
+				// OPA 001, OPB 000
+				// FPU Move
+				fpuStackIndex -= 1;
+				double* valueA = fpuStack + fpuStackIndex;
+				double* target = valueA;
+				float* valueB = (float*)readAddressMRM16For8(mrmByte);
+				float* source = valueB;
+				*target = *source;
+			}
+		}
+		return;
+		case 0x01: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			} else {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			}
+		}
+		return;
+		case 0x02: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			} else {
+				// OPA 001, OPB 010
+				// FPU Move
+				double* valueA = fpuStack + fpuStackIndex;
+				double* source = valueA;
+				float* valueB = (float*)readAddressMRM16For8(mrmByte);
+				float* target = valueB;
+				*target = *source;
+			}
+		}
+		return;
+		case 0x03: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			} else {
+				// OPA 001, OPB 011
+				// FPU Move
+				double* valueA = fpuStack + fpuStackIndex;
+				double* source = valueA;
+				float* valueB = (float*)readAddressMRM16For8(mrmByte);
+				float* target = valueB;
+				fpuStackIndex += 1;
+				*target = *source;
+			}
+		}
+		return;
+		case 0x04: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			} else {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			}
+		}
+		return;
+		case 0x05: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				fpuRegControll = *(uint16_t*)readAddressMRM16For16(mrmByte);
+			} else {
+				fpuRegControll = *(uint16_t*)readAddressMRM16For16(mrmByte);
+			}
+		}
+		return;
+		case 0x06: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			} else {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			}
+		}
+		return;
+		case 0x07: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				*(uint16_t*)readAddressMRM16For16(mrmByte) = fpuRegControll;
+			} else {
+				*(uint16_t*)readAddressMRM16For16(mrmByte) = fpuRegControll;
+			}
+		}
+		return;
+	}
+	mCommandFunctionEmpty();
+}
+//FPU
+void handlerCommand16Code00DA() {
+	uint8_t mrmByte = read8u();
+	uint8_t nnn = readMiddle3Bit(mrmByte);
+	switch (nnn) {
+		case 0x00: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			} else {
+				// OPA 010, OPB 000
+				// FPU Add
+				double* valueA = fpuStack + fpuStackIndex;
+				double* target = valueA;
+				int32_t* valueB = (int32_t*)readAddressMRM16For8(mrmByte);
+				int32_t* source = valueB;
+				*target = (double)(((double)*valueA) + ((double)*valueB));
+			}
+		}
+		return;
+		case 0x01: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			} else {
+				// OPA 010, OPB 001
+				// FPU Mul
+				double* valueA = fpuStack + fpuStackIndex;
+				double* target = valueA;
+				int32_t* valueB = (int32_t*)readAddressMRM16For8(mrmByte);
+				int32_t* source = valueB;
+				*target = (double)(((double)*valueA) * ((double)*valueB));
+			}
+		}
+		return;
+		case 0x02: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			} else {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			}
+		}
+		return;
+		case 0x03: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			} else {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			}
+		}
+		return;
+		case 0x04: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			} else {
+				// OPA 010, OPB 100
+				// FPU Sub
+				double* valueA = fpuStack + fpuStackIndex;
+				double* target = valueA;
+				int32_t* valueB = (int32_t*)readAddressMRM16For8(mrmByte);
+				int32_t* source = valueB;
+				*target = (double)(((double)*valueA) - ((double)*valueB));
+			}
+		}
+		return;
+		case 0x05: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			} else {
+				// OPA 010, OPB 101
+				// FPU Sub
+				double* valueA = fpuStack + fpuStackIndex;
+				double* target = valueA;
+				int32_t* valueB = (int32_t*)readAddressMRM16For8(mrmByte);
+				int32_t* source = valueB;
+				*target = (double)(((double)*valueB) + ((double)*valueA));
+			}
+		}
+		return;
+		case 0x06: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			} else {
+				// OPA 010, OPB 110
+				// FPU Div
+				double* valueA = fpuStack + fpuStackIndex;
+				double* target = valueA;
+				int32_t* valueB = (int32_t*)readAddressMRM16For8(mrmByte);
+				int32_t* source = valueB;
+				*target = (double)(((double)*valueA) / ((double)*valueB));
+			}
+		}
+		return;
+		case 0x07: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			} else {
+				// OPA 010, OPB 111
+				// FPU Div
+				double* valueA = fpuStack + fpuStackIndex;
+				double* target = valueA;
+				int32_t* valueB = (int32_t*)readAddressMRM16For8(mrmByte);
+				int32_t* source = valueB;
+				*target = (double)(((double)*valueB) / ((double)*valueA));
+			}
+		}
+		return;
+	}
+	mCommandFunctionEmpty();
+}
+//FPU
+void handlerCommand16Code00DB() {
+	uint8_t mrmByte = read8u();
+	uint8_t nnn = readMiddle3Bit(mrmByte);
+	switch (nnn) {
+		case 0x00: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			} else {
+				// OPA 011, OPB 000
+				// FPU Move
+				fpuStackIndex -= 1;
+				double* valueA = fpuStack + fpuStackIndex;
+				double* target = valueA;
+				int32_t* valueB = (int32_t*)readAddressMRM16For8(mrmByte);
+				int32_t* source = valueB;
+				*target = *source;
+			}
+		}
+		return;
+		case 0x01: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			} else {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			}
+		}
+		return;
+		case 0x02: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			} else {
+				// OPA 011, OPB 010
+				// FPU Move
+				double* valueA = fpuStack + fpuStackIndex;
+				double* source = valueA;
+				int32_t* valueB = (int32_t*)readAddressMRM16For8(mrmByte);
+				int32_t* target = valueB;
+				*target = *source;
+			}
+		}
+		return;
+		case 0x03: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			} else {
+				// OPA 011, OPB 011
+				// FPU Move
+				double* valueA = fpuStack + fpuStackIndex;
+				double* source = valueA;
+				int32_t* valueB = (int32_t*)readAddressMRM16For8(mrmByte);
+				int32_t* target = valueB;
+				fpuStackIndex += 1;
+				*target = *source;
+			}
+		}
+		return;
+		case 0x04: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			} else {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			}
+		}
+		return;
+		case 0x05: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			} else {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			}
+		}
+		return;
+		case 0x06: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			} else {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			}
+		}
+		return;
+		case 0x07: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				*(uint16_t*)readAddressMRM16For16(mrmByte) = fpuRegControll;
+			} else {
+				*(uint16_t*)readAddressMRM16For16(mrmByte) = fpuRegControll;
+			}
+		}
+		return;
+	}
+	mCommandFunctionEmpty();
+}
+//FPU
+void handlerCommand16Code00DD() {
+	uint8_t mrmByte = read8u();
+	uint8_t nnn = readMiddle3Bit(mrmByte);
+	switch (nnn) {
+		case 0x00: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			} else {
+				// OPA 101, OPB 000
+				// FPU Move
+				fpuStackIndex -= 1;
+				double* valueA = fpuStack + fpuStackIndex;
+				double* target = valueA;
+				double* valueB = (double*)readAddressMRM16For8(mrmByte);
+				double* source = valueB;
+				*target = *source;
+			}
+		}
+		return;
+		case 0x01: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			} else {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			}
+		}
+		return;
+		case 0x02: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			} else {
+				// OPA 101, OPB 010
+				// FPU Move
+				double* valueA = fpuStack + fpuStackIndex;
+				double* source = valueA;
+				double* valueB = (double*)readAddressMRM16For8(mrmByte);
+				double* target = valueB;
+				*target = *source;
+			}
+		}
+		return;
+		case 0x03: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			} else {
+				// OPA 101, OPB 011
+				// FPU Move
+				double* valueA = fpuStack + fpuStackIndex;
+				double* source = valueA;
+				double* valueB = (double*)readAddressMRM16For8(mrmByte);
+				double* target = valueB;
+				fpuStackIndex += 1;
+				*target = *source;
+			}
+		}
+		return;
+		case 0x04: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			} else {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			}
+		}
+		return;
+		case 0x05: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			} else {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			}
+		}
+		return;
+		case 0x06: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			} else {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			}
+		}
+		return;
+		case 0x07: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			} else {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			}
+		}
+		return;
+	}
+	mCommandFunctionEmpty();
+}
+//FPU
+void handlerCommand16Code00DC() {
+	uint8_t mrmByte = read8u();
+	uint8_t nnn = readMiddle3Bit(mrmByte);
+	switch (nnn) {
+		case 0x00: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				// OPA 100, OPB 000
+				// FPU Add
+				double* valueA = fpuStack + fpuStackIndex;
+				double* source = valueA;
+				double* valueB = fpuStack + fpuStackIndex + (mrmByte & 7);
+				double* target = valueB;
+				*target = (double)(((double)*valueA) + ((double)*valueB));
+			} else {
+				// OPA 100, OPB 000
+				// FPU Add
+				double* valueA = fpuStack + fpuStackIndex;
+				double* target = valueA;
+				double* valueB = (double*)readAddressMRM16For8(mrmByte);
+				double* source = valueB;
+				*target = (double)(((double)*valueA) + ((double)*valueB));
+			}
+		}
+		return;
+		case 0x01: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				// OPA 100, OPB 001
+				// FPU Mul
+				double* valueA = fpuStack + fpuStackIndex;
+				double* source = valueA;
+				double* valueB = fpuStack + fpuStackIndex + (mrmByte & 7);
+				double* target = valueB;
+				*target = (double)(((double)*valueA) * ((double)*valueB));
+			} else {
+				// OPA 100, OPB 001
+				// FPU Mul
+				double* valueA = fpuStack + fpuStackIndex;
+				double* target = valueA;
+				double* valueB = (double*)readAddressMRM16For8(mrmByte);
+				double* source = valueB;
+				*target = (double)(((double)*valueA) * ((double)*valueB));
+			}
+		}
+		return;
+		case 0x02: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			} else {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			}
+		}
+		return;
+		case 0x03: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			} else {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			}
+		}
+		return;
+		case 0x04: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				// OPA 100, OPB 100
+				// FPU Sub
+				double* valueA = fpuStack + fpuStackIndex;
+				double* source = valueA;
+				double* valueB = fpuStack + fpuStackIndex + (mrmByte & 7);
+				double* target = valueB;
+				*target = (double)(((double)*valueA) - ((double)*valueB));
+			} else {
+				// OPA 100, OPB 100
+				// FPU Sub
+				double* valueA = fpuStack + fpuStackIndex;
+				double* target = valueA;
+				double* valueB = (double*)readAddressMRM16For8(mrmByte);
+				double* source = valueB;
+				*target = (double)(((double)*valueA) - ((double)*valueB));
+			}
+		}
+		return;
+		case 0x05: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				// OPA 100, OPB 101
+				// FPU Sub
+				double* valueA = fpuStack + fpuStackIndex;
+				double* source = valueA;
+				double* valueB = fpuStack + fpuStackIndex + (mrmByte & 7);
+				double* target = valueB;
+				*target = (double)(((double)*valueB) + ((double)*valueA));
+			} else {
+				// OPA 100, OPB 101
+				// FPU Sub
+				double* valueA = fpuStack + fpuStackIndex;
+				double* target = valueA;
+				double* valueB = (double*)readAddressMRM16For8(mrmByte);
+				double* source = valueB;
+				*target = (double)(((double)*valueB) + ((double)*valueA));
+			}
+		}
+		return;
+		case 0x06: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				// OPA 100, OPB 110
+				// FPU Div
+				double* valueA = fpuStack + fpuStackIndex;
+				double* source = valueA;
+				double* valueB = fpuStack + fpuStackIndex + (mrmByte & 7);
+				double* target = valueB;
+				*target = (double)(((double)*valueA) / ((double)*valueB));
+			} else {
+				// OPA 100, OPB 110
+				// FPU Div
+				double* valueA = fpuStack + fpuStackIndex;
+				double* target = valueA;
+				double* valueB = (double*)readAddressMRM16For8(mrmByte);
+				double* source = valueB;
+				*target = (double)(((double)*valueA) / ((double)*valueB));
+			}
+		}
+		return;
+		case 0x07: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				// OPA 100, OPB 111
+				// FPU Div
+				double* valueA = fpuStack + fpuStackIndex;
+				double* source = valueA;
+				double* valueB = fpuStack + fpuStackIndex + (mrmByte & 7);
+				double* target = valueB;
+				*target = (double)(((double)*valueB) / ((double)*valueA));
+			} else {
+				// OPA 100, OPB 111
+				// FPU Div
+				double* valueA = fpuStack + fpuStackIndex;
+				double* target = valueA;
+				double* valueB = (double*)readAddressMRM16For8(mrmByte);
+				double* source = valueB;
+				*target = (double)(((double)*valueB) / ((double)*valueA));
+			}
+		}
+		return;
+	}
+	mCommandFunctionEmpty();
+}
+//FPU
+void handlerCommand16Code00DF() {
+	uint8_t mrmByte = read8u();
+	uint8_t nnn = readMiddle3Bit(mrmByte);
+	switch (nnn) {
+		case 0x00: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			} else {
+				// OPA 111, OPB 000
+				// FPU Move
+				fpuStackIndex -= 1;
+				double* valueA = fpuStack + fpuStackIndex;
+				double* target = valueA;
+				int16_t* valueB = (int16_t*)readAddressMRM16For8(mrmByte);
+				int16_t* source = valueB;
+				*target = *source;
+			}
+		}
+		return;
+		case 0x01: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			} else {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			}
+		}
+		return;
+		case 0x02: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			} else {
+				// OPA 111, OPB 010
+				// FPU Move
+				double* valueA = fpuStack + fpuStackIndex;
+				double* source = valueA;
+				int16_t* valueB = (int16_t*)readAddressMRM16For8(mrmByte);
+				int16_t* target = valueB;
+				*target = *source;
+			}
+		}
+		return;
+		case 0x03: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			} else {
+				// OPA 111, OPB 011
+				// FPU Move
+				double* valueA = fpuStack + fpuStackIndex;
+				double* source = valueA;
+				int16_t* valueB = (int16_t*)readAddressMRM16For8(mrmByte);
+				int16_t* target = valueB;
+				fpuStackIndex += 1;
+				*target = *source;
+			}
+		}
+		return;
+		case 0x04: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			} else {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			}
+		}
+		return;
+		case 0x05: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			} else {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			}
+		}
+		return;
+		case 0x06: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			} else {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			}
+		}
+		return;
+		case 0x07: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			} else {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			}
+		}
+		return;
+	}
+	mCommandFunctionEmpty();
+}
+//FPU
+void handlerCommand16Code00DE() {
+	uint8_t mrmByte = read8u();
+	uint8_t nnn = readMiddle3Bit(mrmByte);
+	switch (nnn) {
+		case 0x00: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				// OPA 110, OPB 000
+				// FPU Add
+				double* valueA = fpuStack + fpuStackIndex;
+				double* source = valueA;
+				double* valueB = fpuStack + fpuStackIndex + (mrmByte & 7);
+				double* target = valueB;
+				fpuStackIndex += 1;
+				*target = (double)(((double)*valueA) + ((double)*valueB));
+			} else {
+				// OPA 110, OPB 000
+				// FPU Add
+				double* valueA = fpuStack + fpuStackIndex;
+				double* target = valueA;
+				int16_t* valueB = (int16_t*)readAddressMRM16For8(mrmByte);
+				int16_t* source = valueB;
+				*target = (double)(((double)*valueA) + ((double)*valueB));
+			}
+		}
+		return;
+		case 0x01: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				// OPA 110, OPB 001
+				// FPU Mul
+				double* valueA = fpuStack + fpuStackIndex;
+				double* source = valueA;
+				double* valueB = fpuStack + fpuStackIndex + (mrmByte & 7);
+				double* target = valueB;
+				fpuStackIndex += 1;
+				*target = (double)(((double)*valueA) * ((double)*valueB));
+			} else {
+				// OPA 110, OPB 001
+				// FPU Mul
+				double* valueA = fpuStack + fpuStackIndex;
+				double* target = valueA;
+				int16_t* valueB = (int16_t*)readAddressMRM16For8(mrmByte);
+				int16_t* source = valueB;
+				*target = (double)(((double)*valueA) * ((double)*valueB));
+			}
+		}
+		return;
+		case 0x02: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			} else {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			}
+		}
+		return;
+		case 0x03: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			} else {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			}
+		}
+		return;
+		case 0x04: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				// OPA 110, OPB 100
+				// FPU Sub
+				double* valueA = fpuStack + fpuStackIndex;
+				double* source = valueA;
+				double* valueB = fpuStack + fpuStackIndex + (mrmByte & 7);
+				double* target = valueB;
+				fpuStackIndex += 1;
+				*target = (double)(((double)*valueA) - ((double)*valueB));
+			} else {
+				// OPA 110, OPB 100
+				// FPU Sub
+				double* valueA = fpuStack + fpuStackIndex;
+				double* target = valueA;
+				int16_t* valueB = (int16_t*)readAddressMRM16For8(mrmByte);
+				int16_t* source = valueB;
+				*target = (double)(((double)*valueA) - ((double)*valueB));
+			}
+		}
+		return;
+		case 0x05: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				// OPA 110, OPB 101
+				// FPU Sub
+				double* valueA = fpuStack + fpuStackIndex;
+				double* source = valueA;
+				double* valueB = fpuStack + fpuStackIndex + (mrmByte & 7);
+				double* target = valueB;
+				fpuStackIndex += 1;
+				*target = (double)(((double)*valueB) + ((double)*valueA));
+			} else {
+				// OPA 110, OPB 101
+				// FPU Sub
+				double* valueA = fpuStack + fpuStackIndex;
+				double* target = valueA;
+				int16_t* valueB = (int16_t*)readAddressMRM16For8(mrmByte);
+				int16_t* source = valueB;
+				*target = (double)(((double)*valueB) + ((double)*valueA));
+			}
+		}
+		return;
+		case 0x06: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				// OPA 110, OPB 110
+				// FPU Div
+				double* valueA = fpuStack + fpuStackIndex;
+				double* source = valueA;
+				double* valueB = fpuStack + fpuStackIndex + (mrmByte & 7);
+				double* target = valueB;
+				fpuStackIndex += 1;
+				*target = (double)(((double)*valueA) / ((double)*valueB));
+			} else {
+				// OPA 110, OPB 110
+				// FPU Div
+				double* valueA = fpuStack + fpuStackIndex;
+				double* target = valueA;
+				int16_t* valueB = (int16_t*)readAddressMRM16For8(mrmByte);
+				int16_t* source = valueB;
+				*target = (double)(((double)*valueA) / ((double)*valueB));
+			}
+		}
+		return;
+		case 0x07: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				// OPA 110, OPB 111
+				// FPU Div
+				double* valueA = fpuStack + fpuStackIndex;
+				double* source = valueA;
+				double* valueB = fpuStack + fpuStackIndex + (mrmByte & 7);
+				double* target = valueB;
+				fpuStackIndex += 1;
+				*target = (double)(((double)*valueB) / ((double)*valueA));
+			} else {
+				// OPA 110, OPB 111
+				// FPU Div
+				double* valueA = fpuStack + fpuStackIndex;
+				double* target = valueA;
+				int16_t* valueB = (int16_t*)readAddressMRM16For8(mrmByte);
+				int16_t* source = valueB;
+				*target = (double)(((double)*valueB) / ((double)*valueA));
+			}
+		}
+		return;
+	}
+	mCommandFunctionEmpty();
+}
+//FPU
+void handlerCommand16Code00D8() {
+	uint8_t mrmByte = read8u();
+	uint8_t nnn = readMiddle3Bit(mrmByte);
+	switch (nnn) {
+		case 0x00: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				// OPA 000, OPB 000
+				// FPU Add
+				double* valueA = fpuStack + fpuStackIndex;
+				double* target = valueA;
+				double* valueB = fpuStack + fpuStackIndex + (mrmByte & 7);
+				double* source = valueB;
+				*target = (double)(((double)*valueA) + ((double)*valueB));
+			} else {
+				// OPA 000, OPB 000
+				// FPU Add
+				double* valueA = fpuStack + fpuStackIndex;
+				double* target = valueA;
+				float* valueB = (float*)readAddressMRM16For8(mrmByte);
+				float* source = valueB;
+				*target = (double)(((double)*valueA) + ((double)*valueB));
+			}
+		}
+		return;
+		case 0x01: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				// OPA 000, OPB 001
+				// FPU Mul
+				double* valueA = fpuStack + fpuStackIndex;
+				double* target = valueA;
+				double* valueB = fpuStack + fpuStackIndex + (mrmByte & 7);
+				double* source = valueB;
+				*target = (double)(((double)*valueA) * ((double)*valueB));
+			} else {
+				// OPA 000, OPB 001
+				// FPU Mul
+				double* valueA = fpuStack + fpuStackIndex;
+				double* target = valueA;
+				float* valueB = (float*)readAddressMRM16For8(mrmByte);
+				float* source = valueB;
+				*target = (double)(((double)*valueA) * ((double)*valueB));
+			}
+		}
+		return;
+		case 0x02: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			} else {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			}
+		}
+		return;
+		case 0x03: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			} else {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			}
+		}
+		return;
+		case 0x04: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				// OPA 000, OPB 100
+				// FPU Sub
+				double* valueA = fpuStack + fpuStackIndex;
+				double* target = valueA;
+				double* valueB = fpuStack + fpuStackIndex + (mrmByte & 7);
+				double* source = valueB;
+				*target = (double)(((double)*valueA) - ((double)*valueB));
+			} else {
+				// OPA 000, OPB 100
+				// FPU Sub
+				double* valueA = fpuStack + fpuStackIndex;
+				double* target = valueA;
+				float* valueB = (float*)readAddressMRM16For8(mrmByte);
+				float* source = valueB;
+				*target = (double)(((double)*valueA) - ((double)*valueB));
+			}
+		}
+		return;
+		case 0x05: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				// OPA 000, OPB 101
+				// FPU Sub
+				double* valueA = fpuStack + fpuStackIndex;
+				double* target = valueA;
+				double* valueB = fpuStack + fpuStackIndex + (mrmByte & 7);
+				double* source = valueB;
+				*target = (double)(((double)*valueB) + ((double)*valueA));
+			} else {
+				// OPA 000, OPB 101
+				// FPU Sub
+				double* valueA = fpuStack + fpuStackIndex;
+				double* target = valueA;
+				float* valueB = (float*)readAddressMRM16For8(mrmByte);
+				float* source = valueB;
+				*target = (double)(((double)*valueB) + ((double)*valueA));
+			}
+		}
+		return;
+		case 0x06: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				// OPA 000, OPB 110
+				// FPU Div
+				double* valueA = fpuStack + fpuStackIndex;
+				double* target = valueA;
+				double* valueB = fpuStack + fpuStackIndex + (mrmByte & 7);
+				double* source = valueB;
+				*target = (double)(((double)*valueA) / ((double)*valueB));
+			} else {
+				// OPA 000, OPB 110
+				// FPU Div
+				double* valueA = fpuStack + fpuStackIndex;
+				double* target = valueA;
+				float* valueB = (float*)readAddressMRM16For8(mrmByte);
+				float* source = valueB;
+				*target = (double)(((double)*valueA) / ((double)*valueB));
+			}
+		}
+		return;
+		case 0x07: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				// OPA 000, OPB 111
+				// FPU Div
+				double* valueA = fpuStack + fpuStackIndex;
+				double* target = valueA;
+				double* valueB = fpuStack + fpuStackIndex + (mrmByte & 7);
+				double* source = valueB;
+				*target = (double)(((double)*valueB) / ((double)*valueA));
+			} else {
+				// OPA 000, OPB 111
+				// FPU Div
+				double* valueA = fpuStack + fpuStackIndex;
+				double* target = valueA;
+				float* valueB = (float*)readAddressMRM16For8(mrmByte);
+				float* source = valueB;
+				*target = (double)(((double)*valueB) / ((double)*valueA));
+			}
+		}
+		return;
+	}
+	mCommandFunctionEmpty();
+}
 //Move
 void handlerCommand32Code0088P66() {
 	uint8_t mrmByte = read8u();
@@ -7493,6 +8480,993 @@ void handlerCommand32Code00C1() {
 	}
 	mCommandFunctionEmpty();
 }
+//FPU
+void handlerCommand32Code00D9() {
+	uint8_t mrmByte = read8u();
+	uint8_t nnn = readMiddle3Bit(mrmByte);
+	switch (nnn) {
+		case 0x00: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				// OPA 001, OPB 000
+				// FPU Move
+				double* valueA = fpuStack + fpuStackIndex;
+				double* target = valueA;
+				double* valueB = fpuStack + fpuStackIndex + (mrmByte & 7);
+				double* source = valueB;
+				*target = *source;
+			} else {
+				// OPA 001, OPB 000
+				// FPU Move
+				fpuStackIndex -= 1;
+				double* valueA = fpuStack + fpuStackIndex;
+				double* target = valueA;
+				float* valueB = (float*)readAddressMRM32For8(mrmByte);
+				float* source = valueB;
+				*target = *source;
+			}
+		}
+		return;
+		case 0x01: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			} else {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			}
+		}
+		return;
+		case 0x02: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			} else {
+				// OPA 001, OPB 010
+				// FPU Move
+				double* valueA = fpuStack + fpuStackIndex;
+				double* source = valueA;
+				float* valueB = (float*)readAddressMRM32For8(mrmByte);
+				float* target = valueB;
+				*target = *source;
+			}
+		}
+		return;
+		case 0x03: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			} else {
+				// OPA 001, OPB 011
+				// FPU Move
+				double* valueA = fpuStack + fpuStackIndex;
+				double* source = valueA;
+				float* valueB = (float*)readAddressMRM32For8(mrmByte);
+				float* target = valueB;
+				fpuStackIndex += 1;
+				*target = *source;
+			}
+		}
+		return;
+		case 0x04: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			} else {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			}
+		}
+		return;
+		case 0x05: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				fpuRegControll = *(uint16_t*)readAddressMRM32For16(mrmByte);
+			} else {
+				fpuRegControll = *(uint16_t*)readAddressMRM32For16(mrmByte);
+			}
+		}
+		return;
+		case 0x06: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			} else {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			}
+		}
+		return;
+		case 0x07: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				*(uint16_t*)readAddressMRM32For16(mrmByte) = fpuRegControll;
+			} else {
+				*(uint16_t*)readAddressMRM32For16(mrmByte) = fpuRegControll;
+			}
+		}
+		return;
+	}
+	mCommandFunctionEmpty();
+}
+//FPU
+void handlerCommand32Code00DA() {
+	uint8_t mrmByte = read8u();
+	uint8_t nnn = readMiddle3Bit(mrmByte);
+	switch (nnn) {
+		case 0x00: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			} else {
+				// OPA 010, OPB 000
+				// FPU Add
+				double* valueA = fpuStack + fpuStackIndex;
+				double* target = valueA;
+				int32_t* valueB = (int32_t*)readAddressMRM32For8(mrmByte);
+				int32_t* source = valueB;
+				*target = (double)(((double)*valueA) + ((double)*valueB));
+			}
+		}
+		return;
+		case 0x01: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			} else {
+				// OPA 010, OPB 001
+				// FPU Mul
+				double* valueA = fpuStack + fpuStackIndex;
+				double* target = valueA;
+				int32_t* valueB = (int32_t*)readAddressMRM32For8(mrmByte);
+				int32_t* source = valueB;
+				*target = (double)(((double)*valueA) * ((double)*valueB));
+			}
+		}
+		return;
+		case 0x02: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			} else {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			}
+		}
+		return;
+		case 0x03: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			} else {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			}
+		}
+		return;
+		case 0x04: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			} else {
+				// OPA 010, OPB 100
+				// FPU Sub
+				double* valueA = fpuStack + fpuStackIndex;
+				double* target = valueA;
+				int32_t* valueB = (int32_t*)readAddressMRM32For8(mrmByte);
+				int32_t* source = valueB;
+				*target = (double)(((double)*valueA) - ((double)*valueB));
+			}
+		}
+		return;
+		case 0x05: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			} else {
+				// OPA 010, OPB 101
+				// FPU Sub
+				double* valueA = fpuStack + fpuStackIndex;
+				double* target = valueA;
+				int32_t* valueB = (int32_t*)readAddressMRM32For8(mrmByte);
+				int32_t* source = valueB;
+				*target = (double)(((double)*valueB) + ((double)*valueA));
+			}
+		}
+		return;
+		case 0x06: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			} else {
+				// OPA 010, OPB 110
+				// FPU Div
+				double* valueA = fpuStack + fpuStackIndex;
+				double* target = valueA;
+				int32_t* valueB = (int32_t*)readAddressMRM32For8(mrmByte);
+				int32_t* source = valueB;
+				*target = (double)(((double)*valueA) / ((double)*valueB));
+			}
+		}
+		return;
+		case 0x07: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			} else {
+				// OPA 010, OPB 111
+				// FPU Div
+				double* valueA = fpuStack + fpuStackIndex;
+				double* target = valueA;
+				int32_t* valueB = (int32_t*)readAddressMRM32For8(mrmByte);
+				int32_t* source = valueB;
+				*target = (double)(((double)*valueB) / ((double)*valueA));
+			}
+		}
+		return;
+	}
+	mCommandFunctionEmpty();
+}
+//FPU
+void handlerCommand32Code00DB() {
+	uint8_t mrmByte = read8u();
+	uint8_t nnn = readMiddle3Bit(mrmByte);
+	switch (nnn) {
+		case 0x00: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			} else {
+				// OPA 011, OPB 000
+				// FPU Move
+				fpuStackIndex -= 1;
+				double* valueA = fpuStack + fpuStackIndex;
+				double* target = valueA;
+				int32_t* valueB = (int32_t*)readAddressMRM32For8(mrmByte);
+				int32_t* source = valueB;
+				*target = *source;
+			}
+		}
+		return;
+		case 0x01: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			} else {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			}
+		}
+		return;
+		case 0x02: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			} else {
+				// OPA 011, OPB 010
+				// FPU Move
+				double* valueA = fpuStack + fpuStackIndex;
+				double* source = valueA;
+				int32_t* valueB = (int32_t*)readAddressMRM32For8(mrmByte);
+				int32_t* target = valueB;
+				*target = *source;
+			}
+		}
+		return;
+		case 0x03: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			} else {
+				// OPA 011, OPB 011
+				// FPU Move
+				double* valueA = fpuStack + fpuStackIndex;
+				double* source = valueA;
+				int32_t* valueB = (int32_t*)readAddressMRM32For8(mrmByte);
+				int32_t* target = valueB;
+				fpuStackIndex += 1;
+				*target = *source;
+			}
+		}
+		return;
+		case 0x04: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			} else {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			}
+		}
+		return;
+		case 0x05: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			} else {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			}
+		}
+		return;
+		case 0x06: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			} else {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			}
+		}
+		return;
+		case 0x07: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				*(uint16_t*)readAddressMRM32For16(mrmByte) = fpuRegControll;
+			} else {
+				*(uint16_t*)readAddressMRM32For16(mrmByte) = fpuRegControll;
+			}
+		}
+		return;
+	}
+	mCommandFunctionEmpty();
+}
+//FPU
+void handlerCommand32Code00DD() {
+	uint8_t mrmByte = read8u();
+	uint8_t nnn = readMiddle3Bit(mrmByte);
+	switch (nnn) {
+		case 0x00: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			} else {
+				// OPA 101, OPB 000
+				// FPU Move
+				fpuStackIndex -= 1;
+				double* valueA = fpuStack + fpuStackIndex;
+				double* target = valueA;
+				double* valueB = (double*)readAddressMRM32For8(mrmByte);
+				double* source = valueB;
+				*target = *source;
+			}
+		}
+		return;
+		case 0x01: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			} else {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			}
+		}
+		return;
+		case 0x02: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			} else {
+				// OPA 101, OPB 010
+				// FPU Move
+				double* valueA = fpuStack + fpuStackIndex;
+				double* source = valueA;
+				double* valueB = (double*)readAddressMRM32For8(mrmByte);
+				double* target = valueB;
+				*target = *source;
+			}
+		}
+		return;
+		case 0x03: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			} else {
+				// OPA 101, OPB 011
+				// FPU Move
+				double* valueA = fpuStack + fpuStackIndex;
+				double* source = valueA;
+				double* valueB = (double*)readAddressMRM32For8(mrmByte);
+				double* target = valueB;
+				fpuStackIndex += 1;
+				*target = *source;
+			}
+		}
+		return;
+		case 0x04: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			} else {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			}
+		}
+		return;
+		case 0x05: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			} else {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			}
+		}
+		return;
+		case 0x06: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			} else {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			}
+		}
+		return;
+		case 0x07: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			} else {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			}
+		}
+		return;
+	}
+	mCommandFunctionEmpty();
+}
+//FPU
+void handlerCommand32Code00DC() {
+	uint8_t mrmByte = read8u();
+	uint8_t nnn = readMiddle3Bit(mrmByte);
+	switch (nnn) {
+		case 0x00: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				// OPA 100, OPB 000
+				// FPU Add
+				double* valueA = fpuStack + fpuStackIndex;
+				double* source = valueA;
+				double* valueB = fpuStack + fpuStackIndex + (mrmByte & 7);
+				double* target = valueB;
+				*target = (double)(((double)*valueA) + ((double)*valueB));
+			} else {
+				// OPA 100, OPB 000
+				// FPU Add
+				double* valueA = fpuStack + fpuStackIndex;
+				double* target = valueA;
+				double* valueB = (double*)readAddressMRM32For8(mrmByte);
+				double* source = valueB;
+				*target = (double)(((double)*valueA) + ((double)*valueB));
+			}
+		}
+		return;
+		case 0x01: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				// OPA 100, OPB 001
+				// FPU Mul
+				double* valueA = fpuStack + fpuStackIndex;
+				double* source = valueA;
+				double* valueB = fpuStack + fpuStackIndex + (mrmByte & 7);
+				double* target = valueB;
+				*target = (double)(((double)*valueA) * ((double)*valueB));
+			} else {
+				// OPA 100, OPB 001
+				// FPU Mul
+				double* valueA = fpuStack + fpuStackIndex;
+				double* target = valueA;
+				double* valueB = (double*)readAddressMRM32For8(mrmByte);
+				double* source = valueB;
+				*target = (double)(((double)*valueA) * ((double)*valueB));
+			}
+		}
+		return;
+		case 0x02: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			} else {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			}
+		}
+		return;
+		case 0x03: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			} else {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			}
+		}
+		return;
+		case 0x04: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				// OPA 100, OPB 100
+				// FPU Sub
+				double* valueA = fpuStack + fpuStackIndex;
+				double* source = valueA;
+				double* valueB = fpuStack + fpuStackIndex + (mrmByte & 7);
+				double* target = valueB;
+				*target = (double)(((double)*valueA) - ((double)*valueB));
+			} else {
+				// OPA 100, OPB 100
+				// FPU Sub
+				double* valueA = fpuStack + fpuStackIndex;
+				double* target = valueA;
+				double* valueB = (double*)readAddressMRM32For8(mrmByte);
+				double* source = valueB;
+				*target = (double)(((double)*valueA) - ((double)*valueB));
+			}
+		}
+		return;
+		case 0x05: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				// OPA 100, OPB 101
+				// FPU Sub
+				double* valueA = fpuStack + fpuStackIndex;
+				double* source = valueA;
+				double* valueB = fpuStack + fpuStackIndex + (mrmByte & 7);
+				double* target = valueB;
+				*target = (double)(((double)*valueB) + ((double)*valueA));
+			} else {
+				// OPA 100, OPB 101
+				// FPU Sub
+				double* valueA = fpuStack + fpuStackIndex;
+				double* target = valueA;
+				double* valueB = (double*)readAddressMRM32For8(mrmByte);
+				double* source = valueB;
+				*target = (double)(((double)*valueB) + ((double)*valueA));
+			}
+		}
+		return;
+		case 0x06: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				// OPA 100, OPB 110
+				// FPU Div
+				double* valueA = fpuStack + fpuStackIndex;
+				double* source = valueA;
+				double* valueB = fpuStack + fpuStackIndex + (mrmByte & 7);
+				double* target = valueB;
+				*target = (double)(((double)*valueA) / ((double)*valueB));
+			} else {
+				// OPA 100, OPB 110
+				// FPU Div
+				double* valueA = fpuStack + fpuStackIndex;
+				double* target = valueA;
+				double* valueB = (double*)readAddressMRM32For8(mrmByte);
+				double* source = valueB;
+				*target = (double)(((double)*valueA) / ((double)*valueB));
+			}
+		}
+		return;
+		case 0x07: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				// OPA 100, OPB 111
+				// FPU Div
+				double* valueA = fpuStack + fpuStackIndex;
+				double* source = valueA;
+				double* valueB = fpuStack + fpuStackIndex + (mrmByte & 7);
+				double* target = valueB;
+				*target = (double)(((double)*valueB) / ((double)*valueA));
+			} else {
+				// OPA 100, OPB 111
+				// FPU Div
+				double* valueA = fpuStack + fpuStackIndex;
+				double* target = valueA;
+				double* valueB = (double*)readAddressMRM32For8(mrmByte);
+				double* source = valueB;
+				*target = (double)(((double)*valueB) / ((double)*valueA));
+			}
+		}
+		return;
+	}
+	mCommandFunctionEmpty();
+}
+//FPU
+void handlerCommand32Code00DF() {
+	uint8_t mrmByte = read8u();
+	uint8_t nnn = readMiddle3Bit(mrmByte);
+	switch (nnn) {
+		case 0x00: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			} else {
+				// OPA 111, OPB 000
+				// FPU Move
+				fpuStackIndex -= 1;
+				double* valueA = fpuStack + fpuStackIndex;
+				double* target = valueA;
+				int16_t* valueB = (int16_t*)readAddressMRM32For8(mrmByte);
+				int16_t* source = valueB;
+				*target = *source;
+			}
+		}
+		return;
+		case 0x01: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			} else {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			}
+		}
+		return;
+		case 0x02: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			} else {
+				// OPA 111, OPB 010
+				// FPU Move
+				double* valueA = fpuStack + fpuStackIndex;
+				double* source = valueA;
+				int16_t* valueB = (int16_t*)readAddressMRM32For8(mrmByte);
+				int16_t* target = valueB;
+				*target = *source;
+			}
+		}
+		return;
+		case 0x03: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			} else {
+				// OPA 111, OPB 011
+				// FPU Move
+				double* valueA = fpuStack + fpuStackIndex;
+				double* source = valueA;
+				int16_t* valueB = (int16_t*)readAddressMRM32For8(mrmByte);
+				int16_t* target = valueB;
+				fpuStackIndex += 1;
+				*target = *source;
+			}
+		}
+		return;
+		case 0x04: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			} else {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			}
+		}
+		return;
+		case 0x05: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			} else {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			}
+		}
+		return;
+		case 0x06: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			} else {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			}
+		}
+		return;
+		case 0x07: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			} else {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			}
+		}
+		return;
+	}
+	mCommandFunctionEmpty();
+}
+//FPU
+void handlerCommand32Code00DE() {
+	uint8_t mrmByte = read8u();
+	uint8_t nnn = readMiddle3Bit(mrmByte);
+	switch (nnn) {
+		case 0x00: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				// OPA 110, OPB 000
+				// FPU Add
+				double* valueA = fpuStack + fpuStackIndex;
+				double* source = valueA;
+				double* valueB = fpuStack + fpuStackIndex + (mrmByte & 7);
+				double* target = valueB;
+				fpuStackIndex += 1;
+				*target = (double)(((double)*valueA) + ((double)*valueB));
+			} else {
+				// OPA 110, OPB 000
+				// FPU Add
+				double* valueA = fpuStack + fpuStackIndex;
+				double* target = valueA;
+				int16_t* valueB = (int16_t*)readAddressMRM32For8(mrmByte);
+				int16_t* source = valueB;
+				*target = (double)(((double)*valueA) + ((double)*valueB));
+			}
+		}
+		return;
+		case 0x01: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				// OPA 110, OPB 001
+				// FPU Mul
+				double* valueA = fpuStack + fpuStackIndex;
+				double* source = valueA;
+				double* valueB = fpuStack + fpuStackIndex + (mrmByte & 7);
+				double* target = valueB;
+				fpuStackIndex += 1;
+				*target = (double)(((double)*valueA) * ((double)*valueB));
+			} else {
+				// OPA 110, OPB 001
+				// FPU Mul
+				double* valueA = fpuStack + fpuStackIndex;
+				double* target = valueA;
+				int16_t* valueB = (int16_t*)readAddressMRM32For8(mrmByte);
+				int16_t* source = valueB;
+				*target = (double)(((double)*valueA) * ((double)*valueB));
+			}
+		}
+		return;
+		case 0x02: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			} else {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			}
+		}
+		return;
+		case 0x03: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			} else {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			}
+		}
+		return;
+		case 0x04: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				// OPA 110, OPB 100
+				// FPU Sub
+				double* valueA = fpuStack + fpuStackIndex;
+				double* source = valueA;
+				double* valueB = fpuStack + fpuStackIndex + (mrmByte & 7);
+				double* target = valueB;
+				fpuStackIndex += 1;
+				*target = (double)(((double)*valueA) - ((double)*valueB));
+			} else {
+				// OPA 110, OPB 100
+				// FPU Sub
+				double* valueA = fpuStack + fpuStackIndex;
+				double* target = valueA;
+				int16_t* valueB = (int16_t*)readAddressMRM32For8(mrmByte);
+				int16_t* source = valueB;
+				*target = (double)(((double)*valueA) - ((double)*valueB));
+			}
+		}
+		return;
+		case 0x05: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				// OPA 110, OPB 101
+				// FPU Sub
+				double* valueA = fpuStack + fpuStackIndex;
+				double* source = valueA;
+				double* valueB = fpuStack + fpuStackIndex + (mrmByte & 7);
+				double* target = valueB;
+				fpuStackIndex += 1;
+				*target = (double)(((double)*valueB) + ((double)*valueA));
+			} else {
+				// OPA 110, OPB 101
+				// FPU Sub
+				double* valueA = fpuStack + fpuStackIndex;
+				double* target = valueA;
+				int16_t* valueB = (int16_t*)readAddressMRM32For8(mrmByte);
+				int16_t* source = valueB;
+				*target = (double)(((double)*valueB) + ((double)*valueA));
+			}
+		}
+		return;
+		case 0x06: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				// OPA 110, OPB 110
+				// FPU Div
+				double* valueA = fpuStack + fpuStackIndex;
+				double* source = valueA;
+				double* valueB = fpuStack + fpuStackIndex + (mrmByte & 7);
+				double* target = valueB;
+				fpuStackIndex += 1;
+				*target = (double)(((double)*valueA) / ((double)*valueB));
+			} else {
+				// OPA 110, OPB 110
+				// FPU Div
+				double* valueA = fpuStack + fpuStackIndex;
+				double* target = valueA;
+				int16_t* valueB = (int16_t*)readAddressMRM32For8(mrmByte);
+				int16_t* source = valueB;
+				*target = (double)(((double)*valueA) / ((double)*valueB));
+			}
+		}
+		return;
+		case 0x07: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				// OPA 110, OPB 111
+				// FPU Div
+				double* valueA = fpuStack + fpuStackIndex;
+				double* source = valueA;
+				double* valueB = fpuStack + fpuStackIndex + (mrmByte & 7);
+				double* target = valueB;
+				fpuStackIndex += 1;
+				*target = (double)(((double)*valueB) / ((double)*valueA));
+			} else {
+				// OPA 110, OPB 111
+				// FPU Div
+				double* valueA = fpuStack + fpuStackIndex;
+				double* target = valueA;
+				int16_t* valueB = (int16_t*)readAddressMRM32For8(mrmByte);
+				int16_t* source = valueB;
+				*target = (double)(((double)*valueB) / ((double)*valueA));
+			}
+		}
+		return;
+	}
+	mCommandFunctionEmpty();
+}
+//FPU
+void handlerCommand32Code00D8() {
+	uint8_t mrmByte = read8u();
+	uint8_t nnn = readMiddle3Bit(mrmByte);
+	switch (nnn) {
+		case 0x00: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				// OPA 000, OPB 000
+				// FPU Add
+				double* valueA = fpuStack + fpuStackIndex;
+				double* target = valueA;
+				double* valueB = fpuStack + fpuStackIndex + (mrmByte & 7);
+				double* source = valueB;
+				*target = (double)(((double)*valueA) + ((double)*valueB));
+			} else {
+				// OPA 000, OPB 000
+				// FPU Add
+				double* valueA = fpuStack + fpuStackIndex;
+				double* target = valueA;
+				float* valueB = (float*)readAddressMRM32For8(mrmByte);
+				float* source = valueB;
+				*target = (double)(((double)*valueA) + ((double)*valueB));
+			}
+		}
+		return;
+		case 0x01: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				// OPA 000, OPB 001
+				// FPU Mul
+				double* valueA = fpuStack + fpuStackIndex;
+				double* target = valueA;
+				double* valueB = fpuStack + fpuStackIndex + (mrmByte & 7);
+				double* source = valueB;
+				*target = (double)(((double)*valueA) * ((double)*valueB));
+			} else {
+				// OPA 000, OPB 001
+				// FPU Mul
+				double* valueA = fpuStack + fpuStackIndex;
+				double* target = valueA;
+				float* valueB = (float*)readAddressMRM32For8(mrmByte);
+				float* source = valueB;
+				*target = (double)(((double)*valueA) * ((double)*valueB));
+			}
+		}
+		return;
+		case 0x02: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			} else {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			}
+		}
+		return;
+		case 0x03: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			} else {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			}
+		}
+		return;
+		case 0x04: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				// OPA 000, OPB 100
+				// FPU Sub
+				double* valueA = fpuStack + fpuStackIndex;
+				double* target = valueA;
+				double* valueB = fpuStack + fpuStackIndex + (mrmByte & 7);
+				double* source = valueB;
+				*target = (double)(((double)*valueA) - ((double)*valueB));
+			} else {
+				// OPA 000, OPB 100
+				// FPU Sub
+				double* valueA = fpuStack + fpuStackIndex;
+				double* target = valueA;
+				float* valueB = (float*)readAddressMRM32For8(mrmByte);
+				float* source = valueB;
+				*target = (double)(((double)*valueA) - ((double)*valueB));
+			}
+		}
+		return;
+		case 0x05: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				// OPA 000, OPB 101
+				// FPU Sub
+				double* valueA = fpuStack + fpuStackIndex;
+				double* target = valueA;
+				double* valueB = fpuStack + fpuStackIndex + (mrmByte & 7);
+				double* source = valueB;
+				*target = (double)(((double)*valueB) + ((double)*valueA));
+			} else {
+				// OPA 000, OPB 101
+				// FPU Sub
+				double* valueA = fpuStack + fpuStackIndex;
+				double* target = valueA;
+				float* valueB = (float*)readAddressMRM32For8(mrmByte);
+				float* source = valueB;
+				*target = (double)(((double)*valueB) + ((double)*valueA));
+			}
+		}
+		return;
+		case 0x06: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				// OPA 000, OPB 110
+				// FPU Div
+				double* valueA = fpuStack + fpuStackIndex;
+				double* target = valueA;
+				double* valueB = fpuStack + fpuStackIndex + (mrmByte & 7);
+				double* source = valueB;
+				*target = (double)(((double)*valueA) / ((double)*valueB));
+			} else {
+				// OPA 000, OPB 110
+				// FPU Div
+				double* valueA = fpuStack + fpuStackIndex;
+				double* target = valueA;
+				float* valueB = (float*)readAddressMRM32For8(mrmByte);
+				float* source = valueB;
+				*target = (double)(((double)*valueA) / ((double)*valueB));
+			}
+		}
+		return;
+		case 0x07: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				// OPA 000, OPB 111
+				// FPU Div
+				double* valueA = fpuStack + fpuStackIndex;
+				double* target = valueA;
+				double* valueB = fpuStack + fpuStackIndex + (mrmByte & 7);
+				double* source = valueB;
+				*target = (double)(((double)*valueB) / ((double)*valueA));
+			} else {
+				// OPA 000, OPB 111
+				// FPU Div
+				double* valueA = fpuStack + fpuStackIndex;
+				double* target = valueA;
+				float* valueB = (float*)readAddressMRM32For8(mrmByte);
+				float* source = valueB;
+				*target = (double)(((double)*valueB) / ((double)*valueA));
+			}
+		}
+		return;
+	}
+	mCommandFunctionEmpty();
+}
  
 
 void installCommandFunction() {
@@ -7705,6 +9679,14 @@ void installCommandFunction() {
 	commandFunctions16[211] = handlerCommand16Code00D3;
 	commandFunctions16[192] = handlerCommand16Code00C0;
 	commandFunctions16[193] = handlerCommand16Code00C1;
+	commandFunctions16[217] = handlerCommand16Code00D9;
+	commandFunctions16[218] = handlerCommand16Code00DA;
+	commandFunctions16[219] = handlerCommand16Code00DB;
+	commandFunctions16[221] = handlerCommand16Code00DD;
+	commandFunctions16[220] = handlerCommand16Code00DC;
+	commandFunctions16[223] = handlerCommand16Code00DF;
+	commandFunctions16[222] = handlerCommand16Code00DE;
+	commandFunctions16[216] = handlerCommand16Code00D8;
 	commandFunctions32[136] = handlerCommand32Code0088;
 	commandFunctions32[136 | 0x0400] = handlerCommand32Code0088P66;
 	commandFunctions32[137] = handlerCommand32Code0089;
@@ -8103,4 +10085,12 @@ void installCommandFunction() {
 	commandFunctions32[192 | 0x0400] = handlerCommand32Code00C0P66;
 	commandFunctions32[193] = handlerCommand32Code00C1;
 	commandFunctions32[193 | 0x0400] = handlerCommand32Code00C1P66;
+	commandFunctions32[217] = handlerCommand32Code00D9;
+	commandFunctions32[218] = handlerCommand32Code00DA;
+	commandFunctions32[219] = handlerCommand32Code00DB;
+	commandFunctions32[221] = handlerCommand32Code00DD;
+	commandFunctions32[220] = handlerCommand32Code00DC;
+	commandFunctions32[223] = handlerCommand32Code00DF;
+	commandFunctions32[222] = handlerCommand32Code00DE;
+	commandFunctions32[216] = handlerCommand32Code00D8;
 }

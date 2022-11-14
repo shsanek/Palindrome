@@ -11,6 +11,7 @@
 #include <stdio.h>
 #include "Models.h"
 
+uint8_t readFirst2Bit(uint8_t byte);
 uint8_t readMiddle3Bit(uint8_t byte);
 
 int8_t* readRegisterMRM8(uint8_t mrmByte);

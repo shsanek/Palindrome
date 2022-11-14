@@ -3,6 +3,8 @@ struct InlineElement {
     let indexBit: Int
     let count: Int
 
+    var value: String? = nil
+
     func getByte(_ byte: UInt8) -> UInt8 {
         var mask: UInt8 = 1
         for _ in 0..<count {

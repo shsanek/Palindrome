@@ -27,11 +27,24 @@ enum FormatterAdditionalInfo {
     case littleAddress
     case fixAddress(_ fix: Int)
 
+    case fpu
+
     case mrmRegisterSize(info: [FormatterAdditionalInfo])
     case mrmAddressSize(info: [FormatterAdditionalInfo])
 }
 
 extension FormatterInfo {
+    var isFPU: Bool {
+        for info in additionalInfo {
+            switch info {
+            case .fpu:
+                return true
+            default:
+                continue;
+            }
+        }
+        return false
+    }
     var operandSize: Int {
         for info in additionalInfo {
             switch info {

@@ -6,7 +6,7 @@ struct FunctionBodyFormatter: IFormatter {
     func format(with info: FormatterInfo) -> String? {
         let generator = FunctionGenerator()
         let name = info.functionName;
-        if info.prefixs.isEmpty && info.mode == .mod32 {
+        if info.prefixs.isEmpty && info.mode == .mod32 && !info.isFPU {
             countCommand += 1
         }
         generator.add("//\(info.command.name)")
@@ -297,6 +297,9 @@ struct NNNFunctionFormatter: IFormatter {
     }
 
     private func addPrepare(_ generator: FunctionGenerator, with info: FormatterInfo) {
+        guard !info.isFPU else {
+            return
+        }
         let addressFunction = "(uint8_t*)readAddressMRM\(info.mode == .mod32 ? "32" : "16")For%addressSize(mrmByte)"
 
         let prepareGenerator = FunctionGenerator()

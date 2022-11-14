@@ -27,7 +27,7 @@ extension Command {
         for i in 0..<UInt8(variationCount) {
             var current = baseBits
             var index = 0
-            for inline in format.inlines {
+            for inline in format.inlines.filter({ $0.value == nil }) {
                 for j in 0..<inline.count {
                     current[15 - inline.indexBit - j] = i.bits[7 - index]
                     index += 1

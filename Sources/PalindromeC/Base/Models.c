@@ -45,6 +45,8 @@ void resetStack() {
         ((uint32_t*)context.segmentRegisters)[0] = 0;
     }
 
+    fpuStackIndex = 8;
+
     context.currentStack = context.stack;
     context.currentCallStack = context.callStack;
 

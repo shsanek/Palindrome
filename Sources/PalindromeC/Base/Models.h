@@ -9,6 +9,7 @@
 #define Models_h
 
 #include <stdio.h>
+#include "FPU.h"
 
 typedef struct CommandPrefixInfo {
     uint8_t commandPrefix;

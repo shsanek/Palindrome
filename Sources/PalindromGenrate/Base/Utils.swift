@@ -63,7 +63,7 @@ final class FunctionGenerator {
     private var tab: Int = 0
 
     func add(_ lines: String?) {
-        guard let lines = lines else {
+        guard let lines = lines?.replacingOccurrences(of: "\t", with: "") else {
             return
         }
         for line in lines.split(separator: "\n") {
