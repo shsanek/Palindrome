@@ -35,6 +35,6 @@ extension Command {
             }
             result.append(.init(bits: current))
         }
-        return result.sorted()
+        return Array(Set(result)).sorted()
     }
 }

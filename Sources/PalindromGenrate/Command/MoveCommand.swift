@@ -221,6 +221,81 @@ fileprivate let move99MoveCommand = Command(
     installFormatter: InitialFormatter()
 )
 
+fileprivate let moveSegmentRegisterCommand = Command(
+    code: 0x008C,
+    name: "Move",
+    format: .init(
+        hasPrefixAddress: false,
+        hasPrefixData: false,
+        inlines: [
+            .init(name: "SEGMENT", indexBit: 0, count: 1, value: "true"),
+            .init(name: "d", indexBit: 1, count: 1)
+        ]
+    ),
+    functionFormatter: Formatter(
+        customizers: [
+            .functionName,
+            .mrm,
+            .settings([.fixData(16)]),
+            "*(uint%dataSize_t*)target = *(uint%dataSize_t*)source;"
+        ]
+    ),
+    installFormatter: InitialFormatter()
+)
+
+fileprivate let moveACommand = Command(
+    code: 0x00A0,
+    name: "Move",
+    format: .init(
+        hasPrefixAddress: true,
+        hasPrefixData: true,
+        inlines: [
+            .init(name: "w", indexBit: 0, count: 1),
+            .init(name: "d", indexBit: 1, count: 1)
+        ]
+    ),
+    functionFormatter: Formatter(
+        customizers: [
+            .prefixData,
+            .prefixAddress,
+            .functionName,
+            .settings([.changeableData, .bigAddress]),
+            .formatter(DestFormatter {
+                BaseFormat { info in
+                    """
+                    uint%dataSize_t* target = (uint%dataSize_t*)register%dataSizeu(BR_AX);
+                    uint%dataSize_t* source = (uint%dataSize_t*)(mem(SR_DS) + read%addressSize());
+                    """
+                }
+            }),
+            "*(uint%dataSize_t*)target = *(uint%dataSize_t*)source;"
+        ]
+    ),
+    installFormatter: InitialFormatter()
+)
+
+private func makeLoadMemorySegmentRegister(code: UInt16, reg: String) -> Command {
+    Command(
+        code: code,
+        name: "Load \(reg)",
+        format: .init(
+            hasPrefixAddress: false,
+            hasPrefixData: false,
+            inlines: []
+        ),
+        functionFormatter: Formatter(
+            customizers: [
+                .functionName,
+                .mrm,
+                .template("setMem(\(reg), *(uint16_t*)(target + 2));"),
+                "*(uint%MOD_t*)source = *(uint%MOD_t*)(target);"
+            ]
+        ),
+        installFormatter: InitialFormatter()
+    )
+}
+
+
 func appendMoveCommand(generator: Generator) {
     generator.addCommand(moveMRMCommand)
     generator.addCommand(moveDataCommand)
@@ -234,4 +309,13 @@ func appendMoveCommand(generator: Generator) {
     generator.addCommand(move98MoveCommand)
     generator.addCommand(move99MoveCommand)
 
+    generator.addCommand(moveACommand)
+
+    generator.addCommand(moveSegmentRegisterCommand)
+
+    generator.addCommand(makeLoadMemorySegmentRegister(code: 0x00C4, reg: "SR_ES"))
+    generator.addCommand(makeLoadMemorySegmentRegister(code: 0x00C5, reg: "SR_DS"))
+    generator.addCommand(makeLoadMemorySegmentRegister(code: 0x01B2, reg: "SR_SS"))
+    generator.addCommand(makeLoadMemorySegmentRegister(code: 0x01B4, reg: "SR_FS"))
+    generator.addCommand(makeLoadMemorySegmentRegister(code: 0x01B5, reg: "SR_GS"))
 }

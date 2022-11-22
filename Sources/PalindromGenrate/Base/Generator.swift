@@ -20,13 +20,13 @@ final class Generator {
                     let flags = command
                         .format
                         .inlines
-                        .filter { $0.isFlag && $0.getByte(UInt8(variation & 0x00FF)) != 0 }
+                        .filter { $0.isFlag && ($0.value == nil ? $0.getByte(UInt8(variation & 0x00FF)) != 0 : ($0.value == "true")) }
                         .map { $0.name }
                     let vars = command
                         .format
                         .inlines
                         .filter { !$0.isFlag }
-                        .map { (name: $0.name, value: $0.getByte(UInt8(variation & 0x00FF)).hex) }
+                        .map { (name: $0.name, value: $0.value ?? $0.getByte(UInt8(variation & 0x00FF)).hex) }
                     let info = FormatterInfo(command: command, flags: Set(flags), mode: mode, variation: variation, vars: vars, prefixs: [])
                     installGenerate.add(command.installFormatter.format(with: info))
                     functionGenerate.add(command.functionFormatter.format(with: info))

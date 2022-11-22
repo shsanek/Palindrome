@@ -65,6 +65,8 @@ extern int16_t *regBP;
 extern int16_t *regSI;
 extern int16_t *regDI;
 
+extern int32_t regIP;
+
 #define reg_0x00_32u (*regEAXu)
 #define reg_0x01_32u (*regECXu)
 #define reg_0x02_32u (*regEDXu)

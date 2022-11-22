@@ -15,7 +15,7 @@ typedef struct CommandPrefixInfo {
     uint8_t commandPrefix;
     uint8_t addressSizePrefix;
     uint8_t operandSizePrefix;
-    uint8_t changeSegmentPrefix;
+    uint8_t* changeSegmentPrefix;
 } CommandPrefixInfo;
 
 typedef struct ASMMRMInfo {
@@ -69,7 +69,7 @@ typedef struct Context {
 
 extern Context context;
 
-Context* resetContext(uint16_t memorySize);
+Context* resetContext(uint32_t memorySize);
 void freeContext();
 
 #endif /* Models_h */

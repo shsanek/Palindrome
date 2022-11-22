@@ -13,14 +13,22 @@
 Context context;
 
 void emptyInterruptCallFunction(uint8_t a) {
+    printf(", call %X-%X", a, *regAH);
 }
 
+void systemDOSFunction(uint8_t a) {
+    if (*regAH == 0x30) {
+        *regBX = 0;
+        *regCX = 0;
+        *regAL = 3;
+        *regAH = 2;
+    }
+}
 
 void printSymbol(uint8_t a) {
     context.text[context.cursor] = *register8(BR_AL);
     context.cursor += 1;
 }
-
 
 void endCallFunction(uint8_t a) {
     context.end = 1;
@@ -32,17 +40,13 @@ void setBaseFunction() {
     }
     context.functions[0x20] = endCallFunction;
     context.functions[0x10] = printSymbol;
+    context.functions[0x21] = systemDOSFunction;
 }
 
 void resetStack() {
     for (int i = 0; i < 8; i++) {
-        context.registers[i] = 0;
-        context.segmentRegisters[i] = 0;
-    }
-
-    for (int i = 0; i < 8; i++) {
-        context.segmentRegisters[0] = 0;
-        ((uint32_t*)context.segmentRegisters)[0] = 0;
+        *(((uint32_t*)context.registers) + i) = 0;
+        *(((uint16_t*)context.segmentRegisters) + i) = 0;
     }
 
     fpuStackIndex = 8;
@@ -64,7 +68,7 @@ void resetStack() {
 
 int isInstall = 0;
 
-Context* resetContext(uint16_t memorySize) {
+Context* resetContext(uint32_t memorySize) {
     freeContext();
     isInstall = 1;
     uint16_t* segmentRegisters = malloc(sizeof(uint16_t) * 8);

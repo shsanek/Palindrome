@@ -24,8 +24,10 @@ void clearDebugCommands() {
     }
 }
 
+#define LOG(F, ARG...) printf( F , ARG )
+
 void getCommand() {
-    printf("%llX:", (uint64_t)(context.index - context.memory));
+    LOG("%llX:", (uint64_t)(context.index - context.memory));
 
     uint16_t command = 0;
     uint8_t commandPrefix = 0;
@@ -34,7 +36,7 @@ void getCommand() {
     //Коды F2, F3 - префиксы повторения, команда REP ("repeat" - повторять) и другие команды этой группы. Такие префиксы употребляются только с цепочечными командами. Префиксы группы REP позволяют организовать циклическое выполнение цепочечной команды. Смотрите страницу   Цепочечные команды.
     //
     //Код F1 - нет такого префикса и нет такой команды. Тут следует заметить, что это единственный код для первого байта команды, который все еще остается свободным. Поневоле напрашивается мысль о существовании некоторой недокументированной возможности ...
-    if (*(context.index) == 0xF0 || *(context.index) == 0xF2 || *(context.index) == 0xF3) {
+    if (*(context.index) == 0xF2 || *(context.index) == 0xF3) {
         commandPrefix = *(context.index);
         context.index++;
     }
@@ -66,40 +68,55 @@ void getCommand() {
     }
 
 
-    uint8_t changeSegmentPrefix = 0;
+    uint8_t* changeSegmentPrefix = NULL;
     //    Код 26 - сегмент по умолчанию заменяется на сегмент ES.
     //    Код 2E - сегмент по умолчанию заменяется на сегмент CS.
     //    Код 36 - сегмент по умолчанию заменяется на сегмент SS.
     //    Код 3E - сегмент по умолчанию заменяется на сегмент DS.
     //    Код 64 - сегмент по умолчанию заменяется на сегмент FS.
     //    Код 65 - сегмент по умолчанию заменяется на сегмент GS.
-    if (
-        *(context.index) == 0x26 ||
-        *(context.index) == 0x2E ||
-        *(context.index) == 0x36 ||
-        *(context.index) == 0x3E ||
-        *(context.index) == 0x64 ||
-        *(context.index) == 0x65
-    ) {
-        changeSegmentPrefix = *(context.index);
-        context.index++;
+    switch (*context.index) {
+        case 0x26:
+            changeSegmentPrefix = mem(SR_ES);
+            context.index++;
+            break;
+        case 0x2E:
+            changeSegmentPrefix = mem(SR_CS);
+            context.index++;
+            break;
+        case 0x36:
+            changeSegmentPrefix = mem(SR_SS);
+            context.index++;
+            break;
+        case 0x3E:
+            changeSegmentPrefix = mem(SR_DS);
+            context.index++;
+            break;
+        case 0x64:
+            changeSegmentPrefix = mem(SR_FS);
+            context.index++;
+            break;
+        case 0x65:
+            changeSegmentPrefix = mem(SR_GS);
+            context.index++;
+            break;
+        default:
+            break;
     }
 
-    printf("0x");
+    LOG("%s", "0x");
 
     uint16_t debugCommand = 0;
 
     if (*(context.index) == 0x0F) {
         context.index++;
-        printf("0F");
+        LOG("%s", "0F");
         command |= 0x0100;
-        debugCommand |= 0x0100;
     }
-    printf("%X", (*context.index));
-    debugCommand |= (*context.index);
-    debugCommands[debugCommand] = 1;
+    LOG("%X ", (*context.index));
 
     command |= (uint16_t)(*context.index);
+    debugCommands[command] = 1;
     context.index++;
 
     context.lastCommandInfo.prefixInfo.commandPrefix = commandPrefix;
@@ -117,7 +134,6 @@ void runCommand16() {
 void runCommand32() {
     getCommand();
     commandFunctions32[context.lastCommandInfo.command]();
-    printf("\n");
 }
 
 void runCommand() {
@@ -166,11 +182,95 @@ void run32ToEndWithStop(int count) {
     }
 }
 
+char* print16Registers();
+
+#define REG16_PRINT_SIZE (9 * 13)
+#define PRINT16_REGS { char* out = print16Registers(); printf("%s", out); free(out); }
 void run16ToEndWithStop(int count) {
+    PRINT16_REGS
+    
     context.mod = 0;
     clearDebugCommands();
+    int index = 0;
     while (context.end == 0 && count > 0) {
+        LOG("step %d|", index);
         runCommand16();
+        LOG("%s", "\n\n");
+        PRINT16_REGS
+        index += 1;
         count--;
     }
+}
+
+char* run16AndSaveToEndWithStop(int count) {
+    char *out = malloc(count * REG16_PRINT_SIZE + 1);
+    context.mod = 0;
+    clearDebugCommands();
+    int index = 0;
+    while (context.end == 0 && count > 0) {
+        runCommand16();
+        char* regs = print16Registers();
+        sprintf(out + index * REG16_PRINT_SIZE, "%s", regs);
+        free(regs);
+        index++;
+        count--;
+    }
+    return out;
+}
+
+int run16AndTestToEndWithStop(int count, char* in) {
+    context.mod = 0;
+    clearDebugCommands();
+    int index = 0;
+    while (context.end == 0 && count > 0) {
+        runCommand16();
+        char* regs = print16Registers();
+        for (int i = 0; i < REG16_PRINT_SIZE; i++) {
+            if (regs[i] != in[REG16_PRINT_SIZE * index + i]) {
+                return index;
+            }
+        }
+        index++;
+        count--;
+    }
+    return -1;
+}
+
+#define GET_BYTE(value, index) (((uint8_t*)(&reg)) + index)
+void printHex(uint8_t* value, char* out) {
+    if (*value == 0) {
+        sprintf(out, "00");
+    } else if (*value < 16) {
+        sprintf(out, "0%X", *value);
+    } else {
+        sprintf(out, "%X", *value);
+    }
+}
+void printRegister16(char *s, uint16_t reg, char* out) {
+    sprintf(out, "%s=", s);
+    printHex(GET_BYTE(reg, 1), out + 3);
+    printHex(GET_BYTE(reg, 0), out + 5);
+}
+
+char* print16Registers() {
+    char *out = malloc(REG16_PRINT_SIZE + 1);
+
+    printRegister16("AX", *regAXu, out + 9 * 0); sprintf(out + 9 * 0 + 7, "  ");
+    printRegister16("BX", *regBXu, out + 9 * 1); sprintf(out + 9 * 1 + 7, "  ");
+    printRegister16("CX", *regCXu, out + 9 * 2); sprintf(out + 9 * 2 + 7, "  ");
+    printRegister16("DX", *regDXu, out + 9 * 3); sprintf(out + 9 * 3 + 7, "  ");
+    printRegister16("SP", *regSPu, out + 9 * 4); sprintf(out + 9 * 4 + 7, "  ");
+    printRegister16("BP", *regBPu, out + 9 * 5); sprintf(out + 9 * 5 + 7, "  ");
+    printRegister16("SI", *regSIu, out + 9 * 6); sprintf(out + 9 * 6 + 7, "  ");
+    printRegister16("DI", *regDIu, out + 9 * 7); sprintf(out + 9 * 7 + 7, " \n");
+
+    printRegister16("DS", context.segmentRegisters[SR_DS], out + 9 * 8); sprintf(out + 9 * 8 + 7, "  ");
+    printRegister16("ES", context.segmentRegisters[SR_ES], out + 9 * 9); sprintf(out + 9 * 9 + 7, "  ");
+    printRegister16("SS", context.segmentRegisters[SR_SS], out + 9 * 10); sprintf(out + 9 * 10 + 7, "  ");
+    printRegister16("CS", context.segmentRegisters[SR_CS], out + 9 * 11); sprintf(out + 9 * 11 + 7, "  ");
+    printRegister16("IP", (uint16_t)(context.index - mem(SR_CS)), out + 9 * 12); sprintf(out + 9 * 12 + 7, " \n");
+
+    out[REG16_PRINT_SIZE] = 0;
+
+    return out;
 }

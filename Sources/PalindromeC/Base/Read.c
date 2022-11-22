@@ -44,7 +44,11 @@ uint32_t read32u() {
 }
 
 uint8_t* mem(uint8_t reg) {
-    return context.memory + context.segmentRegisters[reg];
+    return context.program + (context.segmentRegisters[reg] & 8191) * 16;
+}
+
+uint8_t* memWithReplace(uint8_t reg) {
+    return (context.lastCommandInfo.prefixInfo.changeSegmentPrefix != NULL) ? context.lastCommandInfo.prefixInfo.changeSegmentPrefix: mem(reg);
 }
 
 void setMem(uint8_t reg, uint16_t mem) {

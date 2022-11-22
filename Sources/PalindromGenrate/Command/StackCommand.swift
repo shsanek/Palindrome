@@ -85,6 +85,7 @@ fileprivate let oftherCommand = Command(
             .prefixAddress,
             .prefixData,
             .functionName,
+            .settings([.fpu]),
             .vars,
             .nnn([
                 (code: "0x00",
@@ -92,6 +93,7 @@ fileprivate let oftherCommand = Command(
                     customizers: [
                         .settings([.bigAddress ,.changeableData]),
                         "// MOVEL",
+                        .formatter(targetMRMFormat),
                         "*target = read%dataSizeu();"
                     ]
                 )
@@ -101,6 +103,7 @@ fileprivate let oftherCommand = Command(
                     customizers: [
                         .settings([.bigAddress]),
                         "// PUSH",
+                        .formatter(targetMRMFormat),
                         "uint%addressSize_t* sp = register%addressSizeu(BR_SP);",
                         "*sp -= %dataSize / 8;",
                         "*(uint%dataSize_t*)(mem(SR_SS) + *sp) = *(uint%dataSize_t*)target;"
@@ -164,6 +167,53 @@ fileprivate let leaveCommand = Command(
     installFormatter: InitialFormatter()
 )
 
+fileprivate let pushSegRegCommand = Command(
+    code: 0x0006,
+    name: "Push",
+    format: .init(
+        hasPrefixAddress: false,
+        hasPrefixData: false,
+        inlines: [
+            .init(name: "rg", indexBit: 3, count: 2)
+        ]
+    ),
+    functionFormatter: Formatter(
+        customizers: [
+            .functionName,
+            .vars,
+            .settings([.bigAddress]),
+            """
+            reg_SP_%addressSizeu -= 16;
+            *(uint16_t*)(mem(SR_SS) + reg_SP_%addressSizeu) = context.segmentRegisters[rg];
+            """
+        ]
+    ),
+    installFormatter: InitialFormatter()
+)
+
+fileprivate let popSegRegCommand = Command(
+    code: 0x0007,
+    name: "Pop",
+    format: .init(
+        hasPrefixAddress: false,
+        hasPrefixData: false,
+        inlines: [
+            .init(name: "rg", indexBit: 3, count: 2)
+        ]
+    ),
+    functionFormatter: Formatter(
+        customizers: [
+            .functionName,
+            .vars,
+            .settings([.bigAddress]),
+            """
+            context.segmentRegisters[rg] = *(uint16_t*)(mem(SR_SS) + reg_SP_%addressSizeu);
+            reg_SP_%addressSizeu += 16;
+            """
+        ]
+    ),
+    installFormatter: InitialFormatter()
+)
 
 func appendStackCommand(generator: Generator) {
     generator.addCommand(pushRegCommand)
@@ -172,4 +222,7 @@ func appendStackCommand(generator: Generator) {
     generator.addCommand(oftherCommand)
     generator.addCommand(pushData1Command)
     generator.addCommand(pushData2Command)
+
+    generator.addCommand(popSegRegCommand)
+    generator.addCommand(pushSegRegCommand)
 }

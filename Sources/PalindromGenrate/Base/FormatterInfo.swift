@@ -6,11 +6,30 @@ struct FormatterInfo {
     var vars: [(name: String, value: String)]
     var prefixs: [CommandPrefix]
     var additionalInfo: [FormatterAdditionalInfo] = []
+    let attributes = AttributeContainer()
 
     func update(_ block: (_ info: inout FormatterInfo) -> Void) -> Self {
         var info = self
         block(&info)
         return info
+    }
+}
+
+struct FormatterInfoAttributeKey<Value>: Hashable {
+    let identifier: String
+}
+
+final class AttributeContainer {
+    private var values: [String: Any] = [:]
+
+    init() { }
+
+    func getValue<Value>(key: FormatterInfoAttributeKey<Value>) -> Value? {
+        values[key.identifier] as? Value
+    }
+
+    func setValue<Value>(key: FormatterInfoAttributeKey<Value>, value: Value?) {
+        values[key.identifier] = value
     }
 }
 

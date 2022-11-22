@@ -24,5 +24,4 @@ extension Command {
 }
 
 func appendMockCommand(generator: Generator) {
-    generator.addCommand(.mock(code: 0x00f3, operandSize: 3, name: "endbr32"))
 }

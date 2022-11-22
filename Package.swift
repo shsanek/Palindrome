@@ -33,7 +33,11 @@ let package = Package(
             dependencies: []),
         .testTarget(
             name: "PalindromeCTest",
-            dependencies: ["PalindromeC", "Palindrome", "PalindromGenrate"]
+            dependencies: ["PalindromeC", "Palindrome", "PalindromGenrate", "Wolf"]
+        ),
+        .target(
+            name: "Wolf",
+            dependencies: ["PalindromeC"]
         )
     ]
 )

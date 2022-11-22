@@ -11,6 +11,7 @@
 #include <stdio.h>
 #include "../Base/Models.h"
 #include "../Base/Registers.h"
+#include "../Dos/DosLoader.h"
 
 extern uint8_t *debugCommands;
 
@@ -27,5 +28,9 @@ void run16ToEnd();
 
 void run32ToEndWithStop(int count);
 void run16ToEndWithStop(int count);
+
+
+int run16AndTestToEndWithStop(int count, char* in);
+char* run16AndSaveToEndWithStop(int count);
 
 #endif /* Base_h */

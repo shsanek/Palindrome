@@ -11,6 +11,7 @@ struct FunctionBodyFormatter: IFormatter {
         }
         generator.add("//\(info.command.name)")
         generator.add("void \(name)() {")
+        generator.add("printf(\"\(info.command.name)\");")
         generator.add(baseFormatter.format(with: info))
         generator.add("}")
         return generator.text
@@ -29,8 +30,8 @@ struct MRMFunctionFormatter: IFormatter {
     }
 
     private func addPrepare(_ generator: FunctionGenerator, with info: FormatterInfo) {
-        let registerFunction = "(uint8_t*)readRegisterMRM%dataSize(mrmByte)"
-        let addressFunction = "(uint8_t*)readAddressMRM\(info.mode == .mod32 ? "32" : "16")For%dataSize(mrmByte)"
+        let registerFunction = info.flags.contains("SEGMENT") ? "(uint8_t*)readSegmentRegisterMRM(mrmByte)" : "(uint8_t*)readRegisterMRM%dataSize(mrmByte)"
+        let addressFunction = "(uint8_t*)readAddressMRM%MODFor%dataSize(mrmByte)"
 
         let prepareGenerator = FunctionGenerator()
         prepareGenerator.add("uint8_t* target = \(addressFunction);")
@@ -110,6 +111,8 @@ struct ReplaceTemplateFormat: IFormatter {
             .replacingOccurrences(of: "%operandSize", with: "\(info.operandSize)")
             .replacingOccurrences(of: "%2dataSize", with: "\(info.dataSize * 2)")
             .replacingOccurrences(of: "%1/2dataSize", with: "\(info.dataSize / 2)")
+            .replacingOccurrences(of: "%MOD", with: info.mode == .mod16 ? "16" : "32")
+
     }
 }
 
@@ -266,12 +269,30 @@ struct InitialFormatter: IFormatter {
     }
 }
 
+struct NNNFormatter {
+    let hex: String
+    let prepare: IFormatter?
+    let formater: IFormatter
+}
+
 struct NNNFunctionFormatter: IFormatter {
     let baseFormatter: IFormatter
-    let variations: [(String, IFormatter)]
+    let variations: [NNNFormatter]
     let prepare: IFormatter?
 
     init(baseFormatter: IFormatter, variations: [(String, IFormatter)], prepare: IFormatter?) {
+        self.baseFormatter = baseFormatter
+        self.variations = variations.map {
+            .init(
+                hex: $0.0,
+                prepare: nil,
+                formater: $0.1
+            )
+        }
+        self.prepare = prepare
+    }
+
+    init(baseFormatter: IFormatter, variations: [NNNFormatter], prepare: IFormatter?) {
         self.baseFormatter = baseFormatter
         self.variations = variations
         self.prepare = prepare
@@ -281,17 +302,22 @@ struct NNNFunctionFormatter: IFormatter {
         let generator = FunctionGenerator()
         generator.add("uint8_t mrmByte = read8u();")
         generator.add("uint8_t nnn = readMiddle3Bit(mrmByte);")
-        addPrepare(generator, with: info)
         generator.add("switch (nnn) {")
         for variation in variations {
-            generator.add("case \(variation.0): {")
+            generator.add("case \(variation.hex): {")
+            if let prepare = variation.prepare {
+                generator.add(prepare.format(with: info))
+            } else {
+                addPrepare(generator, with: info)
+            }
             generator.add(prepare?.format(with: info))
-            generator.add(variation.1.format(with: info))
+            generator.add(variation.formater.format(with: info))
             generator.add("}")
-            generator.add("return;")
+            generator.add("break;")
         }
-        generator.add("}")
+        generator.add("default:")
         generator.add("mCommandFunctionEmpty();")
+        generator.add("}")
         generator.add(baseFormatter.format(with: info))
         return generator.text
     }
@@ -300,13 +326,33 @@ struct NNNFunctionFormatter: IFormatter {
         guard !info.isFPU else {
             return
         }
-        let addressFunction = "(uint8_t*)readAddressMRM\(info.mode == .mod32 ? "32" : "16")For%addressSize(mrmByte)"
-
         let prepareGenerator = FunctionGenerator()
-        prepareGenerator.add("uint8_t* target = \(addressFunction);")
+
+        prepareGenerator.add(targetMRMFormat.format(with: info))
         if info.flags.contains("d") {
             prepareGenerator.swich(a: "target", b: "source")
         }
         generator.add(prepareGenerator.text)
+    }
+}
+
+let targetMRMFormat = BaseFormat { info in
+    "uint8_t* target = (uint8_t*)readAddressMRM%MODFor%dataSize(mrmByte);"
+}
+
+struct DestFormatter: IFormatter {
+    let formatter: IFormatter
+
+    init(_ formatter: () -> IFormatter) {
+        self.formatter = formatter()
+    }
+
+    func format(with info: FormatterInfo) -> String? {
+        let generator = FunctionGenerator()
+        generator.add(formatter.format(with: info))
+        if info.flags.contains("d") {
+            generator.swich(a: "target", b: "source")
+        }
+        return generator.text
     }
 }

@@ -31,7 +31,7 @@ public final class WrapContext {
 
     public init(memorySize: Int = 32 * 1024, notUseExternalFunction: Bool = false) {
         Self.load()
-        self.context = resetContext(UInt16(memorySize))
+        self.context = resetContext(UInt32(memorySize))
         if !notUseExternalFunction {
             setting()
         }
@@ -56,20 +56,24 @@ public final class WrapContext {
         PalindromeC.runCommand()
     }
 
-    public func setMemory(_ memory: [UInt8]) {
+    public func setMemory(_ memory: [UInt8], offset: Int = 0) {
         for container in memory.enumerated() {
-            context?[0].memory[container.offset] = container.element
+            context?[0].memory[container.offset + offset] = container.element
         }
+        context?[0].memory[memory.count] = 0xCD
+        context?[0].memory[memory.count + 1] = 0x20
+        pushInStack32(Int32(memory.count))
+        context?[0].index = context![0].memory + offset
     }
 
-    public func setMemory(_ data: Data) {
+    public func setMemory(_ data: Data, offset: Int = 0) {
         let array = data.withUnsafeBytes {
             [UInt8](UnsafeBufferPointer(start: $0, count: data.count))
         }
-        setMemory(array)
+        setMemory(array, offset: offset)
     }
 
-    public func setMemory(_ text: String) {
+    public func setMemory(_ text: String, offset: Int = 0) {
         let regex = try! NSRegularExpression(pattern: "[0-9a-f]{1,2}", options: .caseInsensitive)
         var memory: [UInt8] = []
         let text = text.lowercased().replacingOccurrences(of: " ", with: "").replacingOccurrences(of: "\n", with: "").replacingOccurrences(of: "\t", with: "")
@@ -78,7 +82,7 @@ public final class WrapContext {
             let num = UInt8(byteString, radix: 16)!
             memory.append(num)
         }
-        setMemory(memory)
+        setMemory(memory, offset: offset)
     }
 
     public func setFunction(_ index: UInt8, block: @escaping (inout Context) -> Void) {

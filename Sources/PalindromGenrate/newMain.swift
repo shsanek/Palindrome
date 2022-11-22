@@ -19,6 +19,9 @@ func generate() {
     appendMockCommand(generator: generator)
     append0F90Command(generator: generator)
     appendBitShiftCommand(generator: generator)
+    appendPop8fCommand(generator:generator)
+    appendFlagsCommand(generator: generator)
+    appendInlineCommand(generator: generator)
 
     fpuGenerator(generator: generator)
 

@@ -31,7 +31,6 @@ let setCond = BaseFormat { info in
     """
 }
 
-
 func append0F90Command(generator: Generator) {
     let command = Command.generate0190Command(templates: [
         ("0x00", setCond)

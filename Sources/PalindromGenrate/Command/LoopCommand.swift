@@ -1,27 +1,3 @@
-fileprivate let loopCommand = Command(
-    code: 0x00E2,
-    name: "Loop",
-    format: .init(
-        hasPrefixAddress: false,
-        hasPrefixData: false,
-        inlines: []
-    ),
-    functionFormatter: Formatter(
-        customizers: [
-            .functionName,
-            """
-            int8_t addr = read8();
-            uint16_t* reg = register16u(BR_CX);
-            *reg -= 1;
-            if (*reg != 0) {
-            context.index += addr;
-            }
-            """
-        ]
-    ),
-    installFormatter: InitialFormatter()
-)
-
 fileprivate let jmpCommand = Command(
     code: 0x00EB,
     name: "Jmp",
@@ -80,10 +56,9 @@ fileprivate let callCommand = Command(
             .vars,
             .settings([.bigData]),
             """
-            context.currentCallStack[0] = context.index + %dataSize / 8;
-            context.currentCallStack = context.currentCallStack + 1;
             uint%addressSize_t* sp = register%addressSizeu(BR_SP);
-            *sp -= %dataSize / 8;
+            *sp -= %MOD / 8;
+            *(uint%MOD_t*)(mem(SR_SS) + *sp) = (uint%MOD_t)(context.index + %dataSize / 8 - mem(1));
             context.index += read%dataSize();
             """
         ]
@@ -91,7 +66,7 @@ fileprivate let callCommand = Command(
     installFormatter: InitialFormatter()
 )
 
-fileprivate let returnCommand = Command(
+fileprivate let returnC3Command = Command(
     code: 0x00C3,
     name: "Ret",
     format: .init(
@@ -106,14 +81,38 @@ fileprivate let returnCommand = Command(
             .settings([.bigData]),
             """
             uint%addressSize_t* sp = register%addressSizeu(BR_SP);
-            *sp += %dataSize / 8;
-            context.currentCallStack = context.currentCallStack - 1;
-            context.index = context.currentCallStack[0];
+            context.index = mem(1) + *(uint%MOD_t*)(mem(SR_SS) + *sp);
+            *sp += %MOD / 8;
             """
         ]
     ),
     installFormatter: InitialFormatter()
 )
+
+fileprivate let returnCBCommand = Command(
+    code: 0x00CB,
+    name: "Ret",
+    format: .init(
+        hasPrefixAddress: false,
+        hasPrefixData: false,
+        inlines: []
+    ),
+    functionFormatter: Formatter(
+        customizers: [
+            .functionName,
+            .vars,
+            .settings([.bigData]),
+            """
+            uint%addressSize_t* sp = register%addressSizeu(BR_SP);
+            setMem(1, *(int16_t*)(mem(SR_SS) + *sp + %MOD / 8));
+            context.index = mem(1) + *(uint%MOD_t*)(mem(SR_SS) + *sp);
+            *sp += %MOD / 8 + 2;
+            """
+        ]
+    ),
+    installFormatter: InitialFormatter()
+)
+
 
 fileprivate let jmpCondCommand = Command(
     code: 0x0070,
@@ -163,13 +162,113 @@ fileprivate let bigJmpCondCommand = Command(
     installFormatter: InitialFormatter()
 )
 
+fileprivate let loopE1Command = Command(
+    code: 0x00E1,
+    name: "Loop",
+    format: .init(
+        hasPrefixAddress: false,
+        hasPrefixData: false,
+        inlines: []
+    ),
+    functionFormatter: Formatter(
+        customizers: [
+            .functionName,
+            """
+            int8_t addr = read8();
+            reg_0x01_%MOD -= 1;
+            FillFlags();
+            if (reg_0x01_%MOD != 0 && GET_FLAG(ZF) == 1) {
+            context.index += addr;
+            }
+            """
+        ]
+    ),
+    installFormatter: InitialFormatter()
+)
+
+fileprivate let loopE0Command = Command(
+    code: 0x00E0,
+    name: "Loop",
+    format: .init(
+        hasPrefixAddress: false,
+        hasPrefixData: false,
+        inlines: []
+    ),
+    functionFormatter: Formatter(
+        customizers: [
+            .functionName,
+            """
+            int8_t addr = read8();
+            reg_0x01_%MOD -= 1;
+            FillFlags();
+            if (reg_0x01_%MOD != 0 && GET_FLAG(ZF) == 0) {
+            context.index += addr;
+            }
+            """
+        ]
+    ),
+    installFormatter: InitialFormatter()
+)
+
+fileprivate let loopE2Command = Command(
+    code: 0x00E2,
+    name: "Loop",
+    format: .init(
+        hasPrefixAddress: false,
+        hasPrefixData: false,
+        inlines: []
+    ),
+    functionFormatter: Formatter(
+        customizers: [
+            .functionName,
+            """
+            int8_t addr = read8();
+            reg_0x01_%MOD -= 1;
+            if (reg_0x01_%MOD != 0) {
+            context.index += addr;
+            }
+            """
+        ]
+    ),
+    installFormatter: InitialFormatter()
+)
+
+fileprivate let loopE3Command = Command(
+    code: 0x00E3,
+    name: "Loop",
+    format: .init(
+        hasPrefixAddress: false,
+        hasPrefixData: false,
+        inlines: []
+    ),
+    functionFormatter: Formatter(
+        customizers: [
+            .functionName,
+            """
+            int8_t addr = read8();
+            reg_0x01_%MOD -= 1;
+            if (reg_0x01_%MOD == 0) {
+            context.index += addr;
+            }
+            """
+        ]
+    ),
+    installFormatter: InitialFormatter()
+)
+
 func appendLoopCommand(generator: Generator) {
-    generator.addCommand(loopCommand)
+    generator.addCommand(loopE3Command)
+    generator.addCommand(loopE2Command)
+    generator.addCommand(loopE1Command)
+    generator.addCommand(loopE0Command)
+
     generator.addCommand(jmpCommand)
     generator.addCommand(jmpBigCommand)
     generator.addCommand(bigJmpCondCommand)
     generator.addCommand(callCommand)
-    generator.addCommand(returnCommand)
     generator.addCommand(jmpCondCommand)
+
+    generator.addCommand(returnC3Command)
+    generator.addCommand(returnCBCommand)
 }
 

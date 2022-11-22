@@ -25,7 +25,7 @@ uint8_t readLast3Bit(uint8_t byte) {
 #define TWO_OPERAND_ADDRESS_MEMORY_MRM_16(BASE, sR, fR, lR) \
 uint8_t* addressMemoryMRM16Base##BASE(uint8_t mod) {\
     int16_t shift = *register16(fR) + *register16(lR);\
-    uint8_t* base = mem(sR) + shift;\
+    uint8_t* base = memWithReplace(sR) + shift;\
     switch(mod) {\
         case 0:\
             return base;\
@@ -40,7 +40,7 @@ uint8_t* addressMemoryMRM16Base##BASE(uint8_t mod) {\
 #define ONE_OPERAND_ADDRESS_MEMORY_MRM_16(BASE, sR, fR) \
 uint8_t* addressMemoryMRM16Base##BASE(uint8_t mod) {\
     int16_t shift = *register16(fR);\
-    uint8_t* base = mem(sR) + shift;\
+    uint8_t* base = memWithReplace(sR) + shift;\
     switch(mod) {\
         case 0:\
             return base;\
@@ -55,7 +55,7 @@ uint8_t* addressMemoryMRM16Base##BASE(uint8_t mod) {\
 #define ONE_OPERAND_ADDRESS_MEMORY_MRM_32(BASE, sR, fR)\
 uint8_t* addressMemoryMRM32Base##BASE(uint8_t mod) {\
     int32_t shift = *register32(fR);\
-    uint8_t* base = mem(sR) + shift;\
+    uint8_t* base = memWithReplace(sR) + shift;\
     switch(mod) {\
         case 0:\
             return base;\
@@ -70,7 +70,7 @@ uint8_t* addressMemoryMRM32Base##BASE(uint8_t mod) {\
 #define ADDRESS_MEMORY_SIB(BASE, sR, fR)\
 uint8_t* addressMemoryMRM32IBBase##BASE(uint8_t mod, int32_t shift) {\
     int32_t rShift = *register32(fR);\
-    uint8_t* base = mem(sR) + rShift + shift;\
+    uint8_t* base = memWithReplace(sR) + rShift + shift;\
     switch(mod) {\
         case 0:\
             return base;\
@@ -135,12 +135,16 @@ int32_t* readRegisterMRM32(uint8_t mrmByte) {
     return register32(readMiddle3Bit(mrmByte));
 }
 
+uint16_t* readSegmentRegisterMRM(uint8_t mrmByte) {
+    return context.segmentRegisters + readMiddle3Bit(mrmByte);
+}
+
 uint8_t* addressMemoryMRM32IBBase5(uint8_t mod, int32_t shift) {
     int32_t rShift = *register32(BR_EBP_F);
-    uint8_t* base = mem(SR_SS) + rShift + shift;
+    uint8_t* base = memWithReplace(SR_SS) + rShift + shift;
     switch(mod) {
         case 0:
-            return mem(SR_DS) + read32() + shift;
+            return memWithReplace(SR_DS) + read32() + shift;
         case 1:
             return base + ((int16_t)read8());
         case 2:
@@ -186,10 +190,10 @@ uint8_t* addressMemoryMRM32IB(uint8_t mod) {
 
 uint8_t* addressMemoryMRM32Base5(uint8_t mod) {
     int16_t shift = *register32u(BR_EBP_F);
-    uint8_t* base = mem(SR_SS);
+    uint8_t* base = memWithReplace(SR_SS);
     switch(mod) {
         case 0:
-            return mem(SR_DS) + read32();
+            return memWithReplace(SR_DS) + read32();
         case 1:
             return base + shift + ((int16_t)read8());
         case 2:
@@ -200,10 +204,10 @@ uint8_t* addressMemoryMRM32Base5(uint8_t mod) {
 
 uint8_t* addressMemoryMRM16Base6(uint8_t mod) {
     int16_t shift = *register16u(BR_BP);
-    uint8_t* base = mem(SR_SS);
+    uint8_t* base = memWithReplace(SR_SS);
     switch(mod) {
         case 0:
-            return mem(SR_DS) + read16();
+            return memWithReplace(SR_DS) + read16();
         case 1:
             return base + shift + ((int16_t)read8());
         case 2:

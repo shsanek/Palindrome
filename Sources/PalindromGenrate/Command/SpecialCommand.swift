@@ -15,7 +15,7 @@ fileprivate let leaCommand = Command(
             .settings([.bigData, .bigAddress]),
             .mrm,
             """
-            *((uint%dataSize_t*)source) = (uint%dataSize_t)(((uint64_t)(target - context.memory)) & %dataMask);
+            *((uint%dataSize_t*)source) = (uint%dataSize_t)(((uint64_t)(target - context.program)) & %dataMask);
             """
         ]
     ),

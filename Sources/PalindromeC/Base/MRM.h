@@ -18,6 +18,8 @@ int8_t* readRegisterMRM8(uint8_t mrmByte);
 int16_t* readRegisterMRM16(uint8_t mrmByte);
 int32_t* readRegisterMRM32(uint8_t mrmByte);
 
+uint16_t* readSegmentRegisterMRM(uint8_t mrmByte);
+
 uint8_t* readAddressMRM32For8(uint8_t mrmByte);
 uint8_t* readAddressMRM32For16(uint8_t mrmByte);
 uint8_t* readAddressMRM32For32(uint8_t mrmByte);
