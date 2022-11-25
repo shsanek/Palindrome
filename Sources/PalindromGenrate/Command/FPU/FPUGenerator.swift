@@ -49,7 +49,7 @@ final class FPUGenerator {
 
         var nnnFunctions = [UInt16: [(String, IFormatter)]]()
 
-        for key in kyes {
+        for key in kyes.sorted() {
             for i in 0..<8 {
                 let memFormatter = memory[key]?[UInt8(i).hex] ?? TemplateFormat("// NON FUNCTION\nmCommandFunctionEmpty();")
                 let stackFormatter = stack[key]?[UInt8(i).hex] ?? TemplateFormat("// NON FUNCTION\nmCommandFunctionEmpty();")
@@ -59,9 +59,9 @@ final class FPUGenerator {
             }
         }
 
-        for function in nnnFunctions {
+        for key in nnnFunctions.keys.sorted() {
             let command = Command(
-                code: function.key,
+                code: key,
                 name: "FPU",
                 format: .init(
                     hasPrefixAddress: false,
@@ -71,7 +71,7 @@ final class FPUGenerator {
                 functionFormatter: Formatter(customizers: [
                     .functionName,
                     .settings([.fpu]),
-                    .nnn(function.value)
+                    .nnn(nnnFunctions[key]!)
                 ]),
                 installFormatter: InitialFormatter())
             generator.addCommand(command)

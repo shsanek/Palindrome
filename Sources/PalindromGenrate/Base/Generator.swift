@@ -14,7 +14,7 @@ final class Generator {
         let functionGenerate = FunctionGenerator()
 
         for mode in [Mode.mod16, Mode.mod32] {
-            for command in commands {
+            for command in commands.sorted(by: { $0.code < $1.code }) {
                 let variations = command.allVariation
                 for variation in variations {
                     let flags = command
