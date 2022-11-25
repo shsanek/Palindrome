@@ -144,13 +144,30 @@ struct TemplateFormat: IFormatter {
 
 struct BaseFormat: IFormatter {
     let handler: (FormatterInfo) -> String?
+    var replace: [(String) -> String] = []
 
     init(_ handler: @escaping (FormatterInfo) -> String?) {
         self.handler = handler
     }
 
     func format(with info: FormatterInfo) -> String? {
-        handler(info)
+        guard var text = handler(info) else {
+            return nil
+        }
+        for replace in self.replace {
+            text = replace(text)
+        }
+        return text
+    }
+}
+
+extension IFormatter {
+    func replace(_ oldValue: String, to newValue: String) -> IFormatter {
+        var result = (self as? BaseFormat) ?? BaseFormat { info in
+            self.format(with: info)
+        }
+        result.replace.append { $0.replacingOccurrences(of: oldValue, with: newValue) }
+        return result
     }
 }
 

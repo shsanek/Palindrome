@@ -1843,55 +1843,55 @@ void handlerCommand16Code0007() {
 	printf("Pop");
 	uint8_t rg = 0x00;
 	context.segmentRegisters[rg] = *(uint16_t*)(mem(SR_SS) + reg_SP_16u);
-	reg_SP_16u += 16;
+	reg_SP_16u += 16 / 8;
 }
 //Pop
 void handlerCommand16Code000F() {
 	printf("Pop");
 	uint8_t rg = 0x01;
 	context.segmentRegisters[rg] = *(uint16_t*)(mem(SR_SS) + reg_SP_16u);
-	reg_SP_16u += 16;
+	reg_SP_16u += 16 / 8;
 }
 //Pop
 void handlerCommand16Code0017() {
 	printf("Pop");
 	uint8_t rg = 0x02;
 	context.segmentRegisters[rg] = *(uint16_t*)(mem(SR_SS) + reg_SP_16u);
-	reg_SP_16u += 16;
+	reg_SP_16u += 16 / 8;
 }
 //Pop
 void handlerCommand16Code001F() {
 	printf("Pop");
 	uint8_t rg = 0x03;
 	context.segmentRegisters[rg] = *(uint16_t*)(mem(SR_SS) + reg_SP_16u);
-	reg_SP_16u += 16;
+	reg_SP_16u += 16 / 8;
 }
 //Push
 void handlerCommand16Code0006() {
 	printf("Push");
 	uint8_t rg = 0x00;
-	reg_SP_16u -= 16;
+	reg_SP_16u -= 16 / 8;
 	*(uint16_t*)(mem(SR_SS) + reg_SP_16u) = context.segmentRegisters[rg];
 }
 //Push
 void handlerCommand16Code000E() {
 	printf("Push");
 	uint8_t rg = 0x01;
-	reg_SP_16u -= 16;
+	reg_SP_16u -= 16 / 8;
 	*(uint16_t*)(mem(SR_SS) + reg_SP_16u) = context.segmentRegisters[rg];
 }
 //Push
 void handlerCommand16Code0016() {
 	printf("Push");
 	uint8_t rg = 0x02;
-	reg_SP_16u -= 16;
+	reg_SP_16u -= 16 / 8;
 	*(uint16_t*)(mem(SR_SS) + reg_SP_16u) = context.segmentRegisters[rg];
 }
 //Push
 void handlerCommand16Code001E() {
 	printf("Push");
 	uint8_t rg = 0x03;
-	reg_SP_16u -= 16;
+	reg_SP_16u -= 16 / 8;
 	*(uint16_t*)(mem(SR_SS) + reg_SP_16u) = context.segmentRegisters[rg];
 }
 //Lea
@@ -3120,24 +3120,24 @@ void handlerCommand16Code00A4() {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_16 != 0) {
 				*(uint8_t*)(targetSegment + reg_DI_16) = *(uint8_t*)(sourceSegment + reg_SI_16);
-				reg_DI_16 -= 8 / 8; reg_SI_16 -= 8 / 8;
+				reg_DI_16 -= 8 / 8;reg_SI_16 -= 8 / 8;
 				reg_CX_16 -= 1;
 			}
 		} else {
 			*(uint8_t*)(targetSegment + reg_DI_16) = *(uint8_t*)(sourceSegment + reg_SI_16);
-			reg_DI_16 -= 8 / 8; reg_SI_16 -= 8 / 8;
+			reg_DI_16 -= 8 / 8;reg_SI_16 -= 8 / 8;
 			reg_CX_16 -= 1;
 		}
 	} else {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_16 != 0) {
 				*(uint8_t*)(targetSegment + reg_DI_16) = *(uint8_t*)(sourceSegment + reg_SI_16);
-				reg_DI_16 += 8 / 8; reg_SI_16 += 8 / 8;
+				reg_DI_16 += 8 / 8;reg_SI_16 += 8 / 8;
 				reg_CX_16 -= 1;
 			}
 		} else {
 			*(uint8_t*)(targetSegment + reg_DI_16) = *(uint8_t*)(sourceSegment + reg_SI_16);
-			reg_DI_16 += 8 / 8; reg_SI_16 += 8 / 8;
+			reg_DI_16 += 8 / 8;reg_SI_16 += 8 / 8;
 			reg_CX_16 -= 1;
 		}
 	}
@@ -3152,95 +3152,97 @@ void handlerCommand16Code00A5() {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_16 != 0) {
 				*(uint16_t*)(targetSegment + reg_DI_16) = *(uint16_t*)(sourceSegment + reg_SI_16);
-				reg_DI_16 -= 16 / 8; reg_SI_16 -= 16 / 8;
+				reg_DI_16 -= 16 / 8;reg_SI_16 -= 16 / 8;
 				reg_CX_16 -= 1;
 			}
 		} else {
 			*(uint16_t*)(targetSegment + reg_DI_16) = *(uint16_t*)(sourceSegment + reg_SI_16);
-			reg_DI_16 -= 16 / 8; reg_SI_16 -= 16 / 8;
+			reg_DI_16 -= 16 / 8;reg_SI_16 -= 16 / 8;
 			reg_CX_16 -= 1;
 		}
 	} else {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_16 != 0) {
 				*(uint16_t*)(targetSegment + reg_DI_16) = *(uint16_t*)(sourceSegment + reg_SI_16);
-				reg_DI_16 += 16 / 8; reg_SI_16 += 16 / 8;
+				reg_DI_16 += 16 / 8;reg_SI_16 += 16 / 8;
 				reg_CX_16 -= 1;
 			}
 		} else {
 			*(uint16_t*)(targetSegment + reg_DI_16) = *(uint16_t*)(sourceSegment + reg_SI_16);
-			reg_DI_16 += 16 / 8; reg_SI_16 += 16 / 8;
+			reg_DI_16 += 16 / 8;reg_SI_16 += 16 / 8;
 			reg_CX_16 -= 1;
 		}
 	}
 }
-//MOVS
+//LOADS
 void handlerCommand16Code00AC() {
-	printf("MOVS");
+	printf("LOADS");
 	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
 	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
 	uint8_t* targetSegment = mem(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_16 != 0) {
-				reg_0x00_8u= *(uint8_t*)(sourceSegment + reg_SI_16);
+				reg_0x00_8u = *(uint8_t*)(sourceSegment + reg_SI_16);
 				reg_SI_16 -= 8 / 8;
 				reg_CX_16 -= 1;
 			}
 		} else {
-			reg_0x00_8u= *(uint8_t*)(sourceSegment + reg_SI_16);
+			reg_0x00_8u = *(uint8_t*)(sourceSegment + reg_SI_16);
 			reg_SI_16 -= 8 / 8;
 			reg_CX_16 -= 1;
 		}
 	} else {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_16 != 0) {
-				reg_0x00_8u= *(uint8_t*)(sourceSegment + reg_SI_16);
+				reg_0x00_8u = *(uint8_t*)(sourceSegment + reg_SI_16);
 				reg_SI_16 += 8 / 8;
 				reg_CX_16 -= 1;
 			}
 		} else {
-			reg_0x00_8u= *(uint8_t*)(sourceSegment + reg_SI_16);
+			reg_0x00_8u = *(uint8_t*)(sourceSegment + reg_SI_16);
 			reg_SI_16 += 8 / 8;
 			reg_CX_16 -= 1;
 		}
 	}
 }
-//MOVS
+//LOADS
 void handlerCommand16Code00AD() {
-	printf("MOVS");
+	printf("LOADS");
 	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
 	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
 	uint8_t* targetSegment = mem(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_16 != 0) {
-				reg_0x00_16u= *(uint16_t*)(sourceSegment + reg_SI_16);
+				reg_0x00_16u = *(uint16_t*)(sourceSegment + reg_SI_16);
 				reg_SI_16 -= 16 / 8;
 				reg_CX_16 -= 1;
 			}
 		} else {
-			reg_0x00_16u= *(uint16_t*)(sourceSegment + reg_SI_16);
+			reg_0x00_16u = *(uint16_t*)(sourceSegment + reg_SI_16);
 			reg_SI_16 -= 16 / 8;
 			reg_CX_16 -= 1;
 		}
 	} else {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_16 != 0) {
-				reg_0x00_16u= *(uint16_t*)(sourceSegment + reg_SI_16);
+				reg_0x00_16u = *(uint16_t*)(sourceSegment + reg_SI_16);
 				reg_SI_16 += 16 / 8;
 				reg_CX_16 -= 1;
 			}
 		} else {
-			reg_0x00_16u= *(uint16_t*)(sourceSegment + reg_SI_16);
+			reg_0x00_16u = *(uint16_t*)(sourceSegment + reg_SI_16);
 			reg_SI_16 += 16 / 8;
 			reg_CX_16 -= 1;
 		}
 	}
 }
-//MOVS
+//STOS
 void handlerCommand16Code00AA() {
-	printf("MOVS");
+	printf("STOS");
+	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
+	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
 	uint8_t* targetSegment = mem(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
@@ -3268,9 +3270,11 @@ void handlerCommand16Code00AA() {
 		}
 	}
 }
-//MOVS
+//STOS
 void handlerCommand16Code00AB() {
-	printf("MOVS");
+	printf("STOS");
+	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
+	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
 	uint8_t* targetSegment = mem(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
@@ -3298,140 +3302,221 @@ void handlerCommand16Code00AB() {
 		}
 	}
 }
-//FPU
-void handlerCommand16Code00DB() {
-	printf("FPU");
-	uint8_t mrmByte = read8u();
-	uint8_t nnn = readMiddle3Bit(mrmByte);
-	switch (nnn) {
-		case 0x00: {
-			if ((mrmByte >> 6 & 3) == 3) {
-				// NON FUNCTION
-				mCommandFunctionEmpty();
-			} else {
-				// OPA 011, OPB 000
-				// FPU Move
-				fpuStackIndex -= 1;
-				double* valueA = fpuStack + fpuStackIndex;
-				double* target = valueA;
-				int32_t* valueB = (int32_t*)readAddressMRM16For8(mrmByte);
-				int32_t* source = valueB;
-				*target = *source;
+//SCAS
+void handlerCommand16Code00AE() {
+	printf("SCAS");
+	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
+	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
+	uint8_t* targetSegment = mem(SR_ES);
+	if (GET_FLAG(DF)) {
+		if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF2) {
+			while (reg_CX_16 != 0 && *(uint8_t*)(targetSegment + reg_DI_16) == reg_0x00_8u) {
+				reg_DI_16 -= 8 / 8;
+				reg_CX_16 -= 1;
 			}
-		}
-		break;
-		case 0x01: {
-			if ((mrmByte >> 6 & 3) == 3) {
-				// NON FUNCTION
-				mCommandFunctionEmpty();
-			} else {
-				// NON FUNCTION
-				mCommandFunctionEmpty();
+		} else if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF3) {
+			while (reg_CX_16 != 0 && *(uint8_t*)(targetSegment + reg_DI_16) != reg_0x00_8u) {
+				reg_DI_16 -= 8 / 8;
+				reg_CX_16 -= 1;
 			}
+		} else {
+			reg_DI_16 -= 8 / 8;
+			reg_CX_16 -= 1;
 		}
-		break;
-		case 0x02: {
-			if ((mrmByte >> 6 & 3) == 3) {
-				// NON FUNCTION
-				mCommandFunctionEmpty();
-			} else {
-				// OPA 011, OPB 010
-				// FPU Move
-				double* valueA = fpuStack + fpuStackIndex;
-				double* source = valueA;
-				int32_t* valueB = (int32_t*)readAddressMRM16For8(mrmByte);
-				int32_t* target = valueB;
-				*target = *source;
+		SET_FLAG(ZF, *(uint8_t*)(targetSegment + reg_DI_16) == reg_0x00_8u);
+	} else {
+		if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF2) {
+			while (reg_CX_16 != 0 && *(uint8_t*)(targetSegment + reg_DI_16) == reg_0x00_8u) {
+				reg_DI_16 += 8 / 8;
+				reg_CX_16 -= 1;
 			}
-		}
-		break;
-		case 0x03: {
-			if ((mrmByte >> 6 & 3) == 3) {
-				// NON FUNCTION
-				mCommandFunctionEmpty();
-			} else {
-				// OPA 011, OPB 011
-				// FPU Move
-				double* valueA = fpuStack + fpuStackIndex;
-				double* source = valueA;
-				int32_t* valueB = (int32_t*)readAddressMRM16For8(mrmByte);
-				int32_t* target = valueB;
-				fpuStackIndex += 1;
-				*target = *source;
+		} else if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF3) {
+			while (reg_CX_16 != 0 && *(uint8_t*)(targetSegment + reg_DI_16) != reg_0x00_8u) {
+				reg_DI_16 += 8 / 8;
+				reg_CX_16 -= 1;
 			}
+		} else {
+			reg_DI_16 += 8 / 8;
+			reg_CX_16 -= 1;
 		}
-		break;
-		case 0x04: {
-			if ((mrmByte >> 6 & 3) == 3) {
-				// NON FUNCTION
-				mCommandFunctionEmpty();
-			} else {
-				// NON FUNCTION
-				mCommandFunctionEmpty();
+		SET_FLAG(ZF, *(uint8_t*)(targetSegment + reg_DI_16) == reg_0x00_8u);
+	}
+}
+//SCAS
+void handlerCommand16Code00AF() {
+	printf("SCAS");
+	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
+	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
+	uint8_t* targetSegment = mem(SR_ES);
+	if (GET_FLAG(DF)) {
+		if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF2) {
+			while (reg_CX_16 != 0 && *(uint16_t*)(targetSegment + reg_DI_16) == reg_0x00_16u) {
+				reg_DI_16 -= 16 / 8;
+				reg_CX_16 -= 1;
 			}
-		}
-		break;
-		case 0x05: {
-			if ((mrmByte >> 6 & 3) == 3) {
-				// NON FUNCTION
-				mCommandFunctionEmpty();
-			} else {
-				// NON FUNCTION
-				mCommandFunctionEmpty();
+		} else if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF3) {
+			while (reg_CX_16 != 0 && *(uint16_t*)(targetSegment + reg_DI_16) != reg_0x00_16u) {
+				reg_DI_16 -= 16 / 8;
+				reg_CX_16 -= 1;
 			}
+		} else {
+			reg_DI_16 -= 16 / 8;
+			reg_CX_16 -= 1;
 		}
-		break;
-		case 0x06: {
-			if ((mrmByte >> 6 & 3) == 3) {
-				// NON FUNCTION
-				mCommandFunctionEmpty();
-			} else {
-				// NON FUNCTION
-				mCommandFunctionEmpty();
+		SET_FLAG(ZF, *(uint16_t*)(targetSegment + reg_DI_16) == reg_0x00_16u);
+	} else {
+		if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF2) {
+			while (reg_CX_16 != 0 && *(uint16_t*)(targetSegment + reg_DI_16) == reg_0x00_16u) {
+				reg_DI_16 += 16 / 8;
+				reg_CX_16 -= 1;
 			}
-		}
-		break;
-		case 0x07: {
-			if ((mrmByte >> 6 & 3) == 3) {
-				*(uint16_t*)readAddressMRM16For16(mrmByte) = fpuRegControll;
-			} else {
-				*(uint16_t*)readAddressMRM16For16(mrmByte) = fpuRegControll;
+		} else if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF3) {
+			while (reg_CX_16 != 0 && *(uint16_t*)(targetSegment + reg_DI_16) != reg_0x00_16u) {
+				reg_DI_16 += 16 / 8;
+				reg_CX_16 -= 1;
 			}
+		} else {
+			reg_DI_16 += 16 / 8;
+			reg_CX_16 -= 1;
 		}
-		break;
-		default:
-		mCommandFunctionEmpty();
+		SET_FLAG(ZF, *(uint16_t*)(targetSegment + reg_DI_16) == reg_0x00_16u);
+	}
+}
+//CMPS
+void handlerCommand16Code00A6() {
+	printf("CMPS");
+	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
+	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
+	uint8_t* targetSegment = mem(SR_ES);
+	if (GET_FLAG(DF)) {
+		if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF2) {
+			while (reg_CX_16 != 0 && *(uint8_t*)(targetSegment + reg_DI_16) == *(uint8_t*)(sourceSegment + reg_SI_16)) {
+				reg_0x00_8u = *(uint8_t*)(sourceSegment + reg_SI_16);
+				reg_DI_16 -= 8 / 8;reg_SI_16 -= 8 / 8;
+				reg_CX_16 -= 1;
+			}
+		} else if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF3) {
+			while (reg_CX_16 != 0 && *(uint8_t*)(targetSegment + reg_DI_16) != *(uint8_t*)(sourceSegment + reg_SI_16)) {
+				reg_0x00_8u = *(uint8_t*)(sourceSegment + reg_SI_16);
+				reg_DI_16 -= 8 / 8;reg_SI_16 -= 8 / 8;
+				reg_CX_16 -= 1;
+			}
+		} else {
+			reg_0x00_8u = *(uint8_t*)(sourceSegment + reg_SI_16);
+			reg_DI_16 -= 8 / 8;reg_SI_16 -= 8 / 8;
+			reg_CX_16 -= 1;
+		}
+		SET_FLAG(ZF, *(uint8_t*)(targetSegment + reg_DI_16) == *(uint8_t*)(sourceSegment + reg_SI_16));
+	} else {
+		if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF2) {
+			while (reg_CX_16 != 0 && *(uint8_t*)(targetSegment + reg_DI_16) == *(uint8_t*)(sourceSegment + reg_SI_16)) {
+				reg_0x00_8u = *(uint8_t*)(sourceSegment + reg_SI_16);
+				reg_DI_16 += 8 / 8;reg_SI_16 += 8 / 8;
+				reg_CX_16 -= 1;
+			}
+		} else if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF3) {
+			while (reg_CX_16 != 0 && *(uint8_t*)(targetSegment + reg_DI_16) != *(uint8_t*)(sourceSegment + reg_SI_16)) {
+				reg_0x00_8u = *(uint8_t*)(sourceSegment + reg_SI_16);
+				reg_DI_16 += 8 / 8;reg_SI_16 += 8 / 8;
+				reg_CX_16 -= 1;
+			}
+		} else {
+			reg_0x00_8u = *(uint8_t*)(sourceSegment + reg_SI_16);
+			reg_DI_16 += 8 / 8;reg_SI_16 += 8 / 8;
+			reg_CX_16 -= 1;
+		}
+		SET_FLAG(ZF, *(uint8_t*)(targetSegment + reg_DI_16) == *(uint8_t*)(sourceSegment + reg_SI_16));
+	}
+}
+//CMPS
+void handlerCommand16Code00A7() {
+	printf("CMPS");
+	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
+	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
+	uint8_t* targetSegment = mem(SR_ES);
+	if (GET_FLAG(DF)) {
+		if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF2) {
+			while (reg_CX_16 != 0 && *(uint16_t*)(targetSegment + reg_DI_16) == *(uint16_t*)(sourceSegment + reg_SI_16)) {
+				reg_0x00_16u = *(uint16_t*)(sourceSegment + reg_SI_16);
+				reg_DI_16 -= 16 / 8;reg_SI_16 -= 16 / 8;
+				reg_CX_16 -= 1;
+			}
+		} else if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF3) {
+			while (reg_CX_16 != 0 && *(uint16_t*)(targetSegment + reg_DI_16) != *(uint16_t*)(sourceSegment + reg_SI_16)) {
+				reg_0x00_16u = *(uint16_t*)(sourceSegment + reg_SI_16);
+				reg_DI_16 -= 16 / 8;reg_SI_16 -= 16 / 8;
+				reg_CX_16 -= 1;
+			}
+		} else {
+			reg_0x00_16u = *(uint16_t*)(sourceSegment + reg_SI_16);
+			reg_DI_16 -= 16 / 8;reg_SI_16 -= 16 / 8;
+			reg_CX_16 -= 1;
+		}
+		SET_FLAG(ZF, *(uint16_t*)(targetSegment + reg_DI_16) == *(uint16_t*)(sourceSegment + reg_SI_16));
+	} else {
+		if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF2) {
+			while (reg_CX_16 != 0 && *(uint16_t*)(targetSegment + reg_DI_16) == *(uint16_t*)(sourceSegment + reg_SI_16)) {
+				reg_0x00_16u = *(uint16_t*)(sourceSegment + reg_SI_16);
+				reg_DI_16 += 16 / 8;reg_SI_16 += 16 / 8;
+				reg_CX_16 -= 1;
+			}
+		} else if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF3) {
+			while (reg_CX_16 != 0 && *(uint16_t*)(targetSegment + reg_DI_16) != *(uint16_t*)(sourceSegment + reg_SI_16)) {
+				reg_0x00_16u = *(uint16_t*)(sourceSegment + reg_SI_16);
+				reg_DI_16 += 16 / 8;reg_SI_16 += 16 / 8;
+				reg_CX_16 -= 1;
+			}
+		} else {
+			reg_0x00_16u = *(uint16_t*)(sourceSegment + reg_SI_16);
+			reg_DI_16 += 16 / 8;reg_SI_16 += 16 / 8;
+			reg_CX_16 -= 1;
+		}
+		SET_FLAG(ZF, *(uint16_t*)(targetSegment + reg_DI_16) == *(uint16_t*)(sourceSegment + reg_SI_16));
 	}
 }
 //FPU
-void handlerCommand16Code00DD() {
+void handlerCommand16Code00DC() {
 	printf("FPU");
 	uint8_t mrmByte = read8u();
 	uint8_t nnn = readMiddle3Bit(mrmByte);
 	switch (nnn) {
 		case 0x00: {
 			if ((mrmByte >> 6 & 3) == 3) {
-				// NON FUNCTION
-				mCommandFunctionEmpty();
+				// OPA 100, OPB 000
+				// FPU Add
+				double* valueA = fpuStack + fpuStackIndex;
+				double* source = valueA;
+				double* valueB = fpuStack + fpuStackIndex + (mrmByte & 7);
+				double* target = valueB;
+				*target = (double)(((double)*valueA) + ((double)*valueB));
 			} else {
-				// OPA 101, OPB 000
-				// FPU Move
-				fpuStackIndex -= 1;
+				// OPA 100, OPB 000
+				// FPU Add
 				double* valueA = fpuStack + fpuStackIndex;
 				double* target = valueA;
 				double* valueB = (double*)readAddressMRM16For8(mrmByte);
 				double* source = valueB;
-				*target = *source;
+				*target = (double)(((double)*valueA) + ((double)*valueB));
 			}
 		}
 		break;
 		case 0x01: {
 			if ((mrmByte >> 6 & 3) == 3) {
-				// NON FUNCTION
-				mCommandFunctionEmpty();
+				// OPA 100, OPB 001
+				// FPU Mul
+				double* valueA = fpuStack + fpuStackIndex;
+				double* source = valueA;
+				double* valueB = fpuStack + fpuStackIndex + (mrmByte & 7);
+				double* target = valueB;
+				*target = (double)(((double)*valueA) * ((double)*valueB));
 			} else {
-				// NON FUNCTION
-				mCommandFunctionEmpty();
+				// OPA 100, OPB 001
+				// FPU Mul
+				double* valueA = fpuStack + fpuStackIndex;
+				double* target = valueA;
+				double* valueB = (double*)readAddressMRM16For8(mrmByte);
+				double* source = valueB;
+				*target = (double)(((double)*valueA) * ((double)*valueB));
 			}
 		}
 		break;
@@ -3440,13 +3525,8 @@ void handlerCommand16Code00DD() {
 				// NON FUNCTION
 				mCommandFunctionEmpty();
 			} else {
-				// OPA 101, OPB 010
-				// FPU Move
-				double* valueA = fpuStack + fpuStackIndex;
-				double* source = valueA;
-				double* valueB = (double*)readAddressMRM16For8(mrmByte);
-				double* target = valueB;
-				*target = *source;
+				// NON FUNCTION
+				mCommandFunctionEmpty();
 			}
 		}
 		break;
@@ -3455,54 +3535,88 @@ void handlerCommand16Code00DD() {
 				// NON FUNCTION
 				mCommandFunctionEmpty();
 			} else {
-				// OPA 101, OPB 011
-				// FPU Move
-				double* valueA = fpuStack + fpuStackIndex;
-				double* source = valueA;
-				double* valueB = (double*)readAddressMRM16For8(mrmByte);
-				double* target = valueB;
-				fpuStackIndex += 1;
-				*target = *source;
+				// NON FUNCTION
+				mCommandFunctionEmpty();
 			}
 		}
 		break;
 		case 0x04: {
 			if ((mrmByte >> 6 & 3) == 3) {
-				// NON FUNCTION
-				mCommandFunctionEmpty();
+				// OPA 100, OPB 100
+				// FPU Sub
+				double* valueA = fpuStack + fpuStackIndex;
+				double* source = valueA;
+				double* valueB = fpuStack + fpuStackIndex + (mrmByte & 7);
+				double* target = valueB;
+				*target = (double)(((double)*valueA) - ((double)*valueB));
 			} else {
-				// NON FUNCTION
-				mCommandFunctionEmpty();
+				// OPA 100, OPB 100
+				// FPU Sub
+				double* valueA = fpuStack + fpuStackIndex;
+				double* target = valueA;
+				double* valueB = (double*)readAddressMRM16For8(mrmByte);
+				double* source = valueB;
+				*target = (double)(((double)*valueA) - ((double)*valueB));
 			}
 		}
 		break;
 		case 0x05: {
 			if ((mrmByte >> 6 & 3) == 3) {
-				// NON FUNCTION
-				mCommandFunctionEmpty();
+				// OPA 100, OPB 101
+				// FPU Sub
+				double* valueA = fpuStack + fpuStackIndex;
+				double* source = valueA;
+				double* valueB = fpuStack + fpuStackIndex + (mrmByte & 7);
+				double* target = valueB;
+				*target = (double)(((double)*valueB) + ((double)*valueA));
 			} else {
-				// NON FUNCTION
-				mCommandFunctionEmpty();
+				// OPA 100, OPB 101
+				// FPU Sub
+				double* valueA = fpuStack + fpuStackIndex;
+				double* target = valueA;
+				double* valueB = (double*)readAddressMRM16For8(mrmByte);
+				double* source = valueB;
+				*target = (double)(((double)*valueB) + ((double)*valueA));
 			}
 		}
 		break;
 		case 0x06: {
 			if ((mrmByte >> 6 & 3) == 3) {
-				// NON FUNCTION
-				mCommandFunctionEmpty();
+				// OPA 100, OPB 110
+				// FPU Div
+				double* valueA = fpuStack + fpuStackIndex;
+				double* source = valueA;
+				double* valueB = fpuStack + fpuStackIndex + (mrmByte & 7);
+				double* target = valueB;
+				*target = (double)(((double)*valueA) / ((double)*valueB));
 			} else {
-				// NON FUNCTION
-				mCommandFunctionEmpty();
+				// OPA 100, OPB 110
+				// FPU Div
+				double* valueA = fpuStack + fpuStackIndex;
+				double* target = valueA;
+				double* valueB = (double*)readAddressMRM16For8(mrmByte);
+				double* source = valueB;
+				*target = (double)(((double)*valueA) / ((double)*valueB));
 			}
 		}
 		break;
 		case 0x07: {
 			if ((mrmByte >> 6 & 3) == 3) {
-				// NON FUNCTION
-				mCommandFunctionEmpty();
+				// OPA 100, OPB 111
+				// FPU Div
+				double* valueA = fpuStack + fpuStackIndex;
+				double* source = valueA;
+				double* valueB = fpuStack + fpuStackIndex + (mrmByte & 7);
+				double* target = valueB;
+				*target = (double)(((double)*valueB) / ((double)*valueA));
 			} else {
-				// NON FUNCTION
-				mCommandFunctionEmpty();
+				// OPA 100, OPB 111
+				// FPU Div
+				double* valueA = fpuStack + fpuStackIndex;
+				double* target = valueA;
+				double* valueB = (double*)readAddressMRM16For8(mrmByte);
+				double* source = valueB;
+				*target = (double)(((double)*valueB) / ((double)*valueA));
 			}
 		}
 		break;
@@ -3667,48 +3781,34 @@ void handlerCommand16Code00DE() {
 	}
 }
 //FPU
-void handlerCommand16Code00DC() {
+void handlerCommand16Code00DB() {
 	printf("FPU");
 	uint8_t mrmByte = read8u();
 	uint8_t nnn = readMiddle3Bit(mrmByte);
 	switch (nnn) {
 		case 0x00: {
 			if ((mrmByte >> 6 & 3) == 3) {
-				// OPA 100, OPB 000
-				// FPU Add
-				double* valueA = fpuStack + fpuStackIndex;
-				double* source = valueA;
-				double* valueB = fpuStack + fpuStackIndex + (mrmByte & 7);
-				double* target = valueB;
-				*target = (double)(((double)*valueA) + ((double)*valueB));
+				// NON FUNCTION
+				mCommandFunctionEmpty();
 			} else {
-				// OPA 100, OPB 000
-				// FPU Add
+				// OPA 011, OPB 000
+				// FPU Move
+				fpuStackIndex -= 1;
 				double* valueA = fpuStack + fpuStackIndex;
 				double* target = valueA;
-				double* valueB = (double*)readAddressMRM16For8(mrmByte);
-				double* source = valueB;
-				*target = (double)(((double)*valueA) + ((double)*valueB));
+				int32_t* valueB = (int32_t*)readAddressMRM16For8(mrmByte);
+				int32_t* source = valueB;
+				*target = *source;
 			}
 		}
 		break;
 		case 0x01: {
 			if ((mrmByte >> 6 & 3) == 3) {
-				// OPA 100, OPB 001
-				// FPU Mul
-				double* valueA = fpuStack + fpuStackIndex;
-				double* source = valueA;
-				double* valueB = fpuStack + fpuStackIndex + (mrmByte & 7);
-				double* target = valueB;
-				*target = (double)(((double)*valueA) * ((double)*valueB));
+				// NON FUNCTION
+				mCommandFunctionEmpty();
 			} else {
-				// OPA 100, OPB 001
-				// FPU Mul
-				double* valueA = fpuStack + fpuStackIndex;
-				double* target = valueA;
-				double* valueB = (double*)readAddressMRM16For8(mrmByte);
-				double* source = valueB;
-				*target = (double)(((double)*valueA) * ((double)*valueB));
+				// NON FUNCTION
+				mCommandFunctionEmpty();
 			}
 		}
 		break;
@@ -3717,8 +3817,13 @@ void handlerCommand16Code00DC() {
 				// NON FUNCTION
 				mCommandFunctionEmpty();
 			} else {
-				// NON FUNCTION
-				mCommandFunctionEmpty();
+				// OPA 011, OPB 010
+				// FPU Move
+				double* valueA = fpuStack + fpuStackIndex;
+				double* source = valueA;
+				int32_t* valueB = (int32_t*)readAddressMRM16For8(mrmByte);
+				int32_t* target = valueB;
+				*target = *source;
 			}
 		}
 		break;
@@ -3727,88 +3832,52 @@ void handlerCommand16Code00DC() {
 				// NON FUNCTION
 				mCommandFunctionEmpty();
 			} else {
-				// NON FUNCTION
-				mCommandFunctionEmpty();
+				// OPA 011, OPB 011
+				// FPU Move
+				double* valueA = fpuStack + fpuStackIndex;
+				double* source = valueA;
+				int32_t* valueB = (int32_t*)readAddressMRM16For8(mrmByte);
+				int32_t* target = valueB;
+				fpuStackIndex += 1;
+				*target = *source;
 			}
 		}
 		break;
 		case 0x04: {
 			if ((mrmByte >> 6 & 3) == 3) {
-				// OPA 100, OPB 100
-				// FPU Sub
-				double* valueA = fpuStack + fpuStackIndex;
-				double* source = valueA;
-				double* valueB = fpuStack + fpuStackIndex + (mrmByte & 7);
-				double* target = valueB;
-				*target = (double)(((double)*valueA) - ((double)*valueB));
+				// NON FUNCTION
+				mCommandFunctionEmpty();
 			} else {
-				// OPA 100, OPB 100
-				// FPU Sub
-				double* valueA = fpuStack + fpuStackIndex;
-				double* target = valueA;
-				double* valueB = (double*)readAddressMRM16For8(mrmByte);
-				double* source = valueB;
-				*target = (double)(((double)*valueA) - ((double)*valueB));
+				// NON FUNCTION
+				mCommandFunctionEmpty();
 			}
 		}
 		break;
 		case 0x05: {
 			if ((mrmByte >> 6 & 3) == 3) {
-				// OPA 100, OPB 101
-				// FPU Sub
-				double* valueA = fpuStack + fpuStackIndex;
-				double* source = valueA;
-				double* valueB = fpuStack + fpuStackIndex + (mrmByte & 7);
-				double* target = valueB;
-				*target = (double)(((double)*valueB) + ((double)*valueA));
+				// NON FUNCTION
+				mCommandFunctionEmpty();
 			} else {
-				// OPA 100, OPB 101
-				// FPU Sub
-				double* valueA = fpuStack + fpuStackIndex;
-				double* target = valueA;
-				double* valueB = (double*)readAddressMRM16For8(mrmByte);
-				double* source = valueB;
-				*target = (double)(((double)*valueB) + ((double)*valueA));
+				// NON FUNCTION
+				mCommandFunctionEmpty();
 			}
 		}
 		break;
 		case 0x06: {
 			if ((mrmByte >> 6 & 3) == 3) {
-				// OPA 100, OPB 110
-				// FPU Div
-				double* valueA = fpuStack + fpuStackIndex;
-				double* source = valueA;
-				double* valueB = fpuStack + fpuStackIndex + (mrmByte & 7);
-				double* target = valueB;
-				*target = (double)(((double)*valueA) / ((double)*valueB));
+				// NON FUNCTION
+				mCommandFunctionEmpty();
 			} else {
-				// OPA 100, OPB 110
-				// FPU Div
-				double* valueA = fpuStack + fpuStackIndex;
-				double* target = valueA;
-				double* valueB = (double*)readAddressMRM16For8(mrmByte);
-				double* source = valueB;
-				*target = (double)(((double)*valueA) / ((double)*valueB));
+				// NON FUNCTION
+				mCommandFunctionEmpty();
 			}
 		}
 		break;
 		case 0x07: {
 			if ((mrmByte >> 6 & 3) == 3) {
-				// OPA 100, OPB 111
-				// FPU Div
-				double* valueA = fpuStack + fpuStackIndex;
-				double* source = valueA;
-				double* valueB = fpuStack + fpuStackIndex + (mrmByte & 7);
-				double* target = valueB;
-				*target = (double)(((double)*valueB) / ((double)*valueA));
+				*(uint16_t*)readAddressMRM16For16(mrmByte) = fpuRegControll;
 			} else {
-				// OPA 100, OPB 111
-				// FPU Div
-				double* valueA = fpuStack + fpuStackIndex;
-				double* target = valueA;
-				double* valueB = (double*)readAddressMRM16For8(mrmByte);
-				double* source = valueB;
-				*target = (double)(((double)*valueB) / ((double)*valueA));
+				*(uint16_t*)readAddressMRM16For16(mrmByte) = fpuRegControll;
 			}
 		}
 		break;
@@ -3967,114 +4036,6 @@ void handlerCommand16Code00D8() {
 	}
 }
 //FPU
-void handlerCommand16Code00D9() {
-	printf("FPU");
-	uint8_t mrmByte = read8u();
-	uint8_t nnn = readMiddle3Bit(mrmByte);
-	switch (nnn) {
-		case 0x00: {
-			if ((mrmByte >> 6 & 3) == 3) {
-				// OPA 001, OPB 000
-				// FPU Move
-				double* valueA = fpuStack + fpuStackIndex;
-				double* target = valueA;
-				double* valueB = fpuStack + fpuStackIndex + (mrmByte & 7);
-				double* source = valueB;
-				*target = *source;
-			} else {
-				// OPA 001, OPB 000
-				// FPU Move
-				fpuStackIndex -= 1;
-				double* valueA = fpuStack + fpuStackIndex;
-				double* target = valueA;
-				float* valueB = (float*)readAddressMRM16For8(mrmByte);
-				float* source = valueB;
-				*target = *source;
-			}
-		}
-		break;
-		case 0x01: {
-			if ((mrmByte >> 6 & 3) == 3) {
-				// NON FUNCTION
-				mCommandFunctionEmpty();
-			} else {
-				// NON FUNCTION
-				mCommandFunctionEmpty();
-			}
-		}
-		break;
-		case 0x02: {
-			if ((mrmByte >> 6 & 3) == 3) {
-				// NON FUNCTION
-				mCommandFunctionEmpty();
-			} else {
-				// OPA 001, OPB 010
-				// FPU Move
-				double* valueA = fpuStack + fpuStackIndex;
-				double* source = valueA;
-				float* valueB = (float*)readAddressMRM16For8(mrmByte);
-				float* target = valueB;
-				*target = *source;
-			}
-		}
-		break;
-		case 0x03: {
-			if ((mrmByte >> 6 & 3) == 3) {
-				// NON FUNCTION
-				mCommandFunctionEmpty();
-			} else {
-				// OPA 001, OPB 011
-				// FPU Move
-				double* valueA = fpuStack + fpuStackIndex;
-				double* source = valueA;
-				float* valueB = (float*)readAddressMRM16For8(mrmByte);
-				float* target = valueB;
-				fpuStackIndex += 1;
-				*target = *source;
-			}
-		}
-		break;
-		case 0x04: {
-			if ((mrmByte >> 6 & 3) == 3) {
-				// NON FUNCTION
-				mCommandFunctionEmpty();
-			} else {
-				// NON FUNCTION
-				mCommandFunctionEmpty();
-			}
-		}
-		break;
-		case 0x05: {
-			if ((mrmByte >> 6 & 3) == 3) {
-				fpuRegControll = *(uint16_t*)readAddressMRM16For16(mrmByte);
-			} else {
-				fpuRegControll = *(uint16_t*)readAddressMRM16For16(mrmByte);
-			}
-		}
-		break;
-		case 0x06: {
-			if ((mrmByte >> 6 & 3) == 3) {
-				// NON FUNCTION
-				mCommandFunctionEmpty();
-			} else {
-				// NON FUNCTION
-				mCommandFunctionEmpty();
-			}
-		}
-		break;
-		case 0x07: {
-			if ((mrmByte >> 6 & 3) == 3) {
-				*(uint16_t*)readAddressMRM16For16(mrmByte) = fpuRegControll;
-			} else {
-				*(uint16_t*)readAddressMRM16For16(mrmByte) = fpuRegControll;
-			}
-		}
-		break;
-		default:
-		mCommandFunctionEmpty();
-	}
-}
-//FPU
 void handlerCommand16Code00DA() {
 	printf("FPU");
 	uint8_t mrmByte = read8u();
@@ -4187,6 +4148,221 @@ void handlerCommand16Code00DA() {
 				int32_t* valueB = (int32_t*)readAddressMRM16For8(mrmByte);
 				int32_t* source = valueB;
 				*target = (double)(((double)*valueB) / ((double)*valueA));
+			}
+		}
+		break;
+		default:
+		mCommandFunctionEmpty();
+	}
+}
+//FPU
+void handlerCommand16Code00DD() {
+	printf("FPU");
+	uint8_t mrmByte = read8u();
+	uint8_t nnn = readMiddle3Bit(mrmByte);
+	switch (nnn) {
+		case 0x00: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			} else {
+				// OPA 101, OPB 000
+				// FPU Move
+				fpuStackIndex -= 1;
+				double* valueA = fpuStack + fpuStackIndex;
+				double* target = valueA;
+				double* valueB = (double*)readAddressMRM16For8(mrmByte);
+				double* source = valueB;
+				*target = *source;
+			}
+		}
+		break;
+		case 0x01: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			} else {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			}
+		}
+		break;
+		case 0x02: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			} else {
+				// OPA 101, OPB 010
+				// FPU Move
+				double* valueA = fpuStack + fpuStackIndex;
+				double* source = valueA;
+				double* valueB = (double*)readAddressMRM16For8(mrmByte);
+				double* target = valueB;
+				*target = *source;
+			}
+		}
+		break;
+		case 0x03: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			} else {
+				// OPA 101, OPB 011
+				// FPU Move
+				double* valueA = fpuStack + fpuStackIndex;
+				double* source = valueA;
+				double* valueB = (double*)readAddressMRM16For8(mrmByte);
+				double* target = valueB;
+				fpuStackIndex += 1;
+				*target = *source;
+			}
+		}
+		break;
+		case 0x04: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			} else {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			}
+		}
+		break;
+		case 0x05: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			} else {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			}
+		}
+		break;
+		case 0x06: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			} else {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			}
+		}
+		break;
+		case 0x07: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			} else {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			}
+		}
+		break;
+		default:
+		mCommandFunctionEmpty();
+	}
+}
+//FPU
+void handlerCommand16Code00D9() {
+	printf("FPU");
+	uint8_t mrmByte = read8u();
+	uint8_t nnn = readMiddle3Bit(mrmByte);
+	switch (nnn) {
+		case 0x00: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				// OPA 001, OPB 000
+				// FPU Move
+				double* valueA = fpuStack + fpuStackIndex;
+				double* target = valueA;
+				double* valueB = fpuStack + fpuStackIndex + (mrmByte & 7);
+				double* source = valueB;
+				*target = *source;
+			} else {
+				// OPA 001, OPB 000
+				// FPU Move
+				fpuStackIndex -= 1;
+				double* valueA = fpuStack + fpuStackIndex;
+				double* target = valueA;
+				float* valueB = (float*)readAddressMRM16For8(mrmByte);
+				float* source = valueB;
+				*target = *source;
+			}
+		}
+		break;
+		case 0x01: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			} else {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			}
+		}
+		break;
+		case 0x02: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			} else {
+				// OPA 001, OPB 010
+				// FPU Move
+				double* valueA = fpuStack + fpuStackIndex;
+				double* source = valueA;
+				float* valueB = (float*)readAddressMRM16For8(mrmByte);
+				float* target = valueB;
+				*target = *source;
+			}
+		}
+		break;
+		case 0x03: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			} else {
+				// OPA 001, OPB 011
+				// FPU Move
+				double* valueA = fpuStack + fpuStackIndex;
+				double* source = valueA;
+				float* valueB = (float*)readAddressMRM16For8(mrmByte);
+				float* target = valueB;
+				fpuStackIndex += 1;
+				*target = *source;
+			}
+		}
+		break;
+		case 0x04: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			} else {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			}
+		}
+		break;
+		case 0x05: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				fpuRegControll = *(uint16_t*)readAddressMRM16For16(mrmByte);
+			} else {
+				fpuRegControll = *(uint16_t*)readAddressMRM16For16(mrmByte);
+			}
+		}
+		break;
+		case 0x06: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			} else {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			}
+		}
+		break;
+		case 0x07: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				*(uint16_t*)readAddressMRM16For16(mrmByte) = fpuRegControll;
+			} else {
+				*(uint16_t*)readAddressMRM16For16(mrmByte) = fpuRegControll;
 			}
 		}
 		break;
@@ -7816,55 +7992,55 @@ void handlerCommand32Code0007() {
 	printf("Pop");
 	uint8_t rg = 0x00;
 	context.segmentRegisters[rg] = *(uint16_t*)(mem(SR_SS) + reg_SP_32u);
-	reg_SP_32u += 16;
+	reg_SP_32u += 16 / 8;
 }
 //Pop
 void handlerCommand32Code000F() {
 	printf("Pop");
 	uint8_t rg = 0x01;
 	context.segmentRegisters[rg] = *(uint16_t*)(mem(SR_SS) + reg_SP_32u);
-	reg_SP_32u += 16;
+	reg_SP_32u += 16 / 8;
 }
 //Pop
 void handlerCommand32Code0017() {
 	printf("Pop");
 	uint8_t rg = 0x02;
 	context.segmentRegisters[rg] = *(uint16_t*)(mem(SR_SS) + reg_SP_32u);
-	reg_SP_32u += 16;
+	reg_SP_32u += 16 / 8;
 }
 //Pop
 void handlerCommand32Code001F() {
 	printf("Pop");
 	uint8_t rg = 0x03;
 	context.segmentRegisters[rg] = *(uint16_t*)(mem(SR_SS) + reg_SP_32u);
-	reg_SP_32u += 16;
+	reg_SP_32u += 16 / 8;
 }
 //Push
 void handlerCommand32Code0006() {
 	printf("Push");
 	uint8_t rg = 0x00;
-	reg_SP_32u -= 16;
+	reg_SP_32u -= 16 / 8;
 	*(uint16_t*)(mem(SR_SS) + reg_SP_32u) = context.segmentRegisters[rg];
 }
 //Push
 void handlerCommand32Code000E() {
 	printf("Push");
 	uint8_t rg = 0x01;
-	reg_SP_32u -= 16;
+	reg_SP_32u -= 16 / 8;
 	*(uint16_t*)(mem(SR_SS) + reg_SP_32u) = context.segmentRegisters[rg];
 }
 //Push
 void handlerCommand32Code0016() {
 	printf("Push");
 	uint8_t rg = 0x02;
-	reg_SP_32u -= 16;
+	reg_SP_32u -= 16 / 8;
 	*(uint16_t*)(mem(SR_SS) + reg_SP_32u) = context.segmentRegisters[rg];
 }
 //Push
 void handlerCommand32Code001E() {
 	printf("Push");
 	uint8_t rg = 0x03;
-	reg_SP_32u -= 16;
+	reg_SP_32u -= 16 / 8;
 	*(uint16_t*)(mem(SR_SS) + reg_SP_32u) = context.segmentRegisters[rg];
 }
 //Lea
@@ -10187,24 +10363,24 @@ void handlerCommand32Code00A4P66P67() {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_16 != 0) {
 				*(uint8_t*)(targetSegment + reg_DI_16) = *(uint8_t*)(sourceSegment + reg_SI_16);
-				reg_DI_16 -= 8 / 8; reg_SI_16 -= 8 / 8;
+				reg_DI_16 -= 8 / 8;reg_SI_16 -= 8 / 8;
 				reg_CX_16 -= 1;
 			}
 		} else {
 			*(uint8_t*)(targetSegment + reg_DI_16) = *(uint8_t*)(sourceSegment + reg_SI_16);
-			reg_DI_16 -= 8 / 8; reg_SI_16 -= 8 / 8;
+			reg_DI_16 -= 8 / 8;reg_SI_16 -= 8 / 8;
 			reg_CX_16 -= 1;
 		}
 	} else {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_16 != 0) {
 				*(uint8_t*)(targetSegment + reg_DI_16) = *(uint8_t*)(sourceSegment + reg_SI_16);
-				reg_DI_16 += 8 / 8; reg_SI_16 += 8 / 8;
+				reg_DI_16 += 8 / 8;reg_SI_16 += 8 / 8;
 				reg_CX_16 -= 1;
 			}
 		} else {
 			*(uint8_t*)(targetSegment + reg_DI_16) = *(uint8_t*)(sourceSegment + reg_SI_16);
-			reg_DI_16 += 8 / 8; reg_SI_16 += 8 / 8;
+			reg_DI_16 += 8 / 8;reg_SI_16 += 8 / 8;
 			reg_CX_16 -= 1;
 		}
 	}
@@ -10219,24 +10395,24 @@ void handlerCommand32Code00A4P66() {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_32 != 0) {
 				*(uint8_t*)(targetSegment + reg_DI_32) = *(uint8_t*)(sourceSegment + reg_SI_32);
-				reg_DI_32 -= 8 / 8; reg_SI_32 -= 8 / 8;
+				reg_DI_32 -= 8 / 8;reg_SI_32 -= 8 / 8;
 				reg_CX_32 -= 1;
 			}
 		} else {
 			*(uint8_t*)(targetSegment + reg_DI_32) = *(uint8_t*)(sourceSegment + reg_SI_32);
-			reg_DI_32 -= 8 / 8; reg_SI_32 -= 8 / 8;
+			reg_DI_32 -= 8 / 8;reg_SI_32 -= 8 / 8;
 			reg_CX_32 -= 1;
 		}
 	} else {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_32 != 0) {
 				*(uint8_t*)(targetSegment + reg_DI_32) = *(uint8_t*)(sourceSegment + reg_SI_32);
-				reg_DI_32 += 8 / 8; reg_SI_32 += 8 / 8;
+				reg_DI_32 += 8 / 8;reg_SI_32 += 8 / 8;
 				reg_CX_32 -= 1;
 			}
 		} else {
 			*(uint8_t*)(targetSegment + reg_DI_32) = *(uint8_t*)(sourceSegment + reg_SI_32);
-			reg_DI_32 += 8 / 8; reg_SI_32 += 8 / 8;
+			reg_DI_32 += 8 / 8;reg_SI_32 += 8 / 8;
 			reg_CX_32 -= 1;
 		}
 	}
@@ -10251,24 +10427,24 @@ void handlerCommand32Code00A4P67() {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_16 != 0) {
 				*(uint8_t*)(targetSegment + reg_DI_16) = *(uint8_t*)(sourceSegment + reg_SI_16);
-				reg_DI_16 -= 8 / 8; reg_SI_16 -= 8 / 8;
+				reg_DI_16 -= 8 / 8;reg_SI_16 -= 8 / 8;
 				reg_CX_16 -= 1;
 			}
 		} else {
 			*(uint8_t*)(targetSegment + reg_DI_16) = *(uint8_t*)(sourceSegment + reg_SI_16);
-			reg_DI_16 -= 8 / 8; reg_SI_16 -= 8 / 8;
+			reg_DI_16 -= 8 / 8;reg_SI_16 -= 8 / 8;
 			reg_CX_16 -= 1;
 		}
 	} else {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_16 != 0) {
 				*(uint8_t*)(targetSegment + reg_DI_16) = *(uint8_t*)(sourceSegment + reg_SI_16);
-				reg_DI_16 += 8 / 8; reg_SI_16 += 8 / 8;
+				reg_DI_16 += 8 / 8;reg_SI_16 += 8 / 8;
 				reg_CX_16 -= 1;
 			}
 		} else {
 			*(uint8_t*)(targetSegment + reg_DI_16) = *(uint8_t*)(sourceSegment + reg_SI_16);
-			reg_DI_16 += 8 / 8; reg_SI_16 += 8 / 8;
+			reg_DI_16 += 8 / 8;reg_SI_16 += 8 / 8;
 			reg_CX_16 -= 1;
 		}
 	}
@@ -10283,24 +10459,24 @@ void handlerCommand32Code00A4() {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_32 != 0) {
 				*(uint8_t*)(targetSegment + reg_DI_32) = *(uint8_t*)(sourceSegment + reg_SI_32);
-				reg_DI_32 -= 8 / 8; reg_SI_32 -= 8 / 8;
+				reg_DI_32 -= 8 / 8;reg_SI_32 -= 8 / 8;
 				reg_CX_32 -= 1;
 			}
 		} else {
 			*(uint8_t*)(targetSegment + reg_DI_32) = *(uint8_t*)(sourceSegment + reg_SI_32);
-			reg_DI_32 -= 8 / 8; reg_SI_32 -= 8 / 8;
+			reg_DI_32 -= 8 / 8;reg_SI_32 -= 8 / 8;
 			reg_CX_32 -= 1;
 		}
 	} else {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_32 != 0) {
 				*(uint8_t*)(targetSegment + reg_DI_32) = *(uint8_t*)(sourceSegment + reg_SI_32);
-				reg_DI_32 += 8 / 8; reg_SI_32 += 8 / 8;
+				reg_DI_32 += 8 / 8;reg_SI_32 += 8 / 8;
 				reg_CX_32 -= 1;
 			}
 		} else {
 			*(uint8_t*)(targetSegment + reg_DI_32) = *(uint8_t*)(sourceSegment + reg_SI_32);
-			reg_DI_32 += 8 / 8; reg_SI_32 += 8 / 8;
+			reg_DI_32 += 8 / 8;reg_SI_32 += 8 / 8;
 			reg_CX_32 -= 1;
 		}
 	}
@@ -10315,24 +10491,24 @@ void handlerCommand32Code00A5P66P67() {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_16 != 0) {
 				*(uint16_t*)(targetSegment + reg_DI_16) = *(uint16_t*)(sourceSegment + reg_SI_16);
-				reg_DI_16 -= 16 / 8; reg_SI_16 -= 16 / 8;
+				reg_DI_16 -= 16 / 8;reg_SI_16 -= 16 / 8;
 				reg_CX_16 -= 1;
 			}
 		} else {
 			*(uint16_t*)(targetSegment + reg_DI_16) = *(uint16_t*)(sourceSegment + reg_SI_16);
-			reg_DI_16 -= 16 / 8; reg_SI_16 -= 16 / 8;
+			reg_DI_16 -= 16 / 8;reg_SI_16 -= 16 / 8;
 			reg_CX_16 -= 1;
 		}
 	} else {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_16 != 0) {
 				*(uint16_t*)(targetSegment + reg_DI_16) = *(uint16_t*)(sourceSegment + reg_SI_16);
-				reg_DI_16 += 16 / 8; reg_SI_16 += 16 / 8;
+				reg_DI_16 += 16 / 8;reg_SI_16 += 16 / 8;
 				reg_CX_16 -= 1;
 			}
 		} else {
 			*(uint16_t*)(targetSegment + reg_DI_16) = *(uint16_t*)(sourceSegment + reg_SI_16);
-			reg_DI_16 += 16 / 8; reg_SI_16 += 16 / 8;
+			reg_DI_16 += 16 / 8;reg_SI_16 += 16 / 8;
 			reg_CX_16 -= 1;
 		}
 	}
@@ -10347,24 +10523,24 @@ void handlerCommand32Code00A5P66() {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_32 != 0) {
 				*(uint16_t*)(targetSegment + reg_DI_32) = *(uint16_t*)(sourceSegment + reg_SI_32);
-				reg_DI_32 -= 16 / 8; reg_SI_32 -= 16 / 8;
+				reg_DI_32 -= 16 / 8;reg_SI_32 -= 16 / 8;
 				reg_CX_32 -= 1;
 			}
 		} else {
 			*(uint16_t*)(targetSegment + reg_DI_32) = *(uint16_t*)(sourceSegment + reg_SI_32);
-			reg_DI_32 -= 16 / 8; reg_SI_32 -= 16 / 8;
+			reg_DI_32 -= 16 / 8;reg_SI_32 -= 16 / 8;
 			reg_CX_32 -= 1;
 		}
 	} else {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_32 != 0) {
 				*(uint16_t*)(targetSegment + reg_DI_32) = *(uint16_t*)(sourceSegment + reg_SI_32);
-				reg_DI_32 += 16 / 8; reg_SI_32 += 16 / 8;
+				reg_DI_32 += 16 / 8;reg_SI_32 += 16 / 8;
 				reg_CX_32 -= 1;
 			}
 		} else {
 			*(uint16_t*)(targetSegment + reg_DI_32) = *(uint16_t*)(sourceSegment + reg_SI_32);
-			reg_DI_32 += 16 / 8; reg_SI_32 += 16 / 8;
+			reg_DI_32 += 16 / 8;reg_SI_32 += 16 / 8;
 			reg_CX_32 -= 1;
 		}
 	}
@@ -10379,24 +10555,24 @@ void handlerCommand32Code00A5P67() {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_16 != 0) {
 				*(uint32_t*)(targetSegment + reg_DI_16) = *(uint32_t*)(sourceSegment + reg_SI_16);
-				reg_DI_16 -= 32 / 8; reg_SI_16 -= 32 / 8;
+				reg_DI_16 -= 32 / 8;reg_SI_16 -= 32 / 8;
 				reg_CX_16 -= 1;
 			}
 		} else {
 			*(uint32_t*)(targetSegment + reg_DI_16) = *(uint32_t*)(sourceSegment + reg_SI_16);
-			reg_DI_16 -= 32 / 8; reg_SI_16 -= 32 / 8;
+			reg_DI_16 -= 32 / 8;reg_SI_16 -= 32 / 8;
 			reg_CX_16 -= 1;
 		}
 	} else {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_16 != 0) {
 				*(uint32_t*)(targetSegment + reg_DI_16) = *(uint32_t*)(sourceSegment + reg_SI_16);
-				reg_DI_16 += 32 / 8; reg_SI_16 += 32 / 8;
+				reg_DI_16 += 32 / 8;reg_SI_16 += 32 / 8;
 				reg_CX_16 -= 1;
 			}
 		} else {
 			*(uint32_t*)(targetSegment + reg_DI_16) = *(uint32_t*)(sourceSegment + reg_SI_16);
-			reg_DI_16 += 32 / 8; reg_SI_16 += 32 / 8;
+			reg_DI_16 += 32 / 8;reg_SI_16 += 32 / 8;
 			reg_CX_16 -= 1;
 		}
 	}
@@ -10411,287 +10587,289 @@ void handlerCommand32Code00A5() {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_32 != 0) {
 				*(uint32_t*)(targetSegment + reg_DI_32) = *(uint32_t*)(sourceSegment + reg_SI_32);
-				reg_DI_32 -= 32 / 8; reg_SI_32 -= 32 / 8;
+				reg_DI_32 -= 32 / 8;reg_SI_32 -= 32 / 8;
 				reg_CX_32 -= 1;
 			}
 		} else {
 			*(uint32_t*)(targetSegment + reg_DI_32) = *(uint32_t*)(sourceSegment + reg_SI_32);
-			reg_DI_32 -= 32 / 8; reg_SI_32 -= 32 / 8;
+			reg_DI_32 -= 32 / 8;reg_SI_32 -= 32 / 8;
 			reg_CX_32 -= 1;
 		}
 	} else {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_32 != 0) {
 				*(uint32_t*)(targetSegment + reg_DI_32) = *(uint32_t*)(sourceSegment + reg_SI_32);
-				reg_DI_32 += 32 / 8; reg_SI_32 += 32 / 8;
+				reg_DI_32 += 32 / 8;reg_SI_32 += 32 / 8;
 				reg_CX_32 -= 1;
 			}
 		} else {
 			*(uint32_t*)(targetSegment + reg_DI_32) = *(uint32_t*)(sourceSegment + reg_SI_32);
-			reg_DI_32 += 32 / 8; reg_SI_32 += 32 / 8;
+			reg_DI_32 += 32 / 8;reg_SI_32 += 32 / 8;
 			reg_CX_32 -= 1;
 		}
 	}
 }
-//MOVS
+//LOADS
 void handlerCommand32Code00ACP66P67() {
-	printf("MOVS");
+	printf("LOADS");
 	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
 	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
 	uint8_t* targetSegment = mem(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_16 != 0) {
-				reg_0x00_8u= *(uint8_t*)(sourceSegment + reg_SI_16);
+				reg_0x00_8u = *(uint8_t*)(sourceSegment + reg_SI_16);
 				reg_SI_16 -= 8 / 8;
 				reg_CX_16 -= 1;
 			}
 		} else {
-			reg_0x00_8u= *(uint8_t*)(sourceSegment + reg_SI_16);
+			reg_0x00_8u = *(uint8_t*)(sourceSegment + reg_SI_16);
 			reg_SI_16 -= 8 / 8;
 			reg_CX_16 -= 1;
 		}
 	} else {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_16 != 0) {
-				reg_0x00_8u= *(uint8_t*)(sourceSegment + reg_SI_16);
+				reg_0x00_8u = *(uint8_t*)(sourceSegment + reg_SI_16);
 				reg_SI_16 += 8 / 8;
 				reg_CX_16 -= 1;
 			}
 		} else {
-			reg_0x00_8u= *(uint8_t*)(sourceSegment + reg_SI_16);
+			reg_0x00_8u = *(uint8_t*)(sourceSegment + reg_SI_16);
 			reg_SI_16 += 8 / 8;
 			reg_CX_16 -= 1;
 		}
 	}
 }
-//MOVS
+//LOADS
 void handlerCommand32Code00ACP66() {
-	printf("MOVS");
+	printf("LOADS");
 	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
 	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
 	uint8_t* targetSegment = mem(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_32 != 0) {
-				reg_0x00_8u= *(uint8_t*)(sourceSegment + reg_SI_32);
+				reg_0x00_8u = *(uint8_t*)(sourceSegment + reg_SI_32);
 				reg_SI_32 -= 8 / 8;
 				reg_CX_32 -= 1;
 			}
 		} else {
-			reg_0x00_8u= *(uint8_t*)(sourceSegment + reg_SI_32);
+			reg_0x00_8u = *(uint8_t*)(sourceSegment + reg_SI_32);
 			reg_SI_32 -= 8 / 8;
 			reg_CX_32 -= 1;
 		}
 	} else {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_32 != 0) {
-				reg_0x00_8u= *(uint8_t*)(sourceSegment + reg_SI_32);
+				reg_0x00_8u = *(uint8_t*)(sourceSegment + reg_SI_32);
 				reg_SI_32 += 8 / 8;
 				reg_CX_32 -= 1;
 			}
 		} else {
-			reg_0x00_8u= *(uint8_t*)(sourceSegment + reg_SI_32);
+			reg_0x00_8u = *(uint8_t*)(sourceSegment + reg_SI_32);
 			reg_SI_32 += 8 / 8;
 			reg_CX_32 -= 1;
 		}
 	}
 }
-//MOVS
+//LOADS
 void handlerCommand32Code00ACP67() {
-	printf("MOVS");
+	printf("LOADS");
 	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
 	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
 	uint8_t* targetSegment = mem(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_16 != 0) {
-				reg_0x00_8u= *(uint8_t*)(sourceSegment + reg_SI_16);
+				reg_0x00_8u = *(uint8_t*)(sourceSegment + reg_SI_16);
 				reg_SI_16 -= 8 / 8;
 				reg_CX_16 -= 1;
 			}
 		} else {
-			reg_0x00_8u= *(uint8_t*)(sourceSegment + reg_SI_16);
+			reg_0x00_8u = *(uint8_t*)(sourceSegment + reg_SI_16);
 			reg_SI_16 -= 8 / 8;
 			reg_CX_16 -= 1;
 		}
 	} else {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_16 != 0) {
-				reg_0x00_8u= *(uint8_t*)(sourceSegment + reg_SI_16);
+				reg_0x00_8u = *(uint8_t*)(sourceSegment + reg_SI_16);
 				reg_SI_16 += 8 / 8;
 				reg_CX_16 -= 1;
 			}
 		} else {
-			reg_0x00_8u= *(uint8_t*)(sourceSegment + reg_SI_16);
+			reg_0x00_8u = *(uint8_t*)(sourceSegment + reg_SI_16);
 			reg_SI_16 += 8 / 8;
 			reg_CX_16 -= 1;
 		}
 	}
 }
-//MOVS
+//LOADS
 void handlerCommand32Code00AC() {
-	printf("MOVS");
+	printf("LOADS");
 	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
 	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
 	uint8_t* targetSegment = mem(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_32 != 0) {
-				reg_0x00_8u= *(uint8_t*)(sourceSegment + reg_SI_32);
+				reg_0x00_8u = *(uint8_t*)(sourceSegment + reg_SI_32);
 				reg_SI_32 -= 8 / 8;
 				reg_CX_32 -= 1;
 			}
 		} else {
-			reg_0x00_8u= *(uint8_t*)(sourceSegment + reg_SI_32);
+			reg_0x00_8u = *(uint8_t*)(sourceSegment + reg_SI_32);
 			reg_SI_32 -= 8 / 8;
 			reg_CX_32 -= 1;
 		}
 	} else {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_32 != 0) {
-				reg_0x00_8u= *(uint8_t*)(sourceSegment + reg_SI_32);
+				reg_0x00_8u = *(uint8_t*)(sourceSegment + reg_SI_32);
 				reg_SI_32 += 8 / 8;
 				reg_CX_32 -= 1;
 			}
 		} else {
-			reg_0x00_8u= *(uint8_t*)(sourceSegment + reg_SI_32);
+			reg_0x00_8u = *(uint8_t*)(sourceSegment + reg_SI_32);
 			reg_SI_32 += 8 / 8;
 			reg_CX_32 -= 1;
 		}
 	}
 }
-//MOVS
+//LOADS
 void handlerCommand32Code00ADP66P67() {
-	printf("MOVS");
+	printf("LOADS");
 	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
 	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
 	uint8_t* targetSegment = mem(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_16 != 0) {
-				reg_0x00_16u= *(uint16_t*)(sourceSegment + reg_SI_16);
+				reg_0x00_16u = *(uint16_t*)(sourceSegment + reg_SI_16);
 				reg_SI_16 -= 16 / 8;
 				reg_CX_16 -= 1;
 			}
 		} else {
-			reg_0x00_16u= *(uint16_t*)(sourceSegment + reg_SI_16);
+			reg_0x00_16u = *(uint16_t*)(sourceSegment + reg_SI_16);
 			reg_SI_16 -= 16 / 8;
 			reg_CX_16 -= 1;
 		}
 	} else {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_16 != 0) {
-				reg_0x00_16u= *(uint16_t*)(sourceSegment + reg_SI_16);
+				reg_0x00_16u = *(uint16_t*)(sourceSegment + reg_SI_16);
 				reg_SI_16 += 16 / 8;
 				reg_CX_16 -= 1;
 			}
 		} else {
-			reg_0x00_16u= *(uint16_t*)(sourceSegment + reg_SI_16);
+			reg_0x00_16u = *(uint16_t*)(sourceSegment + reg_SI_16);
 			reg_SI_16 += 16 / 8;
 			reg_CX_16 -= 1;
 		}
 	}
 }
-//MOVS
+//LOADS
 void handlerCommand32Code00ADP66() {
-	printf("MOVS");
+	printf("LOADS");
 	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
 	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
 	uint8_t* targetSegment = mem(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_32 != 0) {
-				reg_0x00_16u= *(uint16_t*)(sourceSegment + reg_SI_32);
+				reg_0x00_16u = *(uint16_t*)(sourceSegment + reg_SI_32);
 				reg_SI_32 -= 16 / 8;
 				reg_CX_32 -= 1;
 			}
 		} else {
-			reg_0x00_16u= *(uint16_t*)(sourceSegment + reg_SI_32);
+			reg_0x00_16u = *(uint16_t*)(sourceSegment + reg_SI_32);
 			reg_SI_32 -= 16 / 8;
 			reg_CX_32 -= 1;
 		}
 	} else {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_32 != 0) {
-				reg_0x00_16u= *(uint16_t*)(sourceSegment + reg_SI_32);
+				reg_0x00_16u = *(uint16_t*)(sourceSegment + reg_SI_32);
 				reg_SI_32 += 16 / 8;
 				reg_CX_32 -= 1;
 			}
 		} else {
-			reg_0x00_16u= *(uint16_t*)(sourceSegment + reg_SI_32);
+			reg_0x00_16u = *(uint16_t*)(sourceSegment + reg_SI_32);
 			reg_SI_32 += 16 / 8;
 			reg_CX_32 -= 1;
 		}
 	}
 }
-//MOVS
+//LOADS
 void handlerCommand32Code00ADP67() {
-	printf("MOVS");
+	printf("LOADS");
 	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
 	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
 	uint8_t* targetSegment = mem(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_16 != 0) {
-				reg_0x00_32u= *(uint32_t*)(sourceSegment + reg_SI_16);
+				reg_0x00_32u = *(uint32_t*)(sourceSegment + reg_SI_16);
 				reg_SI_16 -= 32 / 8;
 				reg_CX_16 -= 1;
 			}
 		} else {
-			reg_0x00_32u= *(uint32_t*)(sourceSegment + reg_SI_16);
+			reg_0x00_32u = *(uint32_t*)(sourceSegment + reg_SI_16);
 			reg_SI_16 -= 32 / 8;
 			reg_CX_16 -= 1;
 		}
 	} else {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_16 != 0) {
-				reg_0x00_32u= *(uint32_t*)(sourceSegment + reg_SI_16);
+				reg_0x00_32u = *(uint32_t*)(sourceSegment + reg_SI_16);
 				reg_SI_16 += 32 / 8;
 				reg_CX_16 -= 1;
 			}
 		} else {
-			reg_0x00_32u= *(uint32_t*)(sourceSegment + reg_SI_16);
+			reg_0x00_32u = *(uint32_t*)(sourceSegment + reg_SI_16);
 			reg_SI_16 += 32 / 8;
 			reg_CX_16 -= 1;
 		}
 	}
 }
-//MOVS
+//LOADS
 void handlerCommand32Code00AD() {
-	printf("MOVS");
+	printf("LOADS");
 	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
 	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
 	uint8_t* targetSegment = mem(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_32 != 0) {
-				reg_0x00_32u= *(uint32_t*)(sourceSegment + reg_SI_32);
+				reg_0x00_32u = *(uint32_t*)(sourceSegment + reg_SI_32);
 				reg_SI_32 -= 32 / 8;
 				reg_CX_32 -= 1;
 			}
 		} else {
-			reg_0x00_32u= *(uint32_t*)(sourceSegment + reg_SI_32);
+			reg_0x00_32u = *(uint32_t*)(sourceSegment + reg_SI_32);
 			reg_SI_32 -= 32 / 8;
 			reg_CX_32 -= 1;
 		}
 	} else {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_32 != 0) {
-				reg_0x00_32u= *(uint32_t*)(sourceSegment + reg_SI_32);
+				reg_0x00_32u = *(uint32_t*)(sourceSegment + reg_SI_32);
 				reg_SI_32 += 32 / 8;
 				reg_CX_32 -= 1;
 			}
 		} else {
-			reg_0x00_32u= *(uint32_t*)(sourceSegment + reg_SI_32);
+			reg_0x00_32u = *(uint32_t*)(sourceSegment + reg_SI_32);
 			reg_SI_32 += 32 / 8;
 			reg_CX_32 -= 1;
 		}
 	}
 }
-//MOVS
+//STOS
 void handlerCommand32Code00AAP66P67() {
-	printf("MOVS");
+	printf("STOS");
+	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
+	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
 	uint8_t* targetSegment = mem(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
@@ -10719,9 +10897,11 @@ void handlerCommand32Code00AAP66P67() {
 		}
 	}
 }
-//MOVS
+//STOS
 void handlerCommand32Code00AAP66() {
-	printf("MOVS");
+	printf("STOS");
+	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
+	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
 	uint8_t* targetSegment = mem(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
@@ -10749,9 +10929,11 @@ void handlerCommand32Code00AAP66() {
 		}
 	}
 }
-//MOVS
+//STOS
 void handlerCommand32Code00AAP67() {
-	printf("MOVS");
+	printf("STOS");
+	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
+	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
 	uint8_t* targetSegment = mem(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
@@ -10779,9 +10961,11 @@ void handlerCommand32Code00AAP67() {
 		}
 	}
 }
-//MOVS
+//STOS
 void handlerCommand32Code00AA() {
-	printf("MOVS");
+	printf("STOS");
+	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
+	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
 	uint8_t* targetSegment = mem(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
@@ -10809,9 +10993,11 @@ void handlerCommand32Code00AA() {
 		}
 	}
 }
-//MOVS
+//STOS
 void handlerCommand32Code00ABP66P67() {
-	printf("MOVS");
+	printf("STOS");
+	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
+	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
 	uint8_t* targetSegment = mem(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
@@ -10839,9 +11025,11 @@ void handlerCommand32Code00ABP66P67() {
 		}
 	}
 }
-//MOVS
+//STOS
 void handlerCommand32Code00ABP66() {
-	printf("MOVS");
+	printf("STOS");
+	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
+	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
 	uint8_t* targetSegment = mem(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
@@ -10869,9 +11057,11 @@ void handlerCommand32Code00ABP66() {
 		}
 	}
 }
-//MOVS
+//STOS
 void handlerCommand32Code00ABP67() {
-	printf("MOVS");
+	printf("STOS");
+	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
+	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
 	uint8_t* targetSegment = mem(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
@@ -10899,9 +11089,11 @@ void handlerCommand32Code00ABP67() {
 		}
 	}
 }
-//MOVS
+//STOS
 void handlerCommand32Code00AB() {
-	printf("MOVS");
+	printf("STOS");
+	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
+	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
 	uint8_t* targetSegment = mem(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
@@ -10929,140 +11121,737 @@ void handlerCommand32Code00AB() {
 		}
 	}
 }
-//FPU
-void handlerCommand32Code00DB() {
-	printf("FPU");
-	uint8_t mrmByte = read8u();
-	uint8_t nnn = readMiddle3Bit(mrmByte);
-	switch (nnn) {
-		case 0x00: {
-			if ((mrmByte >> 6 & 3) == 3) {
-				// NON FUNCTION
-				mCommandFunctionEmpty();
-			} else {
-				// OPA 011, OPB 000
-				// FPU Move
-				fpuStackIndex -= 1;
-				double* valueA = fpuStack + fpuStackIndex;
-				double* target = valueA;
-				int32_t* valueB = (int32_t*)readAddressMRM32For8(mrmByte);
-				int32_t* source = valueB;
-				*target = *source;
+//SCAS
+void handlerCommand32Code00AEP66P67() {
+	printf("SCAS");
+	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
+	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
+	uint8_t* targetSegment = mem(SR_ES);
+	if (GET_FLAG(DF)) {
+		if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF2) {
+			while (reg_CX_16 != 0 && *(uint8_t*)(targetSegment + reg_DI_16) == reg_0x00_8u) {
+				reg_DI_16 -= 8 / 8;
+				reg_CX_16 -= 1;
 			}
-		}
-		break;
-		case 0x01: {
-			if ((mrmByte >> 6 & 3) == 3) {
-				// NON FUNCTION
-				mCommandFunctionEmpty();
-			} else {
-				// NON FUNCTION
-				mCommandFunctionEmpty();
+		} else if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF3) {
+			while (reg_CX_16 != 0 && *(uint8_t*)(targetSegment + reg_DI_16) != reg_0x00_8u) {
+				reg_DI_16 -= 8 / 8;
+				reg_CX_16 -= 1;
 			}
+		} else {
+			reg_DI_16 -= 8 / 8;
+			reg_CX_16 -= 1;
 		}
-		break;
-		case 0x02: {
-			if ((mrmByte >> 6 & 3) == 3) {
-				// NON FUNCTION
-				mCommandFunctionEmpty();
-			} else {
-				// OPA 011, OPB 010
-				// FPU Move
-				double* valueA = fpuStack + fpuStackIndex;
-				double* source = valueA;
-				int32_t* valueB = (int32_t*)readAddressMRM32For8(mrmByte);
-				int32_t* target = valueB;
-				*target = *source;
+		SET_FLAG(ZF, *(uint8_t*)(targetSegment + reg_DI_16) == reg_0x00_8u);
+	} else {
+		if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF2) {
+			while (reg_CX_16 != 0 && *(uint8_t*)(targetSegment + reg_DI_16) == reg_0x00_8u) {
+				reg_DI_16 += 8 / 8;
+				reg_CX_16 -= 1;
 			}
-		}
-		break;
-		case 0x03: {
-			if ((mrmByte >> 6 & 3) == 3) {
-				// NON FUNCTION
-				mCommandFunctionEmpty();
-			} else {
-				// OPA 011, OPB 011
-				// FPU Move
-				double* valueA = fpuStack + fpuStackIndex;
-				double* source = valueA;
-				int32_t* valueB = (int32_t*)readAddressMRM32For8(mrmByte);
-				int32_t* target = valueB;
-				fpuStackIndex += 1;
-				*target = *source;
+		} else if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF3) {
+			while (reg_CX_16 != 0 && *(uint8_t*)(targetSegment + reg_DI_16) != reg_0x00_8u) {
+				reg_DI_16 += 8 / 8;
+				reg_CX_16 -= 1;
 			}
+		} else {
+			reg_DI_16 += 8 / 8;
+			reg_CX_16 -= 1;
 		}
-		break;
-		case 0x04: {
-			if ((mrmByte >> 6 & 3) == 3) {
-				// NON FUNCTION
-				mCommandFunctionEmpty();
-			} else {
-				// NON FUNCTION
-				mCommandFunctionEmpty();
+		SET_FLAG(ZF, *(uint8_t*)(targetSegment + reg_DI_16) == reg_0x00_8u);
+	}
+}
+//SCAS
+void handlerCommand32Code00AEP66() {
+	printf("SCAS");
+	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
+	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
+	uint8_t* targetSegment = mem(SR_ES);
+	if (GET_FLAG(DF)) {
+		if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF2) {
+			while (reg_CX_32 != 0 && *(uint8_t*)(targetSegment + reg_DI_32) == reg_0x00_8u) {
+				reg_DI_32 -= 8 / 8;
+				reg_CX_32 -= 1;
 			}
-		}
-		break;
-		case 0x05: {
-			if ((mrmByte >> 6 & 3) == 3) {
-				// NON FUNCTION
-				mCommandFunctionEmpty();
-			} else {
-				// NON FUNCTION
-				mCommandFunctionEmpty();
+		} else if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF3) {
+			while (reg_CX_32 != 0 && *(uint8_t*)(targetSegment + reg_DI_32) != reg_0x00_8u) {
+				reg_DI_32 -= 8 / 8;
+				reg_CX_32 -= 1;
 			}
+		} else {
+			reg_DI_32 -= 8 / 8;
+			reg_CX_32 -= 1;
 		}
-		break;
-		case 0x06: {
-			if ((mrmByte >> 6 & 3) == 3) {
-				// NON FUNCTION
-				mCommandFunctionEmpty();
-			} else {
-				// NON FUNCTION
-				mCommandFunctionEmpty();
+		SET_FLAG(ZF, *(uint8_t*)(targetSegment + reg_DI_32) == reg_0x00_8u);
+	} else {
+		if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF2) {
+			while (reg_CX_32 != 0 && *(uint8_t*)(targetSegment + reg_DI_32) == reg_0x00_8u) {
+				reg_DI_32 += 8 / 8;
+				reg_CX_32 -= 1;
 			}
-		}
-		break;
-		case 0x07: {
-			if ((mrmByte >> 6 & 3) == 3) {
-				*(uint16_t*)readAddressMRM32For16(mrmByte) = fpuRegControll;
-			} else {
-				*(uint16_t*)readAddressMRM32For16(mrmByte) = fpuRegControll;
+		} else if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF3) {
+			while (reg_CX_32 != 0 && *(uint8_t*)(targetSegment + reg_DI_32) != reg_0x00_8u) {
+				reg_DI_32 += 8 / 8;
+				reg_CX_32 -= 1;
 			}
+		} else {
+			reg_DI_32 += 8 / 8;
+			reg_CX_32 -= 1;
 		}
-		break;
-		default:
-		mCommandFunctionEmpty();
+		SET_FLAG(ZF, *(uint8_t*)(targetSegment + reg_DI_32) == reg_0x00_8u);
+	}
+}
+//SCAS
+void handlerCommand32Code00AEP67() {
+	printf("SCAS");
+	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
+	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
+	uint8_t* targetSegment = mem(SR_ES);
+	if (GET_FLAG(DF)) {
+		if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF2) {
+			while (reg_CX_16 != 0 && *(uint8_t*)(targetSegment + reg_DI_16) == reg_0x00_8u) {
+				reg_DI_16 -= 8 / 8;
+				reg_CX_16 -= 1;
+			}
+		} else if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF3) {
+			while (reg_CX_16 != 0 && *(uint8_t*)(targetSegment + reg_DI_16) != reg_0x00_8u) {
+				reg_DI_16 -= 8 / 8;
+				reg_CX_16 -= 1;
+			}
+		} else {
+			reg_DI_16 -= 8 / 8;
+			reg_CX_16 -= 1;
+		}
+		SET_FLAG(ZF, *(uint8_t*)(targetSegment + reg_DI_16) == reg_0x00_8u);
+	} else {
+		if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF2) {
+			while (reg_CX_16 != 0 && *(uint8_t*)(targetSegment + reg_DI_16) == reg_0x00_8u) {
+				reg_DI_16 += 8 / 8;
+				reg_CX_16 -= 1;
+			}
+		} else if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF3) {
+			while (reg_CX_16 != 0 && *(uint8_t*)(targetSegment + reg_DI_16) != reg_0x00_8u) {
+				reg_DI_16 += 8 / 8;
+				reg_CX_16 -= 1;
+			}
+		} else {
+			reg_DI_16 += 8 / 8;
+			reg_CX_16 -= 1;
+		}
+		SET_FLAG(ZF, *(uint8_t*)(targetSegment + reg_DI_16) == reg_0x00_8u);
+	}
+}
+//SCAS
+void handlerCommand32Code00AE() {
+	printf("SCAS");
+	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
+	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
+	uint8_t* targetSegment = mem(SR_ES);
+	if (GET_FLAG(DF)) {
+		if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF2) {
+			while (reg_CX_32 != 0 && *(uint8_t*)(targetSegment + reg_DI_32) == reg_0x00_8u) {
+				reg_DI_32 -= 8 / 8;
+				reg_CX_32 -= 1;
+			}
+		} else if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF3) {
+			while (reg_CX_32 != 0 && *(uint8_t*)(targetSegment + reg_DI_32) != reg_0x00_8u) {
+				reg_DI_32 -= 8 / 8;
+				reg_CX_32 -= 1;
+			}
+		} else {
+			reg_DI_32 -= 8 / 8;
+			reg_CX_32 -= 1;
+		}
+		SET_FLAG(ZF, *(uint8_t*)(targetSegment + reg_DI_32) == reg_0x00_8u);
+	} else {
+		if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF2) {
+			while (reg_CX_32 != 0 && *(uint8_t*)(targetSegment + reg_DI_32) == reg_0x00_8u) {
+				reg_DI_32 += 8 / 8;
+				reg_CX_32 -= 1;
+			}
+		} else if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF3) {
+			while (reg_CX_32 != 0 && *(uint8_t*)(targetSegment + reg_DI_32) != reg_0x00_8u) {
+				reg_DI_32 += 8 / 8;
+				reg_CX_32 -= 1;
+			}
+		} else {
+			reg_DI_32 += 8 / 8;
+			reg_CX_32 -= 1;
+		}
+		SET_FLAG(ZF, *(uint8_t*)(targetSegment + reg_DI_32) == reg_0x00_8u);
+	}
+}
+//SCAS
+void handlerCommand32Code00AFP66P67() {
+	printf("SCAS");
+	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
+	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
+	uint8_t* targetSegment = mem(SR_ES);
+	if (GET_FLAG(DF)) {
+		if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF2) {
+			while (reg_CX_16 != 0 && *(uint16_t*)(targetSegment + reg_DI_16) == reg_0x00_16u) {
+				reg_DI_16 -= 16 / 8;
+				reg_CX_16 -= 1;
+			}
+		} else if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF3) {
+			while (reg_CX_16 != 0 && *(uint16_t*)(targetSegment + reg_DI_16) != reg_0x00_16u) {
+				reg_DI_16 -= 16 / 8;
+				reg_CX_16 -= 1;
+			}
+		} else {
+			reg_DI_16 -= 16 / 8;
+			reg_CX_16 -= 1;
+		}
+		SET_FLAG(ZF, *(uint16_t*)(targetSegment + reg_DI_16) == reg_0x00_16u);
+	} else {
+		if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF2) {
+			while (reg_CX_16 != 0 && *(uint16_t*)(targetSegment + reg_DI_16) == reg_0x00_16u) {
+				reg_DI_16 += 16 / 8;
+				reg_CX_16 -= 1;
+			}
+		} else if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF3) {
+			while (reg_CX_16 != 0 && *(uint16_t*)(targetSegment + reg_DI_16) != reg_0x00_16u) {
+				reg_DI_16 += 16 / 8;
+				reg_CX_16 -= 1;
+			}
+		} else {
+			reg_DI_16 += 16 / 8;
+			reg_CX_16 -= 1;
+		}
+		SET_FLAG(ZF, *(uint16_t*)(targetSegment + reg_DI_16) == reg_0x00_16u);
+	}
+}
+//SCAS
+void handlerCommand32Code00AFP66() {
+	printf("SCAS");
+	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
+	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
+	uint8_t* targetSegment = mem(SR_ES);
+	if (GET_FLAG(DF)) {
+		if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF2) {
+			while (reg_CX_32 != 0 && *(uint16_t*)(targetSegment + reg_DI_32) == reg_0x00_16u) {
+				reg_DI_32 -= 16 / 8;
+				reg_CX_32 -= 1;
+			}
+		} else if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF3) {
+			while (reg_CX_32 != 0 && *(uint16_t*)(targetSegment + reg_DI_32) != reg_0x00_16u) {
+				reg_DI_32 -= 16 / 8;
+				reg_CX_32 -= 1;
+			}
+		} else {
+			reg_DI_32 -= 16 / 8;
+			reg_CX_32 -= 1;
+		}
+		SET_FLAG(ZF, *(uint16_t*)(targetSegment + reg_DI_32) == reg_0x00_16u);
+	} else {
+		if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF2) {
+			while (reg_CX_32 != 0 && *(uint16_t*)(targetSegment + reg_DI_32) == reg_0x00_16u) {
+				reg_DI_32 += 16 / 8;
+				reg_CX_32 -= 1;
+			}
+		} else if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF3) {
+			while (reg_CX_32 != 0 && *(uint16_t*)(targetSegment + reg_DI_32) != reg_0x00_16u) {
+				reg_DI_32 += 16 / 8;
+				reg_CX_32 -= 1;
+			}
+		} else {
+			reg_DI_32 += 16 / 8;
+			reg_CX_32 -= 1;
+		}
+		SET_FLAG(ZF, *(uint16_t*)(targetSegment + reg_DI_32) == reg_0x00_16u);
+	}
+}
+//SCAS
+void handlerCommand32Code00AFP67() {
+	printf("SCAS");
+	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
+	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
+	uint8_t* targetSegment = mem(SR_ES);
+	if (GET_FLAG(DF)) {
+		if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF2) {
+			while (reg_CX_16 != 0 && *(uint32_t*)(targetSegment + reg_DI_16) == reg_0x00_32u) {
+				reg_DI_16 -= 32 / 8;
+				reg_CX_16 -= 1;
+			}
+		} else if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF3) {
+			while (reg_CX_16 != 0 && *(uint32_t*)(targetSegment + reg_DI_16) != reg_0x00_32u) {
+				reg_DI_16 -= 32 / 8;
+				reg_CX_16 -= 1;
+			}
+		} else {
+			reg_DI_16 -= 32 / 8;
+			reg_CX_16 -= 1;
+		}
+		SET_FLAG(ZF, *(uint32_t*)(targetSegment + reg_DI_16) == reg_0x00_32u);
+	} else {
+		if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF2) {
+			while (reg_CX_16 != 0 && *(uint32_t*)(targetSegment + reg_DI_16) == reg_0x00_32u) {
+				reg_DI_16 += 32 / 8;
+				reg_CX_16 -= 1;
+			}
+		} else if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF3) {
+			while (reg_CX_16 != 0 && *(uint32_t*)(targetSegment + reg_DI_16) != reg_0x00_32u) {
+				reg_DI_16 += 32 / 8;
+				reg_CX_16 -= 1;
+			}
+		} else {
+			reg_DI_16 += 32 / 8;
+			reg_CX_16 -= 1;
+		}
+		SET_FLAG(ZF, *(uint32_t*)(targetSegment + reg_DI_16) == reg_0x00_32u);
+	}
+}
+//SCAS
+void handlerCommand32Code00AF() {
+	printf("SCAS");
+	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
+	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
+	uint8_t* targetSegment = mem(SR_ES);
+	if (GET_FLAG(DF)) {
+		if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF2) {
+			while (reg_CX_32 != 0 && *(uint32_t*)(targetSegment + reg_DI_32) == reg_0x00_32u) {
+				reg_DI_32 -= 32 / 8;
+				reg_CX_32 -= 1;
+			}
+		} else if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF3) {
+			while (reg_CX_32 != 0 && *(uint32_t*)(targetSegment + reg_DI_32) != reg_0x00_32u) {
+				reg_DI_32 -= 32 / 8;
+				reg_CX_32 -= 1;
+			}
+		} else {
+			reg_DI_32 -= 32 / 8;
+			reg_CX_32 -= 1;
+		}
+		SET_FLAG(ZF, *(uint32_t*)(targetSegment + reg_DI_32) == reg_0x00_32u);
+	} else {
+		if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF2) {
+			while (reg_CX_32 != 0 && *(uint32_t*)(targetSegment + reg_DI_32) == reg_0x00_32u) {
+				reg_DI_32 += 32 / 8;
+				reg_CX_32 -= 1;
+			}
+		} else if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF3) {
+			while (reg_CX_32 != 0 && *(uint32_t*)(targetSegment + reg_DI_32) != reg_0x00_32u) {
+				reg_DI_32 += 32 / 8;
+				reg_CX_32 -= 1;
+			}
+		} else {
+			reg_DI_32 += 32 / 8;
+			reg_CX_32 -= 1;
+		}
+		SET_FLAG(ZF, *(uint32_t*)(targetSegment + reg_DI_32) == reg_0x00_32u);
+	}
+}
+//CMPS
+void handlerCommand32Code00A6P66P67() {
+	printf("CMPS");
+	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
+	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
+	uint8_t* targetSegment = mem(SR_ES);
+	if (GET_FLAG(DF)) {
+		if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF2) {
+			while (reg_CX_16 != 0 && *(uint8_t*)(targetSegment + reg_DI_16) == *(uint8_t*)(sourceSegment + reg_SI_16)) {
+				reg_0x00_8u = *(uint8_t*)(sourceSegment + reg_SI_16);
+				reg_DI_16 -= 8 / 8;reg_SI_16 -= 8 / 8;
+				reg_CX_16 -= 1;
+			}
+		} else if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF3) {
+			while (reg_CX_16 != 0 && *(uint8_t*)(targetSegment + reg_DI_16) != *(uint8_t*)(sourceSegment + reg_SI_16)) {
+				reg_0x00_8u = *(uint8_t*)(sourceSegment + reg_SI_16);
+				reg_DI_16 -= 8 / 8;reg_SI_16 -= 8 / 8;
+				reg_CX_16 -= 1;
+			}
+		} else {
+			reg_0x00_8u = *(uint8_t*)(sourceSegment + reg_SI_16);
+			reg_DI_16 -= 8 / 8;reg_SI_16 -= 8 / 8;
+			reg_CX_16 -= 1;
+		}
+		SET_FLAG(ZF, *(uint8_t*)(targetSegment + reg_DI_16) == *(uint8_t*)(sourceSegment + reg_SI_16));
+	} else {
+		if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF2) {
+			while (reg_CX_16 != 0 && *(uint8_t*)(targetSegment + reg_DI_16) == *(uint8_t*)(sourceSegment + reg_SI_16)) {
+				reg_0x00_8u = *(uint8_t*)(sourceSegment + reg_SI_16);
+				reg_DI_16 += 8 / 8;reg_SI_16 += 8 / 8;
+				reg_CX_16 -= 1;
+			}
+		} else if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF3) {
+			while (reg_CX_16 != 0 && *(uint8_t*)(targetSegment + reg_DI_16) != *(uint8_t*)(sourceSegment + reg_SI_16)) {
+				reg_0x00_8u = *(uint8_t*)(sourceSegment + reg_SI_16);
+				reg_DI_16 += 8 / 8;reg_SI_16 += 8 / 8;
+				reg_CX_16 -= 1;
+			}
+		} else {
+			reg_0x00_8u = *(uint8_t*)(sourceSegment + reg_SI_16);
+			reg_DI_16 += 8 / 8;reg_SI_16 += 8 / 8;
+			reg_CX_16 -= 1;
+		}
+		SET_FLAG(ZF, *(uint8_t*)(targetSegment + reg_DI_16) == *(uint8_t*)(sourceSegment + reg_SI_16));
+	}
+}
+//CMPS
+void handlerCommand32Code00A6P66() {
+	printf("CMPS");
+	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
+	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
+	uint8_t* targetSegment = mem(SR_ES);
+	if (GET_FLAG(DF)) {
+		if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF2) {
+			while (reg_CX_32 != 0 && *(uint8_t*)(targetSegment + reg_DI_32) == *(uint8_t*)(sourceSegment + reg_SI_32)) {
+				reg_0x00_8u = *(uint8_t*)(sourceSegment + reg_SI_32);
+				reg_DI_32 -= 8 / 8;reg_SI_32 -= 8 / 8;
+				reg_CX_32 -= 1;
+			}
+		} else if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF3) {
+			while (reg_CX_32 != 0 && *(uint8_t*)(targetSegment + reg_DI_32) != *(uint8_t*)(sourceSegment + reg_SI_32)) {
+				reg_0x00_8u = *(uint8_t*)(sourceSegment + reg_SI_32);
+				reg_DI_32 -= 8 / 8;reg_SI_32 -= 8 / 8;
+				reg_CX_32 -= 1;
+			}
+		} else {
+			reg_0x00_8u = *(uint8_t*)(sourceSegment + reg_SI_32);
+			reg_DI_32 -= 8 / 8;reg_SI_32 -= 8 / 8;
+			reg_CX_32 -= 1;
+		}
+		SET_FLAG(ZF, *(uint8_t*)(targetSegment + reg_DI_32) == *(uint8_t*)(sourceSegment + reg_SI_32));
+	} else {
+		if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF2) {
+			while (reg_CX_32 != 0 && *(uint8_t*)(targetSegment + reg_DI_32) == *(uint8_t*)(sourceSegment + reg_SI_32)) {
+				reg_0x00_8u = *(uint8_t*)(sourceSegment + reg_SI_32);
+				reg_DI_32 += 8 / 8;reg_SI_32 += 8 / 8;
+				reg_CX_32 -= 1;
+			}
+		} else if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF3) {
+			while (reg_CX_32 != 0 && *(uint8_t*)(targetSegment + reg_DI_32) != *(uint8_t*)(sourceSegment + reg_SI_32)) {
+				reg_0x00_8u = *(uint8_t*)(sourceSegment + reg_SI_32);
+				reg_DI_32 += 8 / 8;reg_SI_32 += 8 / 8;
+				reg_CX_32 -= 1;
+			}
+		} else {
+			reg_0x00_8u = *(uint8_t*)(sourceSegment + reg_SI_32);
+			reg_DI_32 += 8 / 8;reg_SI_32 += 8 / 8;
+			reg_CX_32 -= 1;
+		}
+		SET_FLAG(ZF, *(uint8_t*)(targetSegment + reg_DI_32) == *(uint8_t*)(sourceSegment + reg_SI_32));
+	}
+}
+//CMPS
+void handlerCommand32Code00A6P67() {
+	printf("CMPS");
+	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
+	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
+	uint8_t* targetSegment = mem(SR_ES);
+	if (GET_FLAG(DF)) {
+		if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF2) {
+			while (reg_CX_16 != 0 && *(uint8_t*)(targetSegment + reg_DI_16) == *(uint8_t*)(sourceSegment + reg_SI_16)) {
+				reg_0x00_8u = *(uint8_t*)(sourceSegment + reg_SI_16);
+				reg_DI_16 -= 8 / 8;reg_SI_16 -= 8 / 8;
+				reg_CX_16 -= 1;
+			}
+		} else if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF3) {
+			while (reg_CX_16 != 0 && *(uint8_t*)(targetSegment + reg_DI_16) != *(uint8_t*)(sourceSegment + reg_SI_16)) {
+				reg_0x00_8u = *(uint8_t*)(sourceSegment + reg_SI_16);
+				reg_DI_16 -= 8 / 8;reg_SI_16 -= 8 / 8;
+				reg_CX_16 -= 1;
+			}
+		} else {
+			reg_0x00_8u = *(uint8_t*)(sourceSegment + reg_SI_16);
+			reg_DI_16 -= 8 / 8;reg_SI_16 -= 8 / 8;
+			reg_CX_16 -= 1;
+		}
+		SET_FLAG(ZF, *(uint8_t*)(targetSegment + reg_DI_16) == *(uint8_t*)(sourceSegment + reg_SI_16));
+	} else {
+		if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF2) {
+			while (reg_CX_16 != 0 && *(uint8_t*)(targetSegment + reg_DI_16) == *(uint8_t*)(sourceSegment + reg_SI_16)) {
+				reg_0x00_8u = *(uint8_t*)(sourceSegment + reg_SI_16);
+				reg_DI_16 += 8 / 8;reg_SI_16 += 8 / 8;
+				reg_CX_16 -= 1;
+			}
+		} else if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF3) {
+			while (reg_CX_16 != 0 && *(uint8_t*)(targetSegment + reg_DI_16) != *(uint8_t*)(sourceSegment + reg_SI_16)) {
+				reg_0x00_8u = *(uint8_t*)(sourceSegment + reg_SI_16);
+				reg_DI_16 += 8 / 8;reg_SI_16 += 8 / 8;
+				reg_CX_16 -= 1;
+			}
+		} else {
+			reg_0x00_8u = *(uint8_t*)(sourceSegment + reg_SI_16);
+			reg_DI_16 += 8 / 8;reg_SI_16 += 8 / 8;
+			reg_CX_16 -= 1;
+		}
+		SET_FLAG(ZF, *(uint8_t*)(targetSegment + reg_DI_16) == *(uint8_t*)(sourceSegment + reg_SI_16));
+	}
+}
+//CMPS
+void handlerCommand32Code00A6() {
+	printf("CMPS");
+	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
+	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
+	uint8_t* targetSegment = mem(SR_ES);
+	if (GET_FLAG(DF)) {
+		if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF2) {
+			while (reg_CX_32 != 0 && *(uint8_t*)(targetSegment + reg_DI_32) == *(uint8_t*)(sourceSegment + reg_SI_32)) {
+				reg_0x00_8u = *(uint8_t*)(sourceSegment + reg_SI_32);
+				reg_DI_32 -= 8 / 8;reg_SI_32 -= 8 / 8;
+				reg_CX_32 -= 1;
+			}
+		} else if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF3) {
+			while (reg_CX_32 != 0 && *(uint8_t*)(targetSegment + reg_DI_32) != *(uint8_t*)(sourceSegment + reg_SI_32)) {
+				reg_0x00_8u = *(uint8_t*)(sourceSegment + reg_SI_32);
+				reg_DI_32 -= 8 / 8;reg_SI_32 -= 8 / 8;
+				reg_CX_32 -= 1;
+			}
+		} else {
+			reg_0x00_8u = *(uint8_t*)(sourceSegment + reg_SI_32);
+			reg_DI_32 -= 8 / 8;reg_SI_32 -= 8 / 8;
+			reg_CX_32 -= 1;
+		}
+		SET_FLAG(ZF, *(uint8_t*)(targetSegment + reg_DI_32) == *(uint8_t*)(sourceSegment + reg_SI_32));
+	} else {
+		if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF2) {
+			while (reg_CX_32 != 0 && *(uint8_t*)(targetSegment + reg_DI_32) == *(uint8_t*)(sourceSegment + reg_SI_32)) {
+				reg_0x00_8u = *(uint8_t*)(sourceSegment + reg_SI_32);
+				reg_DI_32 += 8 / 8;reg_SI_32 += 8 / 8;
+				reg_CX_32 -= 1;
+			}
+		} else if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF3) {
+			while (reg_CX_32 != 0 && *(uint8_t*)(targetSegment + reg_DI_32) != *(uint8_t*)(sourceSegment + reg_SI_32)) {
+				reg_0x00_8u = *(uint8_t*)(sourceSegment + reg_SI_32);
+				reg_DI_32 += 8 / 8;reg_SI_32 += 8 / 8;
+				reg_CX_32 -= 1;
+			}
+		} else {
+			reg_0x00_8u = *(uint8_t*)(sourceSegment + reg_SI_32);
+			reg_DI_32 += 8 / 8;reg_SI_32 += 8 / 8;
+			reg_CX_32 -= 1;
+		}
+		SET_FLAG(ZF, *(uint8_t*)(targetSegment + reg_DI_32) == *(uint8_t*)(sourceSegment + reg_SI_32));
+	}
+}
+//CMPS
+void handlerCommand32Code00A7P66P67() {
+	printf("CMPS");
+	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
+	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
+	uint8_t* targetSegment = mem(SR_ES);
+	if (GET_FLAG(DF)) {
+		if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF2) {
+			while (reg_CX_16 != 0 && *(uint16_t*)(targetSegment + reg_DI_16) == *(uint16_t*)(sourceSegment + reg_SI_16)) {
+				reg_0x00_16u = *(uint16_t*)(sourceSegment + reg_SI_16);
+				reg_DI_16 -= 16 / 8;reg_SI_16 -= 16 / 8;
+				reg_CX_16 -= 1;
+			}
+		} else if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF3) {
+			while (reg_CX_16 != 0 && *(uint16_t*)(targetSegment + reg_DI_16) != *(uint16_t*)(sourceSegment + reg_SI_16)) {
+				reg_0x00_16u = *(uint16_t*)(sourceSegment + reg_SI_16);
+				reg_DI_16 -= 16 / 8;reg_SI_16 -= 16 / 8;
+				reg_CX_16 -= 1;
+			}
+		} else {
+			reg_0x00_16u = *(uint16_t*)(sourceSegment + reg_SI_16);
+			reg_DI_16 -= 16 / 8;reg_SI_16 -= 16 / 8;
+			reg_CX_16 -= 1;
+		}
+		SET_FLAG(ZF, *(uint16_t*)(targetSegment + reg_DI_16) == *(uint16_t*)(sourceSegment + reg_SI_16));
+	} else {
+		if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF2) {
+			while (reg_CX_16 != 0 && *(uint16_t*)(targetSegment + reg_DI_16) == *(uint16_t*)(sourceSegment + reg_SI_16)) {
+				reg_0x00_16u = *(uint16_t*)(sourceSegment + reg_SI_16);
+				reg_DI_16 += 16 / 8;reg_SI_16 += 16 / 8;
+				reg_CX_16 -= 1;
+			}
+		} else if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF3) {
+			while (reg_CX_16 != 0 && *(uint16_t*)(targetSegment + reg_DI_16) != *(uint16_t*)(sourceSegment + reg_SI_16)) {
+				reg_0x00_16u = *(uint16_t*)(sourceSegment + reg_SI_16);
+				reg_DI_16 += 16 / 8;reg_SI_16 += 16 / 8;
+				reg_CX_16 -= 1;
+			}
+		} else {
+			reg_0x00_16u = *(uint16_t*)(sourceSegment + reg_SI_16);
+			reg_DI_16 += 16 / 8;reg_SI_16 += 16 / 8;
+			reg_CX_16 -= 1;
+		}
+		SET_FLAG(ZF, *(uint16_t*)(targetSegment + reg_DI_16) == *(uint16_t*)(sourceSegment + reg_SI_16));
+	}
+}
+//CMPS
+void handlerCommand32Code00A7P66() {
+	printf("CMPS");
+	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
+	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
+	uint8_t* targetSegment = mem(SR_ES);
+	if (GET_FLAG(DF)) {
+		if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF2) {
+			while (reg_CX_32 != 0 && *(uint16_t*)(targetSegment + reg_DI_32) == *(uint16_t*)(sourceSegment + reg_SI_32)) {
+				reg_0x00_16u = *(uint16_t*)(sourceSegment + reg_SI_32);
+				reg_DI_32 -= 16 / 8;reg_SI_32 -= 16 / 8;
+				reg_CX_32 -= 1;
+			}
+		} else if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF3) {
+			while (reg_CX_32 != 0 && *(uint16_t*)(targetSegment + reg_DI_32) != *(uint16_t*)(sourceSegment + reg_SI_32)) {
+				reg_0x00_16u = *(uint16_t*)(sourceSegment + reg_SI_32);
+				reg_DI_32 -= 16 / 8;reg_SI_32 -= 16 / 8;
+				reg_CX_32 -= 1;
+			}
+		} else {
+			reg_0x00_16u = *(uint16_t*)(sourceSegment + reg_SI_32);
+			reg_DI_32 -= 16 / 8;reg_SI_32 -= 16 / 8;
+			reg_CX_32 -= 1;
+		}
+		SET_FLAG(ZF, *(uint16_t*)(targetSegment + reg_DI_32) == *(uint16_t*)(sourceSegment + reg_SI_32));
+	} else {
+		if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF2) {
+			while (reg_CX_32 != 0 && *(uint16_t*)(targetSegment + reg_DI_32) == *(uint16_t*)(sourceSegment + reg_SI_32)) {
+				reg_0x00_16u = *(uint16_t*)(sourceSegment + reg_SI_32);
+				reg_DI_32 += 16 / 8;reg_SI_32 += 16 / 8;
+				reg_CX_32 -= 1;
+			}
+		} else if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF3) {
+			while (reg_CX_32 != 0 && *(uint16_t*)(targetSegment + reg_DI_32) != *(uint16_t*)(sourceSegment + reg_SI_32)) {
+				reg_0x00_16u = *(uint16_t*)(sourceSegment + reg_SI_32);
+				reg_DI_32 += 16 / 8;reg_SI_32 += 16 / 8;
+				reg_CX_32 -= 1;
+			}
+		} else {
+			reg_0x00_16u = *(uint16_t*)(sourceSegment + reg_SI_32);
+			reg_DI_32 += 16 / 8;reg_SI_32 += 16 / 8;
+			reg_CX_32 -= 1;
+		}
+		SET_FLAG(ZF, *(uint16_t*)(targetSegment + reg_DI_32) == *(uint16_t*)(sourceSegment + reg_SI_32));
+	}
+}
+//CMPS
+void handlerCommand32Code00A7P67() {
+	printf("CMPS");
+	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
+	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
+	uint8_t* targetSegment = mem(SR_ES);
+	if (GET_FLAG(DF)) {
+		if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF2) {
+			while (reg_CX_16 != 0 && *(uint32_t*)(targetSegment + reg_DI_16) == *(uint32_t*)(sourceSegment + reg_SI_16)) {
+				reg_0x00_32u = *(uint32_t*)(sourceSegment + reg_SI_16);
+				reg_DI_16 -= 32 / 8;reg_SI_16 -= 32 / 8;
+				reg_CX_16 -= 1;
+			}
+		} else if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF3) {
+			while (reg_CX_16 != 0 && *(uint32_t*)(targetSegment + reg_DI_16) != *(uint32_t*)(sourceSegment + reg_SI_16)) {
+				reg_0x00_32u = *(uint32_t*)(sourceSegment + reg_SI_16);
+				reg_DI_16 -= 32 / 8;reg_SI_16 -= 32 / 8;
+				reg_CX_16 -= 1;
+			}
+		} else {
+			reg_0x00_32u = *(uint32_t*)(sourceSegment + reg_SI_16);
+			reg_DI_16 -= 32 / 8;reg_SI_16 -= 32 / 8;
+			reg_CX_16 -= 1;
+		}
+		SET_FLAG(ZF, *(uint32_t*)(targetSegment + reg_DI_16) == *(uint32_t*)(sourceSegment + reg_SI_16));
+	} else {
+		if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF2) {
+			while (reg_CX_16 != 0 && *(uint32_t*)(targetSegment + reg_DI_16) == *(uint32_t*)(sourceSegment + reg_SI_16)) {
+				reg_0x00_32u = *(uint32_t*)(sourceSegment + reg_SI_16);
+				reg_DI_16 += 32 / 8;reg_SI_16 += 32 / 8;
+				reg_CX_16 -= 1;
+			}
+		} else if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF3) {
+			while (reg_CX_16 != 0 && *(uint32_t*)(targetSegment + reg_DI_16) != *(uint32_t*)(sourceSegment + reg_SI_16)) {
+				reg_0x00_32u = *(uint32_t*)(sourceSegment + reg_SI_16);
+				reg_DI_16 += 32 / 8;reg_SI_16 += 32 / 8;
+				reg_CX_16 -= 1;
+			}
+		} else {
+			reg_0x00_32u = *(uint32_t*)(sourceSegment + reg_SI_16);
+			reg_DI_16 += 32 / 8;reg_SI_16 += 32 / 8;
+			reg_CX_16 -= 1;
+		}
+		SET_FLAG(ZF, *(uint32_t*)(targetSegment + reg_DI_16) == *(uint32_t*)(sourceSegment + reg_SI_16));
+	}
+}
+//CMPS
+void handlerCommand32Code00A7() {
+	printf("CMPS");
+	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
+	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
+	uint8_t* targetSegment = mem(SR_ES);
+	if (GET_FLAG(DF)) {
+		if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF2) {
+			while (reg_CX_32 != 0 && *(uint32_t*)(targetSegment + reg_DI_32) == *(uint32_t*)(sourceSegment + reg_SI_32)) {
+				reg_0x00_32u = *(uint32_t*)(sourceSegment + reg_SI_32);
+				reg_DI_32 -= 32 / 8;reg_SI_32 -= 32 / 8;
+				reg_CX_32 -= 1;
+			}
+		} else if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF3) {
+			while (reg_CX_32 != 0 && *(uint32_t*)(targetSegment + reg_DI_32) != *(uint32_t*)(sourceSegment + reg_SI_32)) {
+				reg_0x00_32u = *(uint32_t*)(sourceSegment + reg_SI_32);
+				reg_DI_32 -= 32 / 8;reg_SI_32 -= 32 / 8;
+				reg_CX_32 -= 1;
+			}
+		} else {
+			reg_0x00_32u = *(uint32_t*)(sourceSegment + reg_SI_32);
+			reg_DI_32 -= 32 / 8;reg_SI_32 -= 32 / 8;
+			reg_CX_32 -= 1;
+		}
+		SET_FLAG(ZF, *(uint32_t*)(targetSegment + reg_DI_32) == *(uint32_t*)(sourceSegment + reg_SI_32));
+	} else {
+		if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF2) {
+			while (reg_CX_32 != 0 && *(uint32_t*)(targetSegment + reg_DI_32) == *(uint32_t*)(sourceSegment + reg_SI_32)) {
+				reg_0x00_32u = *(uint32_t*)(sourceSegment + reg_SI_32);
+				reg_DI_32 += 32 / 8;reg_SI_32 += 32 / 8;
+				reg_CX_32 -= 1;
+			}
+		} else if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF3) {
+			while (reg_CX_32 != 0 && *(uint32_t*)(targetSegment + reg_DI_32) != *(uint32_t*)(sourceSegment + reg_SI_32)) {
+				reg_0x00_32u = *(uint32_t*)(sourceSegment + reg_SI_32);
+				reg_DI_32 += 32 / 8;reg_SI_32 += 32 / 8;
+				reg_CX_32 -= 1;
+			}
+		} else {
+			reg_0x00_32u = *(uint32_t*)(sourceSegment + reg_SI_32);
+			reg_DI_32 += 32 / 8;reg_SI_32 += 32 / 8;
+			reg_CX_32 -= 1;
+		}
+		SET_FLAG(ZF, *(uint32_t*)(targetSegment + reg_DI_32) == *(uint32_t*)(sourceSegment + reg_SI_32));
 	}
 }
 //FPU
-void handlerCommand32Code00DD() {
+void handlerCommand32Code00DC() {
 	printf("FPU");
 	uint8_t mrmByte = read8u();
 	uint8_t nnn = readMiddle3Bit(mrmByte);
 	switch (nnn) {
 		case 0x00: {
 			if ((mrmByte >> 6 & 3) == 3) {
-				// NON FUNCTION
-				mCommandFunctionEmpty();
+				// OPA 100, OPB 000
+				// FPU Add
+				double* valueA = fpuStack + fpuStackIndex;
+				double* source = valueA;
+				double* valueB = fpuStack + fpuStackIndex + (mrmByte & 7);
+				double* target = valueB;
+				*target = (double)(((double)*valueA) + ((double)*valueB));
 			} else {
-				// OPA 101, OPB 000
-				// FPU Move
-				fpuStackIndex -= 1;
+				// OPA 100, OPB 000
+				// FPU Add
 				double* valueA = fpuStack + fpuStackIndex;
 				double* target = valueA;
 				double* valueB = (double*)readAddressMRM32For8(mrmByte);
 				double* source = valueB;
-				*target = *source;
+				*target = (double)(((double)*valueA) + ((double)*valueB));
 			}
 		}
 		break;
 		case 0x01: {
 			if ((mrmByte >> 6 & 3) == 3) {
-				// NON FUNCTION
-				mCommandFunctionEmpty();
+				// OPA 100, OPB 001
+				// FPU Mul
+				double* valueA = fpuStack + fpuStackIndex;
+				double* source = valueA;
+				double* valueB = fpuStack + fpuStackIndex + (mrmByte & 7);
+				double* target = valueB;
+				*target = (double)(((double)*valueA) * ((double)*valueB));
 			} else {
-				// NON FUNCTION
-				mCommandFunctionEmpty();
+				// OPA 100, OPB 001
+				// FPU Mul
+				double* valueA = fpuStack + fpuStackIndex;
+				double* target = valueA;
+				double* valueB = (double*)readAddressMRM32For8(mrmByte);
+				double* source = valueB;
+				*target = (double)(((double)*valueA) * ((double)*valueB));
 			}
 		}
 		break;
@@ -11071,13 +11860,8 @@ void handlerCommand32Code00DD() {
 				// NON FUNCTION
 				mCommandFunctionEmpty();
 			} else {
-				// OPA 101, OPB 010
-				// FPU Move
-				double* valueA = fpuStack + fpuStackIndex;
-				double* source = valueA;
-				double* valueB = (double*)readAddressMRM32For8(mrmByte);
-				double* target = valueB;
-				*target = *source;
+				// NON FUNCTION
+				mCommandFunctionEmpty();
 			}
 		}
 		break;
@@ -11086,54 +11870,88 @@ void handlerCommand32Code00DD() {
 				// NON FUNCTION
 				mCommandFunctionEmpty();
 			} else {
-				// OPA 101, OPB 011
-				// FPU Move
-				double* valueA = fpuStack + fpuStackIndex;
-				double* source = valueA;
-				double* valueB = (double*)readAddressMRM32For8(mrmByte);
-				double* target = valueB;
-				fpuStackIndex += 1;
-				*target = *source;
+				// NON FUNCTION
+				mCommandFunctionEmpty();
 			}
 		}
 		break;
 		case 0x04: {
 			if ((mrmByte >> 6 & 3) == 3) {
-				// NON FUNCTION
-				mCommandFunctionEmpty();
+				// OPA 100, OPB 100
+				// FPU Sub
+				double* valueA = fpuStack + fpuStackIndex;
+				double* source = valueA;
+				double* valueB = fpuStack + fpuStackIndex + (mrmByte & 7);
+				double* target = valueB;
+				*target = (double)(((double)*valueA) - ((double)*valueB));
 			} else {
-				// NON FUNCTION
-				mCommandFunctionEmpty();
+				// OPA 100, OPB 100
+				// FPU Sub
+				double* valueA = fpuStack + fpuStackIndex;
+				double* target = valueA;
+				double* valueB = (double*)readAddressMRM32For8(mrmByte);
+				double* source = valueB;
+				*target = (double)(((double)*valueA) - ((double)*valueB));
 			}
 		}
 		break;
 		case 0x05: {
 			if ((mrmByte >> 6 & 3) == 3) {
-				// NON FUNCTION
-				mCommandFunctionEmpty();
+				// OPA 100, OPB 101
+				// FPU Sub
+				double* valueA = fpuStack + fpuStackIndex;
+				double* source = valueA;
+				double* valueB = fpuStack + fpuStackIndex + (mrmByte & 7);
+				double* target = valueB;
+				*target = (double)(((double)*valueB) + ((double)*valueA));
 			} else {
-				// NON FUNCTION
-				mCommandFunctionEmpty();
+				// OPA 100, OPB 101
+				// FPU Sub
+				double* valueA = fpuStack + fpuStackIndex;
+				double* target = valueA;
+				double* valueB = (double*)readAddressMRM32For8(mrmByte);
+				double* source = valueB;
+				*target = (double)(((double)*valueB) + ((double)*valueA));
 			}
 		}
 		break;
 		case 0x06: {
 			if ((mrmByte >> 6 & 3) == 3) {
-				// NON FUNCTION
-				mCommandFunctionEmpty();
+				// OPA 100, OPB 110
+				// FPU Div
+				double* valueA = fpuStack + fpuStackIndex;
+				double* source = valueA;
+				double* valueB = fpuStack + fpuStackIndex + (mrmByte & 7);
+				double* target = valueB;
+				*target = (double)(((double)*valueA) / ((double)*valueB));
 			} else {
-				// NON FUNCTION
-				mCommandFunctionEmpty();
+				// OPA 100, OPB 110
+				// FPU Div
+				double* valueA = fpuStack + fpuStackIndex;
+				double* target = valueA;
+				double* valueB = (double*)readAddressMRM32For8(mrmByte);
+				double* source = valueB;
+				*target = (double)(((double)*valueA) / ((double)*valueB));
 			}
 		}
 		break;
 		case 0x07: {
 			if ((mrmByte >> 6 & 3) == 3) {
-				// NON FUNCTION
-				mCommandFunctionEmpty();
+				// OPA 100, OPB 111
+				// FPU Div
+				double* valueA = fpuStack + fpuStackIndex;
+				double* source = valueA;
+				double* valueB = fpuStack + fpuStackIndex + (mrmByte & 7);
+				double* target = valueB;
+				*target = (double)(((double)*valueB) / ((double)*valueA));
 			} else {
-				// NON FUNCTION
-				mCommandFunctionEmpty();
+				// OPA 100, OPB 111
+				// FPU Div
+				double* valueA = fpuStack + fpuStackIndex;
+				double* target = valueA;
+				double* valueB = (double*)readAddressMRM32For8(mrmByte);
+				double* source = valueB;
+				*target = (double)(((double)*valueB) / ((double)*valueA));
 			}
 		}
 		break;
@@ -11298,48 +12116,34 @@ void handlerCommand32Code00DE() {
 	}
 }
 //FPU
-void handlerCommand32Code00DC() {
+void handlerCommand32Code00DB() {
 	printf("FPU");
 	uint8_t mrmByte = read8u();
 	uint8_t nnn = readMiddle3Bit(mrmByte);
 	switch (nnn) {
 		case 0x00: {
 			if ((mrmByte >> 6 & 3) == 3) {
-				// OPA 100, OPB 000
-				// FPU Add
-				double* valueA = fpuStack + fpuStackIndex;
-				double* source = valueA;
-				double* valueB = fpuStack + fpuStackIndex + (mrmByte & 7);
-				double* target = valueB;
-				*target = (double)(((double)*valueA) + ((double)*valueB));
+				// NON FUNCTION
+				mCommandFunctionEmpty();
 			} else {
-				// OPA 100, OPB 000
-				// FPU Add
+				// OPA 011, OPB 000
+				// FPU Move
+				fpuStackIndex -= 1;
 				double* valueA = fpuStack + fpuStackIndex;
 				double* target = valueA;
-				double* valueB = (double*)readAddressMRM32For8(mrmByte);
-				double* source = valueB;
-				*target = (double)(((double)*valueA) + ((double)*valueB));
+				int32_t* valueB = (int32_t*)readAddressMRM32For8(mrmByte);
+				int32_t* source = valueB;
+				*target = *source;
 			}
 		}
 		break;
 		case 0x01: {
 			if ((mrmByte >> 6 & 3) == 3) {
-				// OPA 100, OPB 001
-				// FPU Mul
-				double* valueA = fpuStack + fpuStackIndex;
-				double* source = valueA;
-				double* valueB = fpuStack + fpuStackIndex + (mrmByte & 7);
-				double* target = valueB;
-				*target = (double)(((double)*valueA) * ((double)*valueB));
+				// NON FUNCTION
+				mCommandFunctionEmpty();
 			} else {
-				// OPA 100, OPB 001
-				// FPU Mul
-				double* valueA = fpuStack + fpuStackIndex;
-				double* target = valueA;
-				double* valueB = (double*)readAddressMRM32For8(mrmByte);
-				double* source = valueB;
-				*target = (double)(((double)*valueA) * ((double)*valueB));
+				// NON FUNCTION
+				mCommandFunctionEmpty();
 			}
 		}
 		break;
@@ -11348,8 +12152,13 @@ void handlerCommand32Code00DC() {
 				// NON FUNCTION
 				mCommandFunctionEmpty();
 			} else {
-				// NON FUNCTION
-				mCommandFunctionEmpty();
+				// OPA 011, OPB 010
+				// FPU Move
+				double* valueA = fpuStack + fpuStackIndex;
+				double* source = valueA;
+				int32_t* valueB = (int32_t*)readAddressMRM32For8(mrmByte);
+				int32_t* target = valueB;
+				*target = *source;
 			}
 		}
 		break;
@@ -11358,88 +12167,52 @@ void handlerCommand32Code00DC() {
 				// NON FUNCTION
 				mCommandFunctionEmpty();
 			} else {
-				// NON FUNCTION
-				mCommandFunctionEmpty();
+				// OPA 011, OPB 011
+				// FPU Move
+				double* valueA = fpuStack + fpuStackIndex;
+				double* source = valueA;
+				int32_t* valueB = (int32_t*)readAddressMRM32For8(mrmByte);
+				int32_t* target = valueB;
+				fpuStackIndex += 1;
+				*target = *source;
 			}
 		}
 		break;
 		case 0x04: {
 			if ((mrmByte >> 6 & 3) == 3) {
-				// OPA 100, OPB 100
-				// FPU Sub
-				double* valueA = fpuStack + fpuStackIndex;
-				double* source = valueA;
-				double* valueB = fpuStack + fpuStackIndex + (mrmByte & 7);
-				double* target = valueB;
-				*target = (double)(((double)*valueA) - ((double)*valueB));
+				// NON FUNCTION
+				mCommandFunctionEmpty();
 			} else {
-				// OPA 100, OPB 100
-				// FPU Sub
-				double* valueA = fpuStack + fpuStackIndex;
-				double* target = valueA;
-				double* valueB = (double*)readAddressMRM32For8(mrmByte);
-				double* source = valueB;
-				*target = (double)(((double)*valueA) - ((double)*valueB));
+				// NON FUNCTION
+				mCommandFunctionEmpty();
 			}
 		}
 		break;
 		case 0x05: {
 			if ((mrmByte >> 6 & 3) == 3) {
-				// OPA 100, OPB 101
-				// FPU Sub
-				double* valueA = fpuStack + fpuStackIndex;
-				double* source = valueA;
-				double* valueB = fpuStack + fpuStackIndex + (mrmByte & 7);
-				double* target = valueB;
-				*target = (double)(((double)*valueB) + ((double)*valueA));
+				// NON FUNCTION
+				mCommandFunctionEmpty();
 			} else {
-				// OPA 100, OPB 101
-				// FPU Sub
-				double* valueA = fpuStack + fpuStackIndex;
-				double* target = valueA;
-				double* valueB = (double*)readAddressMRM32For8(mrmByte);
-				double* source = valueB;
-				*target = (double)(((double)*valueB) + ((double)*valueA));
+				// NON FUNCTION
+				mCommandFunctionEmpty();
 			}
 		}
 		break;
 		case 0x06: {
 			if ((mrmByte >> 6 & 3) == 3) {
-				// OPA 100, OPB 110
-				// FPU Div
-				double* valueA = fpuStack + fpuStackIndex;
-				double* source = valueA;
-				double* valueB = fpuStack + fpuStackIndex + (mrmByte & 7);
-				double* target = valueB;
-				*target = (double)(((double)*valueA) / ((double)*valueB));
+				// NON FUNCTION
+				mCommandFunctionEmpty();
 			} else {
-				// OPA 100, OPB 110
-				// FPU Div
-				double* valueA = fpuStack + fpuStackIndex;
-				double* target = valueA;
-				double* valueB = (double*)readAddressMRM32For8(mrmByte);
-				double* source = valueB;
-				*target = (double)(((double)*valueA) / ((double)*valueB));
+				// NON FUNCTION
+				mCommandFunctionEmpty();
 			}
 		}
 		break;
 		case 0x07: {
 			if ((mrmByte >> 6 & 3) == 3) {
-				// OPA 100, OPB 111
-				// FPU Div
-				double* valueA = fpuStack + fpuStackIndex;
-				double* source = valueA;
-				double* valueB = fpuStack + fpuStackIndex + (mrmByte & 7);
-				double* target = valueB;
-				*target = (double)(((double)*valueB) / ((double)*valueA));
+				*(uint16_t*)readAddressMRM32For16(mrmByte) = fpuRegControll;
 			} else {
-				// OPA 100, OPB 111
-				// FPU Div
-				double* valueA = fpuStack + fpuStackIndex;
-				double* target = valueA;
-				double* valueB = (double*)readAddressMRM32For8(mrmByte);
-				double* source = valueB;
-				*target = (double)(((double)*valueB) / ((double)*valueA));
+				*(uint16_t*)readAddressMRM32For16(mrmByte) = fpuRegControll;
 			}
 		}
 		break;
@@ -11598,114 +12371,6 @@ void handlerCommand32Code00D8() {
 	}
 }
 //FPU
-void handlerCommand32Code00D9() {
-	printf("FPU");
-	uint8_t mrmByte = read8u();
-	uint8_t nnn = readMiddle3Bit(mrmByte);
-	switch (nnn) {
-		case 0x00: {
-			if ((mrmByte >> 6 & 3) == 3) {
-				// OPA 001, OPB 000
-				// FPU Move
-				double* valueA = fpuStack + fpuStackIndex;
-				double* target = valueA;
-				double* valueB = fpuStack + fpuStackIndex + (mrmByte & 7);
-				double* source = valueB;
-				*target = *source;
-			} else {
-				// OPA 001, OPB 000
-				// FPU Move
-				fpuStackIndex -= 1;
-				double* valueA = fpuStack + fpuStackIndex;
-				double* target = valueA;
-				float* valueB = (float*)readAddressMRM32For8(mrmByte);
-				float* source = valueB;
-				*target = *source;
-			}
-		}
-		break;
-		case 0x01: {
-			if ((mrmByte >> 6 & 3) == 3) {
-				// NON FUNCTION
-				mCommandFunctionEmpty();
-			} else {
-				// NON FUNCTION
-				mCommandFunctionEmpty();
-			}
-		}
-		break;
-		case 0x02: {
-			if ((mrmByte >> 6 & 3) == 3) {
-				// NON FUNCTION
-				mCommandFunctionEmpty();
-			} else {
-				// OPA 001, OPB 010
-				// FPU Move
-				double* valueA = fpuStack + fpuStackIndex;
-				double* source = valueA;
-				float* valueB = (float*)readAddressMRM32For8(mrmByte);
-				float* target = valueB;
-				*target = *source;
-			}
-		}
-		break;
-		case 0x03: {
-			if ((mrmByte >> 6 & 3) == 3) {
-				// NON FUNCTION
-				mCommandFunctionEmpty();
-			} else {
-				// OPA 001, OPB 011
-				// FPU Move
-				double* valueA = fpuStack + fpuStackIndex;
-				double* source = valueA;
-				float* valueB = (float*)readAddressMRM32For8(mrmByte);
-				float* target = valueB;
-				fpuStackIndex += 1;
-				*target = *source;
-			}
-		}
-		break;
-		case 0x04: {
-			if ((mrmByte >> 6 & 3) == 3) {
-				// NON FUNCTION
-				mCommandFunctionEmpty();
-			} else {
-				// NON FUNCTION
-				mCommandFunctionEmpty();
-			}
-		}
-		break;
-		case 0x05: {
-			if ((mrmByte >> 6 & 3) == 3) {
-				fpuRegControll = *(uint16_t*)readAddressMRM32For16(mrmByte);
-			} else {
-				fpuRegControll = *(uint16_t*)readAddressMRM32For16(mrmByte);
-			}
-		}
-		break;
-		case 0x06: {
-			if ((mrmByte >> 6 & 3) == 3) {
-				// NON FUNCTION
-				mCommandFunctionEmpty();
-			} else {
-				// NON FUNCTION
-				mCommandFunctionEmpty();
-			}
-		}
-		break;
-		case 0x07: {
-			if ((mrmByte >> 6 & 3) == 3) {
-				*(uint16_t*)readAddressMRM32For16(mrmByte) = fpuRegControll;
-			} else {
-				*(uint16_t*)readAddressMRM32For16(mrmByte) = fpuRegControll;
-			}
-		}
-		break;
-		default:
-		mCommandFunctionEmpty();
-	}
-}
-//FPU
 void handlerCommand32Code00DA() {
 	printf("FPU");
 	uint8_t mrmByte = read8u();
@@ -11818,6 +12483,221 @@ void handlerCommand32Code00DA() {
 				int32_t* valueB = (int32_t*)readAddressMRM32For8(mrmByte);
 				int32_t* source = valueB;
 				*target = (double)(((double)*valueB) / ((double)*valueA));
+			}
+		}
+		break;
+		default:
+		mCommandFunctionEmpty();
+	}
+}
+//FPU
+void handlerCommand32Code00DD() {
+	printf("FPU");
+	uint8_t mrmByte = read8u();
+	uint8_t nnn = readMiddle3Bit(mrmByte);
+	switch (nnn) {
+		case 0x00: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			} else {
+				// OPA 101, OPB 000
+				// FPU Move
+				fpuStackIndex -= 1;
+				double* valueA = fpuStack + fpuStackIndex;
+				double* target = valueA;
+				double* valueB = (double*)readAddressMRM32For8(mrmByte);
+				double* source = valueB;
+				*target = *source;
+			}
+		}
+		break;
+		case 0x01: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			} else {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			}
+		}
+		break;
+		case 0x02: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			} else {
+				// OPA 101, OPB 010
+				// FPU Move
+				double* valueA = fpuStack + fpuStackIndex;
+				double* source = valueA;
+				double* valueB = (double*)readAddressMRM32For8(mrmByte);
+				double* target = valueB;
+				*target = *source;
+			}
+		}
+		break;
+		case 0x03: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			} else {
+				// OPA 101, OPB 011
+				// FPU Move
+				double* valueA = fpuStack + fpuStackIndex;
+				double* source = valueA;
+				double* valueB = (double*)readAddressMRM32For8(mrmByte);
+				double* target = valueB;
+				fpuStackIndex += 1;
+				*target = *source;
+			}
+		}
+		break;
+		case 0x04: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			} else {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			}
+		}
+		break;
+		case 0x05: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			} else {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			}
+		}
+		break;
+		case 0x06: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			} else {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			}
+		}
+		break;
+		case 0x07: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			} else {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			}
+		}
+		break;
+		default:
+		mCommandFunctionEmpty();
+	}
+}
+//FPU
+void handlerCommand32Code00D9() {
+	printf("FPU");
+	uint8_t mrmByte = read8u();
+	uint8_t nnn = readMiddle3Bit(mrmByte);
+	switch (nnn) {
+		case 0x00: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				// OPA 001, OPB 000
+				// FPU Move
+				double* valueA = fpuStack + fpuStackIndex;
+				double* target = valueA;
+				double* valueB = fpuStack + fpuStackIndex + (mrmByte & 7);
+				double* source = valueB;
+				*target = *source;
+			} else {
+				// OPA 001, OPB 000
+				// FPU Move
+				fpuStackIndex -= 1;
+				double* valueA = fpuStack + fpuStackIndex;
+				double* target = valueA;
+				float* valueB = (float*)readAddressMRM32For8(mrmByte);
+				float* source = valueB;
+				*target = *source;
+			}
+		}
+		break;
+		case 0x01: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			} else {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			}
+		}
+		break;
+		case 0x02: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			} else {
+				// OPA 001, OPB 010
+				// FPU Move
+				double* valueA = fpuStack + fpuStackIndex;
+				double* source = valueA;
+				float* valueB = (float*)readAddressMRM32For8(mrmByte);
+				float* target = valueB;
+				*target = *source;
+			}
+		}
+		break;
+		case 0x03: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			} else {
+				// OPA 001, OPB 011
+				// FPU Move
+				double* valueA = fpuStack + fpuStackIndex;
+				double* source = valueA;
+				float* valueB = (float*)readAddressMRM32For8(mrmByte);
+				float* target = valueB;
+				fpuStackIndex += 1;
+				*target = *source;
+			}
+		}
+		break;
+		case 0x04: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			} else {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			}
+		}
+		break;
+		case 0x05: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				fpuRegControll = *(uint16_t*)readAddressMRM32For16(mrmByte);
+			} else {
+				fpuRegControll = *(uint16_t*)readAddressMRM32For16(mrmByte);
+			}
+		}
+		break;
+		case 0x06: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			} else {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
+			}
+		}
+		break;
+		case 0x07: {
+			if ((mrmByte >> 6 & 3) == 3) {
+				*(uint16_t*)readAddressMRM32For16(mrmByte) = fpuRegControll;
+			} else {
+				*(uint16_t*)readAddressMRM32For16(mrmByte) = fpuRegControll;
 			}
 		}
 		break;
@@ -12180,13 +13060,17 @@ void installCommandFunction() {
 	commandFunctions16[173] = handlerCommand16Code00AD;
 	commandFunctions16[170] = handlerCommand16Code00AA;
 	commandFunctions16[171] = handlerCommand16Code00AB;
-	commandFunctions16[219] = handlerCommand16Code00DB;
-	commandFunctions16[221] = handlerCommand16Code00DD;
-	commandFunctions16[222] = handlerCommand16Code00DE;
+	commandFunctions16[174] = handlerCommand16Code00AE;
+	commandFunctions16[175] = handlerCommand16Code00AF;
+	commandFunctions16[166] = handlerCommand16Code00A6;
+	commandFunctions16[167] = handlerCommand16Code00A7;
 	commandFunctions16[220] = handlerCommand16Code00DC;
+	commandFunctions16[222] = handlerCommand16Code00DE;
+	commandFunctions16[219] = handlerCommand16Code00DB;
 	commandFunctions16[216] = handlerCommand16Code00D8;
-	commandFunctions16[217] = handlerCommand16Code00D9;
 	commandFunctions16[218] = handlerCommand16Code00DA;
+	commandFunctions16[221] = handlerCommand16Code00DD;
+	commandFunctions16[217] = handlerCommand16Code00D9;
 	commandFunctions16[223] = handlerCommand16Code00DF;
 	commandFunctions32[136] = handlerCommand32Code0088;
 	commandFunctions32[136 | 0x0400] = handlerCommand32Code0088P66;
@@ -12655,12 +13539,28 @@ void installCommandFunction() {
 	commandFunctions32[171 | 0x0200 ] = handlerCommand32Code00ABP67;
 	commandFunctions32[171 | 0x0400] = handlerCommand32Code00ABP66;
 	commandFunctions32[171 | 0x0200 | 0x0400] = handlerCommand32Code00ABP66P67;
-	commandFunctions32[219] = handlerCommand32Code00DB;
-	commandFunctions32[221] = handlerCommand32Code00DD;
-	commandFunctions32[222] = handlerCommand32Code00DE;
+	commandFunctions32[174] = handlerCommand32Code00AE;
+	commandFunctions32[174 | 0x0200 ] = handlerCommand32Code00AEP67;
+	commandFunctions32[174 | 0x0400] = handlerCommand32Code00AEP66;
+	commandFunctions32[174 | 0x0200 | 0x0400] = handlerCommand32Code00AEP66P67;
+	commandFunctions32[175] = handlerCommand32Code00AF;
+	commandFunctions32[175 | 0x0200 ] = handlerCommand32Code00AFP67;
+	commandFunctions32[175 | 0x0400] = handlerCommand32Code00AFP66;
+	commandFunctions32[175 | 0x0200 | 0x0400] = handlerCommand32Code00AFP66P67;
+	commandFunctions32[166] = handlerCommand32Code00A6;
+	commandFunctions32[166 | 0x0200 ] = handlerCommand32Code00A6P67;
+	commandFunctions32[166 | 0x0400] = handlerCommand32Code00A6P66;
+	commandFunctions32[166 | 0x0200 | 0x0400] = handlerCommand32Code00A6P66P67;
+	commandFunctions32[167] = handlerCommand32Code00A7;
+	commandFunctions32[167 | 0x0200 ] = handlerCommand32Code00A7P67;
+	commandFunctions32[167 | 0x0400] = handlerCommand32Code00A7P66;
+	commandFunctions32[167 | 0x0200 | 0x0400] = handlerCommand32Code00A7P66P67;
 	commandFunctions32[220] = handlerCommand32Code00DC;
+	commandFunctions32[222] = handlerCommand32Code00DE;
+	commandFunctions32[219] = handlerCommand32Code00DB;
 	commandFunctions32[216] = handlerCommand32Code00D8;
-	commandFunctions32[217] = handlerCommand32Code00D9;
 	commandFunctions32[218] = handlerCommand32Code00DA;
+	commandFunctions32[221] = handlerCommand32Code00DD;
+	commandFunctions32[217] = handlerCommand32Code00D9;
 	commandFunctions32[223] = handlerCommand32Code00DF;
 }

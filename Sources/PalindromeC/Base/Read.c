@@ -43,8 +43,12 @@ uint32_t read32u() {
     return read;
 }
 
+uint16_t debugSegmentShift = 0;
+
+#define DEBUG_SEGEMTN_SHIFT - debugSegmentShift
+
 uint8_t* mem(uint8_t reg) {
-    return context.program + (context.segmentRegisters[reg] & 8191) * 16;
+    return context.program + (context.segmentRegisters[reg] DEBUG_SEGEMTN_SHIFT) * 16;
 }
 
 uint8_t* memWithReplace(uint8_t reg) {

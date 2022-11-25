@@ -20,6 +20,8 @@ int32_t read32();
 uint32_t read32u();
 
 
+extern uint16_t debugSegmentShift;
+
 uint8_t* memWithReplace(uint8_t reg);
 uint8_t* mem(uint8_t reg);
 void setMem(uint8_t reg, uint16_t mem);

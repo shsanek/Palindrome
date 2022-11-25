@@ -38,3 +38,21 @@ func printAllCommands() {
         encoding: .utf8
     )
 }
+
+extension String {
+    func getErrorCommand(source: String) -> Int? {
+        let raws1 = self.split(separator: "\n")
+        let raws2 = source.split(separator: "\n")
+
+        var index = 0
+
+        while (index < raws1.count && index < raws2.count && raws2[index] == raws1[index]) {
+            index += 1
+        }
+
+        if (index == raws1.count && index == raws2.count) {
+            return nil
+        }
+        return index / 2
+    }
+}

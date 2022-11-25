@@ -254,11 +254,36 @@ final class FirstTest: XCTestCase {
 
         let result = String(cString: value!)
 
-        // try! result.write(toFile: testPath, atomically: true, encoding: .utf8)
+        //try! result.write(toFile: testPath, atomically: true, encoding: .utf8)
 
         value?.deallocate()
 
-        TAssert(result == String(data: try! Data(contentsOf: URL(fileURLWithPath: testPath)), encoding: .utf8))
+        let source = String(data: try! Data(contentsOf: URL(fileURLWithPath: testPath)), encoding: .utf8)!
+        let error = result.getErrorCommand(source: source)
+        TAssert(error == nil)
+    }
+
+    func test08() throws {
+        let wrapContext = WrapContext(memorySize: 4 * 1024 * 1024)
+        wrapContext.context?[0].mod = 1
+
+        let programm = try! Data(
+            contentsOf: URL.init(
+                fileURLWithPath: "/Users/alexandershipin/Downloads/doom/doom.exe"
+            )
+        )
+        wrapContext.setMemory(programm, offset: 512)
+
+        loadDosHeader()
+//        let value = run16AndSaveToEndWithStop(104)
+//
+//        let result = String(cString: value!)
+//
+//        // try! result.write(toFile: testPath, atomically: true, encoding: .utf8)
+//
+//        value?.deallocate()
+//
+//        TAssert(result == String(data: try! Data(contentsOf: URL(fileURLWithPath: testPath)), encoding: .utf8))
     }
 }
 

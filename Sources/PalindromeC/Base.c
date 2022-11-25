@@ -188,7 +188,7 @@ char* print16Registers();
 #define PRINT16_REGS { char* out = print16Registers(); printf("%s", out); free(out); }
 void run16ToEndWithStop(int count) {
     PRINT16_REGS
-    
+    // step 82|
     context.mod = 0;
     clearDebugCommands();
     int index = 0;

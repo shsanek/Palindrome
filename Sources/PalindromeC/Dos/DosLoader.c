@@ -9,6 +9,7 @@
 #include "../include/Base.h"
 #include "../Base/Read.h"
 #include <stdlib.h>
+#include "DosExeHeader.h"
 
 typedef struct DOSHeader {
     /// 0000h
@@ -87,31 +88,35 @@ void loadDosHeader() {
     header.fragmentNumber = read16u();
     uint16_t* offsets = malloc(2 * header.numberOfShiftElement);
 
-    setMem(SR_SS, header.stackAddress);
+    for (int i = 0; i < header.numberOfShiftElement; i++) { // 178E
+        offsets[i * 2] = ((uint16_t*)(start + header.tableShiftAddress))[i * 2];
+        offsets[i * 2 + 1] = ((uint16_t*)(start + header.tableShiftAddress))[i * 2 + 1];
+    }
+
+    debugSegmentShift = 0x179E;
+
+    setMem(SR_DS, 0x179E - 0x0010);
+    setMem(SR_ES, 0x179E - 0x0010);
+
+    context.program = ((uint8_t*)start) + header.headerParagraphSize * 16;
+
+    setMem(SR_SS, header.stackAddress + debugSegmentShift);
     reg_SP_16u = header.stackIndexAddress;
 
-    setMem(SR_CS, header.codeAddress);
-    context.program = context.memory + header.headerParagraphSize * 16;
+    setMem(SR_CS, header.codeAddress + debugSegmentShift);
     context.index = mem(SR_CS) + header.codeAddressIndex;
 
     for (int i = 0; i < header.numberOfShiftElement; i++) {
-        offsets[i * 2] = read16u();
-        offsets[i * 2 + 1] = read16u();
+        uint16_t offset = offsets[i * 2] + offsets[i * 2 + 1] * 16;
+        *(uint16_t*)(context.program + offset) = *(uint16_t*)(context.program + offset) + debugSegmentShift;
     }
 
-    printf("\n");
-    for (int i = 0; i < 1000; i++) {
-        char a[3] = {0, 0, 0};
-        sprintf(&a, "%X", context.index[i]);
-        if (a[1] == 0) {
-            printf("0%c", a[0]);
-        } else {
-            printf("%c%c", a[0], a[1]);
-        }
+    for (int i = 0; i < 512; i++) {
+        *(context.program - 512 + i) = dosExeHeaderDamp[i];
     }
     printf("\n");
 
     printf("start\n");
-    run16ToEnd();
+    run16ToEndWithStop(1000);
     printf("end\n");
 }

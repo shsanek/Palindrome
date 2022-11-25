@@ -183,7 +183,7 @@ fileprivate let pushSegRegCommand = Command(
             .vars,
             .settings([.bigAddress]),
             """
-            reg_SP_%addressSizeu -= 16;
+            reg_SP_%addressSizeu -= 16 / 8;
             *(uint16_t*)(mem(SR_SS) + reg_SP_%addressSizeu) = context.segmentRegisters[rg];
             """
         ]
@@ -208,7 +208,7 @@ fileprivate let popSegRegCommand = Command(
             .settings([.bigAddress]),
             """
             context.segmentRegisters[rg] = *(uint16_t*)(mem(SR_SS) + reg_SP_%addressSizeu);
-            reg_SP_%addressSizeu += 16;
+            reg_SP_%addressSizeu += 16 / 8;
             """
         ]
     ),
