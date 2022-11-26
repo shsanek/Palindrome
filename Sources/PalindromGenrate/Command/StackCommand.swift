@@ -16,8 +16,9 @@ fileprivate let pushRegCommand = Command(
             .vars,
             .settings([.bigData, .bigAddress]),
             """
+            uint%dataSize_t value = reg_%reg_%dataSizeu;
             reg_SP_%addressSizeu -= %dataSize / 8;
-            *(uint%dataSize_t*)(mem(SR_SS) + reg_SP_%addressSizeu) = reg_%reg_%dataSizeu;
+            *(uint%dataSize_t*)(mem(SR_SS) + reg_SP_%addressSizeu) = value;
             """
         ]
     ),
@@ -94,9 +95,20 @@ fileprivate let oftherCommand = Command(
                         .settings([.bigAddress ,.changeableData]),
                         "// MOVEL",
                         .formatter(targetMRMFormat),
-                        "*target = read%dataSizeu();"
+                        "*(uint%dataSize_t*)target = read%dataSizeu();"
                     ]
                 )
+                ),
+                (
+                    code: "0x4",
+                    formatter: Formatter(
+                        customizers: [
+                            .settings([.bigData]),
+                            "// JMP",
+                            .formatter(targetMRMFormat),
+                            "context.index = mem(SR_CS) + (*((uint%dataSize_t*)target));"
+                        ]
+                    )
                 ),
                 (code: "0x6",
                  formatter: Formatter(
@@ -215,6 +227,50 @@ fileprivate let popSegRegCommand = Command(
     installFormatter: InitialFormatter()
 )
 
+fileprivate let pushFlagRegCommand = Command(
+    code: 0x009C,
+    name: "PUSHF",
+    format: .init(
+        hasPrefixAddress: false,
+        hasPrefixData: false,
+        inlines: []
+    ),
+    functionFormatter: Formatter(
+        customizers: [
+            .functionName,
+            .vars,
+            .settings([.bigAddress]),
+            """
+            reg_SP_%addressSizeu -= %MOD / 8;
+            *(uint%MOD_t*)(mem(SR_SS) + reg_SP_%addressSizeu) = *(uint%MOD_t*)(&reg_flags);
+            """
+        ]
+    ),
+    installFormatter: InitialFormatter()
+)
+
+fileprivate let popFlagRegCommand = Command(
+    code: 0x009D,
+    name: "POPF",
+    format: .init(
+        hasPrefixAddress: false,
+        hasPrefixData: false,
+        inlines: []
+    ),
+    functionFormatter: Formatter(
+        customizers: [
+            .functionName,
+            .vars,
+            .settings([.bigAddress]),
+            """
+            *(uint%MOD_t*)(&reg_flags) = *(uint%MOD_t*)(mem(SR_SS) + reg_SP_%addressSizeu);
+            reg_SP_%addressSizeu += %MOD / 8;
+            """
+        ]
+    ),
+    installFormatter: InitialFormatter()
+)
+
 func appendStackCommand(generator: Generator) {
     generator.addCommand(pushRegCommand)
     generator.addCommand(popRegCommand)
@@ -225,4 +281,7 @@ func appendStackCommand(generator: Generator) {
 
     generator.addCommand(popSegRegCommand)
     generator.addCommand(pushSegRegCommand)
+
+    generator.addCommand(pushFlagRegCommand)
+    generator.addCommand(popFlagRegCommand)
 }

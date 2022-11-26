@@ -1483,7 +1483,7 @@ void handlerCommand16Code008F() {
 	switch (nnn) {
 		case 0x00: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
-			*target = *(uint16_t*)(mem(SR_SS) + reg_SP_16u);
+			*(uint16_t*)target = *(uint16_t*)(mem(SR_SS) + reg_SP_16u);
 			reg_SP_16u += 16 / 8;
 		}
 		break;
@@ -1562,6 +1562,18 @@ void handlerCommand16Code0098() {
 void handlerCommand16Code0099() {
 	printf("CBW");
 	if (reg_AX_16 & 0x8000) reg_DX_16=0xffff;else reg_DX_16=0;
+}
+//PUSHF
+void handlerCommand16Code009C() {
+	printf("PUSHF");
+	reg_SP_16u -= 16 / 8;
+	*(uint16_t*)(mem(SR_SS) + reg_SP_16u) = *(uint16_t*)(&reg_flags);
+}
+//POPF
+void handlerCommand16Code009D() {
+	printf("POPF");
+	*(uint16_t*)(&reg_flags) = *(uint16_t*)(mem(SR_SS) + reg_SP_16u);
+	reg_SP_16u += 16 / 8;
 }
 //Move
 void handlerCommand16Code00A0() {
@@ -3882,7 +3894,13 @@ void handlerCommand16Code00FF() {
 		case 0x00: {
 			// MOVEL
 			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
-			*target = read8u();
+			*(uint8_t*)target = read8u();
+		}
+		break;
+		case 0x4: {
+			// JMP
+			uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
+			context.index = mem(SR_CS) + (*((uint16_t*)target));
 		}
 		break;
 		case 0x6: {
@@ -7395,7 +7413,7 @@ void handlerCommand32Code008FP66P67() {
 	switch (nnn) {
 		case 0x00: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For16(mrmByte);
-			*target = *(uint16_t*)(mem(SR_SS) + reg_SP_16u);
+			*(uint16_t*)target = *(uint16_t*)(mem(SR_SS) + reg_SP_16u);
 			reg_SP_16u += 16 / 8;
 		}
 		break;
@@ -7411,7 +7429,7 @@ void handlerCommand32Code008FP67() {
 	switch (nnn) {
 		case 0x00: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
-			*target = *(uint32_t*)(mem(SR_SS) + reg_SP_16u);
+			*(uint32_t*)target = *(uint32_t*)(mem(SR_SS) + reg_SP_16u);
 			reg_SP_16u += 32 / 8;
 		}
 		break;
@@ -7427,7 +7445,7 @@ void handlerCommand32Code008FP66() {
 	switch (nnn) {
 		case 0x00: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For16(mrmByte);
-			*target = *(uint16_t*)(mem(SR_SS) + reg_SP_32u);
+			*(uint16_t*)target = *(uint16_t*)(mem(SR_SS) + reg_SP_32u);
 			reg_SP_32u += 16 / 8;
 		}
 		break;
@@ -7443,7 +7461,7 @@ void handlerCommand32Code008F() {
 	switch (nnn) {
 		case 0x00: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
-			*target = *(uint32_t*)(mem(SR_SS) + reg_SP_32u);
+			*(uint32_t*)target = *(uint32_t*)(mem(SR_SS) + reg_SP_32u);
 			reg_SP_32u += 32 / 8;
 		}
 		break;
@@ -7594,6 +7612,18 @@ void handlerCommand32Code0099P66() {
 void handlerCommand32Code0099() {
 	printf("CBW");
 	if (reg_AX_32 & 0x80000000) reg_DX_32=0xffffffff; else reg_DX_32=0;
+}
+//PUSHF
+void handlerCommand32Code009C() {
+	printf("PUSHF");
+	reg_SP_32u -= 32 / 8;
+	*(uint32_t*)(mem(SR_SS) + reg_SP_32u) = *(uint32_t*)(&reg_flags);
+}
+//POPF
+void handlerCommand32Code009D() {
+	printf("POPF");
+	*(uint32_t*)(&reg_flags) = *(uint32_t*)(mem(SR_SS) + reg_SP_32u);
+	reg_SP_32u += 32 / 8;
 }
 //Move
 void handlerCommand32Code00A0P66P67() {
@@ -11968,7 +11998,13 @@ void handlerCommand32Code00FFP66P67() {
 		case 0x00: {
 			// MOVEL
 			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
-			*target = read8u();
+			*(uint8_t*)target = read8u();
+		}
+		break;
+		case 0x4: {
+			// JMP
+			uint8_t* target = (uint8_t*)readAddressMRM32For16(mrmByte);
+			context.index = mem(SR_CS) + (*((uint16_t*)target));
 		}
 		break;
 		case 0x6: {
@@ -11992,7 +12028,13 @@ void handlerCommand32Code00FFP67() {
 		case 0x00: {
 			// MOVEL
 			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
-			*target = read8u();
+			*(uint8_t*)target = read8u();
+		}
+		break;
+		case 0x4: {
+			// JMP
+			uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
+			context.index = mem(SR_CS) + (*((uint32_t*)target));
 		}
 		break;
 		case 0x6: {
@@ -12016,7 +12058,13 @@ void handlerCommand32Code00FFP66() {
 		case 0x00: {
 			// MOVEL
 			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
-			*target = read8u();
+			*(uint8_t*)target = read8u();
+		}
+		break;
+		case 0x4: {
+			// JMP
+			uint8_t* target = (uint8_t*)readAddressMRM32For16(mrmByte);
+			context.index = mem(SR_CS) + (*((uint16_t*)target));
 		}
 		break;
 		case 0x6: {
@@ -12040,7 +12088,13 @@ void handlerCommand32Code00FF() {
 		case 0x00: {
 			// MOVEL
 			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
-			*target = read8u();
+			*(uint8_t*)target = read8u();
+		}
+		break;
+		case 0x4: {
+			// JMP
+			uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
+			context.index = mem(SR_CS) + (*((uint32_t*)target));
 		}
 		break;
 		case 0x6: {
@@ -13113,6 +13167,8 @@ void installCommandFunction() {
 	commandFunctions16[151] = handlerCommand16Code0097;
 	commandFunctions16[152] = handlerCommand16Code0098;
 	commandFunctions16[153] = handlerCommand16Code0099;
+	commandFunctions16[156] = handlerCommand16Code009C;
+	commandFunctions16[157] = handlerCommand16Code009D;
 	commandFunctions16[160] = handlerCommand16Code00A0;
 	commandFunctions16[161] = handlerCommand16Code00A1;
 	commandFunctions16[162] = handlerCommand16Code00A2;
@@ -13509,6 +13565,8 @@ void installCommandFunction() {
 	commandFunctions32[152 | 0x0400] = handlerCommand32Code0098P66;
 	commandFunctions32[153] = handlerCommand32Code0099;
 	commandFunctions32[153 | 0x0400] = handlerCommand32Code0099P66;
+	commandFunctions32[156] = handlerCommand32Code009C;
+	commandFunctions32[157] = handlerCommand32Code009D;
 	commandFunctions32[160] = handlerCommand32Code00A0;
 	commandFunctions32[160 | 0x0200 ] = handlerCommand32Code00A0P67;
 	commandFunctions32[160 | 0x0400] = handlerCommand32Code00A0P66;

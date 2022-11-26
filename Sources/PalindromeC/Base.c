@@ -12,6 +12,7 @@
 #include "Base/MRM.h"
 #include "Function/GenerateFunctions.h"
 #include <stdlib.h>
+#include "Support/Log.h"
 
 uint8_t *debugCommands = NULL;
 
@@ -23,8 +24,6 @@ void clearDebugCommands() {
         debugCommands[i] = 0;
     }
 }
-
-#define LOG(F, ARG...) printf( F , ARG )
 
 void getCommand() {
     LOG("%llX:", (uint64_t)(context.index - context.memory));
@@ -174,21 +173,25 @@ void run16ToEnd() {
 }
 
 void run32ToEndWithStop(int count) {
+    PRINT32_REGS
     context.mod = 1;
     clearDebugCommands();
+    int index = 0;
+    int lats = *regESP;
     while (context.end == 0 && count > 0) {
+        LOG("step %d|", index);
         runCommand32();
+        LOG("%s", "\n\n");
+        LOG("stack=%d(%d)\n", *regESP, (lats - *regESP));
+        lats = *regESP;
+        //PRINT32_REGS
         count--;
+        index += 1;
     }
 }
 
-char* print16Registers();
-
-#define REG16_PRINT_SIZE (9 * 13)
-#define PRINT16_REGS { char* out = print16Registers(); printf("%s", out); free(out); }
 void run16ToEndWithStop(int count) {
     PRINT16_REGS
-    // step 82|
     context.mod = 0;
     clearDebugCommands();
     int index = 0;
@@ -234,43 +237,4 @@ int run16AndTestToEndWithStop(int count, char* in) {
         count--;
     }
     return -1;
-}
-
-#define GET_BYTE(value, index) (((uint8_t*)(&reg)) + index)
-void printHex(uint8_t* value, char* out) {
-    if (*value == 0) {
-        sprintf(out, "00");
-    } else if (*value < 16) {
-        sprintf(out, "0%X", *value);
-    } else {
-        sprintf(out, "%X", *value);
-    }
-}
-void printRegister16(char *s, uint16_t reg, char* out) {
-    sprintf(out, "%s=", s);
-    printHex(GET_BYTE(reg, 1), out + 3);
-    printHex(GET_BYTE(reg, 0), out + 5);
-}
-
-char* print16Registers() {
-    char *out = malloc(REG16_PRINT_SIZE + 1);
-
-    printRegister16("AX", *regAXu, out + 9 * 0); sprintf(out + 9 * 0 + 7, "  ");
-    printRegister16("BX", *regBXu, out + 9 * 1); sprintf(out + 9 * 1 + 7, "  ");
-    printRegister16("CX", *regCXu, out + 9 * 2); sprintf(out + 9 * 2 + 7, "  ");
-    printRegister16("DX", *regDXu, out + 9 * 3); sprintf(out + 9 * 3 + 7, "  ");
-    printRegister16("SP", *regSPu, out + 9 * 4); sprintf(out + 9 * 4 + 7, "  ");
-    printRegister16("BP", *regBPu, out + 9 * 5); sprintf(out + 9 * 5 + 7, "  ");
-    printRegister16("SI", *regSIu, out + 9 * 6); sprintf(out + 9 * 6 + 7, "  ");
-    printRegister16("DI", *regDIu, out + 9 * 7); sprintf(out + 9 * 7 + 7, " \n");
-
-    printRegister16("DS", context.segmentRegisters[SR_DS], out + 9 * 8); sprintf(out + 9 * 8 + 7, "  ");
-    printRegister16("ES", context.segmentRegisters[SR_ES], out + 9 * 9); sprintf(out + 9 * 9 + 7, "  ");
-    printRegister16("SS", context.segmentRegisters[SR_SS], out + 9 * 10); sprintf(out + 9 * 10 + 7, "  ");
-    printRegister16("CS", context.segmentRegisters[SR_CS], out + 9 * 11); sprintf(out + 9 * 11 + 7, "  ");
-    printRegister16("IP", (uint16_t)(context.index - mem(SR_CS)), out + 9 * 12); sprintf(out + 9 * 12 + 7, " \n");
-
-    out[REG16_PRINT_SIZE] = 0;
-
-    return out;
 }

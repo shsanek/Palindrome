@@ -60,9 +60,9 @@ public final class WrapContext {
         for container in memory.enumerated() {
             context?[0].memory[container.offset + offset] = container.element
         }
-        context?[0].memory[memory.count] = 0xCD
-        context?[0].memory[memory.count + 1] = 0x20
-        pushInStack32(Int32(memory.count))
+        context?[0].memory[memory.count + offset] = 0xCD
+        context?[0].memory[memory.count + offset + 1] = 0x20
+        pushInStack32(Int32(memory.count + offset))
         context?[0].index = context![0].memory + offset
     }
 
