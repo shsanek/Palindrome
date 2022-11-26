@@ -30,18 +30,19 @@ fileprivate let pushData1Command = Command(
     name: "Push",
     format: .init(
         hasPrefixAddress: true,
-        hasPrefixData: false,
+        hasPrefixData: true,
         inlines: []
     ),
     functionFormatter: Formatter(
         customizers: [
             .prefixAddress,
+            .prefixData,
             .functionName,
             .vars,
-            .settings([.fixData(8), .bigAddress]),
+            .settings([.bigData, .bigAddress]),
             """
             reg_SP_%addressSizeu -= %dataSize / 8;
-            *(uint%dataSize_t*)(mem(SR_SS) + reg_SP_%addressSizeu) = read%dataSize%sign();
+            *(int%dataSize_t*)(mem(SR_SS) + reg_SP_%addressSizeu) = (int%dataSize_t)read8();
             """
         ]
     ),
@@ -66,7 +67,7 @@ fileprivate let pushData2Command = Command(
             """
             uint%addressSize_t* sp = register%addressSizeu(BR_SP);
             *sp -= %dataSize / 8;
-            *(uint%dataSize_t*)(mem(SR_SS) + *sp) = read%dataSize%sign();
+            *(uint%dataSize_t*)(mem(SR_SS) + *sp) = read%dataSizeu();
             """
         ]
     ),
