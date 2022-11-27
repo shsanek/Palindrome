@@ -19,6 +19,9 @@ uint16_t read16u();
 int32_t read32();
 uint32_t read32u();
 
+#define readFirst2Bit(byte) ((byte >> 6) & 0x03)
+#define readMiddle3Bit(byte) ((byte >> 3) & 0x07)
+#define readLast3Bit(byte) (byte & 0x07)
 
 extern uint16_t debugSegmentShift;
 

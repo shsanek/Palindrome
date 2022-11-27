@@ -10,9 +10,9 @@
 
 #include <stdio.h>
 #include "Models.h"
-
-uint8_t readFirst2Bit(uint8_t byte);
-uint8_t readMiddle3Bit(uint8_t byte);
+#include "Read.h"
+#include "Registers.h"
+#include "../Support/Log.h"
 
 int8_t* readRegisterMRM8(uint8_t mrmByte);
 int16_t* readRegisterMRM16(uint8_t mrmByte);
@@ -27,5 +27,6 @@ uint8_t* readAddressMRM32For32(uint8_t mrmByte);
 uint8_t* readAddressMRM16For8(uint8_t mrmByte);
 uint8_t* readAddressMRM16For16(uint8_t mrmByte);
 
-
+int32_t effectiveAddressMRM32For32(uint8_t mrmByte);
+int16_t effectiveAddressMRM16For16(uint8_t mrmByte);
 #endif /* MRM_h */

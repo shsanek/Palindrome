@@ -6,6 +6,7 @@
 //
 
 #include "Read.h"
+#include "Registers.h"
 
 int8_t read8() {
     int8_t read = *((int8_t*)context.index);
@@ -57,4 +58,20 @@ uint8_t* memWithReplace(uint8_t reg) {
 
 void setMem(uint8_t reg, uint16_t mem) {
     context.segmentRegisters[reg] = mem;
+}
+
+int8_t* readRegisterMRM8(uint8_t mrmByte) {
+    return register8(readMiddle3Bit(mrmByte));
+}
+
+int16_t* readRegisterMRM16(uint8_t mrmByte) {
+    return register16(readMiddle3Bit(mrmByte));
+}
+
+int32_t* readRegisterMRM32(uint8_t mrmByte) {
+    return register32(readMiddle3Bit(mrmByte));
+}
+
+uint16_t* readSegmentRegisterMRM(uint8_t mrmByte) {
+    return context.segmentRegisters + readMiddle3Bit(mrmByte);
 }
