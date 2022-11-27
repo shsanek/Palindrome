@@ -123,12 +123,23 @@ fileprivate func sibSwitchFunction(
             "\(Int(pow(Double(2), Double($0))))"
         }
     )
+    let scaleWithIndex = generateSwitchFunction(
+        name: "indexByte",
+        prefix: "",
+        suffix: "",
+        defaultText: "{\n\(scale)\n} break;",
+        values: [4],
+        info: info
+    ) { value in
+        return "shift = 0;"
+    }
 
     let generate = FunctionGenerator()
 
     generate.add(head)
+    generate.add(scaleWithIndex)
 
-    let function1 = { (reg1: String, reg2: String, useScale: Bool) -> String in
+    let function1 = { (reg1: String, reg2: String) -> String in
         let `switch` = mrmSwitchFunction(
             base: "memWithReplace(\(reg1))",
             address: operand32AdressMemorySIB1Formatters,
@@ -137,7 +148,6 @@ fileprivate func sibSwitchFunction(
             fR: "\(reg2)"
         )
         return """
-        \(useScale ? scale : "")
         \(`switch`)
         """
     }
@@ -152,7 +162,6 @@ fileprivate func sibSwitchFunction(
             fR: "BR_EBP_F"
         )
         return """
-        \(scale)
         \(`switch`)
         """
     }
@@ -166,21 +175,21 @@ fileprivate func sibSwitchFunction(
         info: info) { value in
             switch value {
             case 0:
-                return function1("SR_DS", "BR_EAX_F", true)
+                return function1("SR_DS", "BR_EAX_F")
             case 1:
-                return function1("SR_DS", "BR_ECX_F", true)
+                return function1("SR_DS", "BR_ECX_F")
             case 2:
-                return function1("SR_DS", "BR_EDX_F", true)
+                return function1("SR_DS", "BR_EDX_F")
             case 3:
-                return function1("SR_DS", "BR_EBX_F", true)
+                return function1("SR_DS", "BR_EBX_F")
             case 4:
-                return function1("SR_SS", "BR_ESP_F", false)
+                return function1("SR_SS", "BR_ESP_F")
             case 5:
                 return function2()
             case 6:
-                return function1("SR_DS", "BR_ESI_F", true)
+                return function1("SR_DS", "BR_ESI_F")
             case 7:
-                return function1("SR_DS", "BR_EDI_F", true)
+                return function1("SR_DS", "BR_EDI_F")
             default:
                 return """
                 return NULL;
