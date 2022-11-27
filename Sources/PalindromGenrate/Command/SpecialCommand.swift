@@ -13,9 +13,11 @@ fileprivate let leaCommand = Command(
             .prefixData,
             .functionName,
             .settings([.bigData, .bigAddress]),
-            .mrm,
             """
-            *((uint%dataSize_t*)source) = (uint%dataSize_t)(((uint64_t)(target - context.program)) & %dataMask);
+            uint8_t mrmByte = read8u();
+            uint8_t* source = (uint8_t*)readRegisterMRM%dataSize(mrmByte);
+            uint%MOD_t target = effectiveAddressMRM%MODFor%MOD(mrmByte);
+            *((uint%dataSize_t*)source) = (uint%dataSize_t)(target & %dataMask);
             """
         ]
     ),
