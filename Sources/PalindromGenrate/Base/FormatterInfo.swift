@@ -78,15 +78,16 @@ extension FormatterInfo {
 
     var addressSize: Int {
         for info in additionalInfo {
+            let mode = prefixs.contains(.addressSizePrefix) ? mode.togle : mode
             switch info {
             case .bigAddress:
-                if mode == .mod32 && !prefixs.contains(.addressSizePrefix) {
+                if mode == .mod32 {
                     return 32
                 } else {
                     return 16
                 }
             case .littleAddress:
-                if mode == .mod32 && !prefixs.contains(.addressSizePrefix) {
+                if mode == .mod32 {
                     return 16
                 } else {
                     return 8
@@ -97,7 +98,7 @@ extension FormatterInfo {
                 continue
             }
         }
-        if mode == .mod32 && !prefixs.contains(.addressSizePrefix) {
+        if mode == .mod32 {
             return 32
         } else {
             return 16
@@ -119,16 +120,17 @@ extension FormatterInfo {
 
     var dataSize: Int {
         for info in additionalInfo {
+            let mode = prefixs.contains(.dataSizePrefix) ? mode.togle : mode
             switch info {
             case .bigData:
-                if mode == .mod32 && !prefixs.contains(.dataSizePrefix) {
+                if mode == .mod32 {
                     return 32
                 } else {
                     return 16
                 }
             case .changeableData:
                 if flags.contains("w") {
-                    if mode == .mod32 && !prefixs.contains(.dataSizePrefix) {
+                    if mode == .mod32 {
                         return 32
                     } else {
                         return 16
@@ -139,7 +141,7 @@ extension FormatterInfo {
             case .fixData(let fix):
                 return fix
             case .littleData:
-                if mode == .mod32 && !prefixs.contains(.dataSizePrefix) {
+                if mode == .mod32 {
                     return 16
                 } else {
                     return 8
@@ -148,7 +150,7 @@ extension FormatterInfo {
                 continue
             }
         }
-        if mode == .mod32 && !prefixs.contains(.dataSizePrefix) {
+        if mode == .mod32 {
             return 32
         } else {
             return 16

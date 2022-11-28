@@ -410,6 +410,8 @@ func generateMRMFunction(info: FormatterInfo?) -> String {
     generate.add(generateFunction(mod: 16, size: 16, info: info, useBase: false))
     generate.add("\n")
 
+    generate.add(generateFunction(mod: 16, size: 32, info: info, useBase: true))
+    generate.add("\n")
     generate.add(generateFunction(mod: 16, size: 16, info: info, useBase: true))
     generate.add("\n")
     generate.add(generateFunction(mod: 16, size: 8, info: info, useBase: true))

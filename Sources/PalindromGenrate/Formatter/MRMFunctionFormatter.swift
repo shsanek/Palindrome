@@ -53,6 +53,8 @@ struct PrefixAddressFunctionFormatter: IFormatter {
             generator.add(baseFormatter.format(with: prefixInfo))
             generator.add(baseFormatter.format(with: info))
         } else {
+            let prefixInfo = info.update { $0.prefixs += [.addressSizePrefix] }
+            generator.add(baseFormatter.format(with: prefixInfo))
             generator.add(baseFormatter.format(with: info))
         }
         return generator.text
@@ -69,6 +71,8 @@ struct PrefixDataFunctionFormatter: IFormatter {
             generator.add(baseFormatter.format(with: prefixInfo))
             generator.add(baseFormatter.format(with: info))
         } else {
+            let prefixInfo = info.update { $0.prefixs += [.dataSizePrefix] }
+            generator.add(baseFormatter.format(with: prefixInfo))
             generator.add(baseFormatter.format(with: info))
         }
         return generator.text
@@ -268,19 +272,16 @@ struct InitialFormatter: IFormatter {
     func format(with info: FormatterInfo) -> String? {
         let generator = FunctionGenerator()
         let name = info.functionName;
-        if info.mode == .mod32 {
-            generator.add("commandFunctions32[\(info.variation)] = \(info.functionName);")
-            if info.command.format.hasPrefixAddress {
-                generator.add("commandFunctions32[\(info.variation) | 0x0200 ] = \(info.update { $0.prefixs += [.addressSizePrefix] }.functionName);")
-            }
-            if info.command.format.hasPrefixData {
-                generator.add("commandFunctions32[\(info.variation) | 0x0400] = \(info.update { $0.prefixs += [.dataSizePrefix] }.functionName);")
-            }
-            if info.command.format.hasPrefixData && info.command.format.hasPrefixAddress {
-                generator.add("commandFunctions32[\(info.variation) | 0x0200 | 0x0400] = \(info.update { $0.prefixs += [.dataSizePrefix, .addressSizePrefix] }.functionName);")
-            }
-        } else {
-            generator.add("commandFunctions16[\(info.variation)] = \(name);")
+        let prefix = info.mode == .mod32 ? "32" : "16"
+        generator.add("commandFunctions\(prefix)[\(info.variation)] = \(info.functionName);")
+        if info.command.format.hasPrefixAddress {
+            generator.add("commandFunctions\(prefix)[\(info.variation) | 0x0200 ] = \(info.update { $0.prefixs += [.addressSizePrefix] }.functionName);")
+        }
+        if info.command.format.hasPrefixData {
+            generator.add("commandFunctions\(prefix)[\(info.variation) | 0x0400] = \(info.update { $0.prefixs += [.dataSizePrefix] }.functionName);")
+        }
+        if info.command.format.hasPrefixData && info.command.format.hasPrefixAddress {
+            generator.add("commandFunctions\(prefix)[\(info.variation) | 0x0200 | 0x0400] = \(info.update { $0.prefixs += [.dataSizePrefix, .addressSizePrefix] }.functionName);")
         }
         return generator.text
     }

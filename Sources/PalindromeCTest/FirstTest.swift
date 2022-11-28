@@ -63,7 +63,7 @@ final class FirstTest: XCTestCase {
             """
         )
 
-        run32ToEndWithStop(10000)
+        // run32ToEndWithStop(10000)
 
         let value = register32(UInt8(BR_EAX_F))?[0]
 
@@ -267,6 +267,8 @@ final class FirstTest: XCTestCase {
         let wrapContext = WrapContext(memorySize: 4 * 1024 * 1024)
         wrapContext.context?[0].mod = 1
 
+        let testPath = "/Users/alexandershipin/Documents/projects/Palindrome/Sources/TestSource/Doom/out.txt"
+
         let programm = try! Data(
             contentsOf: URL.init(
                 fileURLWithPath: "/Users/alexandershipin/Downloads/doom/doom.exe"
@@ -275,15 +277,17 @@ final class FirstTest: XCTestCase {
         wrapContext.setMemory(programm, offset: 512)
 
         loadDosHeader()
-//        let value = run16AndSaveToEndWithStop(104)
-//
-//        let result = String(cString: value!)
-//
-//        // try! result.write(toFile: testPath, atomically: true, encoding: .utf8)
-//
-//        value?.deallocate()
-//
-//        TAssert(result == String(data: try! Data(contentsOf: URL(fileURLWithPath: testPath)), encoding: .utf8))
+
+        let value = run16AndSaveToEndWithStop(211)
+        let result = String(cString: value!)
+        value?.deallocate()
+
+//        try! result.write(toFile: testPath, atomically: true, encoding: .utf8)
+
+        let source = String(data: try! Data(contentsOf: URL(fileURLWithPath: testPath)), encoding: .utf8)!
+        let error = result.getErrorCommand(source: source)
+
+        run16ToEndWithStop(1000);
     }
 }
 

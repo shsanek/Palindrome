@@ -114,9 +114,4 @@ void loadDosHeader() {
     for (int i = 0; i < 512; i++) {
         *(context.program - 512 + i) = dosExeHeaderDamp[i];
     }
-    printf("\n");
-
-    printf("start\n");
-    run16ToEndWithStop(1000);
-    printf("end\n");
 }

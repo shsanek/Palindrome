@@ -1591,6 +1591,178 @@ int16_t effectiveAddressMRM16For16(uint8_t mrmByte) {
 		return 0;
 	}
 }
+uint8_t* readAddressMRM16For32(uint8_t mrmByte) {
+	uint8_t mod = readFirst2Bit(mrmByte);
+	uint8_t base = readLast3Bit(mrmByte);
+	if (mod == 3) {
+		return (uint8_t*)register32(base);
+	}
+	LOG("MRM(m: %d, b: %d)", mod, base);
+	switch (base) {
+		case 0: {
+			switch (mod) {
+				case 0: {
+					return memWithReplace(SR_DS) + *register16(BR_BX) + *register16(BR_SI);
+				}
+				break;
+				case 1: {
+					return memWithReplace(SR_DS) + *register16(BR_BX) + *register16(BR_SI) + ((int16_t)read8());
+				}
+				break;
+				case 2: {
+					return memWithReplace(SR_DS) + *register16(BR_BX) + *register16(BR_SI) + read16();
+				}
+				break;
+				default:
+				return 0;
+			}
+			;
+		}
+		break;
+		case 1: {
+			switch (mod) {
+				case 0: {
+					return memWithReplace(SR_DS) + *register16(BR_BX) + *register16(BR_DI);
+				}
+				break;
+				case 1: {
+					return memWithReplace(SR_DS) + *register16(BR_BX) + *register16(BR_DI) + ((int16_t)read8());
+				}
+				break;
+				case 2: {
+					return memWithReplace(SR_DS) + *register16(BR_BX) + *register16(BR_DI) + read16();
+				}
+				break;
+				default:
+				return 0;
+			}
+			;
+		}
+		break;
+		case 2: {
+			switch (mod) {
+				case 0: {
+					return memWithReplace(SR_SS) + *register16(BR_BP) + *register16(BR_SI);
+				}
+				break;
+				case 1: {
+					return memWithReplace(SR_SS) + *register16(BR_BP) + *register16(BR_SI) + ((int16_t)read8());
+				}
+				break;
+				case 2: {
+					return memWithReplace(SR_SS) + *register16(BR_BP) + *register16(BR_SI) + read16();
+				}
+				break;
+				default:
+				return 0;
+			}
+			;
+		}
+		break;
+		case 3: {
+			switch (mod) {
+				case 0: {
+					return memWithReplace(SR_SS) + *register16(BR_BP) + *register16(BR_SI);
+				}
+				break;
+				case 1: {
+					return memWithReplace(SR_SS) + *register16(BR_BP) + *register16(BR_SI) + ((int16_t)read8());
+				}
+				break;
+				case 2: {
+					return memWithReplace(SR_SS) + *register16(BR_BP) + *register16(BR_SI) + read16();
+				}
+				break;
+				default:
+				return 0;
+			}
+			;
+		}
+		break;
+		case 4: {
+			switch (mod) {
+				case 0: {
+					return memWithReplace(SR_DS) + *register16(BR_SI);
+				}
+				break;
+				case 1: {
+					return memWithReplace(SR_DS) + *register16(BR_SI) + ((int16_t)read8());
+				}
+				break;
+				case 2: {
+					return memWithReplace(SR_DS) + *register16(BR_SI) + read16();
+				}
+				break;
+				default:
+				return 0;
+			}
+			;
+		}
+		break;
+		case 5: {
+			switch (mod) {
+				case 0: {
+					return memWithReplace(SR_DS) + *register16(BR_DI);
+				}
+				break;
+				case 1: {
+					return memWithReplace(SR_DS) + *register16(BR_DI) + ((int16_t)read8());
+				}
+				break;
+				case 2: {
+					return memWithReplace(SR_DS) + *register16(BR_DI) + read16();
+				}
+				break;
+				default:
+				return 0;
+			}
+			;
+		}
+		break;
+		case 6: {
+			switch (mod) {
+				case 0: {
+					return memWithReplace(SR_DS) + read16();
+				}
+				break;
+				case 1: {
+					return memWithReplace(SR_SS) + *register16(BR_BP) + ((int16_t)read8());
+				}
+				break;
+				case 2: {
+					return memWithReplace(SR_SS) + *register16(BR_BP) + read16();
+				}
+				break;
+				default:
+				return 0;
+			}
+			;
+		}
+		break;
+		case 7: {
+			switch (mod) {
+				case 0: {
+					return memWithReplace(SR_DS) + *register16(BR_BX);
+				}
+				break;
+				case 1: {
+					return memWithReplace(SR_DS) + *register16(BR_BX) + ((int16_t)read8());
+				}
+				break;
+				case 2: {
+					return memWithReplace(SR_DS) + *register16(BR_BX) + read16();
+				}
+				break;
+				default:
+				return 0;
+			}
+			;
+		}
+		break;
+		default:
+		return 0;
+	}
+}
 uint8_t* readAddressMRM16For16(uint8_t mrmByte) {
 	uint8_t mod = readFirst2Bit(mrmByte);
 	uint8_t base = readLast3Bit(mrmByte);

@@ -16,8 +16,8 @@
 
 void printRegister16(char *s, uint16_t reg, char* out) {
     sprintf(out, "%s=", s);
-    printHex(GET_BYTE(reg, 1), out + 3);
-    printHex(GET_BYTE(reg, 0), out + 5);
+    sprintHex(GET_BYTE(reg, 1), out + 3);
+    sprintHex(GET_BYTE(reg, 0), out + 5);
 }
 
 char* print16Registers() {
@@ -45,10 +45,10 @@ char* print16Registers() {
 
 void printRegister32(char *s, uint16_t reg, char* out) {
     sprintf(out, "E%s=", s);
-    printHex(GET_BYTE(reg, 3), out + 4);
-    printHex(GET_BYTE(reg, 2), out + 6);
-    printHex(GET_BYTE(reg, 1), out + 8);
-    printHex(GET_BYTE(reg, 0), out + 10);
+    sprintHex(GET_BYTE(reg, 3), out + 4);
+    sprintHex(GET_BYTE(reg, 2), out + 6);
+    sprintHex(GET_BYTE(reg, 1), out + 8);
+    sprintHex(GET_BYTE(reg, 0), out + 10);
 }
 
 char* print32Registers() {

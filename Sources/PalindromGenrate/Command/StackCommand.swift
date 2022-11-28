@@ -94,9 +94,11 @@ fileprivate let oftherCommand = Command(
                  formatter: Formatter(
                     customizers: [
                         .settings([.bigAddress ,.changeableData]),
-                        "// MOVEL",
+                        "// INC",
                         .formatter(targetMRMFormat),
-                        "*(uint%dataSize_t*)target = read%dataSizeu();"
+                        "(*(uint%dataSize_t*)target)++;",
+                        "LazyFlagResultContainer%dataSize = *(uint%dataSize_t*)target;",
+                        "lazyFlagType = t_INC%dataSize;"
                     ]
                 )
                 ),
@@ -242,8 +244,9 @@ fileprivate let pushFlagRegCommand = Command(
             .vars,
             .settings([.bigAddress]),
             """
+            FillFlags();
             reg_SP_%addressSizeu -= %MOD / 8;
-            *(uint%MOD_t*)(mem(SR_SS) + reg_SP_%addressSizeu) = *(uint%MOD_t*)(&reg_flags);
+            *(uint%MOD_t*)(mem(SR_SS) + reg_SP_%addressSizeu) = ((*(uint%MOD_t*)(&reg_flags)) & 0x4FD5) | 0x3002;
             """
         ]
     ),
@@ -264,7 +267,8 @@ fileprivate let popFlagRegCommand = Command(
             .vars,
             .settings([.bigAddress]),
             """
-            *(uint%MOD_t*)(&reg_flags) = *(uint%MOD_t*)(mem(SR_SS) + reg_SP_%addressSizeu);
+            lazyFlagType = t_UNKNOWN;
+            *(uint%MOD_t*)(&reg_flags) = (*(uint%MOD_t*)(mem(SR_SS) + reg_SP_%addressSizeu)) | 0x3002;
             reg_SP_%addressSizeu += %MOD / 8;
             """
         ]
