@@ -14,8 +14,8 @@ void dosOpenFile() {
     FillFlags();
     char* name = (char*)(mem(SR_DS) + *regDX);
     int file = vfsOpenFile(name, *regAL);
-    if (file == -1) {
-        *regAX = 1;
+    if (file < 0) {
+        *regAX = (uint16_t)-file;
         SET_FLAG(CF, 1);
         return;
     }
@@ -50,6 +50,26 @@ void dosCloseFile() {
     uint16_t description = *regBXu;
     *regAX = vfsCloseFile(description);
     SET_FLAG(CF, *regAX != 0);
+}
+
+void doslSeekFile() {
+    FillFlags();
+    uint16_t description = *regBXu;
+    if (*regAL == 2 && *regCX == 0 && *regAX == 0) {
+        emptyInterruptCallFunction(0x21);
+    }
+    int32_t offset = (*regCXu * 65536) + *regDXu;
+    int32_t newOffset = vfsLseekFile(description, offset, *regAL);
+
+    if (newOffset < 0) {
+        *regAX = -newOffset;
+        SET_FLAG(CF, 1);
+        return;
+    }
+
+    SET_FLAG(CF, 0);
+    *regDXu = newOffset / 65536;
+    *regAXu = newOffset % 65536;
 }
 
 void systemDOSFunction(uint8_t a) {
@@ -102,6 +122,10 @@ void systemDOSFunction(uint8_t a) {
     }
     if (*regAH == 0x00) {
         context.end = 1;
+        return;
+    }
+    if (*regAH == 0x42) {
+        doslSeekFile();
         return;
     }
     emptyInterruptCallFunction(a);

@@ -1,3 +1,18 @@
+fileprivate func pushValue(_ value: String) -> String {
+    """
+    reg_SP_%addressSizeu -= %dataSize / 8;
+    *(uint%dataSize_t*)(mem(SR_SS) + reg_SP_%addressSizeu) = \(value);
+    """
+}
+
+fileprivate func popValue(_ value: String) -> String {
+    """
+    \(value) = *(uint%dataSize_t*)(mem(SR_SS) + reg_SP_%addressSizeu);
+    reg_SP_%addressSizeu += %dataSize / 8;
+    """
+}
+
+
 fileprivate let pushRegCommand = Command(
     code: 0x0050,
     name: "Push",
@@ -15,11 +30,8 @@ fileprivate let pushRegCommand = Command(
             .functionName,
             .vars,
             .settings([.bigData, .bigAddress]),
-            """
-            uint%dataSize_t value = reg_%reg_%dataSizeu;
-            reg_SP_%addressSizeu -= %dataSize / 8;
-            *(uint%dataSize_t*)(mem(SR_SS) + reg_SP_%addressSizeu) = value;
-            """
+            "uint%dataSize_t value = reg_%reg_%dataSizeu;",
+            .template(pushValue("value"))
         ]
     ),
     installFormatter: InitialFormatter()
@@ -64,11 +76,7 @@ fileprivate let pushData2Command = Command(
             .functionName,
             .vars,
             .settings([.bigData, .bigAddress]),
-            """
-            uint%addressSize_t* sp = register%addressSizeu(BR_SP);
-            *sp -= %dataSize / 8;
-            *(uint%dataSize_t*)(mem(SR_SS) + *sp) = read%dataSizeu();
-            """
+            .template(pushValue("read%dataSizeu()"))
         ]
     ),
     installFormatter: InitialFormatter()
@@ -133,9 +141,7 @@ fileprivate let oftherCommand = Command(
                         .settings([.bigAddress]),
                         "// PUSH",
                         .formatter(targetMRMFormat),
-                        "uint%addressSize_t* sp = register%addressSizeu(BR_SP);",
-                        "*sp -= %dataSize / 8;",
-                        "*(uint%dataSize_t*)(mem(SR_SS) + *sp) = *(uint%dataSize_t*)target;"
+                        .template(pushValue("*(uint%dataSize_t*)target"))
                     ]
                 )
                 )
@@ -162,10 +168,7 @@ fileprivate let popRegCommand = Command(
             .functionName,
             .vars,
             .settings([.bigData, .bigAddress]),
-            """
-            reg_%reg_%dataSizeu = *(uint%dataSize_t*)(mem(SR_SS) + reg_SP_%addressSizeu);
-            reg_SP_%addressSizeu += %dataSize / 8;
-            """
+            .template(popValue("reg_%reg_%dataSizeu"))
         ]
     ),
     installFormatter: InitialFormatter()
@@ -290,6 +293,61 @@ fileprivate let popFlagRegCommand = Command(
     installFormatter: InitialFormatter()
 )
 
+fileprivate let pushAllRegCommand = Command(
+    code: 0x0060,
+    name: "PUSHA",
+    format: .init(
+        hasPrefixAddress: false,
+        hasPrefixData: true,
+        inlines: []
+    ),
+    functionFormatter: Formatter(
+        customizers: [
+            .prefixData,
+            .functionName,
+            .vars,
+            .settings([.bigAddress, .bigData]),
+            "uint%dataSize_t tmp = reg_SP_%dataSizeu;",
+            .template(pushValue("reg_AX_%dataSizeu")),
+            .template(pushValue("reg_CX_%dataSizeu")),
+            .template(pushValue("reg_DX_%dataSizeu")),
+            .template(pushValue("reg_BX_%dataSizeu")),
+            .template(pushValue("tmp")),
+            .template(pushValue("reg_BP_%dataSizeu")),
+            .template(pushValue("reg_SI_%dataSizeu")),
+            .template(pushValue("reg_DI_%dataSizeu"))
+        ]
+    ),
+    installFormatter: InitialFormatter()
+)
+
+fileprivate let popAllRegCommand = Command(
+    code: 0x0061,
+    name: "POPA",
+    format: .init(
+        hasPrefixAddress: false,
+        hasPrefixData: true,
+        inlines: []
+    ),
+    functionFormatter: Formatter(
+        customizers: [
+            .prefixData,
+            .functionName,
+            .vars,
+            .settings([.bigAddress, .bigData]),
+            .template(popValue("reg_DI_%dataSizeu")),
+            .template(popValue("reg_SI_%dataSizeu")),
+            .template(popValue("reg_BP_%dataSizeu")),
+            "reg_SP_%addressSizeu += %dataSize / 8;",
+            .template(popValue("reg_BX_%dataSizeu")),
+            .template(popValue("reg_DX_%dataSizeu")),
+            .template(popValue("reg_CX_%dataSizeu")),
+            .template(popValue("reg_AX_%dataSizeu")),
+        ]
+    ),
+    installFormatter: InitialFormatter()
+)
+
 func appendStackCommand(generator: Generator) {
     generator.addCommand(pushRegCommand)
     generator.addCommand(popRegCommand)
@@ -303,4 +361,7 @@ func appendStackCommand(generator: Generator) {
 
     generator.addCommand(pushFlagRegCommand)
     generator.addCommand(popFlagRegCommand)
+
+    generator.addCommand(pushAllRegCommand)
+    generator.addCommand(popAllRegCommand)
 }

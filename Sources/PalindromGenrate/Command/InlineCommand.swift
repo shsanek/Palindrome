@@ -34,12 +34,13 @@ fileprivate func compareInlineOperationIfWhile(_ function: () -> String) -> Stri
     return """
     if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF2) {
     \(compareInlineWhile({ function() }, operatorString: "=="))
-    SET_FLAG(ZF, 0);
     } else if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF3) {
     \(compareInlineWhile({ function() }, operatorString: "!="))
-    SET_FLAG(ZF, 1);
     } else {
-    SET_FLAG(ZF, %aValue == %bValue);
+    LazyFlagVarA%dataSize = %bValue;
+    LazyFlagVarB%dataSize = %aValue;
+    LazyFlagResultContainer%dataSize = %bValue - %aValue;
+    lazyFlagType = t_CMP%dataSize;
     \(function())
     }
     """
@@ -49,6 +50,10 @@ fileprivate func compareInlineWhile(_ function: () -> String, operatorString: St
     """
     while (reg_CX_%addressSize != 0) {
     uint8_t result = %aValue \(operatorString) %bValue;
+    LazyFlagVarA%dataSize = %bValue;
+    LazyFlagVarB%dataSize = %aValue;
+    LazyFlagResultContainer%dataSize = %bValue - %aValue;
+    lazyFlagType = t_CMP%dataSize;
     \(function())
     \(regCXDec)
     if (result) { SET_FLAG(ZF, (1 \(operatorString) 1));  return; }
@@ -139,12 +144,12 @@ fileprivate let cmpsLoop = inlineCommand(
     code: 0x00A6,
     prefix: "lazyFlagType = t_UNKNOWN;",
     dec: {
-        compareInlineOperationIfWhile({ "\(loadsOperation)\n\(regDIDec)\(regCIDec)\n" })
+        compareInlineOperationIfWhile({ "\(regDIDec)\(regCIDec)\n" })
             .replacingOccurrences(of: "%aValue", with: "%target")
             .replacingOccurrences(of: "%bValue", with: "%source")
     },
     inc: {
-        compareInlineOperationIfWhile({ "\(loadsOperation)\n\(regDIInc)\(regCIInc)\n" })
+        compareInlineOperationIfWhile({ "\(regDIInc)\(regCIInc)\n" })
             .replacingOccurrences(of: "%aValue", with: "%target")
             .replacingOccurrences(of: "%bValue", with: "%source")
     }

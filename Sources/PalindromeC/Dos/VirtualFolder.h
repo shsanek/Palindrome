@@ -19,6 +19,7 @@ TYPE NAME##Pop();\
 void addVirtualFolder(int8_t *virtualFolder, int8_t *realFolder, int8_t isWriteEnabled);
 char* realPathForPath(int8_t *path);
 
+int vfsLseekFile(uint16_t descriptor, int32_t offset, int type);
 int vfsCloseFile(uint16_t descriptor);
 int vfsReadFile(uint16_t descriptor, void* target, int size, char* isEnd);
 int vfsOpenFile(char *path, int mode);

@@ -89,7 +89,11 @@ int vfsLseekFile(uint16_t descriptor, int32_t offset, int type) {
         return -2;
     }
     int value = fseek(file, offset, type);
-    return value;
+    if (value != 0) {
+        return -1;
+    }
+    int current = ftell(file);
+    return current;
 }
 
 int vfsFileSize(uint16_t descriptor, int32_t offset, int type) {
@@ -128,7 +132,7 @@ int vfsOpenFile(char *path, int mode) {
     free(path);
     
     if (file == NULL) {
-        return -1;
+        return -2;
     }
     OpeningVirtualFile[id] = file;
     return id;

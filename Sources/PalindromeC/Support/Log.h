@@ -22,6 +22,7 @@
 
 void sprintHex(uint8_t* value, char* out);
 void printHex(uint8_t* value);
+void printHexWithSize(uint8_t* value, int size);
 
 void appendInDebugLineHex(uint8_t* value);
 void printDebugLine();

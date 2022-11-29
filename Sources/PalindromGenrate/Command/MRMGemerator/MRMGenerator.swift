@@ -76,20 +76,36 @@ fileprivate func mrmSwitchFunction(
     lR: String = ""
 ) -> String {
     let functions = { (value: Int) -> String in
+        let log = useBase ? "DATA_LOG%size(address, memory);" : ""
         switch value {
         case 0:
-            return "\(useBase ? (base0 ?? base) : "") \(useBase ? "+" : "") \(address[0]!)"
+            return """
+            int32_t address = \(address[0]!);
+            uint8_t* memory = \(useBase ? (base0 ?? base) : "") \(useBase ? "+" : "") address;
+            \(log)
+            return memory;
+            """
         case 1:
-            return "\(useBase ? base : "") \(useBase ? "+" : "") \(address[1]!)"
+            return """
+            int32_t address = \(address[1]!);
+            uint8_t* memory = \(useBase ? (base) : "") \(useBase ? "+" : "") address;
+            \(log)
+            return memory;
+            """
         case 2:
-            return "\(useBase ? base : "") \(useBase ? "+" : "") \(address[2]!)"
+            return """
+            int32_t address = \(address[2]!);
+            uint8_t* memory = \(useBase ? (base) : "") \(useBase ? "+" : "") address;
+            \(log)
+            return memory;
+            """
         default:
             return ""
         }
     }
     return generateSwitchFunction(
         name: "mod",
-        prefix: "return ",
+        prefix: "",
         suffix: "",
         defaultText: "return 0;",
         values: [0, 1, 2],
@@ -390,7 +406,7 @@ fileprivate func generateFunction(mod: Int, size: Int, info: FormatterInfo, useB
         generate.add(mrm16SwitchFunction(info: info, for: size, useBase: useBase))
     }
     generate.add("}")
-    return generate.text
+    return generate.text.replacingOccurrences(of: "%size", with: "\(size)")
 }
 
 func generateMRMFunction(info: FormatterInfo?) -> String {

@@ -38,4 +38,10 @@ extern uint16_t debugSegmentShift;
 
 #define readSegmentRegisterMRM(mrmByte) (context.segmentRegisters + readMiddle3Bit(mrmByte))
 
+void dumpLog(int32_t address, uint8_t* target, int size);
+
+#define DATA_LOG8(address, target) DEBUG_RUN({ dumpLog(address, target, 1); });
+#define DATA_LOG16(address, target) DEBUG_RUN({ dumpLog(address, target, 2); });
+#define DATA_LOG32(address, target) DEBUG_RUN({ dumpLog(address, target, 4); });
+
 #endif /* Read_h */

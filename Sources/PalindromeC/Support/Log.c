@@ -31,6 +31,12 @@ void printHex(uint8_t* value) {
     }
 }
 
+void printHexWithSize(uint8_t* value, int size) {
+    for (int i = 0; i < size; i++) {
+        printHex(value + i);
+    }
+}
+
 void appendInDebugLineHex(uint8_t* value) {
     char out[3];
     sprintHex(value, out);
