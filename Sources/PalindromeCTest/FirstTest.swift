@@ -63,7 +63,7 @@ final class FirstTest: XCTestCase {
             """
         )
 
-        // run32ToEndWithStop(10000)
+        run32ToEndWithStop(0)
 
         let value = fregister32(UInt8(BR_EAX_F))?[0]
 
@@ -276,12 +276,12 @@ final class FirstTest: XCTestCase {
         )
 
         wrapContext.addVirtualFolder("D:\\", path: "/Users/alexandershipin/Downloads/doom/")
-        wrapContext.setMemory(programm, offset: 512)
+        wrapContext.setMemory(programm, offset: 0x2000 * 16)
 
         DoomSetting();
         loadDosHeader()
 
-        let number = 2000
+        let number = 2278
         let value = run16AndSaveToEndWithStop(Int32(number))
         let result = String(cString: value!)
         value?.deallocate()
@@ -293,7 +293,7 @@ final class FirstTest: XCTestCase {
 
         TAssert(error == number)
 
-        // run16ToEndWithStop(3000);
+        run16ToEndWithStop(10000);
     }
 }
 

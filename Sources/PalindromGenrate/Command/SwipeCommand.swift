@@ -90,7 +90,6 @@ fileprivate let BSWAPCommand = Command(
     installFormatter: InitialFormatter()
 )
 
-
 func appendSwipeCommand(generator: Generator) {
     generator.addCommand(XCHGCommand)
     generator.addCommand(XCHGMrmCommand)

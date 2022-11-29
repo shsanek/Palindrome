@@ -59,9 +59,9 @@ uint32_t read32u() {
     return read;
 }
 
-void dumpLog(int32_t address, uint8_t* target, int size) {
+void dumpLog(int64_t address, uint8_t* target, int size) {
     printf("[");
-    printHexWithSize((uint8_t*)&address, 4);
+    printHexWithSize(((uint8_t*)&address), 4);
     printf(":");
     printHexWithSize(target, size);
     printf("]");

@@ -24,6 +24,30 @@ fileprivate let leaCommand = Command(
     installFormatter: InitialFormatter()
 )
 
+let command0F01 = Command(
+    code: 0x0101,
+    name: "???",
+    format: .init(hasPrefixAddress: false, hasPrefixData: false, inlines: []),
+    functionFormatter: Formatter(
+        customizers: [
+            .functionName,
+            .settings([.fpu]),
+            .nnn([
+                (
+                    code: "0x4",
+                    formatter: Formatter(customizers: [
+                        .settings([.fixData(16)]),
+                        .formatter(targetMRMFormat),
+                        "*(uint%dataSize_t*)target = 0x0011;"
+                    ])
+                )
+            ])
+        ]
+    ),
+    installFormatter: InitialFormatter()
+)
+
 func appendSpecialCommand(generator: Generator) {
     generator.addCommand(leaCommand)
+    generator.addCommand(command0F01)
 }

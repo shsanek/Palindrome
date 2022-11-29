@@ -76,7 +76,7 @@ fileprivate func mrmSwitchFunction(
     lR: String = ""
 ) -> String {
     let functions = { (value: Int) -> String in
-        let log = useBase ? "DATA_LOG%size(address, memory);" : ""
+        let log = useBase ? "DATA_LOG%size((uint64_t)memory, memory);" : ""
         switch value {
         case 0:
             return """

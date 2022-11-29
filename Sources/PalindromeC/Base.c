@@ -202,7 +202,7 @@ void run16ToEndWithStop(int count) {
     LOG("%s","\n\n");
     PRINT16_REGS
     context.mod = 0;
-    clearDebugCommands();
+    clearDebugCommands(); 
     clearDebugLine();
     DEBUG_RUN( int index = 0; );
     while (context.end == 0 && count > 0) {

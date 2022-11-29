@@ -238,10 +238,15 @@ fileprivate let popSegRegCommand = Command(
             .functionName,
             .vars,
             .settings([.bigAddress]),
-            """
-            context.segmentRegisters[rg] = *(uint16_t*)(mem(SR_SS) + reg_SP_%addressSizeu);
-            reg_SP_%addressSizeu += 16 / 8;
-            """
+            .formatter(BaseFormat({ info in
+                if (info.variation == 0x000F) {
+                    return "// 0f???"
+                }
+                return """
+                    context.segmentRegisters[rg] = *(uint16_t*)(mem(SR_SS) + reg_SP_%addressSizeu);
+                    reg_SP_%addressSizeu += 16 / 8;
+                """
+            }))
         ]
     ),
     installFormatter: InitialFormatter()

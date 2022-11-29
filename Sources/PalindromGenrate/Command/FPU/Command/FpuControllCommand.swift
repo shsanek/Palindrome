@@ -38,6 +38,26 @@ fileprivate func loadFPUControlRegCommand(command: UInt16) -> Command {
     )
 }
 
+fileprivate func fpuControlRegCommand(command: UInt16) -> Command {
+    Command(
+        code: (command << 3) | 4,
+        name: "Load FPU empty",
+        format: .init(
+            hasPrefixAddress: false,
+            hasPrefixData: false,
+            inlines: []
+        ),
+        functionFormatter: Formatter(
+            customizers: [
+                .formatter(BaseFormat({ info in
+                    ""
+                })),
+            ]
+        ),
+        installFormatter: InitialFormatter()
+    )
+}
+
 func appendFPUControlCommand(generator: FPUGenerator) {
     generator.addCommand(storageFPUControlRegCommand(command: 0x00DB), isStack: true)
     generator.addCommand(storageFPUControlRegCommand(command: 0x00DB), isStack: false)
@@ -46,4 +66,11 @@ func appendFPUControlCommand(generator: FPUGenerator) {
 
     generator.addCommand(loadFPUControlRegCommand(command: 0x00D9), isStack: true)
     generator.addCommand(loadFPUControlRegCommand(command: 0x00D9), isStack: false)
+
+    generator.addCommand(fpuControlRegCommand(command: 0x00DD), isStack: true)
+    generator.addCommand(fpuControlRegCommand(command: 0x00D9), isStack: true)
+    generator.addCommand(fpuControlRegCommand(command: 0x00DB), isStack: true)
+    generator.addCommand(fpuControlRegCommand(command: 0x00DD), isStack: false)
+    generator.addCommand(fpuControlRegCommand(command: 0x00D9), isStack: false)
+    generator.addCommand(fpuControlRegCommand(command: 0x00DB), isStack: false)
 }

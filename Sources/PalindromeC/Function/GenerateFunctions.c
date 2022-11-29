@@ -172,29 +172,28 @@ void handlerCommand16Code001E() {
 void handlerCommand16Code0007() {
 	LOG("%s","Pop");
 	uint8_t rg = 0x00;
-	context.segmentRegisters[rg] = *(uint16_t*)(mem(SR_SS) + reg_SP_16u);
-	reg_SP_16u += 16 / 8;
+	    context.segmentRegisters[rg] = *(uint16_t*)(mem(SR_SS) + reg_SP_16u);
+	    reg_SP_16u += 16 / 8;
 }
 //Pop
 void handlerCommand16Code000F() {
 	LOG("%s","Pop");
 	uint8_t rg = 0x01;
-	context.segmentRegisters[rg] = *(uint16_t*)(mem(SR_SS) + reg_SP_16u);
-	reg_SP_16u += 16 / 8;
+	// 0f???
 }
 //Pop
 void handlerCommand16Code0017() {
 	LOG("%s","Pop");
 	uint8_t rg = 0x02;
-	context.segmentRegisters[rg] = *(uint16_t*)(mem(SR_SS) + reg_SP_16u);
-	reg_SP_16u += 16 / 8;
+	    context.segmentRegisters[rg] = *(uint16_t*)(mem(SR_SS) + reg_SP_16u);
+	    reg_SP_16u += 16 / 8;
 }
 //Pop
 void handlerCommand16Code001F() {
 	LOG("%s","Pop");
 	uint8_t rg = 0x03;
-	context.segmentRegisters[rg] = *(uint16_t*)(mem(SR_SS) + reg_SP_16u);
-	reg_SP_16u += 16 / 8;
+	    context.segmentRegisters[rg] = *(uint16_t*)(mem(SR_SS) + reg_SP_16u);
+	    reg_SP_16u += 16 / 8;
 }
 //OR
 void handlerCommand16Code0008P66() {
@@ -6623,11 +6622,7 @@ void handlerCommand16Code00D9() {
 		break;
 		case 0x04: {
 			if ((mrmByte >> 6 & 3) == 3) {
-				// NON FUNCTION
-				mCommandFunctionEmpty();
 			} else {
-				// NON FUNCTION
-				mCommandFunctionEmpty();
 			}
 		}
 		break;
@@ -6846,11 +6841,7 @@ void handlerCommand16Code00DB() {
 		break;
 		case 0x04: {
 			if ((mrmByte >> 6 & 3) == 3) {
-				// NON FUNCTION
-				mCommandFunctionEmpty();
 			} else {
-				// NON FUNCTION
-				mCommandFunctionEmpty();
 			}
 		}
 		break;
@@ -7101,11 +7092,7 @@ void handlerCommand16Code00DD() {
 		break;
 		case 0x04: {
 			if ((mrmByte >> 6 & 3) == 3) {
-				// NON FUNCTION
-				mCommandFunctionEmpty();
 			} else {
-				// NON FUNCTION
-				mCommandFunctionEmpty();
 			}
 		}
 		break;
@@ -8025,6 +8012,21 @@ void handlerCommand16Code00FF() {
 			uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
 			reg_SP_16u -= 16 / 8;
 			*(uint16_t*)(mem(SR_SS) + reg_SP_16u) = *(uint16_t*)target;
+		}
+		break;
+		default:
+		mCommandFunctionEmpty();
+	}
+}
+//???
+void handlerCommand16Code0101() {
+	LOG("%s","???");
+	uint8_t mrmByte = read8u();
+	uint8_t nnn = readMiddle3Bit(mrmByte);
+	switch (nnn) {
+		case 0x4: {
+			uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
+			*(uint16_t*)target = 0x0011;
 		}
 		break;
 		default:
@@ -9116,29 +9118,28 @@ void handlerCommand32Code001E() {
 void handlerCommand32Code0007() {
 	LOG("%s","Pop");
 	uint8_t rg = 0x00;
-	context.segmentRegisters[rg] = *(uint16_t*)(mem(SR_SS) + reg_SP_32u);
-	reg_SP_32u += 16 / 8;
+	    context.segmentRegisters[rg] = *(uint16_t*)(mem(SR_SS) + reg_SP_32u);
+	    reg_SP_32u += 16 / 8;
 }
 //Pop
 void handlerCommand32Code000F() {
 	LOG("%s","Pop");
 	uint8_t rg = 0x01;
-	context.segmentRegisters[rg] = *(uint16_t*)(mem(SR_SS) + reg_SP_32u);
-	reg_SP_32u += 16 / 8;
+	// 0f???
 }
 //Pop
 void handlerCommand32Code0017() {
 	LOG("%s","Pop");
 	uint8_t rg = 0x02;
-	context.segmentRegisters[rg] = *(uint16_t*)(mem(SR_SS) + reg_SP_32u);
-	reg_SP_32u += 16 / 8;
+	    context.segmentRegisters[rg] = *(uint16_t*)(mem(SR_SS) + reg_SP_32u);
+	    reg_SP_32u += 16 / 8;
 }
 //Pop
 void handlerCommand32Code001F() {
 	LOG("%s","Pop");
 	uint8_t rg = 0x03;
-	context.segmentRegisters[rg] = *(uint16_t*)(mem(SR_SS) + reg_SP_32u);
-	reg_SP_32u += 16 / 8;
+	    context.segmentRegisters[rg] = *(uint16_t*)(mem(SR_SS) + reg_SP_32u);
+	    reg_SP_32u += 16 / 8;
 }
 //OR
 void handlerCommand32Code0008P66() {
@@ -15567,11 +15568,7 @@ void handlerCommand32Code00D9() {
 		break;
 		case 0x04: {
 			if ((mrmByte >> 6 & 3) == 3) {
-				// NON FUNCTION
-				mCommandFunctionEmpty();
 			} else {
-				// NON FUNCTION
-				mCommandFunctionEmpty();
 			}
 		}
 		break;
@@ -15790,11 +15787,7 @@ void handlerCommand32Code00DB() {
 		break;
 		case 0x04: {
 			if ((mrmByte >> 6 & 3) == 3) {
-				// NON FUNCTION
-				mCommandFunctionEmpty();
 			} else {
-				// NON FUNCTION
-				mCommandFunctionEmpty();
 			}
 		}
 		break;
@@ -16045,11 +16038,7 @@ void handlerCommand32Code00DD() {
 		break;
 		case 0x04: {
 			if ((mrmByte >> 6 & 3) == 3) {
-				// NON FUNCTION
-				mCommandFunctionEmpty();
 			} else {
-				// NON FUNCTION
-				mCommandFunctionEmpty();
 			}
 		}
 		break;
@@ -16969,6 +16958,21 @@ void handlerCommand32Code00FF() {
 			uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
 			reg_SP_32u -= 32 / 8;
 			*(uint32_t*)(mem(SR_SS) + reg_SP_32u) = *(uint32_t*)target;
+		}
+		break;
+		default:
+		mCommandFunctionEmpty();
+	}
+}
+//???
+void handlerCommand32Code0101() {
+	LOG("%s","???");
+	uint8_t mrmByte = read8u();
+	uint8_t nnn = readMiddle3Bit(mrmByte);
+	switch (nnn) {
+		case 0x4: {
+			uint8_t* target = (uint8_t*)readAddressMRM32For16(mrmByte);
+			*(uint16_t*)target = 0x0011;
 		}
 		break;
 		default:
@@ -18333,6 +18337,7 @@ void installCommandFunction() {
 	commandFunctions16[255 | 0x0200 ] = handlerCommand16Code00FFP67;
 	commandFunctions16[255 | 0x0400] = handlerCommand16Code00FFP66;
 	commandFunctions16[255 | 0x0200 | 0x0400] = handlerCommand16Code00FFP66P67;
+	commandFunctions16[257] = handlerCommand16Code0101;
 	commandFunctions16[384] = handlerCommand16Code0180;
 	commandFunctions16[385] = handlerCommand16Code0181;
 	commandFunctions16[386] = handlerCommand16Code0182;
@@ -18832,6 +18837,7 @@ void installCommandFunction() {
 	commandFunctions32[255 | 0x0200 ] = handlerCommand32Code00FFP67;
 	commandFunctions32[255 | 0x0400] = handlerCommand32Code00FFP66;
 	commandFunctions32[255 | 0x0200 | 0x0400] = handlerCommand32Code00FFP66P67;
+	commandFunctions32[257] = handlerCommand32Code0101;
 	commandFunctions32[384] = handlerCommand32Code0180;
 	commandFunctions32[385] = handlerCommand32Code0181;
 	commandFunctions32[386] = handlerCommand32Code0182;
