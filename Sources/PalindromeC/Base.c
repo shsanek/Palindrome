@@ -110,7 +110,7 @@ void getCommand() {
     }
 
     command |= (uint16_t)(value);
-    debugCommands[command] = 1;
+    DEBUG_RUN({ debugCommands[command] = 1; })
 
     context.lastCommandInfo.prefixInfo.commandPrefix = commandPrefix;
     context.lastCommandInfo.prefixInfo.changeSegmentPrefix = changeSegmentPrefix;
@@ -125,14 +125,14 @@ void getCommand() {
 
 // readMRM
 
-void runCommand16() {
-    getCommand();
-    commandFunctions16[context.lastCommandInfo.command]();
+#define runCommand16() {\
+    getCommand();\
+    commandFunctions16[context.lastCommandInfo.command]();\
 }
 
-void runCommand32() {
-    getCommand();
-    commandFunctions32[context.lastCommandInfo.command]();
+#define runCommand32() { \
+    getCommand(); \
+    commandFunctions32[context.lastCommandInfo.command](); \
 }
 
 void runCommand() {
@@ -204,7 +204,7 @@ void run16ToEndWithStop(int count) {
     context.mod = 0;
     clearDebugCommands();
     clearDebugLine();
-    int index = 0;
+    DEBUG_RUN( int index = 0; );
     while (context.end == 0 && count > 0) {
         LOG("step %d|", index);
         runCommand16();
@@ -214,7 +214,7 @@ void run16ToEndWithStop(int count) {
         })
         LOG("%s", "\n\n");
         PRINT16_REGS
-        index += 1;
+        DEBUG_RUN({ index += 1; })
         count--;
     }
 }

@@ -11,7 +11,7 @@ struct FunctionBodyFormatter: IFormatter {
         }
         generator.add("//\(info.command.name)")
         generator.add("void \(name)() {")
-        generator.add("printf(\"\(info.command.name)\");")
+        generator.add("LOG(\"%s\",\"\(info.command.name)\");")
         generator.add(baseFormatter.format(with: info))
         generator.add("}")
         return generator.text

@@ -6,7 +6,7 @@ void mCommandFunctionEmpty() {
 }
 //ADD
 void handlerCommand16Code0000P66() {
-	printf("ADD");
+	LOG("%s","ADD");
 	uint8_t mrmByte = read8u();
 	uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
 	uint8_t* source = (uint8_t*)readRegisterMRM8(mrmByte);
@@ -18,7 +18,7 @@ void handlerCommand16Code0000P66() {
 }
 //ADD
 void handlerCommand16Code0000() {
-	printf("ADD");
+	LOG("%s","ADD");
 	uint8_t mrmByte = read8u();
 	uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
 	uint8_t* source = (uint8_t*)readRegisterMRM8(mrmByte);
@@ -30,7 +30,7 @@ void handlerCommand16Code0000() {
 }
 //ADD
 void handlerCommand16Code0001P66() {
-	printf("ADD");
+	LOG("%s","ADD");
 	uint8_t mrmByte = read8u();
 	uint8_t* target = (uint8_t*)readAddressMRM16For32(mrmByte);
 	uint8_t* source = (uint8_t*)readRegisterMRM32(mrmByte);
@@ -42,7 +42,7 @@ void handlerCommand16Code0001P66() {
 }
 //ADD
 void handlerCommand16Code0001() {
-	printf("ADD");
+	LOG("%s","ADD");
 	uint8_t mrmByte = read8u();
 	uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
 	uint8_t* source = (uint8_t*)readRegisterMRM16(mrmByte);
@@ -54,7 +54,7 @@ void handlerCommand16Code0001() {
 }
 //ADD
 void handlerCommand16Code0002P66() {
-	printf("ADD");
+	LOG("%s","ADD");
 	uint8_t mrmByte = read8u();
 	uint8_t* source = (uint8_t*)readAddressMRM16For8(mrmByte);
 	uint8_t* target = (uint8_t*)readRegisterMRM8(mrmByte);
@@ -66,7 +66,7 @@ void handlerCommand16Code0002P66() {
 }
 //ADD
 void handlerCommand16Code0002() {
-	printf("ADD");
+	LOG("%s","ADD");
 	uint8_t mrmByte = read8u();
 	uint8_t* source = (uint8_t*)readAddressMRM16For8(mrmByte);
 	uint8_t* target = (uint8_t*)readRegisterMRM8(mrmByte);
@@ -78,7 +78,7 @@ void handlerCommand16Code0002() {
 }
 //ADD
 void handlerCommand16Code0003P66() {
-	printf("ADD");
+	LOG("%s","ADD");
 	uint8_t mrmByte = read8u();
 	uint8_t* source = (uint8_t*)readAddressMRM16For32(mrmByte);
 	uint8_t* target = (uint8_t*)readRegisterMRM32(mrmByte);
@@ -90,7 +90,7 @@ void handlerCommand16Code0003P66() {
 }
 //ADD
 void handlerCommand16Code0003() {
-	printf("ADD");
+	LOG("%s","ADD");
 	uint8_t mrmByte = read8u();
 	uint8_t* source = (uint8_t*)readAddressMRM16For16(mrmByte);
 	uint8_t* target = (uint8_t*)readRegisterMRM16(mrmByte);
@@ -102,7 +102,7 @@ void handlerCommand16Code0003() {
 }
 //ADD
 void handlerCommand16Code0004P66() {
-	printf("ADD");
+	LOG("%s","ADD");
 	uint8_t* target = (uint8_t*)register8u(BR_AX);
 	LazyFlagVarA8 = *(uint8_t*)target;
 	LazyFlagVarB8 = read8u();
@@ -112,7 +112,7 @@ void handlerCommand16Code0004P66() {
 }
 //ADD
 void handlerCommand16Code0004() {
-	printf("ADD");
+	LOG("%s","ADD");
 	uint8_t* target = (uint8_t*)register8u(BR_AX);
 	LazyFlagVarA8 = *(uint8_t*)target;
 	LazyFlagVarB8 = read8u();
@@ -122,7 +122,7 @@ void handlerCommand16Code0004() {
 }
 //ADD
 void handlerCommand16Code0005P66() {
-	printf("ADD");
+	LOG("%s","ADD");
 	uint8_t* target = (uint8_t*)register32u(BR_AX);
 	LazyFlagVarA32 = *(uint32_t*)target;
 	LazyFlagVarB32 = read32u();
@@ -132,7 +132,7 @@ void handlerCommand16Code0005P66() {
 }
 //ADD
 void handlerCommand16Code0005() {
-	printf("ADD");
+	LOG("%s","ADD");
 	uint8_t* target = (uint8_t*)register16u(BR_AX);
 	LazyFlagVarA16 = *(uint16_t*)target;
 	LazyFlagVarB16 = read16u();
@@ -142,63 +142,63 @@ void handlerCommand16Code0005() {
 }
 //Push
 void handlerCommand16Code0006() {
-	printf("Push");
+	LOG("%s","Push");
 	uint8_t rg = 0x00;
 	reg_SP_16u -= 16 / 8;
 	*(uint16_t*)(mem(SR_SS) + reg_SP_16u) = context.segmentRegisters[rg];
 }
 //Push
 void handlerCommand16Code000E() {
-	printf("Push");
+	LOG("%s","Push");
 	uint8_t rg = 0x01;
 	reg_SP_16u -= 16 / 8;
 	*(uint16_t*)(mem(SR_SS) + reg_SP_16u) = context.segmentRegisters[rg];
 }
 //Push
 void handlerCommand16Code0016() {
-	printf("Push");
+	LOG("%s","Push");
 	uint8_t rg = 0x02;
 	reg_SP_16u -= 16 / 8;
 	*(uint16_t*)(mem(SR_SS) + reg_SP_16u) = context.segmentRegisters[rg];
 }
 //Push
 void handlerCommand16Code001E() {
-	printf("Push");
+	LOG("%s","Push");
 	uint8_t rg = 0x03;
 	reg_SP_16u -= 16 / 8;
 	*(uint16_t*)(mem(SR_SS) + reg_SP_16u) = context.segmentRegisters[rg];
 }
 //Pop
 void handlerCommand16Code0007() {
-	printf("Pop");
+	LOG("%s","Pop");
 	uint8_t rg = 0x00;
 	context.segmentRegisters[rg] = *(uint16_t*)(mem(SR_SS) + reg_SP_16u);
 	reg_SP_16u += 16 / 8;
 }
 //Pop
 void handlerCommand16Code000F() {
-	printf("Pop");
+	LOG("%s","Pop");
 	uint8_t rg = 0x01;
 	context.segmentRegisters[rg] = *(uint16_t*)(mem(SR_SS) + reg_SP_16u);
 	reg_SP_16u += 16 / 8;
 }
 //Pop
 void handlerCommand16Code0017() {
-	printf("Pop");
+	LOG("%s","Pop");
 	uint8_t rg = 0x02;
 	context.segmentRegisters[rg] = *(uint16_t*)(mem(SR_SS) + reg_SP_16u);
 	reg_SP_16u += 16 / 8;
 }
 //Pop
 void handlerCommand16Code001F() {
-	printf("Pop");
+	LOG("%s","Pop");
 	uint8_t rg = 0x03;
 	context.segmentRegisters[rg] = *(uint16_t*)(mem(SR_SS) + reg_SP_16u);
 	reg_SP_16u += 16 / 8;
 }
 //OR
 void handlerCommand16Code0008P66() {
-	printf("OR");
+	LOG("%s","OR");
 	uint8_t mrmByte = read8u();
 	uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
 	uint8_t* source = (uint8_t*)readRegisterMRM8(mrmByte);
@@ -210,7 +210,7 @@ void handlerCommand16Code0008P66() {
 }
 //OR
 void handlerCommand16Code0008() {
-	printf("OR");
+	LOG("%s","OR");
 	uint8_t mrmByte = read8u();
 	uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
 	uint8_t* source = (uint8_t*)readRegisterMRM8(mrmByte);
@@ -222,7 +222,7 @@ void handlerCommand16Code0008() {
 }
 //OR
 void handlerCommand16Code0009P66() {
-	printf("OR");
+	LOG("%s","OR");
 	uint8_t mrmByte = read8u();
 	uint8_t* target = (uint8_t*)readAddressMRM16For32(mrmByte);
 	uint8_t* source = (uint8_t*)readRegisterMRM32(mrmByte);
@@ -234,7 +234,7 @@ void handlerCommand16Code0009P66() {
 }
 //OR
 void handlerCommand16Code0009() {
-	printf("OR");
+	LOG("%s","OR");
 	uint8_t mrmByte = read8u();
 	uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
 	uint8_t* source = (uint8_t*)readRegisterMRM16(mrmByte);
@@ -246,7 +246,7 @@ void handlerCommand16Code0009() {
 }
 //OR
 void handlerCommand16Code000AP66() {
-	printf("OR");
+	LOG("%s","OR");
 	uint8_t mrmByte = read8u();
 	uint8_t* source = (uint8_t*)readAddressMRM16For8(mrmByte);
 	uint8_t* target = (uint8_t*)readRegisterMRM8(mrmByte);
@@ -258,7 +258,7 @@ void handlerCommand16Code000AP66() {
 }
 //OR
 void handlerCommand16Code000A() {
-	printf("OR");
+	LOG("%s","OR");
 	uint8_t mrmByte = read8u();
 	uint8_t* source = (uint8_t*)readAddressMRM16For8(mrmByte);
 	uint8_t* target = (uint8_t*)readRegisterMRM8(mrmByte);
@@ -270,7 +270,7 @@ void handlerCommand16Code000A() {
 }
 //OR
 void handlerCommand16Code000BP66() {
-	printf("OR");
+	LOG("%s","OR");
 	uint8_t mrmByte = read8u();
 	uint8_t* source = (uint8_t*)readAddressMRM16For32(mrmByte);
 	uint8_t* target = (uint8_t*)readRegisterMRM32(mrmByte);
@@ -282,7 +282,7 @@ void handlerCommand16Code000BP66() {
 }
 //OR
 void handlerCommand16Code000B() {
-	printf("OR");
+	LOG("%s","OR");
 	uint8_t mrmByte = read8u();
 	uint8_t* source = (uint8_t*)readAddressMRM16For16(mrmByte);
 	uint8_t* target = (uint8_t*)readRegisterMRM16(mrmByte);
@@ -294,7 +294,7 @@ void handlerCommand16Code000B() {
 }
 //OR
 void handlerCommand16Code000CP66() {
-	printf("OR");
+	LOG("%s","OR");
 	uint8_t* target = (uint8_t*)register8u(BR_AX);
 	LazyFlagVarA8 = *(uint8_t*)target;
 	LazyFlagVarB8 = read8u();
@@ -304,7 +304,7 @@ void handlerCommand16Code000CP66() {
 }
 //OR
 void handlerCommand16Code000C() {
-	printf("OR");
+	LOG("%s","OR");
 	uint8_t* target = (uint8_t*)register8u(BR_AX);
 	LazyFlagVarA8 = *(uint8_t*)target;
 	LazyFlagVarB8 = read8u();
@@ -314,7 +314,7 @@ void handlerCommand16Code000C() {
 }
 //OR
 void handlerCommand16Code000DP66() {
-	printf("OR");
+	LOG("%s","OR");
 	uint8_t* target = (uint8_t*)register32u(BR_AX);
 	LazyFlagVarA32 = *(uint32_t*)target;
 	LazyFlagVarB32 = read32u();
@@ -324,7 +324,7 @@ void handlerCommand16Code000DP66() {
 }
 //OR
 void handlerCommand16Code000D() {
-	printf("OR");
+	LOG("%s","OR");
 	uint8_t* target = (uint8_t*)register16u(BR_AX);
 	LazyFlagVarA16 = *(uint16_t*)target;
 	LazyFlagVarB16 = read16u();
@@ -334,7 +334,7 @@ void handlerCommand16Code000D() {
 }
 //ADC
 void handlerCommand16Code0010P66() {
-	printf("ADC");
+	LOG("%s","ADC");
 	uint8_t mrmByte = read8u();
 	uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
 	uint8_t* source = (uint8_t*)readRegisterMRM8(mrmByte);
@@ -348,7 +348,7 @@ void handlerCommand16Code0010P66() {
 }
 //ADC
 void handlerCommand16Code0010() {
-	printf("ADC");
+	LOG("%s","ADC");
 	uint8_t mrmByte = read8u();
 	uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
 	uint8_t* source = (uint8_t*)readRegisterMRM8(mrmByte);
@@ -362,7 +362,7 @@ void handlerCommand16Code0010() {
 }
 //ADC
 void handlerCommand16Code0011P66() {
-	printf("ADC");
+	LOG("%s","ADC");
 	uint8_t mrmByte = read8u();
 	uint8_t* target = (uint8_t*)readAddressMRM16For32(mrmByte);
 	uint8_t* source = (uint8_t*)readRegisterMRM32(mrmByte);
@@ -376,7 +376,7 @@ void handlerCommand16Code0011P66() {
 }
 //ADC
 void handlerCommand16Code0011() {
-	printf("ADC");
+	LOG("%s","ADC");
 	uint8_t mrmByte = read8u();
 	uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
 	uint8_t* source = (uint8_t*)readRegisterMRM16(mrmByte);
@@ -390,7 +390,7 @@ void handlerCommand16Code0011() {
 }
 //ADC
 void handlerCommand16Code0012P66() {
-	printf("ADC");
+	LOG("%s","ADC");
 	uint8_t mrmByte = read8u();
 	uint8_t* source = (uint8_t*)readAddressMRM16For8(mrmByte);
 	uint8_t* target = (uint8_t*)readRegisterMRM8(mrmByte);
@@ -404,7 +404,7 @@ void handlerCommand16Code0012P66() {
 }
 //ADC
 void handlerCommand16Code0012() {
-	printf("ADC");
+	LOG("%s","ADC");
 	uint8_t mrmByte = read8u();
 	uint8_t* source = (uint8_t*)readAddressMRM16For8(mrmByte);
 	uint8_t* target = (uint8_t*)readRegisterMRM8(mrmByte);
@@ -418,7 +418,7 @@ void handlerCommand16Code0012() {
 }
 //ADC
 void handlerCommand16Code0013P66() {
-	printf("ADC");
+	LOG("%s","ADC");
 	uint8_t mrmByte = read8u();
 	uint8_t* source = (uint8_t*)readAddressMRM16For32(mrmByte);
 	uint8_t* target = (uint8_t*)readRegisterMRM32(mrmByte);
@@ -432,7 +432,7 @@ void handlerCommand16Code0013P66() {
 }
 //ADC
 void handlerCommand16Code0013() {
-	printf("ADC");
+	LOG("%s","ADC");
 	uint8_t mrmByte = read8u();
 	uint8_t* source = (uint8_t*)readAddressMRM16For16(mrmByte);
 	uint8_t* target = (uint8_t*)readRegisterMRM16(mrmByte);
@@ -446,7 +446,7 @@ void handlerCommand16Code0013() {
 }
 //ADC
 void handlerCommand16Code0014P66() {
-	printf("ADC");
+	LOG("%s","ADC");
 	uint8_t* target = (uint8_t*)register8u(BR_AX);
 	LazyFlagVarA8 = *(uint8_t*)target;
 	LazyFlagVarB8 = read8u();
@@ -458,7 +458,7 @@ void handlerCommand16Code0014P66() {
 }
 //ADC
 void handlerCommand16Code0014() {
-	printf("ADC");
+	LOG("%s","ADC");
 	uint8_t* target = (uint8_t*)register8u(BR_AX);
 	LazyFlagVarA8 = *(uint8_t*)target;
 	LazyFlagVarB8 = read8u();
@@ -470,7 +470,7 @@ void handlerCommand16Code0014() {
 }
 //ADC
 void handlerCommand16Code0015P66() {
-	printf("ADC");
+	LOG("%s","ADC");
 	uint8_t* target = (uint8_t*)register32u(BR_AX);
 	LazyFlagVarA32 = *(uint32_t*)target;
 	LazyFlagVarB32 = read32u();
@@ -482,7 +482,7 @@ void handlerCommand16Code0015P66() {
 }
 //ADC
 void handlerCommand16Code0015() {
-	printf("ADC");
+	LOG("%s","ADC");
 	uint8_t* target = (uint8_t*)register16u(BR_AX);
 	LazyFlagVarA16 = *(uint16_t*)target;
 	LazyFlagVarB16 = read16u();
@@ -494,7 +494,7 @@ void handlerCommand16Code0015() {
 }
 //SBB
 void handlerCommand16Code0018P66() {
-	printf("SBB");
+	LOG("%s","SBB");
 	uint8_t mrmByte = read8u();
 	uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
 	uint8_t* source = (uint8_t*)readRegisterMRM8(mrmByte);
@@ -508,7 +508,7 @@ void handlerCommand16Code0018P66() {
 }
 //SBB
 void handlerCommand16Code0018() {
-	printf("SBB");
+	LOG("%s","SBB");
 	uint8_t mrmByte = read8u();
 	uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
 	uint8_t* source = (uint8_t*)readRegisterMRM8(mrmByte);
@@ -522,7 +522,7 @@ void handlerCommand16Code0018() {
 }
 //SBB
 void handlerCommand16Code0019P66() {
-	printf("SBB");
+	LOG("%s","SBB");
 	uint8_t mrmByte = read8u();
 	uint8_t* target = (uint8_t*)readAddressMRM16For32(mrmByte);
 	uint8_t* source = (uint8_t*)readRegisterMRM32(mrmByte);
@@ -536,7 +536,7 @@ void handlerCommand16Code0019P66() {
 }
 //SBB
 void handlerCommand16Code0019() {
-	printf("SBB");
+	LOG("%s","SBB");
 	uint8_t mrmByte = read8u();
 	uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
 	uint8_t* source = (uint8_t*)readRegisterMRM16(mrmByte);
@@ -550,7 +550,7 @@ void handlerCommand16Code0019() {
 }
 //SBB
 void handlerCommand16Code001AP66() {
-	printf("SBB");
+	LOG("%s","SBB");
 	uint8_t mrmByte = read8u();
 	uint8_t* source = (uint8_t*)readAddressMRM16For8(mrmByte);
 	uint8_t* target = (uint8_t*)readRegisterMRM8(mrmByte);
@@ -564,7 +564,7 @@ void handlerCommand16Code001AP66() {
 }
 //SBB
 void handlerCommand16Code001A() {
-	printf("SBB");
+	LOG("%s","SBB");
 	uint8_t mrmByte = read8u();
 	uint8_t* source = (uint8_t*)readAddressMRM16For8(mrmByte);
 	uint8_t* target = (uint8_t*)readRegisterMRM8(mrmByte);
@@ -578,7 +578,7 @@ void handlerCommand16Code001A() {
 }
 //SBB
 void handlerCommand16Code001BP66() {
-	printf("SBB");
+	LOG("%s","SBB");
 	uint8_t mrmByte = read8u();
 	uint8_t* source = (uint8_t*)readAddressMRM16For32(mrmByte);
 	uint8_t* target = (uint8_t*)readRegisterMRM32(mrmByte);
@@ -592,7 +592,7 @@ void handlerCommand16Code001BP66() {
 }
 //SBB
 void handlerCommand16Code001B() {
-	printf("SBB");
+	LOG("%s","SBB");
 	uint8_t mrmByte = read8u();
 	uint8_t* source = (uint8_t*)readAddressMRM16For16(mrmByte);
 	uint8_t* target = (uint8_t*)readRegisterMRM16(mrmByte);
@@ -606,7 +606,7 @@ void handlerCommand16Code001B() {
 }
 //SBB
 void handlerCommand16Code001CP66() {
-	printf("SBB");
+	LOG("%s","SBB");
 	uint8_t* target = (uint8_t*)register8u(BR_AX);
 	LazyFlagVarA8 = *(uint8_t*)target;
 	LazyFlagVarB8 = read8u();
@@ -618,7 +618,7 @@ void handlerCommand16Code001CP66() {
 }
 //SBB
 void handlerCommand16Code001C() {
-	printf("SBB");
+	LOG("%s","SBB");
 	uint8_t* target = (uint8_t*)register8u(BR_AX);
 	LazyFlagVarA8 = *(uint8_t*)target;
 	LazyFlagVarB8 = read8u();
@@ -630,7 +630,7 @@ void handlerCommand16Code001C() {
 }
 //SBB
 void handlerCommand16Code001DP66() {
-	printf("SBB");
+	LOG("%s","SBB");
 	uint8_t* target = (uint8_t*)register32u(BR_AX);
 	LazyFlagVarA32 = *(uint32_t*)target;
 	LazyFlagVarB32 = read32u();
@@ -642,7 +642,7 @@ void handlerCommand16Code001DP66() {
 }
 //SBB
 void handlerCommand16Code001D() {
-	printf("SBB");
+	LOG("%s","SBB");
 	uint8_t* target = (uint8_t*)register16u(BR_AX);
 	LazyFlagVarA16 = *(uint16_t*)target;
 	LazyFlagVarB16 = read16u();
@@ -654,7 +654,7 @@ void handlerCommand16Code001D() {
 }
 //AND
 void handlerCommand16Code0020P66() {
-	printf("AND");
+	LOG("%s","AND");
 	uint8_t mrmByte = read8u();
 	uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
 	uint8_t* source = (uint8_t*)readRegisterMRM8(mrmByte);
@@ -666,7 +666,7 @@ void handlerCommand16Code0020P66() {
 }
 //AND
 void handlerCommand16Code0020() {
-	printf("AND");
+	LOG("%s","AND");
 	uint8_t mrmByte = read8u();
 	uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
 	uint8_t* source = (uint8_t*)readRegisterMRM8(mrmByte);
@@ -678,7 +678,7 @@ void handlerCommand16Code0020() {
 }
 //AND
 void handlerCommand16Code0021P66() {
-	printf("AND");
+	LOG("%s","AND");
 	uint8_t mrmByte = read8u();
 	uint8_t* target = (uint8_t*)readAddressMRM16For32(mrmByte);
 	uint8_t* source = (uint8_t*)readRegisterMRM32(mrmByte);
@@ -690,7 +690,7 @@ void handlerCommand16Code0021P66() {
 }
 //AND
 void handlerCommand16Code0021() {
-	printf("AND");
+	LOG("%s","AND");
 	uint8_t mrmByte = read8u();
 	uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
 	uint8_t* source = (uint8_t*)readRegisterMRM16(mrmByte);
@@ -702,7 +702,7 @@ void handlerCommand16Code0021() {
 }
 //AND
 void handlerCommand16Code0022P66() {
-	printf("AND");
+	LOG("%s","AND");
 	uint8_t mrmByte = read8u();
 	uint8_t* source = (uint8_t*)readAddressMRM16For8(mrmByte);
 	uint8_t* target = (uint8_t*)readRegisterMRM8(mrmByte);
@@ -714,7 +714,7 @@ void handlerCommand16Code0022P66() {
 }
 //AND
 void handlerCommand16Code0022() {
-	printf("AND");
+	LOG("%s","AND");
 	uint8_t mrmByte = read8u();
 	uint8_t* source = (uint8_t*)readAddressMRM16For8(mrmByte);
 	uint8_t* target = (uint8_t*)readRegisterMRM8(mrmByte);
@@ -726,7 +726,7 @@ void handlerCommand16Code0022() {
 }
 //AND
 void handlerCommand16Code0023P66() {
-	printf("AND");
+	LOG("%s","AND");
 	uint8_t mrmByte = read8u();
 	uint8_t* source = (uint8_t*)readAddressMRM16For32(mrmByte);
 	uint8_t* target = (uint8_t*)readRegisterMRM32(mrmByte);
@@ -738,7 +738,7 @@ void handlerCommand16Code0023P66() {
 }
 //AND
 void handlerCommand16Code0023() {
-	printf("AND");
+	LOG("%s","AND");
 	uint8_t mrmByte = read8u();
 	uint8_t* source = (uint8_t*)readAddressMRM16For16(mrmByte);
 	uint8_t* target = (uint8_t*)readRegisterMRM16(mrmByte);
@@ -750,7 +750,7 @@ void handlerCommand16Code0023() {
 }
 //AND
 void handlerCommand16Code0024P66() {
-	printf("AND");
+	LOG("%s","AND");
 	uint8_t* target = (uint8_t*)register8u(BR_AX);
 	LazyFlagVarA8 = *(uint8_t*)target;
 	LazyFlagVarB8 = read8u();
@@ -760,7 +760,7 @@ void handlerCommand16Code0024P66() {
 }
 //AND
 void handlerCommand16Code0024() {
-	printf("AND");
+	LOG("%s","AND");
 	uint8_t* target = (uint8_t*)register8u(BR_AX);
 	LazyFlagVarA8 = *(uint8_t*)target;
 	LazyFlagVarB8 = read8u();
@@ -770,7 +770,7 @@ void handlerCommand16Code0024() {
 }
 //AND
 void handlerCommand16Code0025P66() {
-	printf("AND");
+	LOG("%s","AND");
 	uint8_t* target = (uint8_t*)register32u(BR_AX);
 	LazyFlagVarA32 = *(uint32_t*)target;
 	LazyFlagVarB32 = read32u();
@@ -780,7 +780,7 @@ void handlerCommand16Code0025P66() {
 }
 //AND
 void handlerCommand16Code0025() {
-	printf("AND");
+	LOG("%s","AND");
 	uint8_t* target = (uint8_t*)register16u(BR_AX);
 	LazyFlagVarA16 = *(uint16_t*)target;
 	LazyFlagVarB16 = read16u();
@@ -790,7 +790,7 @@ void handlerCommand16Code0025() {
 }
 //SUB
 void handlerCommand16Code0028P66() {
-	printf("SUB");
+	LOG("%s","SUB");
 	uint8_t mrmByte = read8u();
 	uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
 	uint8_t* source = (uint8_t*)readRegisterMRM8(mrmByte);
@@ -802,7 +802,7 @@ void handlerCommand16Code0028P66() {
 }
 //SUB
 void handlerCommand16Code0028() {
-	printf("SUB");
+	LOG("%s","SUB");
 	uint8_t mrmByte = read8u();
 	uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
 	uint8_t* source = (uint8_t*)readRegisterMRM8(mrmByte);
@@ -814,7 +814,7 @@ void handlerCommand16Code0028() {
 }
 //SUB
 void handlerCommand16Code0029P66() {
-	printf("SUB");
+	LOG("%s","SUB");
 	uint8_t mrmByte = read8u();
 	uint8_t* target = (uint8_t*)readAddressMRM16For32(mrmByte);
 	uint8_t* source = (uint8_t*)readRegisterMRM32(mrmByte);
@@ -826,7 +826,7 @@ void handlerCommand16Code0029P66() {
 }
 //SUB
 void handlerCommand16Code0029() {
-	printf("SUB");
+	LOG("%s","SUB");
 	uint8_t mrmByte = read8u();
 	uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
 	uint8_t* source = (uint8_t*)readRegisterMRM16(mrmByte);
@@ -838,7 +838,7 @@ void handlerCommand16Code0029() {
 }
 //SUB
 void handlerCommand16Code002AP66() {
-	printf("SUB");
+	LOG("%s","SUB");
 	uint8_t mrmByte = read8u();
 	uint8_t* source = (uint8_t*)readAddressMRM16For8(mrmByte);
 	uint8_t* target = (uint8_t*)readRegisterMRM8(mrmByte);
@@ -850,7 +850,7 @@ void handlerCommand16Code002AP66() {
 }
 //SUB
 void handlerCommand16Code002A() {
-	printf("SUB");
+	LOG("%s","SUB");
 	uint8_t mrmByte = read8u();
 	uint8_t* source = (uint8_t*)readAddressMRM16For8(mrmByte);
 	uint8_t* target = (uint8_t*)readRegisterMRM8(mrmByte);
@@ -862,7 +862,7 @@ void handlerCommand16Code002A() {
 }
 //SUB
 void handlerCommand16Code002BP66() {
-	printf("SUB");
+	LOG("%s","SUB");
 	uint8_t mrmByte = read8u();
 	uint8_t* source = (uint8_t*)readAddressMRM16For32(mrmByte);
 	uint8_t* target = (uint8_t*)readRegisterMRM32(mrmByte);
@@ -874,7 +874,7 @@ void handlerCommand16Code002BP66() {
 }
 //SUB
 void handlerCommand16Code002B() {
-	printf("SUB");
+	LOG("%s","SUB");
 	uint8_t mrmByte = read8u();
 	uint8_t* source = (uint8_t*)readAddressMRM16For16(mrmByte);
 	uint8_t* target = (uint8_t*)readRegisterMRM16(mrmByte);
@@ -886,7 +886,7 @@ void handlerCommand16Code002B() {
 }
 //SUB
 void handlerCommand16Code002CP66() {
-	printf("SUB");
+	LOG("%s","SUB");
 	uint8_t* target = (uint8_t*)register8u(BR_AX);
 	LazyFlagVarA8 = *(uint8_t*)target;
 	LazyFlagVarB8 = read8u();
@@ -896,7 +896,7 @@ void handlerCommand16Code002CP66() {
 }
 //SUB
 void handlerCommand16Code002C() {
-	printf("SUB");
+	LOG("%s","SUB");
 	uint8_t* target = (uint8_t*)register8u(BR_AX);
 	LazyFlagVarA8 = *(uint8_t*)target;
 	LazyFlagVarB8 = read8u();
@@ -906,7 +906,7 @@ void handlerCommand16Code002C() {
 }
 //SUB
 void handlerCommand16Code002DP66() {
-	printf("SUB");
+	LOG("%s","SUB");
 	uint8_t* target = (uint8_t*)register32u(BR_AX);
 	LazyFlagVarA32 = *(uint32_t*)target;
 	LazyFlagVarB32 = read32u();
@@ -916,7 +916,7 @@ void handlerCommand16Code002DP66() {
 }
 //SUB
 void handlerCommand16Code002D() {
-	printf("SUB");
+	LOG("%s","SUB");
 	uint8_t* target = (uint8_t*)register16u(BR_AX);
 	LazyFlagVarA16 = *(uint16_t*)target;
 	LazyFlagVarB16 = read16u();
@@ -926,7 +926,7 @@ void handlerCommand16Code002D() {
 }
 //XOR
 void handlerCommand16Code0030P66() {
-	printf("XOR");
+	LOG("%s","XOR");
 	uint8_t mrmByte = read8u();
 	uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
 	uint8_t* source = (uint8_t*)readRegisterMRM8(mrmByte);
@@ -938,7 +938,7 @@ void handlerCommand16Code0030P66() {
 }
 //XOR
 void handlerCommand16Code0030() {
-	printf("XOR");
+	LOG("%s","XOR");
 	uint8_t mrmByte = read8u();
 	uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
 	uint8_t* source = (uint8_t*)readRegisterMRM8(mrmByte);
@@ -950,7 +950,7 @@ void handlerCommand16Code0030() {
 }
 //XOR
 void handlerCommand16Code0031P66() {
-	printf("XOR");
+	LOG("%s","XOR");
 	uint8_t mrmByte = read8u();
 	uint8_t* target = (uint8_t*)readAddressMRM16For32(mrmByte);
 	uint8_t* source = (uint8_t*)readRegisterMRM32(mrmByte);
@@ -962,7 +962,7 @@ void handlerCommand16Code0031P66() {
 }
 //XOR
 void handlerCommand16Code0031() {
-	printf("XOR");
+	LOG("%s","XOR");
 	uint8_t mrmByte = read8u();
 	uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
 	uint8_t* source = (uint8_t*)readRegisterMRM16(mrmByte);
@@ -974,7 +974,7 @@ void handlerCommand16Code0031() {
 }
 //XOR
 void handlerCommand16Code0032P66() {
-	printf("XOR");
+	LOG("%s","XOR");
 	uint8_t mrmByte = read8u();
 	uint8_t* source = (uint8_t*)readAddressMRM16For8(mrmByte);
 	uint8_t* target = (uint8_t*)readRegisterMRM8(mrmByte);
@@ -986,7 +986,7 @@ void handlerCommand16Code0032P66() {
 }
 //XOR
 void handlerCommand16Code0032() {
-	printf("XOR");
+	LOG("%s","XOR");
 	uint8_t mrmByte = read8u();
 	uint8_t* source = (uint8_t*)readAddressMRM16For8(mrmByte);
 	uint8_t* target = (uint8_t*)readRegisterMRM8(mrmByte);
@@ -998,7 +998,7 @@ void handlerCommand16Code0032() {
 }
 //XOR
 void handlerCommand16Code0033P66() {
-	printf("XOR");
+	LOG("%s","XOR");
 	uint8_t mrmByte = read8u();
 	uint8_t* source = (uint8_t*)readAddressMRM16For32(mrmByte);
 	uint8_t* target = (uint8_t*)readRegisterMRM32(mrmByte);
@@ -1010,7 +1010,7 @@ void handlerCommand16Code0033P66() {
 }
 //XOR
 void handlerCommand16Code0033() {
-	printf("XOR");
+	LOG("%s","XOR");
 	uint8_t mrmByte = read8u();
 	uint8_t* source = (uint8_t*)readAddressMRM16For16(mrmByte);
 	uint8_t* target = (uint8_t*)readRegisterMRM16(mrmByte);
@@ -1022,7 +1022,7 @@ void handlerCommand16Code0033() {
 }
 //XOR
 void handlerCommand16Code0034P66() {
-	printf("XOR");
+	LOG("%s","XOR");
 	uint8_t* target = (uint8_t*)register8u(BR_AX);
 	LazyFlagVarA8 = *(uint8_t*)target;
 	LazyFlagVarB8 = read8u();
@@ -1032,7 +1032,7 @@ void handlerCommand16Code0034P66() {
 }
 //XOR
 void handlerCommand16Code0034() {
-	printf("XOR");
+	LOG("%s","XOR");
 	uint8_t* target = (uint8_t*)register8u(BR_AX);
 	LazyFlagVarA8 = *(uint8_t*)target;
 	LazyFlagVarB8 = read8u();
@@ -1042,7 +1042,7 @@ void handlerCommand16Code0034() {
 }
 //XOR
 void handlerCommand16Code0035P66() {
-	printf("XOR");
+	LOG("%s","XOR");
 	uint8_t* target = (uint8_t*)register32u(BR_AX);
 	LazyFlagVarA32 = *(uint32_t*)target;
 	LazyFlagVarB32 = read32u();
@@ -1052,7 +1052,7 @@ void handlerCommand16Code0035P66() {
 }
 //XOR
 void handlerCommand16Code0035() {
-	printf("XOR");
+	LOG("%s","XOR");
 	uint8_t* target = (uint8_t*)register16u(BR_AX);
 	LazyFlagVarA16 = *(uint16_t*)target;
 	LazyFlagVarB16 = read16u();
@@ -1062,7 +1062,7 @@ void handlerCommand16Code0035() {
 }
 //CMP
 void handlerCommand16Code0038P66() {
-	printf("CMP");
+	LOG("%s","CMP");
 	uint8_t mrmByte = read8u();
 	uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
 	uint8_t* source = (uint8_t*)readRegisterMRM8(mrmByte);
@@ -1073,7 +1073,7 @@ void handlerCommand16Code0038P66() {
 }
 //CMP
 void handlerCommand16Code0038() {
-	printf("CMP");
+	LOG("%s","CMP");
 	uint8_t mrmByte = read8u();
 	uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
 	uint8_t* source = (uint8_t*)readRegisterMRM8(mrmByte);
@@ -1084,7 +1084,7 @@ void handlerCommand16Code0038() {
 }
 //CMP
 void handlerCommand16Code0039P66() {
-	printf("CMP");
+	LOG("%s","CMP");
 	uint8_t mrmByte = read8u();
 	uint8_t* target = (uint8_t*)readAddressMRM16For32(mrmByte);
 	uint8_t* source = (uint8_t*)readRegisterMRM32(mrmByte);
@@ -1095,7 +1095,7 @@ void handlerCommand16Code0039P66() {
 }
 //CMP
 void handlerCommand16Code0039() {
-	printf("CMP");
+	LOG("%s","CMP");
 	uint8_t mrmByte = read8u();
 	uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
 	uint8_t* source = (uint8_t*)readRegisterMRM16(mrmByte);
@@ -1106,7 +1106,7 @@ void handlerCommand16Code0039() {
 }
 //CMP
 void handlerCommand16Code003AP66() {
-	printf("CMP");
+	LOG("%s","CMP");
 	uint8_t mrmByte = read8u();
 	uint8_t* source = (uint8_t*)readAddressMRM16For8(mrmByte);
 	uint8_t* target = (uint8_t*)readRegisterMRM8(mrmByte);
@@ -1117,7 +1117,7 @@ void handlerCommand16Code003AP66() {
 }
 //CMP
 void handlerCommand16Code003A() {
-	printf("CMP");
+	LOG("%s","CMP");
 	uint8_t mrmByte = read8u();
 	uint8_t* source = (uint8_t*)readAddressMRM16For8(mrmByte);
 	uint8_t* target = (uint8_t*)readRegisterMRM8(mrmByte);
@@ -1128,7 +1128,7 @@ void handlerCommand16Code003A() {
 }
 //CMP
 void handlerCommand16Code003BP66() {
-	printf("CMP");
+	LOG("%s","CMP");
 	uint8_t mrmByte = read8u();
 	uint8_t* source = (uint8_t*)readAddressMRM16For32(mrmByte);
 	uint8_t* target = (uint8_t*)readRegisterMRM32(mrmByte);
@@ -1139,7 +1139,7 @@ void handlerCommand16Code003BP66() {
 }
 //CMP
 void handlerCommand16Code003B() {
-	printf("CMP");
+	LOG("%s","CMP");
 	uint8_t mrmByte = read8u();
 	uint8_t* source = (uint8_t*)readAddressMRM16For16(mrmByte);
 	uint8_t* target = (uint8_t*)readRegisterMRM16(mrmByte);
@@ -1150,7 +1150,7 @@ void handlerCommand16Code003B() {
 }
 //CMP
 void handlerCommand16Code003CP66() {
-	printf("CMP");
+	LOG("%s","CMP");
 	uint8_t* target = (uint8_t*)register8u(BR_AX);
 	LazyFlagVarA8 = *(uint8_t*)target;
 	LazyFlagVarB8 = read8u();
@@ -1159,7 +1159,7 @@ void handlerCommand16Code003CP66() {
 }
 //CMP
 void handlerCommand16Code003C() {
-	printf("CMP");
+	LOG("%s","CMP");
 	uint8_t* target = (uint8_t*)register8u(BR_AX);
 	LazyFlagVarA8 = *(uint8_t*)target;
 	LazyFlagVarB8 = read8u();
@@ -1168,7 +1168,7 @@ void handlerCommand16Code003C() {
 }
 //CMP
 void handlerCommand16Code003DP66() {
-	printf("CMP");
+	LOG("%s","CMP");
 	uint8_t* target = (uint8_t*)register32u(BR_AX);
 	LazyFlagVarA32 = *(uint32_t*)target;
 	LazyFlagVarB32 = read32u();
@@ -1177,7 +1177,7 @@ void handlerCommand16Code003DP66() {
 }
 //CMP
 void handlerCommand16Code003D() {
-	printf("CMP");
+	LOG("%s","CMP");
 	uint8_t* target = (uint8_t*)register16u(BR_AX);
 	LazyFlagVarA16 = *(uint16_t*)target;
 	LazyFlagVarB16 = read16u();
@@ -1186,231 +1186,231 @@ void handlerCommand16Code003D() {
 }
 //Inc
 void handlerCommand16Code0040P66() {
-	printf("Inc");
+	LOG("%s","Inc");
 	reg_0x00_32u += 1;
 	LazyFlagResultContainer32 = reg_0x00_32u;
 	lazyFlagType = t_INC32;
 }
 //Inc
 void handlerCommand16Code0040() {
-	printf("Inc");
+	LOG("%s","Inc");
 	reg_0x00_16u += 1;
 	LazyFlagResultContainer16 = reg_0x00_16u;
 	lazyFlagType = t_INC16;
 }
 //Inc
 void handlerCommand16Code0041P66() {
-	printf("Inc");
+	LOG("%s","Inc");
 	reg_0x01_32u += 1;
 	LazyFlagResultContainer32 = reg_0x01_32u;
 	lazyFlagType = t_INC32;
 }
 //Inc
 void handlerCommand16Code0041() {
-	printf("Inc");
+	LOG("%s","Inc");
 	reg_0x01_16u += 1;
 	LazyFlagResultContainer16 = reg_0x01_16u;
 	lazyFlagType = t_INC16;
 }
 //Inc
 void handlerCommand16Code0042P66() {
-	printf("Inc");
+	LOG("%s","Inc");
 	reg_0x02_32u += 1;
 	LazyFlagResultContainer32 = reg_0x02_32u;
 	lazyFlagType = t_INC32;
 }
 //Inc
 void handlerCommand16Code0042() {
-	printf("Inc");
+	LOG("%s","Inc");
 	reg_0x02_16u += 1;
 	LazyFlagResultContainer16 = reg_0x02_16u;
 	lazyFlagType = t_INC16;
 }
 //Inc
 void handlerCommand16Code0043P66() {
-	printf("Inc");
+	LOG("%s","Inc");
 	reg_0x03_32u += 1;
 	LazyFlagResultContainer32 = reg_0x03_32u;
 	lazyFlagType = t_INC32;
 }
 //Inc
 void handlerCommand16Code0043() {
-	printf("Inc");
+	LOG("%s","Inc");
 	reg_0x03_16u += 1;
 	LazyFlagResultContainer16 = reg_0x03_16u;
 	lazyFlagType = t_INC16;
 }
 //Inc
 void handlerCommand16Code0044P66() {
-	printf("Inc");
+	LOG("%s","Inc");
 	reg_0x04_32u += 1;
 	LazyFlagResultContainer32 = reg_0x04_32u;
 	lazyFlagType = t_INC32;
 }
 //Inc
 void handlerCommand16Code0044() {
-	printf("Inc");
+	LOG("%s","Inc");
 	reg_0x04_16u += 1;
 	LazyFlagResultContainer16 = reg_0x04_16u;
 	lazyFlagType = t_INC16;
 }
 //Inc
 void handlerCommand16Code0045P66() {
-	printf("Inc");
+	LOG("%s","Inc");
 	reg_0x05_32u += 1;
 	LazyFlagResultContainer32 = reg_0x05_32u;
 	lazyFlagType = t_INC32;
 }
 //Inc
 void handlerCommand16Code0045() {
-	printf("Inc");
+	LOG("%s","Inc");
 	reg_0x05_16u += 1;
 	LazyFlagResultContainer16 = reg_0x05_16u;
 	lazyFlagType = t_INC16;
 }
 //Inc
 void handlerCommand16Code0046P66() {
-	printf("Inc");
+	LOG("%s","Inc");
 	reg_0x06_32u += 1;
 	LazyFlagResultContainer32 = reg_0x06_32u;
 	lazyFlagType = t_INC32;
 }
 //Inc
 void handlerCommand16Code0046() {
-	printf("Inc");
+	LOG("%s","Inc");
 	reg_0x06_16u += 1;
 	LazyFlagResultContainer16 = reg_0x06_16u;
 	lazyFlagType = t_INC16;
 }
 //Inc
 void handlerCommand16Code0047P66() {
-	printf("Inc");
+	LOG("%s","Inc");
 	reg_0x07_32u += 1;
 	LazyFlagResultContainer32 = reg_0x07_32u;
 	lazyFlagType = t_INC32;
 }
 //Inc
 void handlerCommand16Code0047() {
-	printf("Inc");
+	LOG("%s","Inc");
 	reg_0x07_16u += 1;
 	LazyFlagResultContainer16 = reg_0x07_16u;
 	lazyFlagType = t_INC16;
 }
 //Dec
 void handlerCommand16Code0048P66() {
-	printf("Dec");
+	LOG("%s","Dec");
 	reg_0x00_32u -= 1;
 	LazyFlagResultContainer32 = reg_0x00_32u;
 	lazyFlagType = t_DEC32;
 }
 //Dec
 void handlerCommand16Code0048() {
-	printf("Dec");
+	LOG("%s","Dec");
 	reg_0x00_16u -= 1;
 	LazyFlagResultContainer16 = reg_0x00_16u;
 	lazyFlagType = t_DEC16;
 }
 //Dec
 void handlerCommand16Code0049P66() {
-	printf("Dec");
+	LOG("%s","Dec");
 	reg_0x01_32u -= 1;
 	LazyFlagResultContainer32 = reg_0x01_32u;
 	lazyFlagType = t_DEC32;
 }
 //Dec
 void handlerCommand16Code0049() {
-	printf("Dec");
+	LOG("%s","Dec");
 	reg_0x01_16u -= 1;
 	LazyFlagResultContainer16 = reg_0x01_16u;
 	lazyFlagType = t_DEC16;
 }
 //Dec
 void handlerCommand16Code004AP66() {
-	printf("Dec");
+	LOG("%s","Dec");
 	reg_0x02_32u -= 1;
 	LazyFlagResultContainer32 = reg_0x02_32u;
 	lazyFlagType = t_DEC32;
 }
 //Dec
 void handlerCommand16Code004A() {
-	printf("Dec");
+	LOG("%s","Dec");
 	reg_0x02_16u -= 1;
 	LazyFlagResultContainer16 = reg_0x02_16u;
 	lazyFlagType = t_DEC16;
 }
 //Dec
 void handlerCommand16Code004BP66() {
-	printf("Dec");
+	LOG("%s","Dec");
 	reg_0x03_32u -= 1;
 	LazyFlagResultContainer32 = reg_0x03_32u;
 	lazyFlagType = t_DEC32;
 }
 //Dec
 void handlerCommand16Code004B() {
-	printf("Dec");
+	LOG("%s","Dec");
 	reg_0x03_16u -= 1;
 	LazyFlagResultContainer16 = reg_0x03_16u;
 	lazyFlagType = t_DEC16;
 }
 //Dec
 void handlerCommand16Code004CP66() {
-	printf("Dec");
+	LOG("%s","Dec");
 	reg_0x04_32u -= 1;
 	LazyFlagResultContainer32 = reg_0x04_32u;
 	lazyFlagType = t_DEC32;
 }
 //Dec
 void handlerCommand16Code004C() {
-	printf("Dec");
+	LOG("%s","Dec");
 	reg_0x04_16u -= 1;
 	LazyFlagResultContainer16 = reg_0x04_16u;
 	lazyFlagType = t_DEC16;
 }
 //Dec
 void handlerCommand16Code004DP66() {
-	printf("Dec");
+	LOG("%s","Dec");
 	reg_0x05_32u -= 1;
 	LazyFlagResultContainer32 = reg_0x05_32u;
 	lazyFlagType = t_DEC32;
 }
 //Dec
 void handlerCommand16Code004D() {
-	printf("Dec");
+	LOG("%s","Dec");
 	reg_0x05_16u -= 1;
 	LazyFlagResultContainer16 = reg_0x05_16u;
 	lazyFlagType = t_DEC16;
 }
 //Dec
 void handlerCommand16Code004EP66() {
-	printf("Dec");
+	LOG("%s","Dec");
 	reg_0x06_32u -= 1;
 	LazyFlagResultContainer32 = reg_0x06_32u;
 	lazyFlagType = t_DEC32;
 }
 //Dec
 void handlerCommand16Code004E() {
-	printf("Dec");
+	LOG("%s","Dec");
 	reg_0x06_16u -= 1;
 	LazyFlagResultContainer16 = reg_0x06_16u;
 	lazyFlagType = t_DEC16;
 }
 //Dec
 void handlerCommand16Code004FP66() {
-	printf("Dec");
+	LOG("%s","Dec");
 	reg_0x07_32u -= 1;
 	LazyFlagResultContainer32 = reg_0x07_32u;
 	lazyFlagType = t_DEC32;
 }
 //Dec
 void handlerCommand16Code004F() {
-	printf("Dec");
+	LOG("%s","Dec");
 	reg_0x07_16u -= 1;
 	LazyFlagResultContainer16 = reg_0x07_16u;
 	lazyFlagType = t_DEC16;
 }
 //Push
 void handlerCommand16Code0050P66P67() {
-	printf("Push");
+	LOG("%s","Push");
 	uint8_t reg = 0x00;
 	uint32_t value = reg_0x00_32u;
 	reg_SP_32u -= 32 / 8;
@@ -1418,7 +1418,7 @@ void handlerCommand16Code0050P66P67() {
 }
 //Push
 void handlerCommand16Code0050P67() {
-	printf("Push");
+	LOG("%s","Push");
 	uint8_t reg = 0x00;
 	uint16_t value = reg_0x00_16u;
 	reg_SP_32u -= 16 / 8;
@@ -1426,7 +1426,7 @@ void handlerCommand16Code0050P67() {
 }
 //Push
 void handlerCommand16Code0050P66() {
-	printf("Push");
+	LOG("%s","Push");
 	uint8_t reg = 0x00;
 	uint32_t value = reg_0x00_32u;
 	reg_SP_16u -= 32 / 8;
@@ -1434,7 +1434,7 @@ void handlerCommand16Code0050P66() {
 }
 //Push
 void handlerCommand16Code0050() {
-	printf("Push");
+	LOG("%s","Push");
 	uint8_t reg = 0x00;
 	uint16_t value = reg_0x00_16u;
 	reg_SP_16u -= 16 / 8;
@@ -1442,7 +1442,7 @@ void handlerCommand16Code0050() {
 }
 //Push
 void handlerCommand16Code0051P66P67() {
-	printf("Push");
+	LOG("%s","Push");
 	uint8_t reg = 0x01;
 	uint32_t value = reg_0x01_32u;
 	reg_SP_32u -= 32 / 8;
@@ -1450,7 +1450,7 @@ void handlerCommand16Code0051P66P67() {
 }
 //Push
 void handlerCommand16Code0051P67() {
-	printf("Push");
+	LOG("%s","Push");
 	uint8_t reg = 0x01;
 	uint16_t value = reg_0x01_16u;
 	reg_SP_32u -= 16 / 8;
@@ -1458,7 +1458,7 @@ void handlerCommand16Code0051P67() {
 }
 //Push
 void handlerCommand16Code0051P66() {
-	printf("Push");
+	LOG("%s","Push");
 	uint8_t reg = 0x01;
 	uint32_t value = reg_0x01_32u;
 	reg_SP_16u -= 32 / 8;
@@ -1466,7 +1466,7 @@ void handlerCommand16Code0051P66() {
 }
 //Push
 void handlerCommand16Code0051() {
-	printf("Push");
+	LOG("%s","Push");
 	uint8_t reg = 0x01;
 	uint16_t value = reg_0x01_16u;
 	reg_SP_16u -= 16 / 8;
@@ -1474,7 +1474,7 @@ void handlerCommand16Code0051() {
 }
 //Push
 void handlerCommand16Code0052P66P67() {
-	printf("Push");
+	LOG("%s","Push");
 	uint8_t reg = 0x02;
 	uint32_t value = reg_0x02_32u;
 	reg_SP_32u -= 32 / 8;
@@ -1482,7 +1482,7 @@ void handlerCommand16Code0052P66P67() {
 }
 //Push
 void handlerCommand16Code0052P67() {
-	printf("Push");
+	LOG("%s","Push");
 	uint8_t reg = 0x02;
 	uint16_t value = reg_0x02_16u;
 	reg_SP_32u -= 16 / 8;
@@ -1490,7 +1490,7 @@ void handlerCommand16Code0052P67() {
 }
 //Push
 void handlerCommand16Code0052P66() {
-	printf("Push");
+	LOG("%s","Push");
 	uint8_t reg = 0x02;
 	uint32_t value = reg_0x02_32u;
 	reg_SP_16u -= 32 / 8;
@@ -1498,7 +1498,7 @@ void handlerCommand16Code0052P66() {
 }
 //Push
 void handlerCommand16Code0052() {
-	printf("Push");
+	LOG("%s","Push");
 	uint8_t reg = 0x02;
 	uint16_t value = reg_0x02_16u;
 	reg_SP_16u -= 16 / 8;
@@ -1506,7 +1506,7 @@ void handlerCommand16Code0052() {
 }
 //Push
 void handlerCommand16Code0053P66P67() {
-	printf("Push");
+	LOG("%s","Push");
 	uint8_t reg = 0x03;
 	uint32_t value = reg_0x03_32u;
 	reg_SP_32u -= 32 / 8;
@@ -1514,7 +1514,7 @@ void handlerCommand16Code0053P66P67() {
 }
 //Push
 void handlerCommand16Code0053P67() {
-	printf("Push");
+	LOG("%s","Push");
 	uint8_t reg = 0x03;
 	uint16_t value = reg_0x03_16u;
 	reg_SP_32u -= 16 / 8;
@@ -1522,7 +1522,7 @@ void handlerCommand16Code0053P67() {
 }
 //Push
 void handlerCommand16Code0053P66() {
-	printf("Push");
+	LOG("%s","Push");
 	uint8_t reg = 0x03;
 	uint32_t value = reg_0x03_32u;
 	reg_SP_16u -= 32 / 8;
@@ -1530,7 +1530,7 @@ void handlerCommand16Code0053P66() {
 }
 //Push
 void handlerCommand16Code0053() {
-	printf("Push");
+	LOG("%s","Push");
 	uint8_t reg = 0x03;
 	uint16_t value = reg_0x03_16u;
 	reg_SP_16u -= 16 / 8;
@@ -1538,7 +1538,7 @@ void handlerCommand16Code0053() {
 }
 //Push
 void handlerCommand16Code0054P66P67() {
-	printf("Push");
+	LOG("%s","Push");
 	uint8_t reg = 0x04;
 	uint32_t value = reg_0x04_32u;
 	reg_SP_32u -= 32 / 8;
@@ -1546,7 +1546,7 @@ void handlerCommand16Code0054P66P67() {
 }
 //Push
 void handlerCommand16Code0054P67() {
-	printf("Push");
+	LOG("%s","Push");
 	uint8_t reg = 0x04;
 	uint16_t value = reg_0x04_16u;
 	reg_SP_32u -= 16 / 8;
@@ -1554,7 +1554,7 @@ void handlerCommand16Code0054P67() {
 }
 //Push
 void handlerCommand16Code0054P66() {
-	printf("Push");
+	LOG("%s","Push");
 	uint8_t reg = 0x04;
 	uint32_t value = reg_0x04_32u;
 	reg_SP_16u -= 32 / 8;
@@ -1562,7 +1562,7 @@ void handlerCommand16Code0054P66() {
 }
 //Push
 void handlerCommand16Code0054() {
-	printf("Push");
+	LOG("%s","Push");
 	uint8_t reg = 0x04;
 	uint16_t value = reg_0x04_16u;
 	reg_SP_16u -= 16 / 8;
@@ -1570,7 +1570,7 @@ void handlerCommand16Code0054() {
 }
 //Push
 void handlerCommand16Code0055P66P67() {
-	printf("Push");
+	LOG("%s","Push");
 	uint8_t reg = 0x05;
 	uint32_t value = reg_0x05_32u;
 	reg_SP_32u -= 32 / 8;
@@ -1578,7 +1578,7 @@ void handlerCommand16Code0055P66P67() {
 }
 //Push
 void handlerCommand16Code0055P67() {
-	printf("Push");
+	LOG("%s","Push");
 	uint8_t reg = 0x05;
 	uint16_t value = reg_0x05_16u;
 	reg_SP_32u -= 16 / 8;
@@ -1586,7 +1586,7 @@ void handlerCommand16Code0055P67() {
 }
 //Push
 void handlerCommand16Code0055P66() {
-	printf("Push");
+	LOG("%s","Push");
 	uint8_t reg = 0x05;
 	uint32_t value = reg_0x05_32u;
 	reg_SP_16u -= 32 / 8;
@@ -1594,7 +1594,7 @@ void handlerCommand16Code0055P66() {
 }
 //Push
 void handlerCommand16Code0055() {
-	printf("Push");
+	LOG("%s","Push");
 	uint8_t reg = 0x05;
 	uint16_t value = reg_0x05_16u;
 	reg_SP_16u -= 16 / 8;
@@ -1602,7 +1602,7 @@ void handlerCommand16Code0055() {
 }
 //Push
 void handlerCommand16Code0056P66P67() {
-	printf("Push");
+	LOG("%s","Push");
 	uint8_t reg = 0x06;
 	uint32_t value = reg_0x06_32u;
 	reg_SP_32u -= 32 / 8;
@@ -1610,7 +1610,7 @@ void handlerCommand16Code0056P66P67() {
 }
 //Push
 void handlerCommand16Code0056P67() {
-	printf("Push");
+	LOG("%s","Push");
 	uint8_t reg = 0x06;
 	uint16_t value = reg_0x06_16u;
 	reg_SP_32u -= 16 / 8;
@@ -1618,7 +1618,7 @@ void handlerCommand16Code0056P67() {
 }
 //Push
 void handlerCommand16Code0056P66() {
-	printf("Push");
+	LOG("%s","Push");
 	uint8_t reg = 0x06;
 	uint32_t value = reg_0x06_32u;
 	reg_SP_16u -= 32 / 8;
@@ -1626,7 +1626,7 @@ void handlerCommand16Code0056P66() {
 }
 //Push
 void handlerCommand16Code0056() {
-	printf("Push");
+	LOG("%s","Push");
 	uint8_t reg = 0x06;
 	uint16_t value = reg_0x06_16u;
 	reg_SP_16u -= 16 / 8;
@@ -1634,7 +1634,7 @@ void handlerCommand16Code0056() {
 }
 //Push
 void handlerCommand16Code0057P66P67() {
-	printf("Push");
+	LOG("%s","Push");
 	uint8_t reg = 0x07;
 	uint32_t value = reg_0x07_32u;
 	reg_SP_32u -= 32 / 8;
@@ -1642,7 +1642,7 @@ void handlerCommand16Code0057P66P67() {
 }
 //Push
 void handlerCommand16Code0057P67() {
-	printf("Push");
+	LOG("%s","Push");
 	uint8_t reg = 0x07;
 	uint16_t value = reg_0x07_16u;
 	reg_SP_32u -= 16 / 8;
@@ -1650,7 +1650,7 @@ void handlerCommand16Code0057P67() {
 }
 //Push
 void handlerCommand16Code0057P66() {
-	printf("Push");
+	LOG("%s","Push");
 	uint8_t reg = 0x07;
 	uint32_t value = reg_0x07_32u;
 	reg_SP_16u -= 32 / 8;
@@ -1658,7 +1658,7 @@ void handlerCommand16Code0057P66() {
 }
 //Push
 void handlerCommand16Code0057() {
-	printf("Push");
+	LOG("%s","Push");
 	uint8_t reg = 0x07;
 	uint16_t value = reg_0x07_16u;
 	reg_SP_16u -= 16 / 8;
@@ -1666,259 +1666,259 @@ void handlerCommand16Code0057() {
 }
 //Pop
 void handlerCommand16Code0058P66P67() {
-	printf("Pop");
+	LOG("%s","Pop");
 	uint8_t reg = 0x00;
 	reg_0x00_32u = *(uint32_t*)(mem(SR_SS) + reg_SP_32u);
 	reg_SP_32u += 32 / 8;
 }
 //Pop
 void handlerCommand16Code0058P67() {
-	printf("Pop");
+	LOG("%s","Pop");
 	uint8_t reg = 0x00;
 	reg_0x00_16u = *(uint16_t*)(mem(SR_SS) + reg_SP_32u);
 	reg_SP_32u += 16 / 8;
 }
 //Pop
 void handlerCommand16Code0058P66() {
-	printf("Pop");
+	LOG("%s","Pop");
 	uint8_t reg = 0x00;
 	reg_0x00_32u = *(uint32_t*)(mem(SR_SS) + reg_SP_16u);
 	reg_SP_16u += 32 / 8;
 }
 //Pop
 void handlerCommand16Code0058() {
-	printf("Pop");
+	LOG("%s","Pop");
 	uint8_t reg = 0x00;
 	reg_0x00_16u = *(uint16_t*)(mem(SR_SS) + reg_SP_16u);
 	reg_SP_16u += 16 / 8;
 }
 //Pop
 void handlerCommand16Code0059P66P67() {
-	printf("Pop");
+	LOG("%s","Pop");
 	uint8_t reg = 0x01;
 	reg_0x01_32u = *(uint32_t*)(mem(SR_SS) + reg_SP_32u);
 	reg_SP_32u += 32 / 8;
 }
 //Pop
 void handlerCommand16Code0059P67() {
-	printf("Pop");
+	LOG("%s","Pop");
 	uint8_t reg = 0x01;
 	reg_0x01_16u = *(uint16_t*)(mem(SR_SS) + reg_SP_32u);
 	reg_SP_32u += 16 / 8;
 }
 //Pop
 void handlerCommand16Code0059P66() {
-	printf("Pop");
+	LOG("%s","Pop");
 	uint8_t reg = 0x01;
 	reg_0x01_32u = *(uint32_t*)(mem(SR_SS) + reg_SP_16u);
 	reg_SP_16u += 32 / 8;
 }
 //Pop
 void handlerCommand16Code0059() {
-	printf("Pop");
+	LOG("%s","Pop");
 	uint8_t reg = 0x01;
 	reg_0x01_16u = *(uint16_t*)(mem(SR_SS) + reg_SP_16u);
 	reg_SP_16u += 16 / 8;
 }
 //Pop
 void handlerCommand16Code005AP66P67() {
-	printf("Pop");
+	LOG("%s","Pop");
 	uint8_t reg = 0x02;
 	reg_0x02_32u = *(uint32_t*)(mem(SR_SS) + reg_SP_32u);
 	reg_SP_32u += 32 / 8;
 }
 //Pop
 void handlerCommand16Code005AP67() {
-	printf("Pop");
+	LOG("%s","Pop");
 	uint8_t reg = 0x02;
 	reg_0x02_16u = *(uint16_t*)(mem(SR_SS) + reg_SP_32u);
 	reg_SP_32u += 16 / 8;
 }
 //Pop
 void handlerCommand16Code005AP66() {
-	printf("Pop");
+	LOG("%s","Pop");
 	uint8_t reg = 0x02;
 	reg_0x02_32u = *(uint32_t*)(mem(SR_SS) + reg_SP_16u);
 	reg_SP_16u += 32 / 8;
 }
 //Pop
 void handlerCommand16Code005A() {
-	printf("Pop");
+	LOG("%s","Pop");
 	uint8_t reg = 0x02;
 	reg_0x02_16u = *(uint16_t*)(mem(SR_SS) + reg_SP_16u);
 	reg_SP_16u += 16 / 8;
 }
 //Pop
 void handlerCommand16Code005BP66P67() {
-	printf("Pop");
+	LOG("%s","Pop");
 	uint8_t reg = 0x03;
 	reg_0x03_32u = *(uint32_t*)(mem(SR_SS) + reg_SP_32u);
 	reg_SP_32u += 32 / 8;
 }
 //Pop
 void handlerCommand16Code005BP67() {
-	printf("Pop");
+	LOG("%s","Pop");
 	uint8_t reg = 0x03;
 	reg_0x03_16u = *(uint16_t*)(mem(SR_SS) + reg_SP_32u);
 	reg_SP_32u += 16 / 8;
 }
 //Pop
 void handlerCommand16Code005BP66() {
-	printf("Pop");
+	LOG("%s","Pop");
 	uint8_t reg = 0x03;
 	reg_0x03_32u = *(uint32_t*)(mem(SR_SS) + reg_SP_16u);
 	reg_SP_16u += 32 / 8;
 }
 //Pop
 void handlerCommand16Code005B() {
-	printf("Pop");
+	LOG("%s","Pop");
 	uint8_t reg = 0x03;
 	reg_0x03_16u = *(uint16_t*)(mem(SR_SS) + reg_SP_16u);
 	reg_SP_16u += 16 / 8;
 }
 //Pop
 void handlerCommand16Code005CP66P67() {
-	printf("Pop");
+	LOG("%s","Pop");
 	uint8_t reg = 0x04;
 	reg_0x04_32u = *(uint32_t*)(mem(SR_SS) + reg_SP_32u);
 	reg_SP_32u += 32 / 8;
 }
 //Pop
 void handlerCommand16Code005CP67() {
-	printf("Pop");
+	LOG("%s","Pop");
 	uint8_t reg = 0x04;
 	reg_0x04_16u = *(uint16_t*)(mem(SR_SS) + reg_SP_32u);
 	reg_SP_32u += 16 / 8;
 }
 //Pop
 void handlerCommand16Code005CP66() {
-	printf("Pop");
+	LOG("%s","Pop");
 	uint8_t reg = 0x04;
 	reg_0x04_32u = *(uint32_t*)(mem(SR_SS) + reg_SP_16u);
 	reg_SP_16u += 32 / 8;
 }
 //Pop
 void handlerCommand16Code005C() {
-	printf("Pop");
+	LOG("%s","Pop");
 	uint8_t reg = 0x04;
 	reg_0x04_16u = *(uint16_t*)(mem(SR_SS) + reg_SP_16u);
 	reg_SP_16u += 16 / 8;
 }
 //Pop
 void handlerCommand16Code005DP66P67() {
-	printf("Pop");
+	LOG("%s","Pop");
 	uint8_t reg = 0x05;
 	reg_0x05_32u = *(uint32_t*)(mem(SR_SS) + reg_SP_32u);
 	reg_SP_32u += 32 / 8;
 }
 //Pop
 void handlerCommand16Code005DP67() {
-	printf("Pop");
+	LOG("%s","Pop");
 	uint8_t reg = 0x05;
 	reg_0x05_16u = *(uint16_t*)(mem(SR_SS) + reg_SP_32u);
 	reg_SP_32u += 16 / 8;
 }
 //Pop
 void handlerCommand16Code005DP66() {
-	printf("Pop");
+	LOG("%s","Pop");
 	uint8_t reg = 0x05;
 	reg_0x05_32u = *(uint32_t*)(mem(SR_SS) + reg_SP_16u);
 	reg_SP_16u += 32 / 8;
 }
 //Pop
 void handlerCommand16Code005D() {
-	printf("Pop");
+	LOG("%s","Pop");
 	uint8_t reg = 0x05;
 	reg_0x05_16u = *(uint16_t*)(mem(SR_SS) + reg_SP_16u);
 	reg_SP_16u += 16 / 8;
 }
 //Pop
 void handlerCommand16Code005EP66P67() {
-	printf("Pop");
+	LOG("%s","Pop");
 	uint8_t reg = 0x06;
 	reg_0x06_32u = *(uint32_t*)(mem(SR_SS) + reg_SP_32u);
 	reg_SP_32u += 32 / 8;
 }
 //Pop
 void handlerCommand16Code005EP67() {
-	printf("Pop");
+	LOG("%s","Pop");
 	uint8_t reg = 0x06;
 	reg_0x06_16u = *(uint16_t*)(mem(SR_SS) + reg_SP_32u);
 	reg_SP_32u += 16 / 8;
 }
 //Pop
 void handlerCommand16Code005EP66() {
-	printf("Pop");
+	LOG("%s","Pop");
 	uint8_t reg = 0x06;
 	reg_0x06_32u = *(uint32_t*)(mem(SR_SS) + reg_SP_16u);
 	reg_SP_16u += 32 / 8;
 }
 //Pop
 void handlerCommand16Code005E() {
-	printf("Pop");
+	LOG("%s","Pop");
 	uint8_t reg = 0x06;
 	reg_0x06_16u = *(uint16_t*)(mem(SR_SS) + reg_SP_16u);
 	reg_SP_16u += 16 / 8;
 }
 //Pop
 void handlerCommand16Code005FP66P67() {
-	printf("Pop");
+	LOG("%s","Pop");
 	uint8_t reg = 0x07;
 	reg_0x07_32u = *(uint32_t*)(mem(SR_SS) + reg_SP_32u);
 	reg_SP_32u += 32 / 8;
 }
 //Pop
 void handlerCommand16Code005FP67() {
-	printf("Pop");
+	LOG("%s","Pop");
 	uint8_t reg = 0x07;
 	reg_0x07_16u = *(uint16_t*)(mem(SR_SS) + reg_SP_32u);
 	reg_SP_32u += 16 / 8;
 }
 //Pop
 void handlerCommand16Code005FP66() {
-	printf("Pop");
+	LOG("%s","Pop");
 	uint8_t reg = 0x07;
 	reg_0x07_32u = *(uint32_t*)(mem(SR_SS) + reg_SP_16u);
 	reg_SP_16u += 32 / 8;
 }
 //Pop
 void handlerCommand16Code005F() {
-	printf("Pop");
+	LOG("%s","Pop");
 	uint8_t reg = 0x07;
 	reg_0x07_16u = *(uint16_t*)(mem(SR_SS) + reg_SP_16u);
 	reg_SP_16u += 16 / 8;
 }
 //Push
 void handlerCommand16Code0068P66P67() {
-	printf("Push");
+	LOG("%s","Push");
 	uint32_t* sp = register32u(BR_SP);
 	*sp -= 32 / 8;
 	*(uint32_t*)(mem(SR_SS) + *sp) = read32u();
 }
 //Push
 void handlerCommand16Code0068P67() {
-	printf("Push");
+	LOG("%s","Push");
 	uint32_t* sp = register32u(BR_SP);
 	*sp -= 16 / 8;
 	*(uint16_t*)(mem(SR_SS) + *sp) = read16u();
 }
 //Push
 void handlerCommand16Code0068P66() {
-	printf("Push");
+	LOG("%s","Push");
 	uint16_t* sp = register16u(BR_SP);
 	*sp -= 32 / 8;
 	*(uint32_t*)(mem(SR_SS) + *sp) = read32u();
 }
 //Push
 void handlerCommand16Code0068() {
-	printf("Push");
+	LOG("%s","Push");
 	uint16_t* sp = register16u(BR_SP);
 	*sp -= 16 / 8;
 	*(uint16_t*)(mem(SR_SS) + *sp) = read16u();
 }
 //Mul
 void handlerCommand16Code0069P66() {
-	printf("Mul");
+	LOG("%s","Mul");
 	uint8_t mrmByte = read8u();
 	uint8_t* target = (uint8_t*)readAddressMRM16For32(mrmByte);
 	uint8_t* source = (uint8_t*)readRegisterMRM32(mrmByte);
@@ -1935,7 +1935,7 @@ void handlerCommand16Code0069P66() {
 }
 //Mul
 void handlerCommand16Code0069() {
-	printf("Mul");
+	LOG("%s","Mul");
 	uint8_t mrmByte = read8u();
 	uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
 	uint8_t* source = (uint8_t*)readRegisterMRM16(mrmByte);
@@ -1952,31 +1952,31 @@ void handlerCommand16Code0069() {
 }
 //Push
 void handlerCommand16Code006AP66P67() {
-	printf("Push");
+	LOG("%s","Push");
 	reg_SP_32u -= 32 / 8;
 	*(int32_t*)(mem(SR_SS) + reg_SP_32u) = (int32_t)read8();
 }
 //Push
 void handlerCommand16Code006AP67() {
-	printf("Push");
+	LOG("%s","Push");
 	reg_SP_32u -= 16 / 8;
 	*(int16_t*)(mem(SR_SS) + reg_SP_32u) = (int16_t)read8();
 }
 //Push
 void handlerCommand16Code006AP66() {
-	printf("Push");
+	LOG("%s","Push");
 	reg_SP_16u -= 32 / 8;
 	*(int32_t*)(mem(SR_SS) + reg_SP_16u) = (int32_t)read8();
 }
 //Push
 void handlerCommand16Code006A() {
-	printf("Push");
+	LOG("%s","Push");
 	reg_SP_16u -= 16 / 8;
 	*(int16_t*)(mem(SR_SS) + reg_SP_16u) = (int16_t)read8();
 }
 //Mul
 void handlerCommand16Code006B() {
-	printf("Mul");
+	LOG("%s","Mul");
 	uint8_t mrmByte = read8u();
 	uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
 	uint8_t* source = (uint8_t*)readRegisterMRM16(mrmByte);
@@ -1993,7 +1993,7 @@ void handlerCommand16Code006B() {
 }
 //J(cond)
 void handlerCommand16Code0070() {
-	printf("J(cond)");
+	LOG("%s","J(cond)");
 	FillFlags();
 	int8_t address = read8();
 	if COND0x00 {
@@ -2002,7 +2002,7 @@ void handlerCommand16Code0070() {
 }
 //J(cond)
 void handlerCommand16Code0071() {
-	printf("J(cond)");
+	LOG("%s","J(cond)");
 	FillFlags();
 	int8_t address = read8();
 	if COND0x01 {
@@ -2011,7 +2011,7 @@ void handlerCommand16Code0071() {
 }
 //J(cond)
 void handlerCommand16Code0072() {
-	printf("J(cond)");
+	LOG("%s","J(cond)");
 	FillFlags();
 	int8_t address = read8();
 	if COND0x02 {
@@ -2020,7 +2020,7 @@ void handlerCommand16Code0072() {
 }
 //J(cond)
 void handlerCommand16Code0073() {
-	printf("J(cond)");
+	LOG("%s","J(cond)");
 	FillFlags();
 	int8_t address = read8();
 	if COND0x03 {
@@ -2029,7 +2029,7 @@ void handlerCommand16Code0073() {
 }
 //J(cond)
 void handlerCommand16Code0074() {
-	printf("J(cond)");
+	LOG("%s","J(cond)");
 	FillFlags();
 	int8_t address = read8();
 	if COND0x04 {
@@ -2038,7 +2038,7 @@ void handlerCommand16Code0074() {
 }
 //J(cond)
 void handlerCommand16Code0075() {
-	printf("J(cond)");
+	LOG("%s","J(cond)");
 	FillFlags();
 	int8_t address = read8();
 	if COND0x05 {
@@ -2047,7 +2047,7 @@ void handlerCommand16Code0075() {
 }
 //J(cond)
 void handlerCommand16Code0076() {
-	printf("J(cond)");
+	LOG("%s","J(cond)");
 	FillFlags();
 	int8_t address = read8();
 	if COND0x06 {
@@ -2056,7 +2056,7 @@ void handlerCommand16Code0076() {
 }
 //J(cond)
 void handlerCommand16Code0077() {
-	printf("J(cond)");
+	LOG("%s","J(cond)");
 	FillFlags();
 	int8_t address = read8();
 	if COND0x07 {
@@ -2065,7 +2065,7 @@ void handlerCommand16Code0077() {
 }
 //J(cond)
 void handlerCommand16Code0078() {
-	printf("J(cond)");
+	LOG("%s","J(cond)");
 	FillFlags();
 	int8_t address = read8();
 	if COND0x08 {
@@ -2074,7 +2074,7 @@ void handlerCommand16Code0078() {
 }
 //J(cond)
 void handlerCommand16Code0079() {
-	printf("J(cond)");
+	LOG("%s","J(cond)");
 	FillFlags();
 	int8_t address = read8();
 	if COND0x09 {
@@ -2083,7 +2083,7 @@ void handlerCommand16Code0079() {
 }
 //J(cond)
 void handlerCommand16Code007A() {
-	printf("J(cond)");
+	LOG("%s","J(cond)");
 	FillFlags();
 	int8_t address = read8();
 	if COND0x0A {
@@ -2092,7 +2092,7 @@ void handlerCommand16Code007A() {
 }
 //J(cond)
 void handlerCommand16Code007B() {
-	printf("J(cond)");
+	LOG("%s","J(cond)");
 	FillFlags();
 	int8_t address = read8();
 	if COND0x0B {
@@ -2101,7 +2101,7 @@ void handlerCommand16Code007B() {
 }
 //J(cond)
 void handlerCommand16Code007C() {
-	printf("J(cond)");
+	LOG("%s","J(cond)");
 	FillFlags();
 	int8_t address = read8();
 	if COND0x0C {
@@ -2110,7 +2110,7 @@ void handlerCommand16Code007C() {
 }
 //J(cond)
 void handlerCommand16Code007D() {
-	printf("J(cond)");
+	LOG("%s","J(cond)");
 	FillFlags();
 	int8_t address = read8();
 	if COND0x0D {
@@ -2119,7 +2119,7 @@ void handlerCommand16Code007D() {
 }
 //J(cond)
 void handlerCommand16Code007E() {
-	printf("J(cond)");
+	LOG("%s","J(cond)");
 	FillFlags();
 	int8_t address = read8();
 	if COND0x0E {
@@ -2128,7 +2128,7 @@ void handlerCommand16Code007E() {
 }
 //J(cond)
 void handlerCommand16Code007F() {
-	printf("J(cond)");
+	LOG("%s","J(cond)");
 	FillFlags();
 	int8_t address = read8();
 	if COND0x0F {
@@ -2137,7 +2137,7 @@ void handlerCommand16Code007F() {
 }
 //Math
 void handlerCommand16Code0080P66() {
-	printf("Math");
+	LOG("%s","Math");
 	uint8_t mrmByte = read8u();
 	uint8_t nnn = readMiddle3Bit(mrmByte);
 	switch (nnn) {
@@ -2222,7 +2222,7 @@ void handlerCommand16Code0080P66() {
 }
 //Math
 void handlerCommand16Code0080() {
-	printf("Math");
+	LOG("%s","Math");
 	uint8_t mrmByte = read8u();
 	uint8_t nnn = readMiddle3Bit(mrmByte);
 	switch (nnn) {
@@ -2307,7 +2307,7 @@ void handlerCommand16Code0080() {
 }
 //Math
 void handlerCommand16Code0081P66() {
-	printf("Math");
+	LOG("%s","Math");
 	uint8_t mrmByte = read8u();
 	uint8_t nnn = readMiddle3Bit(mrmByte);
 	switch (nnn) {
@@ -2392,7 +2392,7 @@ void handlerCommand16Code0081P66() {
 }
 //Math
 void handlerCommand16Code0081() {
-	printf("Math");
+	LOG("%s","Math");
 	uint8_t mrmByte = read8u();
 	uint8_t nnn = readMiddle3Bit(mrmByte);
 	switch (nnn) {
@@ -2477,7 +2477,7 @@ void handlerCommand16Code0081() {
 }
 //Math
 void handlerCommand16Code0082() {
-	printf("Math");
+	LOG("%s","Math");
 	uint8_t mrmByte = read8u();
 	uint8_t nnn = readMiddle3Bit(mrmByte);
 	switch (nnn) {
@@ -2562,7 +2562,7 @@ void handlerCommand16Code0082() {
 }
 //Math
 void handlerCommand16Code0083P66() {
-	printf("Math");
+	LOG("%s","Math");
 	uint8_t mrmByte = read8u();
 	uint8_t nnn = readMiddle3Bit(mrmByte);
 	switch (nnn) {
@@ -2647,7 +2647,7 @@ void handlerCommand16Code0083P66() {
 }
 //Math
 void handlerCommand16Code0083() {
-	printf("Math");
+	LOG("%s","Math");
 	uint8_t mrmByte = read8u();
 	uint8_t nnn = readMiddle3Bit(mrmByte);
 	switch (nnn) {
@@ -2732,7 +2732,7 @@ void handlerCommand16Code0083() {
 }
 //TEST
 void handlerCommand16Code0084P66() {
-	printf("TEST");
+	LOG("%s","TEST");
 	uint8_t mrmByte = read8u();
 	uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
 	uint8_t* source = (uint8_t*)readRegisterMRM8(mrmByte);
@@ -2743,7 +2743,7 @@ void handlerCommand16Code0084P66() {
 }
 //TEST
 void handlerCommand16Code0084() {
-	printf("TEST");
+	LOG("%s","TEST");
 	uint8_t mrmByte = read8u();
 	uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
 	uint8_t* source = (uint8_t*)readRegisterMRM8(mrmByte);
@@ -2754,7 +2754,7 @@ void handlerCommand16Code0084() {
 }
 //TEST
 void handlerCommand16Code0085P66() {
-	printf("TEST");
+	LOG("%s","TEST");
 	uint8_t mrmByte = read8u();
 	uint8_t* target = (uint8_t*)readAddressMRM16For32(mrmByte);
 	uint8_t* source = (uint8_t*)readRegisterMRM32(mrmByte);
@@ -2765,7 +2765,7 @@ void handlerCommand16Code0085P66() {
 }
 //TEST
 void handlerCommand16Code0085() {
-	printf("TEST");
+	LOG("%s","TEST");
 	uint8_t mrmByte = read8u();
 	uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
 	uint8_t* source = (uint8_t*)readRegisterMRM16(mrmByte);
@@ -2776,7 +2776,7 @@ void handlerCommand16Code0085() {
 }
 //XCHG
 void handlerCommand16Code0086P66() {
-	printf("XCHG");
+	LOG("%s","XCHG");
 	uint8_t mrmByte = read8u();
 	uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
 	uint8_t* source = (uint8_t*)readRegisterMRM16(mrmByte);
@@ -2786,7 +2786,7 @@ void handlerCommand16Code0086P66() {
 }
 //XCHG
 void handlerCommand16Code0086() {
-	printf("XCHG");
+	LOG("%s","XCHG");
 	uint8_t mrmByte = read8u();
 	uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
 	uint8_t* source = (uint8_t*)readRegisterMRM16(mrmByte);
@@ -2796,7 +2796,7 @@ void handlerCommand16Code0086() {
 }
 //XCHG
 void handlerCommand16Code0087P66() {
-	printf("XCHG");
+	LOG("%s","XCHG");
 	uint8_t mrmByte = read8u();
 	uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
 	uint8_t* source = (uint8_t*)readRegisterMRM16(mrmByte);
@@ -2806,7 +2806,7 @@ void handlerCommand16Code0087P66() {
 }
 //XCHG
 void handlerCommand16Code0087() {
-	printf("XCHG");
+	LOG("%s","XCHG");
 	uint8_t mrmByte = read8u();
 	uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
 	uint8_t* source = (uint8_t*)readRegisterMRM16(mrmByte);
@@ -2816,7 +2816,7 @@ void handlerCommand16Code0087() {
 }
 //Move
 void handlerCommand16Code0088P66() {
-	printf("Move");
+	LOG("%s","Move");
 	uint8_t mrmByte = read8u();
 	uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
 	uint8_t* source = (uint8_t*)readRegisterMRM8(mrmByte);
@@ -2824,7 +2824,7 @@ void handlerCommand16Code0088P66() {
 }
 //Move
 void handlerCommand16Code0088() {
-	printf("Move");
+	LOG("%s","Move");
 	uint8_t mrmByte = read8u();
 	uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
 	uint8_t* source = (uint8_t*)readRegisterMRM8(mrmByte);
@@ -2832,7 +2832,7 @@ void handlerCommand16Code0088() {
 }
 //Move
 void handlerCommand16Code0089P66() {
-	printf("Move");
+	LOG("%s","Move");
 	uint8_t mrmByte = read8u();
 	uint8_t* target = (uint8_t*)readAddressMRM16For32(mrmByte);
 	uint8_t* source = (uint8_t*)readRegisterMRM32(mrmByte);
@@ -2840,7 +2840,7 @@ void handlerCommand16Code0089P66() {
 }
 //Move
 void handlerCommand16Code0089() {
-	printf("Move");
+	LOG("%s","Move");
 	uint8_t mrmByte = read8u();
 	uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
 	uint8_t* source = (uint8_t*)readRegisterMRM16(mrmByte);
@@ -2848,7 +2848,7 @@ void handlerCommand16Code0089() {
 }
 //Move
 void handlerCommand16Code008AP66() {
-	printf("Move");
+	LOG("%s","Move");
 	uint8_t mrmByte = read8u();
 	uint8_t* source = (uint8_t*)readAddressMRM16For8(mrmByte);
 	uint8_t* target = (uint8_t*)readRegisterMRM8(mrmByte);
@@ -2856,7 +2856,7 @@ void handlerCommand16Code008AP66() {
 }
 //Move
 void handlerCommand16Code008A() {
-	printf("Move");
+	LOG("%s","Move");
 	uint8_t mrmByte = read8u();
 	uint8_t* source = (uint8_t*)readAddressMRM16For8(mrmByte);
 	uint8_t* target = (uint8_t*)readRegisterMRM8(mrmByte);
@@ -2864,7 +2864,7 @@ void handlerCommand16Code008A() {
 }
 //Move
 void handlerCommand16Code008BP66() {
-	printf("Move");
+	LOG("%s","Move");
 	uint8_t mrmByte = read8u();
 	uint8_t* source = (uint8_t*)readAddressMRM16For32(mrmByte);
 	uint8_t* target = (uint8_t*)readRegisterMRM32(mrmByte);
@@ -2872,7 +2872,7 @@ void handlerCommand16Code008BP66() {
 }
 //Move
 void handlerCommand16Code008B() {
-	printf("Move");
+	LOG("%s","Move");
 	uint8_t mrmByte = read8u();
 	uint8_t* source = (uint8_t*)readAddressMRM16For16(mrmByte);
 	uint8_t* target = (uint8_t*)readRegisterMRM16(mrmByte);
@@ -2880,7 +2880,7 @@ void handlerCommand16Code008B() {
 }
 //Move
 void handlerCommand16Code008C() {
-	printf("Move");
+	LOG("%s","Move");
 	uint8_t mrmByte = read8u();
 	uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
 	uint8_t* source = (uint8_t*)readSegmentRegisterMRM(mrmByte);
@@ -2888,7 +2888,7 @@ void handlerCommand16Code008C() {
 }
 //Move
 void handlerCommand16Code008E() {
-	printf("Move");
+	LOG("%s","Move");
 	uint8_t mrmByte = read8u();
 	uint8_t* source = (uint8_t*)readAddressMRM16For16(mrmByte);
 	uint8_t* target = (uint8_t*)readSegmentRegisterMRM(mrmByte);
@@ -2896,7 +2896,7 @@ void handlerCommand16Code008E() {
 }
 //Lea
 void handlerCommand16Code008DP66P67() {
-	printf("Lea");
+	LOG("%s","Lea");
 	uint8_t mrmByte = read8u();
 	uint8_t* source = (uint8_t*)readRegisterMRM32(mrmByte);
 	uint16_t target = effectiveAddressMRM16For16(mrmByte);
@@ -2904,7 +2904,7 @@ void handlerCommand16Code008DP66P67() {
 }
 //Lea
 void handlerCommand16Code008DP67() {
-	printf("Lea");
+	LOG("%s","Lea");
 	uint8_t mrmByte = read8u();
 	uint8_t* source = (uint8_t*)readRegisterMRM16(mrmByte);
 	uint16_t target = effectiveAddressMRM16For16(mrmByte);
@@ -2912,7 +2912,7 @@ void handlerCommand16Code008DP67() {
 }
 //Lea
 void handlerCommand16Code008DP66() {
-	printf("Lea");
+	LOG("%s","Lea");
 	uint8_t mrmByte = read8u();
 	uint8_t* source = (uint8_t*)readRegisterMRM32(mrmByte);
 	uint16_t target = effectiveAddressMRM16For16(mrmByte);
@@ -2920,7 +2920,7 @@ void handlerCommand16Code008DP66() {
 }
 //Lea
 void handlerCommand16Code008D() {
-	printf("Lea");
+	LOG("%s","Lea");
 	uint8_t mrmByte = read8u();
 	uint8_t* source = (uint8_t*)readRegisterMRM16(mrmByte);
 	uint16_t target = effectiveAddressMRM16For16(mrmByte);
@@ -2928,7 +2928,7 @@ void handlerCommand16Code008D() {
 }
 //Pop
 void handlerCommand16Code008FP66P67() {
-	printf("Pop");
+	LOG("%s","Pop");
 	uint8_t mrmByte = read8u();
 	uint8_t nnn = readMiddle3Bit(mrmByte);
 	switch (nnn) {
@@ -2944,7 +2944,7 @@ void handlerCommand16Code008FP66P67() {
 }
 //Pop
 void handlerCommand16Code008FP67() {
-	printf("Pop");
+	LOG("%s","Pop");
 	uint8_t mrmByte = read8u();
 	uint8_t nnn = readMiddle3Bit(mrmByte);
 	switch (nnn) {
@@ -2960,7 +2960,7 @@ void handlerCommand16Code008FP67() {
 }
 //Pop
 void handlerCommand16Code008FP66() {
-	printf("Pop");
+	LOG("%s","Pop");
 	uint8_t mrmByte = read8u();
 	uint8_t nnn = readMiddle3Bit(mrmByte);
 	switch (nnn) {
@@ -2976,7 +2976,7 @@ void handlerCommand16Code008FP66() {
 }
 //Pop
 void handlerCommand16Code008F() {
-	printf("Pop");
+	LOG("%s","Pop");
 	uint8_t mrmByte = read8u();
 	uint8_t nnn = readMiddle3Bit(mrmByte);
 	switch (nnn) {
@@ -2992,19 +2992,19 @@ void handlerCommand16Code008F() {
 }
 //XCHG
 void handlerCommand16Code0090P66() {
-	printf("XCHG");
+	LOG("%s","XCHG");
 	uint8_t reg = 0x00;
 	// NOP
 }
 //XCHG
 void handlerCommand16Code0090() {
-	printf("XCHG");
+	LOG("%s","XCHG");
 	uint8_t reg = 0x00;
 	// NOP
 }
 //XCHG
 void handlerCommand16Code0091P66() {
-	printf("XCHG");
+	LOG("%s","XCHG");
 	uint8_t reg = 0x01;
 	uint16_t tmp = reg_AX_16u;
 	reg_AX_16u = reg_0x01_16u;
@@ -3012,7 +3012,7 @@ void handlerCommand16Code0091P66() {
 }
 //XCHG
 void handlerCommand16Code0091() {
-	printf("XCHG");
+	LOG("%s","XCHG");
 	uint8_t reg = 0x01;
 	uint16_t tmp = reg_AX_16u;
 	reg_AX_16u = reg_0x01_16u;
@@ -3020,7 +3020,7 @@ void handlerCommand16Code0091() {
 }
 //XCHG
 void handlerCommand16Code0092P66() {
-	printf("XCHG");
+	LOG("%s","XCHG");
 	uint8_t reg = 0x02;
 	uint16_t tmp = reg_AX_16u;
 	reg_AX_16u = reg_0x02_16u;
@@ -3028,7 +3028,7 @@ void handlerCommand16Code0092P66() {
 }
 //XCHG
 void handlerCommand16Code0092() {
-	printf("XCHG");
+	LOG("%s","XCHG");
 	uint8_t reg = 0x02;
 	uint16_t tmp = reg_AX_16u;
 	reg_AX_16u = reg_0x02_16u;
@@ -3036,7 +3036,7 @@ void handlerCommand16Code0092() {
 }
 //XCHG
 void handlerCommand16Code0093P66() {
-	printf("XCHG");
+	LOG("%s","XCHG");
 	uint8_t reg = 0x03;
 	uint16_t tmp = reg_AX_16u;
 	reg_AX_16u = reg_0x03_16u;
@@ -3044,7 +3044,7 @@ void handlerCommand16Code0093P66() {
 }
 //XCHG
 void handlerCommand16Code0093() {
-	printf("XCHG");
+	LOG("%s","XCHG");
 	uint8_t reg = 0x03;
 	uint16_t tmp = reg_AX_16u;
 	reg_AX_16u = reg_0x03_16u;
@@ -3052,7 +3052,7 @@ void handlerCommand16Code0093() {
 }
 //XCHG
 void handlerCommand16Code0094P66() {
-	printf("XCHG");
+	LOG("%s","XCHG");
 	uint8_t reg = 0x04;
 	uint16_t tmp = reg_AX_16u;
 	reg_AX_16u = reg_0x04_16u;
@@ -3060,7 +3060,7 @@ void handlerCommand16Code0094P66() {
 }
 //XCHG
 void handlerCommand16Code0094() {
-	printf("XCHG");
+	LOG("%s","XCHG");
 	uint8_t reg = 0x04;
 	uint16_t tmp = reg_AX_16u;
 	reg_AX_16u = reg_0x04_16u;
@@ -3068,7 +3068,7 @@ void handlerCommand16Code0094() {
 }
 //XCHG
 void handlerCommand16Code0095P66() {
-	printf("XCHG");
+	LOG("%s","XCHG");
 	uint8_t reg = 0x05;
 	uint16_t tmp = reg_AX_16u;
 	reg_AX_16u = reg_0x05_16u;
@@ -3076,7 +3076,7 @@ void handlerCommand16Code0095P66() {
 }
 //XCHG
 void handlerCommand16Code0095() {
-	printf("XCHG");
+	LOG("%s","XCHG");
 	uint8_t reg = 0x05;
 	uint16_t tmp = reg_AX_16u;
 	reg_AX_16u = reg_0x05_16u;
@@ -3084,7 +3084,7 @@ void handlerCommand16Code0095() {
 }
 //XCHG
 void handlerCommand16Code0096P66() {
-	printf("XCHG");
+	LOG("%s","XCHG");
 	uint8_t reg = 0x06;
 	uint16_t tmp = reg_AX_16u;
 	reg_AX_16u = reg_0x06_16u;
@@ -3092,7 +3092,7 @@ void handlerCommand16Code0096P66() {
 }
 //XCHG
 void handlerCommand16Code0096() {
-	printf("XCHG");
+	LOG("%s","XCHG");
 	uint8_t reg = 0x06;
 	uint16_t tmp = reg_AX_16u;
 	reg_AX_16u = reg_0x06_16u;
@@ -3100,7 +3100,7 @@ void handlerCommand16Code0096() {
 }
 //XCHG
 void handlerCommand16Code0097P66() {
-	printf("XCHG");
+	LOG("%s","XCHG");
 	uint8_t reg = 0x07;
 	uint16_t tmp = reg_AX_16u;
 	reg_AX_16u = reg_0x07_16u;
@@ -3108,7 +3108,7 @@ void handlerCommand16Code0097P66() {
 }
 //XCHG
 void handlerCommand16Code0097() {
-	printf("XCHG");
+	LOG("%s","XCHG");
 	uint8_t reg = 0x07;
 	uint16_t tmp = reg_AX_16u;
 	reg_AX_16u = reg_0x07_16u;
@@ -3116,153 +3116,153 @@ void handlerCommand16Code0097() {
 }
 //CBW
 void handlerCommand16Code0098P66() {
-	printf("CBW");
+	LOG("%s","CBW");
 	reg_AX_32 = reg_AX_16;
 }
 //CBW
 void handlerCommand16Code0098() {
-	printf("CBW");
+	LOG("%s","CBW");
 	reg_AX_16 = reg_AL_8;
 }
 //CBW
 void handlerCommand16Code0099P66() {
-	printf("CBW");
+	LOG("%s","CBW");
 	if (reg_AX_32 & 0x80000000) reg_DX_32=0xffffffff; else reg_DX_32=0;
 }
 //CBW
 void handlerCommand16Code0099() {
-	printf("CBW");
+	LOG("%s","CBW");
 	if (reg_AX_16 & 0x8000) reg_DX_16=0xffff;else reg_DX_16=0;
 }
 //PUSHF
 void handlerCommand16Code009C() {
-	printf("PUSHF");
+	LOG("%s","PUSHF");
 	FillFlags();
 	reg_SP_16u -= 16 / 8;
 	*(uint16_t*)(mem(SR_SS) + reg_SP_16u) = ((*(uint16_t*)(&reg_flags)) & 0x4FD5) | 0x3002;
 }
 //POPF
 void handlerCommand16Code009D() {
-	printf("POPF");
+	LOG("%s","POPF");
 	lazyFlagType = t_UNKNOWN;
 	*(uint16_t*)(&reg_flags) = (*(uint16_t*)(mem(SR_SS) + reg_SP_16u)) | 0x3002;
 	reg_SP_16u += 16 / 8;
 }
 //Move
 void handlerCommand16Code00A0P66P67() {
-	printf("Move");
+	LOG("%s","Move");
 	uint8_t* target = (uint8_t*)register8u(BR_AX);
 	uint8_t* source = (uint8_t*)(mem(SR_DS) + read32());
 	*(uint8_t*)target = *(uint8_t*)source;
 }
 //Move
 void handlerCommand16Code00A0P66() {
-	printf("Move");
+	LOG("%s","Move");
 	uint8_t* target = (uint8_t*)register8u(BR_AX);
 	uint8_t* source = (uint8_t*)(mem(SR_DS) + read16());
 	*(uint8_t*)target = *(uint8_t*)source;
 }
 //Move
 void handlerCommand16Code00A0P67() {
-	printf("Move");
+	LOG("%s","Move");
 	uint8_t* target = (uint8_t*)register8u(BR_AX);
 	uint8_t* source = (uint8_t*)(mem(SR_DS) + read32());
 	*(uint8_t*)target = *(uint8_t*)source;
 }
 //Move
 void handlerCommand16Code00A0() {
-	printf("Move");
+	LOG("%s","Move");
 	uint8_t* target = (uint8_t*)register8u(BR_AX);
 	uint8_t* source = (uint8_t*)(mem(SR_DS) + read16());
 	*(uint8_t*)target = *(uint8_t*)source;
 }
 //Move
 void handlerCommand16Code00A1P66P67() {
-	printf("Move");
+	LOG("%s","Move");
 	uint32_t* target = (uint32_t*)register32u(BR_AX);
 	uint32_t* source = (uint32_t*)(mem(SR_DS) + read32());
 	*(uint32_t*)target = *(uint32_t*)source;
 }
 //Move
 void handlerCommand16Code00A1P66() {
-	printf("Move");
+	LOG("%s","Move");
 	uint32_t* target = (uint32_t*)register32u(BR_AX);
 	uint32_t* source = (uint32_t*)(mem(SR_DS) + read16());
 	*(uint32_t*)target = *(uint32_t*)source;
 }
 //Move
 void handlerCommand16Code00A1P67() {
-	printf("Move");
+	LOG("%s","Move");
 	uint16_t* target = (uint16_t*)register16u(BR_AX);
 	uint16_t* source = (uint16_t*)(mem(SR_DS) + read32());
 	*(uint16_t*)target = *(uint16_t*)source;
 }
 //Move
 void handlerCommand16Code00A1() {
-	printf("Move");
+	LOG("%s","Move");
 	uint16_t* target = (uint16_t*)register16u(BR_AX);
 	uint16_t* source = (uint16_t*)(mem(SR_DS) + read16());
 	*(uint16_t*)target = *(uint16_t*)source;
 }
 //Move
 void handlerCommand16Code00A2P66P67() {
-	printf("Move");
+	LOG("%s","Move");
 	uint8_t* source = (uint8_t*)register8u(BR_AX);
 	uint8_t* target = (uint8_t*)(mem(SR_DS) + read32());
 	*(uint8_t*)target = *(uint8_t*)source;
 }
 //Move
 void handlerCommand16Code00A2P66() {
-	printf("Move");
+	LOG("%s","Move");
 	uint8_t* source = (uint8_t*)register8u(BR_AX);
 	uint8_t* target = (uint8_t*)(mem(SR_DS) + read16());
 	*(uint8_t*)target = *(uint8_t*)source;
 }
 //Move
 void handlerCommand16Code00A2P67() {
-	printf("Move");
+	LOG("%s","Move");
 	uint8_t* source = (uint8_t*)register8u(BR_AX);
 	uint8_t* target = (uint8_t*)(mem(SR_DS) + read32());
 	*(uint8_t*)target = *(uint8_t*)source;
 }
 //Move
 void handlerCommand16Code00A2() {
-	printf("Move");
+	LOG("%s","Move");
 	uint8_t* source = (uint8_t*)register8u(BR_AX);
 	uint8_t* target = (uint8_t*)(mem(SR_DS) + read16());
 	*(uint8_t*)target = *(uint8_t*)source;
 }
 //Move
 void handlerCommand16Code00A3P66P67() {
-	printf("Move");
+	LOG("%s","Move");
 	uint32_t* source = (uint32_t*)register32u(BR_AX);
 	uint32_t* target = (uint32_t*)(mem(SR_DS) + read32());
 	*(uint32_t*)target = *(uint32_t*)source;
 }
 //Move
 void handlerCommand16Code00A3P66() {
-	printf("Move");
+	LOG("%s","Move");
 	uint32_t* source = (uint32_t*)register32u(BR_AX);
 	uint32_t* target = (uint32_t*)(mem(SR_DS) + read16());
 	*(uint32_t*)target = *(uint32_t*)source;
 }
 //Move
 void handlerCommand16Code00A3P67() {
-	printf("Move");
+	LOG("%s","Move");
 	uint16_t* source = (uint16_t*)register16u(BR_AX);
 	uint16_t* target = (uint16_t*)(mem(SR_DS) + read32());
 	*(uint16_t*)target = *(uint16_t*)source;
 }
 //Move
 void handlerCommand16Code00A3() {
-	printf("Move");
+	LOG("%s","Move");
 	uint16_t* source = (uint16_t*)register16u(BR_AX);
 	uint16_t* target = (uint16_t*)(mem(SR_DS) + read16());
 	*(uint16_t*)target = *(uint16_t*)source;
 }
 //MOVS
 void handlerCommand16Code00A4P66P67() {
-	printf("MOVS");
+	LOG("%s","MOVS");
 	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
 	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
 	uint8_t* targetSegment = mem(SR_ES);
@@ -3292,7 +3292,7 @@ void handlerCommand16Code00A4P66P67() {
 }
 //MOVS
 void handlerCommand16Code00A4P66() {
-	printf("MOVS");
+	LOG("%s","MOVS");
 	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
 	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
 	uint8_t* targetSegment = mem(SR_ES);
@@ -3322,7 +3322,7 @@ void handlerCommand16Code00A4P66() {
 }
 //MOVS
 void handlerCommand16Code00A4P67() {
-	printf("MOVS");
+	LOG("%s","MOVS");
 	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
 	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
 	uint8_t* targetSegment = mem(SR_ES);
@@ -3352,7 +3352,7 @@ void handlerCommand16Code00A4P67() {
 }
 //MOVS
 void handlerCommand16Code00A4() {
-	printf("MOVS");
+	LOG("%s","MOVS");
 	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
 	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
 	uint8_t* targetSegment = mem(SR_ES);
@@ -3382,7 +3382,7 @@ void handlerCommand16Code00A4() {
 }
 //MOVS
 void handlerCommand16Code00A5P66P67() {
-	printf("MOVS");
+	LOG("%s","MOVS");
 	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
 	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
 	uint8_t* targetSegment = mem(SR_ES);
@@ -3412,7 +3412,7 @@ void handlerCommand16Code00A5P66P67() {
 }
 //MOVS
 void handlerCommand16Code00A5P66() {
-	printf("MOVS");
+	LOG("%s","MOVS");
 	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
 	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
 	uint8_t* targetSegment = mem(SR_ES);
@@ -3442,7 +3442,7 @@ void handlerCommand16Code00A5P66() {
 }
 //MOVS
 void handlerCommand16Code00A5P67() {
-	printf("MOVS");
+	LOG("%s","MOVS");
 	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
 	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
 	uint8_t* targetSegment = mem(SR_ES);
@@ -3472,7 +3472,7 @@ void handlerCommand16Code00A5P67() {
 }
 //MOVS
 void handlerCommand16Code00A5() {
-	printf("MOVS");
+	LOG("%s","MOVS");
 	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
 	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
 	uint8_t* targetSegment = mem(SR_ES);
@@ -3502,7 +3502,7 @@ void handlerCommand16Code00A5() {
 }
 //CMPS
 void handlerCommand16Code00A6P66P67() {
-	printf("CMPS");
+	LOG("%s","CMPS");
 	lazyFlagType = t_UNKNOWN;
 	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
 	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
@@ -3559,7 +3559,7 @@ void handlerCommand16Code00A6P66P67() {
 }
 //CMPS
 void handlerCommand16Code00A6P66() {
-	printf("CMPS");
+	LOG("%s","CMPS");
 	lazyFlagType = t_UNKNOWN;
 	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
 	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
@@ -3616,7 +3616,7 @@ void handlerCommand16Code00A6P66() {
 }
 //CMPS
 void handlerCommand16Code00A6P67() {
-	printf("CMPS");
+	LOG("%s","CMPS");
 	lazyFlagType = t_UNKNOWN;
 	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
 	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
@@ -3673,7 +3673,7 @@ void handlerCommand16Code00A6P67() {
 }
 //CMPS
 void handlerCommand16Code00A6() {
-	printf("CMPS");
+	LOG("%s","CMPS");
 	lazyFlagType = t_UNKNOWN;
 	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
 	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
@@ -3730,7 +3730,7 @@ void handlerCommand16Code00A6() {
 }
 //CMPS
 void handlerCommand16Code00A7P66P67() {
-	printf("CMPS");
+	LOG("%s","CMPS");
 	lazyFlagType = t_UNKNOWN;
 	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
 	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
@@ -3787,7 +3787,7 @@ void handlerCommand16Code00A7P66P67() {
 }
 //CMPS
 void handlerCommand16Code00A7P66() {
-	printf("CMPS");
+	LOG("%s","CMPS");
 	lazyFlagType = t_UNKNOWN;
 	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
 	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
@@ -3844,7 +3844,7 @@ void handlerCommand16Code00A7P66() {
 }
 //CMPS
 void handlerCommand16Code00A7P67() {
-	printf("CMPS");
+	LOG("%s","CMPS");
 	lazyFlagType = t_UNKNOWN;
 	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
 	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
@@ -3901,7 +3901,7 @@ void handlerCommand16Code00A7P67() {
 }
 //CMPS
 void handlerCommand16Code00A7() {
-	printf("CMPS");
+	LOG("%s","CMPS");
 	lazyFlagType = t_UNKNOWN;
 	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
 	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
@@ -3958,7 +3958,7 @@ void handlerCommand16Code00A7() {
 }
 //TEST
 void handlerCommand16Code00A8P66() {
-	printf("TEST");
+	LOG("%s","TEST");
 	uint8_t* target = (uint8_t*)register8u(BR_AX);
 	LazyFlagVarA8 = *(uint8_t*)target;
 	LazyFlagVarB8 = read8u();
@@ -3967,7 +3967,7 @@ void handlerCommand16Code00A8P66() {
 }
 //TEST
 void handlerCommand16Code00A8() {
-	printf("TEST");
+	LOG("%s","TEST");
 	uint8_t* target = (uint8_t*)register8u(BR_AX);
 	LazyFlagVarA8 = *(uint8_t*)target;
 	LazyFlagVarB8 = read8u();
@@ -3976,7 +3976,7 @@ void handlerCommand16Code00A8() {
 }
 //TEST
 void handlerCommand16Code00A9P66() {
-	printf("TEST");
+	LOG("%s","TEST");
 	uint8_t* target = (uint8_t*)register32u(BR_AX);
 	LazyFlagVarA32 = *(uint32_t*)target;
 	LazyFlagVarB32 = read32u();
@@ -3985,7 +3985,7 @@ void handlerCommand16Code00A9P66() {
 }
 //TEST
 void handlerCommand16Code00A9() {
-	printf("TEST");
+	LOG("%s","TEST");
 	uint8_t* target = (uint8_t*)register16u(BR_AX);
 	LazyFlagVarA16 = *(uint16_t*)target;
 	LazyFlagVarB16 = read16u();
@@ -3994,7 +3994,7 @@ void handlerCommand16Code00A9() {
 }
 //STOS
 void handlerCommand16Code00AAP66P67() {
-	printf("STOS");
+	LOG("%s","STOS");
 	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
 	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
 	uint8_t* targetSegment = mem(SR_ES);
@@ -4024,7 +4024,7 @@ void handlerCommand16Code00AAP66P67() {
 }
 //STOS
 void handlerCommand16Code00AAP66() {
-	printf("STOS");
+	LOG("%s","STOS");
 	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
 	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
 	uint8_t* targetSegment = mem(SR_ES);
@@ -4054,7 +4054,7 @@ void handlerCommand16Code00AAP66() {
 }
 //STOS
 void handlerCommand16Code00AAP67() {
-	printf("STOS");
+	LOG("%s","STOS");
 	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
 	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
 	uint8_t* targetSegment = mem(SR_ES);
@@ -4084,7 +4084,7 @@ void handlerCommand16Code00AAP67() {
 }
 //STOS
 void handlerCommand16Code00AA() {
-	printf("STOS");
+	LOG("%s","STOS");
 	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
 	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
 	uint8_t* targetSegment = mem(SR_ES);
@@ -4114,7 +4114,7 @@ void handlerCommand16Code00AA() {
 }
 //STOS
 void handlerCommand16Code00ABP66P67() {
-	printf("STOS");
+	LOG("%s","STOS");
 	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
 	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
 	uint8_t* targetSegment = mem(SR_ES);
@@ -4144,7 +4144,7 @@ void handlerCommand16Code00ABP66P67() {
 }
 //STOS
 void handlerCommand16Code00ABP66() {
-	printf("STOS");
+	LOG("%s","STOS");
 	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
 	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
 	uint8_t* targetSegment = mem(SR_ES);
@@ -4174,7 +4174,7 @@ void handlerCommand16Code00ABP66() {
 }
 //STOS
 void handlerCommand16Code00ABP67() {
-	printf("STOS");
+	LOG("%s","STOS");
 	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
 	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
 	uint8_t* targetSegment = mem(SR_ES);
@@ -4204,7 +4204,7 @@ void handlerCommand16Code00ABP67() {
 }
 //STOS
 void handlerCommand16Code00AB() {
-	printf("STOS");
+	LOG("%s","STOS");
 	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
 	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
 	uint8_t* targetSegment = mem(SR_ES);
@@ -4234,7 +4234,7 @@ void handlerCommand16Code00AB() {
 }
 //LOADS
 void handlerCommand16Code00ACP66P67() {
-	printf("LOADS");
+	LOG("%s","LOADS");
 	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
 	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
 	uint8_t* targetSegment = mem(SR_ES);
@@ -4264,7 +4264,7 @@ void handlerCommand16Code00ACP66P67() {
 }
 //LOADS
 void handlerCommand16Code00ACP66() {
-	printf("LOADS");
+	LOG("%s","LOADS");
 	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
 	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
 	uint8_t* targetSegment = mem(SR_ES);
@@ -4294,7 +4294,7 @@ void handlerCommand16Code00ACP66() {
 }
 //LOADS
 void handlerCommand16Code00ACP67() {
-	printf("LOADS");
+	LOG("%s","LOADS");
 	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
 	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
 	uint8_t* targetSegment = mem(SR_ES);
@@ -4324,7 +4324,7 @@ void handlerCommand16Code00ACP67() {
 }
 //LOADS
 void handlerCommand16Code00AC() {
-	printf("LOADS");
+	LOG("%s","LOADS");
 	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
 	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
 	uint8_t* targetSegment = mem(SR_ES);
@@ -4354,7 +4354,7 @@ void handlerCommand16Code00AC() {
 }
 //LOADS
 void handlerCommand16Code00ADP66P67() {
-	printf("LOADS");
+	LOG("%s","LOADS");
 	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
 	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
 	uint8_t* targetSegment = mem(SR_ES);
@@ -4384,7 +4384,7 @@ void handlerCommand16Code00ADP66P67() {
 }
 //LOADS
 void handlerCommand16Code00ADP66() {
-	printf("LOADS");
+	LOG("%s","LOADS");
 	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
 	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
 	uint8_t* targetSegment = mem(SR_ES);
@@ -4414,7 +4414,7 @@ void handlerCommand16Code00ADP66() {
 }
 //LOADS
 void handlerCommand16Code00ADP67() {
-	printf("LOADS");
+	LOG("%s","LOADS");
 	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
 	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
 	uint8_t* targetSegment = mem(SR_ES);
@@ -4444,7 +4444,7 @@ void handlerCommand16Code00ADP67() {
 }
 //LOADS
 void handlerCommand16Code00AD() {
-	printf("LOADS");
+	LOG("%s","LOADS");
 	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
 	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
 	uint8_t* targetSegment = mem(SR_ES);
@@ -4474,7 +4474,7 @@ void handlerCommand16Code00AD() {
 }
 //SCAS
 void handlerCommand16Code00AEP66P67() {
-	printf("SCAS");
+	LOG("%s","SCAS");
 	lazyFlagType = t_UNKNOWN;
 	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
 	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
@@ -4525,7 +4525,7 @@ void handlerCommand16Code00AEP66P67() {
 }
 //SCAS
 void handlerCommand16Code00AEP66() {
-	printf("SCAS");
+	LOG("%s","SCAS");
 	lazyFlagType = t_UNKNOWN;
 	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
 	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
@@ -4576,7 +4576,7 @@ void handlerCommand16Code00AEP66() {
 }
 //SCAS
 void handlerCommand16Code00AEP67() {
-	printf("SCAS");
+	LOG("%s","SCAS");
 	lazyFlagType = t_UNKNOWN;
 	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
 	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
@@ -4627,7 +4627,7 @@ void handlerCommand16Code00AEP67() {
 }
 //SCAS
 void handlerCommand16Code00AE() {
-	printf("SCAS");
+	LOG("%s","SCAS");
 	lazyFlagType = t_UNKNOWN;
 	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
 	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
@@ -4678,7 +4678,7 @@ void handlerCommand16Code00AE() {
 }
 //SCAS
 void handlerCommand16Code00AFP66P67() {
-	printf("SCAS");
+	LOG("%s","SCAS");
 	lazyFlagType = t_UNKNOWN;
 	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
 	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
@@ -4729,7 +4729,7 @@ void handlerCommand16Code00AFP66P67() {
 }
 //SCAS
 void handlerCommand16Code00AFP66() {
-	printf("SCAS");
+	LOG("%s","SCAS");
 	lazyFlagType = t_UNKNOWN;
 	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
 	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
@@ -4780,7 +4780,7 @@ void handlerCommand16Code00AFP66() {
 }
 //SCAS
 void handlerCommand16Code00AFP67() {
-	printf("SCAS");
+	LOG("%s","SCAS");
 	lazyFlagType = t_UNKNOWN;
 	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
 	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
@@ -4831,7 +4831,7 @@ void handlerCommand16Code00AFP67() {
 }
 //SCAS
 void handlerCommand16Code00AF() {
-	printf("SCAS");
+	LOG("%s","SCAS");
 	lazyFlagType = t_UNKNOWN;
 	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
 	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
@@ -4882,167 +4882,167 @@ void handlerCommand16Code00AF() {
 }
 //Move
 void handlerCommand16Code00B0P66() {
-	printf("Move");
+	LOG("%s","Move");
 	reg_0x00_8u = read8u();
 }
 //Move
 void handlerCommand16Code00B0() {
-	printf("Move");
+	LOG("%s","Move");
 	reg_0x00_8u = read8u();
 }
 //Move
 void handlerCommand16Code00B1P66() {
-	printf("Move");
+	LOG("%s","Move");
 	reg_0x01_8u = read8u();
 }
 //Move
 void handlerCommand16Code00B1() {
-	printf("Move");
+	LOG("%s","Move");
 	reg_0x01_8u = read8u();
 }
 //Move
 void handlerCommand16Code00B2P66() {
-	printf("Move");
+	LOG("%s","Move");
 	reg_0x02_8u = read8u();
 }
 //Move
 void handlerCommand16Code00B2() {
-	printf("Move");
+	LOG("%s","Move");
 	reg_0x02_8u = read8u();
 }
 //Move
 void handlerCommand16Code00B3P66() {
-	printf("Move");
+	LOG("%s","Move");
 	reg_0x03_8u = read8u();
 }
 //Move
 void handlerCommand16Code00B3() {
-	printf("Move");
+	LOG("%s","Move");
 	reg_0x03_8u = read8u();
 }
 //Move
 void handlerCommand16Code00B4P66() {
-	printf("Move");
+	LOG("%s","Move");
 	reg_0x04_8u = read8u();
 }
 //Move
 void handlerCommand16Code00B4() {
-	printf("Move");
+	LOG("%s","Move");
 	reg_0x04_8u = read8u();
 }
 //Move
 void handlerCommand16Code00B5P66() {
-	printf("Move");
+	LOG("%s","Move");
 	reg_0x05_8u = read8u();
 }
 //Move
 void handlerCommand16Code00B5() {
-	printf("Move");
+	LOG("%s","Move");
 	reg_0x05_8u = read8u();
 }
 //Move
 void handlerCommand16Code00B6P66() {
-	printf("Move");
+	LOG("%s","Move");
 	reg_0x06_8u = read8u();
 }
 //Move
 void handlerCommand16Code00B6() {
-	printf("Move");
+	LOG("%s","Move");
 	reg_0x06_8u = read8u();
 }
 //Move
 void handlerCommand16Code00B7P66() {
-	printf("Move");
+	LOG("%s","Move");
 	reg_0x07_8u = read8u();
 }
 //Move
 void handlerCommand16Code00B7() {
-	printf("Move");
+	LOG("%s","Move");
 	reg_0x07_8u = read8u();
 }
 //Move
 void handlerCommand16Code00B8P66() {
-	printf("Move");
+	LOG("%s","Move");
 	reg_0x00_32u = read32u();
 }
 //Move
 void handlerCommand16Code00B8() {
-	printf("Move");
+	LOG("%s","Move");
 	reg_0x00_16u = read16u();
 }
 //Move
 void handlerCommand16Code00B9P66() {
-	printf("Move");
+	LOG("%s","Move");
 	reg_0x01_32u = read32u();
 }
 //Move
 void handlerCommand16Code00B9() {
-	printf("Move");
+	LOG("%s","Move");
 	reg_0x01_16u = read16u();
 }
 //Move
 void handlerCommand16Code00BAP66() {
-	printf("Move");
+	LOG("%s","Move");
 	reg_0x02_32u = read32u();
 }
 //Move
 void handlerCommand16Code00BA() {
-	printf("Move");
+	LOG("%s","Move");
 	reg_0x02_16u = read16u();
 }
 //Move
 void handlerCommand16Code00BBP66() {
-	printf("Move");
+	LOG("%s","Move");
 	reg_0x03_32u = read32u();
 }
 //Move
 void handlerCommand16Code00BB() {
-	printf("Move");
+	LOG("%s","Move");
 	reg_0x03_16u = read16u();
 }
 //Move
 void handlerCommand16Code00BCP66() {
-	printf("Move");
+	LOG("%s","Move");
 	reg_0x04_32u = read32u();
 }
 //Move
 void handlerCommand16Code00BC() {
-	printf("Move");
+	LOG("%s","Move");
 	reg_0x04_16u = read16u();
 }
 //Move
 void handlerCommand16Code00BDP66() {
-	printf("Move");
+	LOG("%s","Move");
 	reg_0x05_32u = read32u();
 }
 //Move
 void handlerCommand16Code00BD() {
-	printf("Move");
+	LOG("%s","Move");
 	reg_0x05_16u = read16u();
 }
 //Move
 void handlerCommand16Code00BEP66() {
-	printf("Move");
+	LOG("%s","Move");
 	reg_0x06_32u = read32u();
 }
 //Move
 void handlerCommand16Code00BE() {
-	printf("Move");
+	LOG("%s","Move");
 	reg_0x06_16u = read16u();
 }
 //Move
 void handlerCommand16Code00BFP66() {
-	printf("Move");
+	LOG("%s","Move");
 	reg_0x07_32u = read32u();
 }
 //Move
 void handlerCommand16Code00BF() {
-	printf("Move");
+	LOG("%s","Move");
 	reg_0x07_16u = read16u();
 }
 //Move bits
 void handlerCommand16Code00C0P66() {
-	printf("Move bits");
+	LOG("%s","Move bits");
 	uint8_t mrmByte = read8u();
 	uint8_t nnn = readMiddle3Bit(mrmByte);
 	switch (nnn) {
@@ -5121,7 +5121,7 @@ void handlerCommand16Code00C0P66() {
 }
 //Move bits
 void handlerCommand16Code00C0() {
-	printf("Move bits");
+	LOG("%s","Move bits");
 	uint8_t mrmByte = read8u();
 	uint8_t nnn = readMiddle3Bit(mrmByte);
 	switch (nnn) {
@@ -5200,7 +5200,7 @@ void handlerCommand16Code00C0() {
 }
 //Move bits
 void handlerCommand16Code00C1P66() {
-	printf("Move bits");
+	LOG("%s","Move bits");
 	uint8_t mrmByte = read8u();
 	uint8_t nnn = readMiddle3Bit(mrmByte);
 	switch (nnn) {
@@ -5279,7 +5279,7 @@ void handlerCommand16Code00C1P66() {
 }
 //Move bits
 void handlerCommand16Code00C1() {
-	printf("Move bits");
+	LOG("%s","Move bits");
 	uint8_t mrmByte = read8u();
 	uint8_t nnn = readMiddle3Bit(mrmByte);
 	switch (nnn) {
@@ -5358,14 +5358,14 @@ void handlerCommand16Code00C1() {
 }
 //Ret
 void handlerCommand16Code00C3() {
-	printf("Ret");
+	LOG("%s","Ret");
 	uint16_t* sp = register16u(BR_SP);
 	context.index = mem(1) + *(uint16_t*)(mem(SR_SS) + *sp);
 	*sp += 16 / 8;
 }
 //Load SR_ES
 void handlerCommand16Code00C4() {
-	printf("Load SR_ES");
+	LOG("%s","Load SR_ES");
 	uint8_t mrmByte = read8u();
 	uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
 	uint8_t* source = (uint8_t*)readRegisterMRM16(mrmByte);
@@ -5374,7 +5374,7 @@ void handlerCommand16Code00C4() {
 }
 //Load SR_DS
 void handlerCommand16Code00C5() {
-	printf("Load SR_DS");
+	LOG("%s","Load SR_DS");
 	uint8_t mrmByte = read8u();
 	uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
 	uint8_t* source = (uint8_t*)readRegisterMRM16(mrmByte);
@@ -5383,7 +5383,7 @@ void handlerCommand16Code00C5() {
 }
 //Move
 void handlerCommand16Code00C6P66() {
-	printf("Move");
+	LOG("%s","Move");
 	uint8_t mrmByte = read8u();
 	uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
 	uint8_t* source = (uint8_t*)readRegisterMRM16(mrmByte);
@@ -5391,7 +5391,7 @@ void handlerCommand16Code00C6P66() {
 }
 //Move
 void handlerCommand16Code00C6() {
-	printf("Move");
+	LOG("%s","Move");
 	uint8_t mrmByte = read8u();
 	uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
 	uint8_t* source = (uint8_t*)readRegisterMRM16(mrmByte);
@@ -5399,7 +5399,7 @@ void handlerCommand16Code00C6() {
 }
 //Move
 void handlerCommand16Code00C7P66() {
-	printf("Move");
+	LOG("%s","Move");
 	uint8_t mrmByte = read8u();
 	uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
 	uint8_t* source = (uint8_t*)readRegisterMRM16(mrmByte);
@@ -5407,7 +5407,7 @@ void handlerCommand16Code00C7P66() {
 }
 //Move
 void handlerCommand16Code00C7() {
-	printf("Move");
+	LOG("%s","Move");
 	uint8_t mrmByte = read8u();
 	uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
 	uint8_t* source = (uint8_t*)readRegisterMRM16(mrmByte);
@@ -5415,35 +5415,35 @@ void handlerCommand16Code00C7() {
 }
 //Leave
 void handlerCommand16Code00C9P66P67() {
-	printf("Leave");
+	LOG("%s","Leave");
 	reg_SP_32u = reg_BP_32u;
 	reg_BP_32u = *(uint32_t*)(mem(SR_SS) + reg_SP_32u);
 	reg_SP_32u += 32 / 8;
 }
 //Leave
 void handlerCommand16Code00C9P67() {
-	printf("Leave");
+	LOG("%s","Leave");
 	reg_SP_32u = reg_BP_32u;
 	reg_BP_32u = *(uint16_t*)(mem(SR_SS) + reg_SP_32u);
 	reg_SP_32u += 16 / 8;
 }
 //Leave
 void handlerCommand16Code00C9P66() {
-	printf("Leave");
+	LOG("%s","Leave");
 	reg_SP_16u = reg_BP_16u;
 	reg_BP_16u = *(uint32_t*)(mem(SR_SS) + reg_SP_16u);
 	reg_SP_16u += 32 / 8;
 }
 //Leave
 void handlerCommand16Code00C9() {
-	printf("Leave");
+	LOG("%s","Leave");
 	reg_SP_16u = reg_BP_16u;
 	reg_BP_16u = *(uint16_t*)(mem(SR_SS) + reg_SP_16u);
 	reg_SP_16u += 16 / 8;
 }
 //Ret
 void handlerCommand16Code00CB() {
-	printf("Ret");
+	LOG("%s","Ret");
 	uint16_t* sp = register16u(BR_SP);
 	setMem(1, *(int16_t*)(mem(SR_SS) + *sp + 16 / 8));
 	context.index = mem(1) + *(uint16_t*)(mem(SR_SS) + *sp);
@@ -5451,13 +5451,13 @@ void handlerCommand16Code00CB() {
 }
 //Int
 void handlerCommand16Code00CD() {
-	printf("Int");
+	LOG("%s","Int");
 	uint8_t addr = read8u();
 	context.functions[addr](addr);
 }
 //Move bits
 void handlerCommand16Code00D0P66() {
-	printf("Move bits");
+	LOG("%s","Move bits");
 	uint8_t mrmByte = read8u();
 	uint8_t nnn = readMiddle3Bit(mrmByte);
 	switch (nnn) {
@@ -5536,7 +5536,7 @@ void handlerCommand16Code00D0P66() {
 }
 //Move bits
 void handlerCommand16Code00D0() {
-	printf("Move bits");
+	LOG("%s","Move bits");
 	uint8_t mrmByte = read8u();
 	uint8_t nnn = readMiddle3Bit(mrmByte);
 	switch (nnn) {
@@ -5615,7 +5615,7 @@ void handlerCommand16Code00D0() {
 }
 //Move bits
 void handlerCommand16Code00D1P66() {
-	printf("Move bits");
+	LOG("%s","Move bits");
 	uint8_t mrmByte = read8u();
 	uint8_t nnn = readMiddle3Bit(mrmByte);
 	switch (nnn) {
@@ -5694,7 +5694,7 @@ void handlerCommand16Code00D1P66() {
 }
 //Move bits
 void handlerCommand16Code00D1() {
-	printf("Move bits");
+	LOG("%s","Move bits");
 	uint8_t mrmByte = read8u();
 	uint8_t nnn = readMiddle3Bit(mrmByte);
 	switch (nnn) {
@@ -5773,7 +5773,7 @@ void handlerCommand16Code00D1() {
 }
 //Move bits
 void handlerCommand16Code00D2P66() {
-	printf("Move bits");
+	LOG("%s","Move bits");
 	uint8_t mrmByte = read8u();
 	uint8_t nnn = readMiddle3Bit(mrmByte);
 	switch (nnn) {
@@ -5852,7 +5852,7 @@ void handlerCommand16Code00D2P66() {
 }
 //Move bits
 void handlerCommand16Code00D2() {
-	printf("Move bits");
+	LOG("%s","Move bits");
 	uint8_t mrmByte = read8u();
 	uint8_t nnn = readMiddle3Bit(mrmByte);
 	switch (nnn) {
@@ -5931,7 +5931,7 @@ void handlerCommand16Code00D2() {
 }
 //Move bits
 void handlerCommand16Code00D3P66() {
-	printf("Move bits");
+	LOG("%s","Move bits");
 	uint8_t mrmByte = read8u();
 	uint8_t nnn = readMiddle3Bit(mrmByte);
 	switch (nnn) {
@@ -6010,7 +6010,7 @@ void handlerCommand16Code00D3P66() {
 }
 //Move bits
 void handlerCommand16Code00D3() {
-	printf("Move bits");
+	LOG("%s","Move bits");
 	uint8_t mrmByte = read8u();
 	uint8_t nnn = readMiddle3Bit(mrmByte);
 	switch (nnn) {
@@ -6089,7 +6089,7 @@ void handlerCommand16Code00D3() {
 }
 //FPU
 void handlerCommand16Code00D8() {
-	printf("FPU");
+	LOG("%s","FPU");
 	uint8_t mrmByte = read8u();
 	uint8_t nnn = readMiddle3Bit(mrmByte);
 	switch (nnn) {
@@ -6239,7 +6239,7 @@ void handlerCommand16Code00D8() {
 }
 //FPU
 void handlerCommand16Code00D9() {
-	printf("FPU");
+	LOG("%s","FPU");
 	uint8_t mrmByte = read8u();
 	uint8_t nnn = readMiddle3Bit(mrmByte);
 	switch (nnn) {
@@ -6347,7 +6347,7 @@ void handlerCommand16Code00D9() {
 }
 //FPU
 void handlerCommand16Code00DA() {
-	printf("FPU");
+	LOG("%s","FPU");
 	uint8_t mrmByte = read8u();
 	uint8_t nnn = readMiddle3Bit(mrmByte);
 	switch (nnn) {
@@ -6467,7 +6467,7 @@ void handlerCommand16Code00DA() {
 }
 //FPU
 void handlerCommand16Code00DB() {
-	printf("FPU");
+	LOG("%s","FPU");
 	uint8_t mrmByte = read8u();
 	uint8_t nnn = readMiddle3Bit(mrmByte);
 	switch (nnn) {
@@ -6572,7 +6572,7 @@ void handlerCommand16Code00DB() {
 }
 //FPU
 void handlerCommand16Code00DC() {
-	printf("FPU");
+	LOG("%s","FPU");
 	uint8_t mrmByte = read8u();
 	uint8_t nnn = readMiddle3Bit(mrmByte);
 	switch (nnn) {
@@ -6722,7 +6722,7 @@ void handlerCommand16Code00DC() {
 }
 //FPU
 void handlerCommand16Code00DD() {
-	printf("FPU");
+	LOG("%s","FPU");
 	uint8_t mrmByte = read8u();
 	uint8_t nnn = readMiddle3Bit(mrmByte);
 	switch (nnn) {
@@ -6829,7 +6829,7 @@ void handlerCommand16Code00DD() {
 }
 //FPU
 void handlerCommand16Code00DE() {
-	printf("FPU");
+	LOG("%s","FPU");
 	uint8_t mrmByte = read8u();
 	uint8_t nnn = readMiddle3Bit(mrmByte);
 	switch (nnn) {
@@ -6985,7 +6985,7 @@ void handlerCommand16Code00DE() {
 }
 //FPU
 void handlerCommand16Code00DF() {
-	printf("FPU");
+	LOG("%s","FPU");
 	uint8_t mrmByte = read8u();
 	uint8_t nnn = readMiddle3Bit(mrmByte);
 	switch (nnn) {
@@ -7092,7 +7092,7 @@ void handlerCommand16Code00DF() {
 }
 //Loop
 void handlerCommand16Code00E0() {
-	printf("Loop");
+	LOG("%s","Loop");
 	int8_t addr = read8();
 	reg_0x01_16 -= 1;
 	FillFlags();
@@ -7102,7 +7102,7 @@ void handlerCommand16Code00E0() {
 }
 //Loop
 void handlerCommand16Code00E1() {
-	printf("Loop");
+	LOG("%s","Loop");
 	int8_t addr = read8();
 	reg_0x01_16 -= 1;
 	FillFlags();
@@ -7112,7 +7112,7 @@ void handlerCommand16Code00E1() {
 }
 //Loop
 void handlerCommand16Code00E2() {
-	printf("Loop");
+	LOG("%s","Loop");
 	int8_t addr = read8();
 	reg_0x01_16 -= 1;
 	if (reg_0x01_16 != 0) {
@@ -7121,7 +7121,7 @@ void handlerCommand16Code00E2() {
 }
 //Loop
 void handlerCommand16Code00E3() {
-	printf("Loop");
+	LOG("%s","Loop");
 	int8_t addr = read8();
 	if (reg_0x01_16 == 0) {
 		context.index += addr;
@@ -7129,7 +7129,7 @@ void handlerCommand16Code00E3() {
 }
 //Call
 void handlerCommand16Code00E8P66() {
-	printf("Call");
+	LOG("%s","Call");
 	uint16_t* sp = register16u(BR_SP);
 	*sp -= 16 / 8;
 	*(uint16_t*)(mem(SR_SS) + *sp) = (uint16_t)(context.index + 32 / 8 - mem(1));
@@ -7137,7 +7137,7 @@ void handlerCommand16Code00E8P66() {
 }
 //Call
 void handlerCommand16Code00E8() {
-	printf("Call");
+	LOG("%s","Call");
 	uint16_t* sp = register16u(BR_SP);
 	*sp -= 16 / 8;
 	*(uint16_t*)(mem(SR_SS) + *sp) = (uint16_t)(context.index + 16 / 8 - mem(1));
@@ -7145,27 +7145,27 @@ void handlerCommand16Code00E8() {
 }
 //Jmp
 void handlerCommand16Code00E9P66() {
-	printf("Jmp");
+	LOG("%s","Jmp");
 	context.index += read32();
 }
 //Jmp
 void handlerCommand16Code00E9() {
-	printf("Jmp");
+	LOG("%s","Jmp");
 	context.index += read16();
 }
 //Jmp
 void handlerCommand16Code00EB() {
-	printf("Jmp");
+	LOG("%s","Jmp");
 	context.index += read8();
 }
 //~CF
 void handlerCommand16Code00F5() {
-	printf("~CF");
+	LOG("%s","~CF");
 	SET_FLAG(CF, !GET_FLAG(CF));
 }
 //Math
 void handlerCommand16Code00F6P66() {
-	printf("Math");
+	LOG("%s","Math");
 	uint8_t mrmByte = read8u();
 	uint8_t nnn = readMiddle3Bit(mrmByte);
 	switch (nnn) {
@@ -7253,7 +7253,7 @@ void handlerCommand16Code00F6P66() {
 }
 //Math
 void handlerCommand16Code00F6() {
-	printf("Math");
+	LOG("%s","Math");
 	uint8_t mrmByte = read8u();
 	uint8_t nnn = readMiddle3Bit(mrmByte);
 	switch (nnn) {
@@ -7341,7 +7341,7 @@ void handlerCommand16Code00F6() {
 }
 //Math
 void handlerCommand16Code00F7P66() {
-	printf("Math");
+	LOG("%s","Math");
 	uint8_t mrmByte = read8u();
 	uint8_t nnn = readMiddle3Bit(mrmByte);
 	switch (nnn) {
@@ -7437,7 +7437,7 @@ void handlerCommand16Code00F7P66() {
 }
 //Math
 void handlerCommand16Code00F7() {
-	printf("Math");
+	LOG("%s","Math");
 	uint8_t mrmByte = read8u();
 	uint8_t nnn = readMiddle3Bit(mrmByte);
 	switch (nnn) {
@@ -7531,37 +7531,37 @@ void handlerCommand16Code00F7() {
 }
 //Flag CF set false
 void handlerCommand16Code00F8() {
-	printf("Flag CF set false");
+	LOG("%s","Flag CF set false");
 	SET_FLAG(0x00, 0);
 }
 //Flag CF set true
 void handlerCommand16Code00F9() {
-	printf("Flag CF set true");
+	LOG("%s","Flag CF set true");
 	SET_FLAG(0x00, 1);
 }
 //Flag IF set false
 void handlerCommand16Code00FA() {
-	printf("Flag IF set false");
+	LOG("%s","Flag IF set false");
 	SET_FLAG(0x09, 0);
 }
 //Flag IF set true
 void handlerCommand16Code00FB() {
-	printf("Flag IF set true");
+	LOG("%s","Flag IF set true");
 	SET_FLAG(0x09, 1);
 }
 //Flag DF set false
 void handlerCommand16Code00FC() {
-	printf("Flag DF set false");
+	LOG("%s","Flag DF set false");
 	SET_FLAG(0x0A, 0);
 }
 //Flag DF set true
 void handlerCommand16Code00FD() {
-	printf("Flag DF set true");
+	LOG("%s","Flag DF set true");
 	SET_FLAG(0x0A, 1);
 }
 //Ofther
 void handlerCommand16Code00FFP66P67() {
-	printf("Ofther");
+	LOG("%s","Ofther");
 	uint8_t mrmByte = read8u();
 	uint8_t nnn = readMiddle3Bit(mrmByte);
 	switch (nnn) {
@@ -7601,7 +7601,7 @@ void handlerCommand16Code00FFP66P67() {
 }
 //Ofther
 void handlerCommand16Code00FFP67() {
-	printf("Ofther");
+	LOG("%s","Ofther");
 	uint8_t mrmByte = read8u();
 	uint8_t nnn = readMiddle3Bit(mrmByte);
 	switch (nnn) {
@@ -7641,7 +7641,7 @@ void handlerCommand16Code00FFP67() {
 }
 //Ofther
 void handlerCommand16Code00FFP66() {
-	printf("Ofther");
+	LOG("%s","Ofther");
 	uint8_t mrmByte = read8u();
 	uint8_t nnn = readMiddle3Bit(mrmByte);
 	switch (nnn) {
@@ -7681,7 +7681,7 @@ void handlerCommand16Code00FFP66() {
 }
 //Ofther
 void handlerCommand16Code00FF() {
-	printf("Ofther");
+	LOG("%s","Ofther");
 	uint8_t mrmByte = read8u();
 	uint8_t nnn = readMiddle3Bit(mrmByte);
 	switch (nnn) {
@@ -7721,7 +7721,7 @@ void handlerCommand16Code00FF() {
 }
 //J(cond)
 void handlerCommand16Code0180() {
-	printf("J(cond)");
+	LOG("%s","J(cond)");
 	FillFlags();
 	int16_t address = read16();
 	if COND0x00 {
@@ -7730,7 +7730,7 @@ void handlerCommand16Code0180() {
 }
 //J(cond)
 void handlerCommand16Code0181() {
-	printf("J(cond)");
+	LOG("%s","J(cond)");
 	FillFlags();
 	int16_t address = read16();
 	if COND0x01 {
@@ -7739,7 +7739,7 @@ void handlerCommand16Code0181() {
 }
 //J(cond)
 void handlerCommand16Code0182() {
-	printf("J(cond)");
+	LOG("%s","J(cond)");
 	FillFlags();
 	int16_t address = read16();
 	if COND0x02 {
@@ -7748,7 +7748,7 @@ void handlerCommand16Code0182() {
 }
 //J(cond)
 void handlerCommand16Code0183() {
-	printf("J(cond)");
+	LOG("%s","J(cond)");
 	FillFlags();
 	int16_t address = read16();
 	if COND0x03 {
@@ -7757,7 +7757,7 @@ void handlerCommand16Code0183() {
 }
 //J(cond)
 void handlerCommand16Code0184() {
-	printf("J(cond)");
+	LOG("%s","J(cond)");
 	FillFlags();
 	int16_t address = read16();
 	if COND0x04 {
@@ -7766,7 +7766,7 @@ void handlerCommand16Code0184() {
 }
 //J(cond)
 void handlerCommand16Code0185() {
-	printf("J(cond)");
+	LOG("%s","J(cond)");
 	FillFlags();
 	int16_t address = read16();
 	if COND0x05 {
@@ -7775,7 +7775,7 @@ void handlerCommand16Code0185() {
 }
 //J(cond)
 void handlerCommand16Code0186() {
-	printf("J(cond)");
+	LOG("%s","J(cond)");
 	FillFlags();
 	int16_t address = read16();
 	if COND0x06 {
@@ -7784,7 +7784,7 @@ void handlerCommand16Code0186() {
 }
 //J(cond)
 void handlerCommand16Code0187() {
-	printf("J(cond)");
+	LOG("%s","J(cond)");
 	FillFlags();
 	int16_t address = read16();
 	if COND0x07 {
@@ -7793,7 +7793,7 @@ void handlerCommand16Code0187() {
 }
 //J(cond)
 void handlerCommand16Code0188() {
-	printf("J(cond)");
+	LOG("%s","J(cond)");
 	FillFlags();
 	int16_t address = read16();
 	if COND0x08 {
@@ -7802,7 +7802,7 @@ void handlerCommand16Code0188() {
 }
 //J(cond)
 void handlerCommand16Code0189() {
-	printf("J(cond)");
+	LOG("%s","J(cond)");
 	FillFlags();
 	int16_t address = read16();
 	if COND0x09 {
@@ -7811,7 +7811,7 @@ void handlerCommand16Code0189() {
 }
 //J(cond)
 void handlerCommand16Code018A() {
-	printf("J(cond)");
+	LOG("%s","J(cond)");
 	FillFlags();
 	int16_t address = read16();
 	if COND0x0A {
@@ -7820,7 +7820,7 @@ void handlerCommand16Code018A() {
 }
 //J(cond)
 void handlerCommand16Code018B() {
-	printf("J(cond)");
+	LOG("%s","J(cond)");
 	FillFlags();
 	int16_t address = read16();
 	if COND0x0B {
@@ -7829,7 +7829,7 @@ void handlerCommand16Code018B() {
 }
 //J(cond)
 void handlerCommand16Code018C() {
-	printf("J(cond)");
+	LOG("%s","J(cond)");
 	FillFlags();
 	int16_t address = read16();
 	if COND0x0C {
@@ -7838,7 +7838,7 @@ void handlerCommand16Code018C() {
 }
 //J(cond)
 void handlerCommand16Code018D() {
-	printf("J(cond)");
+	LOG("%s","J(cond)");
 	FillFlags();
 	int16_t address = read16();
 	if COND0x0D {
@@ -7847,7 +7847,7 @@ void handlerCommand16Code018D() {
 }
 //J(cond)
 void handlerCommand16Code018E() {
-	printf("J(cond)");
+	LOG("%s","J(cond)");
 	FillFlags();
 	int16_t address = read16();
 	if COND0x0E {
@@ -7856,7 +7856,7 @@ void handlerCommand16Code018E() {
 }
 //J(cond)
 void handlerCommand16Code018F() {
-	printf("J(cond)");
+	LOG("%s","J(cond)");
 	FillFlags();
 	int16_t address = read16();
 	if COND0x0F {
@@ -7865,7 +7865,7 @@ void handlerCommand16Code018F() {
 }
 //Math
 void handlerCommand16Code0190P66() {
-	printf("Math");
+	LOG("%s","Math");
 	uint8_t cond = 0x00;
 	uint8_t mrmByte = read8u();
 	uint8_t nnn = readMiddle3Bit(mrmByte);
@@ -7882,7 +7882,7 @@ void handlerCommand16Code0190P66() {
 }
 //Math
 void handlerCommand16Code0190() {
-	printf("Math");
+	LOG("%s","Math");
 	uint8_t cond = 0x00;
 	uint8_t mrmByte = read8u();
 	uint8_t nnn = readMiddle3Bit(mrmByte);
@@ -7899,7 +7899,7 @@ void handlerCommand16Code0190() {
 }
 //Math
 void handlerCommand16Code0191P66() {
-	printf("Math");
+	LOG("%s","Math");
 	uint8_t cond = 0x01;
 	uint8_t mrmByte = read8u();
 	uint8_t nnn = readMiddle3Bit(mrmByte);
@@ -7916,7 +7916,7 @@ void handlerCommand16Code0191P66() {
 }
 //Math
 void handlerCommand16Code0191() {
-	printf("Math");
+	LOG("%s","Math");
 	uint8_t cond = 0x01;
 	uint8_t mrmByte = read8u();
 	uint8_t nnn = readMiddle3Bit(mrmByte);
@@ -7933,7 +7933,7 @@ void handlerCommand16Code0191() {
 }
 //Math
 void handlerCommand16Code0192P66() {
-	printf("Math");
+	LOG("%s","Math");
 	uint8_t cond = 0x02;
 	uint8_t mrmByte = read8u();
 	uint8_t nnn = readMiddle3Bit(mrmByte);
@@ -7950,7 +7950,7 @@ void handlerCommand16Code0192P66() {
 }
 //Math
 void handlerCommand16Code0192() {
-	printf("Math");
+	LOG("%s","Math");
 	uint8_t cond = 0x02;
 	uint8_t mrmByte = read8u();
 	uint8_t nnn = readMiddle3Bit(mrmByte);
@@ -7967,7 +7967,7 @@ void handlerCommand16Code0192() {
 }
 //Math
 void handlerCommand16Code0193P66() {
-	printf("Math");
+	LOG("%s","Math");
 	uint8_t cond = 0x03;
 	uint8_t mrmByte = read8u();
 	uint8_t nnn = readMiddle3Bit(mrmByte);
@@ -7984,7 +7984,7 @@ void handlerCommand16Code0193P66() {
 }
 //Math
 void handlerCommand16Code0193() {
-	printf("Math");
+	LOG("%s","Math");
 	uint8_t cond = 0x03;
 	uint8_t mrmByte = read8u();
 	uint8_t nnn = readMiddle3Bit(mrmByte);
@@ -8001,7 +8001,7 @@ void handlerCommand16Code0193() {
 }
 //Math
 void handlerCommand16Code0194P66() {
-	printf("Math");
+	LOG("%s","Math");
 	uint8_t cond = 0x04;
 	uint8_t mrmByte = read8u();
 	uint8_t nnn = readMiddle3Bit(mrmByte);
@@ -8018,7 +8018,7 @@ void handlerCommand16Code0194P66() {
 }
 //Math
 void handlerCommand16Code0194() {
-	printf("Math");
+	LOG("%s","Math");
 	uint8_t cond = 0x04;
 	uint8_t mrmByte = read8u();
 	uint8_t nnn = readMiddle3Bit(mrmByte);
@@ -8035,7 +8035,7 @@ void handlerCommand16Code0194() {
 }
 //Math
 void handlerCommand16Code0195P66() {
-	printf("Math");
+	LOG("%s","Math");
 	uint8_t cond = 0x05;
 	uint8_t mrmByte = read8u();
 	uint8_t nnn = readMiddle3Bit(mrmByte);
@@ -8052,7 +8052,7 @@ void handlerCommand16Code0195P66() {
 }
 //Math
 void handlerCommand16Code0195() {
-	printf("Math");
+	LOG("%s","Math");
 	uint8_t cond = 0x05;
 	uint8_t mrmByte = read8u();
 	uint8_t nnn = readMiddle3Bit(mrmByte);
@@ -8069,7 +8069,7 @@ void handlerCommand16Code0195() {
 }
 //Math
 void handlerCommand16Code0196P66() {
-	printf("Math");
+	LOG("%s","Math");
 	uint8_t cond = 0x06;
 	uint8_t mrmByte = read8u();
 	uint8_t nnn = readMiddle3Bit(mrmByte);
@@ -8086,7 +8086,7 @@ void handlerCommand16Code0196P66() {
 }
 //Math
 void handlerCommand16Code0196() {
-	printf("Math");
+	LOG("%s","Math");
 	uint8_t cond = 0x06;
 	uint8_t mrmByte = read8u();
 	uint8_t nnn = readMiddle3Bit(mrmByte);
@@ -8103,7 +8103,7 @@ void handlerCommand16Code0196() {
 }
 //Math
 void handlerCommand16Code0197P66() {
-	printf("Math");
+	LOG("%s","Math");
 	uint8_t cond = 0x07;
 	uint8_t mrmByte = read8u();
 	uint8_t nnn = readMiddle3Bit(mrmByte);
@@ -8120,7 +8120,7 @@ void handlerCommand16Code0197P66() {
 }
 //Math
 void handlerCommand16Code0197() {
-	printf("Math");
+	LOG("%s","Math");
 	uint8_t cond = 0x07;
 	uint8_t mrmByte = read8u();
 	uint8_t nnn = readMiddle3Bit(mrmByte);
@@ -8137,7 +8137,7 @@ void handlerCommand16Code0197() {
 }
 //Math
 void handlerCommand16Code0198P66() {
-	printf("Math");
+	LOG("%s","Math");
 	uint8_t cond = 0x08;
 	uint8_t mrmByte = read8u();
 	uint8_t nnn = readMiddle3Bit(mrmByte);
@@ -8154,7 +8154,7 @@ void handlerCommand16Code0198P66() {
 }
 //Math
 void handlerCommand16Code0198() {
-	printf("Math");
+	LOG("%s","Math");
 	uint8_t cond = 0x08;
 	uint8_t mrmByte = read8u();
 	uint8_t nnn = readMiddle3Bit(mrmByte);
@@ -8171,7 +8171,7 @@ void handlerCommand16Code0198() {
 }
 //Math
 void handlerCommand16Code0199P66() {
-	printf("Math");
+	LOG("%s","Math");
 	uint8_t cond = 0x09;
 	uint8_t mrmByte = read8u();
 	uint8_t nnn = readMiddle3Bit(mrmByte);
@@ -8188,7 +8188,7 @@ void handlerCommand16Code0199P66() {
 }
 //Math
 void handlerCommand16Code0199() {
-	printf("Math");
+	LOG("%s","Math");
 	uint8_t cond = 0x09;
 	uint8_t mrmByte = read8u();
 	uint8_t nnn = readMiddle3Bit(mrmByte);
@@ -8205,7 +8205,7 @@ void handlerCommand16Code0199() {
 }
 //Math
 void handlerCommand16Code019AP66() {
-	printf("Math");
+	LOG("%s","Math");
 	uint8_t cond = 0x0A;
 	uint8_t mrmByte = read8u();
 	uint8_t nnn = readMiddle3Bit(mrmByte);
@@ -8222,7 +8222,7 @@ void handlerCommand16Code019AP66() {
 }
 //Math
 void handlerCommand16Code019A() {
-	printf("Math");
+	LOG("%s","Math");
 	uint8_t cond = 0x0A;
 	uint8_t mrmByte = read8u();
 	uint8_t nnn = readMiddle3Bit(mrmByte);
@@ -8239,7 +8239,7 @@ void handlerCommand16Code019A() {
 }
 //Math
 void handlerCommand16Code019BP66() {
-	printf("Math");
+	LOG("%s","Math");
 	uint8_t cond = 0x0B;
 	uint8_t mrmByte = read8u();
 	uint8_t nnn = readMiddle3Bit(mrmByte);
@@ -8256,7 +8256,7 @@ void handlerCommand16Code019BP66() {
 }
 //Math
 void handlerCommand16Code019B() {
-	printf("Math");
+	LOG("%s","Math");
 	uint8_t cond = 0x0B;
 	uint8_t mrmByte = read8u();
 	uint8_t nnn = readMiddle3Bit(mrmByte);
@@ -8273,7 +8273,7 @@ void handlerCommand16Code019B() {
 }
 //Math
 void handlerCommand16Code019CP66() {
-	printf("Math");
+	LOG("%s","Math");
 	uint8_t cond = 0x0C;
 	uint8_t mrmByte = read8u();
 	uint8_t nnn = readMiddle3Bit(mrmByte);
@@ -8290,7 +8290,7 @@ void handlerCommand16Code019CP66() {
 }
 //Math
 void handlerCommand16Code019C() {
-	printf("Math");
+	LOG("%s","Math");
 	uint8_t cond = 0x0C;
 	uint8_t mrmByte = read8u();
 	uint8_t nnn = readMiddle3Bit(mrmByte);
@@ -8307,7 +8307,7 @@ void handlerCommand16Code019C() {
 }
 //Math
 void handlerCommand16Code019DP66() {
-	printf("Math");
+	LOG("%s","Math");
 	uint8_t cond = 0x0D;
 	uint8_t mrmByte = read8u();
 	uint8_t nnn = readMiddle3Bit(mrmByte);
@@ -8324,7 +8324,7 @@ void handlerCommand16Code019DP66() {
 }
 //Math
 void handlerCommand16Code019D() {
-	printf("Math");
+	LOG("%s","Math");
 	uint8_t cond = 0x0D;
 	uint8_t mrmByte = read8u();
 	uint8_t nnn = readMiddle3Bit(mrmByte);
@@ -8341,7 +8341,7 @@ void handlerCommand16Code019D() {
 }
 //Math
 void handlerCommand16Code019EP66() {
-	printf("Math");
+	LOG("%s","Math");
 	uint8_t cond = 0x0E;
 	uint8_t mrmByte = read8u();
 	uint8_t nnn = readMiddle3Bit(mrmByte);
@@ -8358,7 +8358,7 @@ void handlerCommand16Code019EP66() {
 }
 //Math
 void handlerCommand16Code019E() {
-	printf("Math");
+	LOG("%s","Math");
 	uint8_t cond = 0x0E;
 	uint8_t mrmByte = read8u();
 	uint8_t nnn = readMiddle3Bit(mrmByte);
@@ -8375,7 +8375,7 @@ void handlerCommand16Code019E() {
 }
 //Math
 void handlerCommand16Code019FP66() {
-	printf("Math");
+	LOG("%s","Math");
 	uint8_t cond = 0x0F;
 	uint8_t mrmByte = read8u();
 	uint8_t nnn = readMiddle3Bit(mrmByte);
@@ -8392,7 +8392,7 @@ void handlerCommand16Code019FP66() {
 }
 //Math
 void handlerCommand16Code019F() {
-	printf("Math");
+	LOG("%s","Math");
 	uint8_t cond = 0x0F;
 	uint8_t mrmByte = read8u();
 	uint8_t nnn = readMiddle3Bit(mrmByte);
@@ -8409,7 +8409,7 @@ void handlerCommand16Code019F() {
 }
 //Mul
 void handlerCommand16Code01AFP66() {
-	printf("Mul");
+	LOG("%s","Mul");
 	uint8_t mrmByte = read8u();
 	uint8_t* target = (uint8_t*)readAddressMRM16For32(mrmByte);
 	uint8_t* source = (uint8_t*)readRegisterMRM32(mrmByte);
@@ -8426,7 +8426,7 @@ void handlerCommand16Code01AFP66() {
 }
 //Mul
 void handlerCommand16Code01AF() {
-	printf("Mul");
+	LOG("%s","Mul");
 	uint8_t mrmByte = read8u();
 	uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
 	uint8_t* source = (uint8_t*)readRegisterMRM16(mrmByte);
@@ -8443,7 +8443,7 @@ void handlerCommand16Code01AF() {
 }
 //Load SR_SS
 void handlerCommand16Code01B2() {
-	printf("Load SR_SS");
+	LOG("%s","Load SR_SS");
 	uint8_t mrmByte = read8u();
 	uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
 	uint8_t* source = (uint8_t*)readRegisterMRM16(mrmByte);
@@ -8452,7 +8452,7 @@ void handlerCommand16Code01B2() {
 }
 //Load SR_FS
 void handlerCommand16Code01B4() {
-	printf("Load SR_FS");
+	LOG("%s","Load SR_FS");
 	uint8_t mrmByte = read8u();
 	uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
 	uint8_t* source = (uint8_t*)readRegisterMRM16(mrmByte);
@@ -8461,7 +8461,7 @@ void handlerCommand16Code01B4() {
 }
 //Load SR_GS
 void handlerCommand16Code01B5() {
-	printf("Load SR_GS");
+	LOG("%s","Load SR_GS");
 	uint8_t mrmByte = read8u();
 	uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
 	uint8_t* source = (uint8_t*)readRegisterMRM16(mrmByte);
@@ -8470,7 +8470,7 @@ void handlerCommand16Code01B5() {
 }
 //MOVZX
 void handlerCommand16Code01B6P66() {
-	printf("MOVZX");
+	LOG("%s","MOVZX");
 	uint8_t mrmByte = read8u();
 	uint32_t* target = (uint32_t*)readRegisterMRM32(mrmByte);
 	uint8_t* source = (uint8_t*)readAddressMRM32For8(mrmByte);
@@ -8478,7 +8478,7 @@ void handlerCommand16Code01B6P66() {
 }
 //MOVZX
 void handlerCommand16Code01B6() {
-	printf("MOVZX");
+	LOG("%s","MOVZX");
 	uint8_t mrmByte = read8u();
 	uint16_t* target = (uint16_t*)readRegisterMRM16(mrmByte);
 	uint8_t* source = (uint8_t*)readAddressMRM32For8(mrmByte);
@@ -8486,7 +8486,7 @@ void handlerCommand16Code01B6() {
 }
 //MOVZX
 void handlerCommand16Code01B7() {
-	printf("MOVZX");
+	LOG("%s","MOVZX");
 	uint8_t mrmByte = read8u();
 	uint32_t* target = (uint32_t*)readRegisterMRM32(mrmByte);
 	uint16_t* source = (uint16_t*)readAddressMRM32For16(mrmByte);
@@ -8494,7 +8494,7 @@ void handlerCommand16Code01B7() {
 }
 //MOVSX
 void handlerCommand16Code01BEP66() {
-	printf("MOVSX");
+	LOG("%s","MOVSX");
 	uint8_t mrmByte = read8u();
 	int32_t* target = (int32_t*)readRegisterMRM32(mrmByte);
 	int8_t* source = (int8_t*)readAddressMRM32For8(mrmByte);
@@ -8502,7 +8502,7 @@ void handlerCommand16Code01BEP66() {
 }
 //MOVSX
 void handlerCommand16Code01BE() {
-	printf("MOVSX");
+	LOG("%s","MOVSX");
 	uint8_t mrmByte = read8u();
 	int16_t* target = (int16_t*)readRegisterMRM16(mrmByte);
 	int8_t* source = (int8_t*)readAddressMRM32For8(mrmByte);
@@ -8510,7 +8510,7 @@ void handlerCommand16Code01BE() {
 }
 //MOVSX
 void handlerCommand16Code01BF() {
-	printf("MOVSX");
+	LOG("%s","MOVSX");
 	uint8_t mrmByte = read8u();
 	int32_t* target = (int32_t*)readRegisterMRM32(mrmByte);
 	int16_t* source = (int16_t*)readAddressMRM32For16(mrmByte);
@@ -8518,7 +8518,7 @@ void handlerCommand16Code01BF() {
 }
 //Swap
 void handlerCommand16Code01C8() {
-	printf("Swap");
+	LOG("%s","Swap");
 	uint8_t reg = 0x00;
 	uint32_t value = reg_0x00_32u;
 	uint8_t b1 = value & 0x000000FF;
@@ -8533,7 +8533,7 @@ void handlerCommand16Code01C8() {
 }
 //Swap
 void handlerCommand16Code01C9() {
-	printf("Swap");
+	LOG("%s","Swap");
 	uint8_t reg = 0x01;
 	uint32_t value = reg_0x01_32u;
 	uint8_t b1 = value & 0x000000FF;
@@ -8548,7 +8548,7 @@ void handlerCommand16Code01C9() {
 }
 //Swap
 void handlerCommand16Code01CA() {
-	printf("Swap");
+	LOG("%s","Swap");
 	uint8_t reg = 0x02;
 	uint32_t value = reg_0x02_32u;
 	uint8_t b1 = value & 0x000000FF;
@@ -8563,7 +8563,7 @@ void handlerCommand16Code01CA() {
 }
 //Swap
 void handlerCommand16Code01CB() {
-	printf("Swap");
+	LOG("%s","Swap");
 	uint8_t reg = 0x03;
 	uint32_t value = reg_0x03_32u;
 	uint8_t b1 = value & 0x000000FF;
@@ -8578,7 +8578,7 @@ void handlerCommand16Code01CB() {
 }
 //Swap
 void handlerCommand16Code01CC() {
-	printf("Swap");
+	LOG("%s","Swap");
 	uint8_t reg = 0x04;
 	uint32_t value = reg_0x04_32u;
 	uint8_t b1 = value & 0x000000FF;
@@ -8593,7 +8593,7 @@ void handlerCommand16Code01CC() {
 }
 //Swap
 void handlerCommand16Code01CD() {
-	printf("Swap");
+	LOG("%s","Swap");
 	uint8_t reg = 0x05;
 	uint32_t value = reg_0x05_32u;
 	uint8_t b1 = value & 0x000000FF;
@@ -8608,7 +8608,7 @@ void handlerCommand16Code01CD() {
 }
 //Swap
 void handlerCommand16Code01CE() {
-	printf("Swap");
+	LOG("%s","Swap");
 	uint8_t reg = 0x06;
 	uint32_t value = reg_0x06_32u;
 	uint8_t b1 = value & 0x000000FF;
@@ -8623,7 +8623,7 @@ void handlerCommand16Code01CE() {
 }
 //Swap
 void handlerCommand16Code01CF() {
-	printf("Swap");
+	LOG("%s","Swap");
 	uint8_t reg = 0x07;
 	uint32_t value = reg_0x07_32u;
 	uint8_t b1 = value & 0x000000FF;
@@ -8638,7 +8638,7 @@ void handlerCommand16Code01CF() {
 }
 //ADD
 void handlerCommand32Code0000P66() {
-	printf("ADD");
+	LOG("%s","ADD");
 	uint8_t mrmByte = read8u();
 	uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
 	uint8_t* source = (uint8_t*)readRegisterMRM8(mrmByte);
@@ -8650,7 +8650,7 @@ void handlerCommand32Code0000P66() {
 }
 //ADD
 void handlerCommand32Code0000() {
-	printf("ADD");
+	LOG("%s","ADD");
 	uint8_t mrmByte = read8u();
 	uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
 	uint8_t* source = (uint8_t*)readRegisterMRM8(mrmByte);
@@ -8662,7 +8662,7 @@ void handlerCommand32Code0000() {
 }
 //ADD
 void handlerCommand32Code0001P66() {
-	printf("ADD");
+	LOG("%s","ADD");
 	uint8_t mrmByte = read8u();
 	uint8_t* target = (uint8_t*)readAddressMRM32For16(mrmByte);
 	uint8_t* source = (uint8_t*)readRegisterMRM16(mrmByte);
@@ -8674,7 +8674,7 @@ void handlerCommand32Code0001P66() {
 }
 //ADD
 void handlerCommand32Code0001() {
-	printf("ADD");
+	LOG("%s","ADD");
 	uint8_t mrmByte = read8u();
 	uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
 	uint8_t* source = (uint8_t*)readRegisterMRM32(mrmByte);
@@ -8686,7 +8686,7 @@ void handlerCommand32Code0001() {
 }
 //ADD
 void handlerCommand32Code0002P66() {
-	printf("ADD");
+	LOG("%s","ADD");
 	uint8_t mrmByte = read8u();
 	uint8_t* source = (uint8_t*)readAddressMRM32For8(mrmByte);
 	uint8_t* target = (uint8_t*)readRegisterMRM8(mrmByte);
@@ -8698,7 +8698,7 @@ void handlerCommand32Code0002P66() {
 }
 //ADD
 void handlerCommand32Code0002() {
-	printf("ADD");
+	LOG("%s","ADD");
 	uint8_t mrmByte = read8u();
 	uint8_t* source = (uint8_t*)readAddressMRM32For8(mrmByte);
 	uint8_t* target = (uint8_t*)readRegisterMRM8(mrmByte);
@@ -8710,7 +8710,7 @@ void handlerCommand32Code0002() {
 }
 //ADD
 void handlerCommand32Code0003P66() {
-	printf("ADD");
+	LOG("%s","ADD");
 	uint8_t mrmByte = read8u();
 	uint8_t* source = (uint8_t*)readAddressMRM32For16(mrmByte);
 	uint8_t* target = (uint8_t*)readRegisterMRM16(mrmByte);
@@ -8722,7 +8722,7 @@ void handlerCommand32Code0003P66() {
 }
 //ADD
 void handlerCommand32Code0003() {
-	printf("ADD");
+	LOG("%s","ADD");
 	uint8_t mrmByte = read8u();
 	uint8_t* source = (uint8_t*)readAddressMRM32For32(mrmByte);
 	uint8_t* target = (uint8_t*)readRegisterMRM32(mrmByte);
@@ -8734,7 +8734,7 @@ void handlerCommand32Code0003() {
 }
 //ADD
 void handlerCommand32Code0004P66() {
-	printf("ADD");
+	LOG("%s","ADD");
 	uint8_t* target = (uint8_t*)register8u(BR_AX);
 	LazyFlagVarA8 = *(uint8_t*)target;
 	LazyFlagVarB8 = read8u();
@@ -8744,7 +8744,7 @@ void handlerCommand32Code0004P66() {
 }
 //ADD
 void handlerCommand32Code0004() {
-	printf("ADD");
+	LOG("%s","ADD");
 	uint8_t* target = (uint8_t*)register8u(BR_AX);
 	LazyFlagVarA8 = *(uint8_t*)target;
 	LazyFlagVarB8 = read8u();
@@ -8754,7 +8754,7 @@ void handlerCommand32Code0004() {
 }
 //ADD
 void handlerCommand32Code0005P66() {
-	printf("ADD");
+	LOG("%s","ADD");
 	uint8_t* target = (uint8_t*)register16u(BR_AX);
 	LazyFlagVarA16 = *(uint16_t*)target;
 	LazyFlagVarB16 = read16u();
@@ -8764,7 +8764,7 @@ void handlerCommand32Code0005P66() {
 }
 //ADD
 void handlerCommand32Code0005() {
-	printf("ADD");
+	LOG("%s","ADD");
 	uint8_t* target = (uint8_t*)register32u(BR_AX);
 	LazyFlagVarA32 = *(uint32_t*)target;
 	LazyFlagVarB32 = read32u();
@@ -8774,63 +8774,63 @@ void handlerCommand32Code0005() {
 }
 //Push
 void handlerCommand32Code0006() {
-	printf("Push");
+	LOG("%s","Push");
 	uint8_t rg = 0x00;
 	reg_SP_32u -= 16 / 8;
 	*(uint16_t*)(mem(SR_SS) + reg_SP_32u) = context.segmentRegisters[rg];
 }
 //Push
 void handlerCommand32Code000E() {
-	printf("Push");
+	LOG("%s","Push");
 	uint8_t rg = 0x01;
 	reg_SP_32u -= 16 / 8;
 	*(uint16_t*)(mem(SR_SS) + reg_SP_32u) = context.segmentRegisters[rg];
 }
 //Push
 void handlerCommand32Code0016() {
-	printf("Push");
+	LOG("%s","Push");
 	uint8_t rg = 0x02;
 	reg_SP_32u -= 16 / 8;
 	*(uint16_t*)(mem(SR_SS) + reg_SP_32u) = context.segmentRegisters[rg];
 }
 //Push
 void handlerCommand32Code001E() {
-	printf("Push");
+	LOG("%s","Push");
 	uint8_t rg = 0x03;
 	reg_SP_32u -= 16 / 8;
 	*(uint16_t*)(mem(SR_SS) + reg_SP_32u) = context.segmentRegisters[rg];
 }
 //Pop
 void handlerCommand32Code0007() {
-	printf("Pop");
+	LOG("%s","Pop");
 	uint8_t rg = 0x00;
 	context.segmentRegisters[rg] = *(uint16_t*)(mem(SR_SS) + reg_SP_32u);
 	reg_SP_32u += 16 / 8;
 }
 //Pop
 void handlerCommand32Code000F() {
-	printf("Pop");
+	LOG("%s","Pop");
 	uint8_t rg = 0x01;
 	context.segmentRegisters[rg] = *(uint16_t*)(mem(SR_SS) + reg_SP_32u);
 	reg_SP_32u += 16 / 8;
 }
 //Pop
 void handlerCommand32Code0017() {
-	printf("Pop");
+	LOG("%s","Pop");
 	uint8_t rg = 0x02;
 	context.segmentRegisters[rg] = *(uint16_t*)(mem(SR_SS) + reg_SP_32u);
 	reg_SP_32u += 16 / 8;
 }
 //Pop
 void handlerCommand32Code001F() {
-	printf("Pop");
+	LOG("%s","Pop");
 	uint8_t rg = 0x03;
 	context.segmentRegisters[rg] = *(uint16_t*)(mem(SR_SS) + reg_SP_32u);
 	reg_SP_32u += 16 / 8;
 }
 //OR
 void handlerCommand32Code0008P66() {
-	printf("OR");
+	LOG("%s","OR");
 	uint8_t mrmByte = read8u();
 	uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
 	uint8_t* source = (uint8_t*)readRegisterMRM8(mrmByte);
@@ -8842,7 +8842,7 @@ void handlerCommand32Code0008P66() {
 }
 //OR
 void handlerCommand32Code0008() {
-	printf("OR");
+	LOG("%s","OR");
 	uint8_t mrmByte = read8u();
 	uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
 	uint8_t* source = (uint8_t*)readRegisterMRM8(mrmByte);
@@ -8854,7 +8854,7 @@ void handlerCommand32Code0008() {
 }
 //OR
 void handlerCommand32Code0009P66() {
-	printf("OR");
+	LOG("%s","OR");
 	uint8_t mrmByte = read8u();
 	uint8_t* target = (uint8_t*)readAddressMRM32For16(mrmByte);
 	uint8_t* source = (uint8_t*)readRegisterMRM16(mrmByte);
@@ -8866,7 +8866,7 @@ void handlerCommand32Code0009P66() {
 }
 //OR
 void handlerCommand32Code0009() {
-	printf("OR");
+	LOG("%s","OR");
 	uint8_t mrmByte = read8u();
 	uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
 	uint8_t* source = (uint8_t*)readRegisterMRM32(mrmByte);
@@ -8878,7 +8878,7 @@ void handlerCommand32Code0009() {
 }
 //OR
 void handlerCommand32Code000AP66() {
-	printf("OR");
+	LOG("%s","OR");
 	uint8_t mrmByte = read8u();
 	uint8_t* source = (uint8_t*)readAddressMRM32For8(mrmByte);
 	uint8_t* target = (uint8_t*)readRegisterMRM8(mrmByte);
@@ -8890,7 +8890,7 @@ void handlerCommand32Code000AP66() {
 }
 //OR
 void handlerCommand32Code000A() {
-	printf("OR");
+	LOG("%s","OR");
 	uint8_t mrmByte = read8u();
 	uint8_t* source = (uint8_t*)readAddressMRM32For8(mrmByte);
 	uint8_t* target = (uint8_t*)readRegisterMRM8(mrmByte);
@@ -8902,7 +8902,7 @@ void handlerCommand32Code000A() {
 }
 //OR
 void handlerCommand32Code000BP66() {
-	printf("OR");
+	LOG("%s","OR");
 	uint8_t mrmByte = read8u();
 	uint8_t* source = (uint8_t*)readAddressMRM32For16(mrmByte);
 	uint8_t* target = (uint8_t*)readRegisterMRM16(mrmByte);
@@ -8914,7 +8914,7 @@ void handlerCommand32Code000BP66() {
 }
 //OR
 void handlerCommand32Code000B() {
-	printf("OR");
+	LOG("%s","OR");
 	uint8_t mrmByte = read8u();
 	uint8_t* source = (uint8_t*)readAddressMRM32For32(mrmByte);
 	uint8_t* target = (uint8_t*)readRegisterMRM32(mrmByte);
@@ -8926,7 +8926,7 @@ void handlerCommand32Code000B() {
 }
 //OR
 void handlerCommand32Code000CP66() {
-	printf("OR");
+	LOG("%s","OR");
 	uint8_t* target = (uint8_t*)register8u(BR_AX);
 	LazyFlagVarA8 = *(uint8_t*)target;
 	LazyFlagVarB8 = read8u();
@@ -8936,7 +8936,7 @@ void handlerCommand32Code000CP66() {
 }
 //OR
 void handlerCommand32Code000C() {
-	printf("OR");
+	LOG("%s","OR");
 	uint8_t* target = (uint8_t*)register8u(BR_AX);
 	LazyFlagVarA8 = *(uint8_t*)target;
 	LazyFlagVarB8 = read8u();
@@ -8946,7 +8946,7 @@ void handlerCommand32Code000C() {
 }
 //OR
 void handlerCommand32Code000DP66() {
-	printf("OR");
+	LOG("%s","OR");
 	uint8_t* target = (uint8_t*)register16u(BR_AX);
 	LazyFlagVarA16 = *(uint16_t*)target;
 	LazyFlagVarB16 = read16u();
@@ -8956,7 +8956,7 @@ void handlerCommand32Code000DP66() {
 }
 //OR
 void handlerCommand32Code000D() {
-	printf("OR");
+	LOG("%s","OR");
 	uint8_t* target = (uint8_t*)register32u(BR_AX);
 	LazyFlagVarA32 = *(uint32_t*)target;
 	LazyFlagVarB32 = read32u();
@@ -8966,7 +8966,7 @@ void handlerCommand32Code000D() {
 }
 //ADC
 void handlerCommand32Code0010P66() {
-	printf("ADC");
+	LOG("%s","ADC");
 	uint8_t mrmByte = read8u();
 	uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
 	uint8_t* source = (uint8_t*)readRegisterMRM8(mrmByte);
@@ -8980,7 +8980,7 @@ void handlerCommand32Code0010P66() {
 }
 //ADC
 void handlerCommand32Code0010() {
-	printf("ADC");
+	LOG("%s","ADC");
 	uint8_t mrmByte = read8u();
 	uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
 	uint8_t* source = (uint8_t*)readRegisterMRM8(mrmByte);
@@ -8994,7 +8994,7 @@ void handlerCommand32Code0010() {
 }
 //ADC
 void handlerCommand32Code0011P66() {
-	printf("ADC");
+	LOG("%s","ADC");
 	uint8_t mrmByte = read8u();
 	uint8_t* target = (uint8_t*)readAddressMRM32For16(mrmByte);
 	uint8_t* source = (uint8_t*)readRegisterMRM16(mrmByte);
@@ -9008,7 +9008,7 @@ void handlerCommand32Code0011P66() {
 }
 //ADC
 void handlerCommand32Code0011() {
-	printf("ADC");
+	LOG("%s","ADC");
 	uint8_t mrmByte = read8u();
 	uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
 	uint8_t* source = (uint8_t*)readRegisterMRM32(mrmByte);
@@ -9022,7 +9022,7 @@ void handlerCommand32Code0011() {
 }
 //ADC
 void handlerCommand32Code0012P66() {
-	printf("ADC");
+	LOG("%s","ADC");
 	uint8_t mrmByte = read8u();
 	uint8_t* source = (uint8_t*)readAddressMRM32For8(mrmByte);
 	uint8_t* target = (uint8_t*)readRegisterMRM8(mrmByte);
@@ -9036,7 +9036,7 @@ void handlerCommand32Code0012P66() {
 }
 //ADC
 void handlerCommand32Code0012() {
-	printf("ADC");
+	LOG("%s","ADC");
 	uint8_t mrmByte = read8u();
 	uint8_t* source = (uint8_t*)readAddressMRM32For8(mrmByte);
 	uint8_t* target = (uint8_t*)readRegisterMRM8(mrmByte);
@@ -9050,7 +9050,7 @@ void handlerCommand32Code0012() {
 }
 //ADC
 void handlerCommand32Code0013P66() {
-	printf("ADC");
+	LOG("%s","ADC");
 	uint8_t mrmByte = read8u();
 	uint8_t* source = (uint8_t*)readAddressMRM32For16(mrmByte);
 	uint8_t* target = (uint8_t*)readRegisterMRM16(mrmByte);
@@ -9064,7 +9064,7 @@ void handlerCommand32Code0013P66() {
 }
 //ADC
 void handlerCommand32Code0013() {
-	printf("ADC");
+	LOG("%s","ADC");
 	uint8_t mrmByte = read8u();
 	uint8_t* source = (uint8_t*)readAddressMRM32For32(mrmByte);
 	uint8_t* target = (uint8_t*)readRegisterMRM32(mrmByte);
@@ -9078,7 +9078,7 @@ void handlerCommand32Code0013() {
 }
 //ADC
 void handlerCommand32Code0014P66() {
-	printf("ADC");
+	LOG("%s","ADC");
 	uint8_t* target = (uint8_t*)register8u(BR_AX);
 	LazyFlagVarA8 = *(uint8_t*)target;
 	LazyFlagVarB8 = read8u();
@@ -9090,7 +9090,7 @@ void handlerCommand32Code0014P66() {
 }
 //ADC
 void handlerCommand32Code0014() {
-	printf("ADC");
+	LOG("%s","ADC");
 	uint8_t* target = (uint8_t*)register8u(BR_AX);
 	LazyFlagVarA8 = *(uint8_t*)target;
 	LazyFlagVarB8 = read8u();
@@ -9102,7 +9102,7 @@ void handlerCommand32Code0014() {
 }
 //ADC
 void handlerCommand32Code0015P66() {
-	printf("ADC");
+	LOG("%s","ADC");
 	uint8_t* target = (uint8_t*)register16u(BR_AX);
 	LazyFlagVarA16 = *(uint16_t*)target;
 	LazyFlagVarB16 = read16u();
@@ -9114,7 +9114,7 @@ void handlerCommand32Code0015P66() {
 }
 //ADC
 void handlerCommand32Code0015() {
-	printf("ADC");
+	LOG("%s","ADC");
 	uint8_t* target = (uint8_t*)register32u(BR_AX);
 	LazyFlagVarA32 = *(uint32_t*)target;
 	LazyFlagVarB32 = read32u();
@@ -9126,7 +9126,7 @@ void handlerCommand32Code0015() {
 }
 //SBB
 void handlerCommand32Code0018P66() {
-	printf("SBB");
+	LOG("%s","SBB");
 	uint8_t mrmByte = read8u();
 	uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
 	uint8_t* source = (uint8_t*)readRegisterMRM8(mrmByte);
@@ -9140,7 +9140,7 @@ void handlerCommand32Code0018P66() {
 }
 //SBB
 void handlerCommand32Code0018() {
-	printf("SBB");
+	LOG("%s","SBB");
 	uint8_t mrmByte = read8u();
 	uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
 	uint8_t* source = (uint8_t*)readRegisterMRM8(mrmByte);
@@ -9154,7 +9154,7 @@ void handlerCommand32Code0018() {
 }
 //SBB
 void handlerCommand32Code0019P66() {
-	printf("SBB");
+	LOG("%s","SBB");
 	uint8_t mrmByte = read8u();
 	uint8_t* target = (uint8_t*)readAddressMRM32For16(mrmByte);
 	uint8_t* source = (uint8_t*)readRegisterMRM16(mrmByte);
@@ -9168,7 +9168,7 @@ void handlerCommand32Code0019P66() {
 }
 //SBB
 void handlerCommand32Code0019() {
-	printf("SBB");
+	LOG("%s","SBB");
 	uint8_t mrmByte = read8u();
 	uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
 	uint8_t* source = (uint8_t*)readRegisterMRM32(mrmByte);
@@ -9182,7 +9182,7 @@ void handlerCommand32Code0019() {
 }
 //SBB
 void handlerCommand32Code001AP66() {
-	printf("SBB");
+	LOG("%s","SBB");
 	uint8_t mrmByte = read8u();
 	uint8_t* source = (uint8_t*)readAddressMRM32For8(mrmByte);
 	uint8_t* target = (uint8_t*)readRegisterMRM8(mrmByte);
@@ -9196,7 +9196,7 @@ void handlerCommand32Code001AP66() {
 }
 //SBB
 void handlerCommand32Code001A() {
-	printf("SBB");
+	LOG("%s","SBB");
 	uint8_t mrmByte = read8u();
 	uint8_t* source = (uint8_t*)readAddressMRM32For8(mrmByte);
 	uint8_t* target = (uint8_t*)readRegisterMRM8(mrmByte);
@@ -9210,7 +9210,7 @@ void handlerCommand32Code001A() {
 }
 //SBB
 void handlerCommand32Code001BP66() {
-	printf("SBB");
+	LOG("%s","SBB");
 	uint8_t mrmByte = read8u();
 	uint8_t* source = (uint8_t*)readAddressMRM32For16(mrmByte);
 	uint8_t* target = (uint8_t*)readRegisterMRM16(mrmByte);
@@ -9224,7 +9224,7 @@ void handlerCommand32Code001BP66() {
 }
 //SBB
 void handlerCommand32Code001B() {
-	printf("SBB");
+	LOG("%s","SBB");
 	uint8_t mrmByte = read8u();
 	uint8_t* source = (uint8_t*)readAddressMRM32For32(mrmByte);
 	uint8_t* target = (uint8_t*)readRegisterMRM32(mrmByte);
@@ -9238,7 +9238,7 @@ void handlerCommand32Code001B() {
 }
 //SBB
 void handlerCommand32Code001CP66() {
-	printf("SBB");
+	LOG("%s","SBB");
 	uint8_t* target = (uint8_t*)register8u(BR_AX);
 	LazyFlagVarA8 = *(uint8_t*)target;
 	LazyFlagVarB8 = read8u();
@@ -9250,7 +9250,7 @@ void handlerCommand32Code001CP66() {
 }
 //SBB
 void handlerCommand32Code001C() {
-	printf("SBB");
+	LOG("%s","SBB");
 	uint8_t* target = (uint8_t*)register8u(BR_AX);
 	LazyFlagVarA8 = *(uint8_t*)target;
 	LazyFlagVarB8 = read8u();
@@ -9262,7 +9262,7 @@ void handlerCommand32Code001C() {
 }
 //SBB
 void handlerCommand32Code001DP66() {
-	printf("SBB");
+	LOG("%s","SBB");
 	uint8_t* target = (uint8_t*)register16u(BR_AX);
 	LazyFlagVarA16 = *(uint16_t*)target;
 	LazyFlagVarB16 = read16u();
@@ -9274,7 +9274,7 @@ void handlerCommand32Code001DP66() {
 }
 //SBB
 void handlerCommand32Code001D() {
-	printf("SBB");
+	LOG("%s","SBB");
 	uint8_t* target = (uint8_t*)register32u(BR_AX);
 	LazyFlagVarA32 = *(uint32_t*)target;
 	LazyFlagVarB32 = read32u();
@@ -9286,7 +9286,7 @@ void handlerCommand32Code001D() {
 }
 //AND
 void handlerCommand32Code0020P66() {
-	printf("AND");
+	LOG("%s","AND");
 	uint8_t mrmByte = read8u();
 	uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
 	uint8_t* source = (uint8_t*)readRegisterMRM8(mrmByte);
@@ -9298,7 +9298,7 @@ void handlerCommand32Code0020P66() {
 }
 //AND
 void handlerCommand32Code0020() {
-	printf("AND");
+	LOG("%s","AND");
 	uint8_t mrmByte = read8u();
 	uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
 	uint8_t* source = (uint8_t*)readRegisterMRM8(mrmByte);
@@ -9310,7 +9310,7 @@ void handlerCommand32Code0020() {
 }
 //AND
 void handlerCommand32Code0021P66() {
-	printf("AND");
+	LOG("%s","AND");
 	uint8_t mrmByte = read8u();
 	uint8_t* target = (uint8_t*)readAddressMRM32For16(mrmByte);
 	uint8_t* source = (uint8_t*)readRegisterMRM16(mrmByte);
@@ -9322,7 +9322,7 @@ void handlerCommand32Code0021P66() {
 }
 //AND
 void handlerCommand32Code0021() {
-	printf("AND");
+	LOG("%s","AND");
 	uint8_t mrmByte = read8u();
 	uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
 	uint8_t* source = (uint8_t*)readRegisterMRM32(mrmByte);
@@ -9334,7 +9334,7 @@ void handlerCommand32Code0021() {
 }
 //AND
 void handlerCommand32Code0022P66() {
-	printf("AND");
+	LOG("%s","AND");
 	uint8_t mrmByte = read8u();
 	uint8_t* source = (uint8_t*)readAddressMRM32For8(mrmByte);
 	uint8_t* target = (uint8_t*)readRegisterMRM8(mrmByte);
@@ -9346,7 +9346,7 @@ void handlerCommand32Code0022P66() {
 }
 //AND
 void handlerCommand32Code0022() {
-	printf("AND");
+	LOG("%s","AND");
 	uint8_t mrmByte = read8u();
 	uint8_t* source = (uint8_t*)readAddressMRM32For8(mrmByte);
 	uint8_t* target = (uint8_t*)readRegisterMRM8(mrmByte);
@@ -9358,7 +9358,7 @@ void handlerCommand32Code0022() {
 }
 //AND
 void handlerCommand32Code0023P66() {
-	printf("AND");
+	LOG("%s","AND");
 	uint8_t mrmByte = read8u();
 	uint8_t* source = (uint8_t*)readAddressMRM32For16(mrmByte);
 	uint8_t* target = (uint8_t*)readRegisterMRM16(mrmByte);
@@ -9370,7 +9370,7 @@ void handlerCommand32Code0023P66() {
 }
 //AND
 void handlerCommand32Code0023() {
-	printf("AND");
+	LOG("%s","AND");
 	uint8_t mrmByte = read8u();
 	uint8_t* source = (uint8_t*)readAddressMRM32For32(mrmByte);
 	uint8_t* target = (uint8_t*)readRegisterMRM32(mrmByte);
@@ -9382,7 +9382,7 @@ void handlerCommand32Code0023() {
 }
 //AND
 void handlerCommand32Code0024P66() {
-	printf("AND");
+	LOG("%s","AND");
 	uint8_t* target = (uint8_t*)register8u(BR_AX);
 	LazyFlagVarA8 = *(uint8_t*)target;
 	LazyFlagVarB8 = read8u();
@@ -9392,7 +9392,7 @@ void handlerCommand32Code0024P66() {
 }
 //AND
 void handlerCommand32Code0024() {
-	printf("AND");
+	LOG("%s","AND");
 	uint8_t* target = (uint8_t*)register8u(BR_AX);
 	LazyFlagVarA8 = *(uint8_t*)target;
 	LazyFlagVarB8 = read8u();
@@ -9402,7 +9402,7 @@ void handlerCommand32Code0024() {
 }
 //AND
 void handlerCommand32Code0025P66() {
-	printf("AND");
+	LOG("%s","AND");
 	uint8_t* target = (uint8_t*)register16u(BR_AX);
 	LazyFlagVarA16 = *(uint16_t*)target;
 	LazyFlagVarB16 = read16u();
@@ -9412,7 +9412,7 @@ void handlerCommand32Code0025P66() {
 }
 //AND
 void handlerCommand32Code0025() {
-	printf("AND");
+	LOG("%s","AND");
 	uint8_t* target = (uint8_t*)register32u(BR_AX);
 	LazyFlagVarA32 = *(uint32_t*)target;
 	LazyFlagVarB32 = read32u();
@@ -9422,7 +9422,7 @@ void handlerCommand32Code0025() {
 }
 //SUB
 void handlerCommand32Code0028P66() {
-	printf("SUB");
+	LOG("%s","SUB");
 	uint8_t mrmByte = read8u();
 	uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
 	uint8_t* source = (uint8_t*)readRegisterMRM8(mrmByte);
@@ -9434,7 +9434,7 @@ void handlerCommand32Code0028P66() {
 }
 //SUB
 void handlerCommand32Code0028() {
-	printf("SUB");
+	LOG("%s","SUB");
 	uint8_t mrmByte = read8u();
 	uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
 	uint8_t* source = (uint8_t*)readRegisterMRM8(mrmByte);
@@ -9446,7 +9446,7 @@ void handlerCommand32Code0028() {
 }
 //SUB
 void handlerCommand32Code0029P66() {
-	printf("SUB");
+	LOG("%s","SUB");
 	uint8_t mrmByte = read8u();
 	uint8_t* target = (uint8_t*)readAddressMRM32For16(mrmByte);
 	uint8_t* source = (uint8_t*)readRegisterMRM16(mrmByte);
@@ -9458,7 +9458,7 @@ void handlerCommand32Code0029P66() {
 }
 //SUB
 void handlerCommand32Code0029() {
-	printf("SUB");
+	LOG("%s","SUB");
 	uint8_t mrmByte = read8u();
 	uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
 	uint8_t* source = (uint8_t*)readRegisterMRM32(mrmByte);
@@ -9470,7 +9470,7 @@ void handlerCommand32Code0029() {
 }
 //SUB
 void handlerCommand32Code002AP66() {
-	printf("SUB");
+	LOG("%s","SUB");
 	uint8_t mrmByte = read8u();
 	uint8_t* source = (uint8_t*)readAddressMRM32For8(mrmByte);
 	uint8_t* target = (uint8_t*)readRegisterMRM8(mrmByte);
@@ -9482,7 +9482,7 @@ void handlerCommand32Code002AP66() {
 }
 //SUB
 void handlerCommand32Code002A() {
-	printf("SUB");
+	LOG("%s","SUB");
 	uint8_t mrmByte = read8u();
 	uint8_t* source = (uint8_t*)readAddressMRM32For8(mrmByte);
 	uint8_t* target = (uint8_t*)readRegisterMRM8(mrmByte);
@@ -9494,7 +9494,7 @@ void handlerCommand32Code002A() {
 }
 //SUB
 void handlerCommand32Code002BP66() {
-	printf("SUB");
+	LOG("%s","SUB");
 	uint8_t mrmByte = read8u();
 	uint8_t* source = (uint8_t*)readAddressMRM32For16(mrmByte);
 	uint8_t* target = (uint8_t*)readRegisterMRM16(mrmByte);
@@ -9506,7 +9506,7 @@ void handlerCommand32Code002BP66() {
 }
 //SUB
 void handlerCommand32Code002B() {
-	printf("SUB");
+	LOG("%s","SUB");
 	uint8_t mrmByte = read8u();
 	uint8_t* source = (uint8_t*)readAddressMRM32For32(mrmByte);
 	uint8_t* target = (uint8_t*)readRegisterMRM32(mrmByte);
@@ -9518,7 +9518,7 @@ void handlerCommand32Code002B() {
 }
 //SUB
 void handlerCommand32Code002CP66() {
-	printf("SUB");
+	LOG("%s","SUB");
 	uint8_t* target = (uint8_t*)register8u(BR_AX);
 	LazyFlagVarA8 = *(uint8_t*)target;
 	LazyFlagVarB8 = read8u();
@@ -9528,7 +9528,7 @@ void handlerCommand32Code002CP66() {
 }
 //SUB
 void handlerCommand32Code002C() {
-	printf("SUB");
+	LOG("%s","SUB");
 	uint8_t* target = (uint8_t*)register8u(BR_AX);
 	LazyFlagVarA8 = *(uint8_t*)target;
 	LazyFlagVarB8 = read8u();
@@ -9538,7 +9538,7 @@ void handlerCommand32Code002C() {
 }
 //SUB
 void handlerCommand32Code002DP66() {
-	printf("SUB");
+	LOG("%s","SUB");
 	uint8_t* target = (uint8_t*)register16u(BR_AX);
 	LazyFlagVarA16 = *(uint16_t*)target;
 	LazyFlagVarB16 = read16u();
@@ -9548,7 +9548,7 @@ void handlerCommand32Code002DP66() {
 }
 //SUB
 void handlerCommand32Code002D() {
-	printf("SUB");
+	LOG("%s","SUB");
 	uint8_t* target = (uint8_t*)register32u(BR_AX);
 	LazyFlagVarA32 = *(uint32_t*)target;
 	LazyFlagVarB32 = read32u();
@@ -9558,7 +9558,7 @@ void handlerCommand32Code002D() {
 }
 //XOR
 void handlerCommand32Code0030P66() {
-	printf("XOR");
+	LOG("%s","XOR");
 	uint8_t mrmByte = read8u();
 	uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
 	uint8_t* source = (uint8_t*)readRegisterMRM8(mrmByte);
@@ -9570,7 +9570,7 @@ void handlerCommand32Code0030P66() {
 }
 //XOR
 void handlerCommand32Code0030() {
-	printf("XOR");
+	LOG("%s","XOR");
 	uint8_t mrmByte = read8u();
 	uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
 	uint8_t* source = (uint8_t*)readRegisterMRM8(mrmByte);
@@ -9582,7 +9582,7 @@ void handlerCommand32Code0030() {
 }
 //XOR
 void handlerCommand32Code0031P66() {
-	printf("XOR");
+	LOG("%s","XOR");
 	uint8_t mrmByte = read8u();
 	uint8_t* target = (uint8_t*)readAddressMRM32For16(mrmByte);
 	uint8_t* source = (uint8_t*)readRegisterMRM16(mrmByte);
@@ -9594,7 +9594,7 @@ void handlerCommand32Code0031P66() {
 }
 //XOR
 void handlerCommand32Code0031() {
-	printf("XOR");
+	LOG("%s","XOR");
 	uint8_t mrmByte = read8u();
 	uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
 	uint8_t* source = (uint8_t*)readRegisterMRM32(mrmByte);
@@ -9606,7 +9606,7 @@ void handlerCommand32Code0031() {
 }
 //XOR
 void handlerCommand32Code0032P66() {
-	printf("XOR");
+	LOG("%s","XOR");
 	uint8_t mrmByte = read8u();
 	uint8_t* source = (uint8_t*)readAddressMRM32For8(mrmByte);
 	uint8_t* target = (uint8_t*)readRegisterMRM8(mrmByte);
@@ -9618,7 +9618,7 @@ void handlerCommand32Code0032P66() {
 }
 //XOR
 void handlerCommand32Code0032() {
-	printf("XOR");
+	LOG("%s","XOR");
 	uint8_t mrmByte = read8u();
 	uint8_t* source = (uint8_t*)readAddressMRM32For8(mrmByte);
 	uint8_t* target = (uint8_t*)readRegisterMRM8(mrmByte);
@@ -9630,7 +9630,7 @@ void handlerCommand32Code0032() {
 }
 //XOR
 void handlerCommand32Code0033P66() {
-	printf("XOR");
+	LOG("%s","XOR");
 	uint8_t mrmByte = read8u();
 	uint8_t* source = (uint8_t*)readAddressMRM32For16(mrmByte);
 	uint8_t* target = (uint8_t*)readRegisterMRM16(mrmByte);
@@ -9642,7 +9642,7 @@ void handlerCommand32Code0033P66() {
 }
 //XOR
 void handlerCommand32Code0033() {
-	printf("XOR");
+	LOG("%s","XOR");
 	uint8_t mrmByte = read8u();
 	uint8_t* source = (uint8_t*)readAddressMRM32For32(mrmByte);
 	uint8_t* target = (uint8_t*)readRegisterMRM32(mrmByte);
@@ -9654,7 +9654,7 @@ void handlerCommand32Code0033() {
 }
 //XOR
 void handlerCommand32Code0034P66() {
-	printf("XOR");
+	LOG("%s","XOR");
 	uint8_t* target = (uint8_t*)register8u(BR_AX);
 	LazyFlagVarA8 = *(uint8_t*)target;
 	LazyFlagVarB8 = read8u();
@@ -9664,7 +9664,7 @@ void handlerCommand32Code0034P66() {
 }
 //XOR
 void handlerCommand32Code0034() {
-	printf("XOR");
+	LOG("%s","XOR");
 	uint8_t* target = (uint8_t*)register8u(BR_AX);
 	LazyFlagVarA8 = *(uint8_t*)target;
 	LazyFlagVarB8 = read8u();
@@ -9674,7 +9674,7 @@ void handlerCommand32Code0034() {
 }
 //XOR
 void handlerCommand32Code0035P66() {
-	printf("XOR");
+	LOG("%s","XOR");
 	uint8_t* target = (uint8_t*)register16u(BR_AX);
 	LazyFlagVarA16 = *(uint16_t*)target;
 	LazyFlagVarB16 = read16u();
@@ -9684,7 +9684,7 @@ void handlerCommand32Code0035P66() {
 }
 //XOR
 void handlerCommand32Code0035() {
-	printf("XOR");
+	LOG("%s","XOR");
 	uint8_t* target = (uint8_t*)register32u(BR_AX);
 	LazyFlagVarA32 = *(uint32_t*)target;
 	LazyFlagVarB32 = read32u();
@@ -9694,7 +9694,7 @@ void handlerCommand32Code0035() {
 }
 //CMP
 void handlerCommand32Code0038P66() {
-	printf("CMP");
+	LOG("%s","CMP");
 	uint8_t mrmByte = read8u();
 	uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
 	uint8_t* source = (uint8_t*)readRegisterMRM8(mrmByte);
@@ -9705,7 +9705,7 @@ void handlerCommand32Code0038P66() {
 }
 //CMP
 void handlerCommand32Code0038() {
-	printf("CMP");
+	LOG("%s","CMP");
 	uint8_t mrmByte = read8u();
 	uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
 	uint8_t* source = (uint8_t*)readRegisterMRM8(mrmByte);
@@ -9716,7 +9716,7 @@ void handlerCommand32Code0038() {
 }
 //CMP
 void handlerCommand32Code0039P66() {
-	printf("CMP");
+	LOG("%s","CMP");
 	uint8_t mrmByte = read8u();
 	uint8_t* target = (uint8_t*)readAddressMRM32For16(mrmByte);
 	uint8_t* source = (uint8_t*)readRegisterMRM16(mrmByte);
@@ -9727,7 +9727,7 @@ void handlerCommand32Code0039P66() {
 }
 //CMP
 void handlerCommand32Code0039() {
-	printf("CMP");
+	LOG("%s","CMP");
 	uint8_t mrmByte = read8u();
 	uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
 	uint8_t* source = (uint8_t*)readRegisterMRM32(mrmByte);
@@ -9738,7 +9738,7 @@ void handlerCommand32Code0039() {
 }
 //CMP
 void handlerCommand32Code003AP66() {
-	printf("CMP");
+	LOG("%s","CMP");
 	uint8_t mrmByte = read8u();
 	uint8_t* source = (uint8_t*)readAddressMRM32For8(mrmByte);
 	uint8_t* target = (uint8_t*)readRegisterMRM8(mrmByte);
@@ -9749,7 +9749,7 @@ void handlerCommand32Code003AP66() {
 }
 //CMP
 void handlerCommand32Code003A() {
-	printf("CMP");
+	LOG("%s","CMP");
 	uint8_t mrmByte = read8u();
 	uint8_t* source = (uint8_t*)readAddressMRM32For8(mrmByte);
 	uint8_t* target = (uint8_t*)readRegisterMRM8(mrmByte);
@@ -9760,7 +9760,7 @@ void handlerCommand32Code003A() {
 }
 //CMP
 void handlerCommand32Code003BP66() {
-	printf("CMP");
+	LOG("%s","CMP");
 	uint8_t mrmByte = read8u();
 	uint8_t* source = (uint8_t*)readAddressMRM32For16(mrmByte);
 	uint8_t* target = (uint8_t*)readRegisterMRM16(mrmByte);
@@ -9771,7 +9771,7 @@ void handlerCommand32Code003BP66() {
 }
 //CMP
 void handlerCommand32Code003B() {
-	printf("CMP");
+	LOG("%s","CMP");
 	uint8_t mrmByte = read8u();
 	uint8_t* source = (uint8_t*)readAddressMRM32For32(mrmByte);
 	uint8_t* target = (uint8_t*)readRegisterMRM32(mrmByte);
@@ -9782,7 +9782,7 @@ void handlerCommand32Code003B() {
 }
 //CMP
 void handlerCommand32Code003CP66() {
-	printf("CMP");
+	LOG("%s","CMP");
 	uint8_t* target = (uint8_t*)register8u(BR_AX);
 	LazyFlagVarA8 = *(uint8_t*)target;
 	LazyFlagVarB8 = read8u();
@@ -9791,7 +9791,7 @@ void handlerCommand32Code003CP66() {
 }
 //CMP
 void handlerCommand32Code003C() {
-	printf("CMP");
+	LOG("%s","CMP");
 	uint8_t* target = (uint8_t*)register8u(BR_AX);
 	LazyFlagVarA8 = *(uint8_t*)target;
 	LazyFlagVarB8 = read8u();
@@ -9800,7 +9800,7 @@ void handlerCommand32Code003C() {
 }
 //CMP
 void handlerCommand32Code003DP66() {
-	printf("CMP");
+	LOG("%s","CMP");
 	uint8_t* target = (uint8_t*)register16u(BR_AX);
 	LazyFlagVarA16 = *(uint16_t*)target;
 	LazyFlagVarB16 = read16u();
@@ -9809,7 +9809,7 @@ void handlerCommand32Code003DP66() {
 }
 //CMP
 void handlerCommand32Code003D() {
-	printf("CMP");
+	LOG("%s","CMP");
 	uint8_t* target = (uint8_t*)register32u(BR_AX);
 	LazyFlagVarA32 = *(uint32_t*)target;
 	LazyFlagVarB32 = read32u();
@@ -9818,231 +9818,231 @@ void handlerCommand32Code003D() {
 }
 //Inc
 void handlerCommand32Code0040P66() {
-	printf("Inc");
+	LOG("%s","Inc");
 	reg_0x00_16u += 1;
 	LazyFlagResultContainer16 = reg_0x00_16u;
 	lazyFlagType = t_INC16;
 }
 //Inc
 void handlerCommand32Code0040() {
-	printf("Inc");
+	LOG("%s","Inc");
 	reg_0x00_32u += 1;
 	LazyFlagResultContainer32 = reg_0x00_32u;
 	lazyFlagType = t_INC32;
 }
 //Inc
 void handlerCommand32Code0041P66() {
-	printf("Inc");
+	LOG("%s","Inc");
 	reg_0x01_16u += 1;
 	LazyFlagResultContainer16 = reg_0x01_16u;
 	lazyFlagType = t_INC16;
 }
 //Inc
 void handlerCommand32Code0041() {
-	printf("Inc");
+	LOG("%s","Inc");
 	reg_0x01_32u += 1;
 	LazyFlagResultContainer32 = reg_0x01_32u;
 	lazyFlagType = t_INC32;
 }
 //Inc
 void handlerCommand32Code0042P66() {
-	printf("Inc");
+	LOG("%s","Inc");
 	reg_0x02_16u += 1;
 	LazyFlagResultContainer16 = reg_0x02_16u;
 	lazyFlagType = t_INC16;
 }
 //Inc
 void handlerCommand32Code0042() {
-	printf("Inc");
+	LOG("%s","Inc");
 	reg_0x02_32u += 1;
 	LazyFlagResultContainer32 = reg_0x02_32u;
 	lazyFlagType = t_INC32;
 }
 //Inc
 void handlerCommand32Code0043P66() {
-	printf("Inc");
+	LOG("%s","Inc");
 	reg_0x03_16u += 1;
 	LazyFlagResultContainer16 = reg_0x03_16u;
 	lazyFlagType = t_INC16;
 }
 //Inc
 void handlerCommand32Code0043() {
-	printf("Inc");
+	LOG("%s","Inc");
 	reg_0x03_32u += 1;
 	LazyFlagResultContainer32 = reg_0x03_32u;
 	lazyFlagType = t_INC32;
 }
 //Inc
 void handlerCommand32Code0044P66() {
-	printf("Inc");
+	LOG("%s","Inc");
 	reg_0x04_16u += 1;
 	LazyFlagResultContainer16 = reg_0x04_16u;
 	lazyFlagType = t_INC16;
 }
 //Inc
 void handlerCommand32Code0044() {
-	printf("Inc");
+	LOG("%s","Inc");
 	reg_0x04_32u += 1;
 	LazyFlagResultContainer32 = reg_0x04_32u;
 	lazyFlagType = t_INC32;
 }
 //Inc
 void handlerCommand32Code0045P66() {
-	printf("Inc");
+	LOG("%s","Inc");
 	reg_0x05_16u += 1;
 	LazyFlagResultContainer16 = reg_0x05_16u;
 	lazyFlagType = t_INC16;
 }
 //Inc
 void handlerCommand32Code0045() {
-	printf("Inc");
+	LOG("%s","Inc");
 	reg_0x05_32u += 1;
 	LazyFlagResultContainer32 = reg_0x05_32u;
 	lazyFlagType = t_INC32;
 }
 //Inc
 void handlerCommand32Code0046P66() {
-	printf("Inc");
+	LOG("%s","Inc");
 	reg_0x06_16u += 1;
 	LazyFlagResultContainer16 = reg_0x06_16u;
 	lazyFlagType = t_INC16;
 }
 //Inc
 void handlerCommand32Code0046() {
-	printf("Inc");
+	LOG("%s","Inc");
 	reg_0x06_32u += 1;
 	LazyFlagResultContainer32 = reg_0x06_32u;
 	lazyFlagType = t_INC32;
 }
 //Inc
 void handlerCommand32Code0047P66() {
-	printf("Inc");
+	LOG("%s","Inc");
 	reg_0x07_16u += 1;
 	LazyFlagResultContainer16 = reg_0x07_16u;
 	lazyFlagType = t_INC16;
 }
 //Inc
 void handlerCommand32Code0047() {
-	printf("Inc");
+	LOG("%s","Inc");
 	reg_0x07_32u += 1;
 	LazyFlagResultContainer32 = reg_0x07_32u;
 	lazyFlagType = t_INC32;
 }
 //Dec
 void handlerCommand32Code0048P66() {
-	printf("Dec");
+	LOG("%s","Dec");
 	reg_0x00_16u -= 1;
 	LazyFlagResultContainer16 = reg_0x00_16u;
 	lazyFlagType = t_DEC16;
 }
 //Dec
 void handlerCommand32Code0048() {
-	printf("Dec");
+	LOG("%s","Dec");
 	reg_0x00_32u -= 1;
 	LazyFlagResultContainer32 = reg_0x00_32u;
 	lazyFlagType = t_DEC32;
 }
 //Dec
 void handlerCommand32Code0049P66() {
-	printf("Dec");
+	LOG("%s","Dec");
 	reg_0x01_16u -= 1;
 	LazyFlagResultContainer16 = reg_0x01_16u;
 	lazyFlagType = t_DEC16;
 }
 //Dec
 void handlerCommand32Code0049() {
-	printf("Dec");
+	LOG("%s","Dec");
 	reg_0x01_32u -= 1;
 	LazyFlagResultContainer32 = reg_0x01_32u;
 	lazyFlagType = t_DEC32;
 }
 //Dec
 void handlerCommand32Code004AP66() {
-	printf("Dec");
+	LOG("%s","Dec");
 	reg_0x02_16u -= 1;
 	LazyFlagResultContainer16 = reg_0x02_16u;
 	lazyFlagType = t_DEC16;
 }
 //Dec
 void handlerCommand32Code004A() {
-	printf("Dec");
+	LOG("%s","Dec");
 	reg_0x02_32u -= 1;
 	LazyFlagResultContainer32 = reg_0x02_32u;
 	lazyFlagType = t_DEC32;
 }
 //Dec
 void handlerCommand32Code004BP66() {
-	printf("Dec");
+	LOG("%s","Dec");
 	reg_0x03_16u -= 1;
 	LazyFlagResultContainer16 = reg_0x03_16u;
 	lazyFlagType = t_DEC16;
 }
 //Dec
 void handlerCommand32Code004B() {
-	printf("Dec");
+	LOG("%s","Dec");
 	reg_0x03_32u -= 1;
 	LazyFlagResultContainer32 = reg_0x03_32u;
 	lazyFlagType = t_DEC32;
 }
 //Dec
 void handlerCommand32Code004CP66() {
-	printf("Dec");
+	LOG("%s","Dec");
 	reg_0x04_16u -= 1;
 	LazyFlagResultContainer16 = reg_0x04_16u;
 	lazyFlagType = t_DEC16;
 }
 //Dec
 void handlerCommand32Code004C() {
-	printf("Dec");
+	LOG("%s","Dec");
 	reg_0x04_32u -= 1;
 	LazyFlagResultContainer32 = reg_0x04_32u;
 	lazyFlagType = t_DEC32;
 }
 //Dec
 void handlerCommand32Code004DP66() {
-	printf("Dec");
+	LOG("%s","Dec");
 	reg_0x05_16u -= 1;
 	LazyFlagResultContainer16 = reg_0x05_16u;
 	lazyFlagType = t_DEC16;
 }
 //Dec
 void handlerCommand32Code004D() {
-	printf("Dec");
+	LOG("%s","Dec");
 	reg_0x05_32u -= 1;
 	LazyFlagResultContainer32 = reg_0x05_32u;
 	lazyFlagType = t_DEC32;
 }
 //Dec
 void handlerCommand32Code004EP66() {
-	printf("Dec");
+	LOG("%s","Dec");
 	reg_0x06_16u -= 1;
 	LazyFlagResultContainer16 = reg_0x06_16u;
 	lazyFlagType = t_DEC16;
 }
 //Dec
 void handlerCommand32Code004E() {
-	printf("Dec");
+	LOG("%s","Dec");
 	reg_0x06_32u -= 1;
 	LazyFlagResultContainer32 = reg_0x06_32u;
 	lazyFlagType = t_DEC32;
 }
 //Dec
 void handlerCommand32Code004FP66() {
-	printf("Dec");
+	LOG("%s","Dec");
 	reg_0x07_16u -= 1;
 	LazyFlagResultContainer16 = reg_0x07_16u;
 	lazyFlagType = t_DEC16;
 }
 //Dec
 void handlerCommand32Code004F() {
-	printf("Dec");
+	LOG("%s","Dec");
 	reg_0x07_32u -= 1;
 	LazyFlagResultContainer32 = reg_0x07_32u;
 	lazyFlagType = t_DEC32;
 }
 //Push
 void handlerCommand32Code0050P66P67() {
-	printf("Push");
+	LOG("%s","Push");
 	uint8_t reg = 0x00;
 	uint16_t value = reg_0x00_16u;
 	reg_SP_16u -= 16 / 8;
@@ -10050,7 +10050,7 @@ void handlerCommand32Code0050P66P67() {
 }
 //Push
 void handlerCommand32Code0050P67() {
-	printf("Push");
+	LOG("%s","Push");
 	uint8_t reg = 0x00;
 	uint32_t value = reg_0x00_32u;
 	reg_SP_16u -= 32 / 8;
@@ -10058,7 +10058,7 @@ void handlerCommand32Code0050P67() {
 }
 //Push
 void handlerCommand32Code0050P66() {
-	printf("Push");
+	LOG("%s","Push");
 	uint8_t reg = 0x00;
 	uint16_t value = reg_0x00_16u;
 	reg_SP_32u -= 16 / 8;
@@ -10066,7 +10066,7 @@ void handlerCommand32Code0050P66() {
 }
 //Push
 void handlerCommand32Code0050() {
-	printf("Push");
+	LOG("%s","Push");
 	uint8_t reg = 0x00;
 	uint32_t value = reg_0x00_32u;
 	reg_SP_32u -= 32 / 8;
@@ -10074,7 +10074,7 @@ void handlerCommand32Code0050() {
 }
 //Push
 void handlerCommand32Code0051P66P67() {
-	printf("Push");
+	LOG("%s","Push");
 	uint8_t reg = 0x01;
 	uint16_t value = reg_0x01_16u;
 	reg_SP_16u -= 16 / 8;
@@ -10082,7 +10082,7 @@ void handlerCommand32Code0051P66P67() {
 }
 //Push
 void handlerCommand32Code0051P67() {
-	printf("Push");
+	LOG("%s","Push");
 	uint8_t reg = 0x01;
 	uint32_t value = reg_0x01_32u;
 	reg_SP_16u -= 32 / 8;
@@ -10090,7 +10090,7 @@ void handlerCommand32Code0051P67() {
 }
 //Push
 void handlerCommand32Code0051P66() {
-	printf("Push");
+	LOG("%s","Push");
 	uint8_t reg = 0x01;
 	uint16_t value = reg_0x01_16u;
 	reg_SP_32u -= 16 / 8;
@@ -10098,7 +10098,7 @@ void handlerCommand32Code0051P66() {
 }
 //Push
 void handlerCommand32Code0051() {
-	printf("Push");
+	LOG("%s","Push");
 	uint8_t reg = 0x01;
 	uint32_t value = reg_0x01_32u;
 	reg_SP_32u -= 32 / 8;
@@ -10106,7 +10106,7 @@ void handlerCommand32Code0051() {
 }
 //Push
 void handlerCommand32Code0052P66P67() {
-	printf("Push");
+	LOG("%s","Push");
 	uint8_t reg = 0x02;
 	uint16_t value = reg_0x02_16u;
 	reg_SP_16u -= 16 / 8;
@@ -10114,7 +10114,7 @@ void handlerCommand32Code0052P66P67() {
 }
 //Push
 void handlerCommand32Code0052P67() {
-	printf("Push");
+	LOG("%s","Push");
 	uint8_t reg = 0x02;
 	uint32_t value = reg_0x02_32u;
 	reg_SP_16u -= 32 / 8;
@@ -10122,7 +10122,7 @@ void handlerCommand32Code0052P67() {
 }
 //Push
 void handlerCommand32Code0052P66() {
-	printf("Push");
+	LOG("%s","Push");
 	uint8_t reg = 0x02;
 	uint16_t value = reg_0x02_16u;
 	reg_SP_32u -= 16 / 8;
@@ -10130,7 +10130,7 @@ void handlerCommand32Code0052P66() {
 }
 //Push
 void handlerCommand32Code0052() {
-	printf("Push");
+	LOG("%s","Push");
 	uint8_t reg = 0x02;
 	uint32_t value = reg_0x02_32u;
 	reg_SP_32u -= 32 / 8;
@@ -10138,7 +10138,7 @@ void handlerCommand32Code0052() {
 }
 //Push
 void handlerCommand32Code0053P66P67() {
-	printf("Push");
+	LOG("%s","Push");
 	uint8_t reg = 0x03;
 	uint16_t value = reg_0x03_16u;
 	reg_SP_16u -= 16 / 8;
@@ -10146,7 +10146,7 @@ void handlerCommand32Code0053P66P67() {
 }
 //Push
 void handlerCommand32Code0053P67() {
-	printf("Push");
+	LOG("%s","Push");
 	uint8_t reg = 0x03;
 	uint32_t value = reg_0x03_32u;
 	reg_SP_16u -= 32 / 8;
@@ -10154,7 +10154,7 @@ void handlerCommand32Code0053P67() {
 }
 //Push
 void handlerCommand32Code0053P66() {
-	printf("Push");
+	LOG("%s","Push");
 	uint8_t reg = 0x03;
 	uint16_t value = reg_0x03_16u;
 	reg_SP_32u -= 16 / 8;
@@ -10162,7 +10162,7 @@ void handlerCommand32Code0053P66() {
 }
 //Push
 void handlerCommand32Code0053() {
-	printf("Push");
+	LOG("%s","Push");
 	uint8_t reg = 0x03;
 	uint32_t value = reg_0x03_32u;
 	reg_SP_32u -= 32 / 8;
@@ -10170,7 +10170,7 @@ void handlerCommand32Code0053() {
 }
 //Push
 void handlerCommand32Code0054P66P67() {
-	printf("Push");
+	LOG("%s","Push");
 	uint8_t reg = 0x04;
 	uint16_t value = reg_0x04_16u;
 	reg_SP_16u -= 16 / 8;
@@ -10178,7 +10178,7 @@ void handlerCommand32Code0054P66P67() {
 }
 //Push
 void handlerCommand32Code0054P67() {
-	printf("Push");
+	LOG("%s","Push");
 	uint8_t reg = 0x04;
 	uint32_t value = reg_0x04_32u;
 	reg_SP_16u -= 32 / 8;
@@ -10186,7 +10186,7 @@ void handlerCommand32Code0054P67() {
 }
 //Push
 void handlerCommand32Code0054P66() {
-	printf("Push");
+	LOG("%s","Push");
 	uint8_t reg = 0x04;
 	uint16_t value = reg_0x04_16u;
 	reg_SP_32u -= 16 / 8;
@@ -10194,7 +10194,7 @@ void handlerCommand32Code0054P66() {
 }
 //Push
 void handlerCommand32Code0054() {
-	printf("Push");
+	LOG("%s","Push");
 	uint8_t reg = 0x04;
 	uint32_t value = reg_0x04_32u;
 	reg_SP_32u -= 32 / 8;
@@ -10202,7 +10202,7 @@ void handlerCommand32Code0054() {
 }
 //Push
 void handlerCommand32Code0055P66P67() {
-	printf("Push");
+	LOG("%s","Push");
 	uint8_t reg = 0x05;
 	uint16_t value = reg_0x05_16u;
 	reg_SP_16u -= 16 / 8;
@@ -10210,7 +10210,7 @@ void handlerCommand32Code0055P66P67() {
 }
 //Push
 void handlerCommand32Code0055P67() {
-	printf("Push");
+	LOG("%s","Push");
 	uint8_t reg = 0x05;
 	uint32_t value = reg_0x05_32u;
 	reg_SP_16u -= 32 / 8;
@@ -10218,7 +10218,7 @@ void handlerCommand32Code0055P67() {
 }
 //Push
 void handlerCommand32Code0055P66() {
-	printf("Push");
+	LOG("%s","Push");
 	uint8_t reg = 0x05;
 	uint16_t value = reg_0x05_16u;
 	reg_SP_32u -= 16 / 8;
@@ -10226,7 +10226,7 @@ void handlerCommand32Code0055P66() {
 }
 //Push
 void handlerCommand32Code0055() {
-	printf("Push");
+	LOG("%s","Push");
 	uint8_t reg = 0x05;
 	uint32_t value = reg_0x05_32u;
 	reg_SP_32u -= 32 / 8;
@@ -10234,7 +10234,7 @@ void handlerCommand32Code0055() {
 }
 //Push
 void handlerCommand32Code0056P66P67() {
-	printf("Push");
+	LOG("%s","Push");
 	uint8_t reg = 0x06;
 	uint16_t value = reg_0x06_16u;
 	reg_SP_16u -= 16 / 8;
@@ -10242,7 +10242,7 @@ void handlerCommand32Code0056P66P67() {
 }
 //Push
 void handlerCommand32Code0056P67() {
-	printf("Push");
+	LOG("%s","Push");
 	uint8_t reg = 0x06;
 	uint32_t value = reg_0x06_32u;
 	reg_SP_16u -= 32 / 8;
@@ -10250,7 +10250,7 @@ void handlerCommand32Code0056P67() {
 }
 //Push
 void handlerCommand32Code0056P66() {
-	printf("Push");
+	LOG("%s","Push");
 	uint8_t reg = 0x06;
 	uint16_t value = reg_0x06_16u;
 	reg_SP_32u -= 16 / 8;
@@ -10258,7 +10258,7 @@ void handlerCommand32Code0056P66() {
 }
 //Push
 void handlerCommand32Code0056() {
-	printf("Push");
+	LOG("%s","Push");
 	uint8_t reg = 0x06;
 	uint32_t value = reg_0x06_32u;
 	reg_SP_32u -= 32 / 8;
@@ -10266,7 +10266,7 @@ void handlerCommand32Code0056() {
 }
 //Push
 void handlerCommand32Code0057P66P67() {
-	printf("Push");
+	LOG("%s","Push");
 	uint8_t reg = 0x07;
 	uint16_t value = reg_0x07_16u;
 	reg_SP_16u -= 16 / 8;
@@ -10274,7 +10274,7 @@ void handlerCommand32Code0057P66P67() {
 }
 //Push
 void handlerCommand32Code0057P67() {
-	printf("Push");
+	LOG("%s","Push");
 	uint8_t reg = 0x07;
 	uint32_t value = reg_0x07_32u;
 	reg_SP_16u -= 32 / 8;
@@ -10282,7 +10282,7 @@ void handlerCommand32Code0057P67() {
 }
 //Push
 void handlerCommand32Code0057P66() {
-	printf("Push");
+	LOG("%s","Push");
 	uint8_t reg = 0x07;
 	uint16_t value = reg_0x07_16u;
 	reg_SP_32u -= 16 / 8;
@@ -10290,7 +10290,7 @@ void handlerCommand32Code0057P66() {
 }
 //Push
 void handlerCommand32Code0057() {
-	printf("Push");
+	LOG("%s","Push");
 	uint8_t reg = 0x07;
 	uint32_t value = reg_0x07_32u;
 	reg_SP_32u -= 32 / 8;
@@ -10298,259 +10298,259 @@ void handlerCommand32Code0057() {
 }
 //Pop
 void handlerCommand32Code0058P66P67() {
-	printf("Pop");
+	LOG("%s","Pop");
 	uint8_t reg = 0x00;
 	reg_0x00_16u = *(uint16_t*)(mem(SR_SS) + reg_SP_16u);
 	reg_SP_16u += 16 / 8;
 }
 //Pop
 void handlerCommand32Code0058P67() {
-	printf("Pop");
+	LOG("%s","Pop");
 	uint8_t reg = 0x00;
 	reg_0x00_32u = *(uint32_t*)(mem(SR_SS) + reg_SP_16u);
 	reg_SP_16u += 32 / 8;
 }
 //Pop
 void handlerCommand32Code0058P66() {
-	printf("Pop");
+	LOG("%s","Pop");
 	uint8_t reg = 0x00;
 	reg_0x00_16u = *(uint16_t*)(mem(SR_SS) + reg_SP_32u);
 	reg_SP_32u += 16 / 8;
 }
 //Pop
 void handlerCommand32Code0058() {
-	printf("Pop");
+	LOG("%s","Pop");
 	uint8_t reg = 0x00;
 	reg_0x00_32u = *(uint32_t*)(mem(SR_SS) + reg_SP_32u);
 	reg_SP_32u += 32 / 8;
 }
 //Pop
 void handlerCommand32Code0059P66P67() {
-	printf("Pop");
+	LOG("%s","Pop");
 	uint8_t reg = 0x01;
 	reg_0x01_16u = *(uint16_t*)(mem(SR_SS) + reg_SP_16u);
 	reg_SP_16u += 16 / 8;
 }
 //Pop
 void handlerCommand32Code0059P67() {
-	printf("Pop");
+	LOG("%s","Pop");
 	uint8_t reg = 0x01;
 	reg_0x01_32u = *(uint32_t*)(mem(SR_SS) + reg_SP_16u);
 	reg_SP_16u += 32 / 8;
 }
 //Pop
 void handlerCommand32Code0059P66() {
-	printf("Pop");
+	LOG("%s","Pop");
 	uint8_t reg = 0x01;
 	reg_0x01_16u = *(uint16_t*)(mem(SR_SS) + reg_SP_32u);
 	reg_SP_32u += 16 / 8;
 }
 //Pop
 void handlerCommand32Code0059() {
-	printf("Pop");
+	LOG("%s","Pop");
 	uint8_t reg = 0x01;
 	reg_0x01_32u = *(uint32_t*)(mem(SR_SS) + reg_SP_32u);
 	reg_SP_32u += 32 / 8;
 }
 //Pop
 void handlerCommand32Code005AP66P67() {
-	printf("Pop");
+	LOG("%s","Pop");
 	uint8_t reg = 0x02;
 	reg_0x02_16u = *(uint16_t*)(mem(SR_SS) + reg_SP_16u);
 	reg_SP_16u += 16 / 8;
 }
 //Pop
 void handlerCommand32Code005AP67() {
-	printf("Pop");
+	LOG("%s","Pop");
 	uint8_t reg = 0x02;
 	reg_0x02_32u = *(uint32_t*)(mem(SR_SS) + reg_SP_16u);
 	reg_SP_16u += 32 / 8;
 }
 //Pop
 void handlerCommand32Code005AP66() {
-	printf("Pop");
+	LOG("%s","Pop");
 	uint8_t reg = 0x02;
 	reg_0x02_16u = *(uint16_t*)(mem(SR_SS) + reg_SP_32u);
 	reg_SP_32u += 16 / 8;
 }
 //Pop
 void handlerCommand32Code005A() {
-	printf("Pop");
+	LOG("%s","Pop");
 	uint8_t reg = 0x02;
 	reg_0x02_32u = *(uint32_t*)(mem(SR_SS) + reg_SP_32u);
 	reg_SP_32u += 32 / 8;
 }
 //Pop
 void handlerCommand32Code005BP66P67() {
-	printf("Pop");
+	LOG("%s","Pop");
 	uint8_t reg = 0x03;
 	reg_0x03_16u = *(uint16_t*)(mem(SR_SS) + reg_SP_16u);
 	reg_SP_16u += 16 / 8;
 }
 //Pop
 void handlerCommand32Code005BP67() {
-	printf("Pop");
+	LOG("%s","Pop");
 	uint8_t reg = 0x03;
 	reg_0x03_32u = *(uint32_t*)(mem(SR_SS) + reg_SP_16u);
 	reg_SP_16u += 32 / 8;
 }
 //Pop
 void handlerCommand32Code005BP66() {
-	printf("Pop");
+	LOG("%s","Pop");
 	uint8_t reg = 0x03;
 	reg_0x03_16u = *(uint16_t*)(mem(SR_SS) + reg_SP_32u);
 	reg_SP_32u += 16 / 8;
 }
 //Pop
 void handlerCommand32Code005B() {
-	printf("Pop");
+	LOG("%s","Pop");
 	uint8_t reg = 0x03;
 	reg_0x03_32u = *(uint32_t*)(mem(SR_SS) + reg_SP_32u);
 	reg_SP_32u += 32 / 8;
 }
 //Pop
 void handlerCommand32Code005CP66P67() {
-	printf("Pop");
+	LOG("%s","Pop");
 	uint8_t reg = 0x04;
 	reg_0x04_16u = *(uint16_t*)(mem(SR_SS) + reg_SP_16u);
 	reg_SP_16u += 16 / 8;
 }
 //Pop
 void handlerCommand32Code005CP67() {
-	printf("Pop");
+	LOG("%s","Pop");
 	uint8_t reg = 0x04;
 	reg_0x04_32u = *(uint32_t*)(mem(SR_SS) + reg_SP_16u);
 	reg_SP_16u += 32 / 8;
 }
 //Pop
 void handlerCommand32Code005CP66() {
-	printf("Pop");
+	LOG("%s","Pop");
 	uint8_t reg = 0x04;
 	reg_0x04_16u = *(uint16_t*)(mem(SR_SS) + reg_SP_32u);
 	reg_SP_32u += 16 / 8;
 }
 //Pop
 void handlerCommand32Code005C() {
-	printf("Pop");
+	LOG("%s","Pop");
 	uint8_t reg = 0x04;
 	reg_0x04_32u = *(uint32_t*)(mem(SR_SS) + reg_SP_32u);
 	reg_SP_32u += 32 / 8;
 }
 //Pop
 void handlerCommand32Code005DP66P67() {
-	printf("Pop");
+	LOG("%s","Pop");
 	uint8_t reg = 0x05;
 	reg_0x05_16u = *(uint16_t*)(mem(SR_SS) + reg_SP_16u);
 	reg_SP_16u += 16 / 8;
 }
 //Pop
 void handlerCommand32Code005DP67() {
-	printf("Pop");
+	LOG("%s","Pop");
 	uint8_t reg = 0x05;
 	reg_0x05_32u = *(uint32_t*)(mem(SR_SS) + reg_SP_16u);
 	reg_SP_16u += 32 / 8;
 }
 //Pop
 void handlerCommand32Code005DP66() {
-	printf("Pop");
+	LOG("%s","Pop");
 	uint8_t reg = 0x05;
 	reg_0x05_16u = *(uint16_t*)(mem(SR_SS) + reg_SP_32u);
 	reg_SP_32u += 16 / 8;
 }
 //Pop
 void handlerCommand32Code005D() {
-	printf("Pop");
+	LOG("%s","Pop");
 	uint8_t reg = 0x05;
 	reg_0x05_32u = *(uint32_t*)(mem(SR_SS) + reg_SP_32u);
 	reg_SP_32u += 32 / 8;
 }
 //Pop
 void handlerCommand32Code005EP66P67() {
-	printf("Pop");
+	LOG("%s","Pop");
 	uint8_t reg = 0x06;
 	reg_0x06_16u = *(uint16_t*)(mem(SR_SS) + reg_SP_16u);
 	reg_SP_16u += 16 / 8;
 }
 //Pop
 void handlerCommand32Code005EP67() {
-	printf("Pop");
+	LOG("%s","Pop");
 	uint8_t reg = 0x06;
 	reg_0x06_32u = *(uint32_t*)(mem(SR_SS) + reg_SP_16u);
 	reg_SP_16u += 32 / 8;
 }
 //Pop
 void handlerCommand32Code005EP66() {
-	printf("Pop");
+	LOG("%s","Pop");
 	uint8_t reg = 0x06;
 	reg_0x06_16u = *(uint16_t*)(mem(SR_SS) + reg_SP_32u);
 	reg_SP_32u += 16 / 8;
 }
 //Pop
 void handlerCommand32Code005E() {
-	printf("Pop");
+	LOG("%s","Pop");
 	uint8_t reg = 0x06;
 	reg_0x06_32u = *(uint32_t*)(mem(SR_SS) + reg_SP_32u);
 	reg_SP_32u += 32 / 8;
 }
 //Pop
 void handlerCommand32Code005FP66P67() {
-	printf("Pop");
+	LOG("%s","Pop");
 	uint8_t reg = 0x07;
 	reg_0x07_16u = *(uint16_t*)(mem(SR_SS) + reg_SP_16u);
 	reg_SP_16u += 16 / 8;
 }
 //Pop
 void handlerCommand32Code005FP67() {
-	printf("Pop");
+	LOG("%s","Pop");
 	uint8_t reg = 0x07;
 	reg_0x07_32u = *(uint32_t*)(mem(SR_SS) + reg_SP_16u);
 	reg_SP_16u += 32 / 8;
 }
 //Pop
 void handlerCommand32Code005FP66() {
-	printf("Pop");
+	LOG("%s","Pop");
 	uint8_t reg = 0x07;
 	reg_0x07_16u = *(uint16_t*)(mem(SR_SS) + reg_SP_32u);
 	reg_SP_32u += 16 / 8;
 }
 //Pop
 void handlerCommand32Code005F() {
-	printf("Pop");
+	LOG("%s","Pop");
 	uint8_t reg = 0x07;
 	reg_0x07_32u = *(uint32_t*)(mem(SR_SS) + reg_SP_32u);
 	reg_SP_32u += 32 / 8;
 }
 //Push
 void handlerCommand32Code0068P66P67() {
-	printf("Push");
+	LOG("%s","Push");
 	uint16_t* sp = register16u(BR_SP);
 	*sp -= 16 / 8;
 	*(uint16_t*)(mem(SR_SS) + *sp) = read16u();
 }
 //Push
 void handlerCommand32Code0068P67() {
-	printf("Push");
+	LOG("%s","Push");
 	uint16_t* sp = register16u(BR_SP);
 	*sp -= 32 / 8;
 	*(uint32_t*)(mem(SR_SS) + *sp) = read32u();
 }
 //Push
 void handlerCommand32Code0068P66() {
-	printf("Push");
+	LOG("%s","Push");
 	uint32_t* sp = register32u(BR_SP);
 	*sp -= 16 / 8;
 	*(uint16_t*)(mem(SR_SS) + *sp) = read16u();
 }
 //Push
 void handlerCommand32Code0068() {
-	printf("Push");
+	LOG("%s","Push");
 	uint32_t* sp = register32u(BR_SP);
 	*sp -= 32 / 8;
 	*(uint32_t*)(mem(SR_SS) + *sp) = read32u();
 }
 //Mul
 void handlerCommand32Code0069P66() {
-	printf("Mul");
+	LOG("%s","Mul");
 	uint8_t mrmByte = read8u();
 	uint8_t* target = (uint8_t*)readAddressMRM32For16(mrmByte);
 	uint8_t* source = (uint8_t*)readRegisterMRM16(mrmByte);
@@ -10567,7 +10567,7 @@ void handlerCommand32Code0069P66() {
 }
 //Mul
 void handlerCommand32Code0069() {
-	printf("Mul");
+	LOG("%s","Mul");
 	uint8_t mrmByte = read8u();
 	uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
 	uint8_t* source = (uint8_t*)readRegisterMRM32(mrmByte);
@@ -10584,31 +10584,31 @@ void handlerCommand32Code0069() {
 }
 //Push
 void handlerCommand32Code006AP66P67() {
-	printf("Push");
+	LOG("%s","Push");
 	reg_SP_16u -= 16 / 8;
 	*(int16_t*)(mem(SR_SS) + reg_SP_16u) = (int16_t)read8();
 }
 //Push
 void handlerCommand32Code006AP67() {
-	printf("Push");
+	LOG("%s","Push");
 	reg_SP_16u -= 32 / 8;
 	*(int32_t*)(mem(SR_SS) + reg_SP_16u) = (int32_t)read8();
 }
 //Push
 void handlerCommand32Code006AP66() {
-	printf("Push");
+	LOG("%s","Push");
 	reg_SP_32u -= 16 / 8;
 	*(int16_t*)(mem(SR_SS) + reg_SP_32u) = (int16_t)read8();
 }
 //Push
 void handlerCommand32Code006A() {
-	printf("Push");
+	LOG("%s","Push");
 	reg_SP_32u -= 32 / 8;
 	*(int32_t*)(mem(SR_SS) + reg_SP_32u) = (int32_t)read8();
 }
 //Mul
 void handlerCommand32Code006B() {
-	printf("Mul");
+	LOG("%s","Mul");
 	uint8_t mrmByte = read8u();
 	uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
 	uint8_t* source = (uint8_t*)readRegisterMRM32(mrmByte);
@@ -10625,7 +10625,7 @@ void handlerCommand32Code006B() {
 }
 //J(cond)
 void handlerCommand32Code0070() {
-	printf("J(cond)");
+	LOG("%s","J(cond)");
 	FillFlags();
 	int8_t address = read8();
 	if COND0x00 {
@@ -10634,7 +10634,7 @@ void handlerCommand32Code0070() {
 }
 //J(cond)
 void handlerCommand32Code0071() {
-	printf("J(cond)");
+	LOG("%s","J(cond)");
 	FillFlags();
 	int8_t address = read8();
 	if COND0x01 {
@@ -10643,7 +10643,7 @@ void handlerCommand32Code0071() {
 }
 //J(cond)
 void handlerCommand32Code0072() {
-	printf("J(cond)");
+	LOG("%s","J(cond)");
 	FillFlags();
 	int8_t address = read8();
 	if COND0x02 {
@@ -10652,7 +10652,7 @@ void handlerCommand32Code0072() {
 }
 //J(cond)
 void handlerCommand32Code0073() {
-	printf("J(cond)");
+	LOG("%s","J(cond)");
 	FillFlags();
 	int8_t address = read8();
 	if COND0x03 {
@@ -10661,7 +10661,7 @@ void handlerCommand32Code0073() {
 }
 //J(cond)
 void handlerCommand32Code0074() {
-	printf("J(cond)");
+	LOG("%s","J(cond)");
 	FillFlags();
 	int8_t address = read8();
 	if COND0x04 {
@@ -10670,7 +10670,7 @@ void handlerCommand32Code0074() {
 }
 //J(cond)
 void handlerCommand32Code0075() {
-	printf("J(cond)");
+	LOG("%s","J(cond)");
 	FillFlags();
 	int8_t address = read8();
 	if COND0x05 {
@@ -10679,7 +10679,7 @@ void handlerCommand32Code0075() {
 }
 //J(cond)
 void handlerCommand32Code0076() {
-	printf("J(cond)");
+	LOG("%s","J(cond)");
 	FillFlags();
 	int8_t address = read8();
 	if COND0x06 {
@@ -10688,7 +10688,7 @@ void handlerCommand32Code0076() {
 }
 //J(cond)
 void handlerCommand32Code0077() {
-	printf("J(cond)");
+	LOG("%s","J(cond)");
 	FillFlags();
 	int8_t address = read8();
 	if COND0x07 {
@@ -10697,7 +10697,7 @@ void handlerCommand32Code0077() {
 }
 //J(cond)
 void handlerCommand32Code0078() {
-	printf("J(cond)");
+	LOG("%s","J(cond)");
 	FillFlags();
 	int8_t address = read8();
 	if COND0x08 {
@@ -10706,7 +10706,7 @@ void handlerCommand32Code0078() {
 }
 //J(cond)
 void handlerCommand32Code0079() {
-	printf("J(cond)");
+	LOG("%s","J(cond)");
 	FillFlags();
 	int8_t address = read8();
 	if COND0x09 {
@@ -10715,7 +10715,7 @@ void handlerCommand32Code0079() {
 }
 //J(cond)
 void handlerCommand32Code007A() {
-	printf("J(cond)");
+	LOG("%s","J(cond)");
 	FillFlags();
 	int8_t address = read8();
 	if COND0x0A {
@@ -10724,7 +10724,7 @@ void handlerCommand32Code007A() {
 }
 //J(cond)
 void handlerCommand32Code007B() {
-	printf("J(cond)");
+	LOG("%s","J(cond)");
 	FillFlags();
 	int8_t address = read8();
 	if COND0x0B {
@@ -10733,7 +10733,7 @@ void handlerCommand32Code007B() {
 }
 //J(cond)
 void handlerCommand32Code007C() {
-	printf("J(cond)");
+	LOG("%s","J(cond)");
 	FillFlags();
 	int8_t address = read8();
 	if COND0x0C {
@@ -10742,7 +10742,7 @@ void handlerCommand32Code007C() {
 }
 //J(cond)
 void handlerCommand32Code007D() {
-	printf("J(cond)");
+	LOG("%s","J(cond)");
 	FillFlags();
 	int8_t address = read8();
 	if COND0x0D {
@@ -10751,7 +10751,7 @@ void handlerCommand32Code007D() {
 }
 //J(cond)
 void handlerCommand32Code007E() {
-	printf("J(cond)");
+	LOG("%s","J(cond)");
 	FillFlags();
 	int8_t address = read8();
 	if COND0x0E {
@@ -10760,7 +10760,7 @@ void handlerCommand32Code007E() {
 }
 //J(cond)
 void handlerCommand32Code007F() {
-	printf("J(cond)");
+	LOG("%s","J(cond)");
 	FillFlags();
 	int8_t address = read8();
 	if COND0x0F {
@@ -10769,7 +10769,7 @@ void handlerCommand32Code007F() {
 }
 //Math
 void handlerCommand32Code0080P66() {
-	printf("Math");
+	LOG("%s","Math");
 	uint8_t mrmByte = read8u();
 	uint8_t nnn = readMiddle3Bit(mrmByte);
 	switch (nnn) {
@@ -10854,7 +10854,7 @@ void handlerCommand32Code0080P66() {
 }
 //Math
 void handlerCommand32Code0080() {
-	printf("Math");
+	LOG("%s","Math");
 	uint8_t mrmByte = read8u();
 	uint8_t nnn = readMiddle3Bit(mrmByte);
 	switch (nnn) {
@@ -10939,7 +10939,7 @@ void handlerCommand32Code0080() {
 }
 //Math
 void handlerCommand32Code0081P66() {
-	printf("Math");
+	LOG("%s","Math");
 	uint8_t mrmByte = read8u();
 	uint8_t nnn = readMiddle3Bit(mrmByte);
 	switch (nnn) {
@@ -11024,7 +11024,7 @@ void handlerCommand32Code0081P66() {
 }
 //Math
 void handlerCommand32Code0081() {
-	printf("Math");
+	LOG("%s","Math");
 	uint8_t mrmByte = read8u();
 	uint8_t nnn = readMiddle3Bit(mrmByte);
 	switch (nnn) {
@@ -11109,7 +11109,7 @@ void handlerCommand32Code0081() {
 }
 //Math
 void handlerCommand32Code0082() {
-	printf("Math");
+	LOG("%s","Math");
 	uint8_t mrmByte = read8u();
 	uint8_t nnn = readMiddle3Bit(mrmByte);
 	switch (nnn) {
@@ -11194,7 +11194,7 @@ void handlerCommand32Code0082() {
 }
 //Math
 void handlerCommand32Code0083P66() {
-	printf("Math");
+	LOG("%s","Math");
 	uint8_t mrmByte = read8u();
 	uint8_t nnn = readMiddle3Bit(mrmByte);
 	switch (nnn) {
@@ -11279,7 +11279,7 @@ void handlerCommand32Code0083P66() {
 }
 //Math
 void handlerCommand32Code0083() {
-	printf("Math");
+	LOG("%s","Math");
 	uint8_t mrmByte = read8u();
 	uint8_t nnn = readMiddle3Bit(mrmByte);
 	switch (nnn) {
@@ -11364,7 +11364,7 @@ void handlerCommand32Code0083() {
 }
 //TEST
 void handlerCommand32Code0084P66() {
-	printf("TEST");
+	LOG("%s","TEST");
 	uint8_t mrmByte = read8u();
 	uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
 	uint8_t* source = (uint8_t*)readRegisterMRM8(mrmByte);
@@ -11375,7 +11375,7 @@ void handlerCommand32Code0084P66() {
 }
 //TEST
 void handlerCommand32Code0084() {
-	printf("TEST");
+	LOG("%s","TEST");
 	uint8_t mrmByte = read8u();
 	uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
 	uint8_t* source = (uint8_t*)readRegisterMRM8(mrmByte);
@@ -11386,7 +11386,7 @@ void handlerCommand32Code0084() {
 }
 //TEST
 void handlerCommand32Code0085P66() {
-	printf("TEST");
+	LOG("%s","TEST");
 	uint8_t mrmByte = read8u();
 	uint8_t* target = (uint8_t*)readAddressMRM32For16(mrmByte);
 	uint8_t* source = (uint8_t*)readRegisterMRM16(mrmByte);
@@ -11397,7 +11397,7 @@ void handlerCommand32Code0085P66() {
 }
 //TEST
 void handlerCommand32Code0085() {
-	printf("TEST");
+	LOG("%s","TEST");
 	uint8_t mrmByte = read8u();
 	uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
 	uint8_t* source = (uint8_t*)readRegisterMRM32(mrmByte);
@@ -11408,7 +11408,7 @@ void handlerCommand32Code0085() {
 }
 //XCHG
 void handlerCommand32Code0086P66() {
-	printf("XCHG");
+	LOG("%s","XCHG");
 	uint8_t mrmByte = read8u();
 	uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
 	uint8_t* source = (uint8_t*)readRegisterMRM32(mrmByte);
@@ -11418,7 +11418,7 @@ void handlerCommand32Code0086P66() {
 }
 //XCHG
 void handlerCommand32Code0086() {
-	printf("XCHG");
+	LOG("%s","XCHG");
 	uint8_t mrmByte = read8u();
 	uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
 	uint8_t* source = (uint8_t*)readRegisterMRM32(mrmByte);
@@ -11428,7 +11428,7 @@ void handlerCommand32Code0086() {
 }
 //XCHG
 void handlerCommand32Code0087P66() {
-	printf("XCHG");
+	LOG("%s","XCHG");
 	uint8_t mrmByte = read8u();
 	uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
 	uint8_t* source = (uint8_t*)readRegisterMRM32(mrmByte);
@@ -11438,7 +11438,7 @@ void handlerCommand32Code0087P66() {
 }
 //XCHG
 void handlerCommand32Code0087() {
-	printf("XCHG");
+	LOG("%s","XCHG");
 	uint8_t mrmByte = read8u();
 	uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
 	uint8_t* source = (uint8_t*)readRegisterMRM32(mrmByte);
@@ -11448,7 +11448,7 @@ void handlerCommand32Code0087() {
 }
 //Move
 void handlerCommand32Code0088P66() {
-	printf("Move");
+	LOG("%s","Move");
 	uint8_t mrmByte = read8u();
 	uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
 	uint8_t* source = (uint8_t*)readRegisterMRM8(mrmByte);
@@ -11456,7 +11456,7 @@ void handlerCommand32Code0088P66() {
 }
 //Move
 void handlerCommand32Code0088() {
-	printf("Move");
+	LOG("%s","Move");
 	uint8_t mrmByte = read8u();
 	uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
 	uint8_t* source = (uint8_t*)readRegisterMRM8(mrmByte);
@@ -11464,7 +11464,7 @@ void handlerCommand32Code0088() {
 }
 //Move
 void handlerCommand32Code0089P66() {
-	printf("Move");
+	LOG("%s","Move");
 	uint8_t mrmByte = read8u();
 	uint8_t* target = (uint8_t*)readAddressMRM32For16(mrmByte);
 	uint8_t* source = (uint8_t*)readRegisterMRM16(mrmByte);
@@ -11472,7 +11472,7 @@ void handlerCommand32Code0089P66() {
 }
 //Move
 void handlerCommand32Code0089() {
-	printf("Move");
+	LOG("%s","Move");
 	uint8_t mrmByte = read8u();
 	uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
 	uint8_t* source = (uint8_t*)readRegisterMRM32(mrmByte);
@@ -11480,7 +11480,7 @@ void handlerCommand32Code0089() {
 }
 //Move
 void handlerCommand32Code008AP66() {
-	printf("Move");
+	LOG("%s","Move");
 	uint8_t mrmByte = read8u();
 	uint8_t* source = (uint8_t*)readAddressMRM32For8(mrmByte);
 	uint8_t* target = (uint8_t*)readRegisterMRM8(mrmByte);
@@ -11488,7 +11488,7 @@ void handlerCommand32Code008AP66() {
 }
 //Move
 void handlerCommand32Code008A() {
-	printf("Move");
+	LOG("%s","Move");
 	uint8_t mrmByte = read8u();
 	uint8_t* source = (uint8_t*)readAddressMRM32For8(mrmByte);
 	uint8_t* target = (uint8_t*)readRegisterMRM8(mrmByte);
@@ -11496,7 +11496,7 @@ void handlerCommand32Code008A() {
 }
 //Move
 void handlerCommand32Code008BP66() {
-	printf("Move");
+	LOG("%s","Move");
 	uint8_t mrmByte = read8u();
 	uint8_t* source = (uint8_t*)readAddressMRM32For16(mrmByte);
 	uint8_t* target = (uint8_t*)readRegisterMRM16(mrmByte);
@@ -11504,7 +11504,7 @@ void handlerCommand32Code008BP66() {
 }
 //Move
 void handlerCommand32Code008B() {
-	printf("Move");
+	LOG("%s","Move");
 	uint8_t mrmByte = read8u();
 	uint8_t* source = (uint8_t*)readAddressMRM32For32(mrmByte);
 	uint8_t* target = (uint8_t*)readRegisterMRM32(mrmByte);
@@ -11512,7 +11512,7 @@ void handlerCommand32Code008B() {
 }
 //Move
 void handlerCommand32Code008C() {
-	printf("Move");
+	LOG("%s","Move");
 	uint8_t mrmByte = read8u();
 	uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
 	uint8_t* source = (uint8_t*)readSegmentRegisterMRM(mrmByte);
@@ -11520,7 +11520,7 @@ void handlerCommand32Code008C() {
 }
 //Move
 void handlerCommand32Code008E() {
-	printf("Move");
+	LOG("%s","Move");
 	uint8_t mrmByte = read8u();
 	uint8_t* source = (uint8_t*)readAddressMRM32For32(mrmByte);
 	uint8_t* target = (uint8_t*)readSegmentRegisterMRM(mrmByte);
@@ -11528,7 +11528,7 @@ void handlerCommand32Code008E() {
 }
 //Lea
 void handlerCommand32Code008DP66P67() {
-	printf("Lea");
+	LOG("%s","Lea");
 	uint8_t mrmByte = read8u();
 	uint8_t* source = (uint8_t*)readRegisterMRM16(mrmByte);
 	uint32_t target = effectiveAddressMRM32For32(mrmByte);
@@ -11536,7 +11536,7 @@ void handlerCommand32Code008DP66P67() {
 }
 //Lea
 void handlerCommand32Code008DP67() {
-	printf("Lea");
+	LOG("%s","Lea");
 	uint8_t mrmByte = read8u();
 	uint8_t* source = (uint8_t*)readRegisterMRM32(mrmByte);
 	uint32_t target = effectiveAddressMRM32For32(mrmByte);
@@ -11544,7 +11544,7 @@ void handlerCommand32Code008DP67() {
 }
 //Lea
 void handlerCommand32Code008DP66() {
-	printf("Lea");
+	LOG("%s","Lea");
 	uint8_t mrmByte = read8u();
 	uint8_t* source = (uint8_t*)readRegisterMRM16(mrmByte);
 	uint32_t target = effectiveAddressMRM32For32(mrmByte);
@@ -11552,7 +11552,7 @@ void handlerCommand32Code008DP66() {
 }
 //Lea
 void handlerCommand32Code008D() {
-	printf("Lea");
+	LOG("%s","Lea");
 	uint8_t mrmByte = read8u();
 	uint8_t* source = (uint8_t*)readRegisterMRM32(mrmByte);
 	uint32_t target = effectiveAddressMRM32For32(mrmByte);
@@ -11560,7 +11560,7 @@ void handlerCommand32Code008D() {
 }
 //Pop
 void handlerCommand32Code008FP66P67() {
-	printf("Pop");
+	LOG("%s","Pop");
 	uint8_t mrmByte = read8u();
 	uint8_t nnn = readMiddle3Bit(mrmByte);
 	switch (nnn) {
@@ -11576,7 +11576,7 @@ void handlerCommand32Code008FP66P67() {
 }
 //Pop
 void handlerCommand32Code008FP67() {
-	printf("Pop");
+	LOG("%s","Pop");
 	uint8_t mrmByte = read8u();
 	uint8_t nnn = readMiddle3Bit(mrmByte);
 	switch (nnn) {
@@ -11592,7 +11592,7 @@ void handlerCommand32Code008FP67() {
 }
 //Pop
 void handlerCommand32Code008FP66() {
-	printf("Pop");
+	LOG("%s","Pop");
 	uint8_t mrmByte = read8u();
 	uint8_t nnn = readMiddle3Bit(mrmByte);
 	switch (nnn) {
@@ -11608,7 +11608,7 @@ void handlerCommand32Code008FP66() {
 }
 //Pop
 void handlerCommand32Code008F() {
-	printf("Pop");
+	LOG("%s","Pop");
 	uint8_t mrmByte = read8u();
 	uint8_t nnn = readMiddle3Bit(mrmByte);
 	switch (nnn) {
@@ -11624,19 +11624,19 @@ void handlerCommand32Code008F() {
 }
 //XCHG
 void handlerCommand32Code0090P66() {
-	printf("XCHG");
+	LOG("%s","XCHG");
 	uint8_t reg = 0x00;
 	// NOP
 }
 //XCHG
 void handlerCommand32Code0090() {
-	printf("XCHG");
+	LOG("%s","XCHG");
 	uint8_t reg = 0x00;
 	// NOP
 }
 //XCHG
 void handlerCommand32Code0091P66() {
-	printf("XCHG");
+	LOG("%s","XCHG");
 	uint8_t reg = 0x01;
 	uint32_t tmp = reg_AX_32u;
 	reg_AX_32u = reg_0x01_32u;
@@ -11644,7 +11644,7 @@ void handlerCommand32Code0091P66() {
 }
 //XCHG
 void handlerCommand32Code0091() {
-	printf("XCHG");
+	LOG("%s","XCHG");
 	uint8_t reg = 0x01;
 	uint32_t tmp = reg_AX_32u;
 	reg_AX_32u = reg_0x01_32u;
@@ -11652,7 +11652,7 @@ void handlerCommand32Code0091() {
 }
 //XCHG
 void handlerCommand32Code0092P66() {
-	printf("XCHG");
+	LOG("%s","XCHG");
 	uint8_t reg = 0x02;
 	uint32_t tmp = reg_AX_32u;
 	reg_AX_32u = reg_0x02_32u;
@@ -11660,7 +11660,7 @@ void handlerCommand32Code0092P66() {
 }
 //XCHG
 void handlerCommand32Code0092() {
-	printf("XCHG");
+	LOG("%s","XCHG");
 	uint8_t reg = 0x02;
 	uint32_t tmp = reg_AX_32u;
 	reg_AX_32u = reg_0x02_32u;
@@ -11668,7 +11668,7 @@ void handlerCommand32Code0092() {
 }
 //XCHG
 void handlerCommand32Code0093P66() {
-	printf("XCHG");
+	LOG("%s","XCHG");
 	uint8_t reg = 0x03;
 	uint32_t tmp = reg_AX_32u;
 	reg_AX_32u = reg_0x03_32u;
@@ -11676,7 +11676,7 @@ void handlerCommand32Code0093P66() {
 }
 //XCHG
 void handlerCommand32Code0093() {
-	printf("XCHG");
+	LOG("%s","XCHG");
 	uint8_t reg = 0x03;
 	uint32_t tmp = reg_AX_32u;
 	reg_AX_32u = reg_0x03_32u;
@@ -11684,7 +11684,7 @@ void handlerCommand32Code0093() {
 }
 //XCHG
 void handlerCommand32Code0094P66() {
-	printf("XCHG");
+	LOG("%s","XCHG");
 	uint8_t reg = 0x04;
 	uint32_t tmp = reg_AX_32u;
 	reg_AX_32u = reg_0x04_32u;
@@ -11692,7 +11692,7 @@ void handlerCommand32Code0094P66() {
 }
 //XCHG
 void handlerCommand32Code0094() {
-	printf("XCHG");
+	LOG("%s","XCHG");
 	uint8_t reg = 0x04;
 	uint32_t tmp = reg_AX_32u;
 	reg_AX_32u = reg_0x04_32u;
@@ -11700,7 +11700,7 @@ void handlerCommand32Code0094() {
 }
 //XCHG
 void handlerCommand32Code0095P66() {
-	printf("XCHG");
+	LOG("%s","XCHG");
 	uint8_t reg = 0x05;
 	uint32_t tmp = reg_AX_32u;
 	reg_AX_32u = reg_0x05_32u;
@@ -11708,7 +11708,7 @@ void handlerCommand32Code0095P66() {
 }
 //XCHG
 void handlerCommand32Code0095() {
-	printf("XCHG");
+	LOG("%s","XCHG");
 	uint8_t reg = 0x05;
 	uint32_t tmp = reg_AX_32u;
 	reg_AX_32u = reg_0x05_32u;
@@ -11716,7 +11716,7 @@ void handlerCommand32Code0095() {
 }
 //XCHG
 void handlerCommand32Code0096P66() {
-	printf("XCHG");
+	LOG("%s","XCHG");
 	uint8_t reg = 0x06;
 	uint32_t tmp = reg_AX_32u;
 	reg_AX_32u = reg_0x06_32u;
@@ -11724,7 +11724,7 @@ void handlerCommand32Code0096P66() {
 }
 //XCHG
 void handlerCommand32Code0096() {
-	printf("XCHG");
+	LOG("%s","XCHG");
 	uint8_t reg = 0x06;
 	uint32_t tmp = reg_AX_32u;
 	reg_AX_32u = reg_0x06_32u;
@@ -11732,7 +11732,7 @@ void handlerCommand32Code0096() {
 }
 //XCHG
 void handlerCommand32Code0097P66() {
-	printf("XCHG");
+	LOG("%s","XCHG");
 	uint8_t reg = 0x07;
 	uint32_t tmp = reg_AX_32u;
 	reg_AX_32u = reg_0x07_32u;
@@ -11740,7 +11740,7 @@ void handlerCommand32Code0097P66() {
 }
 //XCHG
 void handlerCommand32Code0097() {
-	printf("XCHG");
+	LOG("%s","XCHG");
 	uint8_t reg = 0x07;
 	uint32_t tmp = reg_AX_32u;
 	reg_AX_32u = reg_0x07_32u;
@@ -11748,153 +11748,153 @@ void handlerCommand32Code0097() {
 }
 //CBW
 void handlerCommand32Code0098P66() {
-	printf("CBW");
+	LOG("%s","CBW");
 	reg_AX_16 = reg_AL_8;
 }
 //CBW
 void handlerCommand32Code0098() {
-	printf("CBW");
+	LOG("%s","CBW");
 	reg_AX_32 = reg_AX_16;
 }
 //CBW
 void handlerCommand32Code0099P66() {
-	printf("CBW");
+	LOG("%s","CBW");
 	if (reg_AX_16 & 0x8000) reg_DX_16=0xffff;else reg_DX_16=0;
 }
 //CBW
 void handlerCommand32Code0099() {
-	printf("CBW");
+	LOG("%s","CBW");
 	if (reg_AX_32 & 0x80000000) reg_DX_32=0xffffffff; else reg_DX_32=0;
 }
 //PUSHF
 void handlerCommand32Code009C() {
-	printf("PUSHF");
+	LOG("%s","PUSHF");
 	FillFlags();
 	reg_SP_32u -= 32 / 8;
 	*(uint32_t*)(mem(SR_SS) + reg_SP_32u) = ((*(uint32_t*)(&reg_flags)) & 0x4FD5) | 0x3002;
 }
 //POPF
 void handlerCommand32Code009D() {
-	printf("POPF");
+	LOG("%s","POPF");
 	lazyFlagType = t_UNKNOWN;
 	*(uint32_t*)(&reg_flags) = (*(uint32_t*)(mem(SR_SS) + reg_SP_32u)) | 0x3002;
 	reg_SP_32u += 32 / 8;
 }
 //Move
 void handlerCommand32Code00A0P66P67() {
-	printf("Move");
+	LOG("%s","Move");
 	uint8_t* target = (uint8_t*)register8u(BR_AX);
 	uint8_t* source = (uint8_t*)(mem(SR_DS) + read16());
 	*(uint8_t*)target = *(uint8_t*)source;
 }
 //Move
 void handlerCommand32Code00A0P66() {
-	printf("Move");
+	LOG("%s","Move");
 	uint8_t* target = (uint8_t*)register8u(BR_AX);
 	uint8_t* source = (uint8_t*)(mem(SR_DS) + read32());
 	*(uint8_t*)target = *(uint8_t*)source;
 }
 //Move
 void handlerCommand32Code00A0P67() {
-	printf("Move");
+	LOG("%s","Move");
 	uint8_t* target = (uint8_t*)register8u(BR_AX);
 	uint8_t* source = (uint8_t*)(mem(SR_DS) + read16());
 	*(uint8_t*)target = *(uint8_t*)source;
 }
 //Move
 void handlerCommand32Code00A0() {
-	printf("Move");
+	LOG("%s","Move");
 	uint8_t* target = (uint8_t*)register8u(BR_AX);
 	uint8_t* source = (uint8_t*)(mem(SR_DS) + read32());
 	*(uint8_t*)target = *(uint8_t*)source;
 }
 //Move
 void handlerCommand32Code00A1P66P67() {
-	printf("Move");
+	LOG("%s","Move");
 	uint16_t* target = (uint16_t*)register16u(BR_AX);
 	uint16_t* source = (uint16_t*)(mem(SR_DS) + read16());
 	*(uint16_t*)target = *(uint16_t*)source;
 }
 //Move
 void handlerCommand32Code00A1P66() {
-	printf("Move");
+	LOG("%s","Move");
 	uint16_t* target = (uint16_t*)register16u(BR_AX);
 	uint16_t* source = (uint16_t*)(mem(SR_DS) + read32());
 	*(uint16_t*)target = *(uint16_t*)source;
 }
 //Move
 void handlerCommand32Code00A1P67() {
-	printf("Move");
+	LOG("%s","Move");
 	uint32_t* target = (uint32_t*)register32u(BR_AX);
 	uint32_t* source = (uint32_t*)(mem(SR_DS) + read16());
 	*(uint32_t*)target = *(uint32_t*)source;
 }
 //Move
 void handlerCommand32Code00A1() {
-	printf("Move");
+	LOG("%s","Move");
 	uint32_t* target = (uint32_t*)register32u(BR_AX);
 	uint32_t* source = (uint32_t*)(mem(SR_DS) + read32());
 	*(uint32_t*)target = *(uint32_t*)source;
 }
 //Move
 void handlerCommand32Code00A2P66P67() {
-	printf("Move");
+	LOG("%s","Move");
 	uint8_t* source = (uint8_t*)register8u(BR_AX);
 	uint8_t* target = (uint8_t*)(mem(SR_DS) + read16());
 	*(uint8_t*)target = *(uint8_t*)source;
 }
 //Move
 void handlerCommand32Code00A2P66() {
-	printf("Move");
+	LOG("%s","Move");
 	uint8_t* source = (uint8_t*)register8u(BR_AX);
 	uint8_t* target = (uint8_t*)(mem(SR_DS) + read32());
 	*(uint8_t*)target = *(uint8_t*)source;
 }
 //Move
 void handlerCommand32Code00A2P67() {
-	printf("Move");
+	LOG("%s","Move");
 	uint8_t* source = (uint8_t*)register8u(BR_AX);
 	uint8_t* target = (uint8_t*)(mem(SR_DS) + read16());
 	*(uint8_t*)target = *(uint8_t*)source;
 }
 //Move
 void handlerCommand32Code00A2() {
-	printf("Move");
+	LOG("%s","Move");
 	uint8_t* source = (uint8_t*)register8u(BR_AX);
 	uint8_t* target = (uint8_t*)(mem(SR_DS) + read32());
 	*(uint8_t*)target = *(uint8_t*)source;
 }
 //Move
 void handlerCommand32Code00A3P66P67() {
-	printf("Move");
+	LOG("%s","Move");
 	uint16_t* source = (uint16_t*)register16u(BR_AX);
 	uint16_t* target = (uint16_t*)(mem(SR_DS) + read16());
 	*(uint16_t*)target = *(uint16_t*)source;
 }
 //Move
 void handlerCommand32Code00A3P66() {
-	printf("Move");
+	LOG("%s","Move");
 	uint16_t* source = (uint16_t*)register16u(BR_AX);
 	uint16_t* target = (uint16_t*)(mem(SR_DS) + read32());
 	*(uint16_t*)target = *(uint16_t*)source;
 }
 //Move
 void handlerCommand32Code00A3P67() {
-	printf("Move");
+	LOG("%s","Move");
 	uint32_t* source = (uint32_t*)register32u(BR_AX);
 	uint32_t* target = (uint32_t*)(mem(SR_DS) + read16());
 	*(uint32_t*)target = *(uint32_t*)source;
 }
 //Move
 void handlerCommand32Code00A3() {
-	printf("Move");
+	LOG("%s","Move");
 	uint32_t* source = (uint32_t*)register32u(BR_AX);
 	uint32_t* target = (uint32_t*)(mem(SR_DS) + read32());
 	*(uint32_t*)target = *(uint32_t*)source;
 }
 //MOVS
 void handlerCommand32Code00A4P66P67() {
-	printf("MOVS");
+	LOG("%s","MOVS");
 	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
 	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
 	uint8_t* targetSegment = mem(SR_ES);
@@ -11924,7 +11924,7 @@ void handlerCommand32Code00A4P66P67() {
 }
 //MOVS
 void handlerCommand32Code00A4P66() {
-	printf("MOVS");
+	LOG("%s","MOVS");
 	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
 	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
 	uint8_t* targetSegment = mem(SR_ES);
@@ -11954,7 +11954,7 @@ void handlerCommand32Code00A4P66() {
 }
 //MOVS
 void handlerCommand32Code00A4P67() {
-	printf("MOVS");
+	LOG("%s","MOVS");
 	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
 	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
 	uint8_t* targetSegment = mem(SR_ES);
@@ -11984,7 +11984,7 @@ void handlerCommand32Code00A4P67() {
 }
 //MOVS
 void handlerCommand32Code00A4() {
-	printf("MOVS");
+	LOG("%s","MOVS");
 	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
 	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
 	uint8_t* targetSegment = mem(SR_ES);
@@ -12014,7 +12014,7 @@ void handlerCommand32Code00A4() {
 }
 //MOVS
 void handlerCommand32Code00A5P66P67() {
-	printf("MOVS");
+	LOG("%s","MOVS");
 	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
 	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
 	uint8_t* targetSegment = mem(SR_ES);
@@ -12044,7 +12044,7 @@ void handlerCommand32Code00A5P66P67() {
 }
 //MOVS
 void handlerCommand32Code00A5P66() {
-	printf("MOVS");
+	LOG("%s","MOVS");
 	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
 	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
 	uint8_t* targetSegment = mem(SR_ES);
@@ -12074,7 +12074,7 @@ void handlerCommand32Code00A5P66() {
 }
 //MOVS
 void handlerCommand32Code00A5P67() {
-	printf("MOVS");
+	LOG("%s","MOVS");
 	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
 	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
 	uint8_t* targetSegment = mem(SR_ES);
@@ -12104,7 +12104,7 @@ void handlerCommand32Code00A5P67() {
 }
 //MOVS
 void handlerCommand32Code00A5() {
-	printf("MOVS");
+	LOG("%s","MOVS");
 	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
 	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
 	uint8_t* targetSegment = mem(SR_ES);
@@ -12134,7 +12134,7 @@ void handlerCommand32Code00A5() {
 }
 //CMPS
 void handlerCommand32Code00A6P66P67() {
-	printf("CMPS");
+	LOG("%s","CMPS");
 	lazyFlagType = t_UNKNOWN;
 	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
 	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
@@ -12191,7 +12191,7 @@ void handlerCommand32Code00A6P66P67() {
 }
 //CMPS
 void handlerCommand32Code00A6P66() {
-	printf("CMPS");
+	LOG("%s","CMPS");
 	lazyFlagType = t_UNKNOWN;
 	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
 	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
@@ -12248,7 +12248,7 @@ void handlerCommand32Code00A6P66() {
 }
 //CMPS
 void handlerCommand32Code00A6P67() {
-	printf("CMPS");
+	LOG("%s","CMPS");
 	lazyFlagType = t_UNKNOWN;
 	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
 	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
@@ -12305,7 +12305,7 @@ void handlerCommand32Code00A6P67() {
 }
 //CMPS
 void handlerCommand32Code00A6() {
-	printf("CMPS");
+	LOG("%s","CMPS");
 	lazyFlagType = t_UNKNOWN;
 	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
 	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
@@ -12362,7 +12362,7 @@ void handlerCommand32Code00A6() {
 }
 //CMPS
 void handlerCommand32Code00A7P66P67() {
-	printf("CMPS");
+	LOG("%s","CMPS");
 	lazyFlagType = t_UNKNOWN;
 	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
 	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
@@ -12419,7 +12419,7 @@ void handlerCommand32Code00A7P66P67() {
 }
 //CMPS
 void handlerCommand32Code00A7P66() {
-	printf("CMPS");
+	LOG("%s","CMPS");
 	lazyFlagType = t_UNKNOWN;
 	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
 	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
@@ -12476,7 +12476,7 @@ void handlerCommand32Code00A7P66() {
 }
 //CMPS
 void handlerCommand32Code00A7P67() {
-	printf("CMPS");
+	LOG("%s","CMPS");
 	lazyFlagType = t_UNKNOWN;
 	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
 	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
@@ -12533,7 +12533,7 @@ void handlerCommand32Code00A7P67() {
 }
 //CMPS
 void handlerCommand32Code00A7() {
-	printf("CMPS");
+	LOG("%s","CMPS");
 	lazyFlagType = t_UNKNOWN;
 	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
 	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
@@ -12590,7 +12590,7 @@ void handlerCommand32Code00A7() {
 }
 //TEST
 void handlerCommand32Code00A8P66() {
-	printf("TEST");
+	LOG("%s","TEST");
 	uint8_t* target = (uint8_t*)register8u(BR_AX);
 	LazyFlagVarA8 = *(uint8_t*)target;
 	LazyFlagVarB8 = read8u();
@@ -12599,7 +12599,7 @@ void handlerCommand32Code00A8P66() {
 }
 //TEST
 void handlerCommand32Code00A8() {
-	printf("TEST");
+	LOG("%s","TEST");
 	uint8_t* target = (uint8_t*)register8u(BR_AX);
 	LazyFlagVarA8 = *(uint8_t*)target;
 	LazyFlagVarB8 = read8u();
@@ -12608,7 +12608,7 @@ void handlerCommand32Code00A8() {
 }
 //TEST
 void handlerCommand32Code00A9P66() {
-	printf("TEST");
+	LOG("%s","TEST");
 	uint8_t* target = (uint8_t*)register16u(BR_AX);
 	LazyFlagVarA16 = *(uint16_t*)target;
 	LazyFlagVarB16 = read16u();
@@ -12617,7 +12617,7 @@ void handlerCommand32Code00A9P66() {
 }
 //TEST
 void handlerCommand32Code00A9() {
-	printf("TEST");
+	LOG("%s","TEST");
 	uint8_t* target = (uint8_t*)register32u(BR_AX);
 	LazyFlagVarA32 = *(uint32_t*)target;
 	LazyFlagVarB32 = read32u();
@@ -12626,7 +12626,7 @@ void handlerCommand32Code00A9() {
 }
 //STOS
 void handlerCommand32Code00AAP66P67() {
-	printf("STOS");
+	LOG("%s","STOS");
 	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
 	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
 	uint8_t* targetSegment = mem(SR_ES);
@@ -12656,7 +12656,7 @@ void handlerCommand32Code00AAP66P67() {
 }
 //STOS
 void handlerCommand32Code00AAP66() {
-	printf("STOS");
+	LOG("%s","STOS");
 	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
 	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
 	uint8_t* targetSegment = mem(SR_ES);
@@ -12686,7 +12686,7 @@ void handlerCommand32Code00AAP66() {
 }
 //STOS
 void handlerCommand32Code00AAP67() {
-	printf("STOS");
+	LOG("%s","STOS");
 	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
 	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
 	uint8_t* targetSegment = mem(SR_ES);
@@ -12716,7 +12716,7 @@ void handlerCommand32Code00AAP67() {
 }
 //STOS
 void handlerCommand32Code00AA() {
-	printf("STOS");
+	LOG("%s","STOS");
 	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
 	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
 	uint8_t* targetSegment = mem(SR_ES);
@@ -12746,7 +12746,7 @@ void handlerCommand32Code00AA() {
 }
 //STOS
 void handlerCommand32Code00ABP66P67() {
-	printf("STOS");
+	LOG("%s","STOS");
 	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
 	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
 	uint8_t* targetSegment = mem(SR_ES);
@@ -12776,7 +12776,7 @@ void handlerCommand32Code00ABP66P67() {
 }
 //STOS
 void handlerCommand32Code00ABP66() {
-	printf("STOS");
+	LOG("%s","STOS");
 	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
 	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
 	uint8_t* targetSegment = mem(SR_ES);
@@ -12806,7 +12806,7 @@ void handlerCommand32Code00ABP66() {
 }
 //STOS
 void handlerCommand32Code00ABP67() {
-	printf("STOS");
+	LOG("%s","STOS");
 	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
 	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
 	uint8_t* targetSegment = mem(SR_ES);
@@ -12836,7 +12836,7 @@ void handlerCommand32Code00ABP67() {
 }
 //STOS
 void handlerCommand32Code00AB() {
-	printf("STOS");
+	LOG("%s","STOS");
 	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
 	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
 	uint8_t* targetSegment = mem(SR_ES);
@@ -12866,7 +12866,7 @@ void handlerCommand32Code00AB() {
 }
 //LOADS
 void handlerCommand32Code00ACP66P67() {
-	printf("LOADS");
+	LOG("%s","LOADS");
 	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
 	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
 	uint8_t* targetSegment = mem(SR_ES);
@@ -12896,7 +12896,7 @@ void handlerCommand32Code00ACP66P67() {
 }
 //LOADS
 void handlerCommand32Code00ACP66() {
-	printf("LOADS");
+	LOG("%s","LOADS");
 	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
 	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
 	uint8_t* targetSegment = mem(SR_ES);
@@ -12926,7 +12926,7 @@ void handlerCommand32Code00ACP66() {
 }
 //LOADS
 void handlerCommand32Code00ACP67() {
-	printf("LOADS");
+	LOG("%s","LOADS");
 	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
 	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
 	uint8_t* targetSegment = mem(SR_ES);
@@ -12956,7 +12956,7 @@ void handlerCommand32Code00ACP67() {
 }
 //LOADS
 void handlerCommand32Code00AC() {
-	printf("LOADS");
+	LOG("%s","LOADS");
 	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
 	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
 	uint8_t* targetSegment = mem(SR_ES);
@@ -12986,7 +12986,7 @@ void handlerCommand32Code00AC() {
 }
 //LOADS
 void handlerCommand32Code00ADP66P67() {
-	printf("LOADS");
+	LOG("%s","LOADS");
 	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
 	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
 	uint8_t* targetSegment = mem(SR_ES);
@@ -13016,7 +13016,7 @@ void handlerCommand32Code00ADP66P67() {
 }
 //LOADS
 void handlerCommand32Code00ADP66() {
-	printf("LOADS");
+	LOG("%s","LOADS");
 	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
 	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
 	uint8_t* targetSegment = mem(SR_ES);
@@ -13046,7 +13046,7 @@ void handlerCommand32Code00ADP66() {
 }
 //LOADS
 void handlerCommand32Code00ADP67() {
-	printf("LOADS");
+	LOG("%s","LOADS");
 	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
 	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
 	uint8_t* targetSegment = mem(SR_ES);
@@ -13076,7 +13076,7 @@ void handlerCommand32Code00ADP67() {
 }
 //LOADS
 void handlerCommand32Code00AD() {
-	printf("LOADS");
+	LOG("%s","LOADS");
 	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
 	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
 	uint8_t* targetSegment = mem(SR_ES);
@@ -13106,7 +13106,7 @@ void handlerCommand32Code00AD() {
 }
 //SCAS
 void handlerCommand32Code00AEP66P67() {
-	printf("SCAS");
+	LOG("%s","SCAS");
 	lazyFlagType = t_UNKNOWN;
 	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
 	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
@@ -13157,7 +13157,7 @@ void handlerCommand32Code00AEP66P67() {
 }
 //SCAS
 void handlerCommand32Code00AEP66() {
-	printf("SCAS");
+	LOG("%s","SCAS");
 	lazyFlagType = t_UNKNOWN;
 	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
 	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
@@ -13208,7 +13208,7 @@ void handlerCommand32Code00AEP66() {
 }
 //SCAS
 void handlerCommand32Code00AEP67() {
-	printf("SCAS");
+	LOG("%s","SCAS");
 	lazyFlagType = t_UNKNOWN;
 	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
 	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
@@ -13259,7 +13259,7 @@ void handlerCommand32Code00AEP67() {
 }
 //SCAS
 void handlerCommand32Code00AE() {
-	printf("SCAS");
+	LOG("%s","SCAS");
 	lazyFlagType = t_UNKNOWN;
 	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
 	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
@@ -13310,7 +13310,7 @@ void handlerCommand32Code00AE() {
 }
 //SCAS
 void handlerCommand32Code00AFP66P67() {
-	printf("SCAS");
+	LOG("%s","SCAS");
 	lazyFlagType = t_UNKNOWN;
 	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
 	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
@@ -13361,7 +13361,7 @@ void handlerCommand32Code00AFP66P67() {
 }
 //SCAS
 void handlerCommand32Code00AFP66() {
-	printf("SCAS");
+	LOG("%s","SCAS");
 	lazyFlagType = t_UNKNOWN;
 	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
 	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
@@ -13412,7 +13412,7 @@ void handlerCommand32Code00AFP66() {
 }
 //SCAS
 void handlerCommand32Code00AFP67() {
-	printf("SCAS");
+	LOG("%s","SCAS");
 	lazyFlagType = t_UNKNOWN;
 	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
 	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
@@ -13463,7 +13463,7 @@ void handlerCommand32Code00AFP67() {
 }
 //SCAS
 void handlerCommand32Code00AF() {
-	printf("SCAS");
+	LOG("%s","SCAS");
 	lazyFlagType = t_UNKNOWN;
 	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
 	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
@@ -13514,167 +13514,167 @@ void handlerCommand32Code00AF() {
 }
 //Move
 void handlerCommand32Code00B0P66() {
-	printf("Move");
+	LOG("%s","Move");
 	reg_0x00_8u = read8u();
 }
 //Move
 void handlerCommand32Code00B0() {
-	printf("Move");
+	LOG("%s","Move");
 	reg_0x00_8u = read8u();
 }
 //Move
 void handlerCommand32Code00B1P66() {
-	printf("Move");
+	LOG("%s","Move");
 	reg_0x01_8u = read8u();
 }
 //Move
 void handlerCommand32Code00B1() {
-	printf("Move");
+	LOG("%s","Move");
 	reg_0x01_8u = read8u();
 }
 //Move
 void handlerCommand32Code00B2P66() {
-	printf("Move");
+	LOG("%s","Move");
 	reg_0x02_8u = read8u();
 }
 //Move
 void handlerCommand32Code00B2() {
-	printf("Move");
+	LOG("%s","Move");
 	reg_0x02_8u = read8u();
 }
 //Move
 void handlerCommand32Code00B3P66() {
-	printf("Move");
+	LOG("%s","Move");
 	reg_0x03_8u = read8u();
 }
 //Move
 void handlerCommand32Code00B3() {
-	printf("Move");
+	LOG("%s","Move");
 	reg_0x03_8u = read8u();
 }
 //Move
 void handlerCommand32Code00B4P66() {
-	printf("Move");
+	LOG("%s","Move");
 	reg_0x04_8u = read8u();
 }
 //Move
 void handlerCommand32Code00B4() {
-	printf("Move");
+	LOG("%s","Move");
 	reg_0x04_8u = read8u();
 }
 //Move
 void handlerCommand32Code00B5P66() {
-	printf("Move");
+	LOG("%s","Move");
 	reg_0x05_8u = read8u();
 }
 //Move
 void handlerCommand32Code00B5() {
-	printf("Move");
+	LOG("%s","Move");
 	reg_0x05_8u = read8u();
 }
 //Move
 void handlerCommand32Code00B6P66() {
-	printf("Move");
+	LOG("%s","Move");
 	reg_0x06_8u = read8u();
 }
 //Move
 void handlerCommand32Code00B6() {
-	printf("Move");
+	LOG("%s","Move");
 	reg_0x06_8u = read8u();
 }
 //Move
 void handlerCommand32Code00B7P66() {
-	printf("Move");
+	LOG("%s","Move");
 	reg_0x07_8u = read8u();
 }
 //Move
 void handlerCommand32Code00B7() {
-	printf("Move");
+	LOG("%s","Move");
 	reg_0x07_8u = read8u();
 }
 //Move
 void handlerCommand32Code00B8P66() {
-	printf("Move");
+	LOG("%s","Move");
 	reg_0x00_16u = read16u();
 }
 //Move
 void handlerCommand32Code00B8() {
-	printf("Move");
+	LOG("%s","Move");
 	reg_0x00_32u = read32u();
 }
 //Move
 void handlerCommand32Code00B9P66() {
-	printf("Move");
+	LOG("%s","Move");
 	reg_0x01_16u = read16u();
 }
 //Move
 void handlerCommand32Code00B9() {
-	printf("Move");
+	LOG("%s","Move");
 	reg_0x01_32u = read32u();
 }
 //Move
 void handlerCommand32Code00BAP66() {
-	printf("Move");
+	LOG("%s","Move");
 	reg_0x02_16u = read16u();
 }
 //Move
 void handlerCommand32Code00BA() {
-	printf("Move");
+	LOG("%s","Move");
 	reg_0x02_32u = read32u();
 }
 //Move
 void handlerCommand32Code00BBP66() {
-	printf("Move");
+	LOG("%s","Move");
 	reg_0x03_16u = read16u();
 }
 //Move
 void handlerCommand32Code00BB() {
-	printf("Move");
+	LOG("%s","Move");
 	reg_0x03_32u = read32u();
 }
 //Move
 void handlerCommand32Code00BCP66() {
-	printf("Move");
+	LOG("%s","Move");
 	reg_0x04_16u = read16u();
 }
 //Move
 void handlerCommand32Code00BC() {
-	printf("Move");
+	LOG("%s","Move");
 	reg_0x04_32u = read32u();
 }
 //Move
 void handlerCommand32Code00BDP66() {
-	printf("Move");
+	LOG("%s","Move");
 	reg_0x05_16u = read16u();
 }
 //Move
 void handlerCommand32Code00BD() {
-	printf("Move");
+	LOG("%s","Move");
 	reg_0x05_32u = read32u();
 }
 //Move
 void handlerCommand32Code00BEP66() {
-	printf("Move");
+	LOG("%s","Move");
 	reg_0x06_16u = read16u();
 }
 //Move
 void handlerCommand32Code00BE() {
-	printf("Move");
+	LOG("%s","Move");
 	reg_0x06_32u = read32u();
 }
 //Move
 void handlerCommand32Code00BFP66() {
-	printf("Move");
+	LOG("%s","Move");
 	reg_0x07_16u = read16u();
 }
 //Move
 void handlerCommand32Code00BF() {
-	printf("Move");
+	LOG("%s","Move");
 	reg_0x07_32u = read32u();
 }
 //Move bits
 void handlerCommand32Code00C0P66() {
-	printf("Move bits");
+	LOG("%s","Move bits");
 	uint8_t mrmByte = read8u();
 	uint8_t nnn = readMiddle3Bit(mrmByte);
 	switch (nnn) {
@@ -13753,7 +13753,7 @@ void handlerCommand32Code00C0P66() {
 }
 //Move bits
 void handlerCommand32Code00C0() {
-	printf("Move bits");
+	LOG("%s","Move bits");
 	uint8_t mrmByte = read8u();
 	uint8_t nnn = readMiddle3Bit(mrmByte);
 	switch (nnn) {
@@ -13832,7 +13832,7 @@ void handlerCommand32Code00C0() {
 }
 //Move bits
 void handlerCommand32Code00C1P66() {
-	printf("Move bits");
+	LOG("%s","Move bits");
 	uint8_t mrmByte = read8u();
 	uint8_t nnn = readMiddle3Bit(mrmByte);
 	switch (nnn) {
@@ -13911,7 +13911,7 @@ void handlerCommand32Code00C1P66() {
 }
 //Move bits
 void handlerCommand32Code00C1() {
-	printf("Move bits");
+	LOG("%s","Move bits");
 	uint8_t mrmByte = read8u();
 	uint8_t nnn = readMiddle3Bit(mrmByte);
 	switch (nnn) {
@@ -13990,14 +13990,14 @@ void handlerCommand32Code00C1() {
 }
 //Ret
 void handlerCommand32Code00C3() {
-	printf("Ret");
+	LOG("%s","Ret");
 	uint32_t* sp = register32u(BR_SP);
 	context.index = mem(1) + *(uint32_t*)(mem(SR_SS) + *sp);
 	*sp += 32 / 8;
 }
 //Load SR_ES
 void handlerCommand32Code00C4() {
-	printf("Load SR_ES");
+	LOG("%s","Load SR_ES");
 	uint8_t mrmByte = read8u();
 	uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
 	uint8_t* source = (uint8_t*)readRegisterMRM32(mrmByte);
@@ -14006,7 +14006,7 @@ void handlerCommand32Code00C4() {
 }
 //Load SR_DS
 void handlerCommand32Code00C5() {
-	printf("Load SR_DS");
+	LOG("%s","Load SR_DS");
 	uint8_t mrmByte = read8u();
 	uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
 	uint8_t* source = (uint8_t*)readRegisterMRM32(mrmByte);
@@ -14015,7 +14015,7 @@ void handlerCommand32Code00C5() {
 }
 //Move
 void handlerCommand32Code00C6P66() {
-	printf("Move");
+	LOG("%s","Move");
 	uint8_t mrmByte = read8u();
 	uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
 	uint8_t* source = (uint8_t*)readRegisterMRM32(mrmByte);
@@ -14023,7 +14023,7 @@ void handlerCommand32Code00C6P66() {
 }
 //Move
 void handlerCommand32Code00C6() {
-	printf("Move");
+	LOG("%s","Move");
 	uint8_t mrmByte = read8u();
 	uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
 	uint8_t* source = (uint8_t*)readRegisterMRM32(mrmByte);
@@ -14031,7 +14031,7 @@ void handlerCommand32Code00C6() {
 }
 //Move
 void handlerCommand32Code00C7P66() {
-	printf("Move");
+	LOG("%s","Move");
 	uint8_t mrmByte = read8u();
 	uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
 	uint8_t* source = (uint8_t*)readRegisterMRM32(mrmByte);
@@ -14039,7 +14039,7 @@ void handlerCommand32Code00C7P66() {
 }
 //Move
 void handlerCommand32Code00C7() {
-	printf("Move");
+	LOG("%s","Move");
 	uint8_t mrmByte = read8u();
 	uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
 	uint8_t* source = (uint8_t*)readRegisterMRM32(mrmByte);
@@ -14047,35 +14047,35 @@ void handlerCommand32Code00C7() {
 }
 //Leave
 void handlerCommand32Code00C9P66P67() {
-	printf("Leave");
+	LOG("%s","Leave");
 	reg_SP_16u = reg_BP_16u;
 	reg_BP_16u = *(uint16_t*)(mem(SR_SS) + reg_SP_16u);
 	reg_SP_16u += 16 / 8;
 }
 //Leave
 void handlerCommand32Code00C9P67() {
-	printf("Leave");
+	LOG("%s","Leave");
 	reg_SP_16u = reg_BP_16u;
 	reg_BP_16u = *(uint32_t*)(mem(SR_SS) + reg_SP_16u);
 	reg_SP_16u += 32 / 8;
 }
 //Leave
 void handlerCommand32Code00C9P66() {
-	printf("Leave");
+	LOG("%s","Leave");
 	reg_SP_32u = reg_BP_32u;
 	reg_BP_32u = *(uint16_t*)(mem(SR_SS) + reg_SP_32u);
 	reg_SP_32u += 16 / 8;
 }
 //Leave
 void handlerCommand32Code00C9() {
-	printf("Leave");
+	LOG("%s","Leave");
 	reg_SP_32u = reg_BP_32u;
 	reg_BP_32u = *(uint32_t*)(mem(SR_SS) + reg_SP_32u);
 	reg_SP_32u += 32 / 8;
 }
 //Ret
 void handlerCommand32Code00CB() {
-	printf("Ret");
+	LOG("%s","Ret");
 	uint32_t* sp = register32u(BR_SP);
 	setMem(1, *(int16_t*)(mem(SR_SS) + *sp + 32 / 8));
 	context.index = mem(1) + *(uint32_t*)(mem(SR_SS) + *sp);
@@ -14083,13 +14083,13 @@ void handlerCommand32Code00CB() {
 }
 //Int
 void handlerCommand32Code00CD() {
-	printf("Int");
+	LOG("%s","Int");
 	uint8_t addr = read8u();
 	context.functions[addr](addr);
 }
 //Move bits
 void handlerCommand32Code00D0P66() {
-	printf("Move bits");
+	LOG("%s","Move bits");
 	uint8_t mrmByte = read8u();
 	uint8_t nnn = readMiddle3Bit(mrmByte);
 	switch (nnn) {
@@ -14168,7 +14168,7 @@ void handlerCommand32Code00D0P66() {
 }
 //Move bits
 void handlerCommand32Code00D0() {
-	printf("Move bits");
+	LOG("%s","Move bits");
 	uint8_t mrmByte = read8u();
 	uint8_t nnn = readMiddle3Bit(mrmByte);
 	switch (nnn) {
@@ -14247,7 +14247,7 @@ void handlerCommand32Code00D0() {
 }
 //Move bits
 void handlerCommand32Code00D1P66() {
-	printf("Move bits");
+	LOG("%s","Move bits");
 	uint8_t mrmByte = read8u();
 	uint8_t nnn = readMiddle3Bit(mrmByte);
 	switch (nnn) {
@@ -14326,7 +14326,7 @@ void handlerCommand32Code00D1P66() {
 }
 //Move bits
 void handlerCommand32Code00D1() {
-	printf("Move bits");
+	LOG("%s","Move bits");
 	uint8_t mrmByte = read8u();
 	uint8_t nnn = readMiddle3Bit(mrmByte);
 	switch (nnn) {
@@ -14405,7 +14405,7 @@ void handlerCommand32Code00D1() {
 }
 //Move bits
 void handlerCommand32Code00D2P66() {
-	printf("Move bits");
+	LOG("%s","Move bits");
 	uint8_t mrmByte = read8u();
 	uint8_t nnn = readMiddle3Bit(mrmByte);
 	switch (nnn) {
@@ -14484,7 +14484,7 @@ void handlerCommand32Code00D2P66() {
 }
 //Move bits
 void handlerCommand32Code00D2() {
-	printf("Move bits");
+	LOG("%s","Move bits");
 	uint8_t mrmByte = read8u();
 	uint8_t nnn = readMiddle3Bit(mrmByte);
 	switch (nnn) {
@@ -14563,7 +14563,7 @@ void handlerCommand32Code00D2() {
 }
 //Move bits
 void handlerCommand32Code00D3P66() {
-	printf("Move bits");
+	LOG("%s","Move bits");
 	uint8_t mrmByte = read8u();
 	uint8_t nnn = readMiddle3Bit(mrmByte);
 	switch (nnn) {
@@ -14642,7 +14642,7 @@ void handlerCommand32Code00D3P66() {
 }
 //Move bits
 void handlerCommand32Code00D3() {
-	printf("Move bits");
+	LOG("%s","Move bits");
 	uint8_t mrmByte = read8u();
 	uint8_t nnn = readMiddle3Bit(mrmByte);
 	switch (nnn) {
@@ -14721,7 +14721,7 @@ void handlerCommand32Code00D3() {
 }
 //FPU
 void handlerCommand32Code00D8() {
-	printf("FPU");
+	LOG("%s","FPU");
 	uint8_t mrmByte = read8u();
 	uint8_t nnn = readMiddle3Bit(mrmByte);
 	switch (nnn) {
@@ -14871,7 +14871,7 @@ void handlerCommand32Code00D8() {
 }
 //FPU
 void handlerCommand32Code00D9() {
-	printf("FPU");
+	LOG("%s","FPU");
 	uint8_t mrmByte = read8u();
 	uint8_t nnn = readMiddle3Bit(mrmByte);
 	switch (nnn) {
@@ -14979,7 +14979,7 @@ void handlerCommand32Code00D9() {
 }
 //FPU
 void handlerCommand32Code00DA() {
-	printf("FPU");
+	LOG("%s","FPU");
 	uint8_t mrmByte = read8u();
 	uint8_t nnn = readMiddle3Bit(mrmByte);
 	switch (nnn) {
@@ -15099,7 +15099,7 @@ void handlerCommand32Code00DA() {
 }
 //FPU
 void handlerCommand32Code00DB() {
-	printf("FPU");
+	LOG("%s","FPU");
 	uint8_t mrmByte = read8u();
 	uint8_t nnn = readMiddle3Bit(mrmByte);
 	switch (nnn) {
@@ -15204,7 +15204,7 @@ void handlerCommand32Code00DB() {
 }
 //FPU
 void handlerCommand32Code00DC() {
-	printf("FPU");
+	LOG("%s","FPU");
 	uint8_t mrmByte = read8u();
 	uint8_t nnn = readMiddle3Bit(mrmByte);
 	switch (nnn) {
@@ -15354,7 +15354,7 @@ void handlerCommand32Code00DC() {
 }
 //FPU
 void handlerCommand32Code00DD() {
-	printf("FPU");
+	LOG("%s","FPU");
 	uint8_t mrmByte = read8u();
 	uint8_t nnn = readMiddle3Bit(mrmByte);
 	switch (nnn) {
@@ -15461,7 +15461,7 @@ void handlerCommand32Code00DD() {
 }
 //FPU
 void handlerCommand32Code00DE() {
-	printf("FPU");
+	LOG("%s","FPU");
 	uint8_t mrmByte = read8u();
 	uint8_t nnn = readMiddle3Bit(mrmByte);
 	switch (nnn) {
@@ -15617,7 +15617,7 @@ void handlerCommand32Code00DE() {
 }
 //FPU
 void handlerCommand32Code00DF() {
-	printf("FPU");
+	LOG("%s","FPU");
 	uint8_t mrmByte = read8u();
 	uint8_t nnn = readMiddle3Bit(mrmByte);
 	switch (nnn) {
@@ -15724,7 +15724,7 @@ void handlerCommand32Code00DF() {
 }
 //Loop
 void handlerCommand32Code00E0() {
-	printf("Loop");
+	LOG("%s","Loop");
 	int8_t addr = read8();
 	reg_0x01_32 -= 1;
 	FillFlags();
@@ -15734,7 +15734,7 @@ void handlerCommand32Code00E0() {
 }
 //Loop
 void handlerCommand32Code00E1() {
-	printf("Loop");
+	LOG("%s","Loop");
 	int8_t addr = read8();
 	reg_0x01_32 -= 1;
 	FillFlags();
@@ -15744,7 +15744,7 @@ void handlerCommand32Code00E1() {
 }
 //Loop
 void handlerCommand32Code00E2() {
-	printf("Loop");
+	LOG("%s","Loop");
 	int8_t addr = read8();
 	reg_0x01_32 -= 1;
 	if (reg_0x01_32 != 0) {
@@ -15753,7 +15753,7 @@ void handlerCommand32Code00E2() {
 }
 //Loop
 void handlerCommand32Code00E3() {
-	printf("Loop");
+	LOG("%s","Loop");
 	int8_t addr = read8();
 	if (reg_0x01_32 == 0) {
 		context.index += addr;
@@ -15761,7 +15761,7 @@ void handlerCommand32Code00E3() {
 }
 //Call
 void handlerCommand32Code00E8P66() {
-	printf("Call");
+	LOG("%s","Call");
 	uint32_t* sp = register32u(BR_SP);
 	*sp -= 32 / 8;
 	*(uint32_t*)(mem(SR_SS) + *sp) = (uint32_t)(context.index + 16 / 8 - mem(1));
@@ -15769,7 +15769,7 @@ void handlerCommand32Code00E8P66() {
 }
 //Call
 void handlerCommand32Code00E8() {
-	printf("Call");
+	LOG("%s","Call");
 	uint32_t* sp = register32u(BR_SP);
 	*sp -= 32 / 8;
 	*(uint32_t*)(mem(SR_SS) + *sp) = (uint32_t)(context.index + 32 / 8 - mem(1));
@@ -15777,27 +15777,27 @@ void handlerCommand32Code00E8() {
 }
 //Jmp
 void handlerCommand32Code00E9P66() {
-	printf("Jmp");
+	LOG("%s","Jmp");
 	context.index += read16();
 }
 //Jmp
 void handlerCommand32Code00E9() {
-	printf("Jmp");
+	LOG("%s","Jmp");
 	context.index += read32();
 }
 //Jmp
 void handlerCommand32Code00EB() {
-	printf("Jmp");
+	LOG("%s","Jmp");
 	context.index += read8();
 }
 //~CF
 void handlerCommand32Code00F5() {
-	printf("~CF");
+	LOG("%s","~CF");
 	SET_FLAG(CF, !GET_FLAG(CF));
 }
 //Math
 void handlerCommand32Code00F6P66() {
-	printf("Math");
+	LOG("%s","Math");
 	uint8_t mrmByte = read8u();
 	uint8_t nnn = readMiddle3Bit(mrmByte);
 	switch (nnn) {
@@ -15885,7 +15885,7 @@ void handlerCommand32Code00F6P66() {
 }
 //Math
 void handlerCommand32Code00F6() {
-	printf("Math");
+	LOG("%s","Math");
 	uint8_t mrmByte = read8u();
 	uint8_t nnn = readMiddle3Bit(mrmByte);
 	switch (nnn) {
@@ -15973,7 +15973,7 @@ void handlerCommand32Code00F6() {
 }
 //Math
 void handlerCommand32Code00F7P66() {
-	printf("Math");
+	LOG("%s","Math");
 	uint8_t mrmByte = read8u();
 	uint8_t nnn = readMiddle3Bit(mrmByte);
 	switch (nnn) {
@@ -16067,7 +16067,7 @@ void handlerCommand32Code00F7P66() {
 }
 //Math
 void handlerCommand32Code00F7() {
-	printf("Math");
+	LOG("%s","Math");
 	uint8_t mrmByte = read8u();
 	uint8_t nnn = readMiddle3Bit(mrmByte);
 	switch (nnn) {
@@ -16163,37 +16163,37 @@ void handlerCommand32Code00F7() {
 }
 //Flag CF set false
 void handlerCommand32Code00F8() {
-	printf("Flag CF set false");
+	LOG("%s","Flag CF set false");
 	SET_FLAG(0x00, 0);
 }
 //Flag CF set true
 void handlerCommand32Code00F9() {
-	printf("Flag CF set true");
+	LOG("%s","Flag CF set true");
 	SET_FLAG(0x00, 1);
 }
 //Flag IF set false
 void handlerCommand32Code00FA() {
-	printf("Flag IF set false");
+	LOG("%s","Flag IF set false");
 	SET_FLAG(0x09, 0);
 }
 //Flag IF set true
 void handlerCommand32Code00FB() {
-	printf("Flag IF set true");
+	LOG("%s","Flag IF set true");
 	SET_FLAG(0x09, 1);
 }
 //Flag DF set false
 void handlerCommand32Code00FC() {
-	printf("Flag DF set false");
+	LOG("%s","Flag DF set false");
 	SET_FLAG(0x0A, 0);
 }
 //Flag DF set true
 void handlerCommand32Code00FD() {
-	printf("Flag DF set true");
+	LOG("%s","Flag DF set true");
 	SET_FLAG(0x0A, 1);
 }
 //Ofther
 void handlerCommand32Code00FFP66P67() {
-	printf("Ofther");
+	LOG("%s","Ofther");
 	uint8_t mrmByte = read8u();
 	uint8_t nnn = readMiddle3Bit(mrmByte);
 	switch (nnn) {
@@ -16233,7 +16233,7 @@ void handlerCommand32Code00FFP66P67() {
 }
 //Ofther
 void handlerCommand32Code00FFP67() {
-	printf("Ofther");
+	LOG("%s","Ofther");
 	uint8_t mrmByte = read8u();
 	uint8_t nnn = readMiddle3Bit(mrmByte);
 	switch (nnn) {
@@ -16273,7 +16273,7 @@ void handlerCommand32Code00FFP67() {
 }
 //Ofther
 void handlerCommand32Code00FFP66() {
-	printf("Ofther");
+	LOG("%s","Ofther");
 	uint8_t mrmByte = read8u();
 	uint8_t nnn = readMiddle3Bit(mrmByte);
 	switch (nnn) {
@@ -16313,7 +16313,7 @@ void handlerCommand32Code00FFP66() {
 }
 //Ofther
 void handlerCommand32Code00FF() {
-	printf("Ofther");
+	LOG("%s","Ofther");
 	uint8_t mrmByte = read8u();
 	uint8_t nnn = readMiddle3Bit(mrmByte);
 	switch (nnn) {
@@ -16353,7 +16353,7 @@ void handlerCommand32Code00FF() {
 }
 //J(cond)
 void handlerCommand32Code0180() {
-	printf("J(cond)");
+	LOG("%s","J(cond)");
 	FillFlags();
 	int32_t address = read32();
 	if COND0x00 {
@@ -16362,7 +16362,7 @@ void handlerCommand32Code0180() {
 }
 //J(cond)
 void handlerCommand32Code0181() {
-	printf("J(cond)");
+	LOG("%s","J(cond)");
 	FillFlags();
 	int32_t address = read32();
 	if COND0x01 {
@@ -16371,7 +16371,7 @@ void handlerCommand32Code0181() {
 }
 //J(cond)
 void handlerCommand32Code0182() {
-	printf("J(cond)");
+	LOG("%s","J(cond)");
 	FillFlags();
 	int32_t address = read32();
 	if COND0x02 {
@@ -16380,7 +16380,7 @@ void handlerCommand32Code0182() {
 }
 //J(cond)
 void handlerCommand32Code0183() {
-	printf("J(cond)");
+	LOG("%s","J(cond)");
 	FillFlags();
 	int32_t address = read32();
 	if COND0x03 {
@@ -16389,7 +16389,7 @@ void handlerCommand32Code0183() {
 }
 //J(cond)
 void handlerCommand32Code0184() {
-	printf("J(cond)");
+	LOG("%s","J(cond)");
 	FillFlags();
 	int32_t address = read32();
 	if COND0x04 {
@@ -16398,7 +16398,7 @@ void handlerCommand32Code0184() {
 }
 //J(cond)
 void handlerCommand32Code0185() {
-	printf("J(cond)");
+	LOG("%s","J(cond)");
 	FillFlags();
 	int32_t address = read32();
 	if COND0x05 {
@@ -16407,7 +16407,7 @@ void handlerCommand32Code0185() {
 }
 //J(cond)
 void handlerCommand32Code0186() {
-	printf("J(cond)");
+	LOG("%s","J(cond)");
 	FillFlags();
 	int32_t address = read32();
 	if COND0x06 {
@@ -16416,7 +16416,7 @@ void handlerCommand32Code0186() {
 }
 //J(cond)
 void handlerCommand32Code0187() {
-	printf("J(cond)");
+	LOG("%s","J(cond)");
 	FillFlags();
 	int32_t address = read32();
 	if COND0x07 {
@@ -16425,7 +16425,7 @@ void handlerCommand32Code0187() {
 }
 //J(cond)
 void handlerCommand32Code0188() {
-	printf("J(cond)");
+	LOG("%s","J(cond)");
 	FillFlags();
 	int32_t address = read32();
 	if COND0x08 {
@@ -16434,7 +16434,7 @@ void handlerCommand32Code0188() {
 }
 //J(cond)
 void handlerCommand32Code0189() {
-	printf("J(cond)");
+	LOG("%s","J(cond)");
 	FillFlags();
 	int32_t address = read32();
 	if COND0x09 {
@@ -16443,7 +16443,7 @@ void handlerCommand32Code0189() {
 }
 //J(cond)
 void handlerCommand32Code018A() {
-	printf("J(cond)");
+	LOG("%s","J(cond)");
 	FillFlags();
 	int32_t address = read32();
 	if COND0x0A {
@@ -16452,7 +16452,7 @@ void handlerCommand32Code018A() {
 }
 //J(cond)
 void handlerCommand32Code018B() {
-	printf("J(cond)");
+	LOG("%s","J(cond)");
 	FillFlags();
 	int32_t address = read32();
 	if COND0x0B {
@@ -16461,7 +16461,7 @@ void handlerCommand32Code018B() {
 }
 //J(cond)
 void handlerCommand32Code018C() {
-	printf("J(cond)");
+	LOG("%s","J(cond)");
 	FillFlags();
 	int32_t address = read32();
 	if COND0x0C {
@@ -16470,7 +16470,7 @@ void handlerCommand32Code018C() {
 }
 //J(cond)
 void handlerCommand32Code018D() {
-	printf("J(cond)");
+	LOG("%s","J(cond)");
 	FillFlags();
 	int32_t address = read32();
 	if COND0x0D {
@@ -16479,7 +16479,7 @@ void handlerCommand32Code018D() {
 }
 //J(cond)
 void handlerCommand32Code018E() {
-	printf("J(cond)");
+	LOG("%s","J(cond)");
 	FillFlags();
 	int32_t address = read32();
 	if COND0x0E {
@@ -16488,7 +16488,7 @@ void handlerCommand32Code018E() {
 }
 //J(cond)
 void handlerCommand32Code018F() {
-	printf("J(cond)");
+	LOG("%s","J(cond)");
 	FillFlags();
 	int32_t address = read32();
 	if COND0x0F {
@@ -16497,7 +16497,7 @@ void handlerCommand32Code018F() {
 }
 //Math
 void handlerCommand32Code0190P66() {
-	printf("Math");
+	LOG("%s","Math");
 	uint8_t cond = 0x00;
 	uint8_t mrmByte = read8u();
 	uint8_t nnn = readMiddle3Bit(mrmByte);
@@ -16514,7 +16514,7 @@ void handlerCommand32Code0190P66() {
 }
 //Math
 void handlerCommand32Code0190() {
-	printf("Math");
+	LOG("%s","Math");
 	uint8_t cond = 0x00;
 	uint8_t mrmByte = read8u();
 	uint8_t nnn = readMiddle3Bit(mrmByte);
@@ -16531,7 +16531,7 @@ void handlerCommand32Code0190() {
 }
 //Math
 void handlerCommand32Code0191P66() {
-	printf("Math");
+	LOG("%s","Math");
 	uint8_t cond = 0x01;
 	uint8_t mrmByte = read8u();
 	uint8_t nnn = readMiddle3Bit(mrmByte);
@@ -16548,7 +16548,7 @@ void handlerCommand32Code0191P66() {
 }
 //Math
 void handlerCommand32Code0191() {
-	printf("Math");
+	LOG("%s","Math");
 	uint8_t cond = 0x01;
 	uint8_t mrmByte = read8u();
 	uint8_t nnn = readMiddle3Bit(mrmByte);
@@ -16565,7 +16565,7 @@ void handlerCommand32Code0191() {
 }
 //Math
 void handlerCommand32Code0192P66() {
-	printf("Math");
+	LOG("%s","Math");
 	uint8_t cond = 0x02;
 	uint8_t mrmByte = read8u();
 	uint8_t nnn = readMiddle3Bit(mrmByte);
@@ -16582,7 +16582,7 @@ void handlerCommand32Code0192P66() {
 }
 //Math
 void handlerCommand32Code0192() {
-	printf("Math");
+	LOG("%s","Math");
 	uint8_t cond = 0x02;
 	uint8_t mrmByte = read8u();
 	uint8_t nnn = readMiddle3Bit(mrmByte);
@@ -16599,7 +16599,7 @@ void handlerCommand32Code0192() {
 }
 //Math
 void handlerCommand32Code0193P66() {
-	printf("Math");
+	LOG("%s","Math");
 	uint8_t cond = 0x03;
 	uint8_t mrmByte = read8u();
 	uint8_t nnn = readMiddle3Bit(mrmByte);
@@ -16616,7 +16616,7 @@ void handlerCommand32Code0193P66() {
 }
 //Math
 void handlerCommand32Code0193() {
-	printf("Math");
+	LOG("%s","Math");
 	uint8_t cond = 0x03;
 	uint8_t mrmByte = read8u();
 	uint8_t nnn = readMiddle3Bit(mrmByte);
@@ -16633,7 +16633,7 @@ void handlerCommand32Code0193() {
 }
 //Math
 void handlerCommand32Code0194P66() {
-	printf("Math");
+	LOG("%s","Math");
 	uint8_t cond = 0x04;
 	uint8_t mrmByte = read8u();
 	uint8_t nnn = readMiddle3Bit(mrmByte);
@@ -16650,7 +16650,7 @@ void handlerCommand32Code0194P66() {
 }
 //Math
 void handlerCommand32Code0194() {
-	printf("Math");
+	LOG("%s","Math");
 	uint8_t cond = 0x04;
 	uint8_t mrmByte = read8u();
 	uint8_t nnn = readMiddle3Bit(mrmByte);
@@ -16667,7 +16667,7 @@ void handlerCommand32Code0194() {
 }
 //Math
 void handlerCommand32Code0195P66() {
-	printf("Math");
+	LOG("%s","Math");
 	uint8_t cond = 0x05;
 	uint8_t mrmByte = read8u();
 	uint8_t nnn = readMiddle3Bit(mrmByte);
@@ -16684,7 +16684,7 @@ void handlerCommand32Code0195P66() {
 }
 //Math
 void handlerCommand32Code0195() {
-	printf("Math");
+	LOG("%s","Math");
 	uint8_t cond = 0x05;
 	uint8_t mrmByte = read8u();
 	uint8_t nnn = readMiddle3Bit(mrmByte);
@@ -16701,7 +16701,7 @@ void handlerCommand32Code0195() {
 }
 //Math
 void handlerCommand32Code0196P66() {
-	printf("Math");
+	LOG("%s","Math");
 	uint8_t cond = 0x06;
 	uint8_t mrmByte = read8u();
 	uint8_t nnn = readMiddle3Bit(mrmByte);
@@ -16718,7 +16718,7 @@ void handlerCommand32Code0196P66() {
 }
 //Math
 void handlerCommand32Code0196() {
-	printf("Math");
+	LOG("%s","Math");
 	uint8_t cond = 0x06;
 	uint8_t mrmByte = read8u();
 	uint8_t nnn = readMiddle3Bit(mrmByte);
@@ -16735,7 +16735,7 @@ void handlerCommand32Code0196() {
 }
 //Math
 void handlerCommand32Code0197P66() {
-	printf("Math");
+	LOG("%s","Math");
 	uint8_t cond = 0x07;
 	uint8_t mrmByte = read8u();
 	uint8_t nnn = readMiddle3Bit(mrmByte);
@@ -16752,7 +16752,7 @@ void handlerCommand32Code0197P66() {
 }
 //Math
 void handlerCommand32Code0197() {
-	printf("Math");
+	LOG("%s","Math");
 	uint8_t cond = 0x07;
 	uint8_t mrmByte = read8u();
 	uint8_t nnn = readMiddle3Bit(mrmByte);
@@ -16769,7 +16769,7 @@ void handlerCommand32Code0197() {
 }
 //Math
 void handlerCommand32Code0198P66() {
-	printf("Math");
+	LOG("%s","Math");
 	uint8_t cond = 0x08;
 	uint8_t mrmByte = read8u();
 	uint8_t nnn = readMiddle3Bit(mrmByte);
@@ -16786,7 +16786,7 @@ void handlerCommand32Code0198P66() {
 }
 //Math
 void handlerCommand32Code0198() {
-	printf("Math");
+	LOG("%s","Math");
 	uint8_t cond = 0x08;
 	uint8_t mrmByte = read8u();
 	uint8_t nnn = readMiddle3Bit(mrmByte);
@@ -16803,7 +16803,7 @@ void handlerCommand32Code0198() {
 }
 //Math
 void handlerCommand32Code0199P66() {
-	printf("Math");
+	LOG("%s","Math");
 	uint8_t cond = 0x09;
 	uint8_t mrmByte = read8u();
 	uint8_t nnn = readMiddle3Bit(mrmByte);
@@ -16820,7 +16820,7 @@ void handlerCommand32Code0199P66() {
 }
 //Math
 void handlerCommand32Code0199() {
-	printf("Math");
+	LOG("%s","Math");
 	uint8_t cond = 0x09;
 	uint8_t mrmByte = read8u();
 	uint8_t nnn = readMiddle3Bit(mrmByte);
@@ -16837,7 +16837,7 @@ void handlerCommand32Code0199() {
 }
 //Math
 void handlerCommand32Code019AP66() {
-	printf("Math");
+	LOG("%s","Math");
 	uint8_t cond = 0x0A;
 	uint8_t mrmByte = read8u();
 	uint8_t nnn = readMiddle3Bit(mrmByte);
@@ -16854,7 +16854,7 @@ void handlerCommand32Code019AP66() {
 }
 //Math
 void handlerCommand32Code019A() {
-	printf("Math");
+	LOG("%s","Math");
 	uint8_t cond = 0x0A;
 	uint8_t mrmByte = read8u();
 	uint8_t nnn = readMiddle3Bit(mrmByte);
@@ -16871,7 +16871,7 @@ void handlerCommand32Code019A() {
 }
 //Math
 void handlerCommand32Code019BP66() {
-	printf("Math");
+	LOG("%s","Math");
 	uint8_t cond = 0x0B;
 	uint8_t mrmByte = read8u();
 	uint8_t nnn = readMiddle3Bit(mrmByte);
@@ -16888,7 +16888,7 @@ void handlerCommand32Code019BP66() {
 }
 //Math
 void handlerCommand32Code019B() {
-	printf("Math");
+	LOG("%s","Math");
 	uint8_t cond = 0x0B;
 	uint8_t mrmByte = read8u();
 	uint8_t nnn = readMiddle3Bit(mrmByte);
@@ -16905,7 +16905,7 @@ void handlerCommand32Code019B() {
 }
 //Math
 void handlerCommand32Code019CP66() {
-	printf("Math");
+	LOG("%s","Math");
 	uint8_t cond = 0x0C;
 	uint8_t mrmByte = read8u();
 	uint8_t nnn = readMiddle3Bit(mrmByte);
@@ -16922,7 +16922,7 @@ void handlerCommand32Code019CP66() {
 }
 //Math
 void handlerCommand32Code019C() {
-	printf("Math");
+	LOG("%s","Math");
 	uint8_t cond = 0x0C;
 	uint8_t mrmByte = read8u();
 	uint8_t nnn = readMiddle3Bit(mrmByte);
@@ -16939,7 +16939,7 @@ void handlerCommand32Code019C() {
 }
 //Math
 void handlerCommand32Code019DP66() {
-	printf("Math");
+	LOG("%s","Math");
 	uint8_t cond = 0x0D;
 	uint8_t mrmByte = read8u();
 	uint8_t nnn = readMiddle3Bit(mrmByte);
@@ -16956,7 +16956,7 @@ void handlerCommand32Code019DP66() {
 }
 //Math
 void handlerCommand32Code019D() {
-	printf("Math");
+	LOG("%s","Math");
 	uint8_t cond = 0x0D;
 	uint8_t mrmByte = read8u();
 	uint8_t nnn = readMiddle3Bit(mrmByte);
@@ -16973,7 +16973,7 @@ void handlerCommand32Code019D() {
 }
 //Math
 void handlerCommand32Code019EP66() {
-	printf("Math");
+	LOG("%s","Math");
 	uint8_t cond = 0x0E;
 	uint8_t mrmByte = read8u();
 	uint8_t nnn = readMiddle3Bit(mrmByte);
@@ -16990,7 +16990,7 @@ void handlerCommand32Code019EP66() {
 }
 //Math
 void handlerCommand32Code019E() {
-	printf("Math");
+	LOG("%s","Math");
 	uint8_t cond = 0x0E;
 	uint8_t mrmByte = read8u();
 	uint8_t nnn = readMiddle3Bit(mrmByte);
@@ -17007,7 +17007,7 @@ void handlerCommand32Code019E() {
 }
 //Math
 void handlerCommand32Code019FP66() {
-	printf("Math");
+	LOG("%s","Math");
 	uint8_t cond = 0x0F;
 	uint8_t mrmByte = read8u();
 	uint8_t nnn = readMiddle3Bit(mrmByte);
@@ -17024,7 +17024,7 @@ void handlerCommand32Code019FP66() {
 }
 //Math
 void handlerCommand32Code019F() {
-	printf("Math");
+	LOG("%s","Math");
 	uint8_t cond = 0x0F;
 	uint8_t mrmByte = read8u();
 	uint8_t nnn = readMiddle3Bit(mrmByte);
@@ -17041,7 +17041,7 @@ void handlerCommand32Code019F() {
 }
 //Mul
 void handlerCommand32Code01AFP66() {
-	printf("Mul");
+	LOG("%s","Mul");
 	uint8_t mrmByte = read8u();
 	uint8_t* target = (uint8_t*)readAddressMRM32For16(mrmByte);
 	uint8_t* source = (uint8_t*)readRegisterMRM16(mrmByte);
@@ -17058,7 +17058,7 @@ void handlerCommand32Code01AFP66() {
 }
 //Mul
 void handlerCommand32Code01AF() {
-	printf("Mul");
+	LOG("%s","Mul");
 	uint8_t mrmByte = read8u();
 	uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
 	uint8_t* source = (uint8_t*)readRegisterMRM32(mrmByte);
@@ -17075,7 +17075,7 @@ void handlerCommand32Code01AF() {
 }
 //Load SR_SS
 void handlerCommand32Code01B2() {
-	printf("Load SR_SS");
+	LOG("%s","Load SR_SS");
 	uint8_t mrmByte = read8u();
 	uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
 	uint8_t* source = (uint8_t*)readRegisterMRM32(mrmByte);
@@ -17084,7 +17084,7 @@ void handlerCommand32Code01B2() {
 }
 //Load SR_FS
 void handlerCommand32Code01B4() {
-	printf("Load SR_FS");
+	LOG("%s","Load SR_FS");
 	uint8_t mrmByte = read8u();
 	uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
 	uint8_t* source = (uint8_t*)readRegisterMRM32(mrmByte);
@@ -17093,7 +17093,7 @@ void handlerCommand32Code01B4() {
 }
 //Load SR_GS
 void handlerCommand32Code01B5() {
-	printf("Load SR_GS");
+	LOG("%s","Load SR_GS");
 	uint8_t mrmByte = read8u();
 	uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
 	uint8_t* source = (uint8_t*)readRegisterMRM32(mrmByte);
@@ -17102,7 +17102,7 @@ void handlerCommand32Code01B5() {
 }
 //MOVZX
 void handlerCommand32Code01B6P66() {
-	printf("MOVZX");
+	LOG("%s","MOVZX");
 	uint8_t mrmByte = read8u();
 	uint16_t* target = (uint16_t*)readRegisterMRM16(mrmByte);
 	uint8_t* source = (uint8_t*)readAddressMRM32For8(mrmByte);
@@ -17110,7 +17110,7 @@ void handlerCommand32Code01B6P66() {
 }
 //MOVZX
 void handlerCommand32Code01B6() {
-	printf("MOVZX");
+	LOG("%s","MOVZX");
 	uint8_t mrmByte = read8u();
 	uint32_t* target = (uint32_t*)readRegisterMRM32(mrmByte);
 	uint8_t* source = (uint8_t*)readAddressMRM32For8(mrmByte);
@@ -17118,7 +17118,7 @@ void handlerCommand32Code01B6() {
 }
 //MOVZX
 void handlerCommand32Code01B7() {
-	printf("MOVZX");
+	LOG("%s","MOVZX");
 	uint8_t mrmByte = read8u();
 	uint32_t* target = (uint32_t*)readRegisterMRM32(mrmByte);
 	uint16_t* source = (uint16_t*)readAddressMRM32For16(mrmByte);
@@ -17126,7 +17126,7 @@ void handlerCommand32Code01B7() {
 }
 //MOVSX
 void handlerCommand32Code01BEP66() {
-	printf("MOVSX");
+	LOG("%s","MOVSX");
 	uint8_t mrmByte = read8u();
 	int16_t* target = (int16_t*)readRegisterMRM16(mrmByte);
 	int8_t* source = (int8_t*)readAddressMRM32For8(mrmByte);
@@ -17134,7 +17134,7 @@ void handlerCommand32Code01BEP66() {
 }
 //MOVSX
 void handlerCommand32Code01BE() {
-	printf("MOVSX");
+	LOG("%s","MOVSX");
 	uint8_t mrmByte = read8u();
 	int32_t* target = (int32_t*)readRegisterMRM32(mrmByte);
 	int8_t* source = (int8_t*)readAddressMRM32For8(mrmByte);
@@ -17142,7 +17142,7 @@ void handlerCommand32Code01BE() {
 }
 //MOVSX
 void handlerCommand32Code01BF() {
-	printf("MOVSX");
+	LOG("%s","MOVSX");
 	uint8_t mrmByte = read8u();
 	int32_t* target = (int32_t*)readRegisterMRM32(mrmByte);
 	int16_t* source = (int16_t*)readAddressMRM32For16(mrmByte);
@@ -17150,7 +17150,7 @@ void handlerCommand32Code01BF() {
 }
 //Swap
 void handlerCommand32Code01C8() {
-	printf("Swap");
+	LOG("%s","Swap");
 	uint8_t reg = 0x00;
 	uint32_t value = reg_0x00_32u;
 	uint8_t b1 = value & 0x000000FF;
@@ -17165,7 +17165,7 @@ void handlerCommand32Code01C8() {
 }
 //Swap
 void handlerCommand32Code01C9() {
-	printf("Swap");
+	LOG("%s","Swap");
 	uint8_t reg = 0x01;
 	uint32_t value = reg_0x01_32u;
 	uint8_t b1 = value & 0x000000FF;
@@ -17180,7 +17180,7 @@ void handlerCommand32Code01C9() {
 }
 //Swap
 void handlerCommand32Code01CA() {
-	printf("Swap");
+	LOG("%s","Swap");
 	uint8_t reg = 0x02;
 	uint32_t value = reg_0x02_32u;
 	uint8_t b1 = value & 0x000000FF;
@@ -17195,7 +17195,7 @@ void handlerCommand32Code01CA() {
 }
 //Swap
 void handlerCommand32Code01CB() {
-	printf("Swap");
+	LOG("%s","Swap");
 	uint8_t reg = 0x03;
 	uint32_t value = reg_0x03_32u;
 	uint8_t b1 = value & 0x000000FF;
@@ -17210,7 +17210,7 @@ void handlerCommand32Code01CB() {
 }
 //Swap
 void handlerCommand32Code01CC() {
-	printf("Swap");
+	LOG("%s","Swap");
 	uint8_t reg = 0x04;
 	uint32_t value = reg_0x04_32u;
 	uint8_t b1 = value & 0x000000FF;
@@ -17225,7 +17225,7 @@ void handlerCommand32Code01CC() {
 }
 //Swap
 void handlerCommand32Code01CD() {
-	printf("Swap");
+	LOG("%s","Swap");
 	uint8_t reg = 0x05;
 	uint32_t value = reg_0x05_32u;
 	uint8_t b1 = value & 0x000000FF;
@@ -17240,7 +17240,7 @@ void handlerCommand32Code01CD() {
 }
 //Swap
 void handlerCommand32Code01CE() {
-	printf("Swap");
+	LOG("%s","Swap");
 	uint8_t reg = 0x06;
 	uint32_t value = reg_0x06_32u;
 	uint8_t b1 = value & 0x000000FF;
@@ -17255,7 +17255,7 @@ void handlerCommand32Code01CE() {
 }
 //Swap
 void handlerCommand32Code01CF() {
-	printf("Swap");
+	LOG("%s","Swap");
 	uint8_t reg = 0x07;
 	uint32_t value = reg_0x07_32u;
 	uint8_t b1 = value & 0x000000FF;

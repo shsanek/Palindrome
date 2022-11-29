@@ -6,6 +6,7 @@
 //
 
 #include "Log.h"
+#include <assert.h>
 
 char debugLine[512];
 uint16_t debugLineIndex = 0;
@@ -31,19 +32,11 @@ void printHex(uint8_t* value) {
 }
 
 void appendInDebugLineHex(uint8_t* value) {
-    char out[2];
+    char out[3];
     sprintHex(value, out);
     debugLine[debugLineIndex] = out[0];
     debugLine[debugLineIndex + 1] = out[1];
     debugLineIndex += 2;
-}
-
-void appendString(char* value) {
-    int index = 0;
-    while (value[index] != 0) {
-        debugLine[debugLineIndex] = value[index];
-        debugLineIndex += 1;
-    }
 }
 
 void clearDebugLine() {
@@ -51,6 +44,7 @@ void clearDebugLine() {
 }
 
 void printDebugLine() {
+    assert(debugLineIndex < 512);
     debugLine[debugLineIndex] = 0;
     printf("%s", debugLine);
     debugLineIndex = 0;

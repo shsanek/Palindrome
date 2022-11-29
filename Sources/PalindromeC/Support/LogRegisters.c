@@ -6,7 +6,6 @@
 //
 
 #include "LogRegisters.h"
-#include "Log.h"
 
 #include "../Base/Registers.h"
 #include "../Base/Read.h"

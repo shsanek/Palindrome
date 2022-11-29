@@ -254,7 +254,7 @@ final class FirstTest: XCTestCase {
 
         let result = String(cString: value!)
 
-        //try! result.write(toFile: testPath, atomically: true, encoding: .utf8)
+        // try! result.write(toFile: testPath, atomically: true, encoding: .utf8)
 
         value?.deallocate()
 
@@ -281,7 +281,8 @@ final class FirstTest: XCTestCase {
         DoomSetting();
         loadDosHeader()
 
-        let value = run16AndSaveToEndWithStop(2000)
+        let number = 2000
+        let value = run16AndSaveToEndWithStop(Int32(number))
         let result = String(cString: value!)
         value?.deallocate()
 
@@ -290,7 +291,9 @@ final class FirstTest: XCTestCase {
         let source = String(data: try! Data(contentsOf: URL(fileURLWithPath: testPath)), encoding: .utf8)!
         let error = result.getErrorCommand(source: source)
 
-        run16ToEndWithStop(3000);
+        TAssert(error == number)
+
+        // run16ToEndWithStop(3000);
     }
 }
 
