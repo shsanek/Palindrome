@@ -27,28 +27,28 @@ uint32_t register32Address(uint8_t registerIndex) {
     return byteIndex;
 }
 
-int8_t* register8(uint8_t registerIndex) {
-    return (int8_t*)(context.registers + register8Address(registerIndex));
+int8_t* fregister8(uint8_t registerIndex) {
+    return (int8_t*)(context.registers + registerIndex % 4 * 4 + (registerIndex > 3 ? 1 : 0));
 }
 
-int16_t* register16(uint8_t registerIndex) {
-    return (int16_t*)(context.registers + register16Address(registerIndex));
+int16_t* fregister16(uint8_t registerIndex) {
+    return (int16_t*)(context.registers + registerIndex % 4 * 4 + (registerIndex > 3 ? 1 : 0));
 }
 
-int32_t* register32(uint8_t registerIndex) {
-    return (int32_t*)(context.registers + register32Address(registerIndex));
+int32_t* fregister32(uint8_t registerIndex) {
+    return (int32_t*)(context.registers + registerIndex * 4);
 }
 
-uint8_t* register8u(uint8_t registerIndex) {
-    return (uint8_t*)(context.registers + register8Address(registerIndex));
+uint8_t* fregister8u(uint8_t registerIndex) {
+    return (uint8_t*)(context.registers + registerIndex * 4);
 }
 
-uint16_t* register16u(uint8_t registerIndex) {
-    return (uint16_t*)(context.registers + register16Address(registerIndex));
+uint16_t* fregister16u(uint8_t registerIndex) {
+    return (uint16_t*)(context.registers + registerIndex * 4);
 }
 
-uint32_t* register32u(uint8_t registerIndex) {
-    return (uint32_t*)(context.registers + register32Address(registerIndex));
+uint32_t* fregister32u(uint8_t registerIndex) {
+    return (uint32_t*)(context.registers + registerIndex * 4);
 }
 
 uint8_t *regALu = NULL;

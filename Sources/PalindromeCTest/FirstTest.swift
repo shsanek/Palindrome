@@ -65,7 +65,7 @@ final class FirstTest: XCTestCase {
 
         // run32ToEndWithStop(10000)
 
-        let value = register32(UInt8(BR_EAX_F))?[0]
+        let value = fregister32(UInt8(BR_EAX_F))?[0]
 
         TAssert(3628800 == value)
     }
@@ -91,7 +91,7 @@ final class FirstTest: XCTestCase {
 
         run32ToEndWithStop(10000)
 
-        let value = register32(UInt8(BR_EAX_F))?[0]
+        let value = fregister32(UInt8(BR_EAX_F))?[0]
 
         TAssert(3628800 == value)
     }
@@ -264,30 +264,60 @@ final class FirstTest: XCTestCase {
     }
 
     func test08() throws {
-        let wrapContext = WrapContext(memorySize: 4 * 1024 * 1024)
+        let wrapContext = WrapContext(memorySize: 16 * 1024 * 1024)
         wrapContext.context?[0].mod = 1
 
-        let testPath = "/Users/alexandershipin/Documents/projects/Palindrome/Sources/TestSource/Doom/out.txt"
+        let testPath = "/Users/alexandershipin/Documents/projects/Palindrome/Sources/TestSource/Doom/out2.txt"
 
         let programm = try! Data(
             contentsOf: URL.init(
                 fileURLWithPath: "/Users/alexandershipin/Downloads/doom/doom.exe"
             )
         )
+
+        wrapContext.addVirtualFolder("D:\\", path: "/Users/alexandershipin/Downloads/doom/")
         wrapContext.setMemory(programm, offset: 512)
 
+        DoomSetting();
         loadDosHeader()
 
-        let value = run16AndSaveToEndWithStop(211)
+        let value = run16AndSaveToEndWithStop(2000)
         let result = String(cString: value!)
         value?.deallocate()
 
-//        try! result.write(toFile: testPath, atomically: true, encoding: .utf8)
+        // try! result.write(toFile: testPath, atomically: true, encoding: .utf8)
 
         let source = String(data: try! Data(contentsOf: URL(fileURLWithPath: testPath)), encoding: .utf8)!
         let error = result.getErrorCommand(source: source)
 
-        run16ToEndWithStop(1000);
+        run16ToEndWithStop(3000);
+    }
+}
+
+extension WrapContext {
+    func addVirtualFolder(_ virtualPath: String, path: String) {
+        path.toCString { path in
+            virtualPath.toCString { vPath in
+                PalindromeC.addVirtualFolder(vPath, path, 1)
+            }
+        }
+    }
+}
+
+extension String {
+    func toCString(_ block: (UnsafeMutablePointer<Int8>) -> Void) {
+        self.withCString { pointer in
+            var len = 0
+            while pointer[len] != 0 { len += 1 }
+            len += 1
+            let result = UnsafeMutablePointer<Int8>.allocate(capacity: len)
+
+            for i in 0..<len {
+                result[i] = pointer[i]
+            }
+            block(result)
+            result.deallocate()
+        }
     }
 }
 

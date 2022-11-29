@@ -5071,9 +5071,11 @@ void handlerCommand16Code00C0P66() {
 			uint8_t value = read8u();
 			FillFlags();
 			uint16_t tmp = 0;
-			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
 			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
-			SET_BIT((*(((uint8_t*)&tmp) + (8 / 8))), 8, GET_FLAG(CF));
+			tmp = tmp >> 1;
+			SET_BIT((*(((uint8_t*)&tmp) + (8 / 8))), 0, GET_FLAG(CF));
+			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
+			SET_FLAG(CF, (*(uint8_t*)target) % 2);
 			tmp = tmp << (value % 8);
 			(*(uint8_t*)target) = *(uint8_t*)((uint8_t*)&tmp);
 		}
@@ -5084,10 +5086,12 @@ void handlerCommand16Code00C0P66() {
 			FillFlags();
 			uint16_t tmp = 0;
 			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
+			tmp = tmp << 1;
+			SET_BIT((*(((uint8_t*)&tmp))), 7, GET_FLAG(CF));
 			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
-			SET_BIT((*(((uint8_t*)&tmp) + (8 / 8 - 1))), 0, GET_FLAG(CF));
+			SET_FLAG(CF, (*(int8_t*)target) < 0);
 			tmp = tmp >> (value % 8);
-			(*(uint8_t*)target) = *(uint8_t*)((uint8_t*)&tmp + 4);
+			(*(uint8_t*)target) = *(uint8_t*)((uint8_t*)&tmp + (8 / 8));
 		}
 		break;
 		case 4: {
@@ -5146,9 +5150,11 @@ void handlerCommand16Code00C0() {
 			uint8_t value = read8u();
 			FillFlags();
 			uint16_t tmp = 0;
-			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
 			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
-			SET_BIT((*(((uint8_t*)&tmp) + (8 / 8))), 8, GET_FLAG(CF));
+			tmp = tmp >> 1;
+			SET_BIT((*(((uint8_t*)&tmp) + (8 / 8))), 0, GET_FLAG(CF));
+			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
+			SET_FLAG(CF, (*(uint8_t*)target) % 2);
 			tmp = tmp << (value % 8);
 			(*(uint8_t*)target) = *(uint8_t*)((uint8_t*)&tmp);
 		}
@@ -5159,10 +5165,12 @@ void handlerCommand16Code00C0() {
 			FillFlags();
 			uint16_t tmp = 0;
 			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
+			tmp = tmp << 1;
+			SET_BIT((*(((uint8_t*)&tmp))), 7, GET_FLAG(CF));
 			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
-			SET_BIT((*(((uint8_t*)&tmp) + (8 / 8 - 1))), 0, GET_FLAG(CF));
+			SET_FLAG(CF, (*(int8_t*)target) < 0);
 			tmp = tmp >> (value % 8);
-			(*(uint8_t*)target) = *(uint8_t*)((uint8_t*)&tmp + 4);
+			(*(uint8_t*)target) = *(uint8_t*)((uint8_t*)&tmp + (8 / 8));
 		}
 		break;
 		case 4: {
@@ -5221,9 +5229,11 @@ void handlerCommand16Code00C1P66() {
 			uint8_t value = read8u();
 			FillFlags();
 			uint64_t tmp = 0;
-			*(uint32_t*)(((uint8_t*)&tmp)) = (*(uint32_t*)target);
 			*(uint32_t*)(((uint8_t*)&tmp) + (32 / 8)) = (*(uint32_t*)target);
-			SET_BIT((*(((uint8_t*)&tmp) + (32 / 8))), 8, GET_FLAG(CF));
+			tmp = tmp >> 1;
+			SET_BIT((*(((uint8_t*)&tmp) + (32 / 8))), 0, GET_FLAG(CF));
+			*(uint32_t*)(((uint8_t*)&tmp)) = (*(uint32_t*)target);
+			SET_FLAG(CF, (*(uint32_t*)target) % 2);
 			tmp = tmp << (value % 32);
 			(*(uint32_t*)target) = *(uint32_t*)((uint8_t*)&tmp);
 		}
@@ -5234,10 +5244,12 @@ void handlerCommand16Code00C1P66() {
 			FillFlags();
 			uint64_t tmp = 0;
 			*(uint32_t*)(((uint8_t*)&tmp)) = (*(uint32_t*)target);
+			tmp = tmp << 1;
+			SET_BIT((*(((uint8_t*)&tmp))), 7, GET_FLAG(CF));
 			*(uint32_t*)(((uint8_t*)&tmp) + (32 / 8)) = (*(uint32_t*)target);
-			SET_BIT((*(((uint8_t*)&tmp) + (32 / 8 - 1))), 0, GET_FLAG(CF));
+			SET_FLAG(CF, (*(int32_t*)target) < 0);
 			tmp = tmp >> (value % 32);
-			(*(uint32_t*)target) = *(uint32_t*)((uint8_t*)&tmp + 4);
+			(*(uint32_t*)target) = *(uint32_t*)((uint8_t*)&tmp + (32 / 8));
 		}
 		break;
 		case 4: {
@@ -5296,9 +5308,11 @@ void handlerCommand16Code00C1() {
 			uint8_t value = read8u();
 			FillFlags();
 			uint32_t tmp = 0;
-			*(uint16_t*)(((uint8_t*)&tmp)) = (*(uint16_t*)target);
 			*(uint16_t*)(((uint8_t*)&tmp) + (16 / 8)) = (*(uint16_t*)target);
-			SET_BIT((*(((uint8_t*)&tmp) + (16 / 8))), 8, GET_FLAG(CF));
+			tmp = tmp >> 1;
+			SET_BIT((*(((uint8_t*)&tmp) + (16 / 8))), 0, GET_FLAG(CF));
+			*(uint16_t*)(((uint8_t*)&tmp)) = (*(uint16_t*)target);
+			SET_FLAG(CF, (*(uint16_t*)target) % 2);
 			tmp = tmp << (value % 16);
 			(*(uint16_t*)target) = *(uint16_t*)((uint8_t*)&tmp);
 		}
@@ -5309,10 +5323,12 @@ void handlerCommand16Code00C1() {
 			FillFlags();
 			uint32_t tmp = 0;
 			*(uint16_t*)(((uint8_t*)&tmp)) = (*(uint16_t*)target);
+			tmp = tmp << 1;
+			SET_BIT((*(((uint8_t*)&tmp))), 7, GET_FLAG(CF));
 			*(uint16_t*)(((uint8_t*)&tmp) + (16 / 8)) = (*(uint16_t*)target);
-			SET_BIT((*(((uint8_t*)&tmp) + (16 / 8 - 1))), 0, GET_FLAG(CF));
+			SET_FLAG(CF, (*(int16_t*)target) < 0);
 			tmp = tmp >> (value % 16);
-			(*(uint16_t*)target) = *(uint16_t*)((uint8_t*)&tmp + 4);
+			(*(uint16_t*)target) = *(uint16_t*)((uint8_t*)&tmp + (16 / 8));
 		}
 		break;
 		case 4: {
@@ -5470,9 +5486,11 @@ void handlerCommand16Code00D0P66() {
 			uint8_t value = 1;
 			FillFlags();
 			uint16_t tmp = 0;
-			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
 			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
-			SET_BIT((*(((uint8_t*)&tmp) + (8 / 8))), 8, GET_FLAG(CF));
+			tmp = tmp >> 1;
+			SET_BIT((*(((uint8_t*)&tmp) + (8 / 8))), 0, GET_FLAG(CF));
+			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
+			SET_FLAG(CF, (*(uint8_t*)target) % 2);
 			tmp = tmp << (value % 8);
 			(*(uint8_t*)target) = *(uint8_t*)((uint8_t*)&tmp);
 		}
@@ -5483,10 +5501,12 @@ void handlerCommand16Code00D0P66() {
 			FillFlags();
 			uint16_t tmp = 0;
 			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
+			tmp = tmp << 1;
+			SET_BIT((*(((uint8_t*)&tmp))), 7, GET_FLAG(CF));
 			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
-			SET_BIT((*(((uint8_t*)&tmp) + (8 / 8 - 1))), 0, GET_FLAG(CF));
+			SET_FLAG(CF, (*(int8_t*)target) < 0);
 			tmp = tmp >> (value % 8);
-			(*(uint8_t*)target) = *(uint8_t*)((uint8_t*)&tmp + 4);
+			(*(uint8_t*)target) = *(uint8_t*)((uint8_t*)&tmp + (8 / 8));
 		}
 		break;
 		case 4: {
@@ -5545,9 +5565,11 @@ void handlerCommand16Code00D0() {
 			uint8_t value = 1;
 			FillFlags();
 			uint16_t tmp = 0;
-			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
 			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
-			SET_BIT((*(((uint8_t*)&tmp) + (8 / 8))), 8, GET_FLAG(CF));
+			tmp = tmp >> 1;
+			SET_BIT((*(((uint8_t*)&tmp) + (8 / 8))), 0, GET_FLAG(CF));
+			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
+			SET_FLAG(CF, (*(uint8_t*)target) % 2);
 			tmp = tmp << (value % 8);
 			(*(uint8_t*)target) = *(uint8_t*)((uint8_t*)&tmp);
 		}
@@ -5558,10 +5580,12 @@ void handlerCommand16Code00D0() {
 			FillFlags();
 			uint16_t tmp = 0;
 			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
+			tmp = tmp << 1;
+			SET_BIT((*(((uint8_t*)&tmp))), 7, GET_FLAG(CF));
 			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
-			SET_BIT((*(((uint8_t*)&tmp) + (8 / 8 - 1))), 0, GET_FLAG(CF));
+			SET_FLAG(CF, (*(int8_t*)target) < 0);
 			tmp = tmp >> (value % 8);
-			(*(uint8_t*)target) = *(uint8_t*)((uint8_t*)&tmp + 4);
+			(*(uint8_t*)target) = *(uint8_t*)((uint8_t*)&tmp + (8 / 8));
 		}
 		break;
 		case 4: {
@@ -5620,9 +5644,11 @@ void handlerCommand16Code00D1P66() {
 			uint8_t value = 1;
 			FillFlags();
 			uint64_t tmp = 0;
-			*(uint32_t*)(((uint8_t*)&tmp)) = (*(uint32_t*)target);
 			*(uint32_t*)(((uint8_t*)&tmp) + (32 / 8)) = (*(uint32_t*)target);
-			SET_BIT((*(((uint8_t*)&tmp) + (32 / 8))), 8, GET_FLAG(CF));
+			tmp = tmp >> 1;
+			SET_BIT((*(((uint8_t*)&tmp) + (32 / 8))), 0, GET_FLAG(CF));
+			*(uint32_t*)(((uint8_t*)&tmp)) = (*(uint32_t*)target);
+			SET_FLAG(CF, (*(uint32_t*)target) % 2);
 			tmp = tmp << (value % 32);
 			(*(uint32_t*)target) = *(uint32_t*)((uint8_t*)&tmp);
 		}
@@ -5633,10 +5659,12 @@ void handlerCommand16Code00D1P66() {
 			FillFlags();
 			uint64_t tmp = 0;
 			*(uint32_t*)(((uint8_t*)&tmp)) = (*(uint32_t*)target);
+			tmp = tmp << 1;
+			SET_BIT((*(((uint8_t*)&tmp))), 7, GET_FLAG(CF));
 			*(uint32_t*)(((uint8_t*)&tmp) + (32 / 8)) = (*(uint32_t*)target);
-			SET_BIT((*(((uint8_t*)&tmp) + (32 / 8 - 1))), 0, GET_FLAG(CF));
+			SET_FLAG(CF, (*(int32_t*)target) < 0);
 			tmp = tmp >> (value % 32);
-			(*(uint32_t*)target) = *(uint32_t*)((uint8_t*)&tmp + 4);
+			(*(uint32_t*)target) = *(uint32_t*)((uint8_t*)&tmp + (32 / 8));
 		}
 		break;
 		case 4: {
@@ -5695,9 +5723,11 @@ void handlerCommand16Code00D1() {
 			uint8_t value = 1;
 			FillFlags();
 			uint32_t tmp = 0;
-			*(uint16_t*)(((uint8_t*)&tmp)) = (*(uint16_t*)target);
 			*(uint16_t*)(((uint8_t*)&tmp) + (16 / 8)) = (*(uint16_t*)target);
-			SET_BIT((*(((uint8_t*)&tmp) + (16 / 8))), 8, GET_FLAG(CF));
+			tmp = tmp >> 1;
+			SET_BIT((*(((uint8_t*)&tmp) + (16 / 8))), 0, GET_FLAG(CF));
+			*(uint16_t*)(((uint8_t*)&tmp)) = (*(uint16_t*)target);
+			SET_FLAG(CF, (*(uint16_t*)target) % 2);
 			tmp = tmp << (value % 16);
 			(*(uint16_t*)target) = *(uint16_t*)((uint8_t*)&tmp);
 		}
@@ -5708,10 +5738,12 @@ void handlerCommand16Code00D1() {
 			FillFlags();
 			uint32_t tmp = 0;
 			*(uint16_t*)(((uint8_t*)&tmp)) = (*(uint16_t*)target);
+			tmp = tmp << 1;
+			SET_BIT((*(((uint8_t*)&tmp))), 7, GET_FLAG(CF));
 			*(uint16_t*)(((uint8_t*)&tmp) + (16 / 8)) = (*(uint16_t*)target);
-			SET_BIT((*(((uint8_t*)&tmp) + (16 / 8 - 1))), 0, GET_FLAG(CF));
+			SET_FLAG(CF, (*(int16_t*)target) < 0);
 			tmp = tmp >> (value % 16);
-			(*(uint16_t*)target) = *(uint16_t*)((uint8_t*)&tmp + 4);
+			(*(uint16_t*)target) = *(uint16_t*)((uint8_t*)&tmp + (16 / 8));
 		}
 		break;
 		case 4: {
@@ -5770,9 +5802,11 @@ void handlerCommand16Code00D2P66() {
 			uint8_t value = reg_CL_8u;
 			FillFlags();
 			uint16_t tmp = 0;
-			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
 			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
-			SET_BIT((*(((uint8_t*)&tmp) + (8 / 8))), 8, GET_FLAG(CF));
+			tmp = tmp >> 1;
+			SET_BIT((*(((uint8_t*)&tmp) + (8 / 8))), 0, GET_FLAG(CF));
+			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
+			SET_FLAG(CF, (*(uint8_t*)target) % 2);
 			tmp = tmp << (value % 8);
 			(*(uint8_t*)target) = *(uint8_t*)((uint8_t*)&tmp);
 		}
@@ -5783,10 +5817,12 @@ void handlerCommand16Code00D2P66() {
 			FillFlags();
 			uint16_t tmp = 0;
 			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
+			tmp = tmp << 1;
+			SET_BIT((*(((uint8_t*)&tmp))), 7, GET_FLAG(CF));
 			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
-			SET_BIT((*(((uint8_t*)&tmp) + (8 / 8 - 1))), 0, GET_FLAG(CF));
+			SET_FLAG(CF, (*(int8_t*)target) < 0);
 			tmp = tmp >> (value % 8);
-			(*(uint8_t*)target) = *(uint8_t*)((uint8_t*)&tmp + 4);
+			(*(uint8_t*)target) = *(uint8_t*)((uint8_t*)&tmp + (8 / 8));
 		}
 		break;
 		case 4: {
@@ -5845,9 +5881,11 @@ void handlerCommand16Code00D2() {
 			uint8_t value = reg_CL_8u;
 			FillFlags();
 			uint16_t tmp = 0;
-			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
 			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
-			SET_BIT((*(((uint8_t*)&tmp) + (8 / 8))), 8, GET_FLAG(CF));
+			tmp = tmp >> 1;
+			SET_BIT((*(((uint8_t*)&tmp) + (8 / 8))), 0, GET_FLAG(CF));
+			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
+			SET_FLAG(CF, (*(uint8_t*)target) % 2);
 			tmp = tmp << (value % 8);
 			(*(uint8_t*)target) = *(uint8_t*)((uint8_t*)&tmp);
 		}
@@ -5858,10 +5896,12 @@ void handlerCommand16Code00D2() {
 			FillFlags();
 			uint16_t tmp = 0;
 			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
+			tmp = tmp << 1;
+			SET_BIT((*(((uint8_t*)&tmp))), 7, GET_FLAG(CF));
 			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
-			SET_BIT((*(((uint8_t*)&tmp) + (8 / 8 - 1))), 0, GET_FLAG(CF));
+			SET_FLAG(CF, (*(int8_t*)target) < 0);
 			tmp = tmp >> (value % 8);
-			(*(uint8_t*)target) = *(uint8_t*)((uint8_t*)&tmp + 4);
+			(*(uint8_t*)target) = *(uint8_t*)((uint8_t*)&tmp + (8 / 8));
 		}
 		break;
 		case 4: {
@@ -5920,9 +5960,11 @@ void handlerCommand16Code00D3P66() {
 			uint8_t value = reg_CL_8u;
 			FillFlags();
 			uint64_t tmp = 0;
-			*(uint32_t*)(((uint8_t*)&tmp)) = (*(uint32_t*)target);
 			*(uint32_t*)(((uint8_t*)&tmp) + (32 / 8)) = (*(uint32_t*)target);
-			SET_BIT((*(((uint8_t*)&tmp) + (32 / 8))), 8, GET_FLAG(CF));
+			tmp = tmp >> 1;
+			SET_BIT((*(((uint8_t*)&tmp) + (32 / 8))), 0, GET_FLAG(CF));
+			*(uint32_t*)(((uint8_t*)&tmp)) = (*(uint32_t*)target);
+			SET_FLAG(CF, (*(uint32_t*)target) % 2);
 			tmp = tmp << (value % 32);
 			(*(uint32_t*)target) = *(uint32_t*)((uint8_t*)&tmp);
 		}
@@ -5933,10 +5975,12 @@ void handlerCommand16Code00D3P66() {
 			FillFlags();
 			uint64_t tmp = 0;
 			*(uint32_t*)(((uint8_t*)&tmp)) = (*(uint32_t*)target);
+			tmp = tmp << 1;
+			SET_BIT((*(((uint8_t*)&tmp))), 7, GET_FLAG(CF));
 			*(uint32_t*)(((uint8_t*)&tmp) + (32 / 8)) = (*(uint32_t*)target);
-			SET_BIT((*(((uint8_t*)&tmp) + (32 / 8 - 1))), 0, GET_FLAG(CF));
+			SET_FLAG(CF, (*(int32_t*)target) < 0);
 			tmp = tmp >> (value % 32);
-			(*(uint32_t*)target) = *(uint32_t*)((uint8_t*)&tmp + 4);
+			(*(uint32_t*)target) = *(uint32_t*)((uint8_t*)&tmp + (32 / 8));
 		}
 		break;
 		case 4: {
@@ -5995,9 +6039,11 @@ void handlerCommand16Code00D3() {
 			uint8_t value = reg_CL_8u;
 			FillFlags();
 			uint32_t tmp = 0;
-			*(uint16_t*)(((uint8_t*)&tmp)) = (*(uint16_t*)target);
 			*(uint16_t*)(((uint8_t*)&tmp) + (16 / 8)) = (*(uint16_t*)target);
-			SET_BIT((*(((uint8_t*)&tmp) + (16 / 8))), 8, GET_FLAG(CF));
+			tmp = tmp >> 1;
+			SET_BIT((*(((uint8_t*)&tmp) + (16 / 8))), 0, GET_FLAG(CF));
+			*(uint16_t*)(((uint8_t*)&tmp)) = (*(uint16_t*)target);
+			SET_FLAG(CF, (*(uint16_t*)target) % 2);
 			tmp = tmp << (value % 16);
 			(*(uint16_t*)target) = *(uint16_t*)((uint8_t*)&tmp);
 		}
@@ -6008,10 +6054,12 @@ void handlerCommand16Code00D3() {
 			FillFlags();
 			uint32_t tmp = 0;
 			*(uint16_t*)(((uint8_t*)&tmp)) = (*(uint16_t*)target);
+			tmp = tmp << 1;
+			SET_BIT((*(((uint8_t*)&tmp))), 7, GET_FLAG(CF));
 			*(uint16_t*)(((uint8_t*)&tmp) + (16 / 8)) = (*(uint16_t*)target);
-			SET_BIT((*(((uint8_t*)&tmp) + (16 / 8 - 1))), 0, GET_FLAG(CF));
+			SET_FLAG(CF, (*(int16_t*)target) < 0);
 			tmp = tmp >> (value % 16);
-			(*(uint16_t*)target) = *(uint16_t*)((uint8_t*)&tmp + 4);
+			(*(uint16_t*)target) = *(uint16_t*)((uint8_t*)&tmp + (16 / 8));
 		}
 		break;
 		case 4: {
@@ -7075,7 +7123,6 @@ void handlerCommand16Code00E2() {
 void handlerCommand16Code00E3() {
 	printf("Loop");
 	int8_t addr = read8();
-	reg_0x01_16 -= 1;
 	if (reg_0x01_16 == 0) {
 		context.index += addr;
 	}
@@ -7526,6 +7573,14 @@ void handlerCommand16Code00FFP66P67() {
 			lazyFlagType = t_INC8;
 		}
 		break;
+		case 0x01: {
+			// DEC
+			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
+			(*(uint8_t*)target)--;
+			LazyFlagResultContainer8 = *(uint8_t*)target;
+			lazyFlagType = t_DEC8;
+		}
+		break;
 		case 0x4: {
 			// JMP
 			uint8_t* target = (uint8_t*)readAddressMRM16For32(mrmByte);
@@ -7556,6 +7611,14 @@ void handlerCommand16Code00FFP67() {
 			(*(uint8_t*)target)++;
 			LazyFlagResultContainer8 = *(uint8_t*)target;
 			lazyFlagType = t_INC8;
+		}
+		break;
+		case 0x01: {
+			// DEC
+			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
+			(*(uint8_t*)target)--;
+			LazyFlagResultContainer8 = *(uint8_t*)target;
+			lazyFlagType = t_DEC8;
 		}
 		break;
 		case 0x4: {
@@ -7590,6 +7653,14 @@ void handlerCommand16Code00FFP66() {
 			lazyFlagType = t_INC8;
 		}
 		break;
+		case 0x01: {
+			// DEC
+			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
+			(*(uint8_t*)target)--;
+			LazyFlagResultContainer8 = *(uint8_t*)target;
+			lazyFlagType = t_DEC8;
+		}
+		break;
 		case 0x4: {
 			// JMP
 			uint8_t* target = (uint8_t*)readAddressMRM16For32(mrmByte);
@@ -7620,6 +7691,14 @@ void handlerCommand16Code00FF() {
 			(*(uint8_t*)target)++;
 			LazyFlagResultContainer8 = *(uint8_t*)target;
 			lazyFlagType = t_INC8;
+		}
+		break;
+		case 0x01: {
+			// DEC
+			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
+			(*(uint8_t*)target)--;
+			LazyFlagResultContainer8 = *(uint8_t*)target;
+			lazyFlagType = t_DEC8;
 		}
 		break;
 		case 0x4: {
@@ -13624,9 +13703,11 @@ void handlerCommand32Code00C0P66() {
 			uint8_t value = read8u();
 			FillFlags();
 			uint16_t tmp = 0;
-			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
 			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
-			SET_BIT((*(((uint8_t*)&tmp) + (8 / 8))), 8, GET_FLAG(CF));
+			tmp = tmp >> 1;
+			SET_BIT((*(((uint8_t*)&tmp) + (8 / 8))), 0, GET_FLAG(CF));
+			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
+			SET_FLAG(CF, (*(uint8_t*)target) % 2);
 			tmp = tmp << (value % 8);
 			(*(uint8_t*)target) = *(uint8_t*)((uint8_t*)&tmp);
 		}
@@ -13637,10 +13718,12 @@ void handlerCommand32Code00C0P66() {
 			FillFlags();
 			uint16_t tmp = 0;
 			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
+			tmp = tmp << 1;
+			SET_BIT((*(((uint8_t*)&tmp))), 7, GET_FLAG(CF));
 			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
-			SET_BIT((*(((uint8_t*)&tmp) + (8 / 8 - 1))), 0, GET_FLAG(CF));
+			SET_FLAG(CF, (*(int8_t*)target) < 0);
 			tmp = tmp >> (value % 8);
-			(*(uint8_t*)target) = *(uint8_t*)((uint8_t*)&tmp + 4);
+			(*(uint8_t*)target) = *(uint8_t*)((uint8_t*)&tmp + (8 / 8));
 		}
 		break;
 		case 4: {
@@ -13699,9 +13782,11 @@ void handlerCommand32Code00C0() {
 			uint8_t value = read8u();
 			FillFlags();
 			uint16_t tmp = 0;
-			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
 			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
-			SET_BIT((*(((uint8_t*)&tmp) + (8 / 8))), 8, GET_FLAG(CF));
+			tmp = tmp >> 1;
+			SET_BIT((*(((uint8_t*)&tmp) + (8 / 8))), 0, GET_FLAG(CF));
+			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
+			SET_FLAG(CF, (*(uint8_t*)target) % 2);
 			tmp = tmp << (value % 8);
 			(*(uint8_t*)target) = *(uint8_t*)((uint8_t*)&tmp);
 		}
@@ -13712,10 +13797,12 @@ void handlerCommand32Code00C0() {
 			FillFlags();
 			uint16_t tmp = 0;
 			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
+			tmp = tmp << 1;
+			SET_BIT((*(((uint8_t*)&tmp))), 7, GET_FLAG(CF));
 			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
-			SET_BIT((*(((uint8_t*)&tmp) + (8 / 8 - 1))), 0, GET_FLAG(CF));
+			SET_FLAG(CF, (*(int8_t*)target) < 0);
 			tmp = tmp >> (value % 8);
-			(*(uint8_t*)target) = *(uint8_t*)((uint8_t*)&tmp + 4);
+			(*(uint8_t*)target) = *(uint8_t*)((uint8_t*)&tmp + (8 / 8));
 		}
 		break;
 		case 4: {
@@ -13774,9 +13861,11 @@ void handlerCommand32Code00C1P66() {
 			uint8_t value = read8u();
 			FillFlags();
 			uint32_t tmp = 0;
-			*(uint16_t*)(((uint8_t*)&tmp)) = (*(uint16_t*)target);
 			*(uint16_t*)(((uint8_t*)&tmp) + (16 / 8)) = (*(uint16_t*)target);
-			SET_BIT((*(((uint8_t*)&tmp) + (16 / 8))), 8, GET_FLAG(CF));
+			tmp = tmp >> 1;
+			SET_BIT((*(((uint8_t*)&tmp) + (16 / 8))), 0, GET_FLAG(CF));
+			*(uint16_t*)(((uint8_t*)&tmp)) = (*(uint16_t*)target);
+			SET_FLAG(CF, (*(uint16_t*)target) % 2);
 			tmp = tmp << (value % 16);
 			(*(uint16_t*)target) = *(uint16_t*)((uint8_t*)&tmp);
 		}
@@ -13787,10 +13876,12 @@ void handlerCommand32Code00C1P66() {
 			FillFlags();
 			uint32_t tmp = 0;
 			*(uint16_t*)(((uint8_t*)&tmp)) = (*(uint16_t*)target);
+			tmp = tmp << 1;
+			SET_BIT((*(((uint8_t*)&tmp))), 7, GET_FLAG(CF));
 			*(uint16_t*)(((uint8_t*)&tmp) + (16 / 8)) = (*(uint16_t*)target);
-			SET_BIT((*(((uint8_t*)&tmp) + (16 / 8 - 1))), 0, GET_FLAG(CF));
+			SET_FLAG(CF, (*(int16_t*)target) < 0);
 			tmp = tmp >> (value % 16);
-			(*(uint16_t*)target) = *(uint16_t*)((uint8_t*)&tmp + 4);
+			(*(uint16_t*)target) = *(uint16_t*)((uint8_t*)&tmp + (16 / 8));
 		}
 		break;
 		case 4: {
@@ -13849,9 +13940,11 @@ void handlerCommand32Code00C1() {
 			uint8_t value = read8u();
 			FillFlags();
 			uint64_t tmp = 0;
-			*(uint32_t*)(((uint8_t*)&tmp)) = (*(uint32_t*)target);
 			*(uint32_t*)(((uint8_t*)&tmp) + (32 / 8)) = (*(uint32_t*)target);
-			SET_BIT((*(((uint8_t*)&tmp) + (32 / 8))), 8, GET_FLAG(CF));
+			tmp = tmp >> 1;
+			SET_BIT((*(((uint8_t*)&tmp) + (32 / 8))), 0, GET_FLAG(CF));
+			*(uint32_t*)(((uint8_t*)&tmp)) = (*(uint32_t*)target);
+			SET_FLAG(CF, (*(uint32_t*)target) % 2);
 			tmp = tmp << (value % 32);
 			(*(uint32_t*)target) = *(uint32_t*)((uint8_t*)&tmp);
 		}
@@ -13862,10 +13955,12 @@ void handlerCommand32Code00C1() {
 			FillFlags();
 			uint64_t tmp = 0;
 			*(uint32_t*)(((uint8_t*)&tmp)) = (*(uint32_t*)target);
+			tmp = tmp << 1;
+			SET_BIT((*(((uint8_t*)&tmp))), 7, GET_FLAG(CF));
 			*(uint32_t*)(((uint8_t*)&tmp) + (32 / 8)) = (*(uint32_t*)target);
-			SET_BIT((*(((uint8_t*)&tmp) + (32 / 8 - 1))), 0, GET_FLAG(CF));
+			SET_FLAG(CF, (*(int32_t*)target) < 0);
 			tmp = tmp >> (value % 32);
-			(*(uint32_t*)target) = *(uint32_t*)((uint8_t*)&tmp + 4);
+			(*(uint32_t*)target) = *(uint32_t*)((uint8_t*)&tmp + (32 / 8));
 		}
 		break;
 		case 4: {
@@ -14023,9 +14118,11 @@ void handlerCommand32Code00D0P66() {
 			uint8_t value = 1;
 			FillFlags();
 			uint16_t tmp = 0;
-			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
 			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
-			SET_BIT((*(((uint8_t*)&tmp) + (8 / 8))), 8, GET_FLAG(CF));
+			tmp = tmp >> 1;
+			SET_BIT((*(((uint8_t*)&tmp) + (8 / 8))), 0, GET_FLAG(CF));
+			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
+			SET_FLAG(CF, (*(uint8_t*)target) % 2);
 			tmp = tmp << (value % 8);
 			(*(uint8_t*)target) = *(uint8_t*)((uint8_t*)&tmp);
 		}
@@ -14036,10 +14133,12 @@ void handlerCommand32Code00D0P66() {
 			FillFlags();
 			uint16_t tmp = 0;
 			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
+			tmp = tmp << 1;
+			SET_BIT((*(((uint8_t*)&tmp))), 7, GET_FLAG(CF));
 			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
-			SET_BIT((*(((uint8_t*)&tmp) + (8 / 8 - 1))), 0, GET_FLAG(CF));
+			SET_FLAG(CF, (*(int8_t*)target) < 0);
 			tmp = tmp >> (value % 8);
-			(*(uint8_t*)target) = *(uint8_t*)((uint8_t*)&tmp + 4);
+			(*(uint8_t*)target) = *(uint8_t*)((uint8_t*)&tmp + (8 / 8));
 		}
 		break;
 		case 4: {
@@ -14098,9 +14197,11 @@ void handlerCommand32Code00D0() {
 			uint8_t value = 1;
 			FillFlags();
 			uint16_t tmp = 0;
-			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
 			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
-			SET_BIT((*(((uint8_t*)&tmp) + (8 / 8))), 8, GET_FLAG(CF));
+			tmp = tmp >> 1;
+			SET_BIT((*(((uint8_t*)&tmp) + (8 / 8))), 0, GET_FLAG(CF));
+			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
+			SET_FLAG(CF, (*(uint8_t*)target) % 2);
 			tmp = tmp << (value % 8);
 			(*(uint8_t*)target) = *(uint8_t*)((uint8_t*)&tmp);
 		}
@@ -14111,10 +14212,12 @@ void handlerCommand32Code00D0() {
 			FillFlags();
 			uint16_t tmp = 0;
 			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
+			tmp = tmp << 1;
+			SET_BIT((*(((uint8_t*)&tmp))), 7, GET_FLAG(CF));
 			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
-			SET_BIT((*(((uint8_t*)&tmp) + (8 / 8 - 1))), 0, GET_FLAG(CF));
+			SET_FLAG(CF, (*(int8_t*)target) < 0);
 			tmp = tmp >> (value % 8);
-			(*(uint8_t*)target) = *(uint8_t*)((uint8_t*)&tmp + 4);
+			(*(uint8_t*)target) = *(uint8_t*)((uint8_t*)&tmp + (8 / 8));
 		}
 		break;
 		case 4: {
@@ -14173,9 +14276,11 @@ void handlerCommand32Code00D1P66() {
 			uint8_t value = 1;
 			FillFlags();
 			uint32_t tmp = 0;
-			*(uint16_t*)(((uint8_t*)&tmp)) = (*(uint16_t*)target);
 			*(uint16_t*)(((uint8_t*)&tmp) + (16 / 8)) = (*(uint16_t*)target);
-			SET_BIT((*(((uint8_t*)&tmp) + (16 / 8))), 8, GET_FLAG(CF));
+			tmp = tmp >> 1;
+			SET_BIT((*(((uint8_t*)&tmp) + (16 / 8))), 0, GET_FLAG(CF));
+			*(uint16_t*)(((uint8_t*)&tmp)) = (*(uint16_t*)target);
+			SET_FLAG(CF, (*(uint16_t*)target) % 2);
 			tmp = tmp << (value % 16);
 			(*(uint16_t*)target) = *(uint16_t*)((uint8_t*)&tmp);
 		}
@@ -14186,10 +14291,12 @@ void handlerCommand32Code00D1P66() {
 			FillFlags();
 			uint32_t tmp = 0;
 			*(uint16_t*)(((uint8_t*)&tmp)) = (*(uint16_t*)target);
+			tmp = tmp << 1;
+			SET_BIT((*(((uint8_t*)&tmp))), 7, GET_FLAG(CF));
 			*(uint16_t*)(((uint8_t*)&tmp) + (16 / 8)) = (*(uint16_t*)target);
-			SET_BIT((*(((uint8_t*)&tmp) + (16 / 8 - 1))), 0, GET_FLAG(CF));
+			SET_FLAG(CF, (*(int16_t*)target) < 0);
 			tmp = tmp >> (value % 16);
-			(*(uint16_t*)target) = *(uint16_t*)((uint8_t*)&tmp + 4);
+			(*(uint16_t*)target) = *(uint16_t*)((uint8_t*)&tmp + (16 / 8));
 		}
 		break;
 		case 4: {
@@ -14248,9 +14355,11 @@ void handlerCommand32Code00D1() {
 			uint8_t value = 1;
 			FillFlags();
 			uint64_t tmp = 0;
-			*(uint32_t*)(((uint8_t*)&tmp)) = (*(uint32_t*)target);
 			*(uint32_t*)(((uint8_t*)&tmp) + (32 / 8)) = (*(uint32_t*)target);
-			SET_BIT((*(((uint8_t*)&tmp) + (32 / 8))), 8, GET_FLAG(CF));
+			tmp = tmp >> 1;
+			SET_BIT((*(((uint8_t*)&tmp) + (32 / 8))), 0, GET_FLAG(CF));
+			*(uint32_t*)(((uint8_t*)&tmp)) = (*(uint32_t*)target);
+			SET_FLAG(CF, (*(uint32_t*)target) % 2);
 			tmp = tmp << (value % 32);
 			(*(uint32_t*)target) = *(uint32_t*)((uint8_t*)&tmp);
 		}
@@ -14261,10 +14370,12 @@ void handlerCommand32Code00D1() {
 			FillFlags();
 			uint64_t tmp = 0;
 			*(uint32_t*)(((uint8_t*)&tmp)) = (*(uint32_t*)target);
+			tmp = tmp << 1;
+			SET_BIT((*(((uint8_t*)&tmp))), 7, GET_FLAG(CF));
 			*(uint32_t*)(((uint8_t*)&tmp) + (32 / 8)) = (*(uint32_t*)target);
-			SET_BIT((*(((uint8_t*)&tmp) + (32 / 8 - 1))), 0, GET_FLAG(CF));
+			SET_FLAG(CF, (*(int32_t*)target) < 0);
 			tmp = tmp >> (value % 32);
-			(*(uint32_t*)target) = *(uint32_t*)((uint8_t*)&tmp + 4);
+			(*(uint32_t*)target) = *(uint32_t*)((uint8_t*)&tmp + (32 / 8));
 		}
 		break;
 		case 4: {
@@ -14323,9 +14434,11 @@ void handlerCommand32Code00D2P66() {
 			uint8_t value = reg_CL_8u;
 			FillFlags();
 			uint16_t tmp = 0;
-			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
 			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
-			SET_BIT((*(((uint8_t*)&tmp) + (8 / 8))), 8, GET_FLAG(CF));
+			tmp = tmp >> 1;
+			SET_BIT((*(((uint8_t*)&tmp) + (8 / 8))), 0, GET_FLAG(CF));
+			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
+			SET_FLAG(CF, (*(uint8_t*)target) % 2);
 			tmp = tmp << (value % 8);
 			(*(uint8_t*)target) = *(uint8_t*)((uint8_t*)&tmp);
 		}
@@ -14336,10 +14449,12 @@ void handlerCommand32Code00D2P66() {
 			FillFlags();
 			uint16_t tmp = 0;
 			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
+			tmp = tmp << 1;
+			SET_BIT((*(((uint8_t*)&tmp))), 7, GET_FLAG(CF));
 			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
-			SET_BIT((*(((uint8_t*)&tmp) + (8 / 8 - 1))), 0, GET_FLAG(CF));
+			SET_FLAG(CF, (*(int8_t*)target) < 0);
 			tmp = tmp >> (value % 8);
-			(*(uint8_t*)target) = *(uint8_t*)((uint8_t*)&tmp + 4);
+			(*(uint8_t*)target) = *(uint8_t*)((uint8_t*)&tmp + (8 / 8));
 		}
 		break;
 		case 4: {
@@ -14398,9 +14513,11 @@ void handlerCommand32Code00D2() {
 			uint8_t value = reg_CL_8u;
 			FillFlags();
 			uint16_t tmp = 0;
-			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
 			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
-			SET_BIT((*(((uint8_t*)&tmp) + (8 / 8))), 8, GET_FLAG(CF));
+			tmp = tmp >> 1;
+			SET_BIT((*(((uint8_t*)&tmp) + (8 / 8))), 0, GET_FLAG(CF));
+			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
+			SET_FLAG(CF, (*(uint8_t*)target) % 2);
 			tmp = tmp << (value % 8);
 			(*(uint8_t*)target) = *(uint8_t*)((uint8_t*)&tmp);
 		}
@@ -14411,10 +14528,12 @@ void handlerCommand32Code00D2() {
 			FillFlags();
 			uint16_t tmp = 0;
 			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
+			tmp = tmp << 1;
+			SET_BIT((*(((uint8_t*)&tmp))), 7, GET_FLAG(CF));
 			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
-			SET_BIT((*(((uint8_t*)&tmp) + (8 / 8 - 1))), 0, GET_FLAG(CF));
+			SET_FLAG(CF, (*(int8_t*)target) < 0);
 			tmp = tmp >> (value % 8);
-			(*(uint8_t*)target) = *(uint8_t*)((uint8_t*)&tmp + 4);
+			(*(uint8_t*)target) = *(uint8_t*)((uint8_t*)&tmp + (8 / 8));
 		}
 		break;
 		case 4: {
@@ -14473,9 +14592,11 @@ void handlerCommand32Code00D3P66() {
 			uint8_t value = reg_CL_8u;
 			FillFlags();
 			uint32_t tmp = 0;
-			*(uint16_t*)(((uint8_t*)&tmp)) = (*(uint16_t*)target);
 			*(uint16_t*)(((uint8_t*)&tmp) + (16 / 8)) = (*(uint16_t*)target);
-			SET_BIT((*(((uint8_t*)&tmp) + (16 / 8))), 8, GET_FLAG(CF));
+			tmp = tmp >> 1;
+			SET_BIT((*(((uint8_t*)&tmp) + (16 / 8))), 0, GET_FLAG(CF));
+			*(uint16_t*)(((uint8_t*)&tmp)) = (*(uint16_t*)target);
+			SET_FLAG(CF, (*(uint16_t*)target) % 2);
 			tmp = tmp << (value % 16);
 			(*(uint16_t*)target) = *(uint16_t*)((uint8_t*)&tmp);
 		}
@@ -14486,10 +14607,12 @@ void handlerCommand32Code00D3P66() {
 			FillFlags();
 			uint32_t tmp = 0;
 			*(uint16_t*)(((uint8_t*)&tmp)) = (*(uint16_t*)target);
+			tmp = tmp << 1;
+			SET_BIT((*(((uint8_t*)&tmp))), 7, GET_FLAG(CF));
 			*(uint16_t*)(((uint8_t*)&tmp) + (16 / 8)) = (*(uint16_t*)target);
-			SET_BIT((*(((uint8_t*)&tmp) + (16 / 8 - 1))), 0, GET_FLAG(CF));
+			SET_FLAG(CF, (*(int16_t*)target) < 0);
 			tmp = tmp >> (value % 16);
-			(*(uint16_t*)target) = *(uint16_t*)((uint8_t*)&tmp + 4);
+			(*(uint16_t*)target) = *(uint16_t*)((uint8_t*)&tmp + (16 / 8));
 		}
 		break;
 		case 4: {
@@ -14548,9 +14671,11 @@ void handlerCommand32Code00D3() {
 			uint8_t value = reg_CL_8u;
 			FillFlags();
 			uint64_t tmp = 0;
-			*(uint32_t*)(((uint8_t*)&tmp)) = (*(uint32_t*)target);
 			*(uint32_t*)(((uint8_t*)&tmp) + (32 / 8)) = (*(uint32_t*)target);
-			SET_BIT((*(((uint8_t*)&tmp) + (32 / 8))), 8, GET_FLAG(CF));
+			tmp = tmp >> 1;
+			SET_BIT((*(((uint8_t*)&tmp) + (32 / 8))), 0, GET_FLAG(CF));
+			*(uint32_t*)(((uint8_t*)&tmp)) = (*(uint32_t*)target);
+			SET_FLAG(CF, (*(uint32_t*)target) % 2);
 			tmp = tmp << (value % 32);
 			(*(uint32_t*)target) = *(uint32_t*)((uint8_t*)&tmp);
 		}
@@ -14561,10 +14686,12 @@ void handlerCommand32Code00D3() {
 			FillFlags();
 			uint64_t tmp = 0;
 			*(uint32_t*)(((uint8_t*)&tmp)) = (*(uint32_t*)target);
+			tmp = tmp << 1;
+			SET_BIT((*(((uint8_t*)&tmp))), 7, GET_FLAG(CF));
 			*(uint32_t*)(((uint8_t*)&tmp) + (32 / 8)) = (*(uint32_t*)target);
-			SET_BIT((*(((uint8_t*)&tmp) + (32 / 8 - 1))), 0, GET_FLAG(CF));
+			SET_FLAG(CF, (*(int32_t*)target) < 0);
 			tmp = tmp >> (value % 32);
-			(*(uint32_t*)target) = *(uint32_t*)((uint8_t*)&tmp + 4);
+			(*(uint32_t*)target) = *(uint32_t*)((uint8_t*)&tmp + (32 / 8));
 		}
 		break;
 		case 4: {
@@ -15628,7 +15755,6 @@ void handlerCommand32Code00E2() {
 void handlerCommand32Code00E3() {
 	printf("Loop");
 	int8_t addr = read8();
-	reg_0x01_32 -= 1;
 	if (reg_0x01_32 == 0) {
 		context.index += addr;
 	}
@@ -16079,6 +16205,14 @@ void handlerCommand32Code00FFP66P67() {
 			lazyFlagType = t_INC8;
 		}
 		break;
+		case 0x01: {
+			// DEC
+			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
+			(*(uint8_t*)target)--;
+			LazyFlagResultContainer8 = *(uint8_t*)target;
+			lazyFlagType = t_DEC8;
+		}
+		break;
 		case 0x4: {
 			// JMP
 			uint8_t* target = (uint8_t*)readAddressMRM32For16(mrmByte);
@@ -16109,6 +16243,14 @@ void handlerCommand32Code00FFP67() {
 			(*(uint8_t*)target)++;
 			LazyFlagResultContainer8 = *(uint8_t*)target;
 			lazyFlagType = t_INC8;
+		}
+		break;
+		case 0x01: {
+			// DEC
+			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
+			(*(uint8_t*)target)--;
+			LazyFlagResultContainer8 = *(uint8_t*)target;
+			lazyFlagType = t_DEC8;
 		}
 		break;
 		case 0x4: {
@@ -16143,6 +16285,14 @@ void handlerCommand32Code00FFP66() {
 			lazyFlagType = t_INC8;
 		}
 		break;
+		case 0x01: {
+			// DEC
+			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
+			(*(uint8_t*)target)--;
+			LazyFlagResultContainer8 = *(uint8_t*)target;
+			lazyFlagType = t_DEC8;
+		}
+		break;
 		case 0x4: {
 			// JMP
 			uint8_t* target = (uint8_t*)readAddressMRM32For16(mrmByte);
@@ -16173,6 +16323,14 @@ void handlerCommand32Code00FF() {
 			(*(uint8_t*)target)++;
 			LazyFlagResultContainer8 = *(uint8_t*)target;
 			lazyFlagType = t_INC8;
+		}
+		break;
+		case 0x01: {
+			// DEC
+			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
+			(*(uint8_t*)target)--;
+			LazyFlagResultContainer8 = *(uint8_t*)target;
+			lazyFlagType = t_DEC8;
 		}
 		break;
 		case 0x4: {

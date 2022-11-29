@@ -9,37 +9,13 @@
 #include "Registers.h"
 #include "Flags.h"
 #include <stdlib.h>
+#include "../Dos/DOSFileSystem.h"
+
 
 Context context;
 
 void emptyInterruptCallFunction(uint8_t a) {
     printf(", call %X-%X", a, *regAH);
-}
-
-void systemDOSFunction(uint8_t a) {
-    if (*regAH == 0x30) {
-        *regBX = 0;
-        *regCX = 0;
-        *regAL = 7;
-        *regAH = 10;
-        return;
-    }
-    if (*regAH == 0x44 && *regAL == 0 && *regBX == 4) {
-        *regDX = 0xA0C0;
-        SET_FLAG(CF, 0);
-        return;
-    }
-    if (*regAH == 0x44 && *regAL == 0 && *regBX == 3) {
-        *regDX = 0x80C0;
-        SET_FLAG(CF, 0);
-        return;
-    }
-    if (*regAH == 0x44 && *regAL == 0 && *regBXu < 3) {
-        *regDX = 0x80D3;
-        SET_FLAG(CF, 0);
-        return;
-    }
-    emptyInterruptCallFunction(a);
 }
 
 void printSymbol(uint8_t a) {

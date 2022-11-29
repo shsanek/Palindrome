@@ -254,6 +254,3 @@ int run16AndTestToEndWithStop(int count, char* in) {
     }
     return -1;
 }
-
-// 0011000000000010
-// 0100111111010101

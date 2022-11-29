@@ -58,11 +58,13 @@ extension UInt16 {
     }
 }
 
-final class FunctionGenerator {
-    private(set) var text = ""
+public final class FunctionGenerator {
+    public private(set) var text = ""
     private var tab: Int = 0
 
-    func add(_ lines: String?) {
+    public init() { }
+
+    public func add(_ lines: String?) {
         guard let lines = lines?.replacingOccurrences(of: "\t", with: "") else {
             return
         }
@@ -83,7 +85,7 @@ final class FunctionGenerator {
         }
     }
 
-    func swich(a: String, b: String, tmp: String = "SYSTEM_REPLACE_STRING") {
+    public func swich(a: String, b: String, tmp: String = "SYSTEM_REPLACE_STRING") {
         text = text.replacingOccurrences(of: a, with: tmp)
         text = text.replacingOccurrences(of: b, with: a)
         text = text.replacingOccurrences(of: tmp, with: b)

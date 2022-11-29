@@ -61,9 +61,11 @@ let RCL = Formatter(
     customizers: [
         "FillFlags();",
         "uint%2dataSize_t tmp = 0;",
-        "*(uint%dataSize_t*)(((uint8_t*)&tmp)) = (*(uint%dataSize_t*)target);",
         "*(uint%dataSize_t*)(((uint8_t*)&tmp) + (%dataSize / 8)) = (*(uint%dataSize_t*)target);",
-        "SET_BIT((*(((uint8_t*)&tmp) + (%dataSize / 8))), 8, GET_FLAG(CF));",
+        "tmp = tmp >> 1;",
+        "SET_BIT((*(((uint8_t*)&tmp) + (%dataSize / 8))), 0, GET_FLAG(CF));",
+        "*(uint%dataSize_t*)(((uint8_t*)&tmp)) = (*(uint%dataSize_t*)target);",
+        "SET_FLAG(CF, (*(uint%dataSize_t*)target) % 2);",
         "tmp = tmp << (value % %dataSize);",
         "(*(uint%dataSize_t*)target) = *(uint%dataSize_t*)((uint8_t*)&tmp);"
     ]
@@ -76,10 +78,12 @@ let RCR = Formatter(
         "FillFlags();",
         "uint%2dataSize_t tmp = 0;",
         "*(uint%dataSize_t*)(((uint8_t*)&tmp)) = (*(uint%dataSize_t*)target);",
+        "tmp = tmp << 1;",
+        "SET_BIT((*(((uint8_t*)&tmp))), 7, GET_FLAG(CF));",
         "*(uint%dataSize_t*)(((uint8_t*)&tmp) + (%dataSize / 8)) = (*(uint%dataSize_t*)target);",
-        "SET_BIT((*(((uint8_t*)&tmp) + (%dataSize / 8 - 1))), 0, GET_FLAG(CF));",
+        "SET_FLAG(CF, (*(int%dataSize_t*)target) < 0);",
         "tmp = tmp >> (value % %dataSize);",
-        "(*(uint%dataSize_t*)target) = *(uint%dataSize_t*)((uint8_t*)&tmp + 4);"
+        "(*(uint%dataSize_t*)target) = *(uint%dataSize_t*)((uint8_t*)&tmp + (%dataSize / 8));"
     ]
 )
 

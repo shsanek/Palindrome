@@ -11,5 +11,6 @@
 #include <stdio.h>
 
 void loadDosHeader();
+void DoomSetting();
 
 #endif /* DosLoader_h */

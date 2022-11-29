@@ -41,8 +41,11 @@ func printAllCommands() {
 
 extension String {
     func getErrorCommand(source: String) -> Int? {
-        let raws1 = self.split(separator: "\n")
-        let raws2 = source.split(separator: "\n")
+        var raws1 = self.split(separator: "\n")
+        var raws2 = source.split(separator: "\n")
+
+        raws1 = raws1.map { $0.hasSuffix(" ") ? $0.dropLast() : $0 }
+        raws2 = raws2.map { $0.hasSuffix(" ") ? $0.dropLast() : $0 }
 
         var index = 0
 
@@ -53,6 +56,20 @@ extension String {
         if (index == raws1.count && index == raws2.count) {
             return nil
         }
-        return index / 2
+        let generator = FunctionGenerator()
+        let instruct = index / 2
+        generator.add("ERROR in instruction \(instruct)")
+        if instruct * 2 + 1 < raws1.count {
+            generator.add("Result:")
+            generator.add("\(raws1[instruct * 2])")
+            generator.add("\(raws1[instruct * 2 + 1])")
+        }
+        if (index / 2) * 2 + 1 < raws2.count {
+            generator.add("Real result:")
+            generator.add("\(raws2[instruct * 2])")
+            generator.add("\(raws2[instruct * 2 + 1])")
+        }
+        print("\n\(generator.text)")
+        return instruct
     }
 }

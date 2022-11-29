@@ -90,17 +90,31 @@ fileprivate let oftherCommand = Command(
             .settings([.fpu]),
             .vars,
             .nnn([
-                (code: "0x00",
-                 formatter: Formatter(
-                    customizers: [
-                        .settings([.bigAddress ,.changeableData]),
-                        "// INC",
-                        .formatter(targetMRMFormat),
-                        "(*(uint%dataSize_t*)target)++;",
-                        "LazyFlagResultContainer%dataSize = *(uint%dataSize_t*)target;",
-                        "lazyFlagType = t_INC%dataSize;"
-                    ]
-                )
+                (
+                    code: "0x00",
+                    formatter: Formatter(
+                        customizers: [
+                            .settings([.bigAddress ,.changeableData]),
+                            "// INC",
+                            .formatter(targetMRMFormat),
+                            "(*(uint%dataSize_t*)target)++;",
+                            "LazyFlagResultContainer%dataSize = *(uint%dataSize_t*)target;",
+                            "lazyFlagType = t_INC%dataSize;"
+                        ]
+                    )
+                ),
+                (
+                    code: "0x01",
+                    formatter: Formatter(
+                        customizers: [
+                            .settings([.bigAddress ,.changeableData]),
+                            "// DEC",
+                            .formatter(targetMRMFormat),
+                            "(*(uint%dataSize_t*)target)--;",
+                            "LazyFlagResultContainer%dataSize = *(uint%dataSize_t*)target;",
+                            "lazyFlagType = t_DEC%dataSize;"
+                        ]
+                    )
                 ),
                 (
                     code: "0x4",

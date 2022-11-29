@@ -246,7 +246,6 @@ fileprivate let loopE3Command = Command(
             .functionName,
             """
             int8_t addr = read8();
-            reg_0x01_%MOD -= 1;
             if (reg_0x01_%MOD == 0) {
             context.index += addr;
             }

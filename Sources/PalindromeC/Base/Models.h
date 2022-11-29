@@ -71,5 +71,6 @@ extern Context context;
 
 Context* resetContext(uint32_t memorySize);
 void freeContext();
+void emptyInterruptCallFunction(uint8_t a);
 
 #endif /* Models_h */

@@ -93,11 +93,6 @@ void loadDosHeader() {
         offsets[i * 2 + 1] = ((uint16_t*)(start + header.tableShiftAddress))[i * 2 + 1];
     }
 
-    debugSegmentShift = 0x179E;
-
-    setMem(SR_DS, 0x179E - 0x0010);
-    setMem(SR_ES, 0x179E - 0x0010);
-
     context.program = ((uint8_t*)start) + header.headerParagraphSize * 16;
 
     setMem(SR_SS, header.stackAddress + debugSegmentShift);
@@ -114,4 +109,15 @@ void loadDosHeader() {
     for (int i = 0; i < 512; i++) {
         *(context.program - 512 + i) = dosExeHeaderDamp[i];
     }
+}
+
+
+void DoomSetting() {
+    debugSegmentShift = 0x179E;
+
+    *regBX = 0x000A;
+    *regCX = 0xE8E5;
+
+    setMem(SR_DS, 0x179E - 0x0010);
+    setMem(SR_ES, 0x179E - 0x0010);
 }

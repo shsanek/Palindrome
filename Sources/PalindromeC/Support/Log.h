@@ -11,7 +11,11 @@
 #include <stdio.h>
 #include "LogRegisters.h"
 
+#if 1
 #define LOG(F, ARG...) printf( F , ARG )
+#else
+#define LOG(F, ARG...) 
+#endif
 
 #define DEBUG_RUN(a) a
 

@@ -12,6 +12,7 @@
 #include "../Base/Models.h"
 #include "../Base/Registers.h"
 #include "../Dos/DosLoader.h"
+#include "../Dos/VirtualFolder.h"
 
 extern uint8_t *debugCommands;
 

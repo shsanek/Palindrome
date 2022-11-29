@@ -239,12 +239,21 @@ extern int32_t regIP;
 #define SR_FS (0x04)
 #define SR_GS (0x05)
 
-int8_t* register8(uint8_t registerIndex);
-int16_t* register16(uint8_t registerIndex);
-int32_t* register32(uint8_t registerIndex);
-uint8_t* register8u(uint8_t registerIndex);
-uint16_t* register16u(uint8_t registerIndex);
-uint32_t* register32u(uint8_t registerIndex);
+int8_t* fregister8(uint8_t registerIndex);
+int16_t* fregister16(uint8_t registerIndex);
+int32_t* fregister32(uint8_t registerIndex);
+uint8_t* fregister8u(uint8_t registerIndex);
+uint16_t* fregister16u(uint8_t registerIndex);
+uint32_t* fregister32u(uint8_t registerIndex);
+
+#define register8(registerIndex) ((int8_t*)(context.registers + registerIndex % 4 * 4 + (registerIndex > 3 ? 1 : 0)))
+#define register8u(registerIndex) ((uint8_t*)(context.registers + registerIndex % 4 * 4 + (registerIndex > 3 ? 1 : 0)))
+
+#define register16(registerIndex) ((int16_t*)(context.registers + registerIndex * 4))
+#define register16u(registerIndex) ((uint16_t*)(context.registers + registerIndex * 4))
+
+#define register32(registerIndex) ((int32_t*)(context.registers + registerIndex * 4))
+#define register32u(registerIndex) ((uint32_t*)(context.registers + registerIndex * 4))
 
 void setRegisterPointers();
 
