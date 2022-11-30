@@ -3210,18 +3210,38 @@ void handlerCommand16Code0099() {
 	if (reg_AX_16 & 0x8000) reg_DX_16=0xffff;else reg_DX_16=0;
 }
 //PUSHF
+void handlerCommand16Code009CP66() {
+	LOG("%s","PUSHF");
+	FillFlags();
+	reg_SP_16u -= 32 / 8;
+	EncodeFlagsRegister();
+	uint32_t value = reg_flags & 0xFCFFFF;
+	*(uint32_t*)(mem(SR_SS) + reg_SP_16u) = *((uint32_t*)&value);
+}
+//PUSHF
 void handlerCommand16Code009C() {
 	LOG("%s","PUSHF");
 	FillFlags();
 	reg_SP_16u -= 16 / 8;
-	*(uint16_t*)(mem(SR_SS) + reg_SP_16u) = ((*(uint16_t*)(&reg_flags)) & 0x4FD5) | 0x3002;
+	EncodeFlagsRegister();
+	uint32_t value = reg_flags & 0xFCFFFF;
+	*(uint16_t*)(mem(SR_SS) + reg_SP_16u) = *((uint16_t*)&value);
+}
+//POPF
+void handlerCommand16Code009DP66() {
+	LOG("%s","POPF");
+	lazyFlagType = t_UNKNOWN;
+	*(uint32_t*)(&reg_flags) = (*(uint32_t*)(mem(SR_SS) + reg_SP_16u));
+	reg_SP_16u += 32 / 8;
+	DecodeFlagsRegister32();
 }
 //POPF
 void handlerCommand16Code009D() {
 	LOG("%s","POPF");
 	lazyFlagType = t_UNKNOWN;
-	*(uint16_t*)(&reg_flags) = (*(uint16_t*)(mem(SR_SS) + reg_SP_16u)) | 0x3002;
+	*(uint16_t*)(&reg_flags) = (*(uint16_t*)(mem(SR_SS) + reg_SP_16u));
 	reg_SP_16u += 16 / 8;
+	DecodeFlagsRegister16();
 }
 //Move
 void handlerCommand16Code00A0P66P67() {
@@ -6622,7 +6642,11 @@ void handlerCommand16Code00D9() {
 		break;
 		case 0x04: {
 			if ((mrmByte >> 6 & 3) == 3) {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
 			} else {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
 			}
 		}
 		break;
@@ -6841,7 +6865,21 @@ void handlerCommand16Code00DB() {
 		break;
 		case 0x04: {
 			if ((mrmByte >> 6 & 3) == 3) {
+				fpuStackIndex = 7;
+				fpuRegControll = 0x37F;
+				fpuRegStatus = 0;
+				fpuRegTag = 0xFFFF;
+				fpuRegPointer = 0;
+				fpuRegInstructionPointer = 0;
+				fpuRegInstructionOpcode = 0;
 			} else {
+				fpuStackIndex = 7;
+				fpuRegControll = 0x37F;
+				fpuRegStatus = 0;
+				fpuRegTag = 0xFFFF;
+				fpuRegPointer = 0;
+				fpuRegInstructionPointer = 0;
+				fpuRegInstructionOpcode = 0;
 			}
 		}
 		break;
@@ -7092,7 +7130,11 @@ void handlerCommand16Code00DD() {
 		break;
 		case 0x04: {
 			if ((mrmByte >> 6 & 3) == 3) {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
 			} else {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
 			}
 		}
 		break;
@@ -7118,11 +7160,9 @@ void handlerCommand16Code00DD() {
 		break;
 		case 0x07: {
 			if ((mrmByte >> 6 & 3) == 3) {
-				// NON FUNCTION
-				mCommandFunctionEmpty();
+				*(uint16_t*)readAddressMRM16For16(mrmByte) = fpuRegStatus;
 			} else {
-				// NON FUNCTION
-				mCommandFunctionEmpty();
+				*(uint16_t*)readAddressMRM16For16(mrmByte) = fpuRegStatus;
 			}
 		}
 		break;
@@ -7835,32 +7875,32 @@ void handlerCommand16Code00F7() {
 //Flag CF set false
 void handlerCommand16Code00F8() {
 	LOG("%s","Flag CF set false");
-	SET_FLAG(0x00, 0);
+	SET_FLAG(CF, 0);
 }
 //Flag CF set true
 void handlerCommand16Code00F9() {
 	LOG("%s","Flag CF set true");
-	SET_FLAG(0x00, 1);
+	SET_FLAG(CF, 1);
 }
 //Flag IF set false
 void handlerCommand16Code00FA() {
 	LOG("%s","Flag IF set false");
-	SET_FLAG(0x09, 0);
+	SET_FLAG(IF, 0);
 }
 //Flag IF set true
 void handlerCommand16Code00FB() {
 	LOG("%s","Flag IF set true");
-	SET_FLAG(0x09, 1);
+	SET_FLAG(IF, 1);
 }
 //Flag DF set false
 void handlerCommand16Code00FC() {
 	LOG("%s","Flag DF set false");
-	SET_FLAG(0x0A, 0);
+	SET_FLAG(DF, 0);
 }
 //Flag DF set true
 void handlerCommand16Code00FD() {
 	LOG("%s","Flag DF set true");
-	SET_FLAG(0x0A, 1);
+	SET_FLAG(DF, 1);
 }
 //Ofther
 void handlerCommand16Code00FFP66P67() {
@@ -8721,6 +8761,60 @@ void handlerCommand16Code019F() {
 		mCommandFunctionEmpty();
 	}
 }
+//BT
+void handlerCommand16Code01A3P66() {
+	LOG("%s","BT");
+	uint8_t mrmByte = read8u();
+	uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
+	uint8_t* source = (uint8_t*)readRegisterMRM16(mrmByte);
+	uint16_t shift = *(uint16_t*)source;
+	// BT
+	FillFlags();
+	uint16_t mask = 1 << shift;
+	uint8_t value = ((*(uint16_t*)target) & mask) ? 1 : 0;
+	SET_FLAG(CF, value);
+}
+//BT
+void handlerCommand16Code01A3() {
+	LOG("%s","BT");
+	uint8_t mrmByte = read8u();
+	uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
+	uint8_t* source = (uint8_t*)readRegisterMRM16(mrmByte);
+	uint16_t shift = *(uint16_t*)source;
+	// BT
+	FillFlags();
+	uint16_t mask = 1 << shift;
+	uint8_t value = ((*(uint16_t*)target) & mask) ? 1 : 0;
+	SET_FLAG(CF, value);
+}
+//BTS
+void handlerCommand16Code01ABP66() {
+	LOG("%s","BTS");
+	uint8_t mrmByte = read8u();
+	uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
+	uint8_t* source = (uint8_t*)readRegisterMRM16(mrmByte);
+	uint16_t shift = *(uint16_t*)source;
+	// BTS
+	FillFlags();
+	uint16_t mask = 1 << shift;
+	uint8_t value = ((*(uint16_t*)target) & mask) ? 1 : 0;
+	SET_FLAG(CF, value);
+	(*(uint16_t*)target) = (*(uint16_t*)target) | mask;
+}
+//BTS
+void handlerCommand16Code01AB() {
+	LOG("%s","BTS");
+	uint8_t mrmByte = read8u();
+	uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
+	uint8_t* source = (uint8_t*)readRegisterMRM16(mrmByte);
+	uint16_t shift = *(uint16_t*)source;
+	// BTS
+	FillFlags();
+	uint16_t mask = 1 << shift;
+	uint8_t value = ((*(uint16_t*)target) & mask) ? 1 : 0;
+	SET_FLAG(CF, value);
+	(*(uint16_t*)target) = (*(uint16_t*)target) | mask;
+}
 //Mul
 void handlerCommand16Code01AFP66() {
 	LOG("%s","Mul");
@@ -8764,6 +8858,34 @@ void handlerCommand16Code01B2() {
 	setMem(SR_SS, *(uint16_t*)(target + 2));
 	*(uint16_t*)source = *(uint16_t*)(target);
 }
+//BTR
+void handlerCommand16Code01B3P66() {
+	LOG("%s","BTR");
+	uint8_t mrmByte = read8u();
+	uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
+	uint8_t* source = (uint8_t*)readRegisterMRM16(mrmByte);
+	uint16_t shift = *(uint16_t*)source;
+	// BTR
+	FillFlags();
+	uint16_t mask = 1 << shift;
+	uint8_t value = ((*(uint16_t*)target) & mask) ? 1 : 0;
+	SET_FLAG(CF, value);
+	(*(uint16_t*)target) = (*(uint16_t*)target) & (~mask);
+}
+//BTR
+void handlerCommand16Code01B3() {
+	LOG("%s","BTR");
+	uint8_t mrmByte = read8u();
+	uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
+	uint8_t* source = (uint8_t*)readRegisterMRM16(mrmByte);
+	uint16_t shift = *(uint16_t*)source;
+	// BTR
+	FillFlags();
+	uint16_t mask = 1 << shift;
+	uint8_t value = ((*(uint16_t*)target) & mask) ? 1 : 0;
+	SET_FLAG(CF, value);
+	(*(uint16_t*)target) = (*(uint16_t*)target) & (~mask);
+}
 //Load SR_FS
 void handlerCommand16Code01B4() {
 	LOG("%s","Load SR_FS");
@@ -8805,6 +8927,228 @@ void handlerCommand16Code01B7() {
 	uint32_t* target = (uint32_t*)readRegisterMRM32(mrmByte);
 	uint16_t* source = (uint16_t*)readAddressMRM32For16(mrmByte);
 	*target = (uint32_t)*source;
+}
+//Bit scan
+void handlerCommand16Code01BAP66() {
+	LOG("%s","Bit scan");
+	uint8_t mrmByte = read8u();
+	uint8_t nnn = readMiddle3Bit(mrmByte);
+	switch (nnn) {
+		case 0x4: {
+			uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
+			uint8_t shift = read8u();
+			// BT
+			FillFlags();
+			uint16_t mask = 1 << shift;
+			uint8_t value = ((*(uint16_t*)target) & mask) ? 1 : 0;
+			SET_FLAG(CF, value);
+		}
+		break;
+		case 0x5: {
+			uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
+			uint8_t shift = read8u();
+			// BTS
+			FillFlags();
+			uint16_t mask = 1 << shift;
+			uint8_t value = ((*(uint16_t*)target) & mask) ? 1 : 0;
+			SET_FLAG(CF, value);
+			(*(uint16_t*)target) = (*(uint16_t*)target) | mask;
+		}
+		break;
+		case 0x6: {
+			uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
+			uint8_t shift = read8u();
+			// BTR
+			FillFlags();
+			uint16_t mask = 1 << shift;
+			uint8_t value = ((*(uint16_t*)target) & mask) ? 1 : 0;
+			SET_FLAG(CF, value);
+			(*(uint16_t*)target) = (*(uint16_t*)target) & (~mask);
+		}
+		break;
+		case 0x7: {
+			uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
+			uint8_t shift = read8u();
+			// BTC
+			FillFlags();
+			uint16_t mask = 1 << shift;
+			uint8_t value = ((*(uint16_t*)target) & mask) ? 1 : 0;
+			SET_FLAG(CF, value);
+			if (value) {
+				(*(uint16_t*)target) = (*(uint16_t*)target) & (~mask);
+			} else {
+				(*(uint16_t*)target) = (*(uint16_t*)target) | mask;
+			}
+		}
+		break;
+		default:
+		mCommandFunctionEmpty();
+	}
+}
+//Bit scan
+void handlerCommand16Code01BA() {
+	LOG("%s","Bit scan");
+	uint8_t mrmByte = read8u();
+	uint8_t nnn = readMiddle3Bit(mrmByte);
+	switch (nnn) {
+		case 0x4: {
+			uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
+			uint8_t shift = read8u();
+			// BT
+			FillFlags();
+			uint16_t mask = 1 << shift;
+			uint8_t value = ((*(uint16_t*)target) & mask) ? 1 : 0;
+			SET_FLAG(CF, value);
+		}
+		break;
+		case 0x5: {
+			uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
+			uint8_t shift = read8u();
+			// BTS
+			FillFlags();
+			uint16_t mask = 1 << shift;
+			uint8_t value = ((*(uint16_t*)target) & mask) ? 1 : 0;
+			SET_FLAG(CF, value);
+			(*(uint16_t*)target) = (*(uint16_t*)target) | mask;
+		}
+		break;
+		case 0x6: {
+			uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
+			uint8_t shift = read8u();
+			// BTR
+			FillFlags();
+			uint16_t mask = 1 << shift;
+			uint8_t value = ((*(uint16_t*)target) & mask) ? 1 : 0;
+			SET_FLAG(CF, value);
+			(*(uint16_t*)target) = (*(uint16_t*)target) & (~mask);
+		}
+		break;
+		case 0x7: {
+			uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
+			uint8_t shift = read8u();
+			// BTC
+			FillFlags();
+			uint16_t mask = 1 << shift;
+			uint8_t value = ((*(uint16_t*)target) & mask) ? 1 : 0;
+			SET_FLAG(CF, value);
+			if (value) {
+				(*(uint16_t*)target) = (*(uint16_t*)target) & (~mask);
+			} else {
+				(*(uint16_t*)target) = (*(uint16_t*)target) | mask;
+			}
+		}
+		break;
+		default:
+		mCommandFunctionEmpty();
+	}
+}
+//BTC
+void handlerCommand16Code01BBP66() {
+	LOG("%s","BTC");
+	uint8_t mrmByte = read8u();
+	uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
+	uint8_t* source = (uint8_t*)readRegisterMRM16(mrmByte);
+	uint16_t shift = *(uint16_t*)source;
+	// BTC
+	FillFlags();
+	uint16_t mask = 1 << shift;
+	uint8_t value = ((*(uint16_t*)target) & mask) ? 1 : 0;
+	SET_FLAG(CF, value);
+	if (value) {
+		(*(uint16_t*)target) = (*(uint16_t*)target) & (~mask);
+	} else {
+		(*(uint16_t*)target) = (*(uint16_t*)target) | mask;
+	}
+}
+//BTC
+void handlerCommand16Code01BB() {
+	LOG("%s","BTC");
+	uint8_t mrmByte = read8u();
+	uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
+	uint8_t* source = (uint8_t*)readRegisterMRM16(mrmByte);
+	uint16_t shift = *(uint16_t*)source;
+	// BTC
+	FillFlags();
+	uint16_t mask = 1 << shift;
+	uint8_t value = ((*(uint16_t*)target) & mask) ? 1 : 0;
+	SET_FLAG(CF, value);
+	if (value) {
+		(*(uint16_t*)target) = (*(uint16_t*)target) & (~mask);
+	} else {
+		(*(uint16_t*)target) = (*(uint16_t*)target) | mask;
+	}
+}
+//BFC
+void handlerCommand16Code01BCP66() {
+	LOG("%s","BFC");
+	uint8_t mrmByte = read8u();
+	uint8_t* target = (uint8_t*)readAddressMRM16For32(mrmByte);
+	uint8_t* source = (uint8_t*)readRegisterMRM32(mrmByte);
+	FillFlags();
+	uint32_t value = *(uint32_t*)source;
+	if (value == 0) { SET_FLAG(ZF, 0); return; }
+	uint32_t mask = 1;
+	uint32_t len = 0;
+	while ((mask & value) && (len < 32)) {
+		value = value >> 1;
+		len++;
+	}
+	SET_FLAG(ZF, 1);
+	*(uint32_t*)target = len;
+}
+//BFC
+void handlerCommand16Code01BC() {
+	LOG("%s","BFC");
+	uint8_t mrmByte = read8u();
+	uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
+	uint8_t* source = (uint8_t*)readRegisterMRM16(mrmByte);
+	FillFlags();
+	uint16_t value = *(uint16_t*)source;
+	if (value == 0) { SET_FLAG(ZF, 0); return; }
+	uint16_t mask = 1;
+	uint16_t len = 0;
+	while ((mask & value) && (len < 16)) {
+		value = value >> 1;
+		len++;
+	}
+	SET_FLAG(ZF, 1);
+	*(uint16_t*)target = len;
+}
+//BSR
+void handlerCommand16Code01BDP66() {
+	LOG("%s","BSR");
+	uint8_t mrmByte = read8u();
+	uint8_t* target = (uint8_t*)readAddressMRM16For32(mrmByte);
+	uint8_t* source = (uint8_t*)readRegisterMRM32(mrmByte);
+	FillFlags();
+	uint32_t value = *(uint32_t*)source;
+	if (value == 0) { SET_FLAG(ZF, 0); return; }
+	uint32_t mask = 1 << (32 - 1);
+	uint32_t len = 0;
+	while ((mask & value) && (len < 32)) {
+		value = value << 1;
+		len++;
+	}
+	SET_FLAG(ZF, 1);
+	*(uint32_t*)target = len;
+}
+//BSR
+void handlerCommand16Code01BD() {
+	LOG("%s","BSR");
+	uint8_t mrmByte = read8u();
+	uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
+	uint8_t* source = (uint8_t*)readRegisterMRM16(mrmByte);
+	FillFlags();
+	uint16_t value = *(uint16_t*)source;
+	if (value == 0) { SET_FLAG(ZF, 0); return; }
+	uint16_t mask = 1 << (16 - 1);
+	uint16_t len = 0;
+	while ((mask & value) && (len < 16)) {
+		value = value << 1;
+		len++;
+	}
+	SET_FLAG(ZF, 1);
+	*(uint16_t*)target = len;
 }
 //MOVSX
 void handlerCommand16Code01BEP66() {
@@ -12156,18 +12500,38 @@ void handlerCommand32Code0099() {
 	if (reg_AX_32 & 0x80000000) reg_DX_32=0xffffffff; else reg_DX_32=0;
 }
 //PUSHF
+void handlerCommand32Code009CP66() {
+	LOG("%s","PUSHF");
+	FillFlags();
+	reg_SP_32u -= 16 / 8;
+	EncodeFlagsRegister();
+	uint32_t value = reg_flags & 0xFCFFFF;
+	*(uint16_t*)(mem(SR_SS) + reg_SP_32u) = *((uint16_t*)&value);
+}
+//PUSHF
 void handlerCommand32Code009C() {
 	LOG("%s","PUSHF");
 	FillFlags();
 	reg_SP_32u -= 32 / 8;
-	*(uint32_t*)(mem(SR_SS) + reg_SP_32u) = ((*(uint32_t*)(&reg_flags)) & 0x4FD5) | 0x3002;
+	EncodeFlagsRegister();
+	uint32_t value = reg_flags & 0xFCFFFF;
+	*(uint32_t*)(mem(SR_SS) + reg_SP_32u) = *((uint32_t*)&value);
+}
+//POPF
+void handlerCommand32Code009DP66() {
+	LOG("%s","POPF");
+	lazyFlagType = t_UNKNOWN;
+	*(uint16_t*)(&reg_flags) = (*(uint16_t*)(mem(SR_SS) + reg_SP_32u));
+	reg_SP_32u += 16 / 8;
+	DecodeFlagsRegister16();
 }
 //POPF
 void handlerCommand32Code009D() {
 	LOG("%s","POPF");
 	lazyFlagType = t_UNKNOWN;
-	*(uint32_t*)(&reg_flags) = (*(uint32_t*)(mem(SR_SS) + reg_SP_32u)) | 0x3002;
+	*(uint32_t*)(&reg_flags) = (*(uint32_t*)(mem(SR_SS) + reg_SP_32u));
 	reg_SP_32u += 32 / 8;
+	DecodeFlagsRegister32();
 }
 //Move
 void handlerCommand32Code00A0P66P67() {
@@ -15568,7 +15932,11 @@ void handlerCommand32Code00D9() {
 		break;
 		case 0x04: {
 			if ((mrmByte >> 6 & 3) == 3) {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
 			} else {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
 			}
 		}
 		break;
@@ -15787,7 +16155,21 @@ void handlerCommand32Code00DB() {
 		break;
 		case 0x04: {
 			if ((mrmByte >> 6 & 3) == 3) {
+				fpuStackIndex = 7;
+				fpuRegControll = 0x37F;
+				fpuRegStatus = 0;
+				fpuRegTag = 0xFFFF;
+				fpuRegPointer = 0;
+				fpuRegInstructionPointer = 0;
+				fpuRegInstructionOpcode = 0;
 			} else {
+				fpuStackIndex = 7;
+				fpuRegControll = 0x37F;
+				fpuRegStatus = 0;
+				fpuRegTag = 0xFFFF;
+				fpuRegPointer = 0;
+				fpuRegInstructionPointer = 0;
+				fpuRegInstructionOpcode = 0;
 			}
 		}
 		break;
@@ -16038,7 +16420,11 @@ void handlerCommand32Code00DD() {
 		break;
 		case 0x04: {
 			if ((mrmByte >> 6 & 3) == 3) {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
 			} else {
+				// NON FUNCTION
+				mCommandFunctionEmpty();
 			}
 		}
 		break;
@@ -16064,11 +16450,9 @@ void handlerCommand32Code00DD() {
 		break;
 		case 0x07: {
 			if ((mrmByte >> 6 & 3) == 3) {
-				// NON FUNCTION
-				mCommandFunctionEmpty();
+				*(uint16_t*)readAddressMRM16For16(mrmByte) = fpuRegStatus;
 			} else {
-				// NON FUNCTION
-				mCommandFunctionEmpty();
+				*(uint16_t*)readAddressMRM16For16(mrmByte) = fpuRegStatus;
 			}
 		}
 		break;
@@ -16781,32 +17165,32 @@ void handlerCommand32Code00F7() {
 //Flag CF set false
 void handlerCommand32Code00F8() {
 	LOG("%s","Flag CF set false");
-	SET_FLAG(0x00, 0);
+	SET_FLAG(CF, 0);
 }
 //Flag CF set true
 void handlerCommand32Code00F9() {
 	LOG("%s","Flag CF set true");
-	SET_FLAG(0x00, 1);
+	SET_FLAG(CF, 1);
 }
 //Flag IF set false
 void handlerCommand32Code00FA() {
 	LOG("%s","Flag IF set false");
-	SET_FLAG(0x09, 0);
+	SET_FLAG(IF, 0);
 }
 //Flag IF set true
 void handlerCommand32Code00FB() {
 	LOG("%s","Flag IF set true");
-	SET_FLAG(0x09, 1);
+	SET_FLAG(IF, 1);
 }
 //Flag DF set false
 void handlerCommand32Code00FC() {
 	LOG("%s","Flag DF set false");
-	SET_FLAG(0x0A, 0);
+	SET_FLAG(DF, 0);
 }
 //Flag DF set true
 void handlerCommand32Code00FD() {
 	LOG("%s","Flag DF set true");
-	SET_FLAG(0x0A, 1);
+	SET_FLAG(DF, 1);
 }
 //Ofther
 void handlerCommand32Code00FFP66P67() {
@@ -17667,6 +18051,60 @@ void handlerCommand32Code019F() {
 		mCommandFunctionEmpty();
 	}
 }
+//BT
+void handlerCommand32Code01A3P66() {
+	LOG("%s","BT");
+	uint8_t mrmByte = read8u();
+	uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
+	uint8_t* source = (uint8_t*)readRegisterMRM32(mrmByte);
+	uint32_t shift = *(uint32_t*)source;
+	// BT
+	FillFlags();
+	uint32_t mask = 1 << shift;
+	uint8_t value = ((*(uint32_t*)target) & mask) ? 1 : 0;
+	SET_FLAG(CF, value);
+}
+//BT
+void handlerCommand32Code01A3() {
+	LOG("%s","BT");
+	uint8_t mrmByte = read8u();
+	uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
+	uint8_t* source = (uint8_t*)readRegisterMRM32(mrmByte);
+	uint32_t shift = *(uint32_t*)source;
+	// BT
+	FillFlags();
+	uint32_t mask = 1 << shift;
+	uint8_t value = ((*(uint32_t*)target) & mask) ? 1 : 0;
+	SET_FLAG(CF, value);
+}
+//BTS
+void handlerCommand32Code01ABP66() {
+	LOG("%s","BTS");
+	uint8_t mrmByte = read8u();
+	uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
+	uint8_t* source = (uint8_t*)readRegisterMRM32(mrmByte);
+	uint32_t shift = *(uint32_t*)source;
+	// BTS
+	FillFlags();
+	uint32_t mask = 1 << shift;
+	uint8_t value = ((*(uint32_t*)target) & mask) ? 1 : 0;
+	SET_FLAG(CF, value);
+	(*(uint32_t*)target) = (*(uint32_t*)target) | mask;
+}
+//BTS
+void handlerCommand32Code01AB() {
+	LOG("%s","BTS");
+	uint8_t mrmByte = read8u();
+	uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
+	uint8_t* source = (uint8_t*)readRegisterMRM32(mrmByte);
+	uint32_t shift = *(uint32_t*)source;
+	// BTS
+	FillFlags();
+	uint32_t mask = 1 << shift;
+	uint8_t value = ((*(uint32_t*)target) & mask) ? 1 : 0;
+	SET_FLAG(CF, value);
+	(*(uint32_t*)target) = (*(uint32_t*)target) | mask;
+}
 //Mul
 void handlerCommand32Code01AFP66() {
 	LOG("%s","Mul");
@@ -17710,6 +18148,34 @@ void handlerCommand32Code01B2() {
 	setMem(SR_SS, *(uint16_t*)(target + 2));
 	*(uint32_t*)source = *(uint32_t*)(target);
 }
+//BTR
+void handlerCommand32Code01B3P66() {
+	LOG("%s","BTR");
+	uint8_t mrmByte = read8u();
+	uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
+	uint8_t* source = (uint8_t*)readRegisterMRM32(mrmByte);
+	uint32_t shift = *(uint32_t*)source;
+	// BTR
+	FillFlags();
+	uint32_t mask = 1 << shift;
+	uint8_t value = ((*(uint32_t*)target) & mask) ? 1 : 0;
+	SET_FLAG(CF, value);
+	(*(uint32_t*)target) = (*(uint32_t*)target) & (~mask);
+}
+//BTR
+void handlerCommand32Code01B3() {
+	LOG("%s","BTR");
+	uint8_t mrmByte = read8u();
+	uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
+	uint8_t* source = (uint8_t*)readRegisterMRM32(mrmByte);
+	uint32_t shift = *(uint32_t*)source;
+	// BTR
+	FillFlags();
+	uint32_t mask = 1 << shift;
+	uint8_t value = ((*(uint32_t*)target) & mask) ? 1 : 0;
+	SET_FLAG(CF, value);
+	(*(uint32_t*)target) = (*(uint32_t*)target) & (~mask);
+}
 //Load SR_FS
 void handlerCommand32Code01B4() {
 	LOG("%s","Load SR_FS");
@@ -17751,6 +18217,228 @@ void handlerCommand32Code01B7() {
 	uint32_t* target = (uint32_t*)readRegisterMRM32(mrmByte);
 	uint16_t* source = (uint16_t*)readAddressMRM32For16(mrmByte);
 	*target = (uint32_t)*source;
+}
+//Bit scan
+void handlerCommand32Code01BAP66() {
+	LOG("%s","Bit scan");
+	uint8_t mrmByte = read8u();
+	uint8_t nnn = readMiddle3Bit(mrmByte);
+	switch (nnn) {
+		case 0x4: {
+			uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
+			uint8_t shift = read8u();
+			// BT
+			FillFlags();
+			uint32_t mask = 1 << shift;
+			uint8_t value = ((*(uint32_t*)target) & mask) ? 1 : 0;
+			SET_FLAG(CF, value);
+		}
+		break;
+		case 0x5: {
+			uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
+			uint8_t shift = read8u();
+			// BTS
+			FillFlags();
+			uint32_t mask = 1 << shift;
+			uint8_t value = ((*(uint32_t*)target) & mask) ? 1 : 0;
+			SET_FLAG(CF, value);
+			(*(uint32_t*)target) = (*(uint32_t*)target) | mask;
+		}
+		break;
+		case 0x6: {
+			uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
+			uint8_t shift = read8u();
+			// BTR
+			FillFlags();
+			uint32_t mask = 1 << shift;
+			uint8_t value = ((*(uint32_t*)target) & mask) ? 1 : 0;
+			SET_FLAG(CF, value);
+			(*(uint32_t*)target) = (*(uint32_t*)target) & (~mask);
+		}
+		break;
+		case 0x7: {
+			uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
+			uint8_t shift = read8u();
+			// BTC
+			FillFlags();
+			uint32_t mask = 1 << shift;
+			uint8_t value = ((*(uint32_t*)target) & mask) ? 1 : 0;
+			SET_FLAG(CF, value);
+			if (value) {
+				(*(uint32_t*)target) = (*(uint32_t*)target) & (~mask);
+			} else {
+				(*(uint32_t*)target) = (*(uint32_t*)target) | mask;
+			}
+		}
+		break;
+		default:
+		mCommandFunctionEmpty();
+	}
+}
+//Bit scan
+void handlerCommand32Code01BA() {
+	LOG("%s","Bit scan");
+	uint8_t mrmByte = read8u();
+	uint8_t nnn = readMiddle3Bit(mrmByte);
+	switch (nnn) {
+		case 0x4: {
+			uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
+			uint8_t shift = read8u();
+			// BT
+			FillFlags();
+			uint32_t mask = 1 << shift;
+			uint8_t value = ((*(uint32_t*)target) & mask) ? 1 : 0;
+			SET_FLAG(CF, value);
+		}
+		break;
+		case 0x5: {
+			uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
+			uint8_t shift = read8u();
+			// BTS
+			FillFlags();
+			uint32_t mask = 1 << shift;
+			uint8_t value = ((*(uint32_t*)target) & mask) ? 1 : 0;
+			SET_FLAG(CF, value);
+			(*(uint32_t*)target) = (*(uint32_t*)target) | mask;
+		}
+		break;
+		case 0x6: {
+			uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
+			uint8_t shift = read8u();
+			// BTR
+			FillFlags();
+			uint32_t mask = 1 << shift;
+			uint8_t value = ((*(uint32_t*)target) & mask) ? 1 : 0;
+			SET_FLAG(CF, value);
+			(*(uint32_t*)target) = (*(uint32_t*)target) & (~mask);
+		}
+		break;
+		case 0x7: {
+			uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
+			uint8_t shift = read8u();
+			// BTC
+			FillFlags();
+			uint32_t mask = 1 << shift;
+			uint8_t value = ((*(uint32_t*)target) & mask) ? 1 : 0;
+			SET_FLAG(CF, value);
+			if (value) {
+				(*(uint32_t*)target) = (*(uint32_t*)target) & (~mask);
+			} else {
+				(*(uint32_t*)target) = (*(uint32_t*)target) | mask;
+			}
+		}
+		break;
+		default:
+		mCommandFunctionEmpty();
+	}
+}
+//BTC
+void handlerCommand32Code01BBP66() {
+	LOG("%s","BTC");
+	uint8_t mrmByte = read8u();
+	uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
+	uint8_t* source = (uint8_t*)readRegisterMRM32(mrmByte);
+	uint32_t shift = *(uint32_t*)source;
+	// BTC
+	FillFlags();
+	uint32_t mask = 1 << shift;
+	uint8_t value = ((*(uint32_t*)target) & mask) ? 1 : 0;
+	SET_FLAG(CF, value);
+	if (value) {
+		(*(uint32_t*)target) = (*(uint32_t*)target) & (~mask);
+	} else {
+		(*(uint32_t*)target) = (*(uint32_t*)target) | mask;
+	}
+}
+//BTC
+void handlerCommand32Code01BB() {
+	LOG("%s","BTC");
+	uint8_t mrmByte = read8u();
+	uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
+	uint8_t* source = (uint8_t*)readRegisterMRM32(mrmByte);
+	uint32_t shift = *(uint32_t*)source;
+	// BTC
+	FillFlags();
+	uint32_t mask = 1 << shift;
+	uint8_t value = ((*(uint32_t*)target) & mask) ? 1 : 0;
+	SET_FLAG(CF, value);
+	if (value) {
+		(*(uint32_t*)target) = (*(uint32_t*)target) & (~mask);
+	} else {
+		(*(uint32_t*)target) = (*(uint32_t*)target) | mask;
+	}
+}
+//BFC
+void handlerCommand32Code01BCP66() {
+	LOG("%s","BFC");
+	uint8_t mrmByte = read8u();
+	uint8_t* target = (uint8_t*)readAddressMRM32For16(mrmByte);
+	uint8_t* source = (uint8_t*)readRegisterMRM16(mrmByte);
+	FillFlags();
+	uint16_t value = *(uint16_t*)source;
+	if (value == 0) { SET_FLAG(ZF, 0); return; }
+	uint16_t mask = 1;
+	uint16_t len = 0;
+	while ((mask & value) && (len < 16)) {
+		value = value >> 1;
+		len++;
+	}
+	SET_FLAG(ZF, 1);
+	*(uint16_t*)target = len;
+}
+//BFC
+void handlerCommand32Code01BC() {
+	LOG("%s","BFC");
+	uint8_t mrmByte = read8u();
+	uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
+	uint8_t* source = (uint8_t*)readRegisterMRM32(mrmByte);
+	FillFlags();
+	uint32_t value = *(uint32_t*)source;
+	if (value == 0) { SET_FLAG(ZF, 0); return; }
+	uint32_t mask = 1;
+	uint32_t len = 0;
+	while ((mask & value) && (len < 32)) {
+		value = value >> 1;
+		len++;
+	}
+	SET_FLAG(ZF, 1);
+	*(uint32_t*)target = len;
+}
+//BSR
+void handlerCommand32Code01BDP66() {
+	LOG("%s","BSR");
+	uint8_t mrmByte = read8u();
+	uint8_t* target = (uint8_t*)readAddressMRM32For16(mrmByte);
+	uint8_t* source = (uint8_t*)readRegisterMRM16(mrmByte);
+	FillFlags();
+	uint16_t value = *(uint16_t*)source;
+	if (value == 0) { SET_FLAG(ZF, 0); return; }
+	uint16_t mask = 1 << (16 - 1);
+	uint16_t len = 0;
+	while ((mask & value) && (len < 16)) {
+		value = value << 1;
+		len++;
+	}
+	SET_FLAG(ZF, 1);
+	*(uint16_t*)target = len;
+}
+//BSR
+void handlerCommand32Code01BD() {
+	LOG("%s","BSR");
+	uint8_t mrmByte = read8u();
+	uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
+	uint8_t* source = (uint8_t*)readRegisterMRM32(mrmByte);
+	FillFlags();
+	uint32_t value = *(uint32_t*)source;
+	if (value == 0) { SET_FLAG(ZF, 0); return; }
+	uint32_t mask = 1 << (32 - 1);
+	uint32_t len = 0;
+	while ((mask & value) && (len < 32)) {
+		value = value << 1;
+		len++;
+	}
+	SET_FLAG(ZF, 1);
+	*(uint32_t*)target = len;
 }
 //MOVSX
 void handlerCommand32Code01BEP66() {
@@ -18187,7 +18875,9 @@ void installCommandFunction() {
 	commandFunctions16[153] = handlerCommand16Code0099;
 	commandFunctions16[153 | 0x0400] = handlerCommand16Code0099P66;
 	commandFunctions16[156] = handlerCommand16Code009C;
+	commandFunctions16[156 | 0x0400] = handlerCommand16Code009CP66;
 	commandFunctions16[157] = handlerCommand16Code009D;
+	commandFunctions16[157 | 0x0400] = handlerCommand16Code009DP66;
 	commandFunctions16[160] = handlerCommand16Code00A0;
 	commandFunctions16[160 | 0x0200 ] = handlerCommand16Code00A0P67;
 	commandFunctions16[160 | 0x0400] = handlerCommand16Code00A0P66;
@@ -18386,13 +19076,27 @@ void installCommandFunction() {
 	commandFunctions16[414 | 0x0400] = handlerCommand16Code019EP66;
 	commandFunctions16[415] = handlerCommand16Code019F;
 	commandFunctions16[415 | 0x0400] = handlerCommand16Code019FP66;
+	commandFunctions16[419] = handlerCommand16Code01A3;
+	commandFunctions16[419 | 0x0400] = handlerCommand16Code01A3P66;
+	commandFunctions16[427] = handlerCommand16Code01AB;
+	commandFunctions16[427 | 0x0400] = handlerCommand16Code01ABP66;
 	commandFunctions16[431] = handlerCommand16Code01AF;
 	commandFunctions16[431 | 0x0400] = handlerCommand16Code01AFP66;
 	commandFunctions16[434] = handlerCommand16Code01B2;
+	commandFunctions16[435] = handlerCommand16Code01B3;
+	commandFunctions16[435 | 0x0400] = handlerCommand16Code01B3P66;
 	commandFunctions16[436] = handlerCommand16Code01B4;
 	commandFunctions16[437] = handlerCommand16Code01B5;
 	commandFunctions16[438] = handlerCommand16Code01B6;
 	commandFunctions16[439] = handlerCommand16Code01B7;
+	commandFunctions16[442] = handlerCommand16Code01BA;
+	commandFunctions16[442 | 0x0400] = handlerCommand16Code01BAP66;
+	commandFunctions16[443] = handlerCommand16Code01BB;
+	commandFunctions16[443 | 0x0400] = handlerCommand16Code01BBP66;
+	commandFunctions16[444] = handlerCommand16Code01BC;
+	commandFunctions16[444 | 0x0400] = handlerCommand16Code01BCP66;
+	commandFunctions16[445] = handlerCommand16Code01BD;
+	commandFunctions16[445 | 0x0400] = handlerCommand16Code01BDP66;
 	commandFunctions16[446] = handlerCommand16Code01BE;
 	commandFunctions16[447] = handlerCommand16Code01BF;
 	commandFunctions16[456] = handlerCommand16Code01C8;
@@ -18687,7 +19391,9 @@ void installCommandFunction() {
 	commandFunctions32[153] = handlerCommand32Code0099;
 	commandFunctions32[153 | 0x0400] = handlerCommand32Code0099P66;
 	commandFunctions32[156] = handlerCommand32Code009C;
+	commandFunctions32[156 | 0x0400] = handlerCommand32Code009CP66;
 	commandFunctions32[157] = handlerCommand32Code009D;
+	commandFunctions32[157 | 0x0400] = handlerCommand32Code009DP66;
 	commandFunctions32[160] = handlerCommand32Code00A0;
 	commandFunctions32[160 | 0x0200 ] = handlerCommand32Code00A0P67;
 	commandFunctions32[160 | 0x0400] = handlerCommand32Code00A0P66;
@@ -18886,13 +19592,27 @@ void installCommandFunction() {
 	commandFunctions32[414 | 0x0400] = handlerCommand32Code019EP66;
 	commandFunctions32[415] = handlerCommand32Code019F;
 	commandFunctions32[415 | 0x0400] = handlerCommand32Code019FP66;
+	commandFunctions32[419] = handlerCommand32Code01A3;
+	commandFunctions32[419 | 0x0400] = handlerCommand32Code01A3P66;
+	commandFunctions32[427] = handlerCommand32Code01AB;
+	commandFunctions32[427 | 0x0400] = handlerCommand32Code01ABP66;
 	commandFunctions32[431] = handlerCommand32Code01AF;
 	commandFunctions32[431 | 0x0400] = handlerCommand32Code01AFP66;
 	commandFunctions32[434] = handlerCommand32Code01B2;
+	commandFunctions32[435] = handlerCommand32Code01B3;
+	commandFunctions32[435 | 0x0400] = handlerCommand32Code01B3P66;
 	commandFunctions32[436] = handlerCommand32Code01B4;
 	commandFunctions32[437] = handlerCommand32Code01B5;
 	commandFunctions32[438] = handlerCommand32Code01B6;
 	commandFunctions32[439] = handlerCommand32Code01B7;
+	commandFunctions32[442] = handlerCommand32Code01BA;
+	commandFunctions32[442 | 0x0400] = handlerCommand32Code01BAP66;
+	commandFunctions32[443] = handlerCommand32Code01BB;
+	commandFunctions32[443 | 0x0400] = handlerCommand32Code01BBP66;
+	commandFunctions32[444] = handlerCommand32Code01BC;
+	commandFunctions32[444 | 0x0400] = handlerCommand32Code01BCP66;
+	commandFunctions32[445] = handlerCommand32Code01BD;
+	commandFunctions32[445 | 0x0400] = handlerCommand32Code01BDP66;
 	commandFunctions32[446] = handlerCommand32Code01BE;
 	commandFunctions32[447] = handlerCommand32Code01BF;
 	commandFunctions32[456] = handlerCommand32Code01C8;

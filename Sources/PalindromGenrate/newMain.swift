@@ -22,6 +22,7 @@ func generate() {
     appendPop8fCommand(generator:generator)
     appendFlagsCommand(generator: generator)
     appendInlineCommand(generator: generator)
+    appendBitScanCommand(generator: generator)
 
     fpuGenerator(generator: generator)
 

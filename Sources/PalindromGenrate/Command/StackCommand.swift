@@ -291,7 +291,7 @@ fileprivate let popFlagRegCommand = Command(
             .prefixData,
             .functionName,
             .vars,
-            .settings([.bigAddress]),
+            .settings([.bigAddress, .bigData]),
             """
             lazyFlagType = t_UNKNOWN;
             *(uint%dataSize_t*)(&reg_flags) = (*(uint%dataSize_t*)(mem(SR_SS) + reg_SP_%addressSizeu));
