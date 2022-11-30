@@ -107,8 +107,8 @@ void loadDosHeader() {
         *(uint16_t*)(context.program + offset) = *(uint16_t*)(context.program + offset) + debugSegmentShift;
     }
 
-    for (int i = 0; i < 512; i++) {
-        *(context.program - 512 + i) = dosExeHeaderDamp[i];
+    for (int i = 0; i < 528; i++) {
+        *(context.program - 528 + i) = dosExeHeaderDamp[i];
     }
 
     for (int i = 0; i < 128; i++) {
@@ -117,9 +117,20 @@ void loadDosHeader() {
 
     *(context.program + (0xF000 - debugSegmentShift) * 16 - 2 + 0) = 0xFC;
     *(context.program + (0xF000 - debugSegmentShift) * 16 - 2 + 1) = 0xC4;
+
+    *(context.program + (0xFFFF - debugSegmentShift) * 16 + 0x30 + 0) = 0x4D;
+    *(context.program + (0xFFFF - debugSegmentShift) * 16 + 0x30 + 1) = 0x53;
+    *(context.program + (0xFFFF - debugSegmentShift) * 16 + 0x30 + 2) = 0xFF;
+    *(context.program + (0xFFFF - debugSegmentShift) * 16 + 0x30 + 3) = 0xFF;
+
+    *(context.program + (0x0000 - debugSegmentShift) * 16 + 0x20 + 0) = 0x00;
+    *(context.program + (0x0000 - debugSegmentShift) * 16 + 0x20 + 1) = 0x00;
+    *(context.program + (0x0000 - debugSegmentShift) * 16 + 0x20 + 2) = 0x5F;
+    *(context.program + (0x0000 - debugSegmentShift) * 16 + 0x20 + 3) = 0x0A;
 }
 
 void DoomSetting() {
+    DebugOnlyPrint = 0;
     debugSegmentShift = 0x179E;
 
     RegFlagBaseValue = 0x2;
@@ -127,9 +138,6 @@ void DoomSetting() {
     IF = 1;
     TF = 1;
     NT = 1;
-
-    // 0111001101000110
-    // 0011001101000110
 
     *regBX = 0x000A;
     *regCX = 0xE8E5;

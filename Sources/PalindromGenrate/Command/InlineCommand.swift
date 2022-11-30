@@ -1,13 +1,12 @@
-fileprivate let regDIInc = "reg_DI_%addressSize += %dataSize / 8;"
-fileprivate let regDIDec = "reg_DI_%addressSize -= %dataSize / 8;"
-fileprivate let regCIInc = "reg_SI_%addressSize += %dataSize / 8;"
-fileprivate let regCIDec = "reg_SI_%addressSize -= %dataSize / 8;"
+fileprivate let regDIInc = "reg_DI_%addressSizeu += %dataSize / 8;"
+fileprivate let regDIDec = "reg_DI_%addressSizeu -= %dataSize / 8;"
+fileprivate let regCIInc = "reg_SI_%addressSizeu += %dataSize / 8;"
+fileprivate let regCIDec = "reg_SI_%addressSizeu -= %dataSize / 8;"
 
-fileprivate let regCXDec = "reg_CX_%addressSize -= 1;"
+fileprivate let regCXDec = "reg_CX_%addressSizeu -= 1;"
 
 fileprivate let memoryToMemoryHeader = """
-uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
-sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
+uint8_t* sourceSegment = memWithReplace(SR_DS);
 uint8_t* targetSegment = mem(SR_ES);
 """
 
@@ -87,8 +86,8 @@ func inlineCommand(name: String, code: UInt16, prefix: String = "", dec: @escapi
                     }
                     """
                 }
-                .replace("%source", to: "*(uint%dataSize_t*)(sourceSegment + reg_SI_%addressSize)")
-                .replace("%target", to: "*(uint%dataSize_t*)(targetSegment + reg_DI_%addressSize)")
+                .replace("%source", to: "*(uint%dataSize_t*)(sourceSegment + reg_SI_%addressSizeu)")
+                .replace("%target", to: "*(uint%dataSize_t*)(targetSegment + reg_DI_%addressSizeu)")
                 .replace("%reg", to: "reg_0x00_%dataSizeu" )
             )
         ]),

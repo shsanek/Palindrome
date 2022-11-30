@@ -3209,6 +3209,18 @@ void handlerCommand16Code0099() {
 	LOG("%s","CBW");
 	if (reg_AX_16 & 0x8000) reg_DX_16=0xffff;else reg_DX_16=0;
 }
+//Call
+void handlerCommand16Code009A() {
+	LOG("%s","Call");
+	int16_t newIP = read16();
+	uint16_t newCS = read16u();
+	reg_SP_16u -= 16 / 8;
+	*(uint16_t*)(mem(SR_SS) + reg_SP_16u) = context.segmentRegisters[SR_CS];
+	reg_SP_16u -= 16 / 8;
+	*(uint16_t*)(mem(SR_SS) + reg_SP_16u) = ((uint16_t)(context.index - mem(SR_CS)));
+	setMem(SR_CS, newCS);
+	context.index = mem(SR_CS) + newIP;
+}
 //PUSHF
 void handlerCommand16Code009CP66() {
 	LOG("%s","PUSHF");
@@ -3247,351 +3259,343 @@ void handlerCommand16Code009D() {
 void handlerCommand16Code00A0P66P67() {
 	LOG("%s","Move");
 	uint8_t* target = (uint8_t*)register8u(BR_AX);
-	uint8_t* source = (uint8_t*)(mem(SR_DS) + read32());
+	uint8_t* source = (uint8_t*)(memWithReplace(SR_DS) + read32());
 	*(uint8_t*)target = *(uint8_t*)source;
 }
 //Move
 void handlerCommand16Code00A0P66() {
 	LOG("%s","Move");
 	uint8_t* target = (uint8_t*)register8u(BR_AX);
-	uint8_t* source = (uint8_t*)(mem(SR_DS) + read16());
+	uint8_t* source = (uint8_t*)(memWithReplace(SR_DS) + read16());
 	*(uint8_t*)target = *(uint8_t*)source;
 }
 //Move
 void handlerCommand16Code00A0P67() {
 	LOG("%s","Move");
 	uint8_t* target = (uint8_t*)register8u(BR_AX);
-	uint8_t* source = (uint8_t*)(mem(SR_DS) + read32());
+	uint8_t* source = (uint8_t*)(memWithReplace(SR_DS) + read32());
 	*(uint8_t*)target = *(uint8_t*)source;
 }
 //Move
 void handlerCommand16Code00A0() {
 	LOG("%s","Move");
 	uint8_t* target = (uint8_t*)register8u(BR_AX);
-	uint8_t* source = (uint8_t*)(mem(SR_DS) + read16());
+	uint8_t* source = (uint8_t*)(memWithReplace(SR_DS) + read16());
 	*(uint8_t*)target = *(uint8_t*)source;
 }
 //Move
 void handlerCommand16Code00A1P66P67() {
 	LOG("%s","Move");
 	uint32_t* target = (uint32_t*)register32u(BR_AX);
-	uint32_t* source = (uint32_t*)(mem(SR_DS) + read32());
+	uint32_t* source = (uint32_t*)(memWithReplace(SR_DS) + read32());
 	*(uint32_t*)target = *(uint32_t*)source;
 }
 //Move
 void handlerCommand16Code00A1P66() {
 	LOG("%s","Move");
 	uint32_t* target = (uint32_t*)register32u(BR_AX);
-	uint32_t* source = (uint32_t*)(mem(SR_DS) + read16());
+	uint32_t* source = (uint32_t*)(memWithReplace(SR_DS) + read16());
 	*(uint32_t*)target = *(uint32_t*)source;
 }
 //Move
 void handlerCommand16Code00A1P67() {
 	LOG("%s","Move");
 	uint16_t* target = (uint16_t*)register16u(BR_AX);
-	uint16_t* source = (uint16_t*)(mem(SR_DS) + read32());
+	uint16_t* source = (uint16_t*)(memWithReplace(SR_DS) + read32());
 	*(uint16_t*)target = *(uint16_t*)source;
 }
 //Move
 void handlerCommand16Code00A1() {
 	LOG("%s","Move");
 	uint16_t* target = (uint16_t*)register16u(BR_AX);
-	uint16_t* source = (uint16_t*)(mem(SR_DS) + read16());
+	uint16_t* source = (uint16_t*)(memWithReplace(SR_DS) + read16());
 	*(uint16_t*)target = *(uint16_t*)source;
 }
 //Move
 void handlerCommand16Code00A2P66P67() {
 	LOG("%s","Move");
 	uint8_t* source = (uint8_t*)register8u(BR_AX);
-	uint8_t* target = (uint8_t*)(mem(SR_DS) + read32());
+	uint8_t* target = (uint8_t*)(memWithReplace(SR_DS) + read32());
 	*(uint8_t*)target = *(uint8_t*)source;
 }
 //Move
 void handlerCommand16Code00A2P66() {
 	LOG("%s","Move");
 	uint8_t* source = (uint8_t*)register8u(BR_AX);
-	uint8_t* target = (uint8_t*)(mem(SR_DS) + read16());
+	uint8_t* target = (uint8_t*)(memWithReplace(SR_DS) + read16());
 	*(uint8_t*)target = *(uint8_t*)source;
 }
 //Move
 void handlerCommand16Code00A2P67() {
 	LOG("%s","Move");
 	uint8_t* source = (uint8_t*)register8u(BR_AX);
-	uint8_t* target = (uint8_t*)(mem(SR_DS) + read32());
+	uint8_t* target = (uint8_t*)(memWithReplace(SR_DS) + read32());
 	*(uint8_t*)target = *(uint8_t*)source;
 }
 //Move
 void handlerCommand16Code00A2() {
 	LOG("%s","Move");
 	uint8_t* source = (uint8_t*)register8u(BR_AX);
-	uint8_t* target = (uint8_t*)(mem(SR_DS) + read16());
+	uint8_t* target = (uint8_t*)(memWithReplace(SR_DS) + read16());
 	*(uint8_t*)target = *(uint8_t*)source;
 }
 //Move
 void handlerCommand16Code00A3P66P67() {
 	LOG("%s","Move");
 	uint32_t* source = (uint32_t*)register32u(BR_AX);
-	uint32_t* target = (uint32_t*)(mem(SR_DS) + read32());
+	uint32_t* target = (uint32_t*)(memWithReplace(SR_DS) + read32());
 	*(uint32_t*)target = *(uint32_t*)source;
 }
 //Move
 void handlerCommand16Code00A3P66() {
 	LOG("%s","Move");
 	uint32_t* source = (uint32_t*)register32u(BR_AX);
-	uint32_t* target = (uint32_t*)(mem(SR_DS) + read16());
+	uint32_t* target = (uint32_t*)(memWithReplace(SR_DS) + read16());
 	*(uint32_t*)target = *(uint32_t*)source;
 }
 //Move
 void handlerCommand16Code00A3P67() {
 	LOG("%s","Move");
 	uint16_t* source = (uint16_t*)register16u(BR_AX);
-	uint16_t* target = (uint16_t*)(mem(SR_DS) + read32());
+	uint16_t* target = (uint16_t*)(memWithReplace(SR_DS) + read32());
 	*(uint16_t*)target = *(uint16_t*)source;
 }
 //Move
 void handlerCommand16Code00A3() {
 	LOG("%s","Move");
 	uint16_t* source = (uint16_t*)register16u(BR_AX);
-	uint16_t* target = (uint16_t*)(mem(SR_DS) + read16());
+	uint16_t* target = (uint16_t*)(memWithReplace(SR_DS) + read16());
 	*(uint16_t*)target = *(uint16_t*)source;
 }
 //MOVS
 void handlerCommand16Code00A4P66P67() {
 	LOG("%s","MOVS");
-	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
-	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
+	uint8_t* sourceSegment = memWithReplace(SR_DS);
 	uint8_t* targetSegment = mem(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_32 != 0) {
-				*(uint8_t*)(targetSegment + reg_DI_32) = *(uint8_t*)(sourceSegment + reg_SI_32);
-				reg_DI_32 -= 8 / 8;reg_SI_32 -= 8 / 8;
-				reg_CX_32 -= 1;
+				*(uint8_t*)(targetSegment + reg_DI_32u) = *(uint8_t*)(sourceSegment + reg_SI_32u);
+				reg_DI_32u -= 8 / 8;reg_SI_32u -= 8 / 8;
+				reg_CX_32u -= 1;
 			}
 		} else {
-			*(uint8_t*)(targetSegment + reg_DI_32) = *(uint8_t*)(sourceSegment + reg_SI_32);
-			reg_DI_32 -= 8 / 8;reg_SI_32 -= 8 / 8;
+			*(uint8_t*)(targetSegment + reg_DI_32u) = *(uint8_t*)(sourceSegment + reg_SI_32u);
+			reg_DI_32u -= 8 / 8;reg_SI_32u -= 8 / 8;
 		}
 	} else {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_32 != 0) {
-				*(uint8_t*)(targetSegment + reg_DI_32) = *(uint8_t*)(sourceSegment + reg_SI_32);
-				reg_DI_32 += 8 / 8;reg_SI_32 += 8 / 8;
-				reg_CX_32 -= 1;
+				*(uint8_t*)(targetSegment + reg_DI_32u) = *(uint8_t*)(sourceSegment + reg_SI_32u);
+				reg_DI_32u += 8 / 8;reg_SI_32u += 8 / 8;
+				reg_CX_32u -= 1;
 			}
 		} else {
-			*(uint8_t*)(targetSegment + reg_DI_32) = *(uint8_t*)(sourceSegment + reg_SI_32);
-			reg_DI_32 += 8 / 8;reg_SI_32 += 8 / 8;
+			*(uint8_t*)(targetSegment + reg_DI_32u) = *(uint8_t*)(sourceSegment + reg_SI_32u);
+			reg_DI_32u += 8 / 8;reg_SI_32u += 8 / 8;
 		}
 	}
 }
 //MOVS
 void handlerCommand16Code00A4P66() {
 	LOG("%s","MOVS");
-	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
-	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
+	uint8_t* sourceSegment = memWithReplace(SR_DS);
 	uint8_t* targetSegment = mem(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_16 != 0) {
-				*(uint8_t*)(targetSegment + reg_DI_16) = *(uint8_t*)(sourceSegment + reg_SI_16);
-				reg_DI_16 -= 8 / 8;reg_SI_16 -= 8 / 8;
-				reg_CX_16 -= 1;
+				*(uint8_t*)(targetSegment + reg_DI_16u) = *(uint8_t*)(sourceSegment + reg_SI_16u);
+				reg_DI_16u -= 8 / 8;reg_SI_16u -= 8 / 8;
+				reg_CX_16u -= 1;
 			}
 		} else {
-			*(uint8_t*)(targetSegment + reg_DI_16) = *(uint8_t*)(sourceSegment + reg_SI_16);
-			reg_DI_16 -= 8 / 8;reg_SI_16 -= 8 / 8;
+			*(uint8_t*)(targetSegment + reg_DI_16u) = *(uint8_t*)(sourceSegment + reg_SI_16u);
+			reg_DI_16u -= 8 / 8;reg_SI_16u -= 8 / 8;
 		}
 	} else {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_16 != 0) {
-				*(uint8_t*)(targetSegment + reg_DI_16) = *(uint8_t*)(sourceSegment + reg_SI_16);
-				reg_DI_16 += 8 / 8;reg_SI_16 += 8 / 8;
-				reg_CX_16 -= 1;
+				*(uint8_t*)(targetSegment + reg_DI_16u) = *(uint8_t*)(sourceSegment + reg_SI_16u);
+				reg_DI_16u += 8 / 8;reg_SI_16u += 8 / 8;
+				reg_CX_16u -= 1;
 			}
 		} else {
-			*(uint8_t*)(targetSegment + reg_DI_16) = *(uint8_t*)(sourceSegment + reg_SI_16);
-			reg_DI_16 += 8 / 8;reg_SI_16 += 8 / 8;
+			*(uint8_t*)(targetSegment + reg_DI_16u) = *(uint8_t*)(sourceSegment + reg_SI_16u);
+			reg_DI_16u += 8 / 8;reg_SI_16u += 8 / 8;
 		}
 	}
 }
 //MOVS
 void handlerCommand16Code00A4P67() {
 	LOG("%s","MOVS");
-	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
-	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
+	uint8_t* sourceSegment = memWithReplace(SR_DS);
 	uint8_t* targetSegment = mem(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_32 != 0) {
-				*(uint8_t*)(targetSegment + reg_DI_32) = *(uint8_t*)(sourceSegment + reg_SI_32);
-				reg_DI_32 -= 8 / 8;reg_SI_32 -= 8 / 8;
-				reg_CX_32 -= 1;
+				*(uint8_t*)(targetSegment + reg_DI_32u) = *(uint8_t*)(sourceSegment + reg_SI_32u);
+				reg_DI_32u -= 8 / 8;reg_SI_32u -= 8 / 8;
+				reg_CX_32u -= 1;
 			}
 		} else {
-			*(uint8_t*)(targetSegment + reg_DI_32) = *(uint8_t*)(sourceSegment + reg_SI_32);
-			reg_DI_32 -= 8 / 8;reg_SI_32 -= 8 / 8;
+			*(uint8_t*)(targetSegment + reg_DI_32u) = *(uint8_t*)(sourceSegment + reg_SI_32u);
+			reg_DI_32u -= 8 / 8;reg_SI_32u -= 8 / 8;
 		}
 	} else {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_32 != 0) {
-				*(uint8_t*)(targetSegment + reg_DI_32) = *(uint8_t*)(sourceSegment + reg_SI_32);
-				reg_DI_32 += 8 / 8;reg_SI_32 += 8 / 8;
-				reg_CX_32 -= 1;
+				*(uint8_t*)(targetSegment + reg_DI_32u) = *(uint8_t*)(sourceSegment + reg_SI_32u);
+				reg_DI_32u += 8 / 8;reg_SI_32u += 8 / 8;
+				reg_CX_32u -= 1;
 			}
 		} else {
-			*(uint8_t*)(targetSegment + reg_DI_32) = *(uint8_t*)(sourceSegment + reg_SI_32);
-			reg_DI_32 += 8 / 8;reg_SI_32 += 8 / 8;
+			*(uint8_t*)(targetSegment + reg_DI_32u) = *(uint8_t*)(sourceSegment + reg_SI_32u);
+			reg_DI_32u += 8 / 8;reg_SI_32u += 8 / 8;
 		}
 	}
 }
 //MOVS
 void handlerCommand16Code00A4() {
 	LOG("%s","MOVS");
-	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
-	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
+	uint8_t* sourceSegment = memWithReplace(SR_DS);
 	uint8_t* targetSegment = mem(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_16 != 0) {
-				*(uint8_t*)(targetSegment + reg_DI_16) = *(uint8_t*)(sourceSegment + reg_SI_16);
-				reg_DI_16 -= 8 / 8;reg_SI_16 -= 8 / 8;
-				reg_CX_16 -= 1;
+				*(uint8_t*)(targetSegment + reg_DI_16u) = *(uint8_t*)(sourceSegment + reg_SI_16u);
+				reg_DI_16u -= 8 / 8;reg_SI_16u -= 8 / 8;
+				reg_CX_16u -= 1;
 			}
 		} else {
-			*(uint8_t*)(targetSegment + reg_DI_16) = *(uint8_t*)(sourceSegment + reg_SI_16);
-			reg_DI_16 -= 8 / 8;reg_SI_16 -= 8 / 8;
+			*(uint8_t*)(targetSegment + reg_DI_16u) = *(uint8_t*)(sourceSegment + reg_SI_16u);
+			reg_DI_16u -= 8 / 8;reg_SI_16u -= 8 / 8;
 		}
 	} else {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_16 != 0) {
-				*(uint8_t*)(targetSegment + reg_DI_16) = *(uint8_t*)(sourceSegment + reg_SI_16);
-				reg_DI_16 += 8 / 8;reg_SI_16 += 8 / 8;
-				reg_CX_16 -= 1;
+				*(uint8_t*)(targetSegment + reg_DI_16u) = *(uint8_t*)(sourceSegment + reg_SI_16u);
+				reg_DI_16u += 8 / 8;reg_SI_16u += 8 / 8;
+				reg_CX_16u -= 1;
 			}
 		} else {
-			*(uint8_t*)(targetSegment + reg_DI_16) = *(uint8_t*)(sourceSegment + reg_SI_16);
-			reg_DI_16 += 8 / 8;reg_SI_16 += 8 / 8;
+			*(uint8_t*)(targetSegment + reg_DI_16u) = *(uint8_t*)(sourceSegment + reg_SI_16u);
+			reg_DI_16u += 8 / 8;reg_SI_16u += 8 / 8;
 		}
 	}
 }
 //MOVS
 void handlerCommand16Code00A5P66P67() {
 	LOG("%s","MOVS");
-	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
-	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
+	uint8_t* sourceSegment = memWithReplace(SR_DS);
 	uint8_t* targetSegment = mem(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_32 != 0) {
-				*(uint32_t*)(targetSegment + reg_DI_32) = *(uint32_t*)(sourceSegment + reg_SI_32);
-				reg_DI_32 -= 32 / 8;reg_SI_32 -= 32 / 8;
-				reg_CX_32 -= 1;
+				*(uint32_t*)(targetSegment + reg_DI_32u) = *(uint32_t*)(sourceSegment + reg_SI_32u);
+				reg_DI_32u -= 32 / 8;reg_SI_32u -= 32 / 8;
+				reg_CX_32u -= 1;
 			}
 		} else {
-			*(uint32_t*)(targetSegment + reg_DI_32) = *(uint32_t*)(sourceSegment + reg_SI_32);
-			reg_DI_32 -= 32 / 8;reg_SI_32 -= 32 / 8;
+			*(uint32_t*)(targetSegment + reg_DI_32u) = *(uint32_t*)(sourceSegment + reg_SI_32u);
+			reg_DI_32u -= 32 / 8;reg_SI_32u -= 32 / 8;
 		}
 	} else {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_32 != 0) {
-				*(uint32_t*)(targetSegment + reg_DI_32) = *(uint32_t*)(sourceSegment + reg_SI_32);
-				reg_DI_32 += 32 / 8;reg_SI_32 += 32 / 8;
-				reg_CX_32 -= 1;
+				*(uint32_t*)(targetSegment + reg_DI_32u) = *(uint32_t*)(sourceSegment + reg_SI_32u);
+				reg_DI_32u += 32 / 8;reg_SI_32u += 32 / 8;
+				reg_CX_32u -= 1;
 			}
 		} else {
-			*(uint32_t*)(targetSegment + reg_DI_32) = *(uint32_t*)(sourceSegment + reg_SI_32);
-			reg_DI_32 += 32 / 8;reg_SI_32 += 32 / 8;
+			*(uint32_t*)(targetSegment + reg_DI_32u) = *(uint32_t*)(sourceSegment + reg_SI_32u);
+			reg_DI_32u += 32 / 8;reg_SI_32u += 32 / 8;
 		}
 	}
 }
 //MOVS
 void handlerCommand16Code00A5P66() {
 	LOG("%s","MOVS");
-	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
-	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
+	uint8_t* sourceSegment = memWithReplace(SR_DS);
 	uint8_t* targetSegment = mem(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_16 != 0) {
-				*(uint32_t*)(targetSegment + reg_DI_16) = *(uint32_t*)(sourceSegment + reg_SI_16);
-				reg_DI_16 -= 32 / 8;reg_SI_16 -= 32 / 8;
-				reg_CX_16 -= 1;
+				*(uint32_t*)(targetSegment + reg_DI_16u) = *(uint32_t*)(sourceSegment + reg_SI_16u);
+				reg_DI_16u -= 32 / 8;reg_SI_16u -= 32 / 8;
+				reg_CX_16u -= 1;
 			}
 		} else {
-			*(uint32_t*)(targetSegment + reg_DI_16) = *(uint32_t*)(sourceSegment + reg_SI_16);
-			reg_DI_16 -= 32 / 8;reg_SI_16 -= 32 / 8;
+			*(uint32_t*)(targetSegment + reg_DI_16u) = *(uint32_t*)(sourceSegment + reg_SI_16u);
+			reg_DI_16u -= 32 / 8;reg_SI_16u -= 32 / 8;
 		}
 	} else {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_16 != 0) {
-				*(uint32_t*)(targetSegment + reg_DI_16) = *(uint32_t*)(sourceSegment + reg_SI_16);
-				reg_DI_16 += 32 / 8;reg_SI_16 += 32 / 8;
-				reg_CX_16 -= 1;
+				*(uint32_t*)(targetSegment + reg_DI_16u) = *(uint32_t*)(sourceSegment + reg_SI_16u);
+				reg_DI_16u += 32 / 8;reg_SI_16u += 32 / 8;
+				reg_CX_16u -= 1;
 			}
 		} else {
-			*(uint32_t*)(targetSegment + reg_DI_16) = *(uint32_t*)(sourceSegment + reg_SI_16);
-			reg_DI_16 += 32 / 8;reg_SI_16 += 32 / 8;
+			*(uint32_t*)(targetSegment + reg_DI_16u) = *(uint32_t*)(sourceSegment + reg_SI_16u);
+			reg_DI_16u += 32 / 8;reg_SI_16u += 32 / 8;
 		}
 	}
 }
 //MOVS
 void handlerCommand16Code00A5P67() {
 	LOG("%s","MOVS");
-	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
-	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
+	uint8_t* sourceSegment = memWithReplace(SR_DS);
 	uint8_t* targetSegment = mem(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_32 != 0) {
-				*(uint16_t*)(targetSegment + reg_DI_32) = *(uint16_t*)(sourceSegment + reg_SI_32);
-				reg_DI_32 -= 16 / 8;reg_SI_32 -= 16 / 8;
-				reg_CX_32 -= 1;
+				*(uint16_t*)(targetSegment + reg_DI_32u) = *(uint16_t*)(sourceSegment + reg_SI_32u);
+				reg_DI_32u -= 16 / 8;reg_SI_32u -= 16 / 8;
+				reg_CX_32u -= 1;
 			}
 		} else {
-			*(uint16_t*)(targetSegment + reg_DI_32) = *(uint16_t*)(sourceSegment + reg_SI_32);
-			reg_DI_32 -= 16 / 8;reg_SI_32 -= 16 / 8;
+			*(uint16_t*)(targetSegment + reg_DI_32u) = *(uint16_t*)(sourceSegment + reg_SI_32u);
+			reg_DI_32u -= 16 / 8;reg_SI_32u -= 16 / 8;
 		}
 	} else {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_32 != 0) {
-				*(uint16_t*)(targetSegment + reg_DI_32) = *(uint16_t*)(sourceSegment + reg_SI_32);
-				reg_DI_32 += 16 / 8;reg_SI_32 += 16 / 8;
-				reg_CX_32 -= 1;
+				*(uint16_t*)(targetSegment + reg_DI_32u) = *(uint16_t*)(sourceSegment + reg_SI_32u);
+				reg_DI_32u += 16 / 8;reg_SI_32u += 16 / 8;
+				reg_CX_32u -= 1;
 			}
 		} else {
-			*(uint16_t*)(targetSegment + reg_DI_32) = *(uint16_t*)(sourceSegment + reg_SI_32);
-			reg_DI_32 += 16 / 8;reg_SI_32 += 16 / 8;
+			*(uint16_t*)(targetSegment + reg_DI_32u) = *(uint16_t*)(sourceSegment + reg_SI_32u);
+			reg_DI_32u += 16 / 8;reg_SI_32u += 16 / 8;
 		}
 	}
 }
 //MOVS
 void handlerCommand16Code00A5() {
 	LOG("%s","MOVS");
-	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
-	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
+	uint8_t* sourceSegment = memWithReplace(SR_DS);
 	uint8_t* targetSegment = mem(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_16 != 0) {
-				*(uint16_t*)(targetSegment + reg_DI_16) = *(uint16_t*)(sourceSegment + reg_SI_16);
-				reg_DI_16 -= 16 / 8;reg_SI_16 -= 16 / 8;
-				reg_CX_16 -= 1;
+				*(uint16_t*)(targetSegment + reg_DI_16u) = *(uint16_t*)(sourceSegment + reg_SI_16u);
+				reg_DI_16u -= 16 / 8;reg_SI_16u -= 16 / 8;
+				reg_CX_16u -= 1;
 			}
 		} else {
-			*(uint16_t*)(targetSegment + reg_DI_16) = *(uint16_t*)(sourceSegment + reg_SI_16);
-			reg_DI_16 -= 16 / 8;reg_SI_16 -= 16 / 8;
+			*(uint16_t*)(targetSegment + reg_DI_16u) = *(uint16_t*)(sourceSegment + reg_SI_16u);
+			reg_DI_16u -= 16 / 8;reg_SI_16u -= 16 / 8;
 		}
 	} else {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_16 != 0) {
-				*(uint16_t*)(targetSegment + reg_DI_16) = *(uint16_t*)(sourceSegment + reg_SI_16);
-				reg_DI_16 += 16 / 8;reg_SI_16 += 16 / 8;
-				reg_CX_16 -= 1;
+				*(uint16_t*)(targetSegment + reg_DI_16u) = *(uint16_t*)(sourceSegment + reg_SI_16u);
+				reg_DI_16u += 16 / 8;reg_SI_16u += 16 / 8;
+				reg_CX_16u -= 1;
 			}
 		} else {
-			*(uint16_t*)(targetSegment + reg_DI_16) = *(uint16_t*)(sourceSegment + reg_SI_16);
-			reg_DI_16 += 16 / 8;reg_SI_16 += 16 / 8;
+			*(uint16_t*)(targetSegment + reg_DI_16u) = *(uint16_t*)(sourceSegment + reg_SI_16u);
+			reg_DI_16u += 16 / 8;reg_SI_16u += 16 / 8;
 		}
 	}
 }
@@ -3599,68 +3603,67 @@ void handlerCommand16Code00A5() {
 void handlerCommand16Code00A6P66P67() {
 	LOG("%s","CMPS");
 	lazyFlagType = t_UNKNOWN;
-	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
-	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
+	uint8_t* sourceSegment = memWithReplace(SR_DS);
 	uint8_t* targetSegment = mem(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF2) {
 			while (reg_CX_32 != 0) {
-				uint8_t result = *(uint8_t*)(targetSegment + reg_DI_32) == *(uint8_t*)(sourceSegment + reg_SI_32);
-				LazyFlagVarA8 = *(uint8_t*)(sourceSegment + reg_SI_32);
-				LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_32);
-				LazyFlagResultContainer8 = *(uint8_t*)(sourceSegment + reg_SI_32) - *(uint8_t*)(targetSegment + reg_DI_32);
+				uint8_t result = *(uint8_t*)(targetSegment + reg_DI_32u) == *(uint8_t*)(sourceSegment + reg_SI_32u);
+				LazyFlagVarA8 = *(uint8_t*)(sourceSegment + reg_SI_32u);
+				LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_32u);
+				LazyFlagResultContainer8 = *(uint8_t*)(sourceSegment + reg_SI_32u) - *(uint8_t*)(targetSegment + reg_DI_32u);
 				lazyFlagType = t_CMP8;
-				reg_DI_32 -= 8 / 8;reg_SI_32 -= 8 / 8;
-				reg_CX_32 -= 1;
+				reg_DI_32u -= 8 / 8;reg_SI_32u -= 8 / 8;
+				reg_CX_32u -= 1;
 				if (result) { SET_FLAG(ZF, (1 == 1));  return; }
 			}
 		} else if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF3) {
 			while (reg_CX_32 != 0) {
-				uint8_t result = *(uint8_t*)(targetSegment + reg_DI_32) != *(uint8_t*)(sourceSegment + reg_SI_32);
-				LazyFlagVarA8 = *(uint8_t*)(sourceSegment + reg_SI_32);
-				LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_32);
-				LazyFlagResultContainer8 = *(uint8_t*)(sourceSegment + reg_SI_32) - *(uint8_t*)(targetSegment + reg_DI_32);
+				uint8_t result = *(uint8_t*)(targetSegment + reg_DI_32u) != *(uint8_t*)(sourceSegment + reg_SI_32u);
+				LazyFlagVarA8 = *(uint8_t*)(sourceSegment + reg_SI_32u);
+				LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_32u);
+				LazyFlagResultContainer8 = *(uint8_t*)(sourceSegment + reg_SI_32u) - *(uint8_t*)(targetSegment + reg_DI_32u);
 				lazyFlagType = t_CMP8;
-				reg_DI_32 -= 8 / 8;reg_SI_32 -= 8 / 8;
-				reg_CX_32 -= 1;
+				reg_DI_32u -= 8 / 8;reg_SI_32u -= 8 / 8;
+				reg_CX_32u -= 1;
 				if (result) { SET_FLAG(ZF, (1 != 1));  return; }
 			}
 		} else {
-			LazyFlagVarA8 = *(uint8_t*)(sourceSegment + reg_SI_32);
-			LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_32);
-			LazyFlagResultContainer8 = *(uint8_t*)(sourceSegment + reg_SI_32) - *(uint8_t*)(targetSegment + reg_DI_32);
+			LazyFlagVarA8 = *(uint8_t*)(sourceSegment + reg_SI_32u);
+			LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_32u);
+			LazyFlagResultContainer8 = *(uint8_t*)(sourceSegment + reg_SI_32u) - *(uint8_t*)(targetSegment + reg_DI_32u);
 			lazyFlagType = t_CMP8;
-			reg_DI_32 -= 8 / 8;reg_SI_32 -= 8 / 8;
+			reg_DI_32u -= 8 / 8;reg_SI_32u -= 8 / 8;
 		}
 	} else {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF2) {
 			while (reg_CX_32 != 0) {
-				uint8_t result = *(uint8_t*)(targetSegment + reg_DI_32) == *(uint8_t*)(sourceSegment + reg_SI_32);
-				LazyFlagVarA8 = *(uint8_t*)(sourceSegment + reg_SI_32);
-				LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_32);
-				LazyFlagResultContainer8 = *(uint8_t*)(sourceSegment + reg_SI_32) - *(uint8_t*)(targetSegment + reg_DI_32);
+				uint8_t result = *(uint8_t*)(targetSegment + reg_DI_32u) == *(uint8_t*)(sourceSegment + reg_SI_32u);
+				LazyFlagVarA8 = *(uint8_t*)(sourceSegment + reg_SI_32u);
+				LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_32u);
+				LazyFlagResultContainer8 = *(uint8_t*)(sourceSegment + reg_SI_32u) - *(uint8_t*)(targetSegment + reg_DI_32u);
 				lazyFlagType = t_CMP8;
-				reg_DI_32 += 8 / 8;reg_SI_32 += 8 / 8;
-				reg_CX_32 -= 1;
+				reg_DI_32u += 8 / 8;reg_SI_32u += 8 / 8;
+				reg_CX_32u -= 1;
 				if (result) { SET_FLAG(ZF, (1 == 1));  return; }
 			}
 		} else if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF3) {
 			while (reg_CX_32 != 0) {
-				uint8_t result = *(uint8_t*)(targetSegment + reg_DI_32) != *(uint8_t*)(sourceSegment + reg_SI_32);
-				LazyFlagVarA8 = *(uint8_t*)(sourceSegment + reg_SI_32);
-				LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_32);
-				LazyFlagResultContainer8 = *(uint8_t*)(sourceSegment + reg_SI_32) - *(uint8_t*)(targetSegment + reg_DI_32);
+				uint8_t result = *(uint8_t*)(targetSegment + reg_DI_32u) != *(uint8_t*)(sourceSegment + reg_SI_32u);
+				LazyFlagVarA8 = *(uint8_t*)(sourceSegment + reg_SI_32u);
+				LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_32u);
+				LazyFlagResultContainer8 = *(uint8_t*)(sourceSegment + reg_SI_32u) - *(uint8_t*)(targetSegment + reg_DI_32u);
 				lazyFlagType = t_CMP8;
-				reg_DI_32 += 8 / 8;reg_SI_32 += 8 / 8;
-				reg_CX_32 -= 1;
+				reg_DI_32u += 8 / 8;reg_SI_32u += 8 / 8;
+				reg_CX_32u -= 1;
 				if (result) { SET_FLAG(ZF, (1 != 1));  return; }
 			}
 		} else {
-			LazyFlagVarA8 = *(uint8_t*)(sourceSegment + reg_SI_32);
-			LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_32);
-			LazyFlagResultContainer8 = *(uint8_t*)(sourceSegment + reg_SI_32) - *(uint8_t*)(targetSegment + reg_DI_32);
+			LazyFlagVarA8 = *(uint8_t*)(sourceSegment + reg_SI_32u);
+			LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_32u);
+			LazyFlagResultContainer8 = *(uint8_t*)(sourceSegment + reg_SI_32u) - *(uint8_t*)(targetSegment + reg_DI_32u);
 			lazyFlagType = t_CMP8;
-			reg_DI_32 += 8 / 8;reg_SI_32 += 8 / 8;
+			reg_DI_32u += 8 / 8;reg_SI_32u += 8 / 8;
 		}
 	}
 }
@@ -3668,68 +3671,67 @@ void handlerCommand16Code00A6P66P67() {
 void handlerCommand16Code00A6P66() {
 	LOG("%s","CMPS");
 	lazyFlagType = t_UNKNOWN;
-	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
-	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
+	uint8_t* sourceSegment = memWithReplace(SR_DS);
 	uint8_t* targetSegment = mem(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF2) {
 			while (reg_CX_16 != 0) {
-				uint8_t result = *(uint8_t*)(targetSegment + reg_DI_16) == *(uint8_t*)(sourceSegment + reg_SI_16);
-				LazyFlagVarA8 = *(uint8_t*)(sourceSegment + reg_SI_16);
-				LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_16);
-				LazyFlagResultContainer8 = *(uint8_t*)(sourceSegment + reg_SI_16) - *(uint8_t*)(targetSegment + reg_DI_16);
+				uint8_t result = *(uint8_t*)(targetSegment + reg_DI_16u) == *(uint8_t*)(sourceSegment + reg_SI_16u);
+				LazyFlagVarA8 = *(uint8_t*)(sourceSegment + reg_SI_16u);
+				LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_16u);
+				LazyFlagResultContainer8 = *(uint8_t*)(sourceSegment + reg_SI_16u) - *(uint8_t*)(targetSegment + reg_DI_16u);
 				lazyFlagType = t_CMP8;
-				reg_DI_16 -= 8 / 8;reg_SI_16 -= 8 / 8;
-				reg_CX_16 -= 1;
+				reg_DI_16u -= 8 / 8;reg_SI_16u -= 8 / 8;
+				reg_CX_16u -= 1;
 				if (result) { SET_FLAG(ZF, (1 == 1));  return; }
 			}
 		} else if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF3) {
 			while (reg_CX_16 != 0) {
-				uint8_t result = *(uint8_t*)(targetSegment + reg_DI_16) != *(uint8_t*)(sourceSegment + reg_SI_16);
-				LazyFlagVarA8 = *(uint8_t*)(sourceSegment + reg_SI_16);
-				LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_16);
-				LazyFlagResultContainer8 = *(uint8_t*)(sourceSegment + reg_SI_16) - *(uint8_t*)(targetSegment + reg_DI_16);
+				uint8_t result = *(uint8_t*)(targetSegment + reg_DI_16u) != *(uint8_t*)(sourceSegment + reg_SI_16u);
+				LazyFlagVarA8 = *(uint8_t*)(sourceSegment + reg_SI_16u);
+				LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_16u);
+				LazyFlagResultContainer8 = *(uint8_t*)(sourceSegment + reg_SI_16u) - *(uint8_t*)(targetSegment + reg_DI_16u);
 				lazyFlagType = t_CMP8;
-				reg_DI_16 -= 8 / 8;reg_SI_16 -= 8 / 8;
-				reg_CX_16 -= 1;
+				reg_DI_16u -= 8 / 8;reg_SI_16u -= 8 / 8;
+				reg_CX_16u -= 1;
 				if (result) { SET_FLAG(ZF, (1 != 1));  return; }
 			}
 		} else {
-			LazyFlagVarA8 = *(uint8_t*)(sourceSegment + reg_SI_16);
-			LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_16);
-			LazyFlagResultContainer8 = *(uint8_t*)(sourceSegment + reg_SI_16) - *(uint8_t*)(targetSegment + reg_DI_16);
+			LazyFlagVarA8 = *(uint8_t*)(sourceSegment + reg_SI_16u);
+			LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_16u);
+			LazyFlagResultContainer8 = *(uint8_t*)(sourceSegment + reg_SI_16u) - *(uint8_t*)(targetSegment + reg_DI_16u);
 			lazyFlagType = t_CMP8;
-			reg_DI_16 -= 8 / 8;reg_SI_16 -= 8 / 8;
+			reg_DI_16u -= 8 / 8;reg_SI_16u -= 8 / 8;
 		}
 	} else {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF2) {
 			while (reg_CX_16 != 0) {
-				uint8_t result = *(uint8_t*)(targetSegment + reg_DI_16) == *(uint8_t*)(sourceSegment + reg_SI_16);
-				LazyFlagVarA8 = *(uint8_t*)(sourceSegment + reg_SI_16);
-				LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_16);
-				LazyFlagResultContainer8 = *(uint8_t*)(sourceSegment + reg_SI_16) - *(uint8_t*)(targetSegment + reg_DI_16);
+				uint8_t result = *(uint8_t*)(targetSegment + reg_DI_16u) == *(uint8_t*)(sourceSegment + reg_SI_16u);
+				LazyFlagVarA8 = *(uint8_t*)(sourceSegment + reg_SI_16u);
+				LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_16u);
+				LazyFlagResultContainer8 = *(uint8_t*)(sourceSegment + reg_SI_16u) - *(uint8_t*)(targetSegment + reg_DI_16u);
 				lazyFlagType = t_CMP8;
-				reg_DI_16 += 8 / 8;reg_SI_16 += 8 / 8;
-				reg_CX_16 -= 1;
+				reg_DI_16u += 8 / 8;reg_SI_16u += 8 / 8;
+				reg_CX_16u -= 1;
 				if (result) { SET_FLAG(ZF, (1 == 1));  return; }
 			}
 		} else if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF3) {
 			while (reg_CX_16 != 0) {
-				uint8_t result = *(uint8_t*)(targetSegment + reg_DI_16) != *(uint8_t*)(sourceSegment + reg_SI_16);
-				LazyFlagVarA8 = *(uint8_t*)(sourceSegment + reg_SI_16);
-				LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_16);
-				LazyFlagResultContainer8 = *(uint8_t*)(sourceSegment + reg_SI_16) - *(uint8_t*)(targetSegment + reg_DI_16);
+				uint8_t result = *(uint8_t*)(targetSegment + reg_DI_16u) != *(uint8_t*)(sourceSegment + reg_SI_16u);
+				LazyFlagVarA8 = *(uint8_t*)(sourceSegment + reg_SI_16u);
+				LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_16u);
+				LazyFlagResultContainer8 = *(uint8_t*)(sourceSegment + reg_SI_16u) - *(uint8_t*)(targetSegment + reg_DI_16u);
 				lazyFlagType = t_CMP8;
-				reg_DI_16 += 8 / 8;reg_SI_16 += 8 / 8;
-				reg_CX_16 -= 1;
+				reg_DI_16u += 8 / 8;reg_SI_16u += 8 / 8;
+				reg_CX_16u -= 1;
 				if (result) { SET_FLAG(ZF, (1 != 1));  return; }
 			}
 		} else {
-			LazyFlagVarA8 = *(uint8_t*)(sourceSegment + reg_SI_16);
-			LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_16);
-			LazyFlagResultContainer8 = *(uint8_t*)(sourceSegment + reg_SI_16) - *(uint8_t*)(targetSegment + reg_DI_16);
+			LazyFlagVarA8 = *(uint8_t*)(sourceSegment + reg_SI_16u);
+			LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_16u);
+			LazyFlagResultContainer8 = *(uint8_t*)(sourceSegment + reg_SI_16u) - *(uint8_t*)(targetSegment + reg_DI_16u);
 			lazyFlagType = t_CMP8;
-			reg_DI_16 += 8 / 8;reg_SI_16 += 8 / 8;
+			reg_DI_16u += 8 / 8;reg_SI_16u += 8 / 8;
 		}
 	}
 }
@@ -3737,68 +3739,67 @@ void handlerCommand16Code00A6P66() {
 void handlerCommand16Code00A6P67() {
 	LOG("%s","CMPS");
 	lazyFlagType = t_UNKNOWN;
-	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
-	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
+	uint8_t* sourceSegment = memWithReplace(SR_DS);
 	uint8_t* targetSegment = mem(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF2) {
 			while (reg_CX_32 != 0) {
-				uint8_t result = *(uint8_t*)(targetSegment + reg_DI_32) == *(uint8_t*)(sourceSegment + reg_SI_32);
-				LazyFlagVarA8 = *(uint8_t*)(sourceSegment + reg_SI_32);
-				LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_32);
-				LazyFlagResultContainer8 = *(uint8_t*)(sourceSegment + reg_SI_32) - *(uint8_t*)(targetSegment + reg_DI_32);
+				uint8_t result = *(uint8_t*)(targetSegment + reg_DI_32u) == *(uint8_t*)(sourceSegment + reg_SI_32u);
+				LazyFlagVarA8 = *(uint8_t*)(sourceSegment + reg_SI_32u);
+				LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_32u);
+				LazyFlagResultContainer8 = *(uint8_t*)(sourceSegment + reg_SI_32u) - *(uint8_t*)(targetSegment + reg_DI_32u);
 				lazyFlagType = t_CMP8;
-				reg_DI_32 -= 8 / 8;reg_SI_32 -= 8 / 8;
-				reg_CX_32 -= 1;
+				reg_DI_32u -= 8 / 8;reg_SI_32u -= 8 / 8;
+				reg_CX_32u -= 1;
 				if (result) { SET_FLAG(ZF, (1 == 1));  return; }
 			}
 		} else if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF3) {
 			while (reg_CX_32 != 0) {
-				uint8_t result = *(uint8_t*)(targetSegment + reg_DI_32) != *(uint8_t*)(sourceSegment + reg_SI_32);
-				LazyFlagVarA8 = *(uint8_t*)(sourceSegment + reg_SI_32);
-				LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_32);
-				LazyFlagResultContainer8 = *(uint8_t*)(sourceSegment + reg_SI_32) - *(uint8_t*)(targetSegment + reg_DI_32);
+				uint8_t result = *(uint8_t*)(targetSegment + reg_DI_32u) != *(uint8_t*)(sourceSegment + reg_SI_32u);
+				LazyFlagVarA8 = *(uint8_t*)(sourceSegment + reg_SI_32u);
+				LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_32u);
+				LazyFlagResultContainer8 = *(uint8_t*)(sourceSegment + reg_SI_32u) - *(uint8_t*)(targetSegment + reg_DI_32u);
 				lazyFlagType = t_CMP8;
-				reg_DI_32 -= 8 / 8;reg_SI_32 -= 8 / 8;
-				reg_CX_32 -= 1;
+				reg_DI_32u -= 8 / 8;reg_SI_32u -= 8 / 8;
+				reg_CX_32u -= 1;
 				if (result) { SET_FLAG(ZF, (1 != 1));  return; }
 			}
 		} else {
-			LazyFlagVarA8 = *(uint8_t*)(sourceSegment + reg_SI_32);
-			LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_32);
-			LazyFlagResultContainer8 = *(uint8_t*)(sourceSegment + reg_SI_32) - *(uint8_t*)(targetSegment + reg_DI_32);
+			LazyFlagVarA8 = *(uint8_t*)(sourceSegment + reg_SI_32u);
+			LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_32u);
+			LazyFlagResultContainer8 = *(uint8_t*)(sourceSegment + reg_SI_32u) - *(uint8_t*)(targetSegment + reg_DI_32u);
 			lazyFlagType = t_CMP8;
-			reg_DI_32 -= 8 / 8;reg_SI_32 -= 8 / 8;
+			reg_DI_32u -= 8 / 8;reg_SI_32u -= 8 / 8;
 		}
 	} else {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF2) {
 			while (reg_CX_32 != 0) {
-				uint8_t result = *(uint8_t*)(targetSegment + reg_DI_32) == *(uint8_t*)(sourceSegment + reg_SI_32);
-				LazyFlagVarA8 = *(uint8_t*)(sourceSegment + reg_SI_32);
-				LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_32);
-				LazyFlagResultContainer8 = *(uint8_t*)(sourceSegment + reg_SI_32) - *(uint8_t*)(targetSegment + reg_DI_32);
+				uint8_t result = *(uint8_t*)(targetSegment + reg_DI_32u) == *(uint8_t*)(sourceSegment + reg_SI_32u);
+				LazyFlagVarA8 = *(uint8_t*)(sourceSegment + reg_SI_32u);
+				LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_32u);
+				LazyFlagResultContainer8 = *(uint8_t*)(sourceSegment + reg_SI_32u) - *(uint8_t*)(targetSegment + reg_DI_32u);
 				lazyFlagType = t_CMP8;
-				reg_DI_32 += 8 / 8;reg_SI_32 += 8 / 8;
-				reg_CX_32 -= 1;
+				reg_DI_32u += 8 / 8;reg_SI_32u += 8 / 8;
+				reg_CX_32u -= 1;
 				if (result) { SET_FLAG(ZF, (1 == 1));  return; }
 			}
 		} else if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF3) {
 			while (reg_CX_32 != 0) {
-				uint8_t result = *(uint8_t*)(targetSegment + reg_DI_32) != *(uint8_t*)(sourceSegment + reg_SI_32);
-				LazyFlagVarA8 = *(uint8_t*)(sourceSegment + reg_SI_32);
-				LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_32);
-				LazyFlagResultContainer8 = *(uint8_t*)(sourceSegment + reg_SI_32) - *(uint8_t*)(targetSegment + reg_DI_32);
+				uint8_t result = *(uint8_t*)(targetSegment + reg_DI_32u) != *(uint8_t*)(sourceSegment + reg_SI_32u);
+				LazyFlagVarA8 = *(uint8_t*)(sourceSegment + reg_SI_32u);
+				LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_32u);
+				LazyFlagResultContainer8 = *(uint8_t*)(sourceSegment + reg_SI_32u) - *(uint8_t*)(targetSegment + reg_DI_32u);
 				lazyFlagType = t_CMP8;
-				reg_DI_32 += 8 / 8;reg_SI_32 += 8 / 8;
-				reg_CX_32 -= 1;
+				reg_DI_32u += 8 / 8;reg_SI_32u += 8 / 8;
+				reg_CX_32u -= 1;
 				if (result) { SET_FLAG(ZF, (1 != 1));  return; }
 			}
 		} else {
-			LazyFlagVarA8 = *(uint8_t*)(sourceSegment + reg_SI_32);
-			LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_32);
-			LazyFlagResultContainer8 = *(uint8_t*)(sourceSegment + reg_SI_32) - *(uint8_t*)(targetSegment + reg_DI_32);
+			LazyFlagVarA8 = *(uint8_t*)(sourceSegment + reg_SI_32u);
+			LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_32u);
+			LazyFlagResultContainer8 = *(uint8_t*)(sourceSegment + reg_SI_32u) - *(uint8_t*)(targetSegment + reg_DI_32u);
 			lazyFlagType = t_CMP8;
-			reg_DI_32 += 8 / 8;reg_SI_32 += 8 / 8;
+			reg_DI_32u += 8 / 8;reg_SI_32u += 8 / 8;
 		}
 	}
 }
@@ -3806,68 +3807,67 @@ void handlerCommand16Code00A6P67() {
 void handlerCommand16Code00A6() {
 	LOG("%s","CMPS");
 	lazyFlagType = t_UNKNOWN;
-	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
-	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
+	uint8_t* sourceSegment = memWithReplace(SR_DS);
 	uint8_t* targetSegment = mem(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF2) {
 			while (reg_CX_16 != 0) {
-				uint8_t result = *(uint8_t*)(targetSegment + reg_DI_16) == *(uint8_t*)(sourceSegment + reg_SI_16);
-				LazyFlagVarA8 = *(uint8_t*)(sourceSegment + reg_SI_16);
-				LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_16);
-				LazyFlagResultContainer8 = *(uint8_t*)(sourceSegment + reg_SI_16) - *(uint8_t*)(targetSegment + reg_DI_16);
+				uint8_t result = *(uint8_t*)(targetSegment + reg_DI_16u) == *(uint8_t*)(sourceSegment + reg_SI_16u);
+				LazyFlagVarA8 = *(uint8_t*)(sourceSegment + reg_SI_16u);
+				LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_16u);
+				LazyFlagResultContainer8 = *(uint8_t*)(sourceSegment + reg_SI_16u) - *(uint8_t*)(targetSegment + reg_DI_16u);
 				lazyFlagType = t_CMP8;
-				reg_DI_16 -= 8 / 8;reg_SI_16 -= 8 / 8;
-				reg_CX_16 -= 1;
+				reg_DI_16u -= 8 / 8;reg_SI_16u -= 8 / 8;
+				reg_CX_16u -= 1;
 				if (result) { SET_FLAG(ZF, (1 == 1));  return; }
 			}
 		} else if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF3) {
 			while (reg_CX_16 != 0) {
-				uint8_t result = *(uint8_t*)(targetSegment + reg_DI_16) != *(uint8_t*)(sourceSegment + reg_SI_16);
-				LazyFlagVarA8 = *(uint8_t*)(sourceSegment + reg_SI_16);
-				LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_16);
-				LazyFlagResultContainer8 = *(uint8_t*)(sourceSegment + reg_SI_16) - *(uint8_t*)(targetSegment + reg_DI_16);
+				uint8_t result = *(uint8_t*)(targetSegment + reg_DI_16u) != *(uint8_t*)(sourceSegment + reg_SI_16u);
+				LazyFlagVarA8 = *(uint8_t*)(sourceSegment + reg_SI_16u);
+				LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_16u);
+				LazyFlagResultContainer8 = *(uint8_t*)(sourceSegment + reg_SI_16u) - *(uint8_t*)(targetSegment + reg_DI_16u);
 				lazyFlagType = t_CMP8;
-				reg_DI_16 -= 8 / 8;reg_SI_16 -= 8 / 8;
-				reg_CX_16 -= 1;
+				reg_DI_16u -= 8 / 8;reg_SI_16u -= 8 / 8;
+				reg_CX_16u -= 1;
 				if (result) { SET_FLAG(ZF, (1 != 1));  return; }
 			}
 		} else {
-			LazyFlagVarA8 = *(uint8_t*)(sourceSegment + reg_SI_16);
-			LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_16);
-			LazyFlagResultContainer8 = *(uint8_t*)(sourceSegment + reg_SI_16) - *(uint8_t*)(targetSegment + reg_DI_16);
+			LazyFlagVarA8 = *(uint8_t*)(sourceSegment + reg_SI_16u);
+			LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_16u);
+			LazyFlagResultContainer8 = *(uint8_t*)(sourceSegment + reg_SI_16u) - *(uint8_t*)(targetSegment + reg_DI_16u);
 			lazyFlagType = t_CMP8;
-			reg_DI_16 -= 8 / 8;reg_SI_16 -= 8 / 8;
+			reg_DI_16u -= 8 / 8;reg_SI_16u -= 8 / 8;
 		}
 	} else {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF2) {
 			while (reg_CX_16 != 0) {
-				uint8_t result = *(uint8_t*)(targetSegment + reg_DI_16) == *(uint8_t*)(sourceSegment + reg_SI_16);
-				LazyFlagVarA8 = *(uint8_t*)(sourceSegment + reg_SI_16);
-				LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_16);
-				LazyFlagResultContainer8 = *(uint8_t*)(sourceSegment + reg_SI_16) - *(uint8_t*)(targetSegment + reg_DI_16);
+				uint8_t result = *(uint8_t*)(targetSegment + reg_DI_16u) == *(uint8_t*)(sourceSegment + reg_SI_16u);
+				LazyFlagVarA8 = *(uint8_t*)(sourceSegment + reg_SI_16u);
+				LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_16u);
+				LazyFlagResultContainer8 = *(uint8_t*)(sourceSegment + reg_SI_16u) - *(uint8_t*)(targetSegment + reg_DI_16u);
 				lazyFlagType = t_CMP8;
-				reg_DI_16 += 8 / 8;reg_SI_16 += 8 / 8;
-				reg_CX_16 -= 1;
+				reg_DI_16u += 8 / 8;reg_SI_16u += 8 / 8;
+				reg_CX_16u -= 1;
 				if (result) { SET_FLAG(ZF, (1 == 1));  return; }
 			}
 		} else if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF3) {
 			while (reg_CX_16 != 0) {
-				uint8_t result = *(uint8_t*)(targetSegment + reg_DI_16) != *(uint8_t*)(sourceSegment + reg_SI_16);
-				LazyFlagVarA8 = *(uint8_t*)(sourceSegment + reg_SI_16);
-				LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_16);
-				LazyFlagResultContainer8 = *(uint8_t*)(sourceSegment + reg_SI_16) - *(uint8_t*)(targetSegment + reg_DI_16);
+				uint8_t result = *(uint8_t*)(targetSegment + reg_DI_16u) != *(uint8_t*)(sourceSegment + reg_SI_16u);
+				LazyFlagVarA8 = *(uint8_t*)(sourceSegment + reg_SI_16u);
+				LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_16u);
+				LazyFlagResultContainer8 = *(uint8_t*)(sourceSegment + reg_SI_16u) - *(uint8_t*)(targetSegment + reg_DI_16u);
 				lazyFlagType = t_CMP8;
-				reg_DI_16 += 8 / 8;reg_SI_16 += 8 / 8;
-				reg_CX_16 -= 1;
+				reg_DI_16u += 8 / 8;reg_SI_16u += 8 / 8;
+				reg_CX_16u -= 1;
 				if (result) { SET_FLAG(ZF, (1 != 1));  return; }
 			}
 		} else {
-			LazyFlagVarA8 = *(uint8_t*)(sourceSegment + reg_SI_16);
-			LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_16);
-			LazyFlagResultContainer8 = *(uint8_t*)(sourceSegment + reg_SI_16) - *(uint8_t*)(targetSegment + reg_DI_16);
+			LazyFlagVarA8 = *(uint8_t*)(sourceSegment + reg_SI_16u);
+			LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_16u);
+			LazyFlagResultContainer8 = *(uint8_t*)(sourceSegment + reg_SI_16u) - *(uint8_t*)(targetSegment + reg_DI_16u);
 			lazyFlagType = t_CMP8;
-			reg_DI_16 += 8 / 8;reg_SI_16 += 8 / 8;
+			reg_DI_16u += 8 / 8;reg_SI_16u += 8 / 8;
 		}
 	}
 }
@@ -3875,68 +3875,67 @@ void handlerCommand16Code00A6() {
 void handlerCommand16Code00A7P66P67() {
 	LOG("%s","CMPS");
 	lazyFlagType = t_UNKNOWN;
-	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
-	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
+	uint8_t* sourceSegment = memWithReplace(SR_DS);
 	uint8_t* targetSegment = mem(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF2) {
 			while (reg_CX_32 != 0) {
-				uint8_t result = *(uint32_t*)(targetSegment + reg_DI_32) == *(uint32_t*)(sourceSegment + reg_SI_32);
-				LazyFlagVarA32 = *(uint32_t*)(sourceSegment + reg_SI_32);
-				LazyFlagVarB32 = *(uint32_t*)(targetSegment + reg_DI_32);
-				LazyFlagResultContainer32 = *(uint32_t*)(sourceSegment + reg_SI_32) - *(uint32_t*)(targetSegment + reg_DI_32);
+				uint8_t result = *(uint32_t*)(targetSegment + reg_DI_32u) == *(uint32_t*)(sourceSegment + reg_SI_32u);
+				LazyFlagVarA32 = *(uint32_t*)(sourceSegment + reg_SI_32u);
+				LazyFlagVarB32 = *(uint32_t*)(targetSegment + reg_DI_32u);
+				LazyFlagResultContainer32 = *(uint32_t*)(sourceSegment + reg_SI_32u) - *(uint32_t*)(targetSegment + reg_DI_32u);
 				lazyFlagType = t_CMP32;
-				reg_DI_32 -= 32 / 8;reg_SI_32 -= 32 / 8;
-				reg_CX_32 -= 1;
+				reg_DI_32u -= 32 / 8;reg_SI_32u -= 32 / 8;
+				reg_CX_32u -= 1;
 				if (result) { SET_FLAG(ZF, (1 == 1));  return; }
 			}
 		} else if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF3) {
 			while (reg_CX_32 != 0) {
-				uint8_t result = *(uint32_t*)(targetSegment + reg_DI_32) != *(uint32_t*)(sourceSegment + reg_SI_32);
-				LazyFlagVarA32 = *(uint32_t*)(sourceSegment + reg_SI_32);
-				LazyFlagVarB32 = *(uint32_t*)(targetSegment + reg_DI_32);
-				LazyFlagResultContainer32 = *(uint32_t*)(sourceSegment + reg_SI_32) - *(uint32_t*)(targetSegment + reg_DI_32);
+				uint8_t result = *(uint32_t*)(targetSegment + reg_DI_32u) != *(uint32_t*)(sourceSegment + reg_SI_32u);
+				LazyFlagVarA32 = *(uint32_t*)(sourceSegment + reg_SI_32u);
+				LazyFlagVarB32 = *(uint32_t*)(targetSegment + reg_DI_32u);
+				LazyFlagResultContainer32 = *(uint32_t*)(sourceSegment + reg_SI_32u) - *(uint32_t*)(targetSegment + reg_DI_32u);
 				lazyFlagType = t_CMP32;
-				reg_DI_32 -= 32 / 8;reg_SI_32 -= 32 / 8;
-				reg_CX_32 -= 1;
+				reg_DI_32u -= 32 / 8;reg_SI_32u -= 32 / 8;
+				reg_CX_32u -= 1;
 				if (result) { SET_FLAG(ZF, (1 != 1));  return; }
 			}
 		} else {
-			LazyFlagVarA32 = *(uint32_t*)(sourceSegment + reg_SI_32);
-			LazyFlagVarB32 = *(uint32_t*)(targetSegment + reg_DI_32);
-			LazyFlagResultContainer32 = *(uint32_t*)(sourceSegment + reg_SI_32) - *(uint32_t*)(targetSegment + reg_DI_32);
+			LazyFlagVarA32 = *(uint32_t*)(sourceSegment + reg_SI_32u);
+			LazyFlagVarB32 = *(uint32_t*)(targetSegment + reg_DI_32u);
+			LazyFlagResultContainer32 = *(uint32_t*)(sourceSegment + reg_SI_32u) - *(uint32_t*)(targetSegment + reg_DI_32u);
 			lazyFlagType = t_CMP32;
-			reg_DI_32 -= 32 / 8;reg_SI_32 -= 32 / 8;
+			reg_DI_32u -= 32 / 8;reg_SI_32u -= 32 / 8;
 		}
 	} else {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF2) {
 			while (reg_CX_32 != 0) {
-				uint8_t result = *(uint32_t*)(targetSegment + reg_DI_32) == *(uint32_t*)(sourceSegment + reg_SI_32);
-				LazyFlagVarA32 = *(uint32_t*)(sourceSegment + reg_SI_32);
-				LazyFlagVarB32 = *(uint32_t*)(targetSegment + reg_DI_32);
-				LazyFlagResultContainer32 = *(uint32_t*)(sourceSegment + reg_SI_32) - *(uint32_t*)(targetSegment + reg_DI_32);
+				uint8_t result = *(uint32_t*)(targetSegment + reg_DI_32u) == *(uint32_t*)(sourceSegment + reg_SI_32u);
+				LazyFlagVarA32 = *(uint32_t*)(sourceSegment + reg_SI_32u);
+				LazyFlagVarB32 = *(uint32_t*)(targetSegment + reg_DI_32u);
+				LazyFlagResultContainer32 = *(uint32_t*)(sourceSegment + reg_SI_32u) - *(uint32_t*)(targetSegment + reg_DI_32u);
 				lazyFlagType = t_CMP32;
-				reg_DI_32 += 32 / 8;reg_SI_32 += 32 / 8;
-				reg_CX_32 -= 1;
+				reg_DI_32u += 32 / 8;reg_SI_32u += 32 / 8;
+				reg_CX_32u -= 1;
 				if (result) { SET_FLAG(ZF, (1 == 1));  return; }
 			}
 		} else if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF3) {
 			while (reg_CX_32 != 0) {
-				uint8_t result = *(uint32_t*)(targetSegment + reg_DI_32) != *(uint32_t*)(sourceSegment + reg_SI_32);
-				LazyFlagVarA32 = *(uint32_t*)(sourceSegment + reg_SI_32);
-				LazyFlagVarB32 = *(uint32_t*)(targetSegment + reg_DI_32);
-				LazyFlagResultContainer32 = *(uint32_t*)(sourceSegment + reg_SI_32) - *(uint32_t*)(targetSegment + reg_DI_32);
+				uint8_t result = *(uint32_t*)(targetSegment + reg_DI_32u) != *(uint32_t*)(sourceSegment + reg_SI_32u);
+				LazyFlagVarA32 = *(uint32_t*)(sourceSegment + reg_SI_32u);
+				LazyFlagVarB32 = *(uint32_t*)(targetSegment + reg_DI_32u);
+				LazyFlagResultContainer32 = *(uint32_t*)(sourceSegment + reg_SI_32u) - *(uint32_t*)(targetSegment + reg_DI_32u);
 				lazyFlagType = t_CMP32;
-				reg_DI_32 += 32 / 8;reg_SI_32 += 32 / 8;
-				reg_CX_32 -= 1;
+				reg_DI_32u += 32 / 8;reg_SI_32u += 32 / 8;
+				reg_CX_32u -= 1;
 				if (result) { SET_FLAG(ZF, (1 != 1));  return; }
 			}
 		} else {
-			LazyFlagVarA32 = *(uint32_t*)(sourceSegment + reg_SI_32);
-			LazyFlagVarB32 = *(uint32_t*)(targetSegment + reg_DI_32);
-			LazyFlagResultContainer32 = *(uint32_t*)(sourceSegment + reg_SI_32) - *(uint32_t*)(targetSegment + reg_DI_32);
+			LazyFlagVarA32 = *(uint32_t*)(sourceSegment + reg_SI_32u);
+			LazyFlagVarB32 = *(uint32_t*)(targetSegment + reg_DI_32u);
+			LazyFlagResultContainer32 = *(uint32_t*)(sourceSegment + reg_SI_32u) - *(uint32_t*)(targetSegment + reg_DI_32u);
 			lazyFlagType = t_CMP32;
-			reg_DI_32 += 32 / 8;reg_SI_32 += 32 / 8;
+			reg_DI_32u += 32 / 8;reg_SI_32u += 32 / 8;
 		}
 	}
 }
@@ -3944,68 +3943,67 @@ void handlerCommand16Code00A7P66P67() {
 void handlerCommand16Code00A7P66() {
 	LOG("%s","CMPS");
 	lazyFlagType = t_UNKNOWN;
-	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
-	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
+	uint8_t* sourceSegment = memWithReplace(SR_DS);
 	uint8_t* targetSegment = mem(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF2) {
 			while (reg_CX_16 != 0) {
-				uint8_t result = *(uint32_t*)(targetSegment + reg_DI_16) == *(uint32_t*)(sourceSegment + reg_SI_16);
-				LazyFlagVarA32 = *(uint32_t*)(sourceSegment + reg_SI_16);
-				LazyFlagVarB32 = *(uint32_t*)(targetSegment + reg_DI_16);
-				LazyFlagResultContainer32 = *(uint32_t*)(sourceSegment + reg_SI_16) - *(uint32_t*)(targetSegment + reg_DI_16);
+				uint8_t result = *(uint32_t*)(targetSegment + reg_DI_16u) == *(uint32_t*)(sourceSegment + reg_SI_16u);
+				LazyFlagVarA32 = *(uint32_t*)(sourceSegment + reg_SI_16u);
+				LazyFlagVarB32 = *(uint32_t*)(targetSegment + reg_DI_16u);
+				LazyFlagResultContainer32 = *(uint32_t*)(sourceSegment + reg_SI_16u) - *(uint32_t*)(targetSegment + reg_DI_16u);
 				lazyFlagType = t_CMP32;
-				reg_DI_16 -= 32 / 8;reg_SI_16 -= 32 / 8;
-				reg_CX_16 -= 1;
+				reg_DI_16u -= 32 / 8;reg_SI_16u -= 32 / 8;
+				reg_CX_16u -= 1;
 				if (result) { SET_FLAG(ZF, (1 == 1));  return; }
 			}
 		} else if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF3) {
 			while (reg_CX_16 != 0) {
-				uint8_t result = *(uint32_t*)(targetSegment + reg_DI_16) != *(uint32_t*)(sourceSegment + reg_SI_16);
-				LazyFlagVarA32 = *(uint32_t*)(sourceSegment + reg_SI_16);
-				LazyFlagVarB32 = *(uint32_t*)(targetSegment + reg_DI_16);
-				LazyFlagResultContainer32 = *(uint32_t*)(sourceSegment + reg_SI_16) - *(uint32_t*)(targetSegment + reg_DI_16);
+				uint8_t result = *(uint32_t*)(targetSegment + reg_DI_16u) != *(uint32_t*)(sourceSegment + reg_SI_16u);
+				LazyFlagVarA32 = *(uint32_t*)(sourceSegment + reg_SI_16u);
+				LazyFlagVarB32 = *(uint32_t*)(targetSegment + reg_DI_16u);
+				LazyFlagResultContainer32 = *(uint32_t*)(sourceSegment + reg_SI_16u) - *(uint32_t*)(targetSegment + reg_DI_16u);
 				lazyFlagType = t_CMP32;
-				reg_DI_16 -= 32 / 8;reg_SI_16 -= 32 / 8;
-				reg_CX_16 -= 1;
+				reg_DI_16u -= 32 / 8;reg_SI_16u -= 32 / 8;
+				reg_CX_16u -= 1;
 				if (result) { SET_FLAG(ZF, (1 != 1));  return; }
 			}
 		} else {
-			LazyFlagVarA32 = *(uint32_t*)(sourceSegment + reg_SI_16);
-			LazyFlagVarB32 = *(uint32_t*)(targetSegment + reg_DI_16);
-			LazyFlagResultContainer32 = *(uint32_t*)(sourceSegment + reg_SI_16) - *(uint32_t*)(targetSegment + reg_DI_16);
+			LazyFlagVarA32 = *(uint32_t*)(sourceSegment + reg_SI_16u);
+			LazyFlagVarB32 = *(uint32_t*)(targetSegment + reg_DI_16u);
+			LazyFlagResultContainer32 = *(uint32_t*)(sourceSegment + reg_SI_16u) - *(uint32_t*)(targetSegment + reg_DI_16u);
 			lazyFlagType = t_CMP32;
-			reg_DI_16 -= 32 / 8;reg_SI_16 -= 32 / 8;
+			reg_DI_16u -= 32 / 8;reg_SI_16u -= 32 / 8;
 		}
 	} else {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF2) {
 			while (reg_CX_16 != 0) {
-				uint8_t result = *(uint32_t*)(targetSegment + reg_DI_16) == *(uint32_t*)(sourceSegment + reg_SI_16);
-				LazyFlagVarA32 = *(uint32_t*)(sourceSegment + reg_SI_16);
-				LazyFlagVarB32 = *(uint32_t*)(targetSegment + reg_DI_16);
-				LazyFlagResultContainer32 = *(uint32_t*)(sourceSegment + reg_SI_16) - *(uint32_t*)(targetSegment + reg_DI_16);
+				uint8_t result = *(uint32_t*)(targetSegment + reg_DI_16u) == *(uint32_t*)(sourceSegment + reg_SI_16u);
+				LazyFlagVarA32 = *(uint32_t*)(sourceSegment + reg_SI_16u);
+				LazyFlagVarB32 = *(uint32_t*)(targetSegment + reg_DI_16u);
+				LazyFlagResultContainer32 = *(uint32_t*)(sourceSegment + reg_SI_16u) - *(uint32_t*)(targetSegment + reg_DI_16u);
 				lazyFlagType = t_CMP32;
-				reg_DI_16 += 32 / 8;reg_SI_16 += 32 / 8;
-				reg_CX_16 -= 1;
+				reg_DI_16u += 32 / 8;reg_SI_16u += 32 / 8;
+				reg_CX_16u -= 1;
 				if (result) { SET_FLAG(ZF, (1 == 1));  return; }
 			}
 		} else if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF3) {
 			while (reg_CX_16 != 0) {
-				uint8_t result = *(uint32_t*)(targetSegment + reg_DI_16) != *(uint32_t*)(sourceSegment + reg_SI_16);
-				LazyFlagVarA32 = *(uint32_t*)(sourceSegment + reg_SI_16);
-				LazyFlagVarB32 = *(uint32_t*)(targetSegment + reg_DI_16);
-				LazyFlagResultContainer32 = *(uint32_t*)(sourceSegment + reg_SI_16) - *(uint32_t*)(targetSegment + reg_DI_16);
+				uint8_t result = *(uint32_t*)(targetSegment + reg_DI_16u) != *(uint32_t*)(sourceSegment + reg_SI_16u);
+				LazyFlagVarA32 = *(uint32_t*)(sourceSegment + reg_SI_16u);
+				LazyFlagVarB32 = *(uint32_t*)(targetSegment + reg_DI_16u);
+				LazyFlagResultContainer32 = *(uint32_t*)(sourceSegment + reg_SI_16u) - *(uint32_t*)(targetSegment + reg_DI_16u);
 				lazyFlagType = t_CMP32;
-				reg_DI_16 += 32 / 8;reg_SI_16 += 32 / 8;
-				reg_CX_16 -= 1;
+				reg_DI_16u += 32 / 8;reg_SI_16u += 32 / 8;
+				reg_CX_16u -= 1;
 				if (result) { SET_FLAG(ZF, (1 != 1));  return; }
 			}
 		} else {
-			LazyFlagVarA32 = *(uint32_t*)(sourceSegment + reg_SI_16);
-			LazyFlagVarB32 = *(uint32_t*)(targetSegment + reg_DI_16);
-			LazyFlagResultContainer32 = *(uint32_t*)(sourceSegment + reg_SI_16) - *(uint32_t*)(targetSegment + reg_DI_16);
+			LazyFlagVarA32 = *(uint32_t*)(sourceSegment + reg_SI_16u);
+			LazyFlagVarB32 = *(uint32_t*)(targetSegment + reg_DI_16u);
+			LazyFlagResultContainer32 = *(uint32_t*)(sourceSegment + reg_SI_16u) - *(uint32_t*)(targetSegment + reg_DI_16u);
 			lazyFlagType = t_CMP32;
-			reg_DI_16 += 32 / 8;reg_SI_16 += 32 / 8;
+			reg_DI_16u += 32 / 8;reg_SI_16u += 32 / 8;
 		}
 	}
 }
@@ -4013,68 +4011,67 @@ void handlerCommand16Code00A7P66() {
 void handlerCommand16Code00A7P67() {
 	LOG("%s","CMPS");
 	lazyFlagType = t_UNKNOWN;
-	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
-	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
+	uint8_t* sourceSegment = memWithReplace(SR_DS);
 	uint8_t* targetSegment = mem(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF2) {
 			while (reg_CX_32 != 0) {
-				uint8_t result = *(uint16_t*)(targetSegment + reg_DI_32) == *(uint16_t*)(sourceSegment + reg_SI_32);
-				LazyFlagVarA16 = *(uint16_t*)(sourceSegment + reg_SI_32);
-				LazyFlagVarB16 = *(uint16_t*)(targetSegment + reg_DI_32);
-				LazyFlagResultContainer16 = *(uint16_t*)(sourceSegment + reg_SI_32) - *(uint16_t*)(targetSegment + reg_DI_32);
+				uint8_t result = *(uint16_t*)(targetSegment + reg_DI_32u) == *(uint16_t*)(sourceSegment + reg_SI_32u);
+				LazyFlagVarA16 = *(uint16_t*)(sourceSegment + reg_SI_32u);
+				LazyFlagVarB16 = *(uint16_t*)(targetSegment + reg_DI_32u);
+				LazyFlagResultContainer16 = *(uint16_t*)(sourceSegment + reg_SI_32u) - *(uint16_t*)(targetSegment + reg_DI_32u);
 				lazyFlagType = t_CMP16;
-				reg_DI_32 -= 16 / 8;reg_SI_32 -= 16 / 8;
-				reg_CX_32 -= 1;
+				reg_DI_32u -= 16 / 8;reg_SI_32u -= 16 / 8;
+				reg_CX_32u -= 1;
 				if (result) { SET_FLAG(ZF, (1 == 1));  return; }
 			}
 		} else if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF3) {
 			while (reg_CX_32 != 0) {
-				uint8_t result = *(uint16_t*)(targetSegment + reg_DI_32) != *(uint16_t*)(sourceSegment + reg_SI_32);
-				LazyFlagVarA16 = *(uint16_t*)(sourceSegment + reg_SI_32);
-				LazyFlagVarB16 = *(uint16_t*)(targetSegment + reg_DI_32);
-				LazyFlagResultContainer16 = *(uint16_t*)(sourceSegment + reg_SI_32) - *(uint16_t*)(targetSegment + reg_DI_32);
+				uint8_t result = *(uint16_t*)(targetSegment + reg_DI_32u) != *(uint16_t*)(sourceSegment + reg_SI_32u);
+				LazyFlagVarA16 = *(uint16_t*)(sourceSegment + reg_SI_32u);
+				LazyFlagVarB16 = *(uint16_t*)(targetSegment + reg_DI_32u);
+				LazyFlagResultContainer16 = *(uint16_t*)(sourceSegment + reg_SI_32u) - *(uint16_t*)(targetSegment + reg_DI_32u);
 				lazyFlagType = t_CMP16;
-				reg_DI_32 -= 16 / 8;reg_SI_32 -= 16 / 8;
-				reg_CX_32 -= 1;
+				reg_DI_32u -= 16 / 8;reg_SI_32u -= 16 / 8;
+				reg_CX_32u -= 1;
 				if (result) { SET_FLAG(ZF, (1 != 1));  return; }
 			}
 		} else {
-			LazyFlagVarA16 = *(uint16_t*)(sourceSegment + reg_SI_32);
-			LazyFlagVarB16 = *(uint16_t*)(targetSegment + reg_DI_32);
-			LazyFlagResultContainer16 = *(uint16_t*)(sourceSegment + reg_SI_32) - *(uint16_t*)(targetSegment + reg_DI_32);
+			LazyFlagVarA16 = *(uint16_t*)(sourceSegment + reg_SI_32u);
+			LazyFlagVarB16 = *(uint16_t*)(targetSegment + reg_DI_32u);
+			LazyFlagResultContainer16 = *(uint16_t*)(sourceSegment + reg_SI_32u) - *(uint16_t*)(targetSegment + reg_DI_32u);
 			lazyFlagType = t_CMP16;
-			reg_DI_32 -= 16 / 8;reg_SI_32 -= 16 / 8;
+			reg_DI_32u -= 16 / 8;reg_SI_32u -= 16 / 8;
 		}
 	} else {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF2) {
 			while (reg_CX_32 != 0) {
-				uint8_t result = *(uint16_t*)(targetSegment + reg_DI_32) == *(uint16_t*)(sourceSegment + reg_SI_32);
-				LazyFlagVarA16 = *(uint16_t*)(sourceSegment + reg_SI_32);
-				LazyFlagVarB16 = *(uint16_t*)(targetSegment + reg_DI_32);
-				LazyFlagResultContainer16 = *(uint16_t*)(sourceSegment + reg_SI_32) - *(uint16_t*)(targetSegment + reg_DI_32);
+				uint8_t result = *(uint16_t*)(targetSegment + reg_DI_32u) == *(uint16_t*)(sourceSegment + reg_SI_32u);
+				LazyFlagVarA16 = *(uint16_t*)(sourceSegment + reg_SI_32u);
+				LazyFlagVarB16 = *(uint16_t*)(targetSegment + reg_DI_32u);
+				LazyFlagResultContainer16 = *(uint16_t*)(sourceSegment + reg_SI_32u) - *(uint16_t*)(targetSegment + reg_DI_32u);
 				lazyFlagType = t_CMP16;
-				reg_DI_32 += 16 / 8;reg_SI_32 += 16 / 8;
-				reg_CX_32 -= 1;
+				reg_DI_32u += 16 / 8;reg_SI_32u += 16 / 8;
+				reg_CX_32u -= 1;
 				if (result) { SET_FLAG(ZF, (1 == 1));  return; }
 			}
 		} else if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF3) {
 			while (reg_CX_32 != 0) {
-				uint8_t result = *(uint16_t*)(targetSegment + reg_DI_32) != *(uint16_t*)(sourceSegment + reg_SI_32);
-				LazyFlagVarA16 = *(uint16_t*)(sourceSegment + reg_SI_32);
-				LazyFlagVarB16 = *(uint16_t*)(targetSegment + reg_DI_32);
-				LazyFlagResultContainer16 = *(uint16_t*)(sourceSegment + reg_SI_32) - *(uint16_t*)(targetSegment + reg_DI_32);
+				uint8_t result = *(uint16_t*)(targetSegment + reg_DI_32u) != *(uint16_t*)(sourceSegment + reg_SI_32u);
+				LazyFlagVarA16 = *(uint16_t*)(sourceSegment + reg_SI_32u);
+				LazyFlagVarB16 = *(uint16_t*)(targetSegment + reg_DI_32u);
+				LazyFlagResultContainer16 = *(uint16_t*)(sourceSegment + reg_SI_32u) - *(uint16_t*)(targetSegment + reg_DI_32u);
 				lazyFlagType = t_CMP16;
-				reg_DI_32 += 16 / 8;reg_SI_32 += 16 / 8;
-				reg_CX_32 -= 1;
+				reg_DI_32u += 16 / 8;reg_SI_32u += 16 / 8;
+				reg_CX_32u -= 1;
 				if (result) { SET_FLAG(ZF, (1 != 1));  return; }
 			}
 		} else {
-			LazyFlagVarA16 = *(uint16_t*)(sourceSegment + reg_SI_32);
-			LazyFlagVarB16 = *(uint16_t*)(targetSegment + reg_DI_32);
-			LazyFlagResultContainer16 = *(uint16_t*)(sourceSegment + reg_SI_32) - *(uint16_t*)(targetSegment + reg_DI_32);
+			LazyFlagVarA16 = *(uint16_t*)(sourceSegment + reg_SI_32u);
+			LazyFlagVarB16 = *(uint16_t*)(targetSegment + reg_DI_32u);
+			LazyFlagResultContainer16 = *(uint16_t*)(sourceSegment + reg_SI_32u) - *(uint16_t*)(targetSegment + reg_DI_32u);
 			lazyFlagType = t_CMP16;
-			reg_DI_32 += 16 / 8;reg_SI_32 += 16 / 8;
+			reg_DI_32u += 16 / 8;reg_SI_32u += 16 / 8;
 		}
 	}
 }
@@ -4082,68 +4079,67 @@ void handlerCommand16Code00A7P67() {
 void handlerCommand16Code00A7() {
 	LOG("%s","CMPS");
 	lazyFlagType = t_UNKNOWN;
-	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
-	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
+	uint8_t* sourceSegment = memWithReplace(SR_DS);
 	uint8_t* targetSegment = mem(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF2) {
 			while (reg_CX_16 != 0) {
-				uint8_t result = *(uint16_t*)(targetSegment + reg_DI_16) == *(uint16_t*)(sourceSegment + reg_SI_16);
-				LazyFlagVarA16 = *(uint16_t*)(sourceSegment + reg_SI_16);
-				LazyFlagVarB16 = *(uint16_t*)(targetSegment + reg_DI_16);
-				LazyFlagResultContainer16 = *(uint16_t*)(sourceSegment + reg_SI_16) - *(uint16_t*)(targetSegment + reg_DI_16);
+				uint8_t result = *(uint16_t*)(targetSegment + reg_DI_16u) == *(uint16_t*)(sourceSegment + reg_SI_16u);
+				LazyFlagVarA16 = *(uint16_t*)(sourceSegment + reg_SI_16u);
+				LazyFlagVarB16 = *(uint16_t*)(targetSegment + reg_DI_16u);
+				LazyFlagResultContainer16 = *(uint16_t*)(sourceSegment + reg_SI_16u) - *(uint16_t*)(targetSegment + reg_DI_16u);
 				lazyFlagType = t_CMP16;
-				reg_DI_16 -= 16 / 8;reg_SI_16 -= 16 / 8;
-				reg_CX_16 -= 1;
+				reg_DI_16u -= 16 / 8;reg_SI_16u -= 16 / 8;
+				reg_CX_16u -= 1;
 				if (result) { SET_FLAG(ZF, (1 == 1));  return; }
 			}
 		} else if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF3) {
 			while (reg_CX_16 != 0) {
-				uint8_t result = *(uint16_t*)(targetSegment + reg_DI_16) != *(uint16_t*)(sourceSegment + reg_SI_16);
-				LazyFlagVarA16 = *(uint16_t*)(sourceSegment + reg_SI_16);
-				LazyFlagVarB16 = *(uint16_t*)(targetSegment + reg_DI_16);
-				LazyFlagResultContainer16 = *(uint16_t*)(sourceSegment + reg_SI_16) - *(uint16_t*)(targetSegment + reg_DI_16);
+				uint8_t result = *(uint16_t*)(targetSegment + reg_DI_16u) != *(uint16_t*)(sourceSegment + reg_SI_16u);
+				LazyFlagVarA16 = *(uint16_t*)(sourceSegment + reg_SI_16u);
+				LazyFlagVarB16 = *(uint16_t*)(targetSegment + reg_DI_16u);
+				LazyFlagResultContainer16 = *(uint16_t*)(sourceSegment + reg_SI_16u) - *(uint16_t*)(targetSegment + reg_DI_16u);
 				lazyFlagType = t_CMP16;
-				reg_DI_16 -= 16 / 8;reg_SI_16 -= 16 / 8;
-				reg_CX_16 -= 1;
+				reg_DI_16u -= 16 / 8;reg_SI_16u -= 16 / 8;
+				reg_CX_16u -= 1;
 				if (result) { SET_FLAG(ZF, (1 != 1));  return; }
 			}
 		} else {
-			LazyFlagVarA16 = *(uint16_t*)(sourceSegment + reg_SI_16);
-			LazyFlagVarB16 = *(uint16_t*)(targetSegment + reg_DI_16);
-			LazyFlagResultContainer16 = *(uint16_t*)(sourceSegment + reg_SI_16) - *(uint16_t*)(targetSegment + reg_DI_16);
+			LazyFlagVarA16 = *(uint16_t*)(sourceSegment + reg_SI_16u);
+			LazyFlagVarB16 = *(uint16_t*)(targetSegment + reg_DI_16u);
+			LazyFlagResultContainer16 = *(uint16_t*)(sourceSegment + reg_SI_16u) - *(uint16_t*)(targetSegment + reg_DI_16u);
 			lazyFlagType = t_CMP16;
-			reg_DI_16 -= 16 / 8;reg_SI_16 -= 16 / 8;
+			reg_DI_16u -= 16 / 8;reg_SI_16u -= 16 / 8;
 		}
 	} else {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF2) {
 			while (reg_CX_16 != 0) {
-				uint8_t result = *(uint16_t*)(targetSegment + reg_DI_16) == *(uint16_t*)(sourceSegment + reg_SI_16);
-				LazyFlagVarA16 = *(uint16_t*)(sourceSegment + reg_SI_16);
-				LazyFlagVarB16 = *(uint16_t*)(targetSegment + reg_DI_16);
-				LazyFlagResultContainer16 = *(uint16_t*)(sourceSegment + reg_SI_16) - *(uint16_t*)(targetSegment + reg_DI_16);
+				uint8_t result = *(uint16_t*)(targetSegment + reg_DI_16u) == *(uint16_t*)(sourceSegment + reg_SI_16u);
+				LazyFlagVarA16 = *(uint16_t*)(sourceSegment + reg_SI_16u);
+				LazyFlagVarB16 = *(uint16_t*)(targetSegment + reg_DI_16u);
+				LazyFlagResultContainer16 = *(uint16_t*)(sourceSegment + reg_SI_16u) - *(uint16_t*)(targetSegment + reg_DI_16u);
 				lazyFlagType = t_CMP16;
-				reg_DI_16 += 16 / 8;reg_SI_16 += 16 / 8;
-				reg_CX_16 -= 1;
+				reg_DI_16u += 16 / 8;reg_SI_16u += 16 / 8;
+				reg_CX_16u -= 1;
 				if (result) { SET_FLAG(ZF, (1 == 1));  return; }
 			}
 		} else if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF3) {
 			while (reg_CX_16 != 0) {
-				uint8_t result = *(uint16_t*)(targetSegment + reg_DI_16) != *(uint16_t*)(sourceSegment + reg_SI_16);
-				LazyFlagVarA16 = *(uint16_t*)(sourceSegment + reg_SI_16);
-				LazyFlagVarB16 = *(uint16_t*)(targetSegment + reg_DI_16);
-				LazyFlagResultContainer16 = *(uint16_t*)(sourceSegment + reg_SI_16) - *(uint16_t*)(targetSegment + reg_DI_16);
+				uint8_t result = *(uint16_t*)(targetSegment + reg_DI_16u) != *(uint16_t*)(sourceSegment + reg_SI_16u);
+				LazyFlagVarA16 = *(uint16_t*)(sourceSegment + reg_SI_16u);
+				LazyFlagVarB16 = *(uint16_t*)(targetSegment + reg_DI_16u);
+				LazyFlagResultContainer16 = *(uint16_t*)(sourceSegment + reg_SI_16u) - *(uint16_t*)(targetSegment + reg_DI_16u);
 				lazyFlagType = t_CMP16;
-				reg_DI_16 += 16 / 8;reg_SI_16 += 16 / 8;
-				reg_CX_16 -= 1;
+				reg_DI_16u += 16 / 8;reg_SI_16u += 16 / 8;
+				reg_CX_16u -= 1;
 				if (result) { SET_FLAG(ZF, (1 != 1));  return; }
 			}
 		} else {
-			LazyFlagVarA16 = *(uint16_t*)(sourceSegment + reg_SI_16);
-			LazyFlagVarB16 = *(uint16_t*)(targetSegment + reg_DI_16);
-			LazyFlagResultContainer16 = *(uint16_t*)(sourceSegment + reg_SI_16) - *(uint16_t*)(targetSegment + reg_DI_16);
+			LazyFlagVarA16 = *(uint16_t*)(sourceSegment + reg_SI_16u);
+			LazyFlagVarB16 = *(uint16_t*)(targetSegment + reg_DI_16u);
+			LazyFlagResultContainer16 = *(uint16_t*)(sourceSegment + reg_SI_16u) - *(uint16_t*)(targetSegment + reg_DI_16u);
 			lazyFlagType = t_CMP16;
-			reg_DI_16 += 16 / 8;reg_SI_16 += 16 / 8;
+			reg_DI_16u += 16 / 8;reg_SI_16u += 16 / 8;
 		}
 	}
 }
@@ -4186,480 +4182,464 @@ void handlerCommand16Code00A9() {
 //STOS
 void handlerCommand16Code00AAP66P67() {
 	LOG("%s","STOS");
-	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
-	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
+	uint8_t* sourceSegment = memWithReplace(SR_DS);
 	uint8_t* targetSegment = mem(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_32 != 0) {
-				*(uint8_t*)(targetSegment + reg_DI_32) = reg_0x00_8u;
-				reg_DI_32 -= 8 / 8;
-				reg_CX_32 -= 1;
+				*(uint8_t*)(targetSegment + reg_DI_32u) = reg_0x00_8u;
+				reg_DI_32u -= 8 / 8;
+				reg_CX_32u -= 1;
 			}
 		} else {
-			*(uint8_t*)(targetSegment + reg_DI_32) = reg_0x00_8u;
-			reg_DI_32 -= 8 / 8;
+			*(uint8_t*)(targetSegment + reg_DI_32u) = reg_0x00_8u;
+			reg_DI_32u -= 8 / 8;
 		}
 	} else {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_32 != 0) {
-				*(uint8_t*)(targetSegment + reg_DI_32) = reg_0x00_8u;
-				reg_DI_32 += 8 / 8;
-				reg_CX_32 -= 1;
+				*(uint8_t*)(targetSegment + reg_DI_32u) = reg_0x00_8u;
+				reg_DI_32u += 8 / 8;
+				reg_CX_32u -= 1;
 			}
 		} else {
-			*(uint8_t*)(targetSegment + reg_DI_32) = reg_0x00_8u;
-			reg_DI_32 += 8 / 8;
+			*(uint8_t*)(targetSegment + reg_DI_32u) = reg_0x00_8u;
+			reg_DI_32u += 8 / 8;
 		}
 	}
 }
 //STOS
 void handlerCommand16Code00AAP66() {
 	LOG("%s","STOS");
-	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
-	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
+	uint8_t* sourceSegment = memWithReplace(SR_DS);
 	uint8_t* targetSegment = mem(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_16 != 0) {
-				*(uint8_t*)(targetSegment + reg_DI_16) = reg_0x00_8u;
-				reg_DI_16 -= 8 / 8;
-				reg_CX_16 -= 1;
+				*(uint8_t*)(targetSegment + reg_DI_16u) = reg_0x00_8u;
+				reg_DI_16u -= 8 / 8;
+				reg_CX_16u -= 1;
 			}
 		} else {
-			*(uint8_t*)(targetSegment + reg_DI_16) = reg_0x00_8u;
-			reg_DI_16 -= 8 / 8;
+			*(uint8_t*)(targetSegment + reg_DI_16u) = reg_0x00_8u;
+			reg_DI_16u -= 8 / 8;
 		}
 	} else {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_16 != 0) {
-				*(uint8_t*)(targetSegment + reg_DI_16) = reg_0x00_8u;
-				reg_DI_16 += 8 / 8;
-				reg_CX_16 -= 1;
+				*(uint8_t*)(targetSegment + reg_DI_16u) = reg_0x00_8u;
+				reg_DI_16u += 8 / 8;
+				reg_CX_16u -= 1;
 			}
 		} else {
-			*(uint8_t*)(targetSegment + reg_DI_16) = reg_0x00_8u;
-			reg_DI_16 += 8 / 8;
+			*(uint8_t*)(targetSegment + reg_DI_16u) = reg_0x00_8u;
+			reg_DI_16u += 8 / 8;
 		}
 	}
 }
 //STOS
 void handlerCommand16Code00AAP67() {
 	LOG("%s","STOS");
-	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
-	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
+	uint8_t* sourceSegment = memWithReplace(SR_DS);
 	uint8_t* targetSegment = mem(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_32 != 0) {
-				*(uint8_t*)(targetSegment + reg_DI_32) = reg_0x00_8u;
-				reg_DI_32 -= 8 / 8;
-				reg_CX_32 -= 1;
+				*(uint8_t*)(targetSegment + reg_DI_32u) = reg_0x00_8u;
+				reg_DI_32u -= 8 / 8;
+				reg_CX_32u -= 1;
 			}
 		} else {
-			*(uint8_t*)(targetSegment + reg_DI_32) = reg_0x00_8u;
-			reg_DI_32 -= 8 / 8;
+			*(uint8_t*)(targetSegment + reg_DI_32u) = reg_0x00_8u;
+			reg_DI_32u -= 8 / 8;
 		}
 	} else {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_32 != 0) {
-				*(uint8_t*)(targetSegment + reg_DI_32) = reg_0x00_8u;
-				reg_DI_32 += 8 / 8;
-				reg_CX_32 -= 1;
+				*(uint8_t*)(targetSegment + reg_DI_32u) = reg_0x00_8u;
+				reg_DI_32u += 8 / 8;
+				reg_CX_32u -= 1;
 			}
 		} else {
-			*(uint8_t*)(targetSegment + reg_DI_32) = reg_0x00_8u;
-			reg_DI_32 += 8 / 8;
+			*(uint8_t*)(targetSegment + reg_DI_32u) = reg_0x00_8u;
+			reg_DI_32u += 8 / 8;
 		}
 	}
 }
 //STOS
 void handlerCommand16Code00AA() {
 	LOG("%s","STOS");
-	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
-	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
+	uint8_t* sourceSegment = memWithReplace(SR_DS);
 	uint8_t* targetSegment = mem(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_16 != 0) {
-				*(uint8_t*)(targetSegment + reg_DI_16) = reg_0x00_8u;
-				reg_DI_16 -= 8 / 8;
-				reg_CX_16 -= 1;
+				*(uint8_t*)(targetSegment + reg_DI_16u) = reg_0x00_8u;
+				reg_DI_16u -= 8 / 8;
+				reg_CX_16u -= 1;
 			}
 		} else {
-			*(uint8_t*)(targetSegment + reg_DI_16) = reg_0x00_8u;
-			reg_DI_16 -= 8 / 8;
+			*(uint8_t*)(targetSegment + reg_DI_16u) = reg_0x00_8u;
+			reg_DI_16u -= 8 / 8;
 		}
 	} else {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_16 != 0) {
-				*(uint8_t*)(targetSegment + reg_DI_16) = reg_0x00_8u;
-				reg_DI_16 += 8 / 8;
-				reg_CX_16 -= 1;
+				*(uint8_t*)(targetSegment + reg_DI_16u) = reg_0x00_8u;
+				reg_DI_16u += 8 / 8;
+				reg_CX_16u -= 1;
 			}
 		} else {
-			*(uint8_t*)(targetSegment + reg_DI_16) = reg_0x00_8u;
-			reg_DI_16 += 8 / 8;
+			*(uint8_t*)(targetSegment + reg_DI_16u) = reg_0x00_8u;
+			reg_DI_16u += 8 / 8;
 		}
 	}
 }
 //STOS
 void handlerCommand16Code00ABP66P67() {
 	LOG("%s","STOS");
-	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
-	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
+	uint8_t* sourceSegment = memWithReplace(SR_DS);
 	uint8_t* targetSegment = mem(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_32 != 0) {
-				*(uint32_t*)(targetSegment + reg_DI_32) = reg_0x00_32u;
-				reg_DI_32 -= 32 / 8;
-				reg_CX_32 -= 1;
+				*(uint32_t*)(targetSegment + reg_DI_32u) = reg_0x00_32u;
+				reg_DI_32u -= 32 / 8;
+				reg_CX_32u -= 1;
 			}
 		} else {
-			*(uint32_t*)(targetSegment + reg_DI_32) = reg_0x00_32u;
-			reg_DI_32 -= 32 / 8;
+			*(uint32_t*)(targetSegment + reg_DI_32u) = reg_0x00_32u;
+			reg_DI_32u -= 32 / 8;
 		}
 	} else {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_32 != 0) {
-				*(uint32_t*)(targetSegment + reg_DI_32) = reg_0x00_32u;
-				reg_DI_32 += 32 / 8;
-				reg_CX_32 -= 1;
+				*(uint32_t*)(targetSegment + reg_DI_32u) = reg_0x00_32u;
+				reg_DI_32u += 32 / 8;
+				reg_CX_32u -= 1;
 			}
 		} else {
-			*(uint32_t*)(targetSegment + reg_DI_32) = reg_0x00_32u;
-			reg_DI_32 += 32 / 8;
+			*(uint32_t*)(targetSegment + reg_DI_32u) = reg_0x00_32u;
+			reg_DI_32u += 32 / 8;
 		}
 	}
 }
 //STOS
 void handlerCommand16Code00ABP66() {
 	LOG("%s","STOS");
-	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
-	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
+	uint8_t* sourceSegment = memWithReplace(SR_DS);
 	uint8_t* targetSegment = mem(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_16 != 0) {
-				*(uint32_t*)(targetSegment + reg_DI_16) = reg_0x00_32u;
-				reg_DI_16 -= 32 / 8;
-				reg_CX_16 -= 1;
+				*(uint32_t*)(targetSegment + reg_DI_16u) = reg_0x00_32u;
+				reg_DI_16u -= 32 / 8;
+				reg_CX_16u -= 1;
 			}
 		} else {
-			*(uint32_t*)(targetSegment + reg_DI_16) = reg_0x00_32u;
-			reg_DI_16 -= 32 / 8;
+			*(uint32_t*)(targetSegment + reg_DI_16u) = reg_0x00_32u;
+			reg_DI_16u -= 32 / 8;
 		}
 	} else {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_16 != 0) {
-				*(uint32_t*)(targetSegment + reg_DI_16) = reg_0x00_32u;
-				reg_DI_16 += 32 / 8;
-				reg_CX_16 -= 1;
+				*(uint32_t*)(targetSegment + reg_DI_16u) = reg_0x00_32u;
+				reg_DI_16u += 32 / 8;
+				reg_CX_16u -= 1;
 			}
 		} else {
-			*(uint32_t*)(targetSegment + reg_DI_16) = reg_0x00_32u;
-			reg_DI_16 += 32 / 8;
+			*(uint32_t*)(targetSegment + reg_DI_16u) = reg_0x00_32u;
+			reg_DI_16u += 32 / 8;
 		}
 	}
 }
 //STOS
 void handlerCommand16Code00ABP67() {
 	LOG("%s","STOS");
-	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
-	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
+	uint8_t* sourceSegment = memWithReplace(SR_DS);
 	uint8_t* targetSegment = mem(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_32 != 0) {
-				*(uint16_t*)(targetSegment + reg_DI_32) = reg_0x00_16u;
-				reg_DI_32 -= 16 / 8;
-				reg_CX_32 -= 1;
+				*(uint16_t*)(targetSegment + reg_DI_32u) = reg_0x00_16u;
+				reg_DI_32u -= 16 / 8;
+				reg_CX_32u -= 1;
 			}
 		} else {
-			*(uint16_t*)(targetSegment + reg_DI_32) = reg_0x00_16u;
-			reg_DI_32 -= 16 / 8;
+			*(uint16_t*)(targetSegment + reg_DI_32u) = reg_0x00_16u;
+			reg_DI_32u -= 16 / 8;
 		}
 	} else {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_32 != 0) {
-				*(uint16_t*)(targetSegment + reg_DI_32) = reg_0x00_16u;
-				reg_DI_32 += 16 / 8;
-				reg_CX_32 -= 1;
+				*(uint16_t*)(targetSegment + reg_DI_32u) = reg_0x00_16u;
+				reg_DI_32u += 16 / 8;
+				reg_CX_32u -= 1;
 			}
 		} else {
-			*(uint16_t*)(targetSegment + reg_DI_32) = reg_0x00_16u;
-			reg_DI_32 += 16 / 8;
+			*(uint16_t*)(targetSegment + reg_DI_32u) = reg_0x00_16u;
+			reg_DI_32u += 16 / 8;
 		}
 	}
 }
 //STOS
 void handlerCommand16Code00AB() {
 	LOG("%s","STOS");
-	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
-	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
+	uint8_t* sourceSegment = memWithReplace(SR_DS);
 	uint8_t* targetSegment = mem(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_16 != 0) {
-				*(uint16_t*)(targetSegment + reg_DI_16) = reg_0x00_16u;
-				reg_DI_16 -= 16 / 8;
-				reg_CX_16 -= 1;
+				*(uint16_t*)(targetSegment + reg_DI_16u) = reg_0x00_16u;
+				reg_DI_16u -= 16 / 8;
+				reg_CX_16u -= 1;
 			}
 		} else {
-			*(uint16_t*)(targetSegment + reg_DI_16) = reg_0x00_16u;
-			reg_DI_16 -= 16 / 8;
+			*(uint16_t*)(targetSegment + reg_DI_16u) = reg_0x00_16u;
+			reg_DI_16u -= 16 / 8;
 		}
 	} else {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_16 != 0) {
-				*(uint16_t*)(targetSegment + reg_DI_16) = reg_0x00_16u;
-				reg_DI_16 += 16 / 8;
-				reg_CX_16 -= 1;
+				*(uint16_t*)(targetSegment + reg_DI_16u) = reg_0x00_16u;
+				reg_DI_16u += 16 / 8;
+				reg_CX_16u -= 1;
 			}
 		} else {
-			*(uint16_t*)(targetSegment + reg_DI_16) = reg_0x00_16u;
-			reg_DI_16 += 16 / 8;
+			*(uint16_t*)(targetSegment + reg_DI_16u) = reg_0x00_16u;
+			reg_DI_16u += 16 / 8;
 		}
 	}
 }
 //LOADS
 void handlerCommand16Code00ACP66P67() {
 	LOG("%s","LOADS");
-	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
-	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
+	uint8_t* sourceSegment = memWithReplace(SR_DS);
 	uint8_t* targetSegment = mem(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_32 != 0) {
-				reg_0x00_8u = *(uint8_t*)(sourceSegment + reg_SI_32);
-				reg_SI_32 -= 8 / 8;
-				reg_CX_32 -= 1;
+				reg_0x00_8u = *(uint8_t*)(sourceSegment + reg_SI_32u);
+				reg_SI_32u -= 8 / 8;
+				reg_CX_32u -= 1;
 			}
 		} else {
-			reg_0x00_8u = *(uint8_t*)(sourceSegment + reg_SI_32);
-			reg_SI_32 -= 8 / 8;
+			reg_0x00_8u = *(uint8_t*)(sourceSegment + reg_SI_32u);
+			reg_SI_32u -= 8 / 8;
 		}
 	} else {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_32 != 0) {
-				reg_0x00_8u = *(uint8_t*)(sourceSegment + reg_SI_32);
-				reg_SI_32 += 8 / 8;
-				reg_CX_32 -= 1;
+				reg_0x00_8u = *(uint8_t*)(sourceSegment + reg_SI_32u);
+				reg_SI_32u += 8 / 8;
+				reg_CX_32u -= 1;
 			}
 		} else {
-			reg_0x00_8u = *(uint8_t*)(sourceSegment + reg_SI_32);
-			reg_SI_32 += 8 / 8;
+			reg_0x00_8u = *(uint8_t*)(sourceSegment + reg_SI_32u);
+			reg_SI_32u += 8 / 8;
 		}
 	}
 }
 //LOADS
 void handlerCommand16Code00ACP66() {
 	LOG("%s","LOADS");
-	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
-	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
+	uint8_t* sourceSegment = memWithReplace(SR_DS);
 	uint8_t* targetSegment = mem(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_16 != 0) {
-				reg_0x00_8u = *(uint8_t*)(sourceSegment + reg_SI_16);
-				reg_SI_16 -= 8 / 8;
-				reg_CX_16 -= 1;
+				reg_0x00_8u = *(uint8_t*)(sourceSegment + reg_SI_16u);
+				reg_SI_16u -= 8 / 8;
+				reg_CX_16u -= 1;
 			}
 		} else {
-			reg_0x00_8u = *(uint8_t*)(sourceSegment + reg_SI_16);
-			reg_SI_16 -= 8 / 8;
+			reg_0x00_8u = *(uint8_t*)(sourceSegment + reg_SI_16u);
+			reg_SI_16u -= 8 / 8;
 		}
 	} else {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_16 != 0) {
-				reg_0x00_8u = *(uint8_t*)(sourceSegment + reg_SI_16);
-				reg_SI_16 += 8 / 8;
-				reg_CX_16 -= 1;
+				reg_0x00_8u = *(uint8_t*)(sourceSegment + reg_SI_16u);
+				reg_SI_16u += 8 / 8;
+				reg_CX_16u -= 1;
 			}
 		} else {
-			reg_0x00_8u = *(uint8_t*)(sourceSegment + reg_SI_16);
-			reg_SI_16 += 8 / 8;
+			reg_0x00_8u = *(uint8_t*)(sourceSegment + reg_SI_16u);
+			reg_SI_16u += 8 / 8;
 		}
 	}
 }
 //LOADS
 void handlerCommand16Code00ACP67() {
 	LOG("%s","LOADS");
-	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
-	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
+	uint8_t* sourceSegment = memWithReplace(SR_DS);
 	uint8_t* targetSegment = mem(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_32 != 0) {
-				reg_0x00_8u = *(uint8_t*)(sourceSegment + reg_SI_32);
-				reg_SI_32 -= 8 / 8;
-				reg_CX_32 -= 1;
+				reg_0x00_8u = *(uint8_t*)(sourceSegment + reg_SI_32u);
+				reg_SI_32u -= 8 / 8;
+				reg_CX_32u -= 1;
 			}
 		} else {
-			reg_0x00_8u = *(uint8_t*)(sourceSegment + reg_SI_32);
-			reg_SI_32 -= 8 / 8;
+			reg_0x00_8u = *(uint8_t*)(sourceSegment + reg_SI_32u);
+			reg_SI_32u -= 8 / 8;
 		}
 	} else {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_32 != 0) {
-				reg_0x00_8u = *(uint8_t*)(sourceSegment + reg_SI_32);
-				reg_SI_32 += 8 / 8;
-				reg_CX_32 -= 1;
+				reg_0x00_8u = *(uint8_t*)(sourceSegment + reg_SI_32u);
+				reg_SI_32u += 8 / 8;
+				reg_CX_32u -= 1;
 			}
 		} else {
-			reg_0x00_8u = *(uint8_t*)(sourceSegment + reg_SI_32);
-			reg_SI_32 += 8 / 8;
+			reg_0x00_8u = *(uint8_t*)(sourceSegment + reg_SI_32u);
+			reg_SI_32u += 8 / 8;
 		}
 	}
 }
 //LOADS
 void handlerCommand16Code00AC() {
 	LOG("%s","LOADS");
-	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
-	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
+	uint8_t* sourceSegment = memWithReplace(SR_DS);
 	uint8_t* targetSegment = mem(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_16 != 0) {
-				reg_0x00_8u = *(uint8_t*)(sourceSegment + reg_SI_16);
-				reg_SI_16 -= 8 / 8;
-				reg_CX_16 -= 1;
+				reg_0x00_8u = *(uint8_t*)(sourceSegment + reg_SI_16u);
+				reg_SI_16u -= 8 / 8;
+				reg_CX_16u -= 1;
 			}
 		} else {
-			reg_0x00_8u = *(uint8_t*)(sourceSegment + reg_SI_16);
-			reg_SI_16 -= 8 / 8;
+			reg_0x00_8u = *(uint8_t*)(sourceSegment + reg_SI_16u);
+			reg_SI_16u -= 8 / 8;
 		}
 	} else {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_16 != 0) {
-				reg_0x00_8u = *(uint8_t*)(sourceSegment + reg_SI_16);
-				reg_SI_16 += 8 / 8;
-				reg_CX_16 -= 1;
+				reg_0x00_8u = *(uint8_t*)(sourceSegment + reg_SI_16u);
+				reg_SI_16u += 8 / 8;
+				reg_CX_16u -= 1;
 			}
 		} else {
-			reg_0x00_8u = *(uint8_t*)(sourceSegment + reg_SI_16);
-			reg_SI_16 += 8 / 8;
+			reg_0x00_8u = *(uint8_t*)(sourceSegment + reg_SI_16u);
+			reg_SI_16u += 8 / 8;
 		}
 	}
 }
 //LOADS
 void handlerCommand16Code00ADP66P67() {
 	LOG("%s","LOADS");
-	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
-	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
+	uint8_t* sourceSegment = memWithReplace(SR_DS);
 	uint8_t* targetSegment = mem(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_32 != 0) {
-				reg_0x00_32u = *(uint32_t*)(sourceSegment + reg_SI_32);
-				reg_SI_32 -= 32 / 8;
-				reg_CX_32 -= 1;
+				reg_0x00_32u = *(uint32_t*)(sourceSegment + reg_SI_32u);
+				reg_SI_32u -= 32 / 8;
+				reg_CX_32u -= 1;
 			}
 		} else {
-			reg_0x00_32u = *(uint32_t*)(sourceSegment + reg_SI_32);
-			reg_SI_32 -= 32 / 8;
+			reg_0x00_32u = *(uint32_t*)(sourceSegment + reg_SI_32u);
+			reg_SI_32u -= 32 / 8;
 		}
 	} else {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_32 != 0) {
-				reg_0x00_32u = *(uint32_t*)(sourceSegment + reg_SI_32);
-				reg_SI_32 += 32 / 8;
-				reg_CX_32 -= 1;
+				reg_0x00_32u = *(uint32_t*)(sourceSegment + reg_SI_32u);
+				reg_SI_32u += 32 / 8;
+				reg_CX_32u -= 1;
 			}
 		} else {
-			reg_0x00_32u = *(uint32_t*)(sourceSegment + reg_SI_32);
-			reg_SI_32 += 32 / 8;
+			reg_0x00_32u = *(uint32_t*)(sourceSegment + reg_SI_32u);
+			reg_SI_32u += 32 / 8;
 		}
 	}
 }
 //LOADS
 void handlerCommand16Code00ADP66() {
 	LOG("%s","LOADS");
-	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
-	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
+	uint8_t* sourceSegment = memWithReplace(SR_DS);
 	uint8_t* targetSegment = mem(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_16 != 0) {
-				reg_0x00_32u = *(uint32_t*)(sourceSegment + reg_SI_16);
-				reg_SI_16 -= 32 / 8;
-				reg_CX_16 -= 1;
+				reg_0x00_32u = *(uint32_t*)(sourceSegment + reg_SI_16u);
+				reg_SI_16u -= 32 / 8;
+				reg_CX_16u -= 1;
 			}
 		} else {
-			reg_0x00_32u = *(uint32_t*)(sourceSegment + reg_SI_16);
-			reg_SI_16 -= 32 / 8;
+			reg_0x00_32u = *(uint32_t*)(sourceSegment + reg_SI_16u);
+			reg_SI_16u -= 32 / 8;
 		}
 	} else {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_16 != 0) {
-				reg_0x00_32u = *(uint32_t*)(sourceSegment + reg_SI_16);
-				reg_SI_16 += 32 / 8;
-				reg_CX_16 -= 1;
+				reg_0x00_32u = *(uint32_t*)(sourceSegment + reg_SI_16u);
+				reg_SI_16u += 32 / 8;
+				reg_CX_16u -= 1;
 			}
 		} else {
-			reg_0x00_32u = *(uint32_t*)(sourceSegment + reg_SI_16);
-			reg_SI_16 += 32 / 8;
+			reg_0x00_32u = *(uint32_t*)(sourceSegment + reg_SI_16u);
+			reg_SI_16u += 32 / 8;
 		}
 	}
 }
 //LOADS
 void handlerCommand16Code00ADP67() {
 	LOG("%s","LOADS");
-	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
-	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
+	uint8_t* sourceSegment = memWithReplace(SR_DS);
 	uint8_t* targetSegment = mem(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_32 != 0) {
-				reg_0x00_16u = *(uint16_t*)(sourceSegment + reg_SI_32);
-				reg_SI_32 -= 16 / 8;
-				reg_CX_32 -= 1;
+				reg_0x00_16u = *(uint16_t*)(sourceSegment + reg_SI_32u);
+				reg_SI_32u -= 16 / 8;
+				reg_CX_32u -= 1;
 			}
 		} else {
-			reg_0x00_16u = *(uint16_t*)(sourceSegment + reg_SI_32);
-			reg_SI_32 -= 16 / 8;
+			reg_0x00_16u = *(uint16_t*)(sourceSegment + reg_SI_32u);
+			reg_SI_32u -= 16 / 8;
 		}
 	} else {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_32 != 0) {
-				reg_0x00_16u = *(uint16_t*)(sourceSegment + reg_SI_32);
-				reg_SI_32 += 16 / 8;
-				reg_CX_32 -= 1;
+				reg_0x00_16u = *(uint16_t*)(sourceSegment + reg_SI_32u);
+				reg_SI_32u += 16 / 8;
+				reg_CX_32u -= 1;
 			}
 		} else {
-			reg_0x00_16u = *(uint16_t*)(sourceSegment + reg_SI_32);
-			reg_SI_32 += 16 / 8;
+			reg_0x00_16u = *(uint16_t*)(sourceSegment + reg_SI_32u);
+			reg_SI_32u += 16 / 8;
 		}
 	}
 }
 //LOADS
 void handlerCommand16Code00AD() {
 	LOG("%s","LOADS");
-	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
-	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
+	uint8_t* sourceSegment = memWithReplace(SR_DS);
 	uint8_t* targetSegment = mem(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_16 != 0) {
-				reg_0x00_16u = *(uint16_t*)(sourceSegment + reg_SI_16);
-				reg_SI_16 -= 16 / 8;
-				reg_CX_16 -= 1;
+				reg_0x00_16u = *(uint16_t*)(sourceSegment + reg_SI_16u);
+				reg_SI_16u -= 16 / 8;
+				reg_CX_16u -= 1;
 			}
 		} else {
-			reg_0x00_16u = *(uint16_t*)(sourceSegment + reg_SI_16);
-			reg_SI_16 -= 16 / 8;
+			reg_0x00_16u = *(uint16_t*)(sourceSegment + reg_SI_16u);
+			reg_SI_16u -= 16 / 8;
 		}
 	} else {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_16 != 0) {
-				reg_0x00_16u = *(uint16_t*)(sourceSegment + reg_SI_16);
-				reg_SI_16 += 16 / 8;
-				reg_CX_16 -= 1;
+				reg_0x00_16u = *(uint16_t*)(sourceSegment + reg_SI_16u);
+				reg_SI_16u += 16 / 8;
+				reg_CX_16u -= 1;
 			}
 		} else {
-			reg_0x00_16u = *(uint16_t*)(sourceSegment + reg_SI_16);
-			reg_SI_16 += 16 / 8;
+			reg_0x00_16u = *(uint16_t*)(sourceSegment + reg_SI_16u);
+			reg_SI_16u += 16 / 8;
 		}
 	}
 }
@@ -4667,68 +4647,67 @@ void handlerCommand16Code00AD() {
 void handlerCommand16Code00AEP66P67() {
 	LOG("%s","SCAS");
 	lazyFlagType = t_UNKNOWN;
-	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
-	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
+	uint8_t* sourceSegment = memWithReplace(SR_DS);
 	uint8_t* targetSegment = mem(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF2) {
 			while (reg_CX_32 != 0) {
-				uint8_t result = *(uint8_t*)(targetSegment + reg_DI_32) == reg_0x00_8u;
+				uint8_t result = *(uint8_t*)(targetSegment + reg_DI_32u) == reg_0x00_8u;
 				LazyFlagVarA8 = reg_0x00_8u;
-				LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_32);
-				LazyFlagResultContainer8 = reg_0x00_8u - *(uint8_t*)(targetSegment + reg_DI_32);
+				LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_32u);
+				LazyFlagResultContainer8 = reg_0x00_8u - *(uint8_t*)(targetSegment + reg_DI_32u);
 				lazyFlagType = t_CMP8;
-				reg_DI_32 -= 8 / 8;
-				reg_CX_32 -= 1;
+				reg_DI_32u -= 8 / 8;
+				reg_CX_32u -= 1;
 				if (result) { SET_FLAG(ZF, (1 == 1));  return; }
 			}
 		} else if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF3) {
 			while (reg_CX_32 != 0) {
-				uint8_t result = *(uint8_t*)(targetSegment + reg_DI_32) != reg_0x00_8u;
+				uint8_t result = *(uint8_t*)(targetSegment + reg_DI_32u) != reg_0x00_8u;
 				LazyFlagVarA8 = reg_0x00_8u;
-				LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_32);
-				LazyFlagResultContainer8 = reg_0x00_8u - *(uint8_t*)(targetSegment + reg_DI_32);
+				LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_32u);
+				LazyFlagResultContainer8 = reg_0x00_8u - *(uint8_t*)(targetSegment + reg_DI_32u);
 				lazyFlagType = t_CMP8;
-				reg_DI_32 -= 8 / 8;
-				reg_CX_32 -= 1;
+				reg_DI_32u -= 8 / 8;
+				reg_CX_32u -= 1;
 				if (result) { SET_FLAG(ZF, (1 != 1));  return; }
 			}
 		} else {
 			LazyFlagVarA8 = reg_0x00_8u;
-			LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_32);
-			LazyFlagResultContainer8 = reg_0x00_8u - *(uint8_t*)(targetSegment + reg_DI_32);
+			LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_32u);
+			LazyFlagResultContainer8 = reg_0x00_8u - *(uint8_t*)(targetSegment + reg_DI_32u);
 			lazyFlagType = t_CMP8;
-			reg_DI_32 -= 8 / 8;
+			reg_DI_32u -= 8 / 8;
 		}
 	} else {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF2) {
 			while (reg_CX_32 != 0) {
-				uint8_t result = *(uint8_t*)(targetSegment + reg_DI_32) == reg_0x00_8u;
+				uint8_t result = *(uint8_t*)(targetSegment + reg_DI_32u) == reg_0x00_8u;
 				LazyFlagVarA8 = reg_0x00_8u;
-				LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_32);
-				LazyFlagResultContainer8 = reg_0x00_8u - *(uint8_t*)(targetSegment + reg_DI_32);
+				LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_32u);
+				LazyFlagResultContainer8 = reg_0x00_8u - *(uint8_t*)(targetSegment + reg_DI_32u);
 				lazyFlagType = t_CMP8;
-				reg_DI_32 += 8 / 8;
-				reg_CX_32 -= 1;
+				reg_DI_32u += 8 / 8;
+				reg_CX_32u -= 1;
 				if (result) { SET_FLAG(ZF, (1 == 1));  return; }
 			}
 		} else if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF3) {
 			while (reg_CX_32 != 0) {
-				uint8_t result = *(uint8_t*)(targetSegment + reg_DI_32) != reg_0x00_8u;
+				uint8_t result = *(uint8_t*)(targetSegment + reg_DI_32u) != reg_0x00_8u;
 				LazyFlagVarA8 = reg_0x00_8u;
-				LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_32);
-				LazyFlagResultContainer8 = reg_0x00_8u - *(uint8_t*)(targetSegment + reg_DI_32);
+				LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_32u);
+				LazyFlagResultContainer8 = reg_0x00_8u - *(uint8_t*)(targetSegment + reg_DI_32u);
 				lazyFlagType = t_CMP8;
-				reg_DI_32 += 8 / 8;
-				reg_CX_32 -= 1;
+				reg_DI_32u += 8 / 8;
+				reg_CX_32u -= 1;
 				if (result) { SET_FLAG(ZF, (1 != 1));  return; }
 			}
 		} else {
 			LazyFlagVarA8 = reg_0x00_8u;
-			LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_32);
-			LazyFlagResultContainer8 = reg_0x00_8u - *(uint8_t*)(targetSegment + reg_DI_32);
+			LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_32u);
+			LazyFlagResultContainer8 = reg_0x00_8u - *(uint8_t*)(targetSegment + reg_DI_32u);
 			lazyFlagType = t_CMP8;
-			reg_DI_32 += 8 / 8;
+			reg_DI_32u += 8 / 8;
 		}
 	}
 }
@@ -4736,68 +4715,67 @@ void handlerCommand16Code00AEP66P67() {
 void handlerCommand16Code00AEP66() {
 	LOG("%s","SCAS");
 	lazyFlagType = t_UNKNOWN;
-	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
-	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
+	uint8_t* sourceSegment = memWithReplace(SR_DS);
 	uint8_t* targetSegment = mem(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF2) {
 			while (reg_CX_16 != 0) {
-				uint8_t result = *(uint8_t*)(targetSegment + reg_DI_16) == reg_0x00_8u;
+				uint8_t result = *(uint8_t*)(targetSegment + reg_DI_16u) == reg_0x00_8u;
 				LazyFlagVarA8 = reg_0x00_8u;
-				LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_16);
-				LazyFlagResultContainer8 = reg_0x00_8u - *(uint8_t*)(targetSegment + reg_DI_16);
+				LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_16u);
+				LazyFlagResultContainer8 = reg_0x00_8u - *(uint8_t*)(targetSegment + reg_DI_16u);
 				lazyFlagType = t_CMP8;
-				reg_DI_16 -= 8 / 8;
-				reg_CX_16 -= 1;
+				reg_DI_16u -= 8 / 8;
+				reg_CX_16u -= 1;
 				if (result) { SET_FLAG(ZF, (1 == 1));  return; }
 			}
 		} else if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF3) {
 			while (reg_CX_16 != 0) {
-				uint8_t result = *(uint8_t*)(targetSegment + reg_DI_16) != reg_0x00_8u;
+				uint8_t result = *(uint8_t*)(targetSegment + reg_DI_16u) != reg_0x00_8u;
 				LazyFlagVarA8 = reg_0x00_8u;
-				LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_16);
-				LazyFlagResultContainer8 = reg_0x00_8u - *(uint8_t*)(targetSegment + reg_DI_16);
+				LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_16u);
+				LazyFlagResultContainer8 = reg_0x00_8u - *(uint8_t*)(targetSegment + reg_DI_16u);
 				lazyFlagType = t_CMP8;
-				reg_DI_16 -= 8 / 8;
-				reg_CX_16 -= 1;
+				reg_DI_16u -= 8 / 8;
+				reg_CX_16u -= 1;
 				if (result) { SET_FLAG(ZF, (1 != 1));  return; }
 			}
 		} else {
 			LazyFlagVarA8 = reg_0x00_8u;
-			LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_16);
-			LazyFlagResultContainer8 = reg_0x00_8u - *(uint8_t*)(targetSegment + reg_DI_16);
+			LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_16u);
+			LazyFlagResultContainer8 = reg_0x00_8u - *(uint8_t*)(targetSegment + reg_DI_16u);
 			lazyFlagType = t_CMP8;
-			reg_DI_16 -= 8 / 8;
+			reg_DI_16u -= 8 / 8;
 		}
 	} else {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF2) {
 			while (reg_CX_16 != 0) {
-				uint8_t result = *(uint8_t*)(targetSegment + reg_DI_16) == reg_0x00_8u;
+				uint8_t result = *(uint8_t*)(targetSegment + reg_DI_16u) == reg_0x00_8u;
 				LazyFlagVarA8 = reg_0x00_8u;
-				LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_16);
-				LazyFlagResultContainer8 = reg_0x00_8u - *(uint8_t*)(targetSegment + reg_DI_16);
+				LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_16u);
+				LazyFlagResultContainer8 = reg_0x00_8u - *(uint8_t*)(targetSegment + reg_DI_16u);
 				lazyFlagType = t_CMP8;
-				reg_DI_16 += 8 / 8;
-				reg_CX_16 -= 1;
+				reg_DI_16u += 8 / 8;
+				reg_CX_16u -= 1;
 				if (result) { SET_FLAG(ZF, (1 == 1));  return; }
 			}
 		} else if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF3) {
 			while (reg_CX_16 != 0) {
-				uint8_t result = *(uint8_t*)(targetSegment + reg_DI_16) != reg_0x00_8u;
+				uint8_t result = *(uint8_t*)(targetSegment + reg_DI_16u) != reg_0x00_8u;
 				LazyFlagVarA8 = reg_0x00_8u;
-				LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_16);
-				LazyFlagResultContainer8 = reg_0x00_8u - *(uint8_t*)(targetSegment + reg_DI_16);
+				LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_16u);
+				LazyFlagResultContainer8 = reg_0x00_8u - *(uint8_t*)(targetSegment + reg_DI_16u);
 				lazyFlagType = t_CMP8;
-				reg_DI_16 += 8 / 8;
-				reg_CX_16 -= 1;
+				reg_DI_16u += 8 / 8;
+				reg_CX_16u -= 1;
 				if (result) { SET_FLAG(ZF, (1 != 1));  return; }
 			}
 		} else {
 			LazyFlagVarA8 = reg_0x00_8u;
-			LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_16);
-			LazyFlagResultContainer8 = reg_0x00_8u - *(uint8_t*)(targetSegment + reg_DI_16);
+			LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_16u);
+			LazyFlagResultContainer8 = reg_0x00_8u - *(uint8_t*)(targetSegment + reg_DI_16u);
 			lazyFlagType = t_CMP8;
-			reg_DI_16 += 8 / 8;
+			reg_DI_16u += 8 / 8;
 		}
 	}
 }
@@ -4805,68 +4783,67 @@ void handlerCommand16Code00AEP66() {
 void handlerCommand16Code00AEP67() {
 	LOG("%s","SCAS");
 	lazyFlagType = t_UNKNOWN;
-	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
-	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
+	uint8_t* sourceSegment = memWithReplace(SR_DS);
 	uint8_t* targetSegment = mem(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF2) {
 			while (reg_CX_32 != 0) {
-				uint8_t result = *(uint8_t*)(targetSegment + reg_DI_32) == reg_0x00_8u;
+				uint8_t result = *(uint8_t*)(targetSegment + reg_DI_32u) == reg_0x00_8u;
 				LazyFlagVarA8 = reg_0x00_8u;
-				LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_32);
-				LazyFlagResultContainer8 = reg_0x00_8u - *(uint8_t*)(targetSegment + reg_DI_32);
+				LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_32u);
+				LazyFlagResultContainer8 = reg_0x00_8u - *(uint8_t*)(targetSegment + reg_DI_32u);
 				lazyFlagType = t_CMP8;
-				reg_DI_32 -= 8 / 8;
-				reg_CX_32 -= 1;
+				reg_DI_32u -= 8 / 8;
+				reg_CX_32u -= 1;
 				if (result) { SET_FLAG(ZF, (1 == 1));  return; }
 			}
 		} else if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF3) {
 			while (reg_CX_32 != 0) {
-				uint8_t result = *(uint8_t*)(targetSegment + reg_DI_32) != reg_0x00_8u;
+				uint8_t result = *(uint8_t*)(targetSegment + reg_DI_32u) != reg_0x00_8u;
 				LazyFlagVarA8 = reg_0x00_8u;
-				LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_32);
-				LazyFlagResultContainer8 = reg_0x00_8u - *(uint8_t*)(targetSegment + reg_DI_32);
+				LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_32u);
+				LazyFlagResultContainer8 = reg_0x00_8u - *(uint8_t*)(targetSegment + reg_DI_32u);
 				lazyFlagType = t_CMP8;
-				reg_DI_32 -= 8 / 8;
-				reg_CX_32 -= 1;
+				reg_DI_32u -= 8 / 8;
+				reg_CX_32u -= 1;
 				if (result) { SET_FLAG(ZF, (1 != 1));  return; }
 			}
 		} else {
 			LazyFlagVarA8 = reg_0x00_8u;
-			LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_32);
-			LazyFlagResultContainer8 = reg_0x00_8u - *(uint8_t*)(targetSegment + reg_DI_32);
+			LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_32u);
+			LazyFlagResultContainer8 = reg_0x00_8u - *(uint8_t*)(targetSegment + reg_DI_32u);
 			lazyFlagType = t_CMP8;
-			reg_DI_32 -= 8 / 8;
+			reg_DI_32u -= 8 / 8;
 		}
 	} else {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF2) {
 			while (reg_CX_32 != 0) {
-				uint8_t result = *(uint8_t*)(targetSegment + reg_DI_32) == reg_0x00_8u;
+				uint8_t result = *(uint8_t*)(targetSegment + reg_DI_32u) == reg_0x00_8u;
 				LazyFlagVarA8 = reg_0x00_8u;
-				LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_32);
-				LazyFlagResultContainer8 = reg_0x00_8u - *(uint8_t*)(targetSegment + reg_DI_32);
+				LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_32u);
+				LazyFlagResultContainer8 = reg_0x00_8u - *(uint8_t*)(targetSegment + reg_DI_32u);
 				lazyFlagType = t_CMP8;
-				reg_DI_32 += 8 / 8;
-				reg_CX_32 -= 1;
+				reg_DI_32u += 8 / 8;
+				reg_CX_32u -= 1;
 				if (result) { SET_FLAG(ZF, (1 == 1));  return; }
 			}
 		} else if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF3) {
 			while (reg_CX_32 != 0) {
-				uint8_t result = *(uint8_t*)(targetSegment + reg_DI_32) != reg_0x00_8u;
+				uint8_t result = *(uint8_t*)(targetSegment + reg_DI_32u) != reg_0x00_8u;
 				LazyFlagVarA8 = reg_0x00_8u;
-				LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_32);
-				LazyFlagResultContainer8 = reg_0x00_8u - *(uint8_t*)(targetSegment + reg_DI_32);
+				LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_32u);
+				LazyFlagResultContainer8 = reg_0x00_8u - *(uint8_t*)(targetSegment + reg_DI_32u);
 				lazyFlagType = t_CMP8;
-				reg_DI_32 += 8 / 8;
-				reg_CX_32 -= 1;
+				reg_DI_32u += 8 / 8;
+				reg_CX_32u -= 1;
 				if (result) { SET_FLAG(ZF, (1 != 1));  return; }
 			}
 		} else {
 			LazyFlagVarA8 = reg_0x00_8u;
-			LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_32);
-			LazyFlagResultContainer8 = reg_0x00_8u - *(uint8_t*)(targetSegment + reg_DI_32);
+			LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_32u);
+			LazyFlagResultContainer8 = reg_0x00_8u - *(uint8_t*)(targetSegment + reg_DI_32u);
 			lazyFlagType = t_CMP8;
-			reg_DI_32 += 8 / 8;
+			reg_DI_32u += 8 / 8;
 		}
 	}
 }
@@ -4874,68 +4851,67 @@ void handlerCommand16Code00AEP67() {
 void handlerCommand16Code00AE() {
 	LOG("%s","SCAS");
 	lazyFlagType = t_UNKNOWN;
-	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
-	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
+	uint8_t* sourceSegment = memWithReplace(SR_DS);
 	uint8_t* targetSegment = mem(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF2) {
 			while (reg_CX_16 != 0) {
-				uint8_t result = *(uint8_t*)(targetSegment + reg_DI_16) == reg_0x00_8u;
+				uint8_t result = *(uint8_t*)(targetSegment + reg_DI_16u) == reg_0x00_8u;
 				LazyFlagVarA8 = reg_0x00_8u;
-				LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_16);
-				LazyFlagResultContainer8 = reg_0x00_8u - *(uint8_t*)(targetSegment + reg_DI_16);
+				LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_16u);
+				LazyFlagResultContainer8 = reg_0x00_8u - *(uint8_t*)(targetSegment + reg_DI_16u);
 				lazyFlagType = t_CMP8;
-				reg_DI_16 -= 8 / 8;
-				reg_CX_16 -= 1;
+				reg_DI_16u -= 8 / 8;
+				reg_CX_16u -= 1;
 				if (result) { SET_FLAG(ZF, (1 == 1));  return; }
 			}
 		} else if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF3) {
 			while (reg_CX_16 != 0) {
-				uint8_t result = *(uint8_t*)(targetSegment + reg_DI_16) != reg_0x00_8u;
+				uint8_t result = *(uint8_t*)(targetSegment + reg_DI_16u) != reg_0x00_8u;
 				LazyFlagVarA8 = reg_0x00_8u;
-				LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_16);
-				LazyFlagResultContainer8 = reg_0x00_8u - *(uint8_t*)(targetSegment + reg_DI_16);
+				LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_16u);
+				LazyFlagResultContainer8 = reg_0x00_8u - *(uint8_t*)(targetSegment + reg_DI_16u);
 				lazyFlagType = t_CMP8;
-				reg_DI_16 -= 8 / 8;
-				reg_CX_16 -= 1;
+				reg_DI_16u -= 8 / 8;
+				reg_CX_16u -= 1;
 				if (result) { SET_FLAG(ZF, (1 != 1));  return; }
 			}
 		} else {
 			LazyFlagVarA8 = reg_0x00_8u;
-			LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_16);
-			LazyFlagResultContainer8 = reg_0x00_8u - *(uint8_t*)(targetSegment + reg_DI_16);
+			LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_16u);
+			LazyFlagResultContainer8 = reg_0x00_8u - *(uint8_t*)(targetSegment + reg_DI_16u);
 			lazyFlagType = t_CMP8;
-			reg_DI_16 -= 8 / 8;
+			reg_DI_16u -= 8 / 8;
 		}
 	} else {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF2) {
 			while (reg_CX_16 != 0) {
-				uint8_t result = *(uint8_t*)(targetSegment + reg_DI_16) == reg_0x00_8u;
+				uint8_t result = *(uint8_t*)(targetSegment + reg_DI_16u) == reg_0x00_8u;
 				LazyFlagVarA8 = reg_0x00_8u;
-				LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_16);
-				LazyFlagResultContainer8 = reg_0x00_8u - *(uint8_t*)(targetSegment + reg_DI_16);
+				LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_16u);
+				LazyFlagResultContainer8 = reg_0x00_8u - *(uint8_t*)(targetSegment + reg_DI_16u);
 				lazyFlagType = t_CMP8;
-				reg_DI_16 += 8 / 8;
-				reg_CX_16 -= 1;
+				reg_DI_16u += 8 / 8;
+				reg_CX_16u -= 1;
 				if (result) { SET_FLAG(ZF, (1 == 1));  return; }
 			}
 		} else if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF3) {
 			while (reg_CX_16 != 0) {
-				uint8_t result = *(uint8_t*)(targetSegment + reg_DI_16) != reg_0x00_8u;
+				uint8_t result = *(uint8_t*)(targetSegment + reg_DI_16u) != reg_0x00_8u;
 				LazyFlagVarA8 = reg_0x00_8u;
-				LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_16);
-				LazyFlagResultContainer8 = reg_0x00_8u - *(uint8_t*)(targetSegment + reg_DI_16);
+				LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_16u);
+				LazyFlagResultContainer8 = reg_0x00_8u - *(uint8_t*)(targetSegment + reg_DI_16u);
 				lazyFlagType = t_CMP8;
-				reg_DI_16 += 8 / 8;
-				reg_CX_16 -= 1;
+				reg_DI_16u += 8 / 8;
+				reg_CX_16u -= 1;
 				if (result) { SET_FLAG(ZF, (1 != 1));  return; }
 			}
 		} else {
 			LazyFlagVarA8 = reg_0x00_8u;
-			LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_16);
-			LazyFlagResultContainer8 = reg_0x00_8u - *(uint8_t*)(targetSegment + reg_DI_16);
+			LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_16u);
+			LazyFlagResultContainer8 = reg_0x00_8u - *(uint8_t*)(targetSegment + reg_DI_16u);
 			lazyFlagType = t_CMP8;
-			reg_DI_16 += 8 / 8;
+			reg_DI_16u += 8 / 8;
 		}
 	}
 }
@@ -4943,68 +4919,67 @@ void handlerCommand16Code00AE() {
 void handlerCommand16Code00AFP66P67() {
 	LOG("%s","SCAS");
 	lazyFlagType = t_UNKNOWN;
-	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
-	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
+	uint8_t* sourceSegment = memWithReplace(SR_DS);
 	uint8_t* targetSegment = mem(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF2) {
 			while (reg_CX_32 != 0) {
-				uint8_t result = *(uint32_t*)(targetSegment + reg_DI_32) == reg_0x00_32u;
+				uint8_t result = *(uint32_t*)(targetSegment + reg_DI_32u) == reg_0x00_32u;
 				LazyFlagVarA32 = reg_0x00_32u;
-				LazyFlagVarB32 = *(uint32_t*)(targetSegment + reg_DI_32);
-				LazyFlagResultContainer32 = reg_0x00_32u - *(uint32_t*)(targetSegment + reg_DI_32);
+				LazyFlagVarB32 = *(uint32_t*)(targetSegment + reg_DI_32u);
+				LazyFlagResultContainer32 = reg_0x00_32u - *(uint32_t*)(targetSegment + reg_DI_32u);
 				lazyFlagType = t_CMP32;
-				reg_DI_32 -= 32 / 8;
-				reg_CX_32 -= 1;
+				reg_DI_32u -= 32 / 8;
+				reg_CX_32u -= 1;
 				if (result) { SET_FLAG(ZF, (1 == 1));  return; }
 			}
 		} else if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF3) {
 			while (reg_CX_32 != 0) {
-				uint8_t result = *(uint32_t*)(targetSegment + reg_DI_32) != reg_0x00_32u;
+				uint8_t result = *(uint32_t*)(targetSegment + reg_DI_32u) != reg_0x00_32u;
 				LazyFlagVarA32 = reg_0x00_32u;
-				LazyFlagVarB32 = *(uint32_t*)(targetSegment + reg_DI_32);
-				LazyFlagResultContainer32 = reg_0x00_32u - *(uint32_t*)(targetSegment + reg_DI_32);
+				LazyFlagVarB32 = *(uint32_t*)(targetSegment + reg_DI_32u);
+				LazyFlagResultContainer32 = reg_0x00_32u - *(uint32_t*)(targetSegment + reg_DI_32u);
 				lazyFlagType = t_CMP32;
-				reg_DI_32 -= 32 / 8;
-				reg_CX_32 -= 1;
+				reg_DI_32u -= 32 / 8;
+				reg_CX_32u -= 1;
 				if (result) { SET_FLAG(ZF, (1 != 1));  return; }
 			}
 		} else {
 			LazyFlagVarA32 = reg_0x00_32u;
-			LazyFlagVarB32 = *(uint32_t*)(targetSegment + reg_DI_32);
-			LazyFlagResultContainer32 = reg_0x00_32u - *(uint32_t*)(targetSegment + reg_DI_32);
+			LazyFlagVarB32 = *(uint32_t*)(targetSegment + reg_DI_32u);
+			LazyFlagResultContainer32 = reg_0x00_32u - *(uint32_t*)(targetSegment + reg_DI_32u);
 			lazyFlagType = t_CMP32;
-			reg_DI_32 -= 32 / 8;
+			reg_DI_32u -= 32 / 8;
 		}
 	} else {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF2) {
 			while (reg_CX_32 != 0) {
-				uint8_t result = *(uint32_t*)(targetSegment + reg_DI_32) == reg_0x00_32u;
+				uint8_t result = *(uint32_t*)(targetSegment + reg_DI_32u) == reg_0x00_32u;
 				LazyFlagVarA32 = reg_0x00_32u;
-				LazyFlagVarB32 = *(uint32_t*)(targetSegment + reg_DI_32);
-				LazyFlagResultContainer32 = reg_0x00_32u - *(uint32_t*)(targetSegment + reg_DI_32);
+				LazyFlagVarB32 = *(uint32_t*)(targetSegment + reg_DI_32u);
+				LazyFlagResultContainer32 = reg_0x00_32u - *(uint32_t*)(targetSegment + reg_DI_32u);
 				lazyFlagType = t_CMP32;
-				reg_DI_32 += 32 / 8;
-				reg_CX_32 -= 1;
+				reg_DI_32u += 32 / 8;
+				reg_CX_32u -= 1;
 				if (result) { SET_FLAG(ZF, (1 == 1));  return; }
 			}
 		} else if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF3) {
 			while (reg_CX_32 != 0) {
-				uint8_t result = *(uint32_t*)(targetSegment + reg_DI_32) != reg_0x00_32u;
+				uint8_t result = *(uint32_t*)(targetSegment + reg_DI_32u) != reg_0x00_32u;
 				LazyFlagVarA32 = reg_0x00_32u;
-				LazyFlagVarB32 = *(uint32_t*)(targetSegment + reg_DI_32);
-				LazyFlagResultContainer32 = reg_0x00_32u - *(uint32_t*)(targetSegment + reg_DI_32);
+				LazyFlagVarB32 = *(uint32_t*)(targetSegment + reg_DI_32u);
+				LazyFlagResultContainer32 = reg_0x00_32u - *(uint32_t*)(targetSegment + reg_DI_32u);
 				lazyFlagType = t_CMP32;
-				reg_DI_32 += 32 / 8;
-				reg_CX_32 -= 1;
+				reg_DI_32u += 32 / 8;
+				reg_CX_32u -= 1;
 				if (result) { SET_FLAG(ZF, (1 != 1));  return; }
 			}
 		} else {
 			LazyFlagVarA32 = reg_0x00_32u;
-			LazyFlagVarB32 = *(uint32_t*)(targetSegment + reg_DI_32);
-			LazyFlagResultContainer32 = reg_0x00_32u - *(uint32_t*)(targetSegment + reg_DI_32);
+			LazyFlagVarB32 = *(uint32_t*)(targetSegment + reg_DI_32u);
+			LazyFlagResultContainer32 = reg_0x00_32u - *(uint32_t*)(targetSegment + reg_DI_32u);
 			lazyFlagType = t_CMP32;
-			reg_DI_32 += 32 / 8;
+			reg_DI_32u += 32 / 8;
 		}
 	}
 }
@@ -5012,68 +4987,67 @@ void handlerCommand16Code00AFP66P67() {
 void handlerCommand16Code00AFP66() {
 	LOG("%s","SCAS");
 	lazyFlagType = t_UNKNOWN;
-	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
-	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
+	uint8_t* sourceSegment = memWithReplace(SR_DS);
 	uint8_t* targetSegment = mem(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF2) {
 			while (reg_CX_16 != 0) {
-				uint8_t result = *(uint32_t*)(targetSegment + reg_DI_16) == reg_0x00_32u;
+				uint8_t result = *(uint32_t*)(targetSegment + reg_DI_16u) == reg_0x00_32u;
 				LazyFlagVarA32 = reg_0x00_32u;
-				LazyFlagVarB32 = *(uint32_t*)(targetSegment + reg_DI_16);
-				LazyFlagResultContainer32 = reg_0x00_32u - *(uint32_t*)(targetSegment + reg_DI_16);
+				LazyFlagVarB32 = *(uint32_t*)(targetSegment + reg_DI_16u);
+				LazyFlagResultContainer32 = reg_0x00_32u - *(uint32_t*)(targetSegment + reg_DI_16u);
 				lazyFlagType = t_CMP32;
-				reg_DI_16 -= 32 / 8;
-				reg_CX_16 -= 1;
+				reg_DI_16u -= 32 / 8;
+				reg_CX_16u -= 1;
 				if (result) { SET_FLAG(ZF, (1 == 1));  return; }
 			}
 		} else if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF3) {
 			while (reg_CX_16 != 0) {
-				uint8_t result = *(uint32_t*)(targetSegment + reg_DI_16) != reg_0x00_32u;
+				uint8_t result = *(uint32_t*)(targetSegment + reg_DI_16u) != reg_0x00_32u;
 				LazyFlagVarA32 = reg_0x00_32u;
-				LazyFlagVarB32 = *(uint32_t*)(targetSegment + reg_DI_16);
-				LazyFlagResultContainer32 = reg_0x00_32u - *(uint32_t*)(targetSegment + reg_DI_16);
+				LazyFlagVarB32 = *(uint32_t*)(targetSegment + reg_DI_16u);
+				LazyFlagResultContainer32 = reg_0x00_32u - *(uint32_t*)(targetSegment + reg_DI_16u);
 				lazyFlagType = t_CMP32;
-				reg_DI_16 -= 32 / 8;
-				reg_CX_16 -= 1;
+				reg_DI_16u -= 32 / 8;
+				reg_CX_16u -= 1;
 				if (result) { SET_FLAG(ZF, (1 != 1));  return; }
 			}
 		} else {
 			LazyFlagVarA32 = reg_0x00_32u;
-			LazyFlagVarB32 = *(uint32_t*)(targetSegment + reg_DI_16);
-			LazyFlagResultContainer32 = reg_0x00_32u - *(uint32_t*)(targetSegment + reg_DI_16);
+			LazyFlagVarB32 = *(uint32_t*)(targetSegment + reg_DI_16u);
+			LazyFlagResultContainer32 = reg_0x00_32u - *(uint32_t*)(targetSegment + reg_DI_16u);
 			lazyFlagType = t_CMP32;
-			reg_DI_16 -= 32 / 8;
+			reg_DI_16u -= 32 / 8;
 		}
 	} else {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF2) {
 			while (reg_CX_16 != 0) {
-				uint8_t result = *(uint32_t*)(targetSegment + reg_DI_16) == reg_0x00_32u;
+				uint8_t result = *(uint32_t*)(targetSegment + reg_DI_16u) == reg_0x00_32u;
 				LazyFlagVarA32 = reg_0x00_32u;
-				LazyFlagVarB32 = *(uint32_t*)(targetSegment + reg_DI_16);
-				LazyFlagResultContainer32 = reg_0x00_32u - *(uint32_t*)(targetSegment + reg_DI_16);
+				LazyFlagVarB32 = *(uint32_t*)(targetSegment + reg_DI_16u);
+				LazyFlagResultContainer32 = reg_0x00_32u - *(uint32_t*)(targetSegment + reg_DI_16u);
 				lazyFlagType = t_CMP32;
-				reg_DI_16 += 32 / 8;
-				reg_CX_16 -= 1;
+				reg_DI_16u += 32 / 8;
+				reg_CX_16u -= 1;
 				if (result) { SET_FLAG(ZF, (1 == 1));  return; }
 			}
 		} else if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF3) {
 			while (reg_CX_16 != 0) {
-				uint8_t result = *(uint32_t*)(targetSegment + reg_DI_16) != reg_0x00_32u;
+				uint8_t result = *(uint32_t*)(targetSegment + reg_DI_16u) != reg_0x00_32u;
 				LazyFlagVarA32 = reg_0x00_32u;
-				LazyFlagVarB32 = *(uint32_t*)(targetSegment + reg_DI_16);
-				LazyFlagResultContainer32 = reg_0x00_32u - *(uint32_t*)(targetSegment + reg_DI_16);
+				LazyFlagVarB32 = *(uint32_t*)(targetSegment + reg_DI_16u);
+				LazyFlagResultContainer32 = reg_0x00_32u - *(uint32_t*)(targetSegment + reg_DI_16u);
 				lazyFlagType = t_CMP32;
-				reg_DI_16 += 32 / 8;
-				reg_CX_16 -= 1;
+				reg_DI_16u += 32 / 8;
+				reg_CX_16u -= 1;
 				if (result) { SET_FLAG(ZF, (1 != 1));  return; }
 			}
 		} else {
 			LazyFlagVarA32 = reg_0x00_32u;
-			LazyFlagVarB32 = *(uint32_t*)(targetSegment + reg_DI_16);
-			LazyFlagResultContainer32 = reg_0x00_32u - *(uint32_t*)(targetSegment + reg_DI_16);
+			LazyFlagVarB32 = *(uint32_t*)(targetSegment + reg_DI_16u);
+			LazyFlagResultContainer32 = reg_0x00_32u - *(uint32_t*)(targetSegment + reg_DI_16u);
 			lazyFlagType = t_CMP32;
-			reg_DI_16 += 32 / 8;
+			reg_DI_16u += 32 / 8;
 		}
 	}
 }
@@ -5081,68 +5055,67 @@ void handlerCommand16Code00AFP66() {
 void handlerCommand16Code00AFP67() {
 	LOG("%s","SCAS");
 	lazyFlagType = t_UNKNOWN;
-	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
-	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
+	uint8_t* sourceSegment = memWithReplace(SR_DS);
 	uint8_t* targetSegment = mem(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF2) {
 			while (reg_CX_32 != 0) {
-				uint8_t result = *(uint16_t*)(targetSegment + reg_DI_32) == reg_0x00_16u;
+				uint8_t result = *(uint16_t*)(targetSegment + reg_DI_32u) == reg_0x00_16u;
 				LazyFlagVarA16 = reg_0x00_16u;
-				LazyFlagVarB16 = *(uint16_t*)(targetSegment + reg_DI_32);
-				LazyFlagResultContainer16 = reg_0x00_16u - *(uint16_t*)(targetSegment + reg_DI_32);
+				LazyFlagVarB16 = *(uint16_t*)(targetSegment + reg_DI_32u);
+				LazyFlagResultContainer16 = reg_0x00_16u - *(uint16_t*)(targetSegment + reg_DI_32u);
 				lazyFlagType = t_CMP16;
-				reg_DI_32 -= 16 / 8;
-				reg_CX_32 -= 1;
+				reg_DI_32u -= 16 / 8;
+				reg_CX_32u -= 1;
 				if (result) { SET_FLAG(ZF, (1 == 1));  return; }
 			}
 		} else if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF3) {
 			while (reg_CX_32 != 0) {
-				uint8_t result = *(uint16_t*)(targetSegment + reg_DI_32) != reg_0x00_16u;
+				uint8_t result = *(uint16_t*)(targetSegment + reg_DI_32u) != reg_0x00_16u;
 				LazyFlagVarA16 = reg_0x00_16u;
-				LazyFlagVarB16 = *(uint16_t*)(targetSegment + reg_DI_32);
-				LazyFlagResultContainer16 = reg_0x00_16u - *(uint16_t*)(targetSegment + reg_DI_32);
+				LazyFlagVarB16 = *(uint16_t*)(targetSegment + reg_DI_32u);
+				LazyFlagResultContainer16 = reg_0x00_16u - *(uint16_t*)(targetSegment + reg_DI_32u);
 				lazyFlagType = t_CMP16;
-				reg_DI_32 -= 16 / 8;
-				reg_CX_32 -= 1;
+				reg_DI_32u -= 16 / 8;
+				reg_CX_32u -= 1;
 				if (result) { SET_FLAG(ZF, (1 != 1));  return; }
 			}
 		} else {
 			LazyFlagVarA16 = reg_0x00_16u;
-			LazyFlagVarB16 = *(uint16_t*)(targetSegment + reg_DI_32);
-			LazyFlagResultContainer16 = reg_0x00_16u - *(uint16_t*)(targetSegment + reg_DI_32);
+			LazyFlagVarB16 = *(uint16_t*)(targetSegment + reg_DI_32u);
+			LazyFlagResultContainer16 = reg_0x00_16u - *(uint16_t*)(targetSegment + reg_DI_32u);
 			lazyFlagType = t_CMP16;
-			reg_DI_32 -= 16 / 8;
+			reg_DI_32u -= 16 / 8;
 		}
 	} else {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF2) {
 			while (reg_CX_32 != 0) {
-				uint8_t result = *(uint16_t*)(targetSegment + reg_DI_32) == reg_0x00_16u;
+				uint8_t result = *(uint16_t*)(targetSegment + reg_DI_32u) == reg_0x00_16u;
 				LazyFlagVarA16 = reg_0x00_16u;
-				LazyFlagVarB16 = *(uint16_t*)(targetSegment + reg_DI_32);
-				LazyFlagResultContainer16 = reg_0x00_16u - *(uint16_t*)(targetSegment + reg_DI_32);
+				LazyFlagVarB16 = *(uint16_t*)(targetSegment + reg_DI_32u);
+				LazyFlagResultContainer16 = reg_0x00_16u - *(uint16_t*)(targetSegment + reg_DI_32u);
 				lazyFlagType = t_CMP16;
-				reg_DI_32 += 16 / 8;
-				reg_CX_32 -= 1;
+				reg_DI_32u += 16 / 8;
+				reg_CX_32u -= 1;
 				if (result) { SET_FLAG(ZF, (1 == 1));  return; }
 			}
 		} else if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF3) {
 			while (reg_CX_32 != 0) {
-				uint8_t result = *(uint16_t*)(targetSegment + reg_DI_32) != reg_0x00_16u;
+				uint8_t result = *(uint16_t*)(targetSegment + reg_DI_32u) != reg_0x00_16u;
 				LazyFlagVarA16 = reg_0x00_16u;
-				LazyFlagVarB16 = *(uint16_t*)(targetSegment + reg_DI_32);
-				LazyFlagResultContainer16 = reg_0x00_16u - *(uint16_t*)(targetSegment + reg_DI_32);
+				LazyFlagVarB16 = *(uint16_t*)(targetSegment + reg_DI_32u);
+				LazyFlagResultContainer16 = reg_0x00_16u - *(uint16_t*)(targetSegment + reg_DI_32u);
 				lazyFlagType = t_CMP16;
-				reg_DI_32 += 16 / 8;
-				reg_CX_32 -= 1;
+				reg_DI_32u += 16 / 8;
+				reg_CX_32u -= 1;
 				if (result) { SET_FLAG(ZF, (1 != 1));  return; }
 			}
 		} else {
 			LazyFlagVarA16 = reg_0x00_16u;
-			LazyFlagVarB16 = *(uint16_t*)(targetSegment + reg_DI_32);
-			LazyFlagResultContainer16 = reg_0x00_16u - *(uint16_t*)(targetSegment + reg_DI_32);
+			LazyFlagVarB16 = *(uint16_t*)(targetSegment + reg_DI_32u);
+			LazyFlagResultContainer16 = reg_0x00_16u - *(uint16_t*)(targetSegment + reg_DI_32u);
 			lazyFlagType = t_CMP16;
-			reg_DI_32 += 16 / 8;
+			reg_DI_32u += 16 / 8;
 		}
 	}
 }
@@ -5150,68 +5123,67 @@ void handlerCommand16Code00AFP67() {
 void handlerCommand16Code00AF() {
 	LOG("%s","SCAS");
 	lazyFlagType = t_UNKNOWN;
-	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
-	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
+	uint8_t* sourceSegment = memWithReplace(SR_DS);
 	uint8_t* targetSegment = mem(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF2) {
 			while (reg_CX_16 != 0) {
-				uint8_t result = *(uint16_t*)(targetSegment + reg_DI_16) == reg_0x00_16u;
+				uint8_t result = *(uint16_t*)(targetSegment + reg_DI_16u) == reg_0x00_16u;
 				LazyFlagVarA16 = reg_0x00_16u;
-				LazyFlagVarB16 = *(uint16_t*)(targetSegment + reg_DI_16);
-				LazyFlagResultContainer16 = reg_0x00_16u - *(uint16_t*)(targetSegment + reg_DI_16);
+				LazyFlagVarB16 = *(uint16_t*)(targetSegment + reg_DI_16u);
+				LazyFlagResultContainer16 = reg_0x00_16u - *(uint16_t*)(targetSegment + reg_DI_16u);
 				lazyFlagType = t_CMP16;
-				reg_DI_16 -= 16 / 8;
-				reg_CX_16 -= 1;
+				reg_DI_16u -= 16 / 8;
+				reg_CX_16u -= 1;
 				if (result) { SET_FLAG(ZF, (1 == 1));  return; }
 			}
 		} else if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF3) {
 			while (reg_CX_16 != 0) {
-				uint8_t result = *(uint16_t*)(targetSegment + reg_DI_16) != reg_0x00_16u;
+				uint8_t result = *(uint16_t*)(targetSegment + reg_DI_16u) != reg_0x00_16u;
 				LazyFlagVarA16 = reg_0x00_16u;
-				LazyFlagVarB16 = *(uint16_t*)(targetSegment + reg_DI_16);
-				LazyFlagResultContainer16 = reg_0x00_16u - *(uint16_t*)(targetSegment + reg_DI_16);
+				LazyFlagVarB16 = *(uint16_t*)(targetSegment + reg_DI_16u);
+				LazyFlagResultContainer16 = reg_0x00_16u - *(uint16_t*)(targetSegment + reg_DI_16u);
 				lazyFlagType = t_CMP16;
-				reg_DI_16 -= 16 / 8;
-				reg_CX_16 -= 1;
+				reg_DI_16u -= 16 / 8;
+				reg_CX_16u -= 1;
 				if (result) { SET_FLAG(ZF, (1 != 1));  return; }
 			}
 		} else {
 			LazyFlagVarA16 = reg_0x00_16u;
-			LazyFlagVarB16 = *(uint16_t*)(targetSegment + reg_DI_16);
-			LazyFlagResultContainer16 = reg_0x00_16u - *(uint16_t*)(targetSegment + reg_DI_16);
+			LazyFlagVarB16 = *(uint16_t*)(targetSegment + reg_DI_16u);
+			LazyFlagResultContainer16 = reg_0x00_16u - *(uint16_t*)(targetSegment + reg_DI_16u);
 			lazyFlagType = t_CMP16;
-			reg_DI_16 -= 16 / 8;
+			reg_DI_16u -= 16 / 8;
 		}
 	} else {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF2) {
 			while (reg_CX_16 != 0) {
-				uint8_t result = *(uint16_t*)(targetSegment + reg_DI_16) == reg_0x00_16u;
+				uint8_t result = *(uint16_t*)(targetSegment + reg_DI_16u) == reg_0x00_16u;
 				LazyFlagVarA16 = reg_0x00_16u;
-				LazyFlagVarB16 = *(uint16_t*)(targetSegment + reg_DI_16);
-				LazyFlagResultContainer16 = reg_0x00_16u - *(uint16_t*)(targetSegment + reg_DI_16);
+				LazyFlagVarB16 = *(uint16_t*)(targetSegment + reg_DI_16u);
+				LazyFlagResultContainer16 = reg_0x00_16u - *(uint16_t*)(targetSegment + reg_DI_16u);
 				lazyFlagType = t_CMP16;
-				reg_DI_16 += 16 / 8;
-				reg_CX_16 -= 1;
+				reg_DI_16u += 16 / 8;
+				reg_CX_16u -= 1;
 				if (result) { SET_FLAG(ZF, (1 == 1));  return; }
 			}
 		} else if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF3) {
 			while (reg_CX_16 != 0) {
-				uint8_t result = *(uint16_t*)(targetSegment + reg_DI_16) != reg_0x00_16u;
+				uint8_t result = *(uint16_t*)(targetSegment + reg_DI_16u) != reg_0x00_16u;
 				LazyFlagVarA16 = reg_0x00_16u;
-				LazyFlagVarB16 = *(uint16_t*)(targetSegment + reg_DI_16);
-				LazyFlagResultContainer16 = reg_0x00_16u - *(uint16_t*)(targetSegment + reg_DI_16);
+				LazyFlagVarB16 = *(uint16_t*)(targetSegment + reg_DI_16u);
+				LazyFlagResultContainer16 = reg_0x00_16u - *(uint16_t*)(targetSegment + reg_DI_16u);
 				lazyFlagType = t_CMP16;
-				reg_DI_16 += 16 / 8;
-				reg_CX_16 -= 1;
+				reg_DI_16u += 16 / 8;
+				reg_CX_16u -= 1;
 				if (result) { SET_FLAG(ZF, (1 != 1));  return; }
 			}
 		} else {
 			LazyFlagVarA16 = reg_0x00_16u;
-			LazyFlagVarB16 = *(uint16_t*)(targetSegment + reg_DI_16);
-			LazyFlagResultContainer16 = reg_0x00_16u - *(uint16_t*)(targetSegment + reg_DI_16);
+			LazyFlagVarB16 = *(uint16_t*)(targetSegment + reg_DI_16u);
+			LazyFlagResultContainer16 = reg_0x00_16u - *(uint16_t*)(targetSegment + reg_DI_16u);
 			lazyFlagType = t_CMP16;
-			reg_DI_16 += 16 / 8;
+			reg_DI_16u += 16 / 8;
 		}
 	}
 }
@@ -9025,6 +8997,14 @@ void handlerCommand16Code01B6() {
 	*target = (uint16_t)*source;
 }
 //MOVZX
+void handlerCommand16Code01B7P66() {
+	LOG("%s","MOVZX");
+	uint8_t mrmByte = read8u();
+	uint32_t* target = (uint32_t*)readRegisterMRM32(mrmByte);
+	uint16_t* source = (uint16_t*)readAddressMRM32For16(mrmByte);
+	*target = (uint32_t)*source;
+}
+//MOVZX
 void handlerCommand16Code01B7() {
 	LOG("%s","MOVZX");
 	uint8_t mrmByte = read8u();
@@ -12603,6 +12583,18 @@ void handlerCommand32Code0099() {
 	LOG("%s","CBW");
 	if (reg_AX_32 & 0x80000000) reg_DX_32=0xffffffff; else reg_DX_32=0;
 }
+//Call
+void handlerCommand32Code009A() {
+	LOG("%s","Call");
+	int32_t newIP = read32();
+	uint16_t newCS = read16u();
+	reg_SP_32u -= 16 / 8;
+	*(uint16_t*)(mem(SR_SS) + reg_SP_32u) = context.segmentRegisters[SR_CS];
+	reg_SP_32u -= 32 / 8;
+	*(uint32_t*)(mem(SR_SS) + reg_SP_32u) = ((uint32_t)(context.index - mem(SR_CS)));
+	setMem(SR_CS, newCS);
+	context.index = mem(SR_CS) + newIP;
+}
 //PUSHF
 void handlerCommand32Code009CP66() {
 	LOG("%s","PUSHF");
@@ -12641,351 +12633,343 @@ void handlerCommand32Code009D() {
 void handlerCommand32Code00A0P66P67() {
 	LOG("%s","Move");
 	uint8_t* target = (uint8_t*)register8u(BR_AX);
-	uint8_t* source = (uint8_t*)(mem(SR_DS) + read16());
+	uint8_t* source = (uint8_t*)(memWithReplace(SR_DS) + read16());
 	*(uint8_t*)target = *(uint8_t*)source;
 }
 //Move
 void handlerCommand32Code00A0P66() {
 	LOG("%s","Move");
 	uint8_t* target = (uint8_t*)register8u(BR_AX);
-	uint8_t* source = (uint8_t*)(mem(SR_DS) + read32());
+	uint8_t* source = (uint8_t*)(memWithReplace(SR_DS) + read32());
 	*(uint8_t*)target = *(uint8_t*)source;
 }
 //Move
 void handlerCommand32Code00A0P67() {
 	LOG("%s","Move");
 	uint8_t* target = (uint8_t*)register8u(BR_AX);
-	uint8_t* source = (uint8_t*)(mem(SR_DS) + read16());
+	uint8_t* source = (uint8_t*)(memWithReplace(SR_DS) + read16());
 	*(uint8_t*)target = *(uint8_t*)source;
 }
 //Move
 void handlerCommand32Code00A0() {
 	LOG("%s","Move");
 	uint8_t* target = (uint8_t*)register8u(BR_AX);
-	uint8_t* source = (uint8_t*)(mem(SR_DS) + read32());
+	uint8_t* source = (uint8_t*)(memWithReplace(SR_DS) + read32());
 	*(uint8_t*)target = *(uint8_t*)source;
 }
 //Move
 void handlerCommand32Code00A1P66P67() {
 	LOG("%s","Move");
 	uint16_t* target = (uint16_t*)register16u(BR_AX);
-	uint16_t* source = (uint16_t*)(mem(SR_DS) + read16());
+	uint16_t* source = (uint16_t*)(memWithReplace(SR_DS) + read16());
 	*(uint16_t*)target = *(uint16_t*)source;
 }
 //Move
 void handlerCommand32Code00A1P66() {
 	LOG("%s","Move");
 	uint16_t* target = (uint16_t*)register16u(BR_AX);
-	uint16_t* source = (uint16_t*)(mem(SR_DS) + read32());
+	uint16_t* source = (uint16_t*)(memWithReplace(SR_DS) + read32());
 	*(uint16_t*)target = *(uint16_t*)source;
 }
 //Move
 void handlerCommand32Code00A1P67() {
 	LOG("%s","Move");
 	uint32_t* target = (uint32_t*)register32u(BR_AX);
-	uint32_t* source = (uint32_t*)(mem(SR_DS) + read16());
+	uint32_t* source = (uint32_t*)(memWithReplace(SR_DS) + read16());
 	*(uint32_t*)target = *(uint32_t*)source;
 }
 //Move
 void handlerCommand32Code00A1() {
 	LOG("%s","Move");
 	uint32_t* target = (uint32_t*)register32u(BR_AX);
-	uint32_t* source = (uint32_t*)(mem(SR_DS) + read32());
+	uint32_t* source = (uint32_t*)(memWithReplace(SR_DS) + read32());
 	*(uint32_t*)target = *(uint32_t*)source;
 }
 //Move
 void handlerCommand32Code00A2P66P67() {
 	LOG("%s","Move");
 	uint8_t* source = (uint8_t*)register8u(BR_AX);
-	uint8_t* target = (uint8_t*)(mem(SR_DS) + read16());
+	uint8_t* target = (uint8_t*)(memWithReplace(SR_DS) + read16());
 	*(uint8_t*)target = *(uint8_t*)source;
 }
 //Move
 void handlerCommand32Code00A2P66() {
 	LOG("%s","Move");
 	uint8_t* source = (uint8_t*)register8u(BR_AX);
-	uint8_t* target = (uint8_t*)(mem(SR_DS) + read32());
+	uint8_t* target = (uint8_t*)(memWithReplace(SR_DS) + read32());
 	*(uint8_t*)target = *(uint8_t*)source;
 }
 //Move
 void handlerCommand32Code00A2P67() {
 	LOG("%s","Move");
 	uint8_t* source = (uint8_t*)register8u(BR_AX);
-	uint8_t* target = (uint8_t*)(mem(SR_DS) + read16());
+	uint8_t* target = (uint8_t*)(memWithReplace(SR_DS) + read16());
 	*(uint8_t*)target = *(uint8_t*)source;
 }
 //Move
 void handlerCommand32Code00A2() {
 	LOG("%s","Move");
 	uint8_t* source = (uint8_t*)register8u(BR_AX);
-	uint8_t* target = (uint8_t*)(mem(SR_DS) + read32());
+	uint8_t* target = (uint8_t*)(memWithReplace(SR_DS) + read32());
 	*(uint8_t*)target = *(uint8_t*)source;
 }
 //Move
 void handlerCommand32Code00A3P66P67() {
 	LOG("%s","Move");
 	uint16_t* source = (uint16_t*)register16u(BR_AX);
-	uint16_t* target = (uint16_t*)(mem(SR_DS) + read16());
+	uint16_t* target = (uint16_t*)(memWithReplace(SR_DS) + read16());
 	*(uint16_t*)target = *(uint16_t*)source;
 }
 //Move
 void handlerCommand32Code00A3P66() {
 	LOG("%s","Move");
 	uint16_t* source = (uint16_t*)register16u(BR_AX);
-	uint16_t* target = (uint16_t*)(mem(SR_DS) + read32());
+	uint16_t* target = (uint16_t*)(memWithReplace(SR_DS) + read32());
 	*(uint16_t*)target = *(uint16_t*)source;
 }
 //Move
 void handlerCommand32Code00A3P67() {
 	LOG("%s","Move");
 	uint32_t* source = (uint32_t*)register32u(BR_AX);
-	uint32_t* target = (uint32_t*)(mem(SR_DS) + read16());
+	uint32_t* target = (uint32_t*)(memWithReplace(SR_DS) + read16());
 	*(uint32_t*)target = *(uint32_t*)source;
 }
 //Move
 void handlerCommand32Code00A3() {
 	LOG("%s","Move");
 	uint32_t* source = (uint32_t*)register32u(BR_AX);
-	uint32_t* target = (uint32_t*)(mem(SR_DS) + read32());
+	uint32_t* target = (uint32_t*)(memWithReplace(SR_DS) + read32());
 	*(uint32_t*)target = *(uint32_t*)source;
 }
 //MOVS
 void handlerCommand32Code00A4P66P67() {
 	LOG("%s","MOVS");
-	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
-	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
+	uint8_t* sourceSegment = memWithReplace(SR_DS);
 	uint8_t* targetSegment = mem(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_16 != 0) {
-				*(uint8_t*)(targetSegment + reg_DI_16) = *(uint8_t*)(sourceSegment + reg_SI_16);
-				reg_DI_16 -= 8 / 8;reg_SI_16 -= 8 / 8;
-				reg_CX_16 -= 1;
+				*(uint8_t*)(targetSegment + reg_DI_16u) = *(uint8_t*)(sourceSegment + reg_SI_16u);
+				reg_DI_16u -= 8 / 8;reg_SI_16u -= 8 / 8;
+				reg_CX_16u -= 1;
 			}
 		} else {
-			*(uint8_t*)(targetSegment + reg_DI_16) = *(uint8_t*)(sourceSegment + reg_SI_16);
-			reg_DI_16 -= 8 / 8;reg_SI_16 -= 8 / 8;
+			*(uint8_t*)(targetSegment + reg_DI_16u) = *(uint8_t*)(sourceSegment + reg_SI_16u);
+			reg_DI_16u -= 8 / 8;reg_SI_16u -= 8 / 8;
 		}
 	} else {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_16 != 0) {
-				*(uint8_t*)(targetSegment + reg_DI_16) = *(uint8_t*)(sourceSegment + reg_SI_16);
-				reg_DI_16 += 8 / 8;reg_SI_16 += 8 / 8;
-				reg_CX_16 -= 1;
+				*(uint8_t*)(targetSegment + reg_DI_16u) = *(uint8_t*)(sourceSegment + reg_SI_16u);
+				reg_DI_16u += 8 / 8;reg_SI_16u += 8 / 8;
+				reg_CX_16u -= 1;
 			}
 		} else {
-			*(uint8_t*)(targetSegment + reg_DI_16) = *(uint8_t*)(sourceSegment + reg_SI_16);
-			reg_DI_16 += 8 / 8;reg_SI_16 += 8 / 8;
+			*(uint8_t*)(targetSegment + reg_DI_16u) = *(uint8_t*)(sourceSegment + reg_SI_16u);
+			reg_DI_16u += 8 / 8;reg_SI_16u += 8 / 8;
 		}
 	}
 }
 //MOVS
 void handlerCommand32Code00A4P66() {
 	LOG("%s","MOVS");
-	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
-	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
+	uint8_t* sourceSegment = memWithReplace(SR_DS);
 	uint8_t* targetSegment = mem(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_32 != 0) {
-				*(uint8_t*)(targetSegment + reg_DI_32) = *(uint8_t*)(sourceSegment + reg_SI_32);
-				reg_DI_32 -= 8 / 8;reg_SI_32 -= 8 / 8;
-				reg_CX_32 -= 1;
+				*(uint8_t*)(targetSegment + reg_DI_32u) = *(uint8_t*)(sourceSegment + reg_SI_32u);
+				reg_DI_32u -= 8 / 8;reg_SI_32u -= 8 / 8;
+				reg_CX_32u -= 1;
 			}
 		} else {
-			*(uint8_t*)(targetSegment + reg_DI_32) = *(uint8_t*)(sourceSegment + reg_SI_32);
-			reg_DI_32 -= 8 / 8;reg_SI_32 -= 8 / 8;
+			*(uint8_t*)(targetSegment + reg_DI_32u) = *(uint8_t*)(sourceSegment + reg_SI_32u);
+			reg_DI_32u -= 8 / 8;reg_SI_32u -= 8 / 8;
 		}
 	} else {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_32 != 0) {
-				*(uint8_t*)(targetSegment + reg_DI_32) = *(uint8_t*)(sourceSegment + reg_SI_32);
-				reg_DI_32 += 8 / 8;reg_SI_32 += 8 / 8;
-				reg_CX_32 -= 1;
+				*(uint8_t*)(targetSegment + reg_DI_32u) = *(uint8_t*)(sourceSegment + reg_SI_32u);
+				reg_DI_32u += 8 / 8;reg_SI_32u += 8 / 8;
+				reg_CX_32u -= 1;
 			}
 		} else {
-			*(uint8_t*)(targetSegment + reg_DI_32) = *(uint8_t*)(sourceSegment + reg_SI_32);
-			reg_DI_32 += 8 / 8;reg_SI_32 += 8 / 8;
+			*(uint8_t*)(targetSegment + reg_DI_32u) = *(uint8_t*)(sourceSegment + reg_SI_32u);
+			reg_DI_32u += 8 / 8;reg_SI_32u += 8 / 8;
 		}
 	}
 }
 //MOVS
 void handlerCommand32Code00A4P67() {
 	LOG("%s","MOVS");
-	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
-	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
+	uint8_t* sourceSegment = memWithReplace(SR_DS);
 	uint8_t* targetSegment = mem(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_16 != 0) {
-				*(uint8_t*)(targetSegment + reg_DI_16) = *(uint8_t*)(sourceSegment + reg_SI_16);
-				reg_DI_16 -= 8 / 8;reg_SI_16 -= 8 / 8;
-				reg_CX_16 -= 1;
+				*(uint8_t*)(targetSegment + reg_DI_16u) = *(uint8_t*)(sourceSegment + reg_SI_16u);
+				reg_DI_16u -= 8 / 8;reg_SI_16u -= 8 / 8;
+				reg_CX_16u -= 1;
 			}
 		} else {
-			*(uint8_t*)(targetSegment + reg_DI_16) = *(uint8_t*)(sourceSegment + reg_SI_16);
-			reg_DI_16 -= 8 / 8;reg_SI_16 -= 8 / 8;
+			*(uint8_t*)(targetSegment + reg_DI_16u) = *(uint8_t*)(sourceSegment + reg_SI_16u);
+			reg_DI_16u -= 8 / 8;reg_SI_16u -= 8 / 8;
 		}
 	} else {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_16 != 0) {
-				*(uint8_t*)(targetSegment + reg_DI_16) = *(uint8_t*)(sourceSegment + reg_SI_16);
-				reg_DI_16 += 8 / 8;reg_SI_16 += 8 / 8;
-				reg_CX_16 -= 1;
+				*(uint8_t*)(targetSegment + reg_DI_16u) = *(uint8_t*)(sourceSegment + reg_SI_16u);
+				reg_DI_16u += 8 / 8;reg_SI_16u += 8 / 8;
+				reg_CX_16u -= 1;
 			}
 		} else {
-			*(uint8_t*)(targetSegment + reg_DI_16) = *(uint8_t*)(sourceSegment + reg_SI_16);
-			reg_DI_16 += 8 / 8;reg_SI_16 += 8 / 8;
+			*(uint8_t*)(targetSegment + reg_DI_16u) = *(uint8_t*)(sourceSegment + reg_SI_16u);
+			reg_DI_16u += 8 / 8;reg_SI_16u += 8 / 8;
 		}
 	}
 }
 //MOVS
 void handlerCommand32Code00A4() {
 	LOG("%s","MOVS");
-	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
-	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
+	uint8_t* sourceSegment = memWithReplace(SR_DS);
 	uint8_t* targetSegment = mem(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_32 != 0) {
-				*(uint8_t*)(targetSegment + reg_DI_32) = *(uint8_t*)(sourceSegment + reg_SI_32);
-				reg_DI_32 -= 8 / 8;reg_SI_32 -= 8 / 8;
-				reg_CX_32 -= 1;
+				*(uint8_t*)(targetSegment + reg_DI_32u) = *(uint8_t*)(sourceSegment + reg_SI_32u);
+				reg_DI_32u -= 8 / 8;reg_SI_32u -= 8 / 8;
+				reg_CX_32u -= 1;
 			}
 		} else {
-			*(uint8_t*)(targetSegment + reg_DI_32) = *(uint8_t*)(sourceSegment + reg_SI_32);
-			reg_DI_32 -= 8 / 8;reg_SI_32 -= 8 / 8;
+			*(uint8_t*)(targetSegment + reg_DI_32u) = *(uint8_t*)(sourceSegment + reg_SI_32u);
+			reg_DI_32u -= 8 / 8;reg_SI_32u -= 8 / 8;
 		}
 	} else {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_32 != 0) {
-				*(uint8_t*)(targetSegment + reg_DI_32) = *(uint8_t*)(sourceSegment + reg_SI_32);
-				reg_DI_32 += 8 / 8;reg_SI_32 += 8 / 8;
-				reg_CX_32 -= 1;
+				*(uint8_t*)(targetSegment + reg_DI_32u) = *(uint8_t*)(sourceSegment + reg_SI_32u);
+				reg_DI_32u += 8 / 8;reg_SI_32u += 8 / 8;
+				reg_CX_32u -= 1;
 			}
 		} else {
-			*(uint8_t*)(targetSegment + reg_DI_32) = *(uint8_t*)(sourceSegment + reg_SI_32);
-			reg_DI_32 += 8 / 8;reg_SI_32 += 8 / 8;
+			*(uint8_t*)(targetSegment + reg_DI_32u) = *(uint8_t*)(sourceSegment + reg_SI_32u);
+			reg_DI_32u += 8 / 8;reg_SI_32u += 8 / 8;
 		}
 	}
 }
 //MOVS
 void handlerCommand32Code00A5P66P67() {
 	LOG("%s","MOVS");
-	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
-	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
+	uint8_t* sourceSegment = memWithReplace(SR_DS);
 	uint8_t* targetSegment = mem(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_16 != 0) {
-				*(uint16_t*)(targetSegment + reg_DI_16) = *(uint16_t*)(sourceSegment + reg_SI_16);
-				reg_DI_16 -= 16 / 8;reg_SI_16 -= 16 / 8;
-				reg_CX_16 -= 1;
+				*(uint16_t*)(targetSegment + reg_DI_16u) = *(uint16_t*)(sourceSegment + reg_SI_16u);
+				reg_DI_16u -= 16 / 8;reg_SI_16u -= 16 / 8;
+				reg_CX_16u -= 1;
 			}
 		} else {
-			*(uint16_t*)(targetSegment + reg_DI_16) = *(uint16_t*)(sourceSegment + reg_SI_16);
-			reg_DI_16 -= 16 / 8;reg_SI_16 -= 16 / 8;
+			*(uint16_t*)(targetSegment + reg_DI_16u) = *(uint16_t*)(sourceSegment + reg_SI_16u);
+			reg_DI_16u -= 16 / 8;reg_SI_16u -= 16 / 8;
 		}
 	} else {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_16 != 0) {
-				*(uint16_t*)(targetSegment + reg_DI_16) = *(uint16_t*)(sourceSegment + reg_SI_16);
-				reg_DI_16 += 16 / 8;reg_SI_16 += 16 / 8;
-				reg_CX_16 -= 1;
+				*(uint16_t*)(targetSegment + reg_DI_16u) = *(uint16_t*)(sourceSegment + reg_SI_16u);
+				reg_DI_16u += 16 / 8;reg_SI_16u += 16 / 8;
+				reg_CX_16u -= 1;
 			}
 		} else {
-			*(uint16_t*)(targetSegment + reg_DI_16) = *(uint16_t*)(sourceSegment + reg_SI_16);
-			reg_DI_16 += 16 / 8;reg_SI_16 += 16 / 8;
+			*(uint16_t*)(targetSegment + reg_DI_16u) = *(uint16_t*)(sourceSegment + reg_SI_16u);
+			reg_DI_16u += 16 / 8;reg_SI_16u += 16 / 8;
 		}
 	}
 }
 //MOVS
 void handlerCommand32Code00A5P66() {
 	LOG("%s","MOVS");
-	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
-	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
+	uint8_t* sourceSegment = memWithReplace(SR_DS);
 	uint8_t* targetSegment = mem(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_32 != 0) {
-				*(uint16_t*)(targetSegment + reg_DI_32) = *(uint16_t*)(sourceSegment + reg_SI_32);
-				reg_DI_32 -= 16 / 8;reg_SI_32 -= 16 / 8;
-				reg_CX_32 -= 1;
+				*(uint16_t*)(targetSegment + reg_DI_32u) = *(uint16_t*)(sourceSegment + reg_SI_32u);
+				reg_DI_32u -= 16 / 8;reg_SI_32u -= 16 / 8;
+				reg_CX_32u -= 1;
 			}
 		} else {
-			*(uint16_t*)(targetSegment + reg_DI_32) = *(uint16_t*)(sourceSegment + reg_SI_32);
-			reg_DI_32 -= 16 / 8;reg_SI_32 -= 16 / 8;
+			*(uint16_t*)(targetSegment + reg_DI_32u) = *(uint16_t*)(sourceSegment + reg_SI_32u);
+			reg_DI_32u -= 16 / 8;reg_SI_32u -= 16 / 8;
 		}
 	} else {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_32 != 0) {
-				*(uint16_t*)(targetSegment + reg_DI_32) = *(uint16_t*)(sourceSegment + reg_SI_32);
-				reg_DI_32 += 16 / 8;reg_SI_32 += 16 / 8;
-				reg_CX_32 -= 1;
+				*(uint16_t*)(targetSegment + reg_DI_32u) = *(uint16_t*)(sourceSegment + reg_SI_32u);
+				reg_DI_32u += 16 / 8;reg_SI_32u += 16 / 8;
+				reg_CX_32u -= 1;
 			}
 		} else {
-			*(uint16_t*)(targetSegment + reg_DI_32) = *(uint16_t*)(sourceSegment + reg_SI_32);
-			reg_DI_32 += 16 / 8;reg_SI_32 += 16 / 8;
+			*(uint16_t*)(targetSegment + reg_DI_32u) = *(uint16_t*)(sourceSegment + reg_SI_32u);
+			reg_DI_32u += 16 / 8;reg_SI_32u += 16 / 8;
 		}
 	}
 }
 //MOVS
 void handlerCommand32Code00A5P67() {
 	LOG("%s","MOVS");
-	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
-	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
+	uint8_t* sourceSegment = memWithReplace(SR_DS);
 	uint8_t* targetSegment = mem(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_16 != 0) {
-				*(uint32_t*)(targetSegment + reg_DI_16) = *(uint32_t*)(sourceSegment + reg_SI_16);
-				reg_DI_16 -= 32 / 8;reg_SI_16 -= 32 / 8;
-				reg_CX_16 -= 1;
+				*(uint32_t*)(targetSegment + reg_DI_16u) = *(uint32_t*)(sourceSegment + reg_SI_16u);
+				reg_DI_16u -= 32 / 8;reg_SI_16u -= 32 / 8;
+				reg_CX_16u -= 1;
 			}
 		} else {
-			*(uint32_t*)(targetSegment + reg_DI_16) = *(uint32_t*)(sourceSegment + reg_SI_16);
-			reg_DI_16 -= 32 / 8;reg_SI_16 -= 32 / 8;
+			*(uint32_t*)(targetSegment + reg_DI_16u) = *(uint32_t*)(sourceSegment + reg_SI_16u);
+			reg_DI_16u -= 32 / 8;reg_SI_16u -= 32 / 8;
 		}
 	} else {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_16 != 0) {
-				*(uint32_t*)(targetSegment + reg_DI_16) = *(uint32_t*)(sourceSegment + reg_SI_16);
-				reg_DI_16 += 32 / 8;reg_SI_16 += 32 / 8;
-				reg_CX_16 -= 1;
+				*(uint32_t*)(targetSegment + reg_DI_16u) = *(uint32_t*)(sourceSegment + reg_SI_16u);
+				reg_DI_16u += 32 / 8;reg_SI_16u += 32 / 8;
+				reg_CX_16u -= 1;
 			}
 		} else {
-			*(uint32_t*)(targetSegment + reg_DI_16) = *(uint32_t*)(sourceSegment + reg_SI_16);
-			reg_DI_16 += 32 / 8;reg_SI_16 += 32 / 8;
+			*(uint32_t*)(targetSegment + reg_DI_16u) = *(uint32_t*)(sourceSegment + reg_SI_16u);
+			reg_DI_16u += 32 / 8;reg_SI_16u += 32 / 8;
 		}
 	}
 }
 //MOVS
 void handlerCommand32Code00A5() {
 	LOG("%s","MOVS");
-	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
-	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
+	uint8_t* sourceSegment = memWithReplace(SR_DS);
 	uint8_t* targetSegment = mem(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_32 != 0) {
-				*(uint32_t*)(targetSegment + reg_DI_32) = *(uint32_t*)(sourceSegment + reg_SI_32);
-				reg_DI_32 -= 32 / 8;reg_SI_32 -= 32 / 8;
-				reg_CX_32 -= 1;
+				*(uint32_t*)(targetSegment + reg_DI_32u) = *(uint32_t*)(sourceSegment + reg_SI_32u);
+				reg_DI_32u -= 32 / 8;reg_SI_32u -= 32 / 8;
+				reg_CX_32u -= 1;
 			}
 		} else {
-			*(uint32_t*)(targetSegment + reg_DI_32) = *(uint32_t*)(sourceSegment + reg_SI_32);
-			reg_DI_32 -= 32 / 8;reg_SI_32 -= 32 / 8;
+			*(uint32_t*)(targetSegment + reg_DI_32u) = *(uint32_t*)(sourceSegment + reg_SI_32u);
+			reg_DI_32u -= 32 / 8;reg_SI_32u -= 32 / 8;
 		}
 	} else {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_32 != 0) {
-				*(uint32_t*)(targetSegment + reg_DI_32) = *(uint32_t*)(sourceSegment + reg_SI_32);
-				reg_DI_32 += 32 / 8;reg_SI_32 += 32 / 8;
-				reg_CX_32 -= 1;
+				*(uint32_t*)(targetSegment + reg_DI_32u) = *(uint32_t*)(sourceSegment + reg_SI_32u);
+				reg_DI_32u += 32 / 8;reg_SI_32u += 32 / 8;
+				reg_CX_32u -= 1;
 			}
 		} else {
-			*(uint32_t*)(targetSegment + reg_DI_32) = *(uint32_t*)(sourceSegment + reg_SI_32);
-			reg_DI_32 += 32 / 8;reg_SI_32 += 32 / 8;
+			*(uint32_t*)(targetSegment + reg_DI_32u) = *(uint32_t*)(sourceSegment + reg_SI_32u);
+			reg_DI_32u += 32 / 8;reg_SI_32u += 32 / 8;
 		}
 	}
 }
@@ -12993,68 +12977,67 @@ void handlerCommand32Code00A5() {
 void handlerCommand32Code00A6P66P67() {
 	LOG("%s","CMPS");
 	lazyFlagType = t_UNKNOWN;
-	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
-	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
+	uint8_t* sourceSegment = memWithReplace(SR_DS);
 	uint8_t* targetSegment = mem(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF2) {
 			while (reg_CX_16 != 0) {
-				uint8_t result = *(uint8_t*)(targetSegment + reg_DI_16) == *(uint8_t*)(sourceSegment + reg_SI_16);
-				LazyFlagVarA8 = *(uint8_t*)(sourceSegment + reg_SI_16);
-				LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_16);
-				LazyFlagResultContainer8 = *(uint8_t*)(sourceSegment + reg_SI_16) - *(uint8_t*)(targetSegment + reg_DI_16);
+				uint8_t result = *(uint8_t*)(targetSegment + reg_DI_16u) == *(uint8_t*)(sourceSegment + reg_SI_16u);
+				LazyFlagVarA8 = *(uint8_t*)(sourceSegment + reg_SI_16u);
+				LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_16u);
+				LazyFlagResultContainer8 = *(uint8_t*)(sourceSegment + reg_SI_16u) - *(uint8_t*)(targetSegment + reg_DI_16u);
 				lazyFlagType = t_CMP8;
-				reg_DI_16 -= 8 / 8;reg_SI_16 -= 8 / 8;
-				reg_CX_16 -= 1;
+				reg_DI_16u -= 8 / 8;reg_SI_16u -= 8 / 8;
+				reg_CX_16u -= 1;
 				if (result) { SET_FLAG(ZF, (1 == 1));  return; }
 			}
 		} else if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF3) {
 			while (reg_CX_16 != 0) {
-				uint8_t result = *(uint8_t*)(targetSegment + reg_DI_16) != *(uint8_t*)(sourceSegment + reg_SI_16);
-				LazyFlagVarA8 = *(uint8_t*)(sourceSegment + reg_SI_16);
-				LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_16);
-				LazyFlagResultContainer8 = *(uint8_t*)(sourceSegment + reg_SI_16) - *(uint8_t*)(targetSegment + reg_DI_16);
+				uint8_t result = *(uint8_t*)(targetSegment + reg_DI_16u) != *(uint8_t*)(sourceSegment + reg_SI_16u);
+				LazyFlagVarA8 = *(uint8_t*)(sourceSegment + reg_SI_16u);
+				LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_16u);
+				LazyFlagResultContainer8 = *(uint8_t*)(sourceSegment + reg_SI_16u) - *(uint8_t*)(targetSegment + reg_DI_16u);
 				lazyFlagType = t_CMP8;
-				reg_DI_16 -= 8 / 8;reg_SI_16 -= 8 / 8;
-				reg_CX_16 -= 1;
+				reg_DI_16u -= 8 / 8;reg_SI_16u -= 8 / 8;
+				reg_CX_16u -= 1;
 				if (result) { SET_FLAG(ZF, (1 != 1));  return; }
 			}
 		} else {
-			LazyFlagVarA8 = *(uint8_t*)(sourceSegment + reg_SI_16);
-			LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_16);
-			LazyFlagResultContainer8 = *(uint8_t*)(sourceSegment + reg_SI_16) - *(uint8_t*)(targetSegment + reg_DI_16);
+			LazyFlagVarA8 = *(uint8_t*)(sourceSegment + reg_SI_16u);
+			LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_16u);
+			LazyFlagResultContainer8 = *(uint8_t*)(sourceSegment + reg_SI_16u) - *(uint8_t*)(targetSegment + reg_DI_16u);
 			lazyFlagType = t_CMP8;
-			reg_DI_16 -= 8 / 8;reg_SI_16 -= 8 / 8;
+			reg_DI_16u -= 8 / 8;reg_SI_16u -= 8 / 8;
 		}
 	} else {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF2) {
 			while (reg_CX_16 != 0) {
-				uint8_t result = *(uint8_t*)(targetSegment + reg_DI_16) == *(uint8_t*)(sourceSegment + reg_SI_16);
-				LazyFlagVarA8 = *(uint8_t*)(sourceSegment + reg_SI_16);
-				LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_16);
-				LazyFlagResultContainer8 = *(uint8_t*)(sourceSegment + reg_SI_16) - *(uint8_t*)(targetSegment + reg_DI_16);
+				uint8_t result = *(uint8_t*)(targetSegment + reg_DI_16u) == *(uint8_t*)(sourceSegment + reg_SI_16u);
+				LazyFlagVarA8 = *(uint8_t*)(sourceSegment + reg_SI_16u);
+				LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_16u);
+				LazyFlagResultContainer8 = *(uint8_t*)(sourceSegment + reg_SI_16u) - *(uint8_t*)(targetSegment + reg_DI_16u);
 				lazyFlagType = t_CMP8;
-				reg_DI_16 += 8 / 8;reg_SI_16 += 8 / 8;
-				reg_CX_16 -= 1;
+				reg_DI_16u += 8 / 8;reg_SI_16u += 8 / 8;
+				reg_CX_16u -= 1;
 				if (result) { SET_FLAG(ZF, (1 == 1));  return; }
 			}
 		} else if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF3) {
 			while (reg_CX_16 != 0) {
-				uint8_t result = *(uint8_t*)(targetSegment + reg_DI_16) != *(uint8_t*)(sourceSegment + reg_SI_16);
-				LazyFlagVarA8 = *(uint8_t*)(sourceSegment + reg_SI_16);
-				LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_16);
-				LazyFlagResultContainer8 = *(uint8_t*)(sourceSegment + reg_SI_16) - *(uint8_t*)(targetSegment + reg_DI_16);
+				uint8_t result = *(uint8_t*)(targetSegment + reg_DI_16u) != *(uint8_t*)(sourceSegment + reg_SI_16u);
+				LazyFlagVarA8 = *(uint8_t*)(sourceSegment + reg_SI_16u);
+				LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_16u);
+				LazyFlagResultContainer8 = *(uint8_t*)(sourceSegment + reg_SI_16u) - *(uint8_t*)(targetSegment + reg_DI_16u);
 				lazyFlagType = t_CMP8;
-				reg_DI_16 += 8 / 8;reg_SI_16 += 8 / 8;
-				reg_CX_16 -= 1;
+				reg_DI_16u += 8 / 8;reg_SI_16u += 8 / 8;
+				reg_CX_16u -= 1;
 				if (result) { SET_FLAG(ZF, (1 != 1));  return; }
 			}
 		} else {
-			LazyFlagVarA8 = *(uint8_t*)(sourceSegment + reg_SI_16);
-			LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_16);
-			LazyFlagResultContainer8 = *(uint8_t*)(sourceSegment + reg_SI_16) - *(uint8_t*)(targetSegment + reg_DI_16);
+			LazyFlagVarA8 = *(uint8_t*)(sourceSegment + reg_SI_16u);
+			LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_16u);
+			LazyFlagResultContainer8 = *(uint8_t*)(sourceSegment + reg_SI_16u) - *(uint8_t*)(targetSegment + reg_DI_16u);
 			lazyFlagType = t_CMP8;
-			reg_DI_16 += 8 / 8;reg_SI_16 += 8 / 8;
+			reg_DI_16u += 8 / 8;reg_SI_16u += 8 / 8;
 		}
 	}
 }
@@ -13062,68 +13045,67 @@ void handlerCommand32Code00A6P66P67() {
 void handlerCommand32Code00A6P66() {
 	LOG("%s","CMPS");
 	lazyFlagType = t_UNKNOWN;
-	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
-	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
+	uint8_t* sourceSegment = memWithReplace(SR_DS);
 	uint8_t* targetSegment = mem(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF2) {
 			while (reg_CX_32 != 0) {
-				uint8_t result = *(uint8_t*)(targetSegment + reg_DI_32) == *(uint8_t*)(sourceSegment + reg_SI_32);
-				LazyFlagVarA8 = *(uint8_t*)(sourceSegment + reg_SI_32);
-				LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_32);
-				LazyFlagResultContainer8 = *(uint8_t*)(sourceSegment + reg_SI_32) - *(uint8_t*)(targetSegment + reg_DI_32);
+				uint8_t result = *(uint8_t*)(targetSegment + reg_DI_32u) == *(uint8_t*)(sourceSegment + reg_SI_32u);
+				LazyFlagVarA8 = *(uint8_t*)(sourceSegment + reg_SI_32u);
+				LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_32u);
+				LazyFlagResultContainer8 = *(uint8_t*)(sourceSegment + reg_SI_32u) - *(uint8_t*)(targetSegment + reg_DI_32u);
 				lazyFlagType = t_CMP8;
-				reg_DI_32 -= 8 / 8;reg_SI_32 -= 8 / 8;
-				reg_CX_32 -= 1;
+				reg_DI_32u -= 8 / 8;reg_SI_32u -= 8 / 8;
+				reg_CX_32u -= 1;
 				if (result) { SET_FLAG(ZF, (1 == 1));  return; }
 			}
 		} else if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF3) {
 			while (reg_CX_32 != 0) {
-				uint8_t result = *(uint8_t*)(targetSegment + reg_DI_32) != *(uint8_t*)(sourceSegment + reg_SI_32);
-				LazyFlagVarA8 = *(uint8_t*)(sourceSegment + reg_SI_32);
-				LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_32);
-				LazyFlagResultContainer8 = *(uint8_t*)(sourceSegment + reg_SI_32) - *(uint8_t*)(targetSegment + reg_DI_32);
+				uint8_t result = *(uint8_t*)(targetSegment + reg_DI_32u) != *(uint8_t*)(sourceSegment + reg_SI_32u);
+				LazyFlagVarA8 = *(uint8_t*)(sourceSegment + reg_SI_32u);
+				LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_32u);
+				LazyFlagResultContainer8 = *(uint8_t*)(sourceSegment + reg_SI_32u) - *(uint8_t*)(targetSegment + reg_DI_32u);
 				lazyFlagType = t_CMP8;
-				reg_DI_32 -= 8 / 8;reg_SI_32 -= 8 / 8;
-				reg_CX_32 -= 1;
+				reg_DI_32u -= 8 / 8;reg_SI_32u -= 8 / 8;
+				reg_CX_32u -= 1;
 				if (result) { SET_FLAG(ZF, (1 != 1));  return; }
 			}
 		} else {
-			LazyFlagVarA8 = *(uint8_t*)(sourceSegment + reg_SI_32);
-			LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_32);
-			LazyFlagResultContainer8 = *(uint8_t*)(sourceSegment + reg_SI_32) - *(uint8_t*)(targetSegment + reg_DI_32);
+			LazyFlagVarA8 = *(uint8_t*)(sourceSegment + reg_SI_32u);
+			LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_32u);
+			LazyFlagResultContainer8 = *(uint8_t*)(sourceSegment + reg_SI_32u) - *(uint8_t*)(targetSegment + reg_DI_32u);
 			lazyFlagType = t_CMP8;
-			reg_DI_32 -= 8 / 8;reg_SI_32 -= 8 / 8;
+			reg_DI_32u -= 8 / 8;reg_SI_32u -= 8 / 8;
 		}
 	} else {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF2) {
 			while (reg_CX_32 != 0) {
-				uint8_t result = *(uint8_t*)(targetSegment + reg_DI_32) == *(uint8_t*)(sourceSegment + reg_SI_32);
-				LazyFlagVarA8 = *(uint8_t*)(sourceSegment + reg_SI_32);
-				LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_32);
-				LazyFlagResultContainer8 = *(uint8_t*)(sourceSegment + reg_SI_32) - *(uint8_t*)(targetSegment + reg_DI_32);
+				uint8_t result = *(uint8_t*)(targetSegment + reg_DI_32u) == *(uint8_t*)(sourceSegment + reg_SI_32u);
+				LazyFlagVarA8 = *(uint8_t*)(sourceSegment + reg_SI_32u);
+				LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_32u);
+				LazyFlagResultContainer8 = *(uint8_t*)(sourceSegment + reg_SI_32u) - *(uint8_t*)(targetSegment + reg_DI_32u);
 				lazyFlagType = t_CMP8;
-				reg_DI_32 += 8 / 8;reg_SI_32 += 8 / 8;
-				reg_CX_32 -= 1;
+				reg_DI_32u += 8 / 8;reg_SI_32u += 8 / 8;
+				reg_CX_32u -= 1;
 				if (result) { SET_FLAG(ZF, (1 == 1));  return; }
 			}
 		} else if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF3) {
 			while (reg_CX_32 != 0) {
-				uint8_t result = *(uint8_t*)(targetSegment + reg_DI_32) != *(uint8_t*)(sourceSegment + reg_SI_32);
-				LazyFlagVarA8 = *(uint8_t*)(sourceSegment + reg_SI_32);
-				LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_32);
-				LazyFlagResultContainer8 = *(uint8_t*)(sourceSegment + reg_SI_32) - *(uint8_t*)(targetSegment + reg_DI_32);
+				uint8_t result = *(uint8_t*)(targetSegment + reg_DI_32u) != *(uint8_t*)(sourceSegment + reg_SI_32u);
+				LazyFlagVarA8 = *(uint8_t*)(sourceSegment + reg_SI_32u);
+				LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_32u);
+				LazyFlagResultContainer8 = *(uint8_t*)(sourceSegment + reg_SI_32u) - *(uint8_t*)(targetSegment + reg_DI_32u);
 				lazyFlagType = t_CMP8;
-				reg_DI_32 += 8 / 8;reg_SI_32 += 8 / 8;
-				reg_CX_32 -= 1;
+				reg_DI_32u += 8 / 8;reg_SI_32u += 8 / 8;
+				reg_CX_32u -= 1;
 				if (result) { SET_FLAG(ZF, (1 != 1));  return; }
 			}
 		} else {
-			LazyFlagVarA8 = *(uint8_t*)(sourceSegment + reg_SI_32);
-			LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_32);
-			LazyFlagResultContainer8 = *(uint8_t*)(sourceSegment + reg_SI_32) - *(uint8_t*)(targetSegment + reg_DI_32);
+			LazyFlagVarA8 = *(uint8_t*)(sourceSegment + reg_SI_32u);
+			LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_32u);
+			LazyFlagResultContainer8 = *(uint8_t*)(sourceSegment + reg_SI_32u) - *(uint8_t*)(targetSegment + reg_DI_32u);
 			lazyFlagType = t_CMP8;
-			reg_DI_32 += 8 / 8;reg_SI_32 += 8 / 8;
+			reg_DI_32u += 8 / 8;reg_SI_32u += 8 / 8;
 		}
 	}
 }
@@ -13131,68 +13113,67 @@ void handlerCommand32Code00A6P66() {
 void handlerCommand32Code00A6P67() {
 	LOG("%s","CMPS");
 	lazyFlagType = t_UNKNOWN;
-	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
-	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
+	uint8_t* sourceSegment = memWithReplace(SR_DS);
 	uint8_t* targetSegment = mem(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF2) {
 			while (reg_CX_16 != 0) {
-				uint8_t result = *(uint8_t*)(targetSegment + reg_DI_16) == *(uint8_t*)(sourceSegment + reg_SI_16);
-				LazyFlagVarA8 = *(uint8_t*)(sourceSegment + reg_SI_16);
-				LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_16);
-				LazyFlagResultContainer8 = *(uint8_t*)(sourceSegment + reg_SI_16) - *(uint8_t*)(targetSegment + reg_DI_16);
+				uint8_t result = *(uint8_t*)(targetSegment + reg_DI_16u) == *(uint8_t*)(sourceSegment + reg_SI_16u);
+				LazyFlagVarA8 = *(uint8_t*)(sourceSegment + reg_SI_16u);
+				LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_16u);
+				LazyFlagResultContainer8 = *(uint8_t*)(sourceSegment + reg_SI_16u) - *(uint8_t*)(targetSegment + reg_DI_16u);
 				lazyFlagType = t_CMP8;
-				reg_DI_16 -= 8 / 8;reg_SI_16 -= 8 / 8;
-				reg_CX_16 -= 1;
+				reg_DI_16u -= 8 / 8;reg_SI_16u -= 8 / 8;
+				reg_CX_16u -= 1;
 				if (result) { SET_FLAG(ZF, (1 == 1));  return; }
 			}
 		} else if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF3) {
 			while (reg_CX_16 != 0) {
-				uint8_t result = *(uint8_t*)(targetSegment + reg_DI_16) != *(uint8_t*)(sourceSegment + reg_SI_16);
-				LazyFlagVarA8 = *(uint8_t*)(sourceSegment + reg_SI_16);
-				LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_16);
-				LazyFlagResultContainer8 = *(uint8_t*)(sourceSegment + reg_SI_16) - *(uint8_t*)(targetSegment + reg_DI_16);
+				uint8_t result = *(uint8_t*)(targetSegment + reg_DI_16u) != *(uint8_t*)(sourceSegment + reg_SI_16u);
+				LazyFlagVarA8 = *(uint8_t*)(sourceSegment + reg_SI_16u);
+				LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_16u);
+				LazyFlagResultContainer8 = *(uint8_t*)(sourceSegment + reg_SI_16u) - *(uint8_t*)(targetSegment + reg_DI_16u);
 				lazyFlagType = t_CMP8;
-				reg_DI_16 -= 8 / 8;reg_SI_16 -= 8 / 8;
-				reg_CX_16 -= 1;
+				reg_DI_16u -= 8 / 8;reg_SI_16u -= 8 / 8;
+				reg_CX_16u -= 1;
 				if (result) { SET_FLAG(ZF, (1 != 1));  return; }
 			}
 		} else {
-			LazyFlagVarA8 = *(uint8_t*)(sourceSegment + reg_SI_16);
-			LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_16);
-			LazyFlagResultContainer8 = *(uint8_t*)(sourceSegment + reg_SI_16) - *(uint8_t*)(targetSegment + reg_DI_16);
+			LazyFlagVarA8 = *(uint8_t*)(sourceSegment + reg_SI_16u);
+			LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_16u);
+			LazyFlagResultContainer8 = *(uint8_t*)(sourceSegment + reg_SI_16u) - *(uint8_t*)(targetSegment + reg_DI_16u);
 			lazyFlagType = t_CMP8;
-			reg_DI_16 -= 8 / 8;reg_SI_16 -= 8 / 8;
+			reg_DI_16u -= 8 / 8;reg_SI_16u -= 8 / 8;
 		}
 	} else {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF2) {
 			while (reg_CX_16 != 0) {
-				uint8_t result = *(uint8_t*)(targetSegment + reg_DI_16) == *(uint8_t*)(sourceSegment + reg_SI_16);
-				LazyFlagVarA8 = *(uint8_t*)(sourceSegment + reg_SI_16);
-				LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_16);
-				LazyFlagResultContainer8 = *(uint8_t*)(sourceSegment + reg_SI_16) - *(uint8_t*)(targetSegment + reg_DI_16);
+				uint8_t result = *(uint8_t*)(targetSegment + reg_DI_16u) == *(uint8_t*)(sourceSegment + reg_SI_16u);
+				LazyFlagVarA8 = *(uint8_t*)(sourceSegment + reg_SI_16u);
+				LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_16u);
+				LazyFlagResultContainer8 = *(uint8_t*)(sourceSegment + reg_SI_16u) - *(uint8_t*)(targetSegment + reg_DI_16u);
 				lazyFlagType = t_CMP8;
-				reg_DI_16 += 8 / 8;reg_SI_16 += 8 / 8;
-				reg_CX_16 -= 1;
+				reg_DI_16u += 8 / 8;reg_SI_16u += 8 / 8;
+				reg_CX_16u -= 1;
 				if (result) { SET_FLAG(ZF, (1 == 1));  return; }
 			}
 		} else if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF3) {
 			while (reg_CX_16 != 0) {
-				uint8_t result = *(uint8_t*)(targetSegment + reg_DI_16) != *(uint8_t*)(sourceSegment + reg_SI_16);
-				LazyFlagVarA8 = *(uint8_t*)(sourceSegment + reg_SI_16);
-				LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_16);
-				LazyFlagResultContainer8 = *(uint8_t*)(sourceSegment + reg_SI_16) - *(uint8_t*)(targetSegment + reg_DI_16);
+				uint8_t result = *(uint8_t*)(targetSegment + reg_DI_16u) != *(uint8_t*)(sourceSegment + reg_SI_16u);
+				LazyFlagVarA8 = *(uint8_t*)(sourceSegment + reg_SI_16u);
+				LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_16u);
+				LazyFlagResultContainer8 = *(uint8_t*)(sourceSegment + reg_SI_16u) - *(uint8_t*)(targetSegment + reg_DI_16u);
 				lazyFlagType = t_CMP8;
-				reg_DI_16 += 8 / 8;reg_SI_16 += 8 / 8;
-				reg_CX_16 -= 1;
+				reg_DI_16u += 8 / 8;reg_SI_16u += 8 / 8;
+				reg_CX_16u -= 1;
 				if (result) { SET_FLAG(ZF, (1 != 1));  return; }
 			}
 		} else {
-			LazyFlagVarA8 = *(uint8_t*)(sourceSegment + reg_SI_16);
-			LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_16);
-			LazyFlagResultContainer8 = *(uint8_t*)(sourceSegment + reg_SI_16) - *(uint8_t*)(targetSegment + reg_DI_16);
+			LazyFlagVarA8 = *(uint8_t*)(sourceSegment + reg_SI_16u);
+			LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_16u);
+			LazyFlagResultContainer8 = *(uint8_t*)(sourceSegment + reg_SI_16u) - *(uint8_t*)(targetSegment + reg_DI_16u);
 			lazyFlagType = t_CMP8;
-			reg_DI_16 += 8 / 8;reg_SI_16 += 8 / 8;
+			reg_DI_16u += 8 / 8;reg_SI_16u += 8 / 8;
 		}
 	}
 }
@@ -13200,68 +13181,67 @@ void handlerCommand32Code00A6P67() {
 void handlerCommand32Code00A6() {
 	LOG("%s","CMPS");
 	lazyFlagType = t_UNKNOWN;
-	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
-	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
+	uint8_t* sourceSegment = memWithReplace(SR_DS);
 	uint8_t* targetSegment = mem(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF2) {
 			while (reg_CX_32 != 0) {
-				uint8_t result = *(uint8_t*)(targetSegment + reg_DI_32) == *(uint8_t*)(sourceSegment + reg_SI_32);
-				LazyFlagVarA8 = *(uint8_t*)(sourceSegment + reg_SI_32);
-				LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_32);
-				LazyFlagResultContainer8 = *(uint8_t*)(sourceSegment + reg_SI_32) - *(uint8_t*)(targetSegment + reg_DI_32);
+				uint8_t result = *(uint8_t*)(targetSegment + reg_DI_32u) == *(uint8_t*)(sourceSegment + reg_SI_32u);
+				LazyFlagVarA8 = *(uint8_t*)(sourceSegment + reg_SI_32u);
+				LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_32u);
+				LazyFlagResultContainer8 = *(uint8_t*)(sourceSegment + reg_SI_32u) - *(uint8_t*)(targetSegment + reg_DI_32u);
 				lazyFlagType = t_CMP8;
-				reg_DI_32 -= 8 / 8;reg_SI_32 -= 8 / 8;
-				reg_CX_32 -= 1;
+				reg_DI_32u -= 8 / 8;reg_SI_32u -= 8 / 8;
+				reg_CX_32u -= 1;
 				if (result) { SET_FLAG(ZF, (1 == 1));  return; }
 			}
 		} else if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF3) {
 			while (reg_CX_32 != 0) {
-				uint8_t result = *(uint8_t*)(targetSegment + reg_DI_32) != *(uint8_t*)(sourceSegment + reg_SI_32);
-				LazyFlagVarA8 = *(uint8_t*)(sourceSegment + reg_SI_32);
-				LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_32);
-				LazyFlagResultContainer8 = *(uint8_t*)(sourceSegment + reg_SI_32) - *(uint8_t*)(targetSegment + reg_DI_32);
+				uint8_t result = *(uint8_t*)(targetSegment + reg_DI_32u) != *(uint8_t*)(sourceSegment + reg_SI_32u);
+				LazyFlagVarA8 = *(uint8_t*)(sourceSegment + reg_SI_32u);
+				LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_32u);
+				LazyFlagResultContainer8 = *(uint8_t*)(sourceSegment + reg_SI_32u) - *(uint8_t*)(targetSegment + reg_DI_32u);
 				lazyFlagType = t_CMP8;
-				reg_DI_32 -= 8 / 8;reg_SI_32 -= 8 / 8;
-				reg_CX_32 -= 1;
+				reg_DI_32u -= 8 / 8;reg_SI_32u -= 8 / 8;
+				reg_CX_32u -= 1;
 				if (result) { SET_FLAG(ZF, (1 != 1));  return; }
 			}
 		} else {
-			LazyFlagVarA8 = *(uint8_t*)(sourceSegment + reg_SI_32);
-			LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_32);
-			LazyFlagResultContainer8 = *(uint8_t*)(sourceSegment + reg_SI_32) - *(uint8_t*)(targetSegment + reg_DI_32);
+			LazyFlagVarA8 = *(uint8_t*)(sourceSegment + reg_SI_32u);
+			LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_32u);
+			LazyFlagResultContainer8 = *(uint8_t*)(sourceSegment + reg_SI_32u) - *(uint8_t*)(targetSegment + reg_DI_32u);
 			lazyFlagType = t_CMP8;
-			reg_DI_32 -= 8 / 8;reg_SI_32 -= 8 / 8;
+			reg_DI_32u -= 8 / 8;reg_SI_32u -= 8 / 8;
 		}
 	} else {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF2) {
 			while (reg_CX_32 != 0) {
-				uint8_t result = *(uint8_t*)(targetSegment + reg_DI_32) == *(uint8_t*)(sourceSegment + reg_SI_32);
-				LazyFlagVarA8 = *(uint8_t*)(sourceSegment + reg_SI_32);
-				LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_32);
-				LazyFlagResultContainer8 = *(uint8_t*)(sourceSegment + reg_SI_32) - *(uint8_t*)(targetSegment + reg_DI_32);
+				uint8_t result = *(uint8_t*)(targetSegment + reg_DI_32u) == *(uint8_t*)(sourceSegment + reg_SI_32u);
+				LazyFlagVarA8 = *(uint8_t*)(sourceSegment + reg_SI_32u);
+				LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_32u);
+				LazyFlagResultContainer8 = *(uint8_t*)(sourceSegment + reg_SI_32u) - *(uint8_t*)(targetSegment + reg_DI_32u);
 				lazyFlagType = t_CMP8;
-				reg_DI_32 += 8 / 8;reg_SI_32 += 8 / 8;
-				reg_CX_32 -= 1;
+				reg_DI_32u += 8 / 8;reg_SI_32u += 8 / 8;
+				reg_CX_32u -= 1;
 				if (result) { SET_FLAG(ZF, (1 == 1));  return; }
 			}
 		} else if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF3) {
 			while (reg_CX_32 != 0) {
-				uint8_t result = *(uint8_t*)(targetSegment + reg_DI_32) != *(uint8_t*)(sourceSegment + reg_SI_32);
-				LazyFlagVarA8 = *(uint8_t*)(sourceSegment + reg_SI_32);
-				LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_32);
-				LazyFlagResultContainer8 = *(uint8_t*)(sourceSegment + reg_SI_32) - *(uint8_t*)(targetSegment + reg_DI_32);
+				uint8_t result = *(uint8_t*)(targetSegment + reg_DI_32u) != *(uint8_t*)(sourceSegment + reg_SI_32u);
+				LazyFlagVarA8 = *(uint8_t*)(sourceSegment + reg_SI_32u);
+				LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_32u);
+				LazyFlagResultContainer8 = *(uint8_t*)(sourceSegment + reg_SI_32u) - *(uint8_t*)(targetSegment + reg_DI_32u);
 				lazyFlagType = t_CMP8;
-				reg_DI_32 += 8 / 8;reg_SI_32 += 8 / 8;
-				reg_CX_32 -= 1;
+				reg_DI_32u += 8 / 8;reg_SI_32u += 8 / 8;
+				reg_CX_32u -= 1;
 				if (result) { SET_FLAG(ZF, (1 != 1));  return; }
 			}
 		} else {
-			LazyFlagVarA8 = *(uint8_t*)(sourceSegment + reg_SI_32);
-			LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_32);
-			LazyFlagResultContainer8 = *(uint8_t*)(sourceSegment + reg_SI_32) - *(uint8_t*)(targetSegment + reg_DI_32);
+			LazyFlagVarA8 = *(uint8_t*)(sourceSegment + reg_SI_32u);
+			LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_32u);
+			LazyFlagResultContainer8 = *(uint8_t*)(sourceSegment + reg_SI_32u) - *(uint8_t*)(targetSegment + reg_DI_32u);
 			lazyFlagType = t_CMP8;
-			reg_DI_32 += 8 / 8;reg_SI_32 += 8 / 8;
+			reg_DI_32u += 8 / 8;reg_SI_32u += 8 / 8;
 		}
 	}
 }
@@ -13269,68 +13249,67 @@ void handlerCommand32Code00A6() {
 void handlerCommand32Code00A7P66P67() {
 	LOG("%s","CMPS");
 	lazyFlagType = t_UNKNOWN;
-	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
-	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
+	uint8_t* sourceSegment = memWithReplace(SR_DS);
 	uint8_t* targetSegment = mem(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF2) {
 			while (reg_CX_16 != 0) {
-				uint8_t result = *(uint16_t*)(targetSegment + reg_DI_16) == *(uint16_t*)(sourceSegment + reg_SI_16);
-				LazyFlagVarA16 = *(uint16_t*)(sourceSegment + reg_SI_16);
-				LazyFlagVarB16 = *(uint16_t*)(targetSegment + reg_DI_16);
-				LazyFlagResultContainer16 = *(uint16_t*)(sourceSegment + reg_SI_16) - *(uint16_t*)(targetSegment + reg_DI_16);
+				uint8_t result = *(uint16_t*)(targetSegment + reg_DI_16u) == *(uint16_t*)(sourceSegment + reg_SI_16u);
+				LazyFlagVarA16 = *(uint16_t*)(sourceSegment + reg_SI_16u);
+				LazyFlagVarB16 = *(uint16_t*)(targetSegment + reg_DI_16u);
+				LazyFlagResultContainer16 = *(uint16_t*)(sourceSegment + reg_SI_16u) - *(uint16_t*)(targetSegment + reg_DI_16u);
 				lazyFlagType = t_CMP16;
-				reg_DI_16 -= 16 / 8;reg_SI_16 -= 16 / 8;
-				reg_CX_16 -= 1;
+				reg_DI_16u -= 16 / 8;reg_SI_16u -= 16 / 8;
+				reg_CX_16u -= 1;
 				if (result) { SET_FLAG(ZF, (1 == 1));  return; }
 			}
 		} else if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF3) {
 			while (reg_CX_16 != 0) {
-				uint8_t result = *(uint16_t*)(targetSegment + reg_DI_16) != *(uint16_t*)(sourceSegment + reg_SI_16);
-				LazyFlagVarA16 = *(uint16_t*)(sourceSegment + reg_SI_16);
-				LazyFlagVarB16 = *(uint16_t*)(targetSegment + reg_DI_16);
-				LazyFlagResultContainer16 = *(uint16_t*)(sourceSegment + reg_SI_16) - *(uint16_t*)(targetSegment + reg_DI_16);
+				uint8_t result = *(uint16_t*)(targetSegment + reg_DI_16u) != *(uint16_t*)(sourceSegment + reg_SI_16u);
+				LazyFlagVarA16 = *(uint16_t*)(sourceSegment + reg_SI_16u);
+				LazyFlagVarB16 = *(uint16_t*)(targetSegment + reg_DI_16u);
+				LazyFlagResultContainer16 = *(uint16_t*)(sourceSegment + reg_SI_16u) - *(uint16_t*)(targetSegment + reg_DI_16u);
 				lazyFlagType = t_CMP16;
-				reg_DI_16 -= 16 / 8;reg_SI_16 -= 16 / 8;
-				reg_CX_16 -= 1;
+				reg_DI_16u -= 16 / 8;reg_SI_16u -= 16 / 8;
+				reg_CX_16u -= 1;
 				if (result) { SET_FLAG(ZF, (1 != 1));  return; }
 			}
 		} else {
-			LazyFlagVarA16 = *(uint16_t*)(sourceSegment + reg_SI_16);
-			LazyFlagVarB16 = *(uint16_t*)(targetSegment + reg_DI_16);
-			LazyFlagResultContainer16 = *(uint16_t*)(sourceSegment + reg_SI_16) - *(uint16_t*)(targetSegment + reg_DI_16);
+			LazyFlagVarA16 = *(uint16_t*)(sourceSegment + reg_SI_16u);
+			LazyFlagVarB16 = *(uint16_t*)(targetSegment + reg_DI_16u);
+			LazyFlagResultContainer16 = *(uint16_t*)(sourceSegment + reg_SI_16u) - *(uint16_t*)(targetSegment + reg_DI_16u);
 			lazyFlagType = t_CMP16;
-			reg_DI_16 -= 16 / 8;reg_SI_16 -= 16 / 8;
+			reg_DI_16u -= 16 / 8;reg_SI_16u -= 16 / 8;
 		}
 	} else {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF2) {
 			while (reg_CX_16 != 0) {
-				uint8_t result = *(uint16_t*)(targetSegment + reg_DI_16) == *(uint16_t*)(sourceSegment + reg_SI_16);
-				LazyFlagVarA16 = *(uint16_t*)(sourceSegment + reg_SI_16);
-				LazyFlagVarB16 = *(uint16_t*)(targetSegment + reg_DI_16);
-				LazyFlagResultContainer16 = *(uint16_t*)(sourceSegment + reg_SI_16) - *(uint16_t*)(targetSegment + reg_DI_16);
+				uint8_t result = *(uint16_t*)(targetSegment + reg_DI_16u) == *(uint16_t*)(sourceSegment + reg_SI_16u);
+				LazyFlagVarA16 = *(uint16_t*)(sourceSegment + reg_SI_16u);
+				LazyFlagVarB16 = *(uint16_t*)(targetSegment + reg_DI_16u);
+				LazyFlagResultContainer16 = *(uint16_t*)(sourceSegment + reg_SI_16u) - *(uint16_t*)(targetSegment + reg_DI_16u);
 				lazyFlagType = t_CMP16;
-				reg_DI_16 += 16 / 8;reg_SI_16 += 16 / 8;
-				reg_CX_16 -= 1;
+				reg_DI_16u += 16 / 8;reg_SI_16u += 16 / 8;
+				reg_CX_16u -= 1;
 				if (result) { SET_FLAG(ZF, (1 == 1));  return; }
 			}
 		} else if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF3) {
 			while (reg_CX_16 != 0) {
-				uint8_t result = *(uint16_t*)(targetSegment + reg_DI_16) != *(uint16_t*)(sourceSegment + reg_SI_16);
-				LazyFlagVarA16 = *(uint16_t*)(sourceSegment + reg_SI_16);
-				LazyFlagVarB16 = *(uint16_t*)(targetSegment + reg_DI_16);
-				LazyFlagResultContainer16 = *(uint16_t*)(sourceSegment + reg_SI_16) - *(uint16_t*)(targetSegment + reg_DI_16);
+				uint8_t result = *(uint16_t*)(targetSegment + reg_DI_16u) != *(uint16_t*)(sourceSegment + reg_SI_16u);
+				LazyFlagVarA16 = *(uint16_t*)(sourceSegment + reg_SI_16u);
+				LazyFlagVarB16 = *(uint16_t*)(targetSegment + reg_DI_16u);
+				LazyFlagResultContainer16 = *(uint16_t*)(sourceSegment + reg_SI_16u) - *(uint16_t*)(targetSegment + reg_DI_16u);
 				lazyFlagType = t_CMP16;
-				reg_DI_16 += 16 / 8;reg_SI_16 += 16 / 8;
-				reg_CX_16 -= 1;
+				reg_DI_16u += 16 / 8;reg_SI_16u += 16 / 8;
+				reg_CX_16u -= 1;
 				if (result) { SET_FLAG(ZF, (1 != 1));  return; }
 			}
 		} else {
-			LazyFlagVarA16 = *(uint16_t*)(sourceSegment + reg_SI_16);
-			LazyFlagVarB16 = *(uint16_t*)(targetSegment + reg_DI_16);
-			LazyFlagResultContainer16 = *(uint16_t*)(sourceSegment + reg_SI_16) - *(uint16_t*)(targetSegment + reg_DI_16);
+			LazyFlagVarA16 = *(uint16_t*)(sourceSegment + reg_SI_16u);
+			LazyFlagVarB16 = *(uint16_t*)(targetSegment + reg_DI_16u);
+			LazyFlagResultContainer16 = *(uint16_t*)(sourceSegment + reg_SI_16u) - *(uint16_t*)(targetSegment + reg_DI_16u);
 			lazyFlagType = t_CMP16;
-			reg_DI_16 += 16 / 8;reg_SI_16 += 16 / 8;
+			reg_DI_16u += 16 / 8;reg_SI_16u += 16 / 8;
 		}
 	}
 }
@@ -13338,68 +13317,67 @@ void handlerCommand32Code00A7P66P67() {
 void handlerCommand32Code00A7P66() {
 	LOG("%s","CMPS");
 	lazyFlagType = t_UNKNOWN;
-	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
-	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
+	uint8_t* sourceSegment = memWithReplace(SR_DS);
 	uint8_t* targetSegment = mem(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF2) {
 			while (reg_CX_32 != 0) {
-				uint8_t result = *(uint16_t*)(targetSegment + reg_DI_32) == *(uint16_t*)(sourceSegment + reg_SI_32);
-				LazyFlagVarA16 = *(uint16_t*)(sourceSegment + reg_SI_32);
-				LazyFlagVarB16 = *(uint16_t*)(targetSegment + reg_DI_32);
-				LazyFlagResultContainer16 = *(uint16_t*)(sourceSegment + reg_SI_32) - *(uint16_t*)(targetSegment + reg_DI_32);
+				uint8_t result = *(uint16_t*)(targetSegment + reg_DI_32u) == *(uint16_t*)(sourceSegment + reg_SI_32u);
+				LazyFlagVarA16 = *(uint16_t*)(sourceSegment + reg_SI_32u);
+				LazyFlagVarB16 = *(uint16_t*)(targetSegment + reg_DI_32u);
+				LazyFlagResultContainer16 = *(uint16_t*)(sourceSegment + reg_SI_32u) - *(uint16_t*)(targetSegment + reg_DI_32u);
 				lazyFlagType = t_CMP16;
-				reg_DI_32 -= 16 / 8;reg_SI_32 -= 16 / 8;
-				reg_CX_32 -= 1;
+				reg_DI_32u -= 16 / 8;reg_SI_32u -= 16 / 8;
+				reg_CX_32u -= 1;
 				if (result) { SET_FLAG(ZF, (1 == 1));  return; }
 			}
 		} else if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF3) {
 			while (reg_CX_32 != 0) {
-				uint8_t result = *(uint16_t*)(targetSegment + reg_DI_32) != *(uint16_t*)(sourceSegment + reg_SI_32);
-				LazyFlagVarA16 = *(uint16_t*)(sourceSegment + reg_SI_32);
-				LazyFlagVarB16 = *(uint16_t*)(targetSegment + reg_DI_32);
-				LazyFlagResultContainer16 = *(uint16_t*)(sourceSegment + reg_SI_32) - *(uint16_t*)(targetSegment + reg_DI_32);
+				uint8_t result = *(uint16_t*)(targetSegment + reg_DI_32u) != *(uint16_t*)(sourceSegment + reg_SI_32u);
+				LazyFlagVarA16 = *(uint16_t*)(sourceSegment + reg_SI_32u);
+				LazyFlagVarB16 = *(uint16_t*)(targetSegment + reg_DI_32u);
+				LazyFlagResultContainer16 = *(uint16_t*)(sourceSegment + reg_SI_32u) - *(uint16_t*)(targetSegment + reg_DI_32u);
 				lazyFlagType = t_CMP16;
-				reg_DI_32 -= 16 / 8;reg_SI_32 -= 16 / 8;
-				reg_CX_32 -= 1;
+				reg_DI_32u -= 16 / 8;reg_SI_32u -= 16 / 8;
+				reg_CX_32u -= 1;
 				if (result) { SET_FLAG(ZF, (1 != 1));  return; }
 			}
 		} else {
-			LazyFlagVarA16 = *(uint16_t*)(sourceSegment + reg_SI_32);
-			LazyFlagVarB16 = *(uint16_t*)(targetSegment + reg_DI_32);
-			LazyFlagResultContainer16 = *(uint16_t*)(sourceSegment + reg_SI_32) - *(uint16_t*)(targetSegment + reg_DI_32);
+			LazyFlagVarA16 = *(uint16_t*)(sourceSegment + reg_SI_32u);
+			LazyFlagVarB16 = *(uint16_t*)(targetSegment + reg_DI_32u);
+			LazyFlagResultContainer16 = *(uint16_t*)(sourceSegment + reg_SI_32u) - *(uint16_t*)(targetSegment + reg_DI_32u);
 			lazyFlagType = t_CMP16;
-			reg_DI_32 -= 16 / 8;reg_SI_32 -= 16 / 8;
+			reg_DI_32u -= 16 / 8;reg_SI_32u -= 16 / 8;
 		}
 	} else {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF2) {
 			while (reg_CX_32 != 0) {
-				uint8_t result = *(uint16_t*)(targetSegment + reg_DI_32) == *(uint16_t*)(sourceSegment + reg_SI_32);
-				LazyFlagVarA16 = *(uint16_t*)(sourceSegment + reg_SI_32);
-				LazyFlagVarB16 = *(uint16_t*)(targetSegment + reg_DI_32);
-				LazyFlagResultContainer16 = *(uint16_t*)(sourceSegment + reg_SI_32) - *(uint16_t*)(targetSegment + reg_DI_32);
+				uint8_t result = *(uint16_t*)(targetSegment + reg_DI_32u) == *(uint16_t*)(sourceSegment + reg_SI_32u);
+				LazyFlagVarA16 = *(uint16_t*)(sourceSegment + reg_SI_32u);
+				LazyFlagVarB16 = *(uint16_t*)(targetSegment + reg_DI_32u);
+				LazyFlagResultContainer16 = *(uint16_t*)(sourceSegment + reg_SI_32u) - *(uint16_t*)(targetSegment + reg_DI_32u);
 				lazyFlagType = t_CMP16;
-				reg_DI_32 += 16 / 8;reg_SI_32 += 16 / 8;
-				reg_CX_32 -= 1;
+				reg_DI_32u += 16 / 8;reg_SI_32u += 16 / 8;
+				reg_CX_32u -= 1;
 				if (result) { SET_FLAG(ZF, (1 == 1));  return; }
 			}
 		} else if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF3) {
 			while (reg_CX_32 != 0) {
-				uint8_t result = *(uint16_t*)(targetSegment + reg_DI_32) != *(uint16_t*)(sourceSegment + reg_SI_32);
-				LazyFlagVarA16 = *(uint16_t*)(sourceSegment + reg_SI_32);
-				LazyFlagVarB16 = *(uint16_t*)(targetSegment + reg_DI_32);
-				LazyFlagResultContainer16 = *(uint16_t*)(sourceSegment + reg_SI_32) - *(uint16_t*)(targetSegment + reg_DI_32);
+				uint8_t result = *(uint16_t*)(targetSegment + reg_DI_32u) != *(uint16_t*)(sourceSegment + reg_SI_32u);
+				LazyFlagVarA16 = *(uint16_t*)(sourceSegment + reg_SI_32u);
+				LazyFlagVarB16 = *(uint16_t*)(targetSegment + reg_DI_32u);
+				LazyFlagResultContainer16 = *(uint16_t*)(sourceSegment + reg_SI_32u) - *(uint16_t*)(targetSegment + reg_DI_32u);
 				lazyFlagType = t_CMP16;
-				reg_DI_32 += 16 / 8;reg_SI_32 += 16 / 8;
-				reg_CX_32 -= 1;
+				reg_DI_32u += 16 / 8;reg_SI_32u += 16 / 8;
+				reg_CX_32u -= 1;
 				if (result) { SET_FLAG(ZF, (1 != 1));  return; }
 			}
 		} else {
-			LazyFlagVarA16 = *(uint16_t*)(sourceSegment + reg_SI_32);
-			LazyFlagVarB16 = *(uint16_t*)(targetSegment + reg_DI_32);
-			LazyFlagResultContainer16 = *(uint16_t*)(sourceSegment + reg_SI_32) - *(uint16_t*)(targetSegment + reg_DI_32);
+			LazyFlagVarA16 = *(uint16_t*)(sourceSegment + reg_SI_32u);
+			LazyFlagVarB16 = *(uint16_t*)(targetSegment + reg_DI_32u);
+			LazyFlagResultContainer16 = *(uint16_t*)(sourceSegment + reg_SI_32u) - *(uint16_t*)(targetSegment + reg_DI_32u);
 			lazyFlagType = t_CMP16;
-			reg_DI_32 += 16 / 8;reg_SI_32 += 16 / 8;
+			reg_DI_32u += 16 / 8;reg_SI_32u += 16 / 8;
 		}
 	}
 }
@@ -13407,68 +13385,67 @@ void handlerCommand32Code00A7P66() {
 void handlerCommand32Code00A7P67() {
 	LOG("%s","CMPS");
 	lazyFlagType = t_UNKNOWN;
-	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
-	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
+	uint8_t* sourceSegment = memWithReplace(SR_DS);
 	uint8_t* targetSegment = mem(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF2) {
 			while (reg_CX_16 != 0) {
-				uint8_t result = *(uint32_t*)(targetSegment + reg_DI_16) == *(uint32_t*)(sourceSegment + reg_SI_16);
-				LazyFlagVarA32 = *(uint32_t*)(sourceSegment + reg_SI_16);
-				LazyFlagVarB32 = *(uint32_t*)(targetSegment + reg_DI_16);
-				LazyFlagResultContainer32 = *(uint32_t*)(sourceSegment + reg_SI_16) - *(uint32_t*)(targetSegment + reg_DI_16);
+				uint8_t result = *(uint32_t*)(targetSegment + reg_DI_16u) == *(uint32_t*)(sourceSegment + reg_SI_16u);
+				LazyFlagVarA32 = *(uint32_t*)(sourceSegment + reg_SI_16u);
+				LazyFlagVarB32 = *(uint32_t*)(targetSegment + reg_DI_16u);
+				LazyFlagResultContainer32 = *(uint32_t*)(sourceSegment + reg_SI_16u) - *(uint32_t*)(targetSegment + reg_DI_16u);
 				lazyFlagType = t_CMP32;
-				reg_DI_16 -= 32 / 8;reg_SI_16 -= 32 / 8;
-				reg_CX_16 -= 1;
+				reg_DI_16u -= 32 / 8;reg_SI_16u -= 32 / 8;
+				reg_CX_16u -= 1;
 				if (result) { SET_FLAG(ZF, (1 == 1));  return; }
 			}
 		} else if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF3) {
 			while (reg_CX_16 != 0) {
-				uint8_t result = *(uint32_t*)(targetSegment + reg_DI_16) != *(uint32_t*)(sourceSegment + reg_SI_16);
-				LazyFlagVarA32 = *(uint32_t*)(sourceSegment + reg_SI_16);
-				LazyFlagVarB32 = *(uint32_t*)(targetSegment + reg_DI_16);
-				LazyFlagResultContainer32 = *(uint32_t*)(sourceSegment + reg_SI_16) - *(uint32_t*)(targetSegment + reg_DI_16);
+				uint8_t result = *(uint32_t*)(targetSegment + reg_DI_16u) != *(uint32_t*)(sourceSegment + reg_SI_16u);
+				LazyFlagVarA32 = *(uint32_t*)(sourceSegment + reg_SI_16u);
+				LazyFlagVarB32 = *(uint32_t*)(targetSegment + reg_DI_16u);
+				LazyFlagResultContainer32 = *(uint32_t*)(sourceSegment + reg_SI_16u) - *(uint32_t*)(targetSegment + reg_DI_16u);
 				lazyFlagType = t_CMP32;
-				reg_DI_16 -= 32 / 8;reg_SI_16 -= 32 / 8;
-				reg_CX_16 -= 1;
+				reg_DI_16u -= 32 / 8;reg_SI_16u -= 32 / 8;
+				reg_CX_16u -= 1;
 				if (result) { SET_FLAG(ZF, (1 != 1));  return; }
 			}
 		} else {
-			LazyFlagVarA32 = *(uint32_t*)(sourceSegment + reg_SI_16);
-			LazyFlagVarB32 = *(uint32_t*)(targetSegment + reg_DI_16);
-			LazyFlagResultContainer32 = *(uint32_t*)(sourceSegment + reg_SI_16) - *(uint32_t*)(targetSegment + reg_DI_16);
+			LazyFlagVarA32 = *(uint32_t*)(sourceSegment + reg_SI_16u);
+			LazyFlagVarB32 = *(uint32_t*)(targetSegment + reg_DI_16u);
+			LazyFlagResultContainer32 = *(uint32_t*)(sourceSegment + reg_SI_16u) - *(uint32_t*)(targetSegment + reg_DI_16u);
 			lazyFlagType = t_CMP32;
-			reg_DI_16 -= 32 / 8;reg_SI_16 -= 32 / 8;
+			reg_DI_16u -= 32 / 8;reg_SI_16u -= 32 / 8;
 		}
 	} else {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF2) {
 			while (reg_CX_16 != 0) {
-				uint8_t result = *(uint32_t*)(targetSegment + reg_DI_16) == *(uint32_t*)(sourceSegment + reg_SI_16);
-				LazyFlagVarA32 = *(uint32_t*)(sourceSegment + reg_SI_16);
-				LazyFlagVarB32 = *(uint32_t*)(targetSegment + reg_DI_16);
-				LazyFlagResultContainer32 = *(uint32_t*)(sourceSegment + reg_SI_16) - *(uint32_t*)(targetSegment + reg_DI_16);
+				uint8_t result = *(uint32_t*)(targetSegment + reg_DI_16u) == *(uint32_t*)(sourceSegment + reg_SI_16u);
+				LazyFlagVarA32 = *(uint32_t*)(sourceSegment + reg_SI_16u);
+				LazyFlagVarB32 = *(uint32_t*)(targetSegment + reg_DI_16u);
+				LazyFlagResultContainer32 = *(uint32_t*)(sourceSegment + reg_SI_16u) - *(uint32_t*)(targetSegment + reg_DI_16u);
 				lazyFlagType = t_CMP32;
-				reg_DI_16 += 32 / 8;reg_SI_16 += 32 / 8;
-				reg_CX_16 -= 1;
+				reg_DI_16u += 32 / 8;reg_SI_16u += 32 / 8;
+				reg_CX_16u -= 1;
 				if (result) { SET_FLAG(ZF, (1 == 1));  return; }
 			}
 		} else if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF3) {
 			while (reg_CX_16 != 0) {
-				uint8_t result = *(uint32_t*)(targetSegment + reg_DI_16) != *(uint32_t*)(sourceSegment + reg_SI_16);
-				LazyFlagVarA32 = *(uint32_t*)(sourceSegment + reg_SI_16);
-				LazyFlagVarB32 = *(uint32_t*)(targetSegment + reg_DI_16);
-				LazyFlagResultContainer32 = *(uint32_t*)(sourceSegment + reg_SI_16) - *(uint32_t*)(targetSegment + reg_DI_16);
+				uint8_t result = *(uint32_t*)(targetSegment + reg_DI_16u) != *(uint32_t*)(sourceSegment + reg_SI_16u);
+				LazyFlagVarA32 = *(uint32_t*)(sourceSegment + reg_SI_16u);
+				LazyFlagVarB32 = *(uint32_t*)(targetSegment + reg_DI_16u);
+				LazyFlagResultContainer32 = *(uint32_t*)(sourceSegment + reg_SI_16u) - *(uint32_t*)(targetSegment + reg_DI_16u);
 				lazyFlagType = t_CMP32;
-				reg_DI_16 += 32 / 8;reg_SI_16 += 32 / 8;
-				reg_CX_16 -= 1;
+				reg_DI_16u += 32 / 8;reg_SI_16u += 32 / 8;
+				reg_CX_16u -= 1;
 				if (result) { SET_FLAG(ZF, (1 != 1));  return; }
 			}
 		} else {
-			LazyFlagVarA32 = *(uint32_t*)(sourceSegment + reg_SI_16);
-			LazyFlagVarB32 = *(uint32_t*)(targetSegment + reg_DI_16);
-			LazyFlagResultContainer32 = *(uint32_t*)(sourceSegment + reg_SI_16) - *(uint32_t*)(targetSegment + reg_DI_16);
+			LazyFlagVarA32 = *(uint32_t*)(sourceSegment + reg_SI_16u);
+			LazyFlagVarB32 = *(uint32_t*)(targetSegment + reg_DI_16u);
+			LazyFlagResultContainer32 = *(uint32_t*)(sourceSegment + reg_SI_16u) - *(uint32_t*)(targetSegment + reg_DI_16u);
 			lazyFlagType = t_CMP32;
-			reg_DI_16 += 32 / 8;reg_SI_16 += 32 / 8;
+			reg_DI_16u += 32 / 8;reg_SI_16u += 32 / 8;
 		}
 	}
 }
@@ -13476,68 +13453,67 @@ void handlerCommand32Code00A7P67() {
 void handlerCommand32Code00A7() {
 	LOG("%s","CMPS");
 	lazyFlagType = t_UNKNOWN;
-	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
-	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
+	uint8_t* sourceSegment = memWithReplace(SR_DS);
 	uint8_t* targetSegment = mem(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF2) {
 			while (reg_CX_32 != 0) {
-				uint8_t result = *(uint32_t*)(targetSegment + reg_DI_32) == *(uint32_t*)(sourceSegment + reg_SI_32);
-				LazyFlagVarA32 = *(uint32_t*)(sourceSegment + reg_SI_32);
-				LazyFlagVarB32 = *(uint32_t*)(targetSegment + reg_DI_32);
-				LazyFlagResultContainer32 = *(uint32_t*)(sourceSegment + reg_SI_32) - *(uint32_t*)(targetSegment + reg_DI_32);
+				uint8_t result = *(uint32_t*)(targetSegment + reg_DI_32u) == *(uint32_t*)(sourceSegment + reg_SI_32u);
+				LazyFlagVarA32 = *(uint32_t*)(sourceSegment + reg_SI_32u);
+				LazyFlagVarB32 = *(uint32_t*)(targetSegment + reg_DI_32u);
+				LazyFlagResultContainer32 = *(uint32_t*)(sourceSegment + reg_SI_32u) - *(uint32_t*)(targetSegment + reg_DI_32u);
 				lazyFlagType = t_CMP32;
-				reg_DI_32 -= 32 / 8;reg_SI_32 -= 32 / 8;
-				reg_CX_32 -= 1;
+				reg_DI_32u -= 32 / 8;reg_SI_32u -= 32 / 8;
+				reg_CX_32u -= 1;
 				if (result) { SET_FLAG(ZF, (1 == 1));  return; }
 			}
 		} else if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF3) {
 			while (reg_CX_32 != 0) {
-				uint8_t result = *(uint32_t*)(targetSegment + reg_DI_32) != *(uint32_t*)(sourceSegment + reg_SI_32);
-				LazyFlagVarA32 = *(uint32_t*)(sourceSegment + reg_SI_32);
-				LazyFlagVarB32 = *(uint32_t*)(targetSegment + reg_DI_32);
-				LazyFlagResultContainer32 = *(uint32_t*)(sourceSegment + reg_SI_32) - *(uint32_t*)(targetSegment + reg_DI_32);
+				uint8_t result = *(uint32_t*)(targetSegment + reg_DI_32u) != *(uint32_t*)(sourceSegment + reg_SI_32u);
+				LazyFlagVarA32 = *(uint32_t*)(sourceSegment + reg_SI_32u);
+				LazyFlagVarB32 = *(uint32_t*)(targetSegment + reg_DI_32u);
+				LazyFlagResultContainer32 = *(uint32_t*)(sourceSegment + reg_SI_32u) - *(uint32_t*)(targetSegment + reg_DI_32u);
 				lazyFlagType = t_CMP32;
-				reg_DI_32 -= 32 / 8;reg_SI_32 -= 32 / 8;
-				reg_CX_32 -= 1;
+				reg_DI_32u -= 32 / 8;reg_SI_32u -= 32 / 8;
+				reg_CX_32u -= 1;
 				if (result) { SET_FLAG(ZF, (1 != 1));  return; }
 			}
 		} else {
-			LazyFlagVarA32 = *(uint32_t*)(sourceSegment + reg_SI_32);
-			LazyFlagVarB32 = *(uint32_t*)(targetSegment + reg_DI_32);
-			LazyFlagResultContainer32 = *(uint32_t*)(sourceSegment + reg_SI_32) - *(uint32_t*)(targetSegment + reg_DI_32);
+			LazyFlagVarA32 = *(uint32_t*)(sourceSegment + reg_SI_32u);
+			LazyFlagVarB32 = *(uint32_t*)(targetSegment + reg_DI_32u);
+			LazyFlagResultContainer32 = *(uint32_t*)(sourceSegment + reg_SI_32u) - *(uint32_t*)(targetSegment + reg_DI_32u);
 			lazyFlagType = t_CMP32;
-			reg_DI_32 -= 32 / 8;reg_SI_32 -= 32 / 8;
+			reg_DI_32u -= 32 / 8;reg_SI_32u -= 32 / 8;
 		}
 	} else {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF2) {
 			while (reg_CX_32 != 0) {
-				uint8_t result = *(uint32_t*)(targetSegment + reg_DI_32) == *(uint32_t*)(sourceSegment + reg_SI_32);
-				LazyFlagVarA32 = *(uint32_t*)(sourceSegment + reg_SI_32);
-				LazyFlagVarB32 = *(uint32_t*)(targetSegment + reg_DI_32);
-				LazyFlagResultContainer32 = *(uint32_t*)(sourceSegment + reg_SI_32) - *(uint32_t*)(targetSegment + reg_DI_32);
+				uint8_t result = *(uint32_t*)(targetSegment + reg_DI_32u) == *(uint32_t*)(sourceSegment + reg_SI_32u);
+				LazyFlagVarA32 = *(uint32_t*)(sourceSegment + reg_SI_32u);
+				LazyFlagVarB32 = *(uint32_t*)(targetSegment + reg_DI_32u);
+				LazyFlagResultContainer32 = *(uint32_t*)(sourceSegment + reg_SI_32u) - *(uint32_t*)(targetSegment + reg_DI_32u);
 				lazyFlagType = t_CMP32;
-				reg_DI_32 += 32 / 8;reg_SI_32 += 32 / 8;
-				reg_CX_32 -= 1;
+				reg_DI_32u += 32 / 8;reg_SI_32u += 32 / 8;
+				reg_CX_32u -= 1;
 				if (result) { SET_FLAG(ZF, (1 == 1));  return; }
 			}
 		} else if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF3) {
 			while (reg_CX_32 != 0) {
-				uint8_t result = *(uint32_t*)(targetSegment + reg_DI_32) != *(uint32_t*)(sourceSegment + reg_SI_32);
-				LazyFlagVarA32 = *(uint32_t*)(sourceSegment + reg_SI_32);
-				LazyFlagVarB32 = *(uint32_t*)(targetSegment + reg_DI_32);
-				LazyFlagResultContainer32 = *(uint32_t*)(sourceSegment + reg_SI_32) - *(uint32_t*)(targetSegment + reg_DI_32);
+				uint8_t result = *(uint32_t*)(targetSegment + reg_DI_32u) != *(uint32_t*)(sourceSegment + reg_SI_32u);
+				LazyFlagVarA32 = *(uint32_t*)(sourceSegment + reg_SI_32u);
+				LazyFlagVarB32 = *(uint32_t*)(targetSegment + reg_DI_32u);
+				LazyFlagResultContainer32 = *(uint32_t*)(sourceSegment + reg_SI_32u) - *(uint32_t*)(targetSegment + reg_DI_32u);
 				lazyFlagType = t_CMP32;
-				reg_DI_32 += 32 / 8;reg_SI_32 += 32 / 8;
-				reg_CX_32 -= 1;
+				reg_DI_32u += 32 / 8;reg_SI_32u += 32 / 8;
+				reg_CX_32u -= 1;
 				if (result) { SET_FLAG(ZF, (1 != 1));  return; }
 			}
 		} else {
-			LazyFlagVarA32 = *(uint32_t*)(sourceSegment + reg_SI_32);
-			LazyFlagVarB32 = *(uint32_t*)(targetSegment + reg_DI_32);
-			LazyFlagResultContainer32 = *(uint32_t*)(sourceSegment + reg_SI_32) - *(uint32_t*)(targetSegment + reg_DI_32);
+			LazyFlagVarA32 = *(uint32_t*)(sourceSegment + reg_SI_32u);
+			LazyFlagVarB32 = *(uint32_t*)(targetSegment + reg_DI_32u);
+			LazyFlagResultContainer32 = *(uint32_t*)(sourceSegment + reg_SI_32u) - *(uint32_t*)(targetSegment + reg_DI_32u);
 			lazyFlagType = t_CMP32;
-			reg_DI_32 += 32 / 8;reg_SI_32 += 32 / 8;
+			reg_DI_32u += 32 / 8;reg_SI_32u += 32 / 8;
 		}
 	}
 }
@@ -13580,480 +13556,464 @@ void handlerCommand32Code00A9() {
 //STOS
 void handlerCommand32Code00AAP66P67() {
 	LOG("%s","STOS");
-	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
-	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
+	uint8_t* sourceSegment = memWithReplace(SR_DS);
 	uint8_t* targetSegment = mem(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_16 != 0) {
-				*(uint8_t*)(targetSegment + reg_DI_16) = reg_0x00_8u;
-				reg_DI_16 -= 8 / 8;
-				reg_CX_16 -= 1;
+				*(uint8_t*)(targetSegment + reg_DI_16u) = reg_0x00_8u;
+				reg_DI_16u -= 8 / 8;
+				reg_CX_16u -= 1;
 			}
 		} else {
-			*(uint8_t*)(targetSegment + reg_DI_16) = reg_0x00_8u;
-			reg_DI_16 -= 8 / 8;
+			*(uint8_t*)(targetSegment + reg_DI_16u) = reg_0x00_8u;
+			reg_DI_16u -= 8 / 8;
 		}
 	} else {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_16 != 0) {
-				*(uint8_t*)(targetSegment + reg_DI_16) = reg_0x00_8u;
-				reg_DI_16 += 8 / 8;
-				reg_CX_16 -= 1;
+				*(uint8_t*)(targetSegment + reg_DI_16u) = reg_0x00_8u;
+				reg_DI_16u += 8 / 8;
+				reg_CX_16u -= 1;
 			}
 		} else {
-			*(uint8_t*)(targetSegment + reg_DI_16) = reg_0x00_8u;
-			reg_DI_16 += 8 / 8;
+			*(uint8_t*)(targetSegment + reg_DI_16u) = reg_0x00_8u;
+			reg_DI_16u += 8 / 8;
 		}
 	}
 }
 //STOS
 void handlerCommand32Code00AAP66() {
 	LOG("%s","STOS");
-	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
-	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
+	uint8_t* sourceSegment = memWithReplace(SR_DS);
 	uint8_t* targetSegment = mem(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_32 != 0) {
-				*(uint8_t*)(targetSegment + reg_DI_32) = reg_0x00_8u;
-				reg_DI_32 -= 8 / 8;
-				reg_CX_32 -= 1;
+				*(uint8_t*)(targetSegment + reg_DI_32u) = reg_0x00_8u;
+				reg_DI_32u -= 8 / 8;
+				reg_CX_32u -= 1;
 			}
 		} else {
-			*(uint8_t*)(targetSegment + reg_DI_32) = reg_0x00_8u;
-			reg_DI_32 -= 8 / 8;
+			*(uint8_t*)(targetSegment + reg_DI_32u) = reg_0x00_8u;
+			reg_DI_32u -= 8 / 8;
 		}
 	} else {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_32 != 0) {
-				*(uint8_t*)(targetSegment + reg_DI_32) = reg_0x00_8u;
-				reg_DI_32 += 8 / 8;
-				reg_CX_32 -= 1;
+				*(uint8_t*)(targetSegment + reg_DI_32u) = reg_0x00_8u;
+				reg_DI_32u += 8 / 8;
+				reg_CX_32u -= 1;
 			}
 		} else {
-			*(uint8_t*)(targetSegment + reg_DI_32) = reg_0x00_8u;
-			reg_DI_32 += 8 / 8;
+			*(uint8_t*)(targetSegment + reg_DI_32u) = reg_0x00_8u;
+			reg_DI_32u += 8 / 8;
 		}
 	}
 }
 //STOS
 void handlerCommand32Code00AAP67() {
 	LOG("%s","STOS");
-	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
-	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
+	uint8_t* sourceSegment = memWithReplace(SR_DS);
 	uint8_t* targetSegment = mem(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_16 != 0) {
-				*(uint8_t*)(targetSegment + reg_DI_16) = reg_0x00_8u;
-				reg_DI_16 -= 8 / 8;
-				reg_CX_16 -= 1;
+				*(uint8_t*)(targetSegment + reg_DI_16u) = reg_0x00_8u;
+				reg_DI_16u -= 8 / 8;
+				reg_CX_16u -= 1;
 			}
 		} else {
-			*(uint8_t*)(targetSegment + reg_DI_16) = reg_0x00_8u;
-			reg_DI_16 -= 8 / 8;
+			*(uint8_t*)(targetSegment + reg_DI_16u) = reg_0x00_8u;
+			reg_DI_16u -= 8 / 8;
 		}
 	} else {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_16 != 0) {
-				*(uint8_t*)(targetSegment + reg_DI_16) = reg_0x00_8u;
-				reg_DI_16 += 8 / 8;
-				reg_CX_16 -= 1;
+				*(uint8_t*)(targetSegment + reg_DI_16u) = reg_0x00_8u;
+				reg_DI_16u += 8 / 8;
+				reg_CX_16u -= 1;
 			}
 		} else {
-			*(uint8_t*)(targetSegment + reg_DI_16) = reg_0x00_8u;
-			reg_DI_16 += 8 / 8;
+			*(uint8_t*)(targetSegment + reg_DI_16u) = reg_0x00_8u;
+			reg_DI_16u += 8 / 8;
 		}
 	}
 }
 //STOS
 void handlerCommand32Code00AA() {
 	LOG("%s","STOS");
-	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
-	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
+	uint8_t* sourceSegment = memWithReplace(SR_DS);
 	uint8_t* targetSegment = mem(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_32 != 0) {
-				*(uint8_t*)(targetSegment + reg_DI_32) = reg_0x00_8u;
-				reg_DI_32 -= 8 / 8;
-				reg_CX_32 -= 1;
+				*(uint8_t*)(targetSegment + reg_DI_32u) = reg_0x00_8u;
+				reg_DI_32u -= 8 / 8;
+				reg_CX_32u -= 1;
 			}
 		} else {
-			*(uint8_t*)(targetSegment + reg_DI_32) = reg_0x00_8u;
-			reg_DI_32 -= 8 / 8;
+			*(uint8_t*)(targetSegment + reg_DI_32u) = reg_0x00_8u;
+			reg_DI_32u -= 8 / 8;
 		}
 	} else {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_32 != 0) {
-				*(uint8_t*)(targetSegment + reg_DI_32) = reg_0x00_8u;
-				reg_DI_32 += 8 / 8;
-				reg_CX_32 -= 1;
+				*(uint8_t*)(targetSegment + reg_DI_32u) = reg_0x00_8u;
+				reg_DI_32u += 8 / 8;
+				reg_CX_32u -= 1;
 			}
 		} else {
-			*(uint8_t*)(targetSegment + reg_DI_32) = reg_0x00_8u;
-			reg_DI_32 += 8 / 8;
+			*(uint8_t*)(targetSegment + reg_DI_32u) = reg_0x00_8u;
+			reg_DI_32u += 8 / 8;
 		}
 	}
 }
 //STOS
 void handlerCommand32Code00ABP66P67() {
 	LOG("%s","STOS");
-	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
-	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
+	uint8_t* sourceSegment = memWithReplace(SR_DS);
 	uint8_t* targetSegment = mem(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_16 != 0) {
-				*(uint16_t*)(targetSegment + reg_DI_16) = reg_0x00_16u;
-				reg_DI_16 -= 16 / 8;
-				reg_CX_16 -= 1;
+				*(uint16_t*)(targetSegment + reg_DI_16u) = reg_0x00_16u;
+				reg_DI_16u -= 16 / 8;
+				reg_CX_16u -= 1;
 			}
 		} else {
-			*(uint16_t*)(targetSegment + reg_DI_16) = reg_0x00_16u;
-			reg_DI_16 -= 16 / 8;
+			*(uint16_t*)(targetSegment + reg_DI_16u) = reg_0x00_16u;
+			reg_DI_16u -= 16 / 8;
 		}
 	} else {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_16 != 0) {
-				*(uint16_t*)(targetSegment + reg_DI_16) = reg_0x00_16u;
-				reg_DI_16 += 16 / 8;
-				reg_CX_16 -= 1;
+				*(uint16_t*)(targetSegment + reg_DI_16u) = reg_0x00_16u;
+				reg_DI_16u += 16 / 8;
+				reg_CX_16u -= 1;
 			}
 		} else {
-			*(uint16_t*)(targetSegment + reg_DI_16) = reg_0x00_16u;
-			reg_DI_16 += 16 / 8;
+			*(uint16_t*)(targetSegment + reg_DI_16u) = reg_0x00_16u;
+			reg_DI_16u += 16 / 8;
 		}
 	}
 }
 //STOS
 void handlerCommand32Code00ABP66() {
 	LOG("%s","STOS");
-	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
-	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
+	uint8_t* sourceSegment = memWithReplace(SR_DS);
 	uint8_t* targetSegment = mem(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_32 != 0) {
-				*(uint16_t*)(targetSegment + reg_DI_32) = reg_0x00_16u;
-				reg_DI_32 -= 16 / 8;
-				reg_CX_32 -= 1;
+				*(uint16_t*)(targetSegment + reg_DI_32u) = reg_0x00_16u;
+				reg_DI_32u -= 16 / 8;
+				reg_CX_32u -= 1;
 			}
 		} else {
-			*(uint16_t*)(targetSegment + reg_DI_32) = reg_0x00_16u;
-			reg_DI_32 -= 16 / 8;
+			*(uint16_t*)(targetSegment + reg_DI_32u) = reg_0x00_16u;
+			reg_DI_32u -= 16 / 8;
 		}
 	} else {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_32 != 0) {
-				*(uint16_t*)(targetSegment + reg_DI_32) = reg_0x00_16u;
-				reg_DI_32 += 16 / 8;
-				reg_CX_32 -= 1;
+				*(uint16_t*)(targetSegment + reg_DI_32u) = reg_0x00_16u;
+				reg_DI_32u += 16 / 8;
+				reg_CX_32u -= 1;
 			}
 		} else {
-			*(uint16_t*)(targetSegment + reg_DI_32) = reg_0x00_16u;
-			reg_DI_32 += 16 / 8;
+			*(uint16_t*)(targetSegment + reg_DI_32u) = reg_0x00_16u;
+			reg_DI_32u += 16 / 8;
 		}
 	}
 }
 //STOS
 void handlerCommand32Code00ABP67() {
 	LOG("%s","STOS");
-	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
-	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
+	uint8_t* sourceSegment = memWithReplace(SR_DS);
 	uint8_t* targetSegment = mem(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_16 != 0) {
-				*(uint32_t*)(targetSegment + reg_DI_16) = reg_0x00_32u;
-				reg_DI_16 -= 32 / 8;
-				reg_CX_16 -= 1;
+				*(uint32_t*)(targetSegment + reg_DI_16u) = reg_0x00_32u;
+				reg_DI_16u -= 32 / 8;
+				reg_CX_16u -= 1;
 			}
 		} else {
-			*(uint32_t*)(targetSegment + reg_DI_16) = reg_0x00_32u;
-			reg_DI_16 -= 32 / 8;
+			*(uint32_t*)(targetSegment + reg_DI_16u) = reg_0x00_32u;
+			reg_DI_16u -= 32 / 8;
 		}
 	} else {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_16 != 0) {
-				*(uint32_t*)(targetSegment + reg_DI_16) = reg_0x00_32u;
-				reg_DI_16 += 32 / 8;
-				reg_CX_16 -= 1;
+				*(uint32_t*)(targetSegment + reg_DI_16u) = reg_0x00_32u;
+				reg_DI_16u += 32 / 8;
+				reg_CX_16u -= 1;
 			}
 		} else {
-			*(uint32_t*)(targetSegment + reg_DI_16) = reg_0x00_32u;
-			reg_DI_16 += 32 / 8;
+			*(uint32_t*)(targetSegment + reg_DI_16u) = reg_0x00_32u;
+			reg_DI_16u += 32 / 8;
 		}
 	}
 }
 //STOS
 void handlerCommand32Code00AB() {
 	LOG("%s","STOS");
-	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
-	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
+	uint8_t* sourceSegment = memWithReplace(SR_DS);
 	uint8_t* targetSegment = mem(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_32 != 0) {
-				*(uint32_t*)(targetSegment + reg_DI_32) = reg_0x00_32u;
-				reg_DI_32 -= 32 / 8;
-				reg_CX_32 -= 1;
+				*(uint32_t*)(targetSegment + reg_DI_32u) = reg_0x00_32u;
+				reg_DI_32u -= 32 / 8;
+				reg_CX_32u -= 1;
 			}
 		} else {
-			*(uint32_t*)(targetSegment + reg_DI_32) = reg_0x00_32u;
-			reg_DI_32 -= 32 / 8;
+			*(uint32_t*)(targetSegment + reg_DI_32u) = reg_0x00_32u;
+			reg_DI_32u -= 32 / 8;
 		}
 	} else {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_32 != 0) {
-				*(uint32_t*)(targetSegment + reg_DI_32) = reg_0x00_32u;
-				reg_DI_32 += 32 / 8;
-				reg_CX_32 -= 1;
+				*(uint32_t*)(targetSegment + reg_DI_32u) = reg_0x00_32u;
+				reg_DI_32u += 32 / 8;
+				reg_CX_32u -= 1;
 			}
 		} else {
-			*(uint32_t*)(targetSegment + reg_DI_32) = reg_0x00_32u;
-			reg_DI_32 += 32 / 8;
+			*(uint32_t*)(targetSegment + reg_DI_32u) = reg_0x00_32u;
+			reg_DI_32u += 32 / 8;
 		}
 	}
 }
 //LOADS
 void handlerCommand32Code00ACP66P67() {
 	LOG("%s","LOADS");
-	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
-	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
+	uint8_t* sourceSegment = memWithReplace(SR_DS);
 	uint8_t* targetSegment = mem(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_16 != 0) {
-				reg_0x00_8u = *(uint8_t*)(sourceSegment + reg_SI_16);
-				reg_SI_16 -= 8 / 8;
-				reg_CX_16 -= 1;
+				reg_0x00_8u = *(uint8_t*)(sourceSegment + reg_SI_16u);
+				reg_SI_16u -= 8 / 8;
+				reg_CX_16u -= 1;
 			}
 		} else {
-			reg_0x00_8u = *(uint8_t*)(sourceSegment + reg_SI_16);
-			reg_SI_16 -= 8 / 8;
+			reg_0x00_8u = *(uint8_t*)(sourceSegment + reg_SI_16u);
+			reg_SI_16u -= 8 / 8;
 		}
 	} else {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_16 != 0) {
-				reg_0x00_8u = *(uint8_t*)(sourceSegment + reg_SI_16);
-				reg_SI_16 += 8 / 8;
-				reg_CX_16 -= 1;
+				reg_0x00_8u = *(uint8_t*)(sourceSegment + reg_SI_16u);
+				reg_SI_16u += 8 / 8;
+				reg_CX_16u -= 1;
 			}
 		} else {
-			reg_0x00_8u = *(uint8_t*)(sourceSegment + reg_SI_16);
-			reg_SI_16 += 8 / 8;
+			reg_0x00_8u = *(uint8_t*)(sourceSegment + reg_SI_16u);
+			reg_SI_16u += 8 / 8;
 		}
 	}
 }
 //LOADS
 void handlerCommand32Code00ACP66() {
 	LOG("%s","LOADS");
-	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
-	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
+	uint8_t* sourceSegment = memWithReplace(SR_DS);
 	uint8_t* targetSegment = mem(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_32 != 0) {
-				reg_0x00_8u = *(uint8_t*)(sourceSegment + reg_SI_32);
-				reg_SI_32 -= 8 / 8;
-				reg_CX_32 -= 1;
+				reg_0x00_8u = *(uint8_t*)(sourceSegment + reg_SI_32u);
+				reg_SI_32u -= 8 / 8;
+				reg_CX_32u -= 1;
 			}
 		} else {
-			reg_0x00_8u = *(uint8_t*)(sourceSegment + reg_SI_32);
-			reg_SI_32 -= 8 / 8;
+			reg_0x00_8u = *(uint8_t*)(sourceSegment + reg_SI_32u);
+			reg_SI_32u -= 8 / 8;
 		}
 	} else {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_32 != 0) {
-				reg_0x00_8u = *(uint8_t*)(sourceSegment + reg_SI_32);
-				reg_SI_32 += 8 / 8;
-				reg_CX_32 -= 1;
+				reg_0x00_8u = *(uint8_t*)(sourceSegment + reg_SI_32u);
+				reg_SI_32u += 8 / 8;
+				reg_CX_32u -= 1;
 			}
 		} else {
-			reg_0x00_8u = *(uint8_t*)(sourceSegment + reg_SI_32);
-			reg_SI_32 += 8 / 8;
+			reg_0x00_8u = *(uint8_t*)(sourceSegment + reg_SI_32u);
+			reg_SI_32u += 8 / 8;
 		}
 	}
 }
 //LOADS
 void handlerCommand32Code00ACP67() {
 	LOG("%s","LOADS");
-	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
-	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
+	uint8_t* sourceSegment = memWithReplace(SR_DS);
 	uint8_t* targetSegment = mem(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_16 != 0) {
-				reg_0x00_8u = *(uint8_t*)(sourceSegment + reg_SI_16);
-				reg_SI_16 -= 8 / 8;
-				reg_CX_16 -= 1;
+				reg_0x00_8u = *(uint8_t*)(sourceSegment + reg_SI_16u);
+				reg_SI_16u -= 8 / 8;
+				reg_CX_16u -= 1;
 			}
 		} else {
-			reg_0x00_8u = *(uint8_t*)(sourceSegment + reg_SI_16);
-			reg_SI_16 -= 8 / 8;
+			reg_0x00_8u = *(uint8_t*)(sourceSegment + reg_SI_16u);
+			reg_SI_16u -= 8 / 8;
 		}
 	} else {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_16 != 0) {
-				reg_0x00_8u = *(uint8_t*)(sourceSegment + reg_SI_16);
-				reg_SI_16 += 8 / 8;
-				reg_CX_16 -= 1;
+				reg_0x00_8u = *(uint8_t*)(sourceSegment + reg_SI_16u);
+				reg_SI_16u += 8 / 8;
+				reg_CX_16u -= 1;
 			}
 		} else {
-			reg_0x00_8u = *(uint8_t*)(sourceSegment + reg_SI_16);
-			reg_SI_16 += 8 / 8;
+			reg_0x00_8u = *(uint8_t*)(sourceSegment + reg_SI_16u);
+			reg_SI_16u += 8 / 8;
 		}
 	}
 }
 //LOADS
 void handlerCommand32Code00AC() {
 	LOG("%s","LOADS");
-	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
-	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
+	uint8_t* sourceSegment = memWithReplace(SR_DS);
 	uint8_t* targetSegment = mem(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_32 != 0) {
-				reg_0x00_8u = *(uint8_t*)(sourceSegment + reg_SI_32);
-				reg_SI_32 -= 8 / 8;
-				reg_CX_32 -= 1;
+				reg_0x00_8u = *(uint8_t*)(sourceSegment + reg_SI_32u);
+				reg_SI_32u -= 8 / 8;
+				reg_CX_32u -= 1;
 			}
 		} else {
-			reg_0x00_8u = *(uint8_t*)(sourceSegment + reg_SI_32);
-			reg_SI_32 -= 8 / 8;
+			reg_0x00_8u = *(uint8_t*)(sourceSegment + reg_SI_32u);
+			reg_SI_32u -= 8 / 8;
 		}
 	} else {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_32 != 0) {
-				reg_0x00_8u = *(uint8_t*)(sourceSegment + reg_SI_32);
-				reg_SI_32 += 8 / 8;
-				reg_CX_32 -= 1;
+				reg_0x00_8u = *(uint8_t*)(sourceSegment + reg_SI_32u);
+				reg_SI_32u += 8 / 8;
+				reg_CX_32u -= 1;
 			}
 		} else {
-			reg_0x00_8u = *(uint8_t*)(sourceSegment + reg_SI_32);
-			reg_SI_32 += 8 / 8;
+			reg_0x00_8u = *(uint8_t*)(sourceSegment + reg_SI_32u);
+			reg_SI_32u += 8 / 8;
 		}
 	}
 }
 //LOADS
 void handlerCommand32Code00ADP66P67() {
 	LOG("%s","LOADS");
-	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
-	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
+	uint8_t* sourceSegment = memWithReplace(SR_DS);
 	uint8_t* targetSegment = mem(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_16 != 0) {
-				reg_0x00_16u = *(uint16_t*)(sourceSegment + reg_SI_16);
-				reg_SI_16 -= 16 / 8;
-				reg_CX_16 -= 1;
+				reg_0x00_16u = *(uint16_t*)(sourceSegment + reg_SI_16u);
+				reg_SI_16u -= 16 / 8;
+				reg_CX_16u -= 1;
 			}
 		} else {
-			reg_0x00_16u = *(uint16_t*)(sourceSegment + reg_SI_16);
-			reg_SI_16 -= 16 / 8;
+			reg_0x00_16u = *(uint16_t*)(sourceSegment + reg_SI_16u);
+			reg_SI_16u -= 16 / 8;
 		}
 	} else {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_16 != 0) {
-				reg_0x00_16u = *(uint16_t*)(sourceSegment + reg_SI_16);
-				reg_SI_16 += 16 / 8;
-				reg_CX_16 -= 1;
+				reg_0x00_16u = *(uint16_t*)(sourceSegment + reg_SI_16u);
+				reg_SI_16u += 16 / 8;
+				reg_CX_16u -= 1;
 			}
 		} else {
-			reg_0x00_16u = *(uint16_t*)(sourceSegment + reg_SI_16);
-			reg_SI_16 += 16 / 8;
+			reg_0x00_16u = *(uint16_t*)(sourceSegment + reg_SI_16u);
+			reg_SI_16u += 16 / 8;
 		}
 	}
 }
 //LOADS
 void handlerCommand32Code00ADP66() {
 	LOG("%s","LOADS");
-	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
-	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
+	uint8_t* sourceSegment = memWithReplace(SR_DS);
 	uint8_t* targetSegment = mem(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_32 != 0) {
-				reg_0x00_16u = *(uint16_t*)(sourceSegment + reg_SI_32);
-				reg_SI_32 -= 16 / 8;
-				reg_CX_32 -= 1;
+				reg_0x00_16u = *(uint16_t*)(sourceSegment + reg_SI_32u);
+				reg_SI_32u -= 16 / 8;
+				reg_CX_32u -= 1;
 			}
 		} else {
-			reg_0x00_16u = *(uint16_t*)(sourceSegment + reg_SI_32);
-			reg_SI_32 -= 16 / 8;
+			reg_0x00_16u = *(uint16_t*)(sourceSegment + reg_SI_32u);
+			reg_SI_32u -= 16 / 8;
 		}
 	} else {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_32 != 0) {
-				reg_0x00_16u = *(uint16_t*)(sourceSegment + reg_SI_32);
-				reg_SI_32 += 16 / 8;
-				reg_CX_32 -= 1;
+				reg_0x00_16u = *(uint16_t*)(sourceSegment + reg_SI_32u);
+				reg_SI_32u += 16 / 8;
+				reg_CX_32u -= 1;
 			}
 		} else {
-			reg_0x00_16u = *(uint16_t*)(sourceSegment + reg_SI_32);
-			reg_SI_32 += 16 / 8;
+			reg_0x00_16u = *(uint16_t*)(sourceSegment + reg_SI_32u);
+			reg_SI_32u += 16 / 8;
 		}
 	}
 }
 //LOADS
 void handlerCommand32Code00ADP67() {
 	LOG("%s","LOADS");
-	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
-	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
+	uint8_t* sourceSegment = memWithReplace(SR_DS);
 	uint8_t* targetSegment = mem(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_16 != 0) {
-				reg_0x00_32u = *(uint32_t*)(sourceSegment + reg_SI_16);
-				reg_SI_16 -= 32 / 8;
-				reg_CX_16 -= 1;
+				reg_0x00_32u = *(uint32_t*)(sourceSegment + reg_SI_16u);
+				reg_SI_16u -= 32 / 8;
+				reg_CX_16u -= 1;
 			}
 		} else {
-			reg_0x00_32u = *(uint32_t*)(sourceSegment + reg_SI_16);
-			reg_SI_16 -= 32 / 8;
+			reg_0x00_32u = *(uint32_t*)(sourceSegment + reg_SI_16u);
+			reg_SI_16u -= 32 / 8;
 		}
 	} else {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_16 != 0) {
-				reg_0x00_32u = *(uint32_t*)(sourceSegment + reg_SI_16);
-				reg_SI_16 += 32 / 8;
-				reg_CX_16 -= 1;
+				reg_0x00_32u = *(uint32_t*)(sourceSegment + reg_SI_16u);
+				reg_SI_16u += 32 / 8;
+				reg_CX_16u -= 1;
 			}
 		} else {
-			reg_0x00_32u = *(uint32_t*)(sourceSegment + reg_SI_16);
-			reg_SI_16 += 32 / 8;
+			reg_0x00_32u = *(uint32_t*)(sourceSegment + reg_SI_16u);
+			reg_SI_16u += 32 / 8;
 		}
 	}
 }
 //LOADS
 void handlerCommand32Code00AD() {
 	LOG("%s","LOADS");
-	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
-	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
+	uint8_t* sourceSegment = memWithReplace(SR_DS);
 	uint8_t* targetSegment = mem(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_32 != 0) {
-				reg_0x00_32u = *(uint32_t*)(sourceSegment + reg_SI_32);
-				reg_SI_32 -= 32 / 8;
-				reg_CX_32 -= 1;
+				reg_0x00_32u = *(uint32_t*)(sourceSegment + reg_SI_32u);
+				reg_SI_32u -= 32 / 8;
+				reg_CX_32u -= 1;
 			}
 		} else {
-			reg_0x00_32u = *(uint32_t*)(sourceSegment + reg_SI_32);
-			reg_SI_32 -= 32 / 8;
+			reg_0x00_32u = *(uint32_t*)(sourceSegment + reg_SI_32u);
+			reg_SI_32u -= 32 / 8;
 		}
 	} else {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_32 != 0) {
-				reg_0x00_32u = *(uint32_t*)(sourceSegment + reg_SI_32);
-				reg_SI_32 += 32 / 8;
-				reg_CX_32 -= 1;
+				reg_0x00_32u = *(uint32_t*)(sourceSegment + reg_SI_32u);
+				reg_SI_32u += 32 / 8;
+				reg_CX_32u -= 1;
 			}
 		} else {
-			reg_0x00_32u = *(uint32_t*)(sourceSegment + reg_SI_32);
-			reg_SI_32 += 32 / 8;
+			reg_0x00_32u = *(uint32_t*)(sourceSegment + reg_SI_32u);
+			reg_SI_32u += 32 / 8;
 		}
 	}
 }
@@ -14061,68 +14021,67 @@ void handlerCommand32Code00AD() {
 void handlerCommand32Code00AEP66P67() {
 	LOG("%s","SCAS");
 	lazyFlagType = t_UNKNOWN;
-	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
-	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
+	uint8_t* sourceSegment = memWithReplace(SR_DS);
 	uint8_t* targetSegment = mem(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF2) {
 			while (reg_CX_16 != 0) {
-				uint8_t result = *(uint8_t*)(targetSegment + reg_DI_16) == reg_0x00_8u;
+				uint8_t result = *(uint8_t*)(targetSegment + reg_DI_16u) == reg_0x00_8u;
 				LazyFlagVarA8 = reg_0x00_8u;
-				LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_16);
-				LazyFlagResultContainer8 = reg_0x00_8u - *(uint8_t*)(targetSegment + reg_DI_16);
+				LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_16u);
+				LazyFlagResultContainer8 = reg_0x00_8u - *(uint8_t*)(targetSegment + reg_DI_16u);
 				lazyFlagType = t_CMP8;
-				reg_DI_16 -= 8 / 8;
-				reg_CX_16 -= 1;
+				reg_DI_16u -= 8 / 8;
+				reg_CX_16u -= 1;
 				if (result) { SET_FLAG(ZF, (1 == 1));  return; }
 			}
 		} else if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF3) {
 			while (reg_CX_16 != 0) {
-				uint8_t result = *(uint8_t*)(targetSegment + reg_DI_16) != reg_0x00_8u;
+				uint8_t result = *(uint8_t*)(targetSegment + reg_DI_16u) != reg_0x00_8u;
 				LazyFlagVarA8 = reg_0x00_8u;
-				LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_16);
-				LazyFlagResultContainer8 = reg_0x00_8u - *(uint8_t*)(targetSegment + reg_DI_16);
+				LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_16u);
+				LazyFlagResultContainer8 = reg_0x00_8u - *(uint8_t*)(targetSegment + reg_DI_16u);
 				lazyFlagType = t_CMP8;
-				reg_DI_16 -= 8 / 8;
-				reg_CX_16 -= 1;
+				reg_DI_16u -= 8 / 8;
+				reg_CX_16u -= 1;
 				if (result) { SET_FLAG(ZF, (1 != 1));  return; }
 			}
 		} else {
 			LazyFlagVarA8 = reg_0x00_8u;
-			LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_16);
-			LazyFlagResultContainer8 = reg_0x00_8u - *(uint8_t*)(targetSegment + reg_DI_16);
+			LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_16u);
+			LazyFlagResultContainer8 = reg_0x00_8u - *(uint8_t*)(targetSegment + reg_DI_16u);
 			lazyFlagType = t_CMP8;
-			reg_DI_16 -= 8 / 8;
+			reg_DI_16u -= 8 / 8;
 		}
 	} else {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF2) {
 			while (reg_CX_16 != 0) {
-				uint8_t result = *(uint8_t*)(targetSegment + reg_DI_16) == reg_0x00_8u;
+				uint8_t result = *(uint8_t*)(targetSegment + reg_DI_16u) == reg_0x00_8u;
 				LazyFlagVarA8 = reg_0x00_8u;
-				LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_16);
-				LazyFlagResultContainer8 = reg_0x00_8u - *(uint8_t*)(targetSegment + reg_DI_16);
+				LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_16u);
+				LazyFlagResultContainer8 = reg_0x00_8u - *(uint8_t*)(targetSegment + reg_DI_16u);
 				lazyFlagType = t_CMP8;
-				reg_DI_16 += 8 / 8;
-				reg_CX_16 -= 1;
+				reg_DI_16u += 8 / 8;
+				reg_CX_16u -= 1;
 				if (result) { SET_FLAG(ZF, (1 == 1));  return; }
 			}
 		} else if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF3) {
 			while (reg_CX_16 != 0) {
-				uint8_t result = *(uint8_t*)(targetSegment + reg_DI_16) != reg_0x00_8u;
+				uint8_t result = *(uint8_t*)(targetSegment + reg_DI_16u) != reg_0x00_8u;
 				LazyFlagVarA8 = reg_0x00_8u;
-				LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_16);
-				LazyFlagResultContainer8 = reg_0x00_8u - *(uint8_t*)(targetSegment + reg_DI_16);
+				LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_16u);
+				LazyFlagResultContainer8 = reg_0x00_8u - *(uint8_t*)(targetSegment + reg_DI_16u);
 				lazyFlagType = t_CMP8;
-				reg_DI_16 += 8 / 8;
-				reg_CX_16 -= 1;
+				reg_DI_16u += 8 / 8;
+				reg_CX_16u -= 1;
 				if (result) { SET_FLAG(ZF, (1 != 1));  return; }
 			}
 		} else {
 			LazyFlagVarA8 = reg_0x00_8u;
-			LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_16);
-			LazyFlagResultContainer8 = reg_0x00_8u - *(uint8_t*)(targetSegment + reg_DI_16);
+			LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_16u);
+			LazyFlagResultContainer8 = reg_0x00_8u - *(uint8_t*)(targetSegment + reg_DI_16u);
 			lazyFlagType = t_CMP8;
-			reg_DI_16 += 8 / 8;
+			reg_DI_16u += 8 / 8;
 		}
 	}
 }
@@ -14130,68 +14089,67 @@ void handlerCommand32Code00AEP66P67() {
 void handlerCommand32Code00AEP66() {
 	LOG("%s","SCAS");
 	lazyFlagType = t_UNKNOWN;
-	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
-	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
+	uint8_t* sourceSegment = memWithReplace(SR_DS);
 	uint8_t* targetSegment = mem(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF2) {
 			while (reg_CX_32 != 0) {
-				uint8_t result = *(uint8_t*)(targetSegment + reg_DI_32) == reg_0x00_8u;
+				uint8_t result = *(uint8_t*)(targetSegment + reg_DI_32u) == reg_0x00_8u;
 				LazyFlagVarA8 = reg_0x00_8u;
-				LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_32);
-				LazyFlagResultContainer8 = reg_0x00_8u - *(uint8_t*)(targetSegment + reg_DI_32);
+				LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_32u);
+				LazyFlagResultContainer8 = reg_0x00_8u - *(uint8_t*)(targetSegment + reg_DI_32u);
 				lazyFlagType = t_CMP8;
-				reg_DI_32 -= 8 / 8;
-				reg_CX_32 -= 1;
+				reg_DI_32u -= 8 / 8;
+				reg_CX_32u -= 1;
 				if (result) { SET_FLAG(ZF, (1 == 1));  return; }
 			}
 		} else if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF3) {
 			while (reg_CX_32 != 0) {
-				uint8_t result = *(uint8_t*)(targetSegment + reg_DI_32) != reg_0x00_8u;
+				uint8_t result = *(uint8_t*)(targetSegment + reg_DI_32u) != reg_0x00_8u;
 				LazyFlagVarA8 = reg_0x00_8u;
-				LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_32);
-				LazyFlagResultContainer8 = reg_0x00_8u - *(uint8_t*)(targetSegment + reg_DI_32);
+				LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_32u);
+				LazyFlagResultContainer8 = reg_0x00_8u - *(uint8_t*)(targetSegment + reg_DI_32u);
 				lazyFlagType = t_CMP8;
-				reg_DI_32 -= 8 / 8;
-				reg_CX_32 -= 1;
+				reg_DI_32u -= 8 / 8;
+				reg_CX_32u -= 1;
 				if (result) { SET_FLAG(ZF, (1 != 1));  return; }
 			}
 		} else {
 			LazyFlagVarA8 = reg_0x00_8u;
-			LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_32);
-			LazyFlagResultContainer8 = reg_0x00_8u - *(uint8_t*)(targetSegment + reg_DI_32);
+			LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_32u);
+			LazyFlagResultContainer8 = reg_0x00_8u - *(uint8_t*)(targetSegment + reg_DI_32u);
 			lazyFlagType = t_CMP8;
-			reg_DI_32 -= 8 / 8;
+			reg_DI_32u -= 8 / 8;
 		}
 	} else {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF2) {
 			while (reg_CX_32 != 0) {
-				uint8_t result = *(uint8_t*)(targetSegment + reg_DI_32) == reg_0x00_8u;
+				uint8_t result = *(uint8_t*)(targetSegment + reg_DI_32u) == reg_0x00_8u;
 				LazyFlagVarA8 = reg_0x00_8u;
-				LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_32);
-				LazyFlagResultContainer8 = reg_0x00_8u - *(uint8_t*)(targetSegment + reg_DI_32);
+				LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_32u);
+				LazyFlagResultContainer8 = reg_0x00_8u - *(uint8_t*)(targetSegment + reg_DI_32u);
 				lazyFlagType = t_CMP8;
-				reg_DI_32 += 8 / 8;
-				reg_CX_32 -= 1;
+				reg_DI_32u += 8 / 8;
+				reg_CX_32u -= 1;
 				if (result) { SET_FLAG(ZF, (1 == 1));  return; }
 			}
 		} else if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF3) {
 			while (reg_CX_32 != 0) {
-				uint8_t result = *(uint8_t*)(targetSegment + reg_DI_32) != reg_0x00_8u;
+				uint8_t result = *(uint8_t*)(targetSegment + reg_DI_32u) != reg_0x00_8u;
 				LazyFlagVarA8 = reg_0x00_8u;
-				LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_32);
-				LazyFlagResultContainer8 = reg_0x00_8u - *(uint8_t*)(targetSegment + reg_DI_32);
+				LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_32u);
+				LazyFlagResultContainer8 = reg_0x00_8u - *(uint8_t*)(targetSegment + reg_DI_32u);
 				lazyFlagType = t_CMP8;
-				reg_DI_32 += 8 / 8;
-				reg_CX_32 -= 1;
+				reg_DI_32u += 8 / 8;
+				reg_CX_32u -= 1;
 				if (result) { SET_FLAG(ZF, (1 != 1));  return; }
 			}
 		} else {
 			LazyFlagVarA8 = reg_0x00_8u;
-			LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_32);
-			LazyFlagResultContainer8 = reg_0x00_8u - *(uint8_t*)(targetSegment + reg_DI_32);
+			LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_32u);
+			LazyFlagResultContainer8 = reg_0x00_8u - *(uint8_t*)(targetSegment + reg_DI_32u);
 			lazyFlagType = t_CMP8;
-			reg_DI_32 += 8 / 8;
+			reg_DI_32u += 8 / 8;
 		}
 	}
 }
@@ -14199,68 +14157,67 @@ void handlerCommand32Code00AEP66() {
 void handlerCommand32Code00AEP67() {
 	LOG("%s","SCAS");
 	lazyFlagType = t_UNKNOWN;
-	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
-	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
+	uint8_t* sourceSegment = memWithReplace(SR_DS);
 	uint8_t* targetSegment = mem(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF2) {
 			while (reg_CX_16 != 0) {
-				uint8_t result = *(uint8_t*)(targetSegment + reg_DI_16) == reg_0x00_8u;
+				uint8_t result = *(uint8_t*)(targetSegment + reg_DI_16u) == reg_0x00_8u;
 				LazyFlagVarA8 = reg_0x00_8u;
-				LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_16);
-				LazyFlagResultContainer8 = reg_0x00_8u - *(uint8_t*)(targetSegment + reg_DI_16);
+				LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_16u);
+				LazyFlagResultContainer8 = reg_0x00_8u - *(uint8_t*)(targetSegment + reg_DI_16u);
 				lazyFlagType = t_CMP8;
-				reg_DI_16 -= 8 / 8;
-				reg_CX_16 -= 1;
+				reg_DI_16u -= 8 / 8;
+				reg_CX_16u -= 1;
 				if (result) { SET_FLAG(ZF, (1 == 1));  return; }
 			}
 		} else if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF3) {
 			while (reg_CX_16 != 0) {
-				uint8_t result = *(uint8_t*)(targetSegment + reg_DI_16) != reg_0x00_8u;
+				uint8_t result = *(uint8_t*)(targetSegment + reg_DI_16u) != reg_0x00_8u;
 				LazyFlagVarA8 = reg_0x00_8u;
-				LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_16);
-				LazyFlagResultContainer8 = reg_0x00_8u - *(uint8_t*)(targetSegment + reg_DI_16);
+				LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_16u);
+				LazyFlagResultContainer8 = reg_0x00_8u - *(uint8_t*)(targetSegment + reg_DI_16u);
 				lazyFlagType = t_CMP8;
-				reg_DI_16 -= 8 / 8;
-				reg_CX_16 -= 1;
+				reg_DI_16u -= 8 / 8;
+				reg_CX_16u -= 1;
 				if (result) { SET_FLAG(ZF, (1 != 1));  return; }
 			}
 		} else {
 			LazyFlagVarA8 = reg_0x00_8u;
-			LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_16);
-			LazyFlagResultContainer8 = reg_0x00_8u - *(uint8_t*)(targetSegment + reg_DI_16);
+			LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_16u);
+			LazyFlagResultContainer8 = reg_0x00_8u - *(uint8_t*)(targetSegment + reg_DI_16u);
 			lazyFlagType = t_CMP8;
-			reg_DI_16 -= 8 / 8;
+			reg_DI_16u -= 8 / 8;
 		}
 	} else {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF2) {
 			while (reg_CX_16 != 0) {
-				uint8_t result = *(uint8_t*)(targetSegment + reg_DI_16) == reg_0x00_8u;
+				uint8_t result = *(uint8_t*)(targetSegment + reg_DI_16u) == reg_0x00_8u;
 				LazyFlagVarA8 = reg_0x00_8u;
-				LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_16);
-				LazyFlagResultContainer8 = reg_0x00_8u - *(uint8_t*)(targetSegment + reg_DI_16);
+				LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_16u);
+				LazyFlagResultContainer8 = reg_0x00_8u - *(uint8_t*)(targetSegment + reg_DI_16u);
 				lazyFlagType = t_CMP8;
-				reg_DI_16 += 8 / 8;
-				reg_CX_16 -= 1;
+				reg_DI_16u += 8 / 8;
+				reg_CX_16u -= 1;
 				if (result) { SET_FLAG(ZF, (1 == 1));  return; }
 			}
 		} else if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF3) {
 			while (reg_CX_16 != 0) {
-				uint8_t result = *(uint8_t*)(targetSegment + reg_DI_16) != reg_0x00_8u;
+				uint8_t result = *(uint8_t*)(targetSegment + reg_DI_16u) != reg_0x00_8u;
 				LazyFlagVarA8 = reg_0x00_8u;
-				LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_16);
-				LazyFlagResultContainer8 = reg_0x00_8u - *(uint8_t*)(targetSegment + reg_DI_16);
+				LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_16u);
+				LazyFlagResultContainer8 = reg_0x00_8u - *(uint8_t*)(targetSegment + reg_DI_16u);
 				lazyFlagType = t_CMP8;
-				reg_DI_16 += 8 / 8;
-				reg_CX_16 -= 1;
+				reg_DI_16u += 8 / 8;
+				reg_CX_16u -= 1;
 				if (result) { SET_FLAG(ZF, (1 != 1));  return; }
 			}
 		} else {
 			LazyFlagVarA8 = reg_0x00_8u;
-			LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_16);
-			LazyFlagResultContainer8 = reg_0x00_8u - *(uint8_t*)(targetSegment + reg_DI_16);
+			LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_16u);
+			LazyFlagResultContainer8 = reg_0x00_8u - *(uint8_t*)(targetSegment + reg_DI_16u);
 			lazyFlagType = t_CMP8;
-			reg_DI_16 += 8 / 8;
+			reg_DI_16u += 8 / 8;
 		}
 	}
 }
@@ -14268,68 +14225,67 @@ void handlerCommand32Code00AEP67() {
 void handlerCommand32Code00AE() {
 	LOG("%s","SCAS");
 	lazyFlagType = t_UNKNOWN;
-	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
-	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
+	uint8_t* sourceSegment = memWithReplace(SR_DS);
 	uint8_t* targetSegment = mem(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF2) {
 			while (reg_CX_32 != 0) {
-				uint8_t result = *(uint8_t*)(targetSegment + reg_DI_32) == reg_0x00_8u;
+				uint8_t result = *(uint8_t*)(targetSegment + reg_DI_32u) == reg_0x00_8u;
 				LazyFlagVarA8 = reg_0x00_8u;
-				LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_32);
-				LazyFlagResultContainer8 = reg_0x00_8u - *(uint8_t*)(targetSegment + reg_DI_32);
+				LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_32u);
+				LazyFlagResultContainer8 = reg_0x00_8u - *(uint8_t*)(targetSegment + reg_DI_32u);
 				lazyFlagType = t_CMP8;
-				reg_DI_32 -= 8 / 8;
-				reg_CX_32 -= 1;
+				reg_DI_32u -= 8 / 8;
+				reg_CX_32u -= 1;
 				if (result) { SET_FLAG(ZF, (1 == 1));  return; }
 			}
 		} else if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF3) {
 			while (reg_CX_32 != 0) {
-				uint8_t result = *(uint8_t*)(targetSegment + reg_DI_32) != reg_0x00_8u;
+				uint8_t result = *(uint8_t*)(targetSegment + reg_DI_32u) != reg_0x00_8u;
 				LazyFlagVarA8 = reg_0x00_8u;
-				LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_32);
-				LazyFlagResultContainer8 = reg_0x00_8u - *(uint8_t*)(targetSegment + reg_DI_32);
+				LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_32u);
+				LazyFlagResultContainer8 = reg_0x00_8u - *(uint8_t*)(targetSegment + reg_DI_32u);
 				lazyFlagType = t_CMP8;
-				reg_DI_32 -= 8 / 8;
-				reg_CX_32 -= 1;
+				reg_DI_32u -= 8 / 8;
+				reg_CX_32u -= 1;
 				if (result) { SET_FLAG(ZF, (1 != 1));  return; }
 			}
 		} else {
 			LazyFlagVarA8 = reg_0x00_8u;
-			LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_32);
-			LazyFlagResultContainer8 = reg_0x00_8u - *(uint8_t*)(targetSegment + reg_DI_32);
+			LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_32u);
+			LazyFlagResultContainer8 = reg_0x00_8u - *(uint8_t*)(targetSegment + reg_DI_32u);
 			lazyFlagType = t_CMP8;
-			reg_DI_32 -= 8 / 8;
+			reg_DI_32u -= 8 / 8;
 		}
 	} else {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF2) {
 			while (reg_CX_32 != 0) {
-				uint8_t result = *(uint8_t*)(targetSegment + reg_DI_32) == reg_0x00_8u;
+				uint8_t result = *(uint8_t*)(targetSegment + reg_DI_32u) == reg_0x00_8u;
 				LazyFlagVarA8 = reg_0x00_8u;
-				LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_32);
-				LazyFlagResultContainer8 = reg_0x00_8u - *(uint8_t*)(targetSegment + reg_DI_32);
+				LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_32u);
+				LazyFlagResultContainer8 = reg_0x00_8u - *(uint8_t*)(targetSegment + reg_DI_32u);
 				lazyFlagType = t_CMP8;
-				reg_DI_32 += 8 / 8;
-				reg_CX_32 -= 1;
+				reg_DI_32u += 8 / 8;
+				reg_CX_32u -= 1;
 				if (result) { SET_FLAG(ZF, (1 == 1));  return; }
 			}
 		} else if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF3) {
 			while (reg_CX_32 != 0) {
-				uint8_t result = *(uint8_t*)(targetSegment + reg_DI_32) != reg_0x00_8u;
+				uint8_t result = *(uint8_t*)(targetSegment + reg_DI_32u) != reg_0x00_8u;
 				LazyFlagVarA8 = reg_0x00_8u;
-				LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_32);
-				LazyFlagResultContainer8 = reg_0x00_8u - *(uint8_t*)(targetSegment + reg_DI_32);
+				LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_32u);
+				LazyFlagResultContainer8 = reg_0x00_8u - *(uint8_t*)(targetSegment + reg_DI_32u);
 				lazyFlagType = t_CMP8;
-				reg_DI_32 += 8 / 8;
-				reg_CX_32 -= 1;
+				reg_DI_32u += 8 / 8;
+				reg_CX_32u -= 1;
 				if (result) { SET_FLAG(ZF, (1 != 1));  return; }
 			}
 		} else {
 			LazyFlagVarA8 = reg_0x00_8u;
-			LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_32);
-			LazyFlagResultContainer8 = reg_0x00_8u - *(uint8_t*)(targetSegment + reg_DI_32);
+			LazyFlagVarB8 = *(uint8_t*)(targetSegment + reg_DI_32u);
+			LazyFlagResultContainer8 = reg_0x00_8u - *(uint8_t*)(targetSegment + reg_DI_32u);
 			lazyFlagType = t_CMP8;
-			reg_DI_32 += 8 / 8;
+			reg_DI_32u += 8 / 8;
 		}
 	}
 }
@@ -14337,68 +14293,67 @@ void handlerCommand32Code00AE() {
 void handlerCommand32Code00AFP66P67() {
 	LOG("%s","SCAS");
 	lazyFlagType = t_UNKNOWN;
-	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
-	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
+	uint8_t* sourceSegment = memWithReplace(SR_DS);
 	uint8_t* targetSegment = mem(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF2) {
 			while (reg_CX_16 != 0) {
-				uint8_t result = *(uint16_t*)(targetSegment + reg_DI_16) == reg_0x00_16u;
+				uint8_t result = *(uint16_t*)(targetSegment + reg_DI_16u) == reg_0x00_16u;
 				LazyFlagVarA16 = reg_0x00_16u;
-				LazyFlagVarB16 = *(uint16_t*)(targetSegment + reg_DI_16);
-				LazyFlagResultContainer16 = reg_0x00_16u - *(uint16_t*)(targetSegment + reg_DI_16);
+				LazyFlagVarB16 = *(uint16_t*)(targetSegment + reg_DI_16u);
+				LazyFlagResultContainer16 = reg_0x00_16u - *(uint16_t*)(targetSegment + reg_DI_16u);
 				lazyFlagType = t_CMP16;
-				reg_DI_16 -= 16 / 8;
-				reg_CX_16 -= 1;
+				reg_DI_16u -= 16 / 8;
+				reg_CX_16u -= 1;
 				if (result) { SET_FLAG(ZF, (1 == 1));  return; }
 			}
 		} else if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF3) {
 			while (reg_CX_16 != 0) {
-				uint8_t result = *(uint16_t*)(targetSegment + reg_DI_16) != reg_0x00_16u;
+				uint8_t result = *(uint16_t*)(targetSegment + reg_DI_16u) != reg_0x00_16u;
 				LazyFlagVarA16 = reg_0x00_16u;
-				LazyFlagVarB16 = *(uint16_t*)(targetSegment + reg_DI_16);
-				LazyFlagResultContainer16 = reg_0x00_16u - *(uint16_t*)(targetSegment + reg_DI_16);
+				LazyFlagVarB16 = *(uint16_t*)(targetSegment + reg_DI_16u);
+				LazyFlagResultContainer16 = reg_0x00_16u - *(uint16_t*)(targetSegment + reg_DI_16u);
 				lazyFlagType = t_CMP16;
-				reg_DI_16 -= 16 / 8;
-				reg_CX_16 -= 1;
+				reg_DI_16u -= 16 / 8;
+				reg_CX_16u -= 1;
 				if (result) { SET_FLAG(ZF, (1 != 1));  return; }
 			}
 		} else {
 			LazyFlagVarA16 = reg_0x00_16u;
-			LazyFlagVarB16 = *(uint16_t*)(targetSegment + reg_DI_16);
-			LazyFlagResultContainer16 = reg_0x00_16u - *(uint16_t*)(targetSegment + reg_DI_16);
+			LazyFlagVarB16 = *(uint16_t*)(targetSegment + reg_DI_16u);
+			LazyFlagResultContainer16 = reg_0x00_16u - *(uint16_t*)(targetSegment + reg_DI_16u);
 			lazyFlagType = t_CMP16;
-			reg_DI_16 -= 16 / 8;
+			reg_DI_16u -= 16 / 8;
 		}
 	} else {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF2) {
 			while (reg_CX_16 != 0) {
-				uint8_t result = *(uint16_t*)(targetSegment + reg_DI_16) == reg_0x00_16u;
+				uint8_t result = *(uint16_t*)(targetSegment + reg_DI_16u) == reg_0x00_16u;
 				LazyFlagVarA16 = reg_0x00_16u;
-				LazyFlagVarB16 = *(uint16_t*)(targetSegment + reg_DI_16);
-				LazyFlagResultContainer16 = reg_0x00_16u - *(uint16_t*)(targetSegment + reg_DI_16);
+				LazyFlagVarB16 = *(uint16_t*)(targetSegment + reg_DI_16u);
+				LazyFlagResultContainer16 = reg_0x00_16u - *(uint16_t*)(targetSegment + reg_DI_16u);
 				lazyFlagType = t_CMP16;
-				reg_DI_16 += 16 / 8;
-				reg_CX_16 -= 1;
+				reg_DI_16u += 16 / 8;
+				reg_CX_16u -= 1;
 				if (result) { SET_FLAG(ZF, (1 == 1));  return; }
 			}
 		} else if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF3) {
 			while (reg_CX_16 != 0) {
-				uint8_t result = *(uint16_t*)(targetSegment + reg_DI_16) != reg_0x00_16u;
+				uint8_t result = *(uint16_t*)(targetSegment + reg_DI_16u) != reg_0x00_16u;
 				LazyFlagVarA16 = reg_0x00_16u;
-				LazyFlagVarB16 = *(uint16_t*)(targetSegment + reg_DI_16);
-				LazyFlagResultContainer16 = reg_0x00_16u - *(uint16_t*)(targetSegment + reg_DI_16);
+				LazyFlagVarB16 = *(uint16_t*)(targetSegment + reg_DI_16u);
+				LazyFlagResultContainer16 = reg_0x00_16u - *(uint16_t*)(targetSegment + reg_DI_16u);
 				lazyFlagType = t_CMP16;
-				reg_DI_16 += 16 / 8;
-				reg_CX_16 -= 1;
+				reg_DI_16u += 16 / 8;
+				reg_CX_16u -= 1;
 				if (result) { SET_FLAG(ZF, (1 != 1));  return; }
 			}
 		} else {
 			LazyFlagVarA16 = reg_0x00_16u;
-			LazyFlagVarB16 = *(uint16_t*)(targetSegment + reg_DI_16);
-			LazyFlagResultContainer16 = reg_0x00_16u - *(uint16_t*)(targetSegment + reg_DI_16);
+			LazyFlagVarB16 = *(uint16_t*)(targetSegment + reg_DI_16u);
+			LazyFlagResultContainer16 = reg_0x00_16u - *(uint16_t*)(targetSegment + reg_DI_16u);
 			lazyFlagType = t_CMP16;
-			reg_DI_16 += 16 / 8;
+			reg_DI_16u += 16 / 8;
 		}
 	}
 }
@@ -14406,68 +14361,67 @@ void handlerCommand32Code00AFP66P67() {
 void handlerCommand32Code00AFP66() {
 	LOG("%s","SCAS");
 	lazyFlagType = t_UNKNOWN;
-	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
-	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
+	uint8_t* sourceSegment = memWithReplace(SR_DS);
 	uint8_t* targetSegment = mem(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF2) {
 			while (reg_CX_32 != 0) {
-				uint8_t result = *(uint16_t*)(targetSegment + reg_DI_32) == reg_0x00_16u;
+				uint8_t result = *(uint16_t*)(targetSegment + reg_DI_32u) == reg_0x00_16u;
 				LazyFlagVarA16 = reg_0x00_16u;
-				LazyFlagVarB16 = *(uint16_t*)(targetSegment + reg_DI_32);
-				LazyFlagResultContainer16 = reg_0x00_16u - *(uint16_t*)(targetSegment + reg_DI_32);
+				LazyFlagVarB16 = *(uint16_t*)(targetSegment + reg_DI_32u);
+				LazyFlagResultContainer16 = reg_0x00_16u - *(uint16_t*)(targetSegment + reg_DI_32u);
 				lazyFlagType = t_CMP16;
-				reg_DI_32 -= 16 / 8;
-				reg_CX_32 -= 1;
+				reg_DI_32u -= 16 / 8;
+				reg_CX_32u -= 1;
 				if (result) { SET_FLAG(ZF, (1 == 1));  return; }
 			}
 		} else if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF3) {
 			while (reg_CX_32 != 0) {
-				uint8_t result = *(uint16_t*)(targetSegment + reg_DI_32) != reg_0x00_16u;
+				uint8_t result = *(uint16_t*)(targetSegment + reg_DI_32u) != reg_0x00_16u;
 				LazyFlagVarA16 = reg_0x00_16u;
-				LazyFlagVarB16 = *(uint16_t*)(targetSegment + reg_DI_32);
-				LazyFlagResultContainer16 = reg_0x00_16u - *(uint16_t*)(targetSegment + reg_DI_32);
+				LazyFlagVarB16 = *(uint16_t*)(targetSegment + reg_DI_32u);
+				LazyFlagResultContainer16 = reg_0x00_16u - *(uint16_t*)(targetSegment + reg_DI_32u);
 				lazyFlagType = t_CMP16;
-				reg_DI_32 -= 16 / 8;
-				reg_CX_32 -= 1;
+				reg_DI_32u -= 16 / 8;
+				reg_CX_32u -= 1;
 				if (result) { SET_FLAG(ZF, (1 != 1));  return; }
 			}
 		} else {
 			LazyFlagVarA16 = reg_0x00_16u;
-			LazyFlagVarB16 = *(uint16_t*)(targetSegment + reg_DI_32);
-			LazyFlagResultContainer16 = reg_0x00_16u - *(uint16_t*)(targetSegment + reg_DI_32);
+			LazyFlagVarB16 = *(uint16_t*)(targetSegment + reg_DI_32u);
+			LazyFlagResultContainer16 = reg_0x00_16u - *(uint16_t*)(targetSegment + reg_DI_32u);
 			lazyFlagType = t_CMP16;
-			reg_DI_32 -= 16 / 8;
+			reg_DI_32u -= 16 / 8;
 		}
 	} else {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF2) {
 			while (reg_CX_32 != 0) {
-				uint8_t result = *(uint16_t*)(targetSegment + reg_DI_32) == reg_0x00_16u;
+				uint8_t result = *(uint16_t*)(targetSegment + reg_DI_32u) == reg_0x00_16u;
 				LazyFlagVarA16 = reg_0x00_16u;
-				LazyFlagVarB16 = *(uint16_t*)(targetSegment + reg_DI_32);
-				LazyFlagResultContainer16 = reg_0x00_16u - *(uint16_t*)(targetSegment + reg_DI_32);
+				LazyFlagVarB16 = *(uint16_t*)(targetSegment + reg_DI_32u);
+				LazyFlagResultContainer16 = reg_0x00_16u - *(uint16_t*)(targetSegment + reg_DI_32u);
 				lazyFlagType = t_CMP16;
-				reg_DI_32 += 16 / 8;
-				reg_CX_32 -= 1;
+				reg_DI_32u += 16 / 8;
+				reg_CX_32u -= 1;
 				if (result) { SET_FLAG(ZF, (1 == 1));  return; }
 			}
 		} else if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF3) {
 			while (reg_CX_32 != 0) {
-				uint8_t result = *(uint16_t*)(targetSegment + reg_DI_32) != reg_0x00_16u;
+				uint8_t result = *(uint16_t*)(targetSegment + reg_DI_32u) != reg_0x00_16u;
 				LazyFlagVarA16 = reg_0x00_16u;
-				LazyFlagVarB16 = *(uint16_t*)(targetSegment + reg_DI_32);
-				LazyFlagResultContainer16 = reg_0x00_16u - *(uint16_t*)(targetSegment + reg_DI_32);
+				LazyFlagVarB16 = *(uint16_t*)(targetSegment + reg_DI_32u);
+				LazyFlagResultContainer16 = reg_0x00_16u - *(uint16_t*)(targetSegment + reg_DI_32u);
 				lazyFlagType = t_CMP16;
-				reg_DI_32 += 16 / 8;
-				reg_CX_32 -= 1;
+				reg_DI_32u += 16 / 8;
+				reg_CX_32u -= 1;
 				if (result) { SET_FLAG(ZF, (1 != 1));  return; }
 			}
 		} else {
 			LazyFlagVarA16 = reg_0x00_16u;
-			LazyFlagVarB16 = *(uint16_t*)(targetSegment + reg_DI_32);
-			LazyFlagResultContainer16 = reg_0x00_16u - *(uint16_t*)(targetSegment + reg_DI_32);
+			LazyFlagVarB16 = *(uint16_t*)(targetSegment + reg_DI_32u);
+			LazyFlagResultContainer16 = reg_0x00_16u - *(uint16_t*)(targetSegment + reg_DI_32u);
 			lazyFlagType = t_CMP16;
-			reg_DI_32 += 16 / 8;
+			reg_DI_32u += 16 / 8;
 		}
 	}
 }
@@ -14475,68 +14429,67 @@ void handlerCommand32Code00AFP66() {
 void handlerCommand32Code00AFP67() {
 	LOG("%s","SCAS");
 	lazyFlagType = t_UNKNOWN;
-	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
-	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
+	uint8_t* sourceSegment = memWithReplace(SR_DS);
 	uint8_t* targetSegment = mem(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF2) {
 			while (reg_CX_16 != 0) {
-				uint8_t result = *(uint32_t*)(targetSegment + reg_DI_16) == reg_0x00_32u;
+				uint8_t result = *(uint32_t*)(targetSegment + reg_DI_16u) == reg_0x00_32u;
 				LazyFlagVarA32 = reg_0x00_32u;
-				LazyFlagVarB32 = *(uint32_t*)(targetSegment + reg_DI_16);
-				LazyFlagResultContainer32 = reg_0x00_32u - *(uint32_t*)(targetSegment + reg_DI_16);
+				LazyFlagVarB32 = *(uint32_t*)(targetSegment + reg_DI_16u);
+				LazyFlagResultContainer32 = reg_0x00_32u - *(uint32_t*)(targetSegment + reg_DI_16u);
 				lazyFlagType = t_CMP32;
-				reg_DI_16 -= 32 / 8;
-				reg_CX_16 -= 1;
+				reg_DI_16u -= 32 / 8;
+				reg_CX_16u -= 1;
 				if (result) { SET_FLAG(ZF, (1 == 1));  return; }
 			}
 		} else if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF3) {
 			while (reg_CX_16 != 0) {
-				uint8_t result = *(uint32_t*)(targetSegment + reg_DI_16) != reg_0x00_32u;
+				uint8_t result = *(uint32_t*)(targetSegment + reg_DI_16u) != reg_0x00_32u;
 				LazyFlagVarA32 = reg_0x00_32u;
-				LazyFlagVarB32 = *(uint32_t*)(targetSegment + reg_DI_16);
-				LazyFlagResultContainer32 = reg_0x00_32u - *(uint32_t*)(targetSegment + reg_DI_16);
+				LazyFlagVarB32 = *(uint32_t*)(targetSegment + reg_DI_16u);
+				LazyFlagResultContainer32 = reg_0x00_32u - *(uint32_t*)(targetSegment + reg_DI_16u);
 				lazyFlagType = t_CMP32;
-				reg_DI_16 -= 32 / 8;
-				reg_CX_16 -= 1;
+				reg_DI_16u -= 32 / 8;
+				reg_CX_16u -= 1;
 				if (result) { SET_FLAG(ZF, (1 != 1));  return; }
 			}
 		} else {
 			LazyFlagVarA32 = reg_0x00_32u;
-			LazyFlagVarB32 = *(uint32_t*)(targetSegment + reg_DI_16);
-			LazyFlagResultContainer32 = reg_0x00_32u - *(uint32_t*)(targetSegment + reg_DI_16);
+			LazyFlagVarB32 = *(uint32_t*)(targetSegment + reg_DI_16u);
+			LazyFlagResultContainer32 = reg_0x00_32u - *(uint32_t*)(targetSegment + reg_DI_16u);
 			lazyFlagType = t_CMP32;
-			reg_DI_16 -= 32 / 8;
+			reg_DI_16u -= 32 / 8;
 		}
 	} else {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF2) {
 			while (reg_CX_16 != 0) {
-				uint8_t result = *(uint32_t*)(targetSegment + reg_DI_16) == reg_0x00_32u;
+				uint8_t result = *(uint32_t*)(targetSegment + reg_DI_16u) == reg_0x00_32u;
 				LazyFlagVarA32 = reg_0x00_32u;
-				LazyFlagVarB32 = *(uint32_t*)(targetSegment + reg_DI_16);
-				LazyFlagResultContainer32 = reg_0x00_32u - *(uint32_t*)(targetSegment + reg_DI_16);
+				LazyFlagVarB32 = *(uint32_t*)(targetSegment + reg_DI_16u);
+				LazyFlagResultContainer32 = reg_0x00_32u - *(uint32_t*)(targetSegment + reg_DI_16u);
 				lazyFlagType = t_CMP32;
-				reg_DI_16 += 32 / 8;
-				reg_CX_16 -= 1;
+				reg_DI_16u += 32 / 8;
+				reg_CX_16u -= 1;
 				if (result) { SET_FLAG(ZF, (1 == 1));  return; }
 			}
 		} else if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF3) {
 			while (reg_CX_16 != 0) {
-				uint8_t result = *(uint32_t*)(targetSegment + reg_DI_16) != reg_0x00_32u;
+				uint8_t result = *(uint32_t*)(targetSegment + reg_DI_16u) != reg_0x00_32u;
 				LazyFlagVarA32 = reg_0x00_32u;
-				LazyFlagVarB32 = *(uint32_t*)(targetSegment + reg_DI_16);
-				LazyFlagResultContainer32 = reg_0x00_32u - *(uint32_t*)(targetSegment + reg_DI_16);
+				LazyFlagVarB32 = *(uint32_t*)(targetSegment + reg_DI_16u);
+				LazyFlagResultContainer32 = reg_0x00_32u - *(uint32_t*)(targetSegment + reg_DI_16u);
 				lazyFlagType = t_CMP32;
-				reg_DI_16 += 32 / 8;
-				reg_CX_16 -= 1;
+				reg_DI_16u += 32 / 8;
+				reg_CX_16u -= 1;
 				if (result) { SET_FLAG(ZF, (1 != 1));  return; }
 			}
 		} else {
 			LazyFlagVarA32 = reg_0x00_32u;
-			LazyFlagVarB32 = *(uint32_t*)(targetSegment + reg_DI_16);
-			LazyFlagResultContainer32 = reg_0x00_32u - *(uint32_t*)(targetSegment + reg_DI_16);
+			LazyFlagVarB32 = *(uint32_t*)(targetSegment + reg_DI_16u);
+			LazyFlagResultContainer32 = reg_0x00_32u - *(uint32_t*)(targetSegment + reg_DI_16u);
 			lazyFlagType = t_CMP32;
-			reg_DI_16 += 32 / 8;
+			reg_DI_16u += 32 / 8;
 		}
 	}
 }
@@ -14544,68 +14497,67 @@ void handlerCommand32Code00AFP67() {
 void handlerCommand32Code00AF() {
 	LOG("%s","SCAS");
 	lazyFlagType = t_UNKNOWN;
-	uint8_t* sourceSegment = context.lastCommandInfo.prefixInfo.changeSegmentPrefix;
-	sourceSegment = ((sourceSegment == NULL) ? mem(SR_DS) : sourceSegment);
+	uint8_t* sourceSegment = memWithReplace(SR_DS);
 	uint8_t* targetSegment = mem(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF2) {
 			while (reg_CX_32 != 0) {
-				uint8_t result = *(uint32_t*)(targetSegment + reg_DI_32) == reg_0x00_32u;
+				uint8_t result = *(uint32_t*)(targetSegment + reg_DI_32u) == reg_0x00_32u;
 				LazyFlagVarA32 = reg_0x00_32u;
-				LazyFlagVarB32 = *(uint32_t*)(targetSegment + reg_DI_32);
-				LazyFlagResultContainer32 = reg_0x00_32u - *(uint32_t*)(targetSegment + reg_DI_32);
+				LazyFlagVarB32 = *(uint32_t*)(targetSegment + reg_DI_32u);
+				LazyFlagResultContainer32 = reg_0x00_32u - *(uint32_t*)(targetSegment + reg_DI_32u);
 				lazyFlagType = t_CMP32;
-				reg_DI_32 -= 32 / 8;
-				reg_CX_32 -= 1;
+				reg_DI_32u -= 32 / 8;
+				reg_CX_32u -= 1;
 				if (result) { SET_FLAG(ZF, (1 == 1));  return; }
 			}
 		} else if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF3) {
 			while (reg_CX_32 != 0) {
-				uint8_t result = *(uint32_t*)(targetSegment + reg_DI_32) != reg_0x00_32u;
+				uint8_t result = *(uint32_t*)(targetSegment + reg_DI_32u) != reg_0x00_32u;
 				LazyFlagVarA32 = reg_0x00_32u;
-				LazyFlagVarB32 = *(uint32_t*)(targetSegment + reg_DI_32);
-				LazyFlagResultContainer32 = reg_0x00_32u - *(uint32_t*)(targetSegment + reg_DI_32);
+				LazyFlagVarB32 = *(uint32_t*)(targetSegment + reg_DI_32u);
+				LazyFlagResultContainer32 = reg_0x00_32u - *(uint32_t*)(targetSegment + reg_DI_32u);
 				lazyFlagType = t_CMP32;
-				reg_DI_32 -= 32 / 8;
-				reg_CX_32 -= 1;
+				reg_DI_32u -= 32 / 8;
+				reg_CX_32u -= 1;
 				if (result) { SET_FLAG(ZF, (1 != 1));  return; }
 			}
 		} else {
 			LazyFlagVarA32 = reg_0x00_32u;
-			LazyFlagVarB32 = *(uint32_t*)(targetSegment + reg_DI_32);
-			LazyFlagResultContainer32 = reg_0x00_32u - *(uint32_t*)(targetSegment + reg_DI_32);
+			LazyFlagVarB32 = *(uint32_t*)(targetSegment + reg_DI_32u);
+			LazyFlagResultContainer32 = reg_0x00_32u - *(uint32_t*)(targetSegment + reg_DI_32u);
 			lazyFlagType = t_CMP32;
-			reg_DI_32 -= 32 / 8;
+			reg_DI_32u -= 32 / 8;
 		}
 	} else {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF2) {
 			while (reg_CX_32 != 0) {
-				uint8_t result = *(uint32_t*)(targetSegment + reg_DI_32) == reg_0x00_32u;
+				uint8_t result = *(uint32_t*)(targetSegment + reg_DI_32u) == reg_0x00_32u;
 				LazyFlagVarA32 = reg_0x00_32u;
-				LazyFlagVarB32 = *(uint32_t*)(targetSegment + reg_DI_32);
-				LazyFlagResultContainer32 = reg_0x00_32u - *(uint32_t*)(targetSegment + reg_DI_32);
+				LazyFlagVarB32 = *(uint32_t*)(targetSegment + reg_DI_32u);
+				LazyFlagResultContainer32 = reg_0x00_32u - *(uint32_t*)(targetSegment + reg_DI_32u);
 				lazyFlagType = t_CMP32;
-				reg_DI_32 += 32 / 8;
-				reg_CX_32 -= 1;
+				reg_DI_32u += 32 / 8;
+				reg_CX_32u -= 1;
 				if (result) { SET_FLAG(ZF, (1 == 1));  return; }
 			}
 		} else if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF3) {
 			while (reg_CX_32 != 0) {
-				uint8_t result = *(uint32_t*)(targetSegment + reg_DI_32) != reg_0x00_32u;
+				uint8_t result = *(uint32_t*)(targetSegment + reg_DI_32u) != reg_0x00_32u;
 				LazyFlagVarA32 = reg_0x00_32u;
-				LazyFlagVarB32 = *(uint32_t*)(targetSegment + reg_DI_32);
-				LazyFlagResultContainer32 = reg_0x00_32u - *(uint32_t*)(targetSegment + reg_DI_32);
+				LazyFlagVarB32 = *(uint32_t*)(targetSegment + reg_DI_32u);
+				LazyFlagResultContainer32 = reg_0x00_32u - *(uint32_t*)(targetSegment + reg_DI_32u);
 				lazyFlagType = t_CMP32;
-				reg_DI_32 += 32 / 8;
-				reg_CX_32 -= 1;
+				reg_DI_32u += 32 / 8;
+				reg_CX_32u -= 1;
 				if (result) { SET_FLAG(ZF, (1 != 1));  return; }
 			}
 		} else {
 			LazyFlagVarA32 = reg_0x00_32u;
-			LazyFlagVarB32 = *(uint32_t*)(targetSegment + reg_DI_32);
-			LazyFlagResultContainer32 = reg_0x00_32u - *(uint32_t*)(targetSegment + reg_DI_32);
+			LazyFlagVarB32 = *(uint32_t*)(targetSegment + reg_DI_32u);
+			LazyFlagResultContainer32 = reg_0x00_32u - *(uint32_t*)(targetSegment + reg_DI_32u);
 			lazyFlagType = t_CMP32;
-			reg_DI_32 += 32 / 8;
+			reg_DI_32u += 32 / 8;
 		}
 	}
 }
@@ -18419,6 +18371,14 @@ void handlerCommand32Code01B6() {
 	*target = (uint32_t)*source;
 }
 //MOVZX
+void handlerCommand32Code01B7P66() {
+	LOG("%s","MOVZX");
+	uint8_t mrmByte = read8u();
+	uint32_t* target = (uint32_t*)readRegisterMRM32(mrmByte);
+	uint16_t* source = (uint16_t*)readAddressMRM32For16(mrmByte);
+	*target = (uint32_t)*source;
+}
+//MOVZX
 void handlerCommand32Code01B7() {
 	LOG("%s","MOVZX");
 	uint8_t mrmByte = read8u();
@@ -19082,6 +19042,7 @@ void installCommandFunction() {
 	commandFunctions16[152 | 0x0400] = handlerCommand16Code0098P66;
 	commandFunctions16[153] = handlerCommand16Code0099;
 	commandFunctions16[153 | 0x0400] = handlerCommand16Code0099P66;
+	commandFunctions16[154] = handlerCommand16Code009A;
 	commandFunctions16[156] = handlerCommand16Code009C;
 	commandFunctions16[156 | 0x0400] = handlerCommand16Code009CP66;
 	commandFunctions16[157] = handlerCommand16Code009D;
@@ -19302,6 +19263,7 @@ void installCommandFunction() {
 	commandFunctions16[437] = handlerCommand16Code01B5;
 	commandFunctions16[438] = handlerCommand16Code01B6;
 	commandFunctions16[439] = handlerCommand16Code01B7;
+	commandFunctions16[439 | 0x0400] = handlerCommand16Code01B7P66;
 	commandFunctions16[442] = handlerCommand16Code01BA;
 	commandFunctions16[442 | 0x0400] = handlerCommand16Code01BAP66;
 	commandFunctions16[443] = handlerCommand16Code01BB;
@@ -19603,6 +19565,7 @@ void installCommandFunction() {
 	commandFunctions32[152 | 0x0400] = handlerCommand32Code0098P66;
 	commandFunctions32[153] = handlerCommand32Code0099;
 	commandFunctions32[153 | 0x0400] = handlerCommand32Code0099P66;
+	commandFunctions32[154] = handlerCommand32Code009A;
 	commandFunctions32[156] = handlerCommand32Code009C;
 	commandFunctions32[156 | 0x0400] = handlerCommand32Code009CP66;
 	commandFunctions32[157] = handlerCommand32Code009D;
@@ -19823,6 +19786,7 @@ void installCommandFunction() {
 	commandFunctions32[437] = handlerCommand32Code01B5;
 	commandFunctions32[438] = handlerCommand32Code01B6;
 	commandFunctions32[439] = handlerCommand32Code01B7;
+	commandFunctions32[439 | 0x0400] = handlerCommand32Code01B7P66;
 	commandFunctions32[442] = handlerCommand32Code01BA;
 	commandFunctions32[442 | 0x0400] = handlerCommand32Code01BAP66;
 	commandFunctions32[443] = handlerCommand32Code01BB;

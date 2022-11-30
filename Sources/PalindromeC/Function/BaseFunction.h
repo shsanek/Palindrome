@@ -14,5 +14,6 @@
 #include "../Base/Registers.h"
 #include "../Base/MRM.h"
 #include "../Base/Flags.h"
+#include "../Dos/VideoServiceInterrupt.h"
 
 #endif /* BaseFunction_h */

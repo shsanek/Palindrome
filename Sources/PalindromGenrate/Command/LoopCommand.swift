@@ -66,6 +66,32 @@ fileprivate let callCommand = Command(
     installFormatter: InitialFormatter()
 )
 
+
+fileprivate let callFarCommand = Command(
+    code: 0x009A,
+    name: "Call",
+    format: .init(
+        hasPrefixAddress: false,
+        hasPrefixData: false,
+        inlines: []
+    ),
+    functionFormatter: Formatter(
+        customizers: [
+            .functionName,
+            .vars,
+            .settings([.bigAddress]),
+            "int%addressSize_t newIP = read%addressSize();",
+            "uint16_t newCS = read16u();",
+            .template(pushValue("context.segmentRegisters[SR_CS]", size: "16")),
+            .template(pushValue("((uint%addressSize_t)(context.index - mem(SR_CS)))", size: "%addressSize")),
+            "setMem(SR_CS, newCS);",
+            "context.index = mem(SR_CS) + newIP;"
+        ]
+    ),
+    installFormatter: InitialFormatter()
+)
+
+
 fileprivate let returnC3Command = Command(
     code: 0x00C3,
     name: "Ret",
@@ -265,6 +291,7 @@ func appendLoopCommand(generator: Generator) {
     generator.addCommand(jmpBigCommand)
     generator.addCommand(bigJmpCondCommand)
     generator.addCommand(callCommand)
+    generator.addCommand(callFarCommand)
     generator.addCommand(jmpCondCommand)
 
     generator.addCommand(returnC3Command)

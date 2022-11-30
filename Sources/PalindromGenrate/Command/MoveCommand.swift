@@ -136,11 +136,12 @@ fileprivate let moveB7MoveCommand = Command(
     name: "MOVZX",
     format: .init(
         hasPrefixAddress: false,
-        hasPrefixData: false,
+        hasPrefixData: true,
         inlines: []
     ),
     functionFormatter: Formatter(
         customizers: [
+            .prefixData,
             .functionName,
             .settings([]),
             "uint8_t mrmByte = read8u();",
@@ -264,7 +265,7 @@ fileprivate let moveACommand = Command(
                 BaseFormat { info in
                     """
                     uint%dataSize_t* target = (uint%dataSize_t*)register%dataSizeu(BR_AX);
-                    uint%dataSize_t* source = (uint%dataSize_t*)(mem(SR_DS) + read%addressSize());
+                    uint%dataSize_t* source = (uint%dataSize_t*)(memWithReplace(SR_DS) + read%addressSize());
                     """
                 }
             }),

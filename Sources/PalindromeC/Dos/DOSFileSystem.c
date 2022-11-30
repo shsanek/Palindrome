@@ -72,7 +72,20 @@ void doslSeekFile() {
     *regAXu = newOffset % 65536;
 }
 
+uint8_t ControlBreakState = 0;
+
+void controlBreakFunction() {
+    if (*regALu == 1) {
+        ControlBreakState = (*regDL) ? 1 : 0;
+    }
+    *regDL = ControlBreakState;
+}
+
 void systemDOSFunction(uint8_t a) {
+    if (*regAH == 0x33) {
+        controlBreakFunction();
+        return;
+    }
     if (*regAH == 0x30) {
         *regBX = 0;
         *regCX = 0;

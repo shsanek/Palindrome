@@ -10,17 +10,13 @@
 #include "Flags.h"
 #include <stdlib.h>
 #include "../Dos/DOSFileSystem.h"
-
+#include "../Function/BaseFunction.h"
+#include "../Dos/VideoServiceInterrupt.h"
 
 Context context;
 
 void emptyInterruptCallFunction(uint8_t a) {
     printf(", call %X-%X", a, *regAH);
-}
-
-void printSymbol(uint8_t a) {
-    context.text[context.cursor] = *register8(BR_AL);
-    context.cursor += 1;
 }
 
 void endCallFunction(uint8_t a) {
@@ -30,7 +26,23 @@ void endCallFunction(uint8_t a) {
 void other15InformationFunction(uint8_t a) {
     if (*regAHu == 0xBF) {
         *regAHu = 0x86;
+        return;
     }
+    emptyInterruptCallFunction(a);
+}
+
+void other2fInformationFunction(uint8_t a) {
+    if (*regAXu == 0x1687) {
+        *regAXu = 0x0000;
+        *regBXu = 0x0001;
+        *regCXu = 0x0104;
+        *regDXu = 0x005A;
+        *regSIu = 0x0029;
+        *regDIu = 0x2F97;
+        setMem(SR_ES, 0xFCB8);
+        return;
+    }
+    emptyInterruptCallFunction(a);
 }
 
 
@@ -38,10 +50,11 @@ void setBaseFunction() {
     for (int i = 0; i < 256; i++) {
         context.functions[i] = emptyInterruptCallFunction;
     }
-    context.functions[0x10] = printSymbol;
+    context.functions[0x10] = callVideoServiceInterrupt;
     context.functions[0x15] = other15InformationFunction;
     context.functions[0x20] = endCallFunction;
     context.functions[0x21] = systemDOSFunction;
+    context.functions[0x2f] = other2fInformationFunction;
 }
 
 void resetStack() {

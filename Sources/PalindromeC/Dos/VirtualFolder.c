@@ -114,22 +114,22 @@ int vfsOpenFile(char *path, int mode) {
     }
     DEBUG_RUN({ if (debugFileDescriptionIndex > 0) { id = debugFileDescriptionPop(); } })
 
-    path = realPathForPath((int8_t*)path);
+    char *realPath = realPathForPath((int8_t*)path);
 
-    if (id == -1 || path == NULL) {
+    if (id == -1 || realPath == NULL) {
         assert(0);
-        return 0;
+        return -1;
     }
 
     FILE* file = NULL;
     if (mode == 0) {
-        file = fopen(path, "rb");
+        file = fopen(realPath, "rb");
     } else if (mode == 1) {
-        file = fopen(path, "wb");
+        file = fopen(realPath, "wb");
     } else if (mode == 2) {
-        file = fopen(path, "rb+");
+        file = fopen(realPath, "rb+");
     }
-    free(path);
+    free(realPath);
     
     if (file == NULL) {
         return -2;
