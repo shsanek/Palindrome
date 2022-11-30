@@ -7998,7 +7998,7 @@ void handlerCommand16Code00FE() {
 		case 0x01: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
 			(*(uint8_t*)target) -= 1;
-			LazyFlagResultContainer8 = reg_%reg_8u;
+			LazyFlagResultContainer8 = (*(uint8_t*)target);
 			lazyFlagType = t_DEC8;
 		}
 		break;
@@ -17392,7 +17392,7 @@ void handlerCommand32Code00FE() {
 		case 0x01: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
 			(*(uint8_t*)target) -= 1;
-			LazyFlagResultContainer8 = reg_%reg_8u;
+			LazyFlagResultContainer8 = (*(uint8_t*)target);
 			lazyFlagType = t_DEC8;
 		}
 		break;

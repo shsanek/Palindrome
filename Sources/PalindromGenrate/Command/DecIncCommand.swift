@@ -12,7 +12,7 @@ func decFormatter(_ target: String) -> IFormatter {
     TemplateFormat(
         """
         \(target) -= 1;
-        LazyFlagResultContainer%dataSize = reg_%reg_%dataSizeu;
+        LazyFlagResultContainer%dataSize = \(target);
         lazyFlagType = t_DEC%dataSize;
         """
     )
