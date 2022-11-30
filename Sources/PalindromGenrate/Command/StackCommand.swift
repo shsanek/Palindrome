@@ -257,18 +257,21 @@ fileprivate let pushFlagRegCommand = Command(
     name: "PUSHF",
     format: .init(
         hasPrefixAddress: false,
-        hasPrefixData: false,
+        hasPrefixData: true,
         inlines: []
     ),
     functionFormatter: Formatter(
         customizers: [
+            .prefixData,
             .functionName,
             .vars,
-            .settings([.bigAddress]),
+            .settings([.bigAddress, .bigData]),
             """
             FillFlags();
-            reg_SP_%addressSizeu -= %MOD / 8;
-            *(uint%MOD_t*)(mem(SR_SS) + reg_SP_%addressSizeu) = ((*(uint%MOD_t*)(&reg_flags)) & 0x4FD5) | 0x3002;
+            reg_SP_%addressSizeu -= %dataSize / 8;
+            EncodeFlagsRegister();
+            uint32_t value = reg_flags & 0xFCFFFF;
+            *(uint%dataSize_t*)(mem(SR_SS) + reg_SP_%addressSizeu) = *((uint%dataSize_t*)&value);
             """
         ]
     ),
@@ -280,18 +283,20 @@ fileprivate let popFlagRegCommand = Command(
     name: "POPF",
     format: .init(
         hasPrefixAddress: false,
-        hasPrefixData: false,
+        hasPrefixData: true,
         inlines: []
     ),
     functionFormatter: Formatter(
         customizers: [
+            .prefixData,
             .functionName,
             .vars,
             .settings([.bigAddress]),
             """
             lazyFlagType = t_UNKNOWN;
-            *(uint%MOD_t*)(&reg_flags) = (*(uint%MOD_t*)(mem(SR_SS) + reg_SP_%addressSizeu)) | 0x3002;
-            reg_SP_%addressSizeu += %MOD / 8;
+            *(uint%dataSize_t*)(&reg_flags) = (*(uint%dataSize_t*)(mem(SR_SS) + reg_SP_%addressSizeu));
+            reg_SP_%addressSizeu += %dataSize / 8;
+            DecodeFlagsRegister%dataSize();
             """
         ]
     ),

@@ -10,6 +10,7 @@
 #include "../Base/Read.h"
 #include <stdlib.h>
 #include "DosExeHeader.h"
+#include "../Function/BaseFunction.h"
 
 typedef struct DOSHeader {
     /// 0000h
@@ -120,6 +121,15 @@ void loadDosHeader() {
 
 void DoomSetting() {
     debugSegmentShift = 0x179E;
+
+    RegFlagBaseValue = 0x2;
+    IOPL = 3;
+    IF = 1;
+    TF = 1;
+    NT = 1;
+
+    // 0111001101000110
+    // 0011001101000110
 
     *regBX = 0x000A;
     *regCX = 0xE8E5;

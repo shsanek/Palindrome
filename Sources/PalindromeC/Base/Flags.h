@@ -11,42 +11,50 @@
 #include <stdio.h>
 #include "Models.h"
 
+extern uint32_t RegFlagBaseValue;
+
 /// Carry Flag    Флаг переноса    Состояние
-#define CF 0
+extern uint8_t CF;
 
 /// Parity Flag    Флаг чётности    Состояние
-#define PF 1
+extern uint8_t PF;
 
 /// Auxiliary Carry Flag    Вспомогательный флаг переноса    Состояние
-#define AF 4
+extern uint8_t AF;
 
 /// Zero Flag    Флаг нуля    Состояние
-#define ZF 6
+extern uint8_t ZF;
 
 /// Sign Flag    Флаг знака    Состояние
-#define SF 7
+extern uint8_t SF;
 
 /// Trap Flag    Флаг трассировки (пошаговое выполнение)    Системный
-#define TF 8
+extern uint8_t TF;
 
 /// Interrupt Enable Flag    Флаг разрешения прерываний    Системный
-#define IF 9
+extern uint8_t IF;
 
 /// Direction Flag    Флаг направления    Управляющий
-#define DF 10
+extern uint8_t DF;
 
 /// Overflow Flag    Флаг переполнения    Состояние
-#define OF 11
+extern uint8_t OF;
 
 /// I/O Privilege Level    Уровень приоритета ввода-вывода    Системный
-#define IOPL 12
+extern uint8_t IOPL;
 
 /// NT    Nested Task    Флаг вложенности задач    Системный    80286
-#define NT 14
+extern uint8_t NT;
 
-#define GET_FLAG(flag) ((uint8_t)((reg_flags >> flag) & 0x1))
+extern uint8_t AC;
 
-#define SET_FLAG(flag, value) { reg_flags ^= (-(int32_t)((value ? 1 : 0)) ^ reg_flags) & (1UL << flag); }
+extern uint8_t ID;
+
+extern uint8_t VM;
+
+
+#define GET_FLAG(flag) (flag)
+#define SET_FLAG(flag, value) { flag = value; }
 
 #define SET_BIT(target, bit, value) { target ^= (-(int8_t)((value ? 1 : 0)) ^ target) & (1UL << bit); }
 
@@ -122,5 +130,30 @@ void FillFlagsNoCFOF(void);
 #define COND0x0D (GET_FLAG(SF) == GET_FLAG(OF))
 #define COND0x0E (GET_FLAG(ZF) == 1 || (GET_FLAG(SF) != GET_FLAG(OF)))
 #define COND0x0F (GET_FLAG(ZF) == 0 && (GET_FLAG(SF) == GET_FLAG(OF)))
+
+#define FLAG_CF         0x00000001U
+#define FLAG_PF         0x00000004U
+#define FLAG_AF         0x00000010U
+#define FLAG_ZF         0x00000040U
+#define FLAG_SF         0x00000080U
+#define FLAG_OF         0x00000800U
+
+#define FLAG_TF         0x00000100U
+#define FLAG_IF         0x00000200U
+#define FLAG_DF         0x00000400U
+
+#define FLAG_IOPL       0x00003000U
+#define FLAG_NT         0x00004000U
+#define FLAG_VM         0x00020000U
+#define FLAG_AC         0x00040000U
+#define FLAG_ID         0x00200000U
+
+#define FMASK_TEST (FLAG_CF | FLAG_PF | FLAG_AF | FLAG_ZF | FLAG_SF | FLAG_OF)
+#define FMASK_NORMAL (FMASK_TEST | FLAG_DF | FLAG_TF | FLAG_IF )
+#define FMASK_ALL (FMASK_NORMAL | FLAG_IOPL | FLAG_NT)
+
+void EncodeFlagsRegister();
+void DecodeFlagsRegister16();
+void DecodeFlagsRegister32();
 
 #endif /* Flags_h */

@@ -27,12 +27,20 @@ void endCallFunction(uint8_t a) {
     context.end = 1;
 }
 
+void other15InformationFunction(uint8_t a) {
+    if (*regAHu == 0xBF) {
+        *regAHu = 0x86;
+    }
+}
+
+
 void setBaseFunction() {
     for (int i = 0; i < 256; i++) {
         context.functions[i] = emptyInterruptCallFunction;
     }
-    context.functions[0x20] = endCallFunction;
     context.functions[0x10] = printSymbol;
+    context.functions[0x15] = other15InformationFunction;
+    context.functions[0x20] = endCallFunction;
     context.functions[0x21] = systemDOSFunction;
 }
 

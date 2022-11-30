@@ -9,10 +9,49 @@
 #include "Registers.h"
 #include "Read.h"
 
-#define FLAG_PF GET_FLAG(PF)
+
+/// Carry Flag    Флаг переноса    Состояние
+uint8_t CF = 0;
+
+/// Parity Flag    Флаг чётности    Состояние
+uint8_t PF = 0;
+
+/// Auxiliary Carry Flag    Вспомогательный флаг переноса    Состояние
+uint8_t AF = 0;
+
+/// Zero Flag    Флаг нуля    Состояние
+uint8_t ZF = 0;
+
+/// Sign Flag    Флаг знака    Состояние
+uint8_t SF = 0;
+
+/// Trap Flag    Флаг трассировки (пошаговое выполнение)    Системный
+uint8_t TF = 0;
+
+/// Interrupt Enable Flag    Флаг разрешения прерываний    Системный
+uint8_t IF = 0;
+
+/// Direction Flag    Флаг направления    Управляющий
+uint8_t DF = 0;
+
+/// Overflow Flag    Флаг переполнения    Состояние
+uint8_t OF = 0;
+
+/// I/O Privilege Level    Уровень приоритета ввода-вывода    Системный
+uint8_t IOPL = 0;
+
+/// NT    Nested Task    Флаг вложенности задач    Системный    80286
+uint8_t NT = 0;
+
+uint8_t AC = 0;
+
+uint8_t ID = 0;
+
+uint8_t VM = 0;
 
 int32_t reg_flags = 0;
 
+uint32_t RegFlagBaseValue = 0;
 uint8_t LazyFlagResultContainer8 = 0;
 uint16_t LazyFlagResultContainer16 = 0;
 uint32_t LazyFlagResultContainer32 = 0;
@@ -47,7 +86,7 @@ uint16_t parity_lookup[256] = {
   1, 0, 0, 1, 0, 1, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1
   };
 
-#define DOFLAG_PF    SET_FLAG(PF, (parity_lookup[LazyFlagResultContainer8] & GET_FLAG(PF)));
+#define DOFLAG_PF    SET_FLAG(PF, (parity_lookup[LazyFlagResultContainer8]));
 
 #define DOFLAG_AF    SET_FLAG(AF, (((LazyFlagVarA8 ^ LazyFlagVarB8) ^ LazyFlagResultContainer8) & 0x10U));
 
@@ -743,5 +782,80 @@ void FillFlagsNoCFOF(void) {
     default:
         break;
     }
+    lazyFlagType=t_UNKNOWN;
+}
+
+#define ENCODE_FLAG(F) if (F) { reg_flags |= FLAG_##F; }
+#define DECODE_FLAG(F) { F = (reg_flags & FLAG_##F) ? 1 : 0; }
+
+//uint8_t CF = 0;
+//uint8_t PF = 0;
+//uint8_t AF = 0;
+//uint8_t ZF = 0;
+//uint8_t SF = 0;
+//uint8_t TF = 0;
+//uint8_t IF = 0;
+//uint8_t DF = 0;
+//uint8_t OF = 0;
+//uint8_t IOPL = 0;
+//uint8_t NT = 0;
+
+void EncodeFlagsRegister() {
+    FillFlags();
+    reg_flags = RegFlagBaseValue;
+    ENCODE_FLAG(CF)
+    ENCODE_FLAG(PF)
+    ENCODE_FLAG(AF)
+    ENCODE_FLAG(ZF)
+    ENCODE_FLAG(SF)
+    ENCODE_FLAG(OF)
+
+    ENCODE_FLAG(TF)
+    ENCODE_FLAG(IF)
+    ENCODE_FLAG(DF)
+
+    ENCODE_FLAG(NT)
+    ENCODE_FLAG(AC)
+    ENCODE_FLAG(ID)
+    ENCODE_FLAG(VM)
+
+    reg_flags |= (((uint16_t)IOPL) << 12);
+}
+
+void DecodeFlagsRegister16() {
+    DECODE_FLAG(CF)
+    DECODE_FLAG(PF)
+    DECODE_FLAG(AF)
+    DECODE_FLAG(ZF)
+    DECODE_FLAG(SF)
+    DECODE_FLAG(OF)
+
+    // должно быть условие на протекшен мод и уровень привелегий
+    // в досбоксе выглядит вот так (cpu.pmode && !GETFLAG(VM) && (GETFLAG_IOPL<cpu.cpl))
+    // в функции CPU_POPF
+    DECODE_FLAG(IF)
+
+    DECODE_FLAG(TF)
+    DECODE_FLAG(DF)
+    DECODE_FLAG(NT)
+
+    lazyFlagType=t_UNKNOWN;
+}
+
+void DecodeFlagsRegister32() {
+    DECODE_FLAG(CF)
+    DECODE_FLAG(PF)
+    DECODE_FLAG(AF)
+    DECODE_FLAG(ZF)
+    DECODE_FLAG(SF)
+    DECODE_FLAG(OF)
+
+    DECODE_FLAG(TF)
+    DECODE_FLAG(IF)
+    DECODE_FLAG(DF)
+
+    DECODE_FLAG(NT)
+    // DECODE_FLAG(ID)
+
     lazyFlagType=t_UNKNOWN;
 }
