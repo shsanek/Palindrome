@@ -1,11 +1,11 @@
-fileprivate func pushValue(_ value: String) -> String {
+func pushValue(_ value: String, size: String = "%dataSize") -> String {
     """
-    reg_SP_%addressSizeu -= %dataSize / 8;
-    *(uint%dataSize_t*)(mem(SR_SS) + reg_SP_%addressSizeu) = \(value);
+    reg_SP_%addressSizeu -= \(size) / 8;
+    *(uint\(size)_t*)(mem(SR_SS) + reg_SP_%addressSizeu) = \(value);
     """
 }
 
-fileprivate func popValue(_ value: String) -> String {
+func popValue(_ value: String) -> String {
     """
     \(value) = *(uint%dataSize_t*)(mem(SR_SS) + reg_SP_%addressSizeu);
     reg_SP_%addressSizeu += %dataSize / 8;
@@ -174,31 +174,6 @@ fileprivate let popRegCommand = Command(
     installFormatter: InitialFormatter()
 )
 
-fileprivate let leaveCommand = Command(
-    code: 0x00C9,
-    name: "Leave",
-    format: .init(
-        hasPrefixAddress: true,
-        hasPrefixData: true,
-        inlines: [
-        ]
-    ),
-    functionFormatter: Formatter(
-        customizers: [
-            .prefixAddress,
-            .prefixData,
-            .functionName,
-            .settings([.bigData, .bigAddress]),
-            """
-            reg_SP_%addressSizeu = reg_BP_%addressSizeu;
-            reg_BP_%addressSizeu = *(uint%dataSize_t*)(mem(SR_SS) + reg_SP_%addressSizeu);
-            reg_SP_%addressSizeu += %dataSize / 8;
-            """
-        ]
-    ),
-    installFormatter: InitialFormatter()
-)
-
 fileprivate let pushSegRegCommand = Command(
     code: 0x0006,
     name: "Push",
@@ -361,7 +336,6 @@ fileprivate let popAllRegCommand = Command(
 func appendStackCommand(generator: Generator) {
     generator.addCommand(pushRegCommand)
     generator.addCommand(popRegCommand)
-    generator.addCommand(leaveCommand)
     generator.addCommand(oftherCommand)
     generator.addCommand(pushData1Command)
     generator.addCommand(pushData2Command)

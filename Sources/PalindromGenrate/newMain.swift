@@ -23,6 +23,7 @@ func generate() {
     appendFlagsCommand(generator: generator)
     appendInlineCommand(generator: generator)
     appendBitScanCommand(generator: generator)
+    appendFrameStackCommand(generator: generator)
 
     fpuGenerator(generator: generator)
 

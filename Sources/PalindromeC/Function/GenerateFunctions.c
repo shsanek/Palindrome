@@ -5748,6 +5748,86 @@ void handlerCommand16Code00C7() {
 	uint8_t* source = (uint8_t*)readRegisterMRM16(mrmByte);
 	*(uint16_t*)target = read16u();
 }
+//Enter
+void handlerCommand16Code00C8P66P67() {
+	LOG("%s","Enter");
+	uint16_t size = read16u();
+	uint8_t levels = read8u() % 32;
+	reg_SP_32u -= 32 / 8;
+	*(uint32_t*)(mem(SR_SS) + reg_SP_32u) = reg_BP_32u;
+	uint32_t tmp = reg_SP_32u;
+	if (levels > 0) {
+		for (int i = 1; i < levels; ++i) {
+			reg_BP_32u = reg_BP_32u - 32 / 8;
+			reg_SP_32u -= 32 / 8;
+			*(uint32_t*)(mem(SR_SS) + reg_SP_32u) = reg_BP_32u;
+		}
+		reg_SP_32u -= 32 / 8;
+		*(uint32_t*)(mem(SR_SS) + reg_SP_32u) = reg_SP_32u;
+	}
+	reg_BP_32u = tmp;
+	reg_SP_32u = reg_BP_32u - size;
+}
+//Enter
+void handlerCommand16Code00C8P67() {
+	LOG("%s","Enter");
+	uint16_t size = read16u();
+	uint8_t levels = read8u() % 32;
+	reg_SP_32u -= 32 / 8;
+	*(uint32_t*)(mem(SR_SS) + reg_SP_32u) = reg_BP_32u;
+	uint32_t tmp = reg_SP_32u;
+	if (levels > 0) {
+		for (int i = 1; i < levels; ++i) {
+			reg_BP_32u = reg_BP_32u - 16 / 8;
+			reg_SP_32u -= 32 / 8;
+			*(uint32_t*)(mem(SR_SS) + reg_SP_32u) = reg_BP_32u;
+		}
+		reg_SP_32u -= 32 / 8;
+		*(uint32_t*)(mem(SR_SS) + reg_SP_32u) = reg_SP_32u;
+	}
+	reg_BP_32u = tmp;
+	reg_SP_32u = reg_BP_32u - size;
+}
+//Enter
+void handlerCommand16Code00C8P66() {
+	LOG("%s","Enter");
+	uint16_t size = read16u();
+	uint8_t levels = read8u() % 32;
+	reg_SP_16u -= 16 / 8;
+	*(uint16_t*)(mem(SR_SS) + reg_SP_16u) = reg_BP_16u;
+	uint16_t tmp = reg_SP_16u;
+	if (levels > 0) {
+		for (int i = 1; i < levels; ++i) {
+			reg_BP_16u = reg_BP_16u - 32 / 8;
+			reg_SP_16u -= 16 / 8;
+			*(uint16_t*)(mem(SR_SS) + reg_SP_16u) = reg_BP_16u;
+		}
+		reg_SP_16u -= 16 / 8;
+		*(uint16_t*)(mem(SR_SS) + reg_SP_16u) = reg_SP_16u;
+	}
+	reg_BP_16u = tmp;
+	reg_SP_16u = reg_BP_16u - size;
+}
+//Enter
+void handlerCommand16Code00C8() {
+	LOG("%s","Enter");
+	uint16_t size = read16u();
+	uint8_t levels = read8u() % 32;
+	reg_SP_16u -= 16 / 8;
+	*(uint16_t*)(mem(SR_SS) + reg_SP_16u) = reg_BP_16u;
+	uint16_t tmp = reg_SP_16u;
+	if (levels > 0) {
+		for (int i = 1; i < levels; ++i) {
+			reg_BP_16u = reg_BP_16u - 16 / 8;
+			reg_SP_16u -= 16 / 8;
+			*(uint16_t*)(mem(SR_SS) + reg_SP_16u) = reg_BP_16u;
+		}
+		reg_SP_16u -= 16 / 8;
+		*(uint16_t*)(mem(SR_SS) + reg_SP_16u) = reg_SP_16u;
+	}
+	reg_BP_16u = tmp;
+	reg_SP_16u = reg_BP_16u - size;
+}
 //Leave
 void handlerCommand16Code00C9P66P67() {
 	LOG("%s","Leave");
@@ -15038,6 +15118,86 @@ void handlerCommand32Code00C7() {
 	uint8_t* source = (uint8_t*)readRegisterMRM32(mrmByte);
 	*(uint32_t*)target = read32u();
 }
+//Enter
+void handlerCommand32Code00C8P66P67() {
+	LOG("%s","Enter");
+	uint16_t size = read16u();
+	uint8_t levels = read8u() % 32;
+	reg_SP_16u -= 16 / 8;
+	*(uint16_t*)(mem(SR_SS) + reg_SP_16u) = reg_BP_16u;
+	uint16_t tmp = reg_SP_16u;
+	if (levels > 0) {
+		for (int i = 1; i < levels; ++i) {
+			reg_BP_16u = reg_BP_16u - 16 / 8;
+			reg_SP_16u -= 16 / 8;
+			*(uint16_t*)(mem(SR_SS) + reg_SP_16u) = reg_BP_16u;
+		}
+		reg_SP_16u -= 16 / 8;
+		*(uint16_t*)(mem(SR_SS) + reg_SP_16u) = reg_SP_16u;
+	}
+	reg_BP_16u = tmp;
+	reg_SP_16u = reg_BP_16u - size;
+}
+//Enter
+void handlerCommand32Code00C8P67() {
+	LOG("%s","Enter");
+	uint16_t size = read16u();
+	uint8_t levels = read8u() % 32;
+	reg_SP_16u -= 16 / 8;
+	*(uint16_t*)(mem(SR_SS) + reg_SP_16u) = reg_BP_16u;
+	uint16_t tmp = reg_SP_16u;
+	if (levels > 0) {
+		for (int i = 1; i < levels; ++i) {
+			reg_BP_16u = reg_BP_16u - 32 / 8;
+			reg_SP_16u -= 16 / 8;
+			*(uint16_t*)(mem(SR_SS) + reg_SP_16u) = reg_BP_16u;
+		}
+		reg_SP_16u -= 16 / 8;
+		*(uint16_t*)(mem(SR_SS) + reg_SP_16u) = reg_SP_16u;
+	}
+	reg_BP_16u = tmp;
+	reg_SP_16u = reg_BP_16u - size;
+}
+//Enter
+void handlerCommand32Code00C8P66() {
+	LOG("%s","Enter");
+	uint16_t size = read16u();
+	uint8_t levels = read8u() % 32;
+	reg_SP_32u -= 32 / 8;
+	*(uint32_t*)(mem(SR_SS) + reg_SP_32u) = reg_BP_32u;
+	uint32_t tmp = reg_SP_32u;
+	if (levels > 0) {
+		for (int i = 1; i < levels; ++i) {
+			reg_BP_32u = reg_BP_32u - 16 / 8;
+			reg_SP_32u -= 32 / 8;
+			*(uint32_t*)(mem(SR_SS) + reg_SP_32u) = reg_BP_32u;
+		}
+		reg_SP_32u -= 32 / 8;
+		*(uint32_t*)(mem(SR_SS) + reg_SP_32u) = reg_SP_32u;
+	}
+	reg_BP_32u = tmp;
+	reg_SP_32u = reg_BP_32u - size;
+}
+//Enter
+void handlerCommand32Code00C8() {
+	LOG("%s","Enter");
+	uint16_t size = read16u();
+	uint8_t levels = read8u() % 32;
+	reg_SP_32u -= 32 / 8;
+	*(uint32_t*)(mem(SR_SS) + reg_SP_32u) = reg_BP_32u;
+	uint32_t tmp = reg_SP_32u;
+	if (levels > 0) {
+		for (int i = 1; i < levels; ++i) {
+			reg_BP_32u = reg_BP_32u - 32 / 8;
+			reg_SP_32u -= 32 / 8;
+			*(uint32_t*)(mem(SR_SS) + reg_SP_32u) = reg_BP_32u;
+		}
+		reg_SP_32u -= 32 / 8;
+		*(uint32_t*)(mem(SR_SS) + reg_SP_32u) = reg_SP_32u;
+	}
+	reg_BP_32u = tmp;
+	reg_SP_32u = reg_BP_32u - size;
+}
 //Leave
 void handlerCommand32Code00C9P66P67() {
 	LOG("%s","Leave");
@@ -18981,6 +19141,10 @@ void installCommandFunction() {
 	commandFunctions16[198 | 0x0400] = handlerCommand16Code00C6P66;
 	commandFunctions16[199] = handlerCommand16Code00C7;
 	commandFunctions16[199 | 0x0400] = handlerCommand16Code00C7P66;
+	commandFunctions16[200] = handlerCommand16Code00C8;
+	commandFunctions16[200 | 0x0200 ] = handlerCommand16Code00C8P67;
+	commandFunctions16[200 | 0x0400] = handlerCommand16Code00C8P66;
+	commandFunctions16[200 | 0x0200 | 0x0400] = handlerCommand16Code00C8P66P67;
 	commandFunctions16[201] = handlerCommand16Code00C9;
 	commandFunctions16[201 | 0x0200 ] = handlerCommand16Code00C9P67;
 	commandFunctions16[201 | 0x0400] = handlerCommand16Code00C9P66;
@@ -19497,6 +19661,10 @@ void installCommandFunction() {
 	commandFunctions32[198 | 0x0400] = handlerCommand32Code00C6P66;
 	commandFunctions32[199] = handlerCommand32Code00C7;
 	commandFunctions32[199 | 0x0400] = handlerCommand32Code00C7P66;
+	commandFunctions32[200] = handlerCommand32Code00C8;
+	commandFunctions32[200 | 0x0200 ] = handlerCommand32Code00C8P67;
+	commandFunctions32[200 | 0x0400] = handlerCommand32Code00C8P66;
+	commandFunctions32[200 | 0x0200 | 0x0400] = handlerCommand32Code00C8P66P67;
 	commandFunctions32[201] = handlerCommand32Code00C9;
 	commandFunctions32[201 | 0x0200 ] = handlerCommand32Code00C9P67;
 	commandFunctions32[201 | 0x0400] = handlerCommand32Code00C9P66;
