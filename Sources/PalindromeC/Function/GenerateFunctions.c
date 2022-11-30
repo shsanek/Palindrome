@@ -7982,6 +7982,30 @@ void handlerCommand16Code00FD() {
 	LOG("%s","Flag DF set true");
 	SET_FLAG(DF, 1);
 }
+//Inc/Dec
+void handlerCommand16Code00FE() {
+	LOG("%s","Inc/Dec");
+	uint8_t mrmByte = read8u();
+	uint8_t nnn = readMiddle3Bit(mrmByte);
+	switch (nnn) {
+		case 0x00: {
+			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
+			(*(uint8_t*)target) += 1;
+			LazyFlagResultContainer8 = (*(uint8_t*)target);
+			lazyFlagType = t_INC8;
+		}
+		break;
+		case 0x01: {
+			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
+			(*(uint8_t*)target) -= 1;
+			LazyFlagResultContainer8 = reg_%reg_8u;
+			lazyFlagType = t_DEC8;
+		}
+		break;
+		default:
+		mCommandFunctionEmpty();
+	}
+}
 //Ofther
 void handlerCommand16Code00FFP66P67() {
 	LOG("%s","Ofther");
@@ -17352,6 +17376,30 @@ void handlerCommand32Code00FD() {
 	LOG("%s","Flag DF set true");
 	SET_FLAG(DF, 1);
 }
+//Inc/Dec
+void handlerCommand32Code00FE() {
+	LOG("%s","Inc/Dec");
+	uint8_t mrmByte = read8u();
+	uint8_t nnn = readMiddle3Bit(mrmByte);
+	switch (nnn) {
+		case 0x00: {
+			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
+			(*(uint8_t*)target) += 1;
+			LazyFlagResultContainer8 = (*(uint8_t*)target);
+			lazyFlagType = t_INC8;
+		}
+		break;
+		case 0x01: {
+			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
+			(*(uint8_t*)target) -= 1;
+			LazyFlagResultContainer8 = reg_%reg_8u;
+			lazyFlagType = t_DEC8;
+		}
+		break;
+		default:
+		mCommandFunctionEmpty();
+	}
+}
 //Ofther
 void handlerCommand32Code00FFP66P67() {
 	LOG("%s","Ofther");
@@ -19187,6 +19235,7 @@ void installCommandFunction() {
 	commandFunctions16[251] = handlerCommand16Code00FB;
 	commandFunctions16[252] = handlerCommand16Code00FC;
 	commandFunctions16[253] = handlerCommand16Code00FD;
+	commandFunctions16[254] = handlerCommand16Code00FE;
 	commandFunctions16[255] = handlerCommand16Code00FF;
 	commandFunctions16[255 | 0x0200 ] = handlerCommand16Code00FFP67;
 	commandFunctions16[255 | 0x0400] = handlerCommand16Code00FFP66;
@@ -19707,6 +19756,7 @@ void installCommandFunction() {
 	commandFunctions32[251] = handlerCommand32Code00FB;
 	commandFunctions32[252] = handlerCommand32Code00FC;
 	commandFunctions32[253] = handlerCommand32Code00FD;
+	commandFunctions32[254] = handlerCommand32Code00FE;
 	commandFunctions32[255] = handlerCommand32Code00FF;
 	commandFunctions32[255 | 0x0200 ] = handlerCommand32Code00FFP67;
 	commandFunctions32[255 | 0x0400] = handlerCommand32Code00FFP66;

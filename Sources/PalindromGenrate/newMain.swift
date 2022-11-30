@@ -8,7 +8,6 @@ func generate() {
 
     appendAddCommand(generator: generator)
     appendIncCommand(generator: generator)
-    appendDecCommand(generator: generator)
     appendLoopCommand(generator: generator)
     appendIntCommand(generator: generator)
     appendStackCommand(generator: generator)
