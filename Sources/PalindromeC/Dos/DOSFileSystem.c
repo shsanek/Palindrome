@@ -9,6 +9,8 @@
 #include "../Base/Read.h"
 #include "../Base/Flags.h"
 #include "../include/Base.h"
+#include "../Function/BaseFunction.h"
+#include "../Dos/DosMemoryMeneger.h"
 
 void dosOpenFile() {
     FillFlags();
@@ -139,6 +141,24 @@ void systemDOSFunction(uint8_t a) {
     }
     if (*regAH == 0x42) {
         doslSeekFile();
+        return;
+    }
+    if (*regAH == 0x35) {
+        setMem(SR_ES, 0x024C);
+        *regBXu = 0x0240;
+        return;
+    }
+    if (*regAH == 0x48) {
+        FillFlags();
+        int result = dosAllocateBlockMemory(*regBXu);
+        if (result > 0) {
+            *regAX = result;
+            SET_FLAG(CF, 0);
+        } else {
+            *regAX = 1;
+            *regBXu = -result;
+            SET_FLAG(CF, 0);
+        }
         return;
     }
     emptyInterruptCallFunction(a);

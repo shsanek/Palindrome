@@ -11,6 +11,7 @@
 #include <stdlib.h>
 #include "DosExeHeader.h"
 #include "../Function/BaseFunction.h"
+#include "DosMemoryMeneger.h"
 
 typedef struct DOSHeader {
     /// 0000h
@@ -132,6 +133,10 @@ void loadDosHeader() {
 void DoomSetting() {
     DebugOnlyPrint = 0;
     debugSegmentShift = 0x179E;
+
+    setDosMemoryCount(0xFFFF * 16);
+
+    setDosTestAllocateFor(0x0000, 0x29A7);
 
     RegFlagBaseValue = 0x2;
     IOPL = 3;

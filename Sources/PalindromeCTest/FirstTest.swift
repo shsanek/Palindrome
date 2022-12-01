@@ -281,7 +281,40 @@ final class FirstTest: XCTestCase {
         DoomSetting();
         loadDosHeader()
 
-        let number = 2278
+        let number = 6749
+        let value = run16AndSaveToEndWithStop(Int32(number))
+        let result = String(cString: value!)
+        value?.deallocate()
+
+        //try! result.write(toFile: testPath, atomically: true, encoding: .utf8)
+
+        let source = String(data: try! Data(contentsOf: URL(fileURLWithPath: testPath)), encoding: .utf8)!
+        let error = result.getErrorCommand(source: source)
+
+        TAssert(error == number)
+
+        run16ToEndWithStop(0);
+    }
+
+    func test09() throws {
+        let wrapContext = WrapContext(memorySize: 16 * 1024 * 1024)
+        wrapContext.context?[0].mod = 1
+
+        let testPath = "/Users/alexandershipin/Documents/projects/Palindrome/Sources/TestSource/Wolf/out.txt"
+
+        let programm = try! Data(
+            contentsOf: URL.init(
+                fileURLWithPath: "/Users/alexandershipin/Downloads/wolf3d-box/WOLF3D/WOLF3D.EXE"
+            )
+        )
+
+        wrapContext.addVirtualFolder("D:\\", path: "/Users/alexandershipin/Downloads/wolf3d-box/WOLF3D/")
+        wrapContext.setMemory(programm, offset: 0x2000 * 16)
+
+        DoomSetting();
+        loadDosHeader()
+
+        let number = 1000
         let value = run16AndSaveToEndWithStop(Int32(number))
         let result = String(cString: value!)
         value?.deallocate()
@@ -293,7 +326,7 @@ final class FirstTest: XCTestCase {
 
         TAssert(error == number)
 
-        run16ToEndWithStop(10000);
+        run16ToEndWithStop(0);
     }
 }
 

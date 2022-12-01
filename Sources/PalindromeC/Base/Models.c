@@ -42,6 +42,10 @@ void other2fInformationFunction(uint8_t a) {
         setMem(SR_ES, 0xFCB8);
         return;
     }
+    if (*regAXu == 0x1600) {
+        *regAX = 0x0004;
+        return;
+    }
     emptyInterruptCallFunction(a);
 }
 

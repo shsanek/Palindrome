@@ -10,11 +10,7 @@
 
 #include <stdio.h>
 #include "../include/Base.h"
-
-#define ARRAY_STACK(NAME, TYPE) \
-void NAME##SetCount(uint16_t count);\
-void NAME##Push(TYPE value);\
-TYPE NAME##Pop();\
+#include "../Function/BaseFunction.h"
 
 void addVirtualFolder(int8_t *virtualFolder, int8_t *realFolder, int8_t isWriteEnabled);
 char* realPathForPath(int8_t *path);

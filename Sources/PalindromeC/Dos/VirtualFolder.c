@@ -64,14 +64,6 @@ char* realPathForPath(int8_t *path) {
     return (char*)result;
 }
 
-#define ARRAY_STACK_IMP(NAME, TYPE) \
-TYPE *NAME = NULL; \
-uint16_t NAME##Index = 0; \
-uint16_t NAME##Count = 0; \
-void NAME##SetCount(uint16_t count) { if (NAME != NULL) { free(NAME); NAME = NULL; } if (count == 0) { return; } NAME = malloc(sizeof(TYPE) * count); NAME##Count = count; NAME##Index = 0; } \
-void NAME##Push(TYPE value) { NAME[NAME##Index] = value; NAME##Index++; } \
-TYPE NAME##Pop() { NAME##Index--; return NAME[NAME##Index]; } \
-
 ARRAY_STACK_IMP(debugFileDescription, uint16_t);
 
 FILE* OpeningVirtualFile[512];
