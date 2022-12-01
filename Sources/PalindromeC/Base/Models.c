@@ -70,6 +70,8 @@ void resetStack() {
     fpuStackIndex = 8;
 
     reg_flags = 0;
+    DecodeFlagsRegister32();
+
     context.segmentRegisters[SR_SS] = 0;
     *register32u(BR_SP) = context.memorySize;
 

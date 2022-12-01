@@ -281,7 +281,7 @@ final class FirstTest: XCTestCase {
         DoomSetting();
         loadDosHeader()
 
-        let number = 3000
+        let number = 1967
         let value = run16AndSaveToEndWithStop(Int32(number))
         let result = String(cString: value!)
         value?.deallocate()
@@ -293,7 +293,7 @@ final class FirstTest: XCTestCase {
 
         TAssert(error == number)
 
-        run16ToEndWithStop(2000);
+        run16ToEndWithStop(0);
     }
 
     func test09() throws {
@@ -324,7 +324,7 @@ final class FirstTest: XCTestCase {
         let source = String(data: try! Data(contentsOf: URL(fileURLWithPath: testPath)), encoding: .utf8)!
         let error = result.getErrorCommand(source: source)
 
-        TAssert(error == number)
+        TAssert(error == nil || error == number)
 
         run16ToEndWithStop(0);
     }
