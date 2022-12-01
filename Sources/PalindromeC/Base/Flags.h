@@ -87,6 +87,7 @@ typedef enum {
     t_DSHL16,t_DSHL32,
     t_DSHR16,t_DSHR32,
     t_MUL,t_DIV,
+    t_VALUE8, t_VALUE16, t_VALUE32,
     t_NOTDONE,
     t_LASTFLAG
 } LazyFlagType;

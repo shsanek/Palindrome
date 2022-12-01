@@ -114,6 +114,7 @@ struct ReplaceTemplateFormat: IFormatter {
             .replacingOccurrences(of: "%sign", with: info.sign)
             .replacingOccurrences(of: "%operandSize", with: "\(info.operandSize)")
             .replacingOccurrences(of: "%2dataSize", with: "\(info.dataSize * 2)")
+            .replacingOccurrences(of: "%firstBitMask", with: "\(info.firstBitMask)")
             .replacingOccurrences(of: "%1/2dataSize", with: "\(info.dataSize / 2)")
             .replacingOccurrences(of: "%MOD", with: info.mode == .mod16 ? "16" : "32")
 

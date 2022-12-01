@@ -170,6 +170,19 @@ extension FormatterInfo {
         }
     }
 
+    var firstBitMask: String {
+        switch dataSize {
+        case 32:
+            return "0x80000000"
+        case 16:
+            return "0x8000"
+        case 8:
+            return "0x80"
+        default:
+            return "0x80000000"
+        }
+    }
+
     var sign: String {
         for info in additionalInfo {
             switch info {

@@ -254,6 +254,8 @@ final class FirstTest: XCTestCase {
 
         let result = String(cString: value!)
 
+//        let out = String(data: try! Data(contentsOf: URL(fileURLWithPath: "/Users/alexandershipin/Documents/projects/Palindrome/Sources/TestSource/Tetris/full3.log")), encoding: .utf8)!.convertFullOutToTest()
+
         // try! result.write(toFile: testPath, atomically: true, encoding: .utf8)
 
         value?.deallocate()
@@ -281,19 +283,23 @@ final class FirstTest: XCTestCase {
         DoomSetting();
         loadDosHeader()
 
-        let number = 1967
+        let number = 4512
         let value = run16AndSaveToEndWithStop(Int32(number))
         let result = String(cString: value!)
         value?.deallocate()
 
-        //try! result.write(toFile: testPath, atomically: true, encoding: .utf8)
+//        let out = String(data: try! Data(contentsOf: URL(fileURLWithPath: "/Users/alexandershipin/Documents/projects/Palindrome/Sources/TestSource/Doom/full3.log")), encoding: .utf8)!.convertFullOutToTest()
+//
+//        try! out.write(toFile: testPath, atomically: true, encoding: .utf8)
+
+        // try! result.convertFullOutToTest().write(toFile: testPath, atomically: true, encoding: .utf8)
 
         let source = String(data: try! Data(contentsOf: URL(fileURLWithPath: testPath)), encoding: .utf8)!
         let error = result.getErrorCommand(source: source)
 
         TAssert(error == number)
 
-        run16ToEndWithStop(0);
+        run16ToEndWithStop(4000);
     }
 
     func test09() throws {

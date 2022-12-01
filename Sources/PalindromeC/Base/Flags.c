@@ -473,8 +473,18 @@ void FillFlags() {
         SET_FLAG(OF,(LazyFlagVarA32 == 0x80000000));
         DOFLAG_PF;
         break;
-
-
+    case t_VALUE8:
+        DOFLAG_ZFb;
+        DOFLAG_SFb;
+        break;
+    case t_VALUE16:
+        DOFLAG_ZFw;
+        DOFLAG_SFw;
+        break;
+    case t_VALUE32:
+        DOFLAG_ZFd;
+        DOFLAG_SFd;
+        break;
     case t_DIV:
     case t_MUL:
         break;
@@ -773,7 +783,18 @@ void FillFlagsNoCFOF(void) {
         DOFLAG_SFd;
         DOFLAG_PF;
         break;
-
+    case t_VALUE8:
+        DOFLAG_ZFb;
+        DOFLAG_SFb;
+        break;
+    case t_VALUE16:
+        DOFLAG_ZFw;
+        DOFLAG_SFw;
+        break;
+    case t_VALUE32:
+        DOFLAG_ZFd;
+        DOFLAG_SFd;
+        break;
 
     case t_DIV:
     case t_MUL:
