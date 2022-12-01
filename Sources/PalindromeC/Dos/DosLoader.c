@@ -88,8 +88,8 @@ void loadDosHeader() {
     header.codeAddress = read16u();
     header.tableShiftAddress = read16u();
     header.fragmentNumber = read16u();
-    uint16_t* offsets = malloc(2 * header.numberOfShiftElement);
 
+    uint16_t* offsets = malloc(2 * header.numberOfShiftElement);
     for (int i = 0; i < header.numberOfShiftElement; i++) { // 178E
         offsets[i * 2] = ((uint16_t*)(start + header.tableShiftAddress))[i * 2];
         offsets[i * 2 + 1] = ((uint16_t*)(start + header.tableShiftAddress))[i * 2 + 1];
@@ -107,6 +107,7 @@ void loadDosHeader() {
         uint16_t offset = offsets[i * 2] + offsets[i * 2 + 1] * 16;
         *(uint16_t*)(context.program + offset) = *(uint16_t*)(context.program + offset) + debugSegmentShift;
     }
+    free(offsets);
 
     for (int i = 0; i < 528; i++) {
         *(context.program - 528 + i) = dosExeHeaderDamp[i];

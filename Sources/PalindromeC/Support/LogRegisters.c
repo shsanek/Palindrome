@@ -10,6 +10,7 @@
 #include "../Base/Registers.h"
 #include "../Base/Read.h"
 #include <stdlib.h>
+#include "../Base/Flags.h"
 
 #define GET_BYTE(value, index) (((uint8_t*)(&reg)) + index)
 
@@ -35,7 +36,9 @@ char* print16Registers() {
     printRegister16("ES", context.segmentRegisters[SR_ES], out + 9 * 9); sprintf(out + 9 * 9 + 7, "  ");
     printRegister16("SS", context.segmentRegisters[SR_SS], out + 9 * 10); sprintf(out + 9 * 10 + 7, "  ");
     printRegister16("CS", context.segmentRegisters[SR_CS], out + 9 * 11); sprintf(out + 9 * 11 + 7, "  ");
-    printRegister16("IP", (uint16_t)(context.index - mem(SR_CS)), out + 9 * 12); sprintf(out + 9 * 12 + 7, " \n");
+    printRegister16("IP", (uint16_t)(context.index - mem(SR_CS)), out + 9 * 12); sprintf(out + 9 * 12 + 7, "  ");
+
+    printFlags(out + 9 * 13);
 
     out[REG16_PRINT_SIZE] = 0;
 
@@ -66,9 +69,31 @@ char* print32Registers() {
     printRegister32("ES", context.segmentRegisters[SR_ES], out + 14 * 9); sprintf(out + 14 * 9 + 12, "  ");
     printRegister32("SS", context.segmentRegisters[SR_SS], out + 14 * 10); sprintf(out + 14 * 10 + 12, "  ");
     printRegister32("CS", context.segmentRegisters[SR_CS], out + 14 * 11); sprintf(out + 14 * 11 + 12, "  ");
-    printRegister32("IP", (uint32_t)(context.index - mem(SR_CS)), out + 14 * 12); sprintf(out + 14 * 12 + 12, " \n");
+    printRegister32("IP", (uint32_t)(context.index - mem(SR_CS)), out + 14 * 12); sprintf(out + 14 * 12 + 12, " 0");
+
+    printFlags(out + 14 * 13);
 
     out[REG32_PRINT_SIZE] = 0;
 
     return out;
+}
+
+void printOneFlag(char flag, char* trueValue, char* falseValue, char *out) {
+    if (flag) { out[0] = trueValue[0]; out[1] = trueValue[1]; } else { out[0] = falseValue[0]; out[1] = falseValue[1]; }
+    out[2] = ' ';
+}
+
+void printFlags(char *out) {
+    FillFlags();
+    out[0] = ' ';
+    out += 1;
+    printOneFlag(OF, "OV", "NV", out + 3 * 0);
+    printOneFlag(DF, "DN", "UP", out + 3 * 1);
+    printOneFlag(IF, "EI", "DI", out + 3 * 2);
+    printOneFlag(SF, "NG", "PL", out + 3 * 3);
+    printOneFlag(ZF, "ZR", "NZ", out + 3 * 4);
+    printOneFlag(AF, "AC", "NA", out + 3 * 5);
+    printOneFlag(PF, "PE", "PO", out + 3 * 6);
+    printOneFlag(CF, "CY", "NC", out + 3 * 7);
+    out[3 * 8] = '\n';
 }

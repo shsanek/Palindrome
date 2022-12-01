@@ -11,6 +11,7 @@ fileprivate let intCommand = Command(
             .functionName,
             """
             uint8_t addr = read8u();
+            FillFlags();
             context.functions[addr](addr);
             """
         ]

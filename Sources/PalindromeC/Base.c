@@ -217,7 +217,7 @@ void run16ToEndWithStop(int count) {
 }
 // 39 
 char* run16AndSaveToEndWithStop(int count) {
-    char *out = malloc(count * REG16_PRINT_SIZE + 1);
+    char *out = malloc((count + 2) * REG16_PRINT_SIZE + 1);
     context.mod = 0;
     clearDebugCommands();
     clearDebugLine();

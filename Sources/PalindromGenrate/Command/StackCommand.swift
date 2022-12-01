@@ -102,7 +102,7 @@ fileprivate let oftherCommand = Command(
                     code: "0x00",
                     formatter: Formatter(
                         customizers: [
-                            .settings([.bigAddress ,.changeableData]),
+                            .settings([.bigAddress ,.bigData]),
                             "// INC",
                             .formatter(targetMRMFormat),
                             "(*(uint%dataSize_t*)target)++;",
@@ -115,7 +115,7 @@ fileprivate let oftherCommand = Command(
                     code: "0x01",
                     formatter: Formatter(
                         customizers: [
-                            .settings([.bigAddress ,.changeableData]),
+                            .settings([.bigAddress ,.bigData]),
                             "// DEC",
                             .formatter(targetMRMFormat),
                             "(*(uint%dataSize_t*)target)--;",

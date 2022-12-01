@@ -5356,70 +5356,96 @@ void handlerCommand16Code00C0P66() {
 		case 0: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
 			uint8_t value = read8u();
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = (*(uint8_t*)target);
 			uint16_t tmp = 0;
 			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
 			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
 			tmp = tmp << (value % 8);
 			(*(uint8_t*)target) = (*(uint8_t*)(((uint8_t*)&tmp)));
+			LazyFlagResultContainer8 = (*(uint8_t*)target);
+			lazyFlagType = t_ROL8;
 		}
 		break;
 		case 1: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
 			uint8_t value = read8u();
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = (*(uint8_t*)target);
 			uint16_t tmp = 0;
 			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
 			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
 			tmp = tmp >> (value % 8);
 			(*(uint8_t*)target) = (*(uint8_t*)(((uint8_t*)&tmp + 4)));
+			LazyFlagResultContainer8 = (*(uint8_t*)target);
+			lazyFlagType = t_ROR8;
 		}
 		break;
 		case 2: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
 			uint8_t value = read8u();
 			FillFlags();
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = (*(uint8_t*)target);
 			uint16_t tmp = 0;
 			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
 			tmp = tmp >> 1;
 			SET_BIT((*(((uint8_t*)&tmp) + (8 / 8))), 0, GET_FLAG(CF));
 			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
-			SET_FLAG(CF, (*(uint8_t*)target) % 2);
 			tmp = tmp << (value % 8);
 			(*(uint8_t*)target) = *(uint8_t*)((uint8_t*)&tmp);
+			LazyFlagResultContainer8 = (*(uint8_t*)target);
+			lazyFlagType = t_RCL8;
 		}
 		break;
 		case 3: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
 			uint8_t value = read8u();
 			FillFlags();
-			uint16_t tmp = 0;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = (*(uint8_t*)target);
+			uint8_t tmp = 0;
 			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
 			tmp = tmp << 1;
 			SET_BIT((*(((uint8_t*)&tmp))), 7, GET_FLAG(CF));
 			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
-			SET_FLAG(CF, (*(int8_t*)target) < 0);
 			tmp = tmp >> (value % 8);
 			(*(uint8_t*)target) = *(uint8_t*)((uint8_t*)&tmp + (8 / 8));
+			LazyFlagResultContainer8 = (*(uint8_t*)target);
+			lazyFlagType = t_RCR8;
 		}
 		break;
 		case 4: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
 			uint8_t value = read8u();
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = (*(uint8_t*)target);
 			(*(uint8_t*)target) = (*(uint8_t*)target) << value;
+			LazyFlagResultContainer8 = (*(uint8_t*)target);
+			lazyFlagType = t_SHL8;
 		}
 		break;
 		case 5: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
 			uint8_t value = read8u();
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = (*(uint8_t*)target);
 			(*(uint8_t*)target) = (*(uint8_t*)target) >> value;
+			LazyFlagResultContainer8 = (*(uint8_t*)target);
+			lazyFlagType = t_SHR8;
 		}
 		break;
 		case 7: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
 			uint8_t value = read8u();
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = (*(uint8_t*)target);
 			uint64_t tmp = ((*(int8_t*)target) < 0) ? 0xFFFFFFFFFFFFFFFF : 0;
 			*(uint8_t*)(((uint8_t*)&tmp) + 4) = (*(uint8_t*)target);
 			tmp = tmp >> value;
 			(*(uint8_t*)target) = (*(uint8_t*)(((uint8_t*)&tmp) + 4));
+			LazyFlagResultContainer8 = (*(uint8_t*)target);
+			lazyFlagType = t_SAR8;
 		}
 		break;
 		default:
@@ -5435,70 +5461,96 @@ void handlerCommand16Code00C0() {
 		case 0: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
 			uint8_t value = read8u();
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = (*(uint8_t*)target);
 			uint16_t tmp = 0;
 			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
 			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
 			tmp = tmp << (value % 8);
 			(*(uint8_t*)target) = (*(uint8_t*)(((uint8_t*)&tmp)));
+			LazyFlagResultContainer8 = (*(uint8_t*)target);
+			lazyFlagType = t_ROL8;
 		}
 		break;
 		case 1: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
 			uint8_t value = read8u();
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = (*(uint8_t*)target);
 			uint16_t tmp = 0;
 			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
 			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
 			tmp = tmp >> (value % 8);
 			(*(uint8_t*)target) = (*(uint8_t*)(((uint8_t*)&tmp + 4)));
+			LazyFlagResultContainer8 = (*(uint8_t*)target);
+			lazyFlagType = t_ROR8;
 		}
 		break;
 		case 2: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
 			uint8_t value = read8u();
 			FillFlags();
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = (*(uint8_t*)target);
 			uint16_t tmp = 0;
 			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
 			tmp = tmp >> 1;
 			SET_BIT((*(((uint8_t*)&tmp) + (8 / 8))), 0, GET_FLAG(CF));
 			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
-			SET_FLAG(CF, (*(uint8_t*)target) % 2);
 			tmp = tmp << (value % 8);
 			(*(uint8_t*)target) = *(uint8_t*)((uint8_t*)&tmp);
+			LazyFlagResultContainer8 = (*(uint8_t*)target);
+			lazyFlagType = t_RCL8;
 		}
 		break;
 		case 3: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
 			uint8_t value = read8u();
 			FillFlags();
-			uint16_t tmp = 0;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = (*(uint8_t*)target);
+			uint8_t tmp = 0;
 			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
 			tmp = tmp << 1;
 			SET_BIT((*(((uint8_t*)&tmp))), 7, GET_FLAG(CF));
 			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
-			SET_FLAG(CF, (*(int8_t*)target) < 0);
 			tmp = tmp >> (value % 8);
 			(*(uint8_t*)target) = *(uint8_t*)((uint8_t*)&tmp + (8 / 8));
+			LazyFlagResultContainer8 = (*(uint8_t*)target);
+			lazyFlagType = t_RCR8;
 		}
 		break;
 		case 4: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
 			uint8_t value = read8u();
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = (*(uint8_t*)target);
 			(*(uint8_t*)target) = (*(uint8_t*)target) << value;
+			LazyFlagResultContainer8 = (*(uint8_t*)target);
+			lazyFlagType = t_SHL8;
 		}
 		break;
 		case 5: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
 			uint8_t value = read8u();
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = (*(uint8_t*)target);
 			(*(uint8_t*)target) = (*(uint8_t*)target) >> value;
+			LazyFlagResultContainer8 = (*(uint8_t*)target);
+			lazyFlagType = t_SHR8;
 		}
 		break;
 		case 7: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
 			uint8_t value = read8u();
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = (*(uint8_t*)target);
 			uint64_t tmp = ((*(int8_t*)target) < 0) ? 0xFFFFFFFFFFFFFFFF : 0;
 			*(uint8_t*)(((uint8_t*)&tmp) + 4) = (*(uint8_t*)target);
 			tmp = tmp >> value;
 			(*(uint8_t*)target) = (*(uint8_t*)(((uint8_t*)&tmp) + 4));
+			LazyFlagResultContainer8 = (*(uint8_t*)target);
+			lazyFlagType = t_SAR8;
 		}
 		break;
 		default:
@@ -5514,70 +5566,96 @@ void handlerCommand16Code00C1P66() {
 		case 0: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For32(mrmByte);
 			uint8_t value = read8u();
+			LazyFlagVarB8 = value;
+			LazyFlagVarA32 = (*(uint32_t*)target);
 			uint64_t tmp = 0;
 			*(uint32_t*)(((uint8_t*)&tmp)) = (*(uint32_t*)target);
 			*(uint32_t*)(((uint8_t*)&tmp) + (32 / 8)) = (*(uint32_t*)target);
 			tmp = tmp << (value % 32);
 			(*(uint32_t*)target) = (*(uint32_t*)(((uint8_t*)&tmp)));
+			LazyFlagResultContainer32 = (*(uint32_t*)target);
+			lazyFlagType = t_ROL32;
 		}
 		break;
 		case 1: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For32(mrmByte);
 			uint8_t value = read8u();
+			LazyFlagVarB8 = value;
+			LazyFlagVarA32 = (*(uint32_t*)target);
 			uint64_t tmp = 0;
 			*(uint32_t*)(((uint8_t*)&tmp)) = (*(uint32_t*)target);
 			*(uint32_t*)(((uint8_t*)&tmp) + (32 / 8)) = (*(uint32_t*)target);
 			tmp = tmp >> (value % 32);
 			(*(uint32_t*)target) = (*(uint32_t*)(((uint8_t*)&tmp + 4)));
+			LazyFlagResultContainer32 = (*(uint32_t*)target);
+			lazyFlagType = t_ROR32;
 		}
 		break;
 		case 2: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For32(mrmByte);
 			uint8_t value = read8u();
 			FillFlags();
+			LazyFlagVarB8 = value;
+			LazyFlagVarA32 = (*(uint32_t*)target);
 			uint64_t tmp = 0;
 			*(uint32_t*)(((uint8_t*)&tmp) + (32 / 8)) = (*(uint32_t*)target);
 			tmp = tmp >> 1;
 			SET_BIT((*(((uint8_t*)&tmp) + (32 / 8))), 0, GET_FLAG(CF));
 			*(uint32_t*)(((uint8_t*)&tmp)) = (*(uint32_t*)target);
-			SET_FLAG(CF, (*(uint32_t*)target) % 2);
 			tmp = tmp << (value % 32);
 			(*(uint32_t*)target) = *(uint32_t*)((uint8_t*)&tmp);
+			LazyFlagResultContainer32 = (*(uint32_t*)target);
+			lazyFlagType = t_RCL32;
 		}
 		break;
 		case 3: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For32(mrmByte);
 			uint8_t value = read8u();
 			FillFlags();
-			uint64_t tmp = 0;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA32 = (*(uint32_t*)target);
+			uint32_t tmp = 0;
 			*(uint32_t*)(((uint8_t*)&tmp)) = (*(uint32_t*)target);
 			tmp = tmp << 1;
 			SET_BIT((*(((uint8_t*)&tmp))), 7, GET_FLAG(CF));
 			*(uint32_t*)(((uint8_t*)&tmp) + (32 / 8)) = (*(uint32_t*)target);
-			SET_FLAG(CF, (*(int32_t*)target) < 0);
 			tmp = tmp >> (value % 32);
 			(*(uint32_t*)target) = *(uint32_t*)((uint8_t*)&tmp + (32 / 8));
+			LazyFlagResultContainer32 = (*(uint32_t*)target);
+			lazyFlagType = t_RCR32;
 		}
 		break;
 		case 4: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For32(mrmByte);
 			uint8_t value = read8u();
+			LazyFlagVarB8 = value;
+			LazyFlagVarA32 = (*(uint32_t*)target);
 			(*(uint32_t*)target) = (*(uint32_t*)target) << value;
+			LazyFlagResultContainer32 = (*(uint32_t*)target);
+			lazyFlagType = t_SHL32;
 		}
 		break;
 		case 5: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For32(mrmByte);
 			uint8_t value = read8u();
+			LazyFlagVarB8 = value;
+			LazyFlagVarA32 = (*(uint32_t*)target);
 			(*(uint32_t*)target) = (*(uint32_t*)target) >> value;
+			LazyFlagResultContainer32 = (*(uint32_t*)target);
+			lazyFlagType = t_SHR32;
 		}
 		break;
 		case 7: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For32(mrmByte);
 			uint8_t value = read8u();
+			LazyFlagVarB8 = value;
+			LazyFlagVarA32 = (*(uint32_t*)target);
 			uint64_t tmp = ((*(int32_t*)target) < 0) ? 0xFFFFFFFFFFFFFFFF : 0;
 			*(uint32_t*)(((uint8_t*)&tmp) + 4) = (*(uint32_t*)target);
 			tmp = tmp >> value;
 			(*(uint32_t*)target) = (*(uint32_t*)(((uint8_t*)&tmp) + 4));
+			LazyFlagResultContainer32 = (*(uint32_t*)target);
+			lazyFlagType = t_SAR32;
 		}
 		break;
 		default:
@@ -5593,70 +5671,96 @@ void handlerCommand16Code00C1() {
 		case 0: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
 			uint8_t value = read8u();
+			LazyFlagVarB8 = value;
+			LazyFlagVarA16 = (*(uint16_t*)target);
 			uint32_t tmp = 0;
 			*(uint16_t*)(((uint8_t*)&tmp)) = (*(uint16_t*)target);
 			*(uint16_t*)(((uint8_t*)&tmp) + (16 / 8)) = (*(uint16_t*)target);
 			tmp = tmp << (value % 16);
 			(*(uint16_t*)target) = (*(uint16_t*)(((uint8_t*)&tmp)));
+			LazyFlagResultContainer16 = (*(uint16_t*)target);
+			lazyFlagType = t_ROL16;
 		}
 		break;
 		case 1: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
 			uint8_t value = read8u();
+			LazyFlagVarB8 = value;
+			LazyFlagVarA16 = (*(uint16_t*)target);
 			uint32_t tmp = 0;
 			*(uint16_t*)(((uint8_t*)&tmp)) = (*(uint16_t*)target);
 			*(uint16_t*)(((uint8_t*)&tmp) + (16 / 8)) = (*(uint16_t*)target);
 			tmp = tmp >> (value % 16);
 			(*(uint16_t*)target) = (*(uint16_t*)(((uint8_t*)&tmp + 4)));
+			LazyFlagResultContainer16 = (*(uint16_t*)target);
+			lazyFlagType = t_ROR16;
 		}
 		break;
 		case 2: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
 			uint8_t value = read8u();
 			FillFlags();
+			LazyFlagVarB8 = value;
+			LazyFlagVarA16 = (*(uint16_t*)target);
 			uint32_t tmp = 0;
 			*(uint16_t*)(((uint8_t*)&tmp) + (16 / 8)) = (*(uint16_t*)target);
 			tmp = tmp >> 1;
 			SET_BIT((*(((uint8_t*)&tmp) + (16 / 8))), 0, GET_FLAG(CF));
 			*(uint16_t*)(((uint8_t*)&tmp)) = (*(uint16_t*)target);
-			SET_FLAG(CF, (*(uint16_t*)target) % 2);
 			tmp = tmp << (value % 16);
 			(*(uint16_t*)target) = *(uint16_t*)((uint8_t*)&tmp);
+			LazyFlagResultContainer16 = (*(uint16_t*)target);
+			lazyFlagType = t_RCL16;
 		}
 		break;
 		case 3: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
 			uint8_t value = read8u();
 			FillFlags();
-			uint32_t tmp = 0;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA16 = (*(uint16_t*)target);
+			uint16_t tmp = 0;
 			*(uint16_t*)(((uint8_t*)&tmp)) = (*(uint16_t*)target);
 			tmp = tmp << 1;
 			SET_BIT((*(((uint8_t*)&tmp))), 7, GET_FLAG(CF));
 			*(uint16_t*)(((uint8_t*)&tmp) + (16 / 8)) = (*(uint16_t*)target);
-			SET_FLAG(CF, (*(int16_t*)target) < 0);
 			tmp = tmp >> (value % 16);
 			(*(uint16_t*)target) = *(uint16_t*)((uint8_t*)&tmp + (16 / 8));
+			LazyFlagResultContainer16 = (*(uint16_t*)target);
+			lazyFlagType = t_RCR16;
 		}
 		break;
 		case 4: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
 			uint8_t value = read8u();
+			LazyFlagVarB8 = value;
+			LazyFlagVarA16 = (*(uint16_t*)target);
 			(*(uint16_t*)target) = (*(uint16_t*)target) << value;
+			LazyFlagResultContainer16 = (*(uint16_t*)target);
+			lazyFlagType = t_SHL16;
 		}
 		break;
 		case 5: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
 			uint8_t value = read8u();
+			LazyFlagVarB8 = value;
+			LazyFlagVarA16 = (*(uint16_t*)target);
 			(*(uint16_t*)target) = (*(uint16_t*)target) >> value;
+			LazyFlagResultContainer16 = (*(uint16_t*)target);
+			lazyFlagType = t_SHR16;
 		}
 		break;
 		case 7: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
 			uint8_t value = read8u();
+			LazyFlagVarB8 = value;
+			LazyFlagVarA16 = (*(uint16_t*)target);
 			uint64_t tmp = ((*(int16_t*)target) < 0) ? 0xFFFFFFFFFFFFFFFF : 0;
 			*(uint16_t*)(((uint8_t*)&tmp) + 4) = (*(uint16_t*)target);
 			tmp = tmp >> value;
 			(*(uint16_t*)target) = (*(uint16_t*)(((uint8_t*)&tmp) + 4));
+			LazyFlagResultContainer16 = (*(uint16_t*)target);
+			lazyFlagType = t_SAR16;
 		}
 		break;
 		default:
@@ -5840,6 +5944,7 @@ void handlerCommand16Code00CB() {
 void handlerCommand16Code00CD() {
 	LOG("%s","Int");
 	uint8_t addr = read8u();
+	FillFlags();
 	context.functions[addr](addr);
 }
 //Move bits
@@ -5851,70 +5956,96 @@ void handlerCommand16Code00D0P66() {
 		case 0: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
 			uint8_t value = 1;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = (*(uint8_t*)target);
 			uint16_t tmp = 0;
 			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
 			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
 			tmp = tmp << (value % 8);
 			(*(uint8_t*)target) = (*(uint8_t*)(((uint8_t*)&tmp)));
+			LazyFlagResultContainer8 = (*(uint8_t*)target);
+			lazyFlagType = t_ROL8;
 		}
 		break;
 		case 1: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
 			uint8_t value = 1;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = (*(uint8_t*)target);
 			uint16_t tmp = 0;
 			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
 			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
 			tmp = tmp >> (value % 8);
 			(*(uint8_t*)target) = (*(uint8_t*)(((uint8_t*)&tmp + 4)));
+			LazyFlagResultContainer8 = (*(uint8_t*)target);
+			lazyFlagType = t_ROR8;
 		}
 		break;
 		case 2: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
 			uint8_t value = 1;
 			FillFlags();
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = (*(uint8_t*)target);
 			uint16_t tmp = 0;
 			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
 			tmp = tmp >> 1;
 			SET_BIT((*(((uint8_t*)&tmp) + (8 / 8))), 0, GET_FLAG(CF));
 			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
-			SET_FLAG(CF, (*(uint8_t*)target) % 2);
 			tmp = tmp << (value % 8);
 			(*(uint8_t*)target) = *(uint8_t*)((uint8_t*)&tmp);
+			LazyFlagResultContainer8 = (*(uint8_t*)target);
+			lazyFlagType = t_RCL8;
 		}
 		break;
 		case 3: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
 			uint8_t value = 1;
 			FillFlags();
-			uint16_t tmp = 0;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = (*(uint8_t*)target);
+			uint8_t tmp = 0;
 			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
 			tmp = tmp << 1;
 			SET_BIT((*(((uint8_t*)&tmp))), 7, GET_FLAG(CF));
 			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
-			SET_FLAG(CF, (*(int8_t*)target) < 0);
 			tmp = tmp >> (value % 8);
 			(*(uint8_t*)target) = *(uint8_t*)((uint8_t*)&tmp + (8 / 8));
+			LazyFlagResultContainer8 = (*(uint8_t*)target);
+			lazyFlagType = t_RCR8;
 		}
 		break;
 		case 4: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
 			uint8_t value = 1;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = (*(uint8_t*)target);
 			(*(uint8_t*)target) = (*(uint8_t*)target) << value;
+			LazyFlagResultContainer8 = (*(uint8_t*)target);
+			lazyFlagType = t_SHL8;
 		}
 		break;
 		case 5: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
 			uint8_t value = 1;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = (*(uint8_t*)target);
 			(*(uint8_t*)target) = (*(uint8_t*)target) >> value;
+			LazyFlagResultContainer8 = (*(uint8_t*)target);
+			lazyFlagType = t_SHR8;
 		}
 		break;
 		case 7: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
 			uint8_t value = 1;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = (*(uint8_t*)target);
 			uint64_t tmp = ((*(int8_t*)target) < 0) ? 0xFFFFFFFFFFFFFFFF : 0;
 			*(uint8_t*)(((uint8_t*)&tmp) + 4) = (*(uint8_t*)target);
 			tmp = tmp >> value;
 			(*(uint8_t*)target) = (*(uint8_t*)(((uint8_t*)&tmp) + 4));
+			LazyFlagResultContainer8 = (*(uint8_t*)target);
+			lazyFlagType = t_SAR8;
 		}
 		break;
 		default:
@@ -5930,70 +6061,96 @@ void handlerCommand16Code00D0() {
 		case 0: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
 			uint8_t value = 1;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = (*(uint8_t*)target);
 			uint16_t tmp = 0;
 			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
 			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
 			tmp = tmp << (value % 8);
 			(*(uint8_t*)target) = (*(uint8_t*)(((uint8_t*)&tmp)));
+			LazyFlagResultContainer8 = (*(uint8_t*)target);
+			lazyFlagType = t_ROL8;
 		}
 		break;
 		case 1: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
 			uint8_t value = 1;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = (*(uint8_t*)target);
 			uint16_t tmp = 0;
 			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
 			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
 			tmp = tmp >> (value % 8);
 			(*(uint8_t*)target) = (*(uint8_t*)(((uint8_t*)&tmp + 4)));
+			LazyFlagResultContainer8 = (*(uint8_t*)target);
+			lazyFlagType = t_ROR8;
 		}
 		break;
 		case 2: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
 			uint8_t value = 1;
 			FillFlags();
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = (*(uint8_t*)target);
 			uint16_t tmp = 0;
 			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
 			tmp = tmp >> 1;
 			SET_BIT((*(((uint8_t*)&tmp) + (8 / 8))), 0, GET_FLAG(CF));
 			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
-			SET_FLAG(CF, (*(uint8_t*)target) % 2);
 			tmp = tmp << (value % 8);
 			(*(uint8_t*)target) = *(uint8_t*)((uint8_t*)&tmp);
+			LazyFlagResultContainer8 = (*(uint8_t*)target);
+			lazyFlagType = t_RCL8;
 		}
 		break;
 		case 3: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
 			uint8_t value = 1;
 			FillFlags();
-			uint16_t tmp = 0;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = (*(uint8_t*)target);
+			uint8_t tmp = 0;
 			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
 			tmp = tmp << 1;
 			SET_BIT((*(((uint8_t*)&tmp))), 7, GET_FLAG(CF));
 			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
-			SET_FLAG(CF, (*(int8_t*)target) < 0);
 			tmp = tmp >> (value % 8);
 			(*(uint8_t*)target) = *(uint8_t*)((uint8_t*)&tmp + (8 / 8));
+			LazyFlagResultContainer8 = (*(uint8_t*)target);
+			lazyFlagType = t_RCR8;
 		}
 		break;
 		case 4: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
 			uint8_t value = 1;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = (*(uint8_t*)target);
 			(*(uint8_t*)target) = (*(uint8_t*)target) << value;
+			LazyFlagResultContainer8 = (*(uint8_t*)target);
+			lazyFlagType = t_SHL8;
 		}
 		break;
 		case 5: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
 			uint8_t value = 1;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = (*(uint8_t*)target);
 			(*(uint8_t*)target) = (*(uint8_t*)target) >> value;
+			LazyFlagResultContainer8 = (*(uint8_t*)target);
+			lazyFlagType = t_SHR8;
 		}
 		break;
 		case 7: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
 			uint8_t value = 1;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = (*(uint8_t*)target);
 			uint64_t tmp = ((*(int8_t*)target) < 0) ? 0xFFFFFFFFFFFFFFFF : 0;
 			*(uint8_t*)(((uint8_t*)&tmp) + 4) = (*(uint8_t*)target);
 			tmp = tmp >> value;
 			(*(uint8_t*)target) = (*(uint8_t*)(((uint8_t*)&tmp) + 4));
+			LazyFlagResultContainer8 = (*(uint8_t*)target);
+			lazyFlagType = t_SAR8;
 		}
 		break;
 		default:
@@ -6009,70 +6166,96 @@ void handlerCommand16Code00D1P66() {
 		case 0: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For32(mrmByte);
 			uint8_t value = 1;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA32 = (*(uint32_t*)target);
 			uint64_t tmp = 0;
 			*(uint32_t*)(((uint8_t*)&tmp)) = (*(uint32_t*)target);
 			*(uint32_t*)(((uint8_t*)&tmp) + (32 / 8)) = (*(uint32_t*)target);
 			tmp = tmp << (value % 32);
 			(*(uint32_t*)target) = (*(uint32_t*)(((uint8_t*)&tmp)));
+			LazyFlagResultContainer32 = (*(uint32_t*)target);
+			lazyFlagType = t_ROL32;
 		}
 		break;
 		case 1: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For32(mrmByte);
 			uint8_t value = 1;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA32 = (*(uint32_t*)target);
 			uint64_t tmp = 0;
 			*(uint32_t*)(((uint8_t*)&tmp)) = (*(uint32_t*)target);
 			*(uint32_t*)(((uint8_t*)&tmp) + (32 / 8)) = (*(uint32_t*)target);
 			tmp = tmp >> (value % 32);
 			(*(uint32_t*)target) = (*(uint32_t*)(((uint8_t*)&tmp + 4)));
+			LazyFlagResultContainer32 = (*(uint32_t*)target);
+			lazyFlagType = t_ROR32;
 		}
 		break;
 		case 2: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For32(mrmByte);
 			uint8_t value = 1;
 			FillFlags();
+			LazyFlagVarB8 = value;
+			LazyFlagVarA32 = (*(uint32_t*)target);
 			uint64_t tmp = 0;
 			*(uint32_t*)(((uint8_t*)&tmp) + (32 / 8)) = (*(uint32_t*)target);
 			tmp = tmp >> 1;
 			SET_BIT((*(((uint8_t*)&tmp) + (32 / 8))), 0, GET_FLAG(CF));
 			*(uint32_t*)(((uint8_t*)&tmp)) = (*(uint32_t*)target);
-			SET_FLAG(CF, (*(uint32_t*)target) % 2);
 			tmp = tmp << (value % 32);
 			(*(uint32_t*)target) = *(uint32_t*)((uint8_t*)&tmp);
+			LazyFlagResultContainer32 = (*(uint32_t*)target);
+			lazyFlagType = t_RCL32;
 		}
 		break;
 		case 3: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For32(mrmByte);
 			uint8_t value = 1;
 			FillFlags();
-			uint64_t tmp = 0;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA32 = (*(uint32_t*)target);
+			uint32_t tmp = 0;
 			*(uint32_t*)(((uint8_t*)&tmp)) = (*(uint32_t*)target);
 			tmp = tmp << 1;
 			SET_BIT((*(((uint8_t*)&tmp))), 7, GET_FLAG(CF));
 			*(uint32_t*)(((uint8_t*)&tmp) + (32 / 8)) = (*(uint32_t*)target);
-			SET_FLAG(CF, (*(int32_t*)target) < 0);
 			tmp = tmp >> (value % 32);
 			(*(uint32_t*)target) = *(uint32_t*)((uint8_t*)&tmp + (32 / 8));
+			LazyFlagResultContainer32 = (*(uint32_t*)target);
+			lazyFlagType = t_RCR32;
 		}
 		break;
 		case 4: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For32(mrmByte);
 			uint8_t value = 1;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA32 = (*(uint32_t*)target);
 			(*(uint32_t*)target) = (*(uint32_t*)target) << value;
+			LazyFlagResultContainer32 = (*(uint32_t*)target);
+			lazyFlagType = t_SHL32;
 		}
 		break;
 		case 5: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For32(mrmByte);
 			uint8_t value = 1;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA32 = (*(uint32_t*)target);
 			(*(uint32_t*)target) = (*(uint32_t*)target) >> value;
+			LazyFlagResultContainer32 = (*(uint32_t*)target);
+			lazyFlagType = t_SHR32;
 		}
 		break;
 		case 7: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For32(mrmByte);
 			uint8_t value = 1;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA32 = (*(uint32_t*)target);
 			uint64_t tmp = ((*(int32_t*)target) < 0) ? 0xFFFFFFFFFFFFFFFF : 0;
 			*(uint32_t*)(((uint8_t*)&tmp) + 4) = (*(uint32_t*)target);
 			tmp = tmp >> value;
 			(*(uint32_t*)target) = (*(uint32_t*)(((uint8_t*)&tmp) + 4));
+			LazyFlagResultContainer32 = (*(uint32_t*)target);
+			lazyFlagType = t_SAR32;
 		}
 		break;
 		default:
@@ -6088,70 +6271,96 @@ void handlerCommand16Code00D1() {
 		case 0: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
 			uint8_t value = 1;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA16 = (*(uint16_t*)target);
 			uint32_t tmp = 0;
 			*(uint16_t*)(((uint8_t*)&tmp)) = (*(uint16_t*)target);
 			*(uint16_t*)(((uint8_t*)&tmp) + (16 / 8)) = (*(uint16_t*)target);
 			tmp = tmp << (value % 16);
 			(*(uint16_t*)target) = (*(uint16_t*)(((uint8_t*)&tmp)));
+			LazyFlagResultContainer16 = (*(uint16_t*)target);
+			lazyFlagType = t_ROL16;
 		}
 		break;
 		case 1: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
 			uint8_t value = 1;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA16 = (*(uint16_t*)target);
 			uint32_t tmp = 0;
 			*(uint16_t*)(((uint8_t*)&tmp)) = (*(uint16_t*)target);
 			*(uint16_t*)(((uint8_t*)&tmp) + (16 / 8)) = (*(uint16_t*)target);
 			tmp = tmp >> (value % 16);
 			(*(uint16_t*)target) = (*(uint16_t*)(((uint8_t*)&tmp + 4)));
+			LazyFlagResultContainer16 = (*(uint16_t*)target);
+			lazyFlagType = t_ROR16;
 		}
 		break;
 		case 2: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
 			uint8_t value = 1;
 			FillFlags();
+			LazyFlagVarB8 = value;
+			LazyFlagVarA16 = (*(uint16_t*)target);
 			uint32_t tmp = 0;
 			*(uint16_t*)(((uint8_t*)&tmp) + (16 / 8)) = (*(uint16_t*)target);
 			tmp = tmp >> 1;
 			SET_BIT((*(((uint8_t*)&tmp) + (16 / 8))), 0, GET_FLAG(CF));
 			*(uint16_t*)(((uint8_t*)&tmp)) = (*(uint16_t*)target);
-			SET_FLAG(CF, (*(uint16_t*)target) % 2);
 			tmp = tmp << (value % 16);
 			(*(uint16_t*)target) = *(uint16_t*)((uint8_t*)&tmp);
+			LazyFlagResultContainer16 = (*(uint16_t*)target);
+			lazyFlagType = t_RCL16;
 		}
 		break;
 		case 3: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
 			uint8_t value = 1;
 			FillFlags();
-			uint32_t tmp = 0;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA16 = (*(uint16_t*)target);
+			uint16_t tmp = 0;
 			*(uint16_t*)(((uint8_t*)&tmp)) = (*(uint16_t*)target);
 			tmp = tmp << 1;
 			SET_BIT((*(((uint8_t*)&tmp))), 7, GET_FLAG(CF));
 			*(uint16_t*)(((uint8_t*)&tmp) + (16 / 8)) = (*(uint16_t*)target);
-			SET_FLAG(CF, (*(int16_t*)target) < 0);
 			tmp = tmp >> (value % 16);
 			(*(uint16_t*)target) = *(uint16_t*)((uint8_t*)&tmp + (16 / 8));
+			LazyFlagResultContainer16 = (*(uint16_t*)target);
+			lazyFlagType = t_RCR16;
 		}
 		break;
 		case 4: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
 			uint8_t value = 1;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA16 = (*(uint16_t*)target);
 			(*(uint16_t*)target) = (*(uint16_t*)target) << value;
+			LazyFlagResultContainer16 = (*(uint16_t*)target);
+			lazyFlagType = t_SHL16;
 		}
 		break;
 		case 5: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
 			uint8_t value = 1;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA16 = (*(uint16_t*)target);
 			(*(uint16_t*)target) = (*(uint16_t*)target) >> value;
+			LazyFlagResultContainer16 = (*(uint16_t*)target);
+			lazyFlagType = t_SHR16;
 		}
 		break;
 		case 7: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
 			uint8_t value = 1;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA16 = (*(uint16_t*)target);
 			uint64_t tmp = ((*(int16_t*)target) < 0) ? 0xFFFFFFFFFFFFFFFF : 0;
 			*(uint16_t*)(((uint8_t*)&tmp) + 4) = (*(uint16_t*)target);
 			tmp = tmp >> value;
 			(*(uint16_t*)target) = (*(uint16_t*)(((uint8_t*)&tmp) + 4));
+			LazyFlagResultContainer16 = (*(uint16_t*)target);
+			lazyFlagType = t_SAR16;
 		}
 		break;
 		default:
@@ -6167,70 +6376,96 @@ void handlerCommand16Code00D2P66() {
 		case 0: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
 			uint8_t value = reg_CL_8u;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = (*(uint8_t*)target);
 			uint16_t tmp = 0;
 			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
 			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
 			tmp = tmp << (value % 8);
 			(*(uint8_t*)target) = (*(uint8_t*)(((uint8_t*)&tmp)));
+			LazyFlagResultContainer8 = (*(uint8_t*)target);
+			lazyFlagType = t_ROL8;
 		}
 		break;
 		case 1: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
 			uint8_t value = reg_CL_8u;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = (*(uint8_t*)target);
 			uint16_t tmp = 0;
 			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
 			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
 			tmp = tmp >> (value % 8);
 			(*(uint8_t*)target) = (*(uint8_t*)(((uint8_t*)&tmp + 4)));
+			LazyFlagResultContainer8 = (*(uint8_t*)target);
+			lazyFlagType = t_ROR8;
 		}
 		break;
 		case 2: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
 			uint8_t value = reg_CL_8u;
 			FillFlags();
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = (*(uint8_t*)target);
 			uint16_t tmp = 0;
 			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
 			tmp = tmp >> 1;
 			SET_BIT((*(((uint8_t*)&tmp) + (8 / 8))), 0, GET_FLAG(CF));
 			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
-			SET_FLAG(CF, (*(uint8_t*)target) % 2);
 			tmp = tmp << (value % 8);
 			(*(uint8_t*)target) = *(uint8_t*)((uint8_t*)&tmp);
+			LazyFlagResultContainer8 = (*(uint8_t*)target);
+			lazyFlagType = t_RCL8;
 		}
 		break;
 		case 3: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
 			uint8_t value = reg_CL_8u;
 			FillFlags();
-			uint16_t tmp = 0;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = (*(uint8_t*)target);
+			uint8_t tmp = 0;
 			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
 			tmp = tmp << 1;
 			SET_BIT((*(((uint8_t*)&tmp))), 7, GET_FLAG(CF));
 			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
-			SET_FLAG(CF, (*(int8_t*)target) < 0);
 			tmp = tmp >> (value % 8);
 			(*(uint8_t*)target) = *(uint8_t*)((uint8_t*)&tmp + (8 / 8));
+			LazyFlagResultContainer8 = (*(uint8_t*)target);
+			lazyFlagType = t_RCR8;
 		}
 		break;
 		case 4: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
 			uint8_t value = reg_CL_8u;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = (*(uint8_t*)target);
 			(*(uint8_t*)target) = (*(uint8_t*)target) << value;
+			LazyFlagResultContainer8 = (*(uint8_t*)target);
+			lazyFlagType = t_SHL8;
 		}
 		break;
 		case 5: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
 			uint8_t value = reg_CL_8u;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = (*(uint8_t*)target);
 			(*(uint8_t*)target) = (*(uint8_t*)target) >> value;
+			LazyFlagResultContainer8 = (*(uint8_t*)target);
+			lazyFlagType = t_SHR8;
 		}
 		break;
 		case 7: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
 			uint8_t value = reg_CL_8u;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = (*(uint8_t*)target);
 			uint64_t tmp = ((*(int8_t*)target) < 0) ? 0xFFFFFFFFFFFFFFFF : 0;
 			*(uint8_t*)(((uint8_t*)&tmp) + 4) = (*(uint8_t*)target);
 			tmp = tmp >> value;
 			(*(uint8_t*)target) = (*(uint8_t*)(((uint8_t*)&tmp) + 4));
+			LazyFlagResultContainer8 = (*(uint8_t*)target);
+			lazyFlagType = t_SAR8;
 		}
 		break;
 		default:
@@ -6246,70 +6481,96 @@ void handlerCommand16Code00D2() {
 		case 0: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
 			uint8_t value = reg_CL_8u;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = (*(uint8_t*)target);
 			uint16_t tmp = 0;
 			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
 			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
 			tmp = tmp << (value % 8);
 			(*(uint8_t*)target) = (*(uint8_t*)(((uint8_t*)&tmp)));
+			LazyFlagResultContainer8 = (*(uint8_t*)target);
+			lazyFlagType = t_ROL8;
 		}
 		break;
 		case 1: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
 			uint8_t value = reg_CL_8u;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = (*(uint8_t*)target);
 			uint16_t tmp = 0;
 			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
 			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
 			tmp = tmp >> (value % 8);
 			(*(uint8_t*)target) = (*(uint8_t*)(((uint8_t*)&tmp + 4)));
+			LazyFlagResultContainer8 = (*(uint8_t*)target);
+			lazyFlagType = t_ROR8;
 		}
 		break;
 		case 2: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
 			uint8_t value = reg_CL_8u;
 			FillFlags();
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = (*(uint8_t*)target);
 			uint16_t tmp = 0;
 			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
 			tmp = tmp >> 1;
 			SET_BIT((*(((uint8_t*)&tmp) + (8 / 8))), 0, GET_FLAG(CF));
 			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
-			SET_FLAG(CF, (*(uint8_t*)target) % 2);
 			tmp = tmp << (value % 8);
 			(*(uint8_t*)target) = *(uint8_t*)((uint8_t*)&tmp);
+			LazyFlagResultContainer8 = (*(uint8_t*)target);
+			lazyFlagType = t_RCL8;
 		}
 		break;
 		case 3: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
 			uint8_t value = reg_CL_8u;
 			FillFlags();
-			uint16_t tmp = 0;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = (*(uint8_t*)target);
+			uint8_t tmp = 0;
 			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
 			tmp = tmp << 1;
 			SET_BIT((*(((uint8_t*)&tmp))), 7, GET_FLAG(CF));
 			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
-			SET_FLAG(CF, (*(int8_t*)target) < 0);
 			tmp = tmp >> (value % 8);
 			(*(uint8_t*)target) = *(uint8_t*)((uint8_t*)&tmp + (8 / 8));
+			LazyFlagResultContainer8 = (*(uint8_t*)target);
+			lazyFlagType = t_RCR8;
 		}
 		break;
 		case 4: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
 			uint8_t value = reg_CL_8u;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = (*(uint8_t*)target);
 			(*(uint8_t*)target) = (*(uint8_t*)target) << value;
+			LazyFlagResultContainer8 = (*(uint8_t*)target);
+			lazyFlagType = t_SHL8;
 		}
 		break;
 		case 5: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
 			uint8_t value = reg_CL_8u;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = (*(uint8_t*)target);
 			(*(uint8_t*)target) = (*(uint8_t*)target) >> value;
+			LazyFlagResultContainer8 = (*(uint8_t*)target);
+			lazyFlagType = t_SHR8;
 		}
 		break;
 		case 7: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
 			uint8_t value = reg_CL_8u;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = (*(uint8_t*)target);
 			uint64_t tmp = ((*(int8_t*)target) < 0) ? 0xFFFFFFFFFFFFFFFF : 0;
 			*(uint8_t*)(((uint8_t*)&tmp) + 4) = (*(uint8_t*)target);
 			tmp = tmp >> value;
 			(*(uint8_t*)target) = (*(uint8_t*)(((uint8_t*)&tmp) + 4));
+			LazyFlagResultContainer8 = (*(uint8_t*)target);
+			lazyFlagType = t_SAR8;
 		}
 		break;
 		default:
@@ -6325,70 +6586,96 @@ void handlerCommand16Code00D3P66() {
 		case 0: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For32(mrmByte);
 			uint8_t value = reg_CL_8u;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA32 = (*(uint32_t*)target);
 			uint64_t tmp = 0;
 			*(uint32_t*)(((uint8_t*)&tmp)) = (*(uint32_t*)target);
 			*(uint32_t*)(((uint8_t*)&tmp) + (32 / 8)) = (*(uint32_t*)target);
 			tmp = tmp << (value % 32);
 			(*(uint32_t*)target) = (*(uint32_t*)(((uint8_t*)&tmp)));
+			LazyFlagResultContainer32 = (*(uint32_t*)target);
+			lazyFlagType = t_ROL32;
 		}
 		break;
 		case 1: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For32(mrmByte);
 			uint8_t value = reg_CL_8u;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA32 = (*(uint32_t*)target);
 			uint64_t tmp = 0;
 			*(uint32_t*)(((uint8_t*)&tmp)) = (*(uint32_t*)target);
 			*(uint32_t*)(((uint8_t*)&tmp) + (32 / 8)) = (*(uint32_t*)target);
 			tmp = tmp >> (value % 32);
 			(*(uint32_t*)target) = (*(uint32_t*)(((uint8_t*)&tmp + 4)));
+			LazyFlagResultContainer32 = (*(uint32_t*)target);
+			lazyFlagType = t_ROR32;
 		}
 		break;
 		case 2: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For32(mrmByte);
 			uint8_t value = reg_CL_8u;
 			FillFlags();
+			LazyFlagVarB8 = value;
+			LazyFlagVarA32 = (*(uint32_t*)target);
 			uint64_t tmp = 0;
 			*(uint32_t*)(((uint8_t*)&tmp) + (32 / 8)) = (*(uint32_t*)target);
 			tmp = tmp >> 1;
 			SET_BIT((*(((uint8_t*)&tmp) + (32 / 8))), 0, GET_FLAG(CF));
 			*(uint32_t*)(((uint8_t*)&tmp)) = (*(uint32_t*)target);
-			SET_FLAG(CF, (*(uint32_t*)target) % 2);
 			tmp = tmp << (value % 32);
 			(*(uint32_t*)target) = *(uint32_t*)((uint8_t*)&tmp);
+			LazyFlagResultContainer32 = (*(uint32_t*)target);
+			lazyFlagType = t_RCL32;
 		}
 		break;
 		case 3: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For32(mrmByte);
 			uint8_t value = reg_CL_8u;
 			FillFlags();
-			uint64_t tmp = 0;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA32 = (*(uint32_t*)target);
+			uint32_t tmp = 0;
 			*(uint32_t*)(((uint8_t*)&tmp)) = (*(uint32_t*)target);
 			tmp = tmp << 1;
 			SET_BIT((*(((uint8_t*)&tmp))), 7, GET_FLAG(CF));
 			*(uint32_t*)(((uint8_t*)&tmp) + (32 / 8)) = (*(uint32_t*)target);
-			SET_FLAG(CF, (*(int32_t*)target) < 0);
 			tmp = tmp >> (value % 32);
 			(*(uint32_t*)target) = *(uint32_t*)((uint8_t*)&tmp + (32 / 8));
+			LazyFlagResultContainer32 = (*(uint32_t*)target);
+			lazyFlagType = t_RCR32;
 		}
 		break;
 		case 4: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For32(mrmByte);
 			uint8_t value = reg_CL_8u;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA32 = (*(uint32_t*)target);
 			(*(uint32_t*)target) = (*(uint32_t*)target) << value;
+			LazyFlagResultContainer32 = (*(uint32_t*)target);
+			lazyFlagType = t_SHL32;
 		}
 		break;
 		case 5: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For32(mrmByte);
 			uint8_t value = reg_CL_8u;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA32 = (*(uint32_t*)target);
 			(*(uint32_t*)target) = (*(uint32_t*)target) >> value;
+			LazyFlagResultContainer32 = (*(uint32_t*)target);
+			lazyFlagType = t_SHR32;
 		}
 		break;
 		case 7: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For32(mrmByte);
 			uint8_t value = reg_CL_8u;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA32 = (*(uint32_t*)target);
 			uint64_t tmp = ((*(int32_t*)target) < 0) ? 0xFFFFFFFFFFFFFFFF : 0;
 			*(uint32_t*)(((uint8_t*)&tmp) + 4) = (*(uint32_t*)target);
 			tmp = tmp >> value;
 			(*(uint32_t*)target) = (*(uint32_t*)(((uint8_t*)&tmp) + 4));
+			LazyFlagResultContainer32 = (*(uint32_t*)target);
+			lazyFlagType = t_SAR32;
 		}
 		break;
 		default:
@@ -6404,70 +6691,96 @@ void handlerCommand16Code00D3() {
 		case 0: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
 			uint8_t value = reg_CL_8u;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA16 = (*(uint16_t*)target);
 			uint32_t tmp = 0;
 			*(uint16_t*)(((uint8_t*)&tmp)) = (*(uint16_t*)target);
 			*(uint16_t*)(((uint8_t*)&tmp) + (16 / 8)) = (*(uint16_t*)target);
 			tmp = tmp << (value % 16);
 			(*(uint16_t*)target) = (*(uint16_t*)(((uint8_t*)&tmp)));
+			LazyFlagResultContainer16 = (*(uint16_t*)target);
+			lazyFlagType = t_ROL16;
 		}
 		break;
 		case 1: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
 			uint8_t value = reg_CL_8u;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA16 = (*(uint16_t*)target);
 			uint32_t tmp = 0;
 			*(uint16_t*)(((uint8_t*)&tmp)) = (*(uint16_t*)target);
 			*(uint16_t*)(((uint8_t*)&tmp) + (16 / 8)) = (*(uint16_t*)target);
 			tmp = tmp >> (value % 16);
 			(*(uint16_t*)target) = (*(uint16_t*)(((uint8_t*)&tmp + 4)));
+			LazyFlagResultContainer16 = (*(uint16_t*)target);
+			lazyFlagType = t_ROR16;
 		}
 		break;
 		case 2: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
 			uint8_t value = reg_CL_8u;
 			FillFlags();
+			LazyFlagVarB8 = value;
+			LazyFlagVarA16 = (*(uint16_t*)target);
 			uint32_t tmp = 0;
 			*(uint16_t*)(((uint8_t*)&tmp) + (16 / 8)) = (*(uint16_t*)target);
 			tmp = tmp >> 1;
 			SET_BIT((*(((uint8_t*)&tmp) + (16 / 8))), 0, GET_FLAG(CF));
 			*(uint16_t*)(((uint8_t*)&tmp)) = (*(uint16_t*)target);
-			SET_FLAG(CF, (*(uint16_t*)target) % 2);
 			tmp = tmp << (value % 16);
 			(*(uint16_t*)target) = *(uint16_t*)((uint8_t*)&tmp);
+			LazyFlagResultContainer16 = (*(uint16_t*)target);
+			lazyFlagType = t_RCL16;
 		}
 		break;
 		case 3: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
 			uint8_t value = reg_CL_8u;
 			FillFlags();
-			uint32_t tmp = 0;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA16 = (*(uint16_t*)target);
+			uint16_t tmp = 0;
 			*(uint16_t*)(((uint8_t*)&tmp)) = (*(uint16_t*)target);
 			tmp = tmp << 1;
 			SET_BIT((*(((uint8_t*)&tmp))), 7, GET_FLAG(CF));
 			*(uint16_t*)(((uint8_t*)&tmp) + (16 / 8)) = (*(uint16_t*)target);
-			SET_FLAG(CF, (*(int16_t*)target) < 0);
 			tmp = tmp >> (value % 16);
 			(*(uint16_t*)target) = *(uint16_t*)((uint8_t*)&tmp + (16 / 8));
+			LazyFlagResultContainer16 = (*(uint16_t*)target);
+			lazyFlagType = t_RCR16;
 		}
 		break;
 		case 4: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
 			uint8_t value = reg_CL_8u;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA16 = (*(uint16_t*)target);
 			(*(uint16_t*)target) = (*(uint16_t*)target) << value;
+			LazyFlagResultContainer16 = (*(uint16_t*)target);
+			lazyFlagType = t_SHL16;
 		}
 		break;
 		case 5: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
 			uint8_t value = reg_CL_8u;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA16 = (*(uint16_t*)target);
 			(*(uint16_t*)target) = (*(uint16_t*)target) >> value;
+			LazyFlagResultContainer16 = (*(uint16_t*)target);
+			lazyFlagType = t_SHR16;
 		}
 		break;
 		case 7: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
 			uint8_t value = reg_CL_8u;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA16 = (*(uint16_t*)target);
 			uint64_t tmp = ((*(int16_t*)target) < 0) ? 0xFFFFFFFFFFFFFFFF : 0;
 			*(uint16_t*)(((uint8_t*)&tmp) + 4) = (*(uint16_t*)target);
 			tmp = tmp >> value;
 			(*(uint16_t*)target) = (*(uint16_t*)(((uint8_t*)&tmp) + 4));
+			LazyFlagResultContainer16 = (*(uint16_t*)target);
+			lazyFlagType = t_SAR16;
 		}
 		break;
 		default:
@@ -7986,18 +8299,18 @@ void handlerCommand16Code00FFP66P67() {
 	switch (nnn) {
 		case 0x00: {
 			// INC
-			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
-			(*(uint8_t*)target)++;
-			LazyFlagResultContainer8 = *(uint8_t*)target;
-			lazyFlagType = t_INC8;
+			uint8_t* target = (uint8_t*)readAddressMRM16For32(mrmByte);
+			(*(uint32_t*)target)++;
+			LazyFlagResultContainer32 = *(uint32_t*)target;
+			lazyFlagType = t_INC32;
 		}
 		break;
 		case 0x01: {
 			// DEC
-			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
-			(*(uint8_t*)target)--;
-			LazyFlagResultContainer8 = *(uint8_t*)target;
-			lazyFlagType = t_DEC8;
+			uint8_t* target = (uint8_t*)readAddressMRM16For32(mrmByte);
+			(*(uint32_t*)target)--;
+			LazyFlagResultContainer32 = *(uint32_t*)target;
+			lazyFlagType = t_DEC32;
 		}
 		break;
 		case 0x4: {
@@ -8025,18 +8338,18 @@ void handlerCommand16Code00FFP67() {
 	switch (nnn) {
 		case 0x00: {
 			// INC
-			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
-			(*(uint8_t*)target)++;
-			LazyFlagResultContainer8 = *(uint8_t*)target;
-			lazyFlagType = t_INC8;
+			uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
+			(*(uint16_t*)target)++;
+			LazyFlagResultContainer16 = *(uint16_t*)target;
+			lazyFlagType = t_INC16;
 		}
 		break;
 		case 0x01: {
 			// DEC
-			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
-			(*(uint8_t*)target)--;
-			LazyFlagResultContainer8 = *(uint8_t*)target;
-			lazyFlagType = t_DEC8;
+			uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
+			(*(uint16_t*)target)--;
+			LazyFlagResultContainer16 = *(uint16_t*)target;
+			lazyFlagType = t_DEC16;
 		}
 		break;
 		case 0x4: {
@@ -8064,18 +8377,18 @@ void handlerCommand16Code00FFP66() {
 	switch (nnn) {
 		case 0x00: {
 			// INC
-			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
-			(*(uint8_t*)target)++;
-			LazyFlagResultContainer8 = *(uint8_t*)target;
-			lazyFlagType = t_INC8;
+			uint8_t* target = (uint8_t*)readAddressMRM16For32(mrmByte);
+			(*(uint32_t*)target)++;
+			LazyFlagResultContainer32 = *(uint32_t*)target;
+			lazyFlagType = t_INC32;
 		}
 		break;
 		case 0x01: {
 			// DEC
-			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
-			(*(uint8_t*)target)--;
-			LazyFlagResultContainer8 = *(uint8_t*)target;
-			lazyFlagType = t_DEC8;
+			uint8_t* target = (uint8_t*)readAddressMRM16For32(mrmByte);
+			(*(uint32_t*)target)--;
+			LazyFlagResultContainer32 = *(uint32_t*)target;
+			lazyFlagType = t_DEC32;
 		}
 		break;
 		case 0x4: {
@@ -8103,18 +8416,18 @@ void handlerCommand16Code00FF() {
 	switch (nnn) {
 		case 0x00: {
 			// INC
-			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
-			(*(uint8_t*)target)++;
-			LazyFlagResultContainer8 = *(uint8_t*)target;
-			lazyFlagType = t_INC8;
+			uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
+			(*(uint16_t*)target)++;
+			LazyFlagResultContainer16 = *(uint16_t*)target;
+			lazyFlagType = t_INC16;
 		}
 		break;
 		case 0x01: {
 			// DEC
-			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
-			(*(uint8_t*)target)--;
-			LazyFlagResultContainer8 = *(uint8_t*)target;
-			lazyFlagType = t_DEC8;
+			uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
+			(*(uint16_t*)target)--;
+			LazyFlagResultContainer16 = *(uint16_t*)target;
+			lazyFlagType = t_DEC16;
 		}
 		break;
 		case 0x4: {
@@ -14730,70 +15043,96 @@ void handlerCommand32Code00C0P66() {
 		case 0: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
 			uint8_t value = read8u();
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = (*(uint8_t*)target);
 			uint16_t tmp = 0;
 			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
 			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
 			tmp = tmp << (value % 8);
 			(*(uint8_t*)target) = (*(uint8_t*)(((uint8_t*)&tmp)));
+			LazyFlagResultContainer8 = (*(uint8_t*)target);
+			lazyFlagType = t_ROL8;
 		}
 		break;
 		case 1: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
 			uint8_t value = read8u();
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = (*(uint8_t*)target);
 			uint16_t tmp = 0;
 			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
 			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
 			tmp = tmp >> (value % 8);
 			(*(uint8_t*)target) = (*(uint8_t*)(((uint8_t*)&tmp + 4)));
+			LazyFlagResultContainer8 = (*(uint8_t*)target);
+			lazyFlagType = t_ROR8;
 		}
 		break;
 		case 2: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
 			uint8_t value = read8u();
 			FillFlags();
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = (*(uint8_t*)target);
 			uint16_t tmp = 0;
 			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
 			tmp = tmp >> 1;
 			SET_BIT((*(((uint8_t*)&tmp) + (8 / 8))), 0, GET_FLAG(CF));
 			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
-			SET_FLAG(CF, (*(uint8_t*)target) % 2);
 			tmp = tmp << (value % 8);
 			(*(uint8_t*)target) = *(uint8_t*)((uint8_t*)&tmp);
+			LazyFlagResultContainer8 = (*(uint8_t*)target);
+			lazyFlagType = t_RCL8;
 		}
 		break;
 		case 3: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
 			uint8_t value = read8u();
 			FillFlags();
-			uint16_t tmp = 0;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = (*(uint8_t*)target);
+			uint8_t tmp = 0;
 			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
 			tmp = tmp << 1;
 			SET_BIT((*(((uint8_t*)&tmp))), 7, GET_FLAG(CF));
 			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
-			SET_FLAG(CF, (*(int8_t*)target) < 0);
 			tmp = tmp >> (value % 8);
 			(*(uint8_t*)target) = *(uint8_t*)((uint8_t*)&tmp + (8 / 8));
+			LazyFlagResultContainer8 = (*(uint8_t*)target);
+			lazyFlagType = t_RCR8;
 		}
 		break;
 		case 4: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
 			uint8_t value = read8u();
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = (*(uint8_t*)target);
 			(*(uint8_t*)target) = (*(uint8_t*)target) << value;
+			LazyFlagResultContainer8 = (*(uint8_t*)target);
+			lazyFlagType = t_SHL8;
 		}
 		break;
 		case 5: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
 			uint8_t value = read8u();
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = (*(uint8_t*)target);
 			(*(uint8_t*)target) = (*(uint8_t*)target) >> value;
+			LazyFlagResultContainer8 = (*(uint8_t*)target);
+			lazyFlagType = t_SHR8;
 		}
 		break;
 		case 7: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
 			uint8_t value = read8u();
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = (*(uint8_t*)target);
 			uint64_t tmp = ((*(int8_t*)target) < 0) ? 0xFFFFFFFFFFFFFFFF : 0;
 			*(uint8_t*)(((uint8_t*)&tmp) + 4) = (*(uint8_t*)target);
 			tmp = tmp >> value;
 			(*(uint8_t*)target) = (*(uint8_t*)(((uint8_t*)&tmp) + 4));
+			LazyFlagResultContainer8 = (*(uint8_t*)target);
+			lazyFlagType = t_SAR8;
 		}
 		break;
 		default:
@@ -14809,70 +15148,96 @@ void handlerCommand32Code00C0() {
 		case 0: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
 			uint8_t value = read8u();
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = (*(uint8_t*)target);
 			uint16_t tmp = 0;
 			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
 			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
 			tmp = tmp << (value % 8);
 			(*(uint8_t*)target) = (*(uint8_t*)(((uint8_t*)&tmp)));
+			LazyFlagResultContainer8 = (*(uint8_t*)target);
+			lazyFlagType = t_ROL8;
 		}
 		break;
 		case 1: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
 			uint8_t value = read8u();
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = (*(uint8_t*)target);
 			uint16_t tmp = 0;
 			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
 			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
 			tmp = tmp >> (value % 8);
 			(*(uint8_t*)target) = (*(uint8_t*)(((uint8_t*)&tmp + 4)));
+			LazyFlagResultContainer8 = (*(uint8_t*)target);
+			lazyFlagType = t_ROR8;
 		}
 		break;
 		case 2: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
 			uint8_t value = read8u();
 			FillFlags();
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = (*(uint8_t*)target);
 			uint16_t tmp = 0;
 			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
 			tmp = tmp >> 1;
 			SET_BIT((*(((uint8_t*)&tmp) + (8 / 8))), 0, GET_FLAG(CF));
 			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
-			SET_FLAG(CF, (*(uint8_t*)target) % 2);
 			tmp = tmp << (value % 8);
 			(*(uint8_t*)target) = *(uint8_t*)((uint8_t*)&tmp);
+			LazyFlagResultContainer8 = (*(uint8_t*)target);
+			lazyFlagType = t_RCL8;
 		}
 		break;
 		case 3: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
 			uint8_t value = read8u();
 			FillFlags();
-			uint16_t tmp = 0;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = (*(uint8_t*)target);
+			uint8_t tmp = 0;
 			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
 			tmp = tmp << 1;
 			SET_BIT((*(((uint8_t*)&tmp))), 7, GET_FLAG(CF));
 			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
-			SET_FLAG(CF, (*(int8_t*)target) < 0);
 			tmp = tmp >> (value % 8);
 			(*(uint8_t*)target) = *(uint8_t*)((uint8_t*)&tmp + (8 / 8));
+			LazyFlagResultContainer8 = (*(uint8_t*)target);
+			lazyFlagType = t_RCR8;
 		}
 		break;
 		case 4: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
 			uint8_t value = read8u();
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = (*(uint8_t*)target);
 			(*(uint8_t*)target) = (*(uint8_t*)target) << value;
+			LazyFlagResultContainer8 = (*(uint8_t*)target);
+			lazyFlagType = t_SHL8;
 		}
 		break;
 		case 5: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
 			uint8_t value = read8u();
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = (*(uint8_t*)target);
 			(*(uint8_t*)target) = (*(uint8_t*)target) >> value;
+			LazyFlagResultContainer8 = (*(uint8_t*)target);
+			lazyFlagType = t_SHR8;
 		}
 		break;
 		case 7: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
 			uint8_t value = read8u();
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = (*(uint8_t*)target);
 			uint64_t tmp = ((*(int8_t*)target) < 0) ? 0xFFFFFFFFFFFFFFFF : 0;
 			*(uint8_t*)(((uint8_t*)&tmp) + 4) = (*(uint8_t*)target);
 			tmp = tmp >> value;
 			(*(uint8_t*)target) = (*(uint8_t*)(((uint8_t*)&tmp) + 4));
+			LazyFlagResultContainer8 = (*(uint8_t*)target);
+			lazyFlagType = t_SAR8;
 		}
 		break;
 		default:
@@ -14888,70 +15253,96 @@ void handlerCommand32Code00C1P66() {
 		case 0: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For16(mrmByte);
 			uint8_t value = read8u();
+			LazyFlagVarB8 = value;
+			LazyFlagVarA16 = (*(uint16_t*)target);
 			uint32_t tmp = 0;
 			*(uint16_t*)(((uint8_t*)&tmp)) = (*(uint16_t*)target);
 			*(uint16_t*)(((uint8_t*)&tmp) + (16 / 8)) = (*(uint16_t*)target);
 			tmp = tmp << (value % 16);
 			(*(uint16_t*)target) = (*(uint16_t*)(((uint8_t*)&tmp)));
+			LazyFlagResultContainer16 = (*(uint16_t*)target);
+			lazyFlagType = t_ROL16;
 		}
 		break;
 		case 1: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For16(mrmByte);
 			uint8_t value = read8u();
+			LazyFlagVarB8 = value;
+			LazyFlagVarA16 = (*(uint16_t*)target);
 			uint32_t tmp = 0;
 			*(uint16_t*)(((uint8_t*)&tmp)) = (*(uint16_t*)target);
 			*(uint16_t*)(((uint8_t*)&tmp) + (16 / 8)) = (*(uint16_t*)target);
 			tmp = tmp >> (value % 16);
 			(*(uint16_t*)target) = (*(uint16_t*)(((uint8_t*)&tmp + 4)));
+			LazyFlagResultContainer16 = (*(uint16_t*)target);
+			lazyFlagType = t_ROR16;
 		}
 		break;
 		case 2: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For16(mrmByte);
 			uint8_t value = read8u();
 			FillFlags();
+			LazyFlagVarB8 = value;
+			LazyFlagVarA16 = (*(uint16_t*)target);
 			uint32_t tmp = 0;
 			*(uint16_t*)(((uint8_t*)&tmp) + (16 / 8)) = (*(uint16_t*)target);
 			tmp = tmp >> 1;
 			SET_BIT((*(((uint8_t*)&tmp) + (16 / 8))), 0, GET_FLAG(CF));
 			*(uint16_t*)(((uint8_t*)&tmp)) = (*(uint16_t*)target);
-			SET_FLAG(CF, (*(uint16_t*)target) % 2);
 			tmp = tmp << (value % 16);
 			(*(uint16_t*)target) = *(uint16_t*)((uint8_t*)&tmp);
+			LazyFlagResultContainer16 = (*(uint16_t*)target);
+			lazyFlagType = t_RCL16;
 		}
 		break;
 		case 3: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For16(mrmByte);
 			uint8_t value = read8u();
 			FillFlags();
-			uint32_t tmp = 0;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA16 = (*(uint16_t*)target);
+			uint16_t tmp = 0;
 			*(uint16_t*)(((uint8_t*)&tmp)) = (*(uint16_t*)target);
 			tmp = tmp << 1;
 			SET_BIT((*(((uint8_t*)&tmp))), 7, GET_FLAG(CF));
 			*(uint16_t*)(((uint8_t*)&tmp) + (16 / 8)) = (*(uint16_t*)target);
-			SET_FLAG(CF, (*(int16_t*)target) < 0);
 			tmp = tmp >> (value % 16);
 			(*(uint16_t*)target) = *(uint16_t*)((uint8_t*)&tmp + (16 / 8));
+			LazyFlagResultContainer16 = (*(uint16_t*)target);
+			lazyFlagType = t_RCR16;
 		}
 		break;
 		case 4: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For16(mrmByte);
 			uint8_t value = read8u();
+			LazyFlagVarB8 = value;
+			LazyFlagVarA16 = (*(uint16_t*)target);
 			(*(uint16_t*)target) = (*(uint16_t*)target) << value;
+			LazyFlagResultContainer16 = (*(uint16_t*)target);
+			lazyFlagType = t_SHL16;
 		}
 		break;
 		case 5: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For16(mrmByte);
 			uint8_t value = read8u();
+			LazyFlagVarB8 = value;
+			LazyFlagVarA16 = (*(uint16_t*)target);
 			(*(uint16_t*)target) = (*(uint16_t*)target) >> value;
+			LazyFlagResultContainer16 = (*(uint16_t*)target);
+			lazyFlagType = t_SHR16;
 		}
 		break;
 		case 7: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For16(mrmByte);
 			uint8_t value = read8u();
+			LazyFlagVarB8 = value;
+			LazyFlagVarA16 = (*(uint16_t*)target);
 			uint64_t tmp = ((*(int16_t*)target) < 0) ? 0xFFFFFFFFFFFFFFFF : 0;
 			*(uint16_t*)(((uint8_t*)&tmp) + 4) = (*(uint16_t*)target);
 			tmp = tmp >> value;
 			(*(uint16_t*)target) = (*(uint16_t*)(((uint8_t*)&tmp) + 4));
+			LazyFlagResultContainer16 = (*(uint16_t*)target);
+			lazyFlagType = t_SAR16;
 		}
 		break;
 		default:
@@ -14967,70 +15358,96 @@ void handlerCommand32Code00C1() {
 		case 0: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
 			uint8_t value = read8u();
+			LazyFlagVarB8 = value;
+			LazyFlagVarA32 = (*(uint32_t*)target);
 			uint64_t tmp = 0;
 			*(uint32_t*)(((uint8_t*)&tmp)) = (*(uint32_t*)target);
 			*(uint32_t*)(((uint8_t*)&tmp) + (32 / 8)) = (*(uint32_t*)target);
 			tmp = tmp << (value % 32);
 			(*(uint32_t*)target) = (*(uint32_t*)(((uint8_t*)&tmp)));
+			LazyFlagResultContainer32 = (*(uint32_t*)target);
+			lazyFlagType = t_ROL32;
 		}
 		break;
 		case 1: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
 			uint8_t value = read8u();
+			LazyFlagVarB8 = value;
+			LazyFlagVarA32 = (*(uint32_t*)target);
 			uint64_t tmp = 0;
 			*(uint32_t*)(((uint8_t*)&tmp)) = (*(uint32_t*)target);
 			*(uint32_t*)(((uint8_t*)&tmp) + (32 / 8)) = (*(uint32_t*)target);
 			tmp = tmp >> (value % 32);
 			(*(uint32_t*)target) = (*(uint32_t*)(((uint8_t*)&tmp + 4)));
+			LazyFlagResultContainer32 = (*(uint32_t*)target);
+			lazyFlagType = t_ROR32;
 		}
 		break;
 		case 2: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
 			uint8_t value = read8u();
 			FillFlags();
+			LazyFlagVarB8 = value;
+			LazyFlagVarA32 = (*(uint32_t*)target);
 			uint64_t tmp = 0;
 			*(uint32_t*)(((uint8_t*)&tmp) + (32 / 8)) = (*(uint32_t*)target);
 			tmp = tmp >> 1;
 			SET_BIT((*(((uint8_t*)&tmp) + (32 / 8))), 0, GET_FLAG(CF));
 			*(uint32_t*)(((uint8_t*)&tmp)) = (*(uint32_t*)target);
-			SET_FLAG(CF, (*(uint32_t*)target) % 2);
 			tmp = tmp << (value % 32);
 			(*(uint32_t*)target) = *(uint32_t*)((uint8_t*)&tmp);
+			LazyFlagResultContainer32 = (*(uint32_t*)target);
+			lazyFlagType = t_RCL32;
 		}
 		break;
 		case 3: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
 			uint8_t value = read8u();
 			FillFlags();
-			uint64_t tmp = 0;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA32 = (*(uint32_t*)target);
+			uint32_t tmp = 0;
 			*(uint32_t*)(((uint8_t*)&tmp)) = (*(uint32_t*)target);
 			tmp = tmp << 1;
 			SET_BIT((*(((uint8_t*)&tmp))), 7, GET_FLAG(CF));
 			*(uint32_t*)(((uint8_t*)&tmp) + (32 / 8)) = (*(uint32_t*)target);
-			SET_FLAG(CF, (*(int32_t*)target) < 0);
 			tmp = tmp >> (value % 32);
 			(*(uint32_t*)target) = *(uint32_t*)((uint8_t*)&tmp + (32 / 8));
+			LazyFlagResultContainer32 = (*(uint32_t*)target);
+			lazyFlagType = t_RCR32;
 		}
 		break;
 		case 4: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
 			uint8_t value = read8u();
+			LazyFlagVarB8 = value;
+			LazyFlagVarA32 = (*(uint32_t*)target);
 			(*(uint32_t*)target) = (*(uint32_t*)target) << value;
+			LazyFlagResultContainer32 = (*(uint32_t*)target);
+			lazyFlagType = t_SHL32;
 		}
 		break;
 		case 5: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
 			uint8_t value = read8u();
+			LazyFlagVarB8 = value;
+			LazyFlagVarA32 = (*(uint32_t*)target);
 			(*(uint32_t*)target) = (*(uint32_t*)target) >> value;
+			LazyFlagResultContainer32 = (*(uint32_t*)target);
+			lazyFlagType = t_SHR32;
 		}
 		break;
 		case 7: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
 			uint8_t value = read8u();
+			LazyFlagVarB8 = value;
+			LazyFlagVarA32 = (*(uint32_t*)target);
 			uint64_t tmp = ((*(int32_t*)target) < 0) ? 0xFFFFFFFFFFFFFFFF : 0;
 			*(uint32_t*)(((uint8_t*)&tmp) + 4) = (*(uint32_t*)target);
 			tmp = tmp >> value;
 			(*(uint32_t*)target) = (*(uint32_t*)(((uint8_t*)&tmp) + 4));
+			LazyFlagResultContainer32 = (*(uint32_t*)target);
+			lazyFlagType = t_SAR32;
 		}
 		break;
 		default:
@@ -15214,6 +15631,7 @@ void handlerCommand32Code00CB() {
 void handlerCommand32Code00CD() {
 	LOG("%s","Int");
 	uint8_t addr = read8u();
+	FillFlags();
 	context.functions[addr](addr);
 }
 //Move bits
@@ -15225,70 +15643,96 @@ void handlerCommand32Code00D0P66() {
 		case 0: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
 			uint8_t value = 1;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = (*(uint8_t*)target);
 			uint16_t tmp = 0;
 			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
 			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
 			tmp = tmp << (value % 8);
 			(*(uint8_t*)target) = (*(uint8_t*)(((uint8_t*)&tmp)));
+			LazyFlagResultContainer8 = (*(uint8_t*)target);
+			lazyFlagType = t_ROL8;
 		}
 		break;
 		case 1: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
 			uint8_t value = 1;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = (*(uint8_t*)target);
 			uint16_t tmp = 0;
 			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
 			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
 			tmp = tmp >> (value % 8);
 			(*(uint8_t*)target) = (*(uint8_t*)(((uint8_t*)&tmp + 4)));
+			LazyFlagResultContainer8 = (*(uint8_t*)target);
+			lazyFlagType = t_ROR8;
 		}
 		break;
 		case 2: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
 			uint8_t value = 1;
 			FillFlags();
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = (*(uint8_t*)target);
 			uint16_t tmp = 0;
 			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
 			tmp = tmp >> 1;
 			SET_BIT((*(((uint8_t*)&tmp) + (8 / 8))), 0, GET_FLAG(CF));
 			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
-			SET_FLAG(CF, (*(uint8_t*)target) % 2);
 			tmp = tmp << (value % 8);
 			(*(uint8_t*)target) = *(uint8_t*)((uint8_t*)&tmp);
+			LazyFlagResultContainer8 = (*(uint8_t*)target);
+			lazyFlagType = t_RCL8;
 		}
 		break;
 		case 3: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
 			uint8_t value = 1;
 			FillFlags();
-			uint16_t tmp = 0;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = (*(uint8_t*)target);
+			uint8_t tmp = 0;
 			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
 			tmp = tmp << 1;
 			SET_BIT((*(((uint8_t*)&tmp))), 7, GET_FLAG(CF));
 			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
-			SET_FLAG(CF, (*(int8_t*)target) < 0);
 			tmp = tmp >> (value % 8);
 			(*(uint8_t*)target) = *(uint8_t*)((uint8_t*)&tmp + (8 / 8));
+			LazyFlagResultContainer8 = (*(uint8_t*)target);
+			lazyFlagType = t_RCR8;
 		}
 		break;
 		case 4: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
 			uint8_t value = 1;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = (*(uint8_t*)target);
 			(*(uint8_t*)target) = (*(uint8_t*)target) << value;
+			LazyFlagResultContainer8 = (*(uint8_t*)target);
+			lazyFlagType = t_SHL8;
 		}
 		break;
 		case 5: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
 			uint8_t value = 1;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = (*(uint8_t*)target);
 			(*(uint8_t*)target) = (*(uint8_t*)target) >> value;
+			LazyFlagResultContainer8 = (*(uint8_t*)target);
+			lazyFlagType = t_SHR8;
 		}
 		break;
 		case 7: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
 			uint8_t value = 1;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = (*(uint8_t*)target);
 			uint64_t tmp = ((*(int8_t*)target) < 0) ? 0xFFFFFFFFFFFFFFFF : 0;
 			*(uint8_t*)(((uint8_t*)&tmp) + 4) = (*(uint8_t*)target);
 			tmp = tmp >> value;
 			(*(uint8_t*)target) = (*(uint8_t*)(((uint8_t*)&tmp) + 4));
+			LazyFlagResultContainer8 = (*(uint8_t*)target);
+			lazyFlagType = t_SAR8;
 		}
 		break;
 		default:
@@ -15304,70 +15748,96 @@ void handlerCommand32Code00D0() {
 		case 0: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
 			uint8_t value = 1;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = (*(uint8_t*)target);
 			uint16_t tmp = 0;
 			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
 			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
 			tmp = tmp << (value % 8);
 			(*(uint8_t*)target) = (*(uint8_t*)(((uint8_t*)&tmp)));
+			LazyFlagResultContainer8 = (*(uint8_t*)target);
+			lazyFlagType = t_ROL8;
 		}
 		break;
 		case 1: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
 			uint8_t value = 1;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = (*(uint8_t*)target);
 			uint16_t tmp = 0;
 			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
 			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
 			tmp = tmp >> (value % 8);
 			(*(uint8_t*)target) = (*(uint8_t*)(((uint8_t*)&tmp + 4)));
+			LazyFlagResultContainer8 = (*(uint8_t*)target);
+			lazyFlagType = t_ROR8;
 		}
 		break;
 		case 2: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
 			uint8_t value = 1;
 			FillFlags();
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = (*(uint8_t*)target);
 			uint16_t tmp = 0;
 			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
 			tmp = tmp >> 1;
 			SET_BIT((*(((uint8_t*)&tmp) + (8 / 8))), 0, GET_FLAG(CF));
 			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
-			SET_FLAG(CF, (*(uint8_t*)target) % 2);
 			tmp = tmp << (value % 8);
 			(*(uint8_t*)target) = *(uint8_t*)((uint8_t*)&tmp);
+			LazyFlagResultContainer8 = (*(uint8_t*)target);
+			lazyFlagType = t_RCL8;
 		}
 		break;
 		case 3: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
 			uint8_t value = 1;
 			FillFlags();
-			uint16_t tmp = 0;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = (*(uint8_t*)target);
+			uint8_t tmp = 0;
 			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
 			tmp = tmp << 1;
 			SET_BIT((*(((uint8_t*)&tmp))), 7, GET_FLAG(CF));
 			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
-			SET_FLAG(CF, (*(int8_t*)target) < 0);
 			tmp = tmp >> (value % 8);
 			(*(uint8_t*)target) = *(uint8_t*)((uint8_t*)&tmp + (8 / 8));
+			LazyFlagResultContainer8 = (*(uint8_t*)target);
+			lazyFlagType = t_RCR8;
 		}
 		break;
 		case 4: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
 			uint8_t value = 1;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = (*(uint8_t*)target);
 			(*(uint8_t*)target) = (*(uint8_t*)target) << value;
+			LazyFlagResultContainer8 = (*(uint8_t*)target);
+			lazyFlagType = t_SHL8;
 		}
 		break;
 		case 5: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
 			uint8_t value = 1;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = (*(uint8_t*)target);
 			(*(uint8_t*)target) = (*(uint8_t*)target) >> value;
+			LazyFlagResultContainer8 = (*(uint8_t*)target);
+			lazyFlagType = t_SHR8;
 		}
 		break;
 		case 7: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
 			uint8_t value = 1;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = (*(uint8_t*)target);
 			uint64_t tmp = ((*(int8_t*)target) < 0) ? 0xFFFFFFFFFFFFFFFF : 0;
 			*(uint8_t*)(((uint8_t*)&tmp) + 4) = (*(uint8_t*)target);
 			tmp = tmp >> value;
 			(*(uint8_t*)target) = (*(uint8_t*)(((uint8_t*)&tmp) + 4));
+			LazyFlagResultContainer8 = (*(uint8_t*)target);
+			lazyFlagType = t_SAR8;
 		}
 		break;
 		default:
@@ -15383,70 +15853,96 @@ void handlerCommand32Code00D1P66() {
 		case 0: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For16(mrmByte);
 			uint8_t value = 1;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA16 = (*(uint16_t*)target);
 			uint32_t tmp = 0;
 			*(uint16_t*)(((uint8_t*)&tmp)) = (*(uint16_t*)target);
 			*(uint16_t*)(((uint8_t*)&tmp) + (16 / 8)) = (*(uint16_t*)target);
 			tmp = tmp << (value % 16);
 			(*(uint16_t*)target) = (*(uint16_t*)(((uint8_t*)&tmp)));
+			LazyFlagResultContainer16 = (*(uint16_t*)target);
+			lazyFlagType = t_ROL16;
 		}
 		break;
 		case 1: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For16(mrmByte);
 			uint8_t value = 1;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA16 = (*(uint16_t*)target);
 			uint32_t tmp = 0;
 			*(uint16_t*)(((uint8_t*)&tmp)) = (*(uint16_t*)target);
 			*(uint16_t*)(((uint8_t*)&tmp) + (16 / 8)) = (*(uint16_t*)target);
 			tmp = tmp >> (value % 16);
 			(*(uint16_t*)target) = (*(uint16_t*)(((uint8_t*)&tmp + 4)));
+			LazyFlagResultContainer16 = (*(uint16_t*)target);
+			lazyFlagType = t_ROR16;
 		}
 		break;
 		case 2: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For16(mrmByte);
 			uint8_t value = 1;
 			FillFlags();
+			LazyFlagVarB8 = value;
+			LazyFlagVarA16 = (*(uint16_t*)target);
 			uint32_t tmp = 0;
 			*(uint16_t*)(((uint8_t*)&tmp) + (16 / 8)) = (*(uint16_t*)target);
 			tmp = tmp >> 1;
 			SET_BIT((*(((uint8_t*)&tmp) + (16 / 8))), 0, GET_FLAG(CF));
 			*(uint16_t*)(((uint8_t*)&tmp)) = (*(uint16_t*)target);
-			SET_FLAG(CF, (*(uint16_t*)target) % 2);
 			tmp = tmp << (value % 16);
 			(*(uint16_t*)target) = *(uint16_t*)((uint8_t*)&tmp);
+			LazyFlagResultContainer16 = (*(uint16_t*)target);
+			lazyFlagType = t_RCL16;
 		}
 		break;
 		case 3: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For16(mrmByte);
 			uint8_t value = 1;
 			FillFlags();
-			uint32_t tmp = 0;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA16 = (*(uint16_t*)target);
+			uint16_t tmp = 0;
 			*(uint16_t*)(((uint8_t*)&tmp)) = (*(uint16_t*)target);
 			tmp = tmp << 1;
 			SET_BIT((*(((uint8_t*)&tmp))), 7, GET_FLAG(CF));
 			*(uint16_t*)(((uint8_t*)&tmp) + (16 / 8)) = (*(uint16_t*)target);
-			SET_FLAG(CF, (*(int16_t*)target) < 0);
 			tmp = tmp >> (value % 16);
 			(*(uint16_t*)target) = *(uint16_t*)((uint8_t*)&tmp + (16 / 8));
+			LazyFlagResultContainer16 = (*(uint16_t*)target);
+			lazyFlagType = t_RCR16;
 		}
 		break;
 		case 4: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For16(mrmByte);
 			uint8_t value = 1;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA16 = (*(uint16_t*)target);
 			(*(uint16_t*)target) = (*(uint16_t*)target) << value;
+			LazyFlagResultContainer16 = (*(uint16_t*)target);
+			lazyFlagType = t_SHL16;
 		}
 		break;
 		case 5: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For16(mrmByte);
 			uint8_t value = 1;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA16 = (*(uint16_t*)target);
 			(*(uint16_t*)target) = (*(uint16_t*)target) >> value;
+			LazyFlagResultContainer16 = (*(uint16_t*)target);
+			lazyFlagType = t_SHR16;
 		}
 		break;
 		case 7: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For16(mrmByte);
 			uint8_t value = 1;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA16 = (*(uint16_t*)target);
 			uint64_t tmp = ((*(int16_t*)target) < 0) ? 0xFFFFFFFFFFFFFFFF : 0;
 			*(uint16_t*)(((uint8_t*)&tmp) + 4) = (*(uint16_t*)target);
 			tmp = tmp >> value;
 			(*(uint16_t*)target) = (*(uint16_t*)(((uint8_t*)&tmp) + 4));
+			LazyFlagResultContainer16 = (*(uint16_t*)target);
+			lazyFlagType = t_SAR16;
 		}
 		break;
 		default:
@@ -15462,70 +15958,96 @@ void handlerCommand32Code00D1() {
 		case 0: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
 			uint8_t value = 1;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA32 = (*(uint32_t*)target);
 			uint64_t tmp = 0;
 			*(uint32_t*)(((uint8_t*)&tmp)) = (*(uint32_t*)target);
 			*(uint32_t*)(((uint8_t*)&tmp) + (32 / 8)) = (*(uint32_t*)target);
 			tmp = tmp << (value % 32);
 			(*(uint32_t*)target) = (*(uint32_t*)(((uint8_t*)&tmp)));
+			LazyFlagResultContainer32 = (*(uint32_t*)target);
+			lazyFlagType = t_ROL32;
 		}
 		break;
 		case 1: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
 			uint8_t value = 1;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA32 = (*(uint32_t*)target);
 			uint64_t tmp = 0;
 			*(uint32_t*)(((uint8_t*)&tmp)) = (*(uint32_t*)target);
 			*(uint32_t*)(((uint8_t*)&tmp) + (32 / 8)) = (*(uint32_t*)target);
 			tmp = tmp >> (value % 32);
 			(*(uint32_t*)target) = (*(uint32_t*)(((uint8_t*)&tmp + 4)));
+			LazyFlagResultContainer32 = (*(uint32_t*)target);
+			lazyFlagType = t_ROR32;
 		}
 		break;
 		case 2: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
 			uint8_t value = 1;
 			FillFlags();
+			LazyFlagVarB8 = value;
+			LazyFlagVarA32 = (*(uint32_t*)target);
 			uint64_t tmp = 0;
 			*(uint32_t*)(((uint8_t*)&tmp) + (32 / 8)) = (*(uint32_t*)target);
 			tmp = tmp >> 1;
 			SET_BIT((*(((uint8_t*)&tmp) + (32 / 8))), 0, GET_FLAG(CF));
 			*(uint32_t*)(((uint8_t*)&tmp)) = (*(uint32_t*)target);
-			SET_FLAG(CF, (*(uint32_t*)target) % 2);
 			tmp = tmp << (value % 32);
 			(*(uint32_t*)target) = *(uint32_t*)((uint8_t*)&tmp);
+			LazyFlagResultContainer32 = (*(uint32_t*)target);
+			lazyFlagType = t_RCL32;
 		}
 		break;
 		case 3: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
 			uint8_t value = 1;
 			FillFlags();
-			uint64_t tmp = 0;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA32 = (*(uint32_t*)target);
+			uint32_t tmp = 0;
 			*(uint32_t*)(((uint8_t*)&tmp)) = (*(uint32_t*)target);
 			tmp = tmp << 1;
 			SET_BIT((*(((uint8_t*)&tmp))), 7, GET_FLAG(CF));
 			*(uint32_t*)(((uint8_t*)&tmp) + (32 / 8)) = (*(uint32_t*)target);
-			SET_FLAG(CF, (*(int32_t*)target) < 0);
 			tmp = tmp >> (value % 32);
 			(*(uint32_t*)target) = *(uint32_t*)((uint8_t*)&tmp + (32 / 8));
+			LazyFlagResultContainer32 = (*(uint32_t*)target);
+			lazyFlagType = t_RCR32;
 		}
 		break;
 		case 4: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
 			uint8_t value = 1;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA32 = (*(uint32_t*)target);
 			(*(uint32_t*)target) = (*(uint32_t*)target) << value;
+			LazyFlagResultContainer32 = (*(uint32_t*)target);
+			lazyFlagType = t_SHL32;
 		}
 		break;
 		case 5: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
 			uint8_t value = 1;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA32 = (*(uint32_t*)target);
 			(*(uint32_t*)target) = (*(uint32_t*)target) >> value;
+			LazyFlagResultContainer32 = (*(uint32_t*)target);
+			lazyFlagType = t_SHR32;
 		}
 		break;
 		case 7: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
 			uint8_t value = 1;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA32 = (*(uint32_t*)target);
 			uint64_t tmp = ((*(int32_t*)target) < 0) ? 0xFFFFFFFFFFFFFFFF : 0;
 			*(uint32_t*)(((uint8_t*)&tmp) + 4) = (*(uint32_t*)target);
 			tmp = tmp >> value;
 			(*(uint32_t*)target) = (*(uint32_t*)(((uint8_t*)&tmp) + 4));
+			LazyFlagResultContainer32 = (*(uint32_t*)target);
+			lazyFlagType = t_SAR32;
 		}
 		break;
 		default:
@@ -15541,70 +16063,96 @@ void handlerCommand32Code00D2P66() {
 		case 0: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
 			uint8_t value = reg_CL_8u;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = (*(uint8_t*)target);
 			uint16_t tmp = 0;
 			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
 			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
 			tmp = tmp << (value % 8);
 			(*(uint8_t*)target) = (*(uint8_t*)(((uint8_t*)&tmp)));
+			LazyFlagResultContainer8 = (*(uint8_t*)target);
+			lazyFlagType = t_ROL8;
 		}
 		break;
 		case 1: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
 			uint8_t value = reg_CL_8u;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = (*(uint8_t*)target);
 			uint16_t tmp = 0;
 			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
 			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
 			tmp = tmp >> (value % 8);
 			(*(uint8_t*)target) = (*(uint8_t*)(((uint8_t*)&tmp + 4)));
+			LazyFlagResultContainer8 = (*(uint8_t*)target);
+			lazyFlagType = t_ROR8;
 		}
 		break;
 		case 2: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
 			uint8_t value = reg_CL_8u;
 			FillFlags();
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = (*(uint8_t*)target);
 			uint16_t tmp = 0;
 			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
 			tmp = tmp >> 1;
 			SET_BIT((*(((uint8_t*)&tmp) + (8 / 8))), 0, GET_FLAG(CF));
 			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
-			SET_FLAG(CF, (*(uint8_t*)target) % 2);
 			tmp = tmp << (value % 8);
 			(*(uint8_t*)target) = *(uint8_t*)((uint8_t*)&tmp);
+			LazyFlagResultContainer8 = (*(uint8_t*)target);
+			lazyFlagType = t_RCL8;
 		}
 		break;
 		case 3: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
 			uint8_t value = reg_CL_8u;
 			FillFlags();
-			uint16_t tmp = 0;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = (*(uint8_t*)target);
+			uint8_t tmp = 0;
 			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
 			tmp = tmp << 1;
 			SET_BIT((*(((uint8_t*)&tmp))), 7, GET_FLAG(CF));
 			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
-			SET_FLAG(CF, (*(int8_t*)target) < 0);
 			tmp = tmp >> (value % 8);
 			(*(uint8_t*)target) = *(uint8_t*)((uint8_t*)&tmp + (8 / 8));
+			LazyFlagResultContainer8 = (*(uint8_t*)target);
+			lazyFlagType = t_RCR8;
 		}
 		break;
 		case 4: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
 			uint8_t value = reg_CL_8u;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = (*(uint8_t*)target);
 			(*(uint8_t*)target) = (*(uint8_t*)target) << value;
+			LazyFlagResultContainer8 = (*(uint8_t*)target);
+			lazyFlagType = t_SHL8;
 		}
 		break;
 		case 5: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
 			uint8_t value = reg_CL_8u;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = (*(uint8_t*)target);
 			(*(uint8_t*)target) = (*(uint8_t*)target) >> value;
+			LazyFlagResultContainer8 = (*(uint8_t*)target);
+			lazyFlagType = t_SHR8;
 		}
 		break;
 		case 7: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
 			uint8_t value = reg_CL_8u;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = (*(uint8_t*)target);
 			uint64_t tmp = ((*(int8_t*)target) < 0) ? 0xFFFFFFFFFFFFFFFF : 0;
 			*(uint8_t*)(((uint8_t*)&tmp) + 4) = (*(uint8_t*)target);
 			tmp = tmp >> value;
 			(*(uint8_t*)target) = (*(uint8_t*)(((uint8_t*)&tmp) + 4));
+			LazyFlagResultContainer8 = (*(uint8_t*)target);
+			lazyFlagType = t_SAR8;
 		}
 		break;
 		default:
@@ -15620,70 +16168,96 @@ void handlerCommand32Code00D2() {
 		case 0: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
 			uint8_t value = reg_CL_8u;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = (*(uint8_t*)target);
 			uint16_t tmp = 0;
 			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
 			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
 			tmp = tmp << (value % 8);
 			(*(uint8_t*)target) = (*(uint8_t*)(((uint8_t*)&tmp)));
+			LazyFlagResultContainer8 = (*(uint8_t*)target);
+			lazyFlagType = t_ROL8;
 		}
 		break;
 		case 1: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
 			uint8_t value = reg_CL_8u;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = (*(uint8_t*)target);
 			uint16_t tmp = 0;
 			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
 			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
 			tmp = tmp >> (value % 8);
 			(*(uint8_t*)target) = (*(uint8_t*)(((uint8_t*)&tmp + 4)));
+			LazyFlagResultContainer8 = (*(uint8_t*)target);
+			lazyFlagType = t_ROR8;
 		}
 		break;
 		case 2: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
 			uint8_t value = reg_CL_8u;
 			FillFlags();
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = (*(uint8_t*)target);
 			uint16_t tmp = 0;
 			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
 			tmp = tmp >> 1;
 			SET_BIT((*(((uint8_t*)&tmp) + (8 / 8))), 0, GET_FLAG(CF));
 			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
-			SET_FLAG(CF, (*(uint8_t*)target) % 2);
 			tmp = tmp << (value % 8);
 			(*(uint8_t*)target) = *(uint8_t*)((uint8_t*)&tmp);
+			LazyFlagResultContainer8 = (*(uint8_t*)target);
+			lazyFlagType = t_RCL8;
 		}
 		break;
 		case 3: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
 			uint8_t value = reg_CL_8u;
 			FillFlags();
-			uint16_t tmp = 0;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = (*(uint8_t*)target);
+			uint8_t tmp = 0;
 			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
 			tmp = tmp << 1;
 			SET_BIT((*(((uint8_t*)&tmp))), 7, GET_FLAG(CF));
 			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
-			SET_FLAG(CF, (*(int8_t*)target) < 0);
 			tmp = tmp >> (value % 8);
 			(*(uint8_t*)target) = *(uint8_t*)((uint8_t*)&tmp + (8 / 8));
+			LazyFlagResultContainer8 = (*(uint8_t*)target);
+			lazyFlagType = t_RCR8;
 		}
 		break;
 		case 4: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
 			uint8_t value = reg_CL_8u;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = (*(uint8_t*)target);
 			(*(uint8_t*)target) = (*(uint8_t*)target) << value;
+			LazyFlagResultContainer8 = (*(uint8_t*)target);
+			lazyFlagType = t_SHL8;
 		}
 		break;
 		case 5: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
 			uint8_t value = reg_CL_8u;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = (*(uint8_t*)target);
 			(*(uint8_t*)target) = (*(uint8_t*)target) >> value;
+			LazyFlagResultContainer8 = (*(uint8_t*)target);
+			lazyFlagType = t_SHR8;
 		}
 		break;
 		case 7: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
 			uint8_t value = reg_CL_8u;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = (*(uint8_t*)target);
 			uint64_t tmp = ((*(int8_t*)target) < 0) ? 0xFFFFFFFFFFFFFFFF : 0;
 			*(uint8_t*)(((uint8_t*)&tmp) + 4) = (*(uint8_t*)target);
 			tmp = tmp >> value;
 			(*(uint8_t*)target) = (*(uint8_t*)(((uint8_t*)&tmp) + 4));
+			LazyFlagResultContainer8 = (*(uint8_t*)target);
+			lazyFlagType = t_SAR8;
 		}
 		break;
 		default:
@@ -15699,70 +16273,96 @@ void handlerCommand32Code00D3P66() {
 		case 0: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For16(mrmByte);
 			uint8_t value = reg_CL_8u;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA16 = (*(uint16_t*)target);
 			uint32_t tmp = 0;
 			*(uint16_t*)(((uint8_t*)&tmp)) = (*(uint16_t*)target);
 			*(uint16_t*)(((uint8_t*)&tmp) + (16 / 8)) = (*(uint16_t*)target);
 			tmp = tmp << (value % 16);
 			(*(uint16_t*)target) = (*(uint16_t*)(((uint8_t*)&tmp)));
+			LazyFlagResultContainer16 = (*(uint16_t*)target);
+			lazyFlagType = t_ROL16;
 		}
 		break;
 		case 1: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For16(mrmByte);
 			uint8_t value = reg_CL_8u;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA16 = (*(uint16_t*)target);
 			uint32_t tmp = 0;
 			*(uint16_t*)(((uint8_t*)&tmp)) = (*(uint16_t*)target);
 			*(uint16_t*)(((uint8_t*)&tmp) + (16 / 8)) = (*(uint16_t*)target);
 			tmp = tmp >> (value % 16);
 			(*(uint16_t*)target) = (*(uint16_t*)(((uint8_t*)&tmp + 4)));
+			LazyFlagResultContainer16 = (*(uint16_t*)target);
+			lazyFlagType = t_ROR16;
 		}
 		break;
 		case 2: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For16(mrmByte);
 			uint8_t value = reg_CL_8u;
 			FillFlags();
+			LazyFlagVarB8 = value;
+			LazyFlagVarA16 = (*(uint16_t*)target);
 			uint32_t tmp = 0;
 			*(uint16_t*)(((uint8_t*)&tmp) + (16 / 8)) = (*(uint16_t*)target);
 			tmp = tmp >> 1;
 			SET_BIT((*(((uint8_t*)&tmp) + (16 / 8))), 0, GET_FLAG(CF));
 			*(uint16_t*)(((uint8_t*)&tmp)) = (*(uint16_t*)target);
-			SET_FLAG(CF, (*(uint16_t*)target) % 2);
 			tmp = tmp << (value % 16);
 			(*(uint16_t*)target) = *(uint16_t*)((uint8_t*)&tmp);
+			LazyFlagResultContainer16 = (*(uint16_t*)target);
+			lazyFlagType = t_RCL16;
 		}
 		break;
 		case 3: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For16(mrmByte);
 			uint8_t value = reg_CL_8u;
 			FillFlags();
-			uint32_t tmp = 0;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA16 = (*(uint16_t*)target);
+			uint16_t tmp = 0;
 			*(uint16_t*)(((uint8_t*)&tmp)) = (*(uint16_t*)target);
 			tmp = tmp << 1;
 			SET_BIT((*(((uint8_t*)&tmp))), 7, GET_FLAG(CF));
 			*(uint16_t*)(((uint8_t*)&tmp) + (16 / 8)) = (*(uint16_t*)target);
-			SET_FLAG(CF, (*(int16_t*)target) < 0);
 			tmp = tmp >> (value % 16);
 			(*(uint16_t*)target) = *(uint16_t*)((uint8_t*)&tmp + (16 / 8));
+			LazyFlagResultContainer16 = (*(uint16_t*)target);
+			lazyFlagType = t_RCR16;
 		}
 		break;
 		case 4: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For16(mrmByte);
 			uint8_t value = reg_CL_8u;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA16 = (*(uint16_t*)target);
 			(*(uint16_t*)target) = (*(uint16_t*)target) << value;
+			LazyFlagResultContainer16 = (*(uint16_t*)target);
+			lazyFlagType = t_SHL16;
 		}
 		break;
 		case 5: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For16(mrmByte);
 			uint8_t value = reg_CL_8u;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA16 = (*(uint16_t*)target);
 			(*(uint16_t*)target) = (*(uint16_t*)target) >> value;
+			LazyFlagResultContainer16 = (*(uint16_t*)target);
+			lazyFlagType = t_SHR16;
 		}
 		break;
 		case 7: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For16(mrmByte);
 			uint8_t value = reg_CL_8u;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA16 = (*(uint16_t*)target);
 			uint64_t tmp = ((*(int16_t*)target) < 0) ? 0xFFFFFFFFFFFFFFFF : 0;
 			*(uint16_t*)(((uint8_t*)&tmp) + 4) = (*(uint16_t*)target);
 			tmp = tmp >> value;
 			(*(uint16_t*)target) = (*(uint16_t*)(((uint8_t*)&tmp) + 4));
+			LazyFlagResultContainer16 = (*(uint16_t*)target);
+			lazyFlagType = t_SAR16;
 		}
 		break;
 		default:
@@ -15778,70 +16378,96 @@ void handlerCommand32Code00D3() {
 		case 0: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
 			uint8_t value = reg_CL_8u;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA32 = (*(uint32_t*)target);
 			uint64_t tmp = 0;
 			*(uint32_t*)(((uint8_t*)&tmp)) = (*(uint32_t*)target);
 			*(uint32_t*)(((uint8_t*)&tmp) + (32 / 8)) = (*(uint32_t*)target);
 			tmp = tmp << (value % 32);
 			(*(uint32_t*)target) = (*(uint32_t*)(((uint8_t*)&tmp)));
+			LazyFlagResultContainer32 = (*(uint32_t*)target);
+			lazyFlagType = t_ROL32;
 		}
 		break;
 		case 1: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
 			uint8_t value = reg_CL_8u;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA32 = (*(uint32_t*)target);
 			uint64_t tmp = 0;
 			*(uint32_t*)(((uint8_t*)&tmp)) = (*(uint32_t*)target);
 			*(uint32_t*)(((uint8_t*)&tmp) + (32 / 8)) = (*(uint32_t*)target);
 			tmp = tmp >> (value % 32);
 			(*(uint32_t*)target) = (*(uint32_t*)(((uint8_t*)&tmp + 4)));
+			LazyFlagResultContainer32 = (*(uint32_t*)target);
+			lazyFlagType = t_ROR32;
 		}
 		break;
 		case 2: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
 			uint8_t value = reg_CL_8u;
 			FillFlags();
+			LazyFlagVarB8 = value;
+			LazyFlagVarA32 = (*(uint32_t*)target);
 			uint64_t tmp = 0;
 			*(uint32_t*)(((uint8_t*)&tmp) + (32 / 8)) = (*(uint32_t*)target);
 			tmp = tmp >> 1;
 			SET_BIT((*(((uint8_t*)&tmp) + (32 / 8))), 0, GET_FLAG(CF));
 			*(uint32_t*)(((uint8_t*)&tmp)) = (*(uint32_t*)target);
-			SET_FLAG(CF, (*(uint32_t*)target) % 2);
 			tmp = tmp << (value % 32);
 			(*(uint32_t*)target) = *(uint32_t*)((uint8_t*)&tmp);
+			LazyFlagResultContainer32 = (*(uint32_t*)target);
+			lazyFlagType = t_RCL32;
 		}
 		break;
 		case 3: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
 			uint8_t value = reg_CL_8u;
 			FillFlags();
-			uint64_t tmp = 0;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA32 = (*(uint32_t*)target);
+			uint32_t tmp = 0;
 			*(uint32_t*)(((uint8_t*)&tmp)) = (*(uint32_t*)target);
 			tmp = tmp << 1;
 			SET_BIT((*(((uint8_t*)&tmp))), 7, GET_FLAG(CF));
 			*(uint32_t*)(((uint8_t*)&tmp) + (32 / 8)) = (*(uint32_t*)target);
-			SET_FLAG(CF, (*(int32_t*)target) < 0);
 			tmp = tmp >> (value % 32);
 			(*(uint32_t*)target) = *(uint32_t*)((uint8_t*)&tmp + (32 / 8));
+			LazyFlagResultContainer32 = (*(uint32_t*)target);
+			lazyFlagType = t_RCR32;
 		}
 		break;
 		case 4: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
 			uint8_t value = reg_CL_8u;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA32 = (*(uint32_t*)target);
 			(*(uint32_t*)target) = (*(uint32_t*)target) << value;
+			LazyFlagResultContainer32 = (*(uint32_t*)target);
+			lazyFlagType = t_SHL32;
 		}
 		break;
 		case 5: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
 			uint8_t value = reg_CL_8u;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA32 = (*(uint32_t*)target);
 			(*(uint32_t*)target) = (*(uint32_t*)target) >> value;
+			LazyFlagResultContainer32 = (*(uint32_t*)target);
+			lazyFlagType = t_SHR32;
 		}
 		break;
 		case 7: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
 			uint8_t value = reg_CL_8u;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA32 = (*(uint32_t*)target);
 			uint64_t tmp = ((*(int32_t*)target) < 0) ? 0xFFFFFFFFFFFFFFFF : 0;
 			*(uint32_t*)(((uint8_t*)&tmp) + 4) = (*(uint32_t*)target);
 			tmp = tmp >> value;
 			(*(uint32_t*)target) = (*(uint32_t*)(((uint8_t*)&tmp) + 4));
+			LazyFlagResultContainer32 = (*(uint32_t*)target);
+			lazyFlagType = t_SAR32;
 		}
 		break;
 		default:
@@ -17360,18 +17986,18 @@ void handlerCommand32Code00FFP66P67() {
 	switch (nnn) {
 		case 0x00: {
 			// INC
-			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
-			(*(uint8_t*)target)++;
-			LazyFlagResultContainer8 = *(uint8_t*)target;
-			lazyFlagType = t_INC8;
+			uint8_t* target = (uint8_t*)readAddressMRM32For16(mrmByte);
+			(*(uint16_t*)target)++;
+			LazyFlagResultContainer16 = *(uint16_t*)target;
+			lazyFlagType = t_INC16;
 		}
 		break;
 		case 0x01: {
 			// DEC
-			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
-			(*(uint8_t*)target)--;
-			LazyFlagResultContainer8 = *(uint8_t*)target;
-			lazyFlagType = t_DEC8;
+			uint8_t* target = (uint8_t*)readAddressMRM32For16(mrmByte);
+			(*(uint16_t*)target)--;
+			LazyFlagResultContainer16 = *(uint16_t*)target;
+			lazyFlagType = t_DEC16;
 		}
 		break;
 		case 0x4: {
@@ -17399,18 +18025,18 @@ void handlerCommand32Code00FFP67() {
 	switch (nnn) {
 		case 0x00: {
 			// INC
-			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
-			(*(uint8_t*)target)++;
-			LazyFlagResultContainer8 = *(uint8_t*)target;
-			lazyFlagType = t_INC8;
+			uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
+			(*(uint32_t*)target)++;
+			LazyFlagResultContainer32 = *(uint32_t*)target;
+			lazyFlagType = t_INC32;
 		}
 		break;
 		case 0x01: {
 			// DEC
-			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
-			(*(uint8_t*)target)--;
-			LazyFlagResultContainer8 = *(uint8_t*)target;
-			lazyFlagType = t_DEC8;
+			uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
+			(*(uint32_t*)target)--;
+			LazyFlagResultContainer32 = *(uint32_t*)target;
+			lazyFlagType = t_DEC32;
 		}
 		break;
 		case 0x4: {
@@ -17438,18 +18064,18 @@ void handlerCommand32Code00FFP66() {
 	switch (nnn) {
 		case 0x00: {
 			// INC
-			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
-			(*(uint8_t*)target)++;
-			LazyFlagResultContainer8 = *(uint8_t*)target;
-			lazyFlagType = t_INC8;
+			uint8_t* target = (uint8_t*)readAddressMRM32For16(mrmByte);
+			(*(uint16_t*)target)++;
+			LazyFlagResultContainer16 = *(uint16_t*)target;
+			lazyFlagType = t_INC16;
 		}
 		break;
 		case 0x01: {
 			// DEC
-			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
-			(*(uint8_t*)target)--;
-			LazyFlagResultContainer8 = *(uint8_t*)target;
-			lazyFlagType = t_DEC8;
+			uint8_t* target = (uint8_t*)readAddressMRM32For16(mrmByte);
+			(*(uint16_t*)target)--;
+			LazyFlagResultContainer16 = *(uint16_t*)target;
+			lazyFlagType = t_DEC16;
 		}
 		break;
 		case 0x4: {
@@ -17477,18 +18103,18 @@ void handlerCommand32Code00FF() {
 	switch (nnn) {
 		case 0x00: {
 			// INC
-			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
-			(*(uint8_t*)target)++;
-			LazyFlagResultContainer8 = *(uint8_t*)target;
-			lazyFlagType = t_INC8;
+			uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
+			(*(uint32_t*)target)++;
+			LazyFlagResultContainer32 = *(uint32_t*)target;
+			lazyFlagType = t_INC32;
 		}
 		break;
 		case 0x01: {
 			// DEC
-			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
-			(*(uint8_t*)target)--;
-			LazyFlagResultContainer8 = *(uint8_t*)target;
-			lazyFlagType = t_DEC8;
+			uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
+			(*(uint32_t*)target)--;
+			LazyFlagResultContainer32 = *(uint32_t*)target;
+			lazyFlagType = t_DEC32;
 		}
 		break;
 		case 0x4: {

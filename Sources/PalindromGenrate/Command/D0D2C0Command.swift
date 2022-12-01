@@ -12,62 +12,89 @@
 
 let SHL = Formatter(
     customizers: [
-        "(*(uint%dataSize_t*)target) = (*(uint%dataSize_t*)target) << value;"
+        "LazyFlagVarB8 = value;",
+        "LazyFlagVarA%dataSize = (*(uint%dataSize_t*)target);",
+        "(*(uint%dataSize_t*)target) = (*(uint%dataSize_t*)target) << value;",
+        "LazyFlagResultContainer%dataSize = (*(uint%dataSize_t*)target);",
+        "lazyFlagType = t_SHL%dataSize;"
     ]
 )
 
 let SHR = Formatter(
     customizers: [
-        "(*(uint%dataSize_t*)target) = (*(uint%dataSize_t*)target) >> value;"
+        "LazyFlagVarB8 = value;",
+        "LazyFlagVarA%dataSize = (*(uint%dataSize_t*)target);",
+        "(*(uint%dataSize_t*)target) = (*(uint%dataSize_t*)target) >> value;",
+        "LazyFlagResultContainer%dataSize = (*(uint%dataSize_t*)target);",
+        "lazyFlagType = t_SHR%dataSize;"
     ]
 )
 
 let SAL = Formatter(
     customizers: [
-        "(*(uint%dataSize_t*)target) = (*(uint%dataSize_t*)target) << value;"
+        "LazyFlagVarB8 = value;",
+        "LazyFlagVarA%dataSize = (*(uint%dataSize_t*)target);",
+        "(*(uint%dataSize_t*)target) = (*(uint%dataSize_t*)target) << value;",
+        "LazyFlagResultContainer%dataSize = (*(uint%dataSize_t*)target);",
+        "lazyFlagType = t_SHL%dataSize;"
     ]
 )
 
 let SAR = Formatter(
     customizers: [
+        "LazyFlagVarB8 = value;",
+        "LazyFlagVarA%dataSize = (*(uint%dataSize_t*)target);",
         "uint64_t tmp = ((*(int%dataSize_t*)target) < 0) ? 0xFFFFFFFFFFFFFFFF : 0;",
         "*(uint%dataSize_t*)(((uint8_t*)&tmp) + 4) = (*(uint%dataSize_t*)target);",
         "tmp = tmp >> value;",
-        "(*(uint%dataSize_t*)target) = (*(uint%dataSize_t*)(((uint8_t*)&tmp) + 4));"
+        "(*(uint%dataSize_t*)target) = (*(uint%dataSize_t*)(((uint8_t*)&tmp) + 4));",
+        "LazyFlagResultContainer%dataSize = (*(uint%dataSize_t*)target);",
+        "lazyFlagType = t_SAR%dataSize;"
     ]
 )
 
 let ROL = Formatter(
     customizers: [
+        "LazyFlagVarB8 = value;",
+        "LazyFlagVarA%dataSize = (*(uint%dataSize_t*)target);",
         "uint%2dataSize_t tmp = 0;",
         "*(uint%dataSize_t*)(((uint8_t*)&tmp)) = (*(uint%dataSize_t*)target);",
         "*(uint%dataSize_t*)(((uint8_t*)&tmp) + (%dataSize / 8)) = (*(uint%dataSize_t*)target);",
         "tmp = tmp << (value % %dataSize);",
-        "(*(uint%dataSize_t*)target) = (*(uint%dataSize_t*)(((uint8_t*)&tmp)));"
+        "(*(uint%dataSize_t*)target) = (*(uint%dataSize_t*)(((uint8_t*)&tmp)));",
+        "LazyFlagResultContainer%dataSize = (*(uint%dataSize_t*)target);",
+        "lazyFlagType = t_ROL%dataSize;"
     ]
 )
 
 let ROR = Formatter(
     customizers: [
+        "LazyFlagVarB8 = value;",
+        "LazyFlagVarA%dataSize = (*(uint%dataSize_t*)target);",
         "uint%2dataSize_t tmp = 0;",
         "*(uint%dataSize_t*)(((uint8_t*)&tmp)) = (*(uint%dataSize_t*)target);",
         "*(uint%dataSize_t*)(((uint8_t*)&tmp) + (%dataSize / 8)) = (*(uint%dataSize_t*)target);",
         "tmp = tmp >> (value % %dataSize);",
-        "(*(uint%dataSize_t*)target) = (*(uint%dataSize_t*)(((uint8_t*)&tmp + 4)));"
+        "(*(uint%dataSize_t*)target) = (*(uint%dataSize_t*)(((uint8_t*)&tmp + 4)));",
+        "LazyFlagResultContainer%dataSize = (*(uint%dataSize_t*)target);",
+        "lazyFlagType = t_ROR%dataSize;"
     ]
 )
 
 let RCL = Formatter(
     customizers: [
         "FillFlags();",
+        "LazyFlagVarB8 = value;",
+        "LazyFlagVarA%dataSize = (*(uint%dataSize_t*)target);",
         "uint%2dataSize_t tmp = 0;",
         "*(uint%dataSize_t*)(((uint8_t*)&tmp) + (%dataSize / 8)) = (*(uint%dataSize_t*)target);",
         "tmp = tmp >> 1;",
         "SET_BIT((*(((uint8_t*)&tmp) + (%dataSize / 8))), 0, GET_FLAG(CF));",
         "*(uint%dataSize_t*)(((uint8_t*)&tmp)) = (*(uint%dataSize_t*)target);",
-        "SET_FLAG(CF, (*(uint%dataSize_t*)target) % 2);",
         "tmp = tmp << (value % %dataSize);",
-        "(*(uint%dataSize_t*)target) = *(uint%dataSize_t*)((uint8_t*)&tmp);"
+        "(*(uint%dataSize_t*)target) = *(uint%dataSize_t*)((uint8_t*)&tmp);",
+        "LazyFlagResultContainer%dataSize = (*(uint%dataSize_t*)target);",
+        "lazyFlagType = t_RCL%dataSize;"
     ]
 )
 
@@ -76,14 +103,17 @@ let RCL = Formatter(
 let RCR = Formatter(
     customizers: [
         "FillFlags();",
-        "uint%2dataSize_t tmp = 0;",
+        "LazyFlagVarB8 = value;",
+        "LazyFlagVarA%dataSize = (*(uint%dataSize_t*)target);",
+        "uint%dataSize_t tmp = 0;",
         "*(uint%dataSize_t*)(((uint8_t*)&tmp)) = (*(uint%dataSize_t*)target);",
         "tmp = tmp << 1;",
         "SET_BIT((*(((uint8_t*)&tmp))), 7, GET_FLAG(CF));",
         "*(uint%dataSize_t*)(((uint8_t*)&tmp) + (%dataSize / 8)) = (*(uint%dataSize_t*)target);",
-        "SET_FLAG(CF, (*(int%dataSize_t*)target) < 0);",
         "tmp = tmp >> (value % %dataSize);",
-        "(*(uint%dataSize_t*)target) = *(uint%dataSize_t*)((uint8_t*)&tmp + (%dataSize / 8));"
+        "(*(uint%dataSize_t*)target) = *(uint%dataSize_t*)((uint8_t*)&tmp + (%dataSize / 8));",
+        "LazyFlagResultContainer%dataSize = (*(uint%dataSize_t*)target);",
+        "lazyFlagType = t_RCR%dataSize;"
     ]
 )
 

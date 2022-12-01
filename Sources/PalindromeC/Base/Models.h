@@ -34,27 +34,17 @@ typedef void (*InterruptCallFunction)(
 typedef struct Context {
     uint16_t* segmentRegisters;
     uint8_t* registers;
-    uint8_t* flags;
 
     uint8_t* index;
 
     uint8_t* program;
     uint8_t* memory;
 
-    uint8_t* currentStack;
-    void** currentCallStack;
-
-    uint8_t* stack;
-    void** callStack;
-    uint8_t* outInstruction;
-
     uint8_t mod;
 
     uint16_t cursor;
     uint8_t *text;
 
-
-    void (*SetFlags)(struct Context* context, uint8_t index);
     CommandInfo lastCommandInfo;
 
     InterruptCallFunction functions[256];

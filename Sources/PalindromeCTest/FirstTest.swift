@@ -267,7 +267,7 @@ final class FirstTest: XCTestCase {
         let wrapContext = WrapContext(memorySize: 16 * 1024 * 1024)
         wrapContext.context?[0].mod = 1
 
-        let testPath = "/Users/alexandershipin/Documents/projects/Palindrome/Sources/TestSource/Doom/out2.txt"
+        let testPath = "/Users/alexandershipin/Documents/projects/Palindrome/Sources/TestSource/Doom/out.txt"
 
         let programm = try! Data(
             contentsOf: URL.init(
@@ -281,7 +281,7 @@ final class FirstTest: XCTestCase {
         DoomSetting();
         loadDosHeader()
 
-        let number = 6749
+        let number = 3000
         let value = run16AndSaveToEndWithStop(Int32(number))
         let result = String(cString: value!)
         value?.deallocate()
@@ -293,7 +293,7 @@ final class FirstTest: XCTestCase {
 
         TAssert(error == number)
 
-        run16ToEndWithStop(0);
+        run16ToEndWithStop(2000);
     }
 
     func test09() throws {

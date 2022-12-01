@@ -40,9 +40,33 @@ func printAllCommands() {
 }
 
 extension String {
+    func removeAllTwoSpaceSpace() -> String {
+        var result = self
+        var current = self.replacingOccurrences(of: "  ", with: " ")
+        while (result.count != current.count) {
+            result = current;
+            current = current.replacingOccurrences(of: "  ", with: " ")
+        }
+        return result
+    }
+    func convertFullOutToTest() -> String {
+        removeAllTwoSpaceSpace()
+            .split(separator: "\n")
+            .filter({ $0.hasPrefix("AX=") || $0.hasPrefix("DS=") })
+            .joined(separator: "\n")
+    }
+
+    func convertIgnore(flags: [String]) -> String {
+        var result = self
+        for flag in flags {
+            result = result.replacingOccurrences(of: " \(flag)", with: "")
+        }
+        return result
+    }
+
     func getErrorCommand(source: String) -> Int? {
-        var raws1 = self.split(separator: "\n")
-        var raws2 = source.split(separator: "\n")
+        var raws1 = self.removeAllTwoSpaceSpace().convertIgnore(flags: ["PO", "PE", "NA", "AC"]).split(separator: "\n")
+        var raws2 = source.removeAllTwoSpaceSpace().convertIgnore(flags: ["PO", "PE", "NA", "AC"]).split(separator: "\n")
 
         raws1 = raws1.map { $0.hasSuffix(" ") ? $0.dropLast() : $0 }
         raws2 = raws2.map { $0.hasSuffix(" ") ? $0.dropLast() : $0 }

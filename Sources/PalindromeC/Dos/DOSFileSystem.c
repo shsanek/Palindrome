@@ -13,7 +13,6 @@
 #include "../Dos/DosMemoryMeneger.h"
 
 void dosOpenFile() {
-    FillFlags();
     char* name = (char*)(mem(SR_DS) + *regDX);
     int file = vfsOpenFile(name, *regAL);
     if (file < 0) {
@@ -27,7 +26,6 @@ void dosOpenFile() {
 }
 
 void dosReadFromFile() {
-    FillFlags();
     uint16_t description = *regBXu;
     char isEnd = 0;
     int state = vfsReadFile(description, mem(SR_DS) + *regDX, *regCXu, &isEnd);
@@ -48,14 +46,12 @@ void dosReadFromFile() {
 }
 
 void dosCloseFile() {
-    FillFlags();
     uint16_t description = *regBXu;
     *regAX = vfsCloseFile(description);
     SET_FLAG(CF, *regAX != 0);
 }
 
 void doslSeekFile() {
-    FillFlags();
     uint16_t description = *regBXu;
     if (*regAL == 2 && *regCX == 0 && *regAX == 0) {
         emptyInterruptCallFunction(0x21);
@@ -81,6 +77,7 @@ void controlBreakFunction() {
         ControlBreakState = (*regDL) ? 1 : 0;
     }
     *regDL = ControlBreakState;
+    SET_FLAG(CF, 0);
 }
 
 void systemDOSFunction(uint8_t a) {
@@ -117,10 +114,12 @@ void systemDOSFunction(uint8_t a) {
     if (*regAH == 0x38) {
         *regAX = 0x0001;
         *regBX = 0x0001;
+        SET_FLAG(CF, 0);
         return;
     }
     if (*regAH == 0x4A) {
         *regAX = 0x178E;
+        SET_FLAG(CF, 0);
         return;
     }
     if (*regAH == 0x3e) {
@@ -137,6 +136,7 @@ void systemDOSFunction(uint8_t a) {
     }
     if (*regAH == 0x00) {
         context.end = 1;
+        SET_FLAG(CF, 0);
         return;
     }
     if (*regAH == 0x42) {
@@ -146,10 +146,10 @@ void systemDOSFunction(uint8_t a) {
     if (*regAH == 0x35) {
         setMem(SR_ES, 0x024C);
         *regBXu = 0x0240;
+        SET_FLAG(CF, 0);
         return;
     }
     if (*regAH == 0x48) {
-        FillFlags();
         int result = dosAllocateBlockMemory(*regBXu);
         if (result > 0) {
             *regAX = result;

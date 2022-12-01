@@ -90,13 +90,13 @@ uint16_t parity_lookup[256] = {
 
 #define DOFLAG_AF    SET_FLAG(AF, (((LazyFlagVarA8 ^ LazyFlagVarB8) ^ LazyFlagResultContainer8) & 0x10U));
 
-#define DOFLAG_ZFb    SET_FLAG(ZF,LazyFlagResultContainer8==0);
-#define DOFLAG_ZFw    SET_FLAG(ZF,LazyFlagResultContainer16==0);
-#define DOFLAG_ZFd    SET_FLAG(ZF,LazyFlagResultContainer32==0);
+#define DOFLAG_ZFb    SET_FLAG(ZF, LazyFlagResultContainer8==0);
+#define DOFLAG_ZFw    SET_FLAG(ZF, LazyFlagResultContainer16==0);
+#define DOFLAG_ZFd    SET_FLAG(ZF, LazyFlagResultContainer32==0);
 
-#define DOFLAG_SFb    SET_FLAG(SF, ((LazyFlagResultContainer8 & 0x80U) >> 0U));
-#define DOFLAG_SFw    SET_FLAG(SF, ((LazyFlagResultContainer16 & 0x8000U) >> 8U));
-#define DOFLAG_SFd    SET_FLAG(SF, ((LazyFlagResultContainer32 & 0x80000000U) >> 24U));
+#define DOFLAG_SFb    SET_FLAG(SF, (LazyFlagResultContainer8 & 0x80U));
+#define DOFLAG_SFw    SET_FLAG(SF, (LazyFlagResultContainer16 & 0x8000U));
+#define DOFLAG_SFd    SET_FLAG(SF, (LazyFlagResultContainer32 & 0x80000000U));
 
 void FillFlags() {
     switch (lazyFlagType) {

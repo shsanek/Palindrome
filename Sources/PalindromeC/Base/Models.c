@@ -69,12 +69,6 @@ void resetStack() {
 
     fpuStackIndex = 8;
 
-    context.currentStack = context.stack;
-    context.currentCallStack = context.callStack;
-
-    context.currentCallStack[0] = context.outInstruction;
-    context.currentCallStack += 1;
-
     reg_flags = 0;
     context.segmentRegisters[SR_SS] = 0;
     *register32u(BR_SP) = context.memorySize;
@@ -111,15 +105,7 @@ Context* resetContext(uint32_t memorySize) {
         context.text[i] = 0;
     }
 
-    context.outInstruction = malloc(2);
-    context.outInstruction[0] = 0xCD;
-    context.outInstruction[1] = 0x20;
-
     context.memorySize = memorySize;
-
-    int stackSize = 1024 * sizeof(void*);
-    context.stack = malloc(1024 * sizeof(void*));
-    context.callStack = malloc(1048 * sizeof(void*));
 
     resetStack();
     setRegisterPointers();
@@ -135,9 +121,6 @@ void freeContext() {
     free(context.memory);
     free(context.registers);
     free(context.segmentRegisters);
-    free(context.outInstruction);
-    free(context.stack);
-    free(context.callStack);
     free(context.text);
     isInstall = 0;
 }

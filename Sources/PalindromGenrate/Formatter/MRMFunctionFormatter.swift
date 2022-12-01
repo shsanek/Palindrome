@@ -271,7 +271,6 @@ final class Formatter: IFormatter {
 struct InitialFormatter: IFormatter {
     func format(with info: FormatterInfo) -> String? {
         let generator = FunctionGenerator()
-        let name = info.functionName;
         let prefix = info.mode == .mod32 ? "32" : "16"
         generator.add("commandFunctions\(prefix)[\(info.variation)] = \(info.functionName);")
         if info.command.format.hasPrefixAddress {

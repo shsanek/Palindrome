@@ -54,7 +54,7 @@ extern uint8_t VM;
 
 
 #define GET_FLAG(flag) (flag)
-#define SET_FLAG(flag, value) { flag = value; }
+#define SET_FLAG(flag, value) { flag = (((value) == 0) ? 0 : 1); }
 
 #define SET_BIT(target, bit, value) { target ^= (-(int8_t)((value ? 1 : 0)) ^ target) & (1UL << bit); }
 

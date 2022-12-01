@@ -11,14 +11,18 @@
 #include <stdio.h>
 #include "Log.h"
 
+void printFlags(char *out);
+
 char* print32Registers();
 
-#define REG32_PRINT_SIZE (14 * 13)
+#define FLAGS_PRINT_SIZE (3 * 8 + 2)
+
+#define REG32_PRINT_SIZE (14 * 13 + FLAGS_PRINT_SIZE)
 #define PRINT32_REGS DEBUG_RUN({ char* out = print32Registers(); printf("%s", out); free(out); })
 
 char* print16Registers();
 
-#define REG16_PRINT_SIZE (9 * 13)
+#define REG16_PRINT_SIZE (9 * 13 + FLAGS_PRINT_SIZE)
 #define PRINT16_REGS DEBUG_RUN({ char* out = print16Registers(); printf("%s", out); free(out); })
 
 #endif /* LogRegisters_h */

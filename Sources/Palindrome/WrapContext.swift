@@ -67,10 +67,9 @@ public final class WrapContext {
     }
 
     public func setMemory(_ data: Data, offset: Int = 0) {
-        let array = data.withUnsafeBytes {
-            [UInt8](UnsafeBufferPointer(start: $0, count: data.count))
+        data.withUnsafeBytes {
+            setMemory([UInt8](UnsafeBufferPointer(start: $0, count: data.count)), offset: offset)
         }
-        setMemory(array, offset: offset)
     }
 
     public func setMemory(_ text: String, offset: Int = 0) {
