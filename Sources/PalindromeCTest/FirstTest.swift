@@ -283,12 +283,12 @@ final class FirstTest: XCTestCase {
         DoomSetting();
         loadDosHeader()
 
-        let number = 4512
+        let number = 6748
         let value = run16AndSaveToEndWithStop(Int32(number))
         let result = String(cString: value!)
         value?.deallocate()
 
-//        let out = String(data: try! Data(contentsOf: URL(fileURLWithPath: "/Users/alexandershipin/Documents/projects/Palindrome/Sources/TestSource/Doom/full3.log")), encoding: .utf8)!.convertFullOutToTest()
+//        let out = String(data: try! Data(contentsOf: URL(fileURLWithPath: "/Users/alexandershipin/Documents/projects/Palindrome/Sources/TestSource/Doom/full4.log")), encoding: .utf8)!.convertFullOutToTest()
 //
 //        try! out.write(toFile: testPath, atomically: true, encoding: .utf8)
 
@@ -299,7 +299,7 @@ final class FirstTest: XCTestCase {
 
         TAssert(error == number)
 
-        run16ToEndWithStop(4000);
+        run16ToEndWithStop(0);
     }
 
     func test09() throws {

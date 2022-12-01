@@ -18310,7 +18310,7 @@ void handlerCommand32Code0101() {
 	switch (nnn) {
 		case 0x4: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For16(mrmByte);
-			*(uint16_t*)target = 0x0011;
+			*(uint16_t*)target = 0x0019;
 		}
 		break;
 		default:

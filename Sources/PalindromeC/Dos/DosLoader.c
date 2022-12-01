@@ -117,6 +117,10 @@ void loadDosHeader() {
         *(context.program - (debugSegmentShift * 16) + 0x02F0 + i) = dos02F0HeaderDamp[i];
     }
 
+    for (int i = 0; i < 320; i++) {
+        *(context.program - (debugSegmentShift * 16) + 0x0020 + i) = dos0020HeaderDamp[i];
+    }
+
     *(context.program + (0xF000 - debugSegmentShift) * 16 - 2 + 0) = 0xFC;
     *(context.program + (0xF000 - debugSegmentShift) * 16 - 2 + 1) = 0xC4;
 

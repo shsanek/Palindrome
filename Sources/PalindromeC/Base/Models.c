@@ -26,6 +26,7 @@ void endCallFunction(uint8_t a) {
 void other15InformationFunction(uint8_t a) {
     if (*regAHu == 0xBF) {
         *regAHu = 0x86;
+        SET_FLAG(CF, 1);
         return;
     }
     emptyInterruptCallFunction(a);

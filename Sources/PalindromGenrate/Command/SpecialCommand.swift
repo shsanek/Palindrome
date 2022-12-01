@@ -38,7 +38,7 @@ let command0F01 = Command(
                     formatter: Formatter(customizers: [
                         .settings([.fixData(16)]),
                         .formatter(targetMRMFormat),
-                        "*(uint%dataSize_t*)target = 0x0011;"
+                        "*(uint%dataSize_t*)target = 0x0019;"
                     ])
                 )
             ])

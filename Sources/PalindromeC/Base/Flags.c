@@ -103,7 +103,7 @@ void FillFlags() {
     case t_UNKNOWN:
         break;
     case t_ADD8:
-        SET_FLAG(CF,(LazyFlagResultContainer8<LazyFlagVarA8 || LazyFlagResultContainer8<LazyFlagVarB8));
+        SET_FLAG(CF,(LazyFlagResultContainer8<LazyFlagVarA8));
         DOFLAG_AF;
         DOFLAG_ZFb;
         DOFLAG_SFb;
@@ -111,7 +111,7 @@ void FillFlags() {
         DOFLAG_PF;
         break;
     case t_ADD16:
-        SET_FLAG(CF,(LazyFlagResultContainer16<LazyFlagVarA16 || LazyFlagResultContainer16<LazyFlagVarB16));
+        SET_FLAG(CF,(LazyFlagResultContainer16<LazyFlagVarA16));
         DOFLAG_AF;
         DOFLAG_ZFw;
         DOFLAG_SFw;
@@ -119,7 +119,7 @@ void FillFlags() {
         DOFLAG_PF;
         break;
     case t_ADD32:
-        SET_FLAG(CF,(LazyFlagResultContainer32<LazyFlagVarA32 || LazyFlagResultContainer32<LazyFlagVarB32));
+        SET_FLAG(CF,(LazyFlagResultContainer32<LazyFlagVarA32));
         DOFLAG_AF;
         DOFLAG_ZFd;
         DOFLAG_SFd;
