@@ -9,6 +9,8 @@
 #define Log_h
 
 #include <stdio.h>
+#include <assert.h>
+
 #include "LogRegisters.h"
 
 #if 1

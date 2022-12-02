@@ -10,7 +10,9 @@
 
 #include <stdio.h>
 #include "Models.h"
-#include "Read.h"
+#include "Registers.h"
+#include "../Support/Log.h"
+#include "../Memory/RealMemoryManager.h"
 
 int8_t read8();
 uint8_t read8u();
@@ -19,16 +21,14 @@ uint16_t read16u();
 int32_t read32();
 uint32_t read32u();
 
-extern uint16_t debugSegmentShift;
-
-#define DEBUG_SEGEMTN_SHIFT -debugSegmentShift
-
 #define readFirst2Bit(byte) ((byte >> 6) & 0x03)
 #define readMiddle3Bit(byte) ((byte >> 3) & 0x07)
 #define readLast3Bit(byte) (byte & 0x07)
 
-#define mem(reg) (context.program + (context.segmentRegisters[reg] DEBUG_SEGEMTN_SHIFT) * 16)
-#define memWithReplace(reg) ((context.lastCommandInfo.prefixInfo.changeSegmentPrefix != NULL) ? context.lastCommandInfo.prefixInfo.changeSegmentPrefix: mem(reg))
+#define SR_VALUE(SR) (context.segmentRegisters[SR])
+
+#define mem(reg) (GET_REAL_MOD_MEMORY_POINTER(SR_VALUE(reg)))
+#define memWithReplace(reg) ((context.lastCommandInfo.prefixInfo.hasSegmentPrefix) ? mem(context.lastCommandInfo.prefixInfo.changeSegmentPrefix) : mem(reg))
 
 #define setMem(reg, mem) { context.segmentRegisters[reg] = mem; }
 

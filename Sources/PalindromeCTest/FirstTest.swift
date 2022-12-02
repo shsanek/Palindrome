@@ -11,11 +11,12 @@ final class FirstTest: XCTestCase {
 
     func test00() throws {
         let wrapContext = WrapContext()
-        wrapContext.setMemory(
+        wrapContext.loadProgram(
+            with: .simple(mod: .mod16),
             "BB1100B90D00B40E8A0743CD10E2F9CD2048656C6C6F2C20576F726C6421"
         )
 
-        wrapContext.context?[0].mod = 0
+        DebugOnlyPrint = 1;
 
         run16ToEndWithStop(10000)
 
@@ -27,8 +28,8 @@ final class FirstTest: XCTestCase {
 
     func test01() throws {
         let wrapContext = WrapContext()
-        wrapContext.context?[0].mod = 1
-        wrapContext.setMemory(
+        wrapContext.loadProgram(
+            with: .simple(mod: .mod32),
             """
             8d4c2404
             83e4f0
@@ -72,9 +73,8 @@ final class FirstTest: XCTestCase {
 
     func test02() throws {
         let wrapContext = WrapContext()
-        wrapContext.context?[0].mod = 1
-        pushInStack32(10)
-        wrapContext.setMemory(
+        wrapContext.loadProgram(
+            with: .simple(mod: .mod32),
             """
             8b442404
             ba01000000
@@ -88,6 +88,8 @@ final class FirstTest: XCTestCase {
             c3
             """
         )
+        pushInStack32(10)
+        returnToTopStack();
 
         run32ToEndWithStop(10000)
 
@@ -100,14 +102,16 @@ final class FirstTest: XCTestCase {
 
     func test03() throws {
         let wrapContext = WrapContext()
-        wrapContext.context?[0].mod = 1
 
         let programm = try! Data(
             contentsOf: URL.init(
                 fileURLWithPath: basePath + "FactorialTest/factorial.bin"
             )
         )
-        wrapContext.setMemory(programm)
+        wrapContext.loadProgram(
+            with: .simple(mod: .mod32),
+            programm
+        )
 
         run32ToEndWithStop(10000)
 
@@ -120,14 +124,16 @@ final class FirstTest: XCTestCase {
 
     func test03_O1() throws {
         let wrapContext = WrapContext()
-        wrapContext.context?[0].mod = 1
 
         let programm = try! Data(
             contentsOf: URL.init(
                 fileURLWithPath: basePath + "FactorialTest/factorialO1.bin"
             )
         )
-        wrapContext.setMemory(programm)
+        wrapContext.loadProgram(
+            with: .simple(mod: .mod32),
+            programm
+        )
 
         run32ToEndWithStop(10000)
 
@@ -140,14 +146,16 @@ final class FirstTest: XCTestCase {
 
     func test04() throws {
         let wrapContext = WrapContext()
-        wrapContext.context?[0].mod = 1
 
         let programm = try! Data(
             contentsOf: URL.init(
                 fileURLWithPath: basePath + "SortTest/sort.bin"
             )
         )
-        wrapContext.setMemory(programm)
+        wrapContext.loadProgram(
+            with: .simple(mod: .mod32),
+            programm
+        )
 
         run32ToEndWithStop(10000)
 
@@ -161,14 +169,16 @@ final class FirstTest: XCTestCase {
 
     func test04_O1() throws {
         let wrapContext = WrapContext()
-        wrapContext.context?[0].mod = 1
 
         let programm = try! Data(
             contentsOf: URL.init(
                 fileURLWithPath: basePath + "SortTest/sortO1.bin"
             )
         )
-        wrapContext.setMemory(programm)
+        wrapContext.loadProgram(
+            with: .simple(mod: .mod32),
+            programm
+        )
 
         run32ToEndWithStop(10000)
 
@@ -182,14 +192,16 @@ final class FirstTest: XCTestCase {
 
     func test05() throws {
         let wrapContext = WrapContext()
-        wrapContext.context?[0].mod = 1
 
         let programm = try! Data(
             contentsOf: URL.init(
                 fileURLWithPath: basePath + "NegTest/neg.bin"
             )
         )
-        wrapContext.setMemory(programm)
+        wrapContext.loadProgram(
+            with: .simple(mod: .mod32),
+            programm
+        )
 
         run32ToEndWithStop(10000)
 
@@ -201,14 +213,16 @@ final class FirstTest: XCTestCase {
 
     func test05_O1() throws {
         let wrapContext = WrapContext()
-        wrapContext.context?[0].mod = 1
 
         let programm = try! Data(
             contentsOf: URL.init(
                 fileURLWithPath: basePath + "NegTest/negO1.bin"
             )
         )
-        wrapContext.setMemory(programm)
+        wrapContext.loadProgram(
+            with: .simple(mod: .mod32),
+            programm
+        )
 
         run32ToEndWithStop(10000)
 
@@ -220,14 +234,16 @@ final class FirstTest: XCTestCase {
 
     func test06() throws {
         let wrapContext = WrapContext()
-        wrapContext.context?[0].mod = 1
 
         let programm = try! Data(
             contentsOf: URL.init(
                 fileURLWithPath: basePath + "FpuTest/fpu.bin"
             )
         )
-        wrapContext.setMemory(programm)
+        wrapContext.loadProgram(
+            with: .simple(mod: .mod32),
+            programm
+        )
 
         run32ToEndWithStop(10000)
 
@@ -238,8 +254,7 @@ final class FirstTest: XCTestCase {
     }
 
     func test07() throws {
-        let wrapContext = WrapContext(memorySize: 4 * 1024 * 1024)
-        wrapContext.context?[0].mod = 1
+        let wrapContext = WrapContext()
 
         let testPath = "/Users/alexandershipin/Documents/projects/Palindrome/Sources/TestSource/Tetris/out.txt"
         let programm = try! Data(
@@ -247,8 +262,8 @@ final class FirstTest: XCTestCase {
                 fileURLWithPath: "/Users/alexandershipin/Documents/projects/Palindrome/Sources/TestSource/Tetris/TETRIS.COM"
             )
         )
-        wrapContext.setMemory("CD2000A0009AF0FE1DF04F03F2108A03")
-        wrapContext.setMemory(programm, offset: 256)
+
+        wrapContext.loadProgram(with: .program, programm)
 
         let value = run16AndSaveToEndWithStop(104)
 
@@ -266,8 +281,7 @@ final class FirstTest: XCTestCase {
     }
 
     func test08() throws {
-        let wrapContext = WrapContext(memorySize: 16 * 1024 * 1024)
-        wrapContext.context?[0].mod = 1
+        let wrapContext = WrapContext()
 
         let testPath = "/Users/alexandershipin/Documents/projects/Palindrome/Sources/TestSource/Doom/out.txt"
 
@@ -278,12 +292,10 @@ final class FirstTest: XCTestCase {
         )
 
         wrapContext.addVirtualFolder("D:\\", path: "/Users/alexandershipin/Downloads/doom/")
-        wrapContext.setMemory(programm, offset: 0x2000 * 16)
 
-        DoomSetting();
-        loadDosHeader()
+        wrapContext.loadProgram(with: .program, programm)
 
-        let number = 6748
+        let number = 6721
         let value = run16AndSaveToEndWithStop(Int32(number))
         let result = String(cString: value!)
         value?.deallocate()
@@ -303,7 +315,7 @@ final class FirstTest: XCTestCase {
     }
 
     func test09() throws {
-        let wrapContext = WrapContext(memorySize: 16 * 1024 * 1024)
+        let wrapContext = WrapContext()
         wrapContext.context?[0].mod = 1
 
         let testPath = "/Users/alexandershipin/Documents/projects/Palindrome/Sources/TestSource/Wolf/out.txt"
@@ -315,10 +327,8 @@ final class FirstTest: XCTestCase {
         )
 
         wrapContext.addVirtualFolder("D:\\", path: "/Users/alexandershipin/Downloads/wolf3d-box/WOLF3D/")
-        wrapContext.setMemory(programm, offset: 0x2000 * 16)
+        wrapContext.loadProgram(with: .program, programm)
 
-        DoomSetting();
-        loadDosHeader()
 
         let number = 1000
         let value = run16AndSaveToEndWithStop(Int32(number))
@@ -333,33 +343,6 @@ final class FirstTest: XCTestCase {
         TAssert(error == nil || error == number)
 
         run16ToEndWithStop(0);
-    }
-}
-
-extension WrapContext {
-    func addVirtualFolder(_ virtualPath: String, path: String) {
-        path.toCString { path in
-            virtualPath.toCString { vPath in
-                PalindromeC.addVirtualFolder(vPath, path, 1)
-            }
-        }
-    }
-}
-
-extension String {
-    func toCString(_ block: (UnsafeMutablePointer<Int8>) -> Void) {
-        self.withCString { pointer in
-            var len = 0
-            while pointer[len] != 0 { len += 1 }
-            len += 1
-            let result = UnsafeMutablePointer<Int8>.allocate(capacity: len)
-
-            for i in 0..<len {
-                result[i] = pointer[i]
-            }
-            block(result)
-            result.deallocate()
-        }
     }
 }
 

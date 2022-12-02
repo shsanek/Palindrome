@@ -13,6 +13,8 @@
 #include "../Base/Registers.h"
 #include "../Dos/DosLoader.h"
 #include "../Dos/VirtualFolder.h"
+#include "../Memory/RealMemoryManager.h"
+#include "../Dos/VideoServiceInterrupt.h"
 
 extern uint8_t *debugCommands;
 

@@ -6,7 +6,6 @@
 //
 
 #include "Log.h"
-#include <assert.h>
 
 char debugLine[512];
 uint16_t debugLineIndex = 0;

@@ -73,9 +73,6 @@ void resetStack() {
     reg_flags = 0;
     DecodeFlagsRegister32();
 
-    context.segmentRegisters[SR_SS] = 0;
-    *register32u(BR_SP) = context.memorySize;
-
     context.cursor = 0;
     context.end = 0;
     context.index = context.program;
@@ -83,22 +80,14 @@ void resetStack() {
 
 int isInstall = 0;
 
-Context* resetContext(uint32_t memorySize) {
+Context* resetContext() {
     freeContext();
     isInstall = 1;
-    uint16_t* segmentRegisters = malloc(sizeof(uint16_t) * 8);
-    uint8_t* registers = malloc(sizeof(uint32_t) * 8);
 
-    uint8_t* memory = malloc(memorySize);
     uint8_t mod = 0;
 
     setBaseFunction();
 
-    context.segmentRegisters = segmentRegisters;
-    context.registers = registers;
-    context.memory = memory;
-    context.program = memory;
-    context.index = memory;
     context.mod = mod;
     context.end = 0;
     context.additionalContext = NULL;
@@ -107,8 +96,6 @@ Context* resetContext(uint32_t memorySize) {
     for (int i = 0; i < 255 * 255; i++) {
         context.text[i] = 0;
     }
-
-    context.memorySize = memorySize;
 
     resetStack();
     setRegisterPointers();
@@ -121,9 +108,6 @@ void freeContext() {
     if (!isInstall) {
         return;
     }
-    free(context.memory);
-    free(context.registers);
-    free(context.segmentRegisters);
     free(context.text);
     isInstall = 0;
 }

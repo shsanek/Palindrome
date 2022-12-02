@@ -9,8 +9,17 @@
 #define DosLoader_h
 
 #include <stdio.h>
+#include <stdlib.h>
 
-void loadDosHeader();
-void DoomSetting();
+#include "DosExeHeader.h"
+
+#include "../Base/Read.h"
+#include "../Function/BaseFunction.h"
+#include "../Memory/RealMemoryManager.h"
+#include "../Base/Registers.h"
+
+void loadProgramInZeroMemory(uint8_t *program, uint size, uint mod);
+void returnToTopStack();
+void loadDosProgram(uint8_t *program, uint size);
 
 #endif /* DosLoader_h */

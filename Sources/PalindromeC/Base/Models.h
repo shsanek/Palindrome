@@ -11,11 +11,13 @@
 #include <stdio.h>
 #include "FPU.h"
 
+
 typedef struct CommandPrefixInfo {
     uint8_t commandPrefix;
     uint8_t addressSizePrefix;
     uint8_t operandSizePrefix;
-    uint8_t* changeSegmentPrefix;
+    uint16_t changeSegmentPrefix;
+    uint8_t hasSegmentPrefix;
 } CommandPrefixInfo;
 
 typedef struct ASMMRMInfo {
@@ -32,13 +34,12 @@ typedef void (*InterruptCallFunction)(
 );
 
 typedef struct Context {
-    uint16_t* segmentRegisters;
-    uint8_t* registers;
+    uint16_t segmentRegisters[8];
+    uint8_t registers[256];
 
     uint8_t* index;
 
     uint8_t* program;
-    uint8_t* memory;
 
     uint8_t mod;
 
@@ -52,14 +53,11 @@ typedef struct Context {
     char end;
 
     void *additionalContext;
-
-    uint32_t memorySize;
-
 } Context;
 
 extern Context context;
 
-Context* resetContext(uint32_t memorySize);
+Context* resetContext();
 void freeContext();
 void emptyInterruptCallFunction(uint8_t a);
 

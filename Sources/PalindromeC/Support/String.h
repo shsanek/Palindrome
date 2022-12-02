@@ -9,6 +9,8 @@
 #define String_h
 
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 int8_t* stringCopy(int8_t *source);
 int checkPrefix(int8_t *source, int8_t *prefix);

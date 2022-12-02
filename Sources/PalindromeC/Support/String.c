@@ -6,8 +6,6 @@
 //
 
 #include "String.h"
-#include <stdlib.h>
-#include <string.h>
 
 int8_t* stringCopy(int8_t *source) {
     if (source == NULL) {

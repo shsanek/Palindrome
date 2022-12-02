@@ -9,12 +9,6 @@
 #define BaseFunction_h
 
 #include <stdio.h>
-#include "../Base/Models.h"
-#include "../Base/Read.h"
-#include "../Base/Registers.h"
-#include "../Base/MRM.h"
-#include "../Base/Flags.h"
-#include "../Dos/VideoServiceInterrupt.h"
 #include <stdlib.h>
 #include <string.h>
 #include <assert.h>

@@ -6,11 +6,6 @@
 //
 
 #include "VirtualFolder.h"
-#include "../Support/String.h"
-#include "../Support/Log.h"
-#include <stdlib.h>
-#include <string.h>
-#include <assert.h>
 
 typedef struct VirtualFolder {
     int8_t *virtualPath;

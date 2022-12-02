@@ -1,6 +1,27 @@
 import PalindromeC
 import Foundation
 
+public enum Mod {
+    case mod32
+    case mod16
+}
+
+public enum LoadProgramType {
+    /// программа будет загружена с 0 байта, ограничения `(программа) < 0xFFFF - 2`
+    /// все регистры 0 кроме стековых
+    /// годиться только для тестов
+    /// процессор работает в реальном режиме
+    /// (0xFFFF - 2) заноситься прерывание `CD10` на выход программы, адрес занесен в стек чтобы по `C3` завершать программу
+    case simple(mod: Mod)
+
+    /// Загрузка Windows/Dos программ по заголовку процессор будет переведен в рельный или в защищеный режим
+    /// Если загрузка в реальном режиме то будет выделено` 0xFFFF * 16` байт памяти
+    /// будут частично заполнены вектора прерывания в 0 адресах
+    /// также будет заполнена часть верхних адресов
+    /// программа разместиться с секции `0x178E` (для нормальной работы тестов записаных с эмулятора кьюми)
+    case program
+}
+
 public final class WrapContext {
     public enum State {
         case done
@@ -29,12 +50,9 @@ public final class WrapContext {
     private static let installQueue = DispatchQueue(label: "com.install.palindromfunction")
     private static var isFirst: Bool = true
 
-    public init(memorySize: Int = 32 * 1024, notUseExternalFunction: Bool = false) {
+    public init() {
         Self.load()
-        self.context = resetContext(UInt32(memorySize))
-        if !notUseExternalFunction {
-            setting()
-        }
+        self.context = resetContext()
     }
 
     private static func load() {
@@ -47,7 +65,6 @@ public final class WrapContext {
         }
     }
 
-
     deinit {
         freeContext()
     }
@@ -56,54 +73,36 @@ public final class WrapContext {
         PalindromeC.runCommand()
     }
 
-    public func setMemory(_ memory: [UInt8], offset: Int = 0) {
-        for container in memory.enumerated() {
-            context?[0].memory[container.offset + offset] = container.element
-        }
-        context?[0].memory[memory.count + offset] = 0xCD
-        context?[0].memory[memory.count + offset + 1] = 0x20
-        pushInStack32(Int32(memory.count + offset))
-        context?[0].index = context![0].memory + offset
-    }
-
-    public func setMemory(_ data: Data, offset: Int = 0) {
-        data.withUnsafeBytes {
-            setMemory([UInt8](UnsafeBufferPointer(start: $0, count: data.count)), offset: offset)
+    public func loadProgram(with type: LoadProgramType, pointer: UnsafeMutablePointer<UInt8>, size: Int) {
+        switch type {
+        case .program:
+            loadDosProgram(pointer, UInt32(size))
+        case .simple(let mod):
+            loadProgramInZeroMemory(pointer, UInt32(size), mod == .mod16 ? 0: 1)
         }
     }
 
-    public func setMemory(_ text: String, offset: Int = 0) {
+    public func loadProgram(with type: LoadProgramType, _ data: Data) {
+        var mData = data
+        mData.toPointer({ pointer in
+            loadProgram(with: type, pointer: pointer, size: data.count)
+        })
+    }
+
+    public func loadProgram(with type: LoadProgramType, _ text: String) {
         let regex = try! NSRegularExpression(pattern: "[0-9a-f]{1,2}", options: .caseInsensitive)
-        var memory: [UInt8] = []
+        var memory = Data()
         let text = text.lowercased().replacingOccurrences(of: " ", with: "").replacingOccurrences(of: "\n", with: "").replacingOccurrences(of: "\t", with: "")
         regex.enumerateMatches(in: text, range: NSRange(text.startIndex..., in: text)) { match, _, _ in
             let byteString = (text as NSString).substring(with: match!.range)
             let num = UInt8(byteString, radix: 16)!
             memory.append(num)
         }
-        setMemory(memory, offset: offset)
+        loadProgram(with: type, memory)
     }
 
     public func setFunction(_ index: UInt8, block: @escaping (inout Context) -> Void) {
         self.functionsContainer.functions[index] = block
-    }
-
-    private func setting() {
-//        let pointer = UnsafeMutableRawPointer(&functionsContainer)
-//        self.context?[0].additionalContext = pointer
-//        for i in 0..<256 {
-//            self.context?[0].functions(i) = { (index) in
-//                let opaquePtr = OpaquePointer()
-//                let context = UnsafeMutablePointer<Context>(opaquePtr)
-//                guard let context = context else {
-//                    return
-//                }
-//                let functionsContainerPtr = OpaquePointer([0].additionalContext)
-//                let functionsContainer = UnsafeMutablePointer<FunctionContainer>(functionsContainerPtr)
-//
-//                functionsContainer?[0].functions[UInt8(index)]?(&context[0])
-//            }
-//        }
     }
 
     private func generateProgramm(
@@ -121,4 +120,58 @@ public final class WrapContext {
 
 final class FunctionContainer {
     var functions: [UInt8: (inout Context) -> Void] = [:]
+}
+
+
+public extension String {
+    func toCString(_ block: (UnsafeMutablePointer<Int8>) -> Void) {
+        self.withCString { pointer in
+            var len = 0
+            while pointer[len] != 0 { len += 1 }
+            len += 1
+            let result = UnsafeMutablePointer<Int8>.allocate(capacity: len)
+
+            for i in 0..<len {
+                result[i] = pointer[i]
+            }
+            block(result)
+            result.deallocate()
+        }
+    }
+
+    func toCUString(_ block: (UnsafeMutablePointer<UInt8>) -> Void) {
+        self.withCString { pointer in
+            var len = 0
+            while pointer[len] != 0 { len += 1 }
+            len += 1
+            let result = UnsafeMutablePointer<UInt8>.allocate(capacity: len)
+
+            for i in 0..<len {
+                result[i] = UInt8(bitPattern: pointer[i])
+            }
+            block(result)
+            result.deallocate()
+        }
+    }
+}
+
+extension Data {
+    mutating func toPointer(_ block: (UnsafeMutablePointer<UInt8>) -> Void) {
+        withUnsafeMutableBytes { (rawMutableBufferPointer) in
+            let bufferPointer = rawMutableBufferPointer.bindMemory(to: UInt8.self)
+            if let address = bufferPointer.baseAddress{
+                block(address)
+            }
+        }
+    }
+}
+
+public extension WrapContext {
+    func addVirtualFolder(_ virtualPath: String, path: String) {
+        path.toCString { path in
+            virtualPath.toCString { vPath in
+                PalindromeC.addVirtualFolder(vPath, path, 1)
+            }
+        }
+    }
 }

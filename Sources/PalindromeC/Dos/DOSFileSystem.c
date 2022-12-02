@@ -6,11 +6,6 @@
 //
 
 #include "DOSFileSystem.h"
-#include "../Base/Read.h"
-#include "../Base/Flags.h"
-#include "../include/Base.h"
-#include "../Function/BaseFunction.h"
-#include "../Dos/DosMemoryMeneger.h"
 
 void dosOpenFile() {
     char* name = (char*)(mem(SR_DS) + *regDX);
@@ -80,6 +75,52 @@ void controlBreakFunction() {
     SET_FLAG(CF, 0);
 }
 
+void dosAllocateMemory() {
+    int result = realModMemoryAllocate(*regBXu);
+    if (result > 0) {
+        *regAX = result;
+        SET_FLAG(CF, 0);
+    } else {
+        *regAX = 1;
+        *regBXu = -result;
+        SET_FLAG(CF, 0);
+    }
+}
+
+void dosFreeMemory() {
+    int result = realModMemoryFree(context.segmentRegisters[SR_ES]);
+    if (result > 0) {
+        SET_FLAG(CF, 0);
+    } else {
+        *regAX = 1;
+        SET_FLAG(CF, 1);
+    }
+}
+
+void dosResizeMemory() {
+    int result = realModMemoryRelocate(context.segmentRegisters[SR_ES], *regBXu);
+    if (result > 0) {
+        SET_FLAG(CF, 0);
+        *regAXu = context.segmentRegisters[SR_ES];
+    } else {
+        SET_FLAG(CF, 1);
+        *regAX = 1;
+        *regBXu = -result;
+    }
+}
+
+void dosLinePrint() {
+    int i = 0;
+    char *text = (char*)(mem(SR_DS) + *regDX);
+    while (text[i] != '$' && text[i] != '\0') {
+        i++;
+    }
+    char symbol = text[i];
+    text[i] = 0;
+    printf("\n[DOS] %s\n", text);
+    text[i] = symbol;
+}
+
 void systemDOSFunction(uint8_t a) {
     if (*regAH == 0x33) {
         controlBreakFunction();
@@ -117,11 +158,11 @@ void systemDOSFunction(uint8_t a) {
         SET_FLAG(CF, 0);
         return;
     }
-    if (*regAH == 0x4A) {
-        *regAX = 0x178E;
-        SET_FLAG(CF, 0);
-        return;
-    }
+//    if (*regAH == 0x4A) {
+//        *regAX = 0x178E;
+//        SET_FLAG(CF, 0);
+//        return;
+//    }
     if (*regAH == 0x3e) {
         dosCloseFile();
         return;
@@ -150,15 +191,19 @@ void systemDOSFunction(uint8_t a) {
         return;
     }
     if (*regAH == 0x48) {
-        int result = dosAllocateBlockMemory(*regBXu);
-        if (result > 0) {
-            *regAX = result;
-            SET_FLAG(CF, 0);
-        } else {
-            *regAX = 1;
-            *regBXu = -result;
-            SET_FLAG(CF, 0);
-        }
+        dosAllocateMemory();
+        return;
+    }
+    if (*regAH == 0x4A) {
+        dosResizeMemory();
+        return;
+    }
+    if (*regAH == 0x49) {
+        dosFreeMemory();
+        return;
+    }
+    if (*regAH == 0x09) {
+        dosLinePrint();
         return;
     }
     emptyInterruptCallFunction(a);

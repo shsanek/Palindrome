@@ -7,11 +7,6 @@
 
 #include "LogRegisters.h"
 
-#include "../Base/Registers.h"
-#include "../Base/Read.h"
-#include <stdlib.h>
-#include "../Base/Flags.h"
-
 #define GET_BYTE(value, index) (((uint8_t*)(&reg)) + index)
 
 void printRegister16(char *s, uint16_t reg, char* out) {
@@ -65,13 +60,18 @@ char* print32Registers() {
     printRegister32("SI", *regESIu, out + 14 * 6); sprintf(out + 14 * 6 + 12, "  ");
     printRegister32("DI", *regEDIu, out + 14 * 7); sprintf(out + 14 * 7 + 12, " \n");
 
-    printRegister32("DS", context.segmentRegisters[SR_DS], out + 14 * 8); sprintf(out + 14 * 8 + 12, "  ");
-    printRegister32("ES", context.segmentRegisters[SR_ES], out + 14 * 9); sprintf(out + 14 * 9 + 12, "  ");
-    printRegister32("SS", context.segmentRegisters[SR_SS], out + 14 * 10); sprintf(out + 14 * 10 + 12, "  ");
-    printRegister32("CS", context.segmentRegisters[SR_CS], out + 14 * 11); sprintf(out + 14 * 11 + 12, "  ");
-    printRegister32("IP", (uint32_t)(context.index - mem(SR_CS)), out + 14 * 12); sprintf(out + 14 * 12 + 12, " 0");
+    printRegister16("DS", context.segmentRegisters[SR_DS], out + 14 * 8 + 9 * 0);
+    sprintf(out + 14 * 8 + 9 * 0 + 7, "  ");
+    printRegister16("ES", context.segmentRegisters[SR_ES], out + 14 * 8 + 9 * 1);
+    sprintf(out + 14 * 8 + 9 * 1 + 7, "  ");
+    printRegister16("SS", context.segmentRegisters[SR_SS], out + 14 * 8 + 9 * 2);
+    sprintf(out + 14 * 8 + 9 * 2 + 7, "  ");
+    printRegister16("CS", context.segmentRegisters[SR_CS], out + 14 * 8 + 9 * 3);
+    sprintf(out + 14 * 8 + 9 * 3 + 7, "  ");
+    printRegister32("IP", (uint32_t)(context.index - mem(SR_CS)), out + 14 * 8 + 9 * 4);
+    sprintf(out + 14 * 12  + 9 * 4 + 12, " 0");
 
-    printFlags(out + 14 * 13);
+    printFlags(out + 14 * 8 + 9 * 4);
 
     out[REG32_PRINT_SIZE] = 0;
 

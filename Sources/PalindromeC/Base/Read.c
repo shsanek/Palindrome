@@ -6,8 +6,6 @@
 //
 
 #include "Read.h"
-#include "Registers.h"
-#include "../Support/Log.h"
 
 int8_t read8() {
     int8_t read = *((int8_t*)context.index);
@@ -66,5 +64,3 @@ void dumpLog(int64_t address, uint8_t* target, int size) {
     printHexWithSize(target, size);
     printf("]");
 }
-
-uint16_t debugSegmentShift = 0;

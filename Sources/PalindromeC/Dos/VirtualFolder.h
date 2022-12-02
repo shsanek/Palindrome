@@ -9,8 +9,13 @@
 #define DosFileSystem_h
 
 #include <stdio.h>
-#include "../include/Base.h"
+#include <stdlib.h>
+#include <string.h>
+#include <assert.h>
+
 #include "../Function/BaseFunction.h"
+#include "../Support/String.h"
+#include "../Support/Log.h"
 
 void addVirtualFolder(int8_t *virtualFolder, int8_t *realFolder, int8_t isWriteEnabled);
 char* realPathForPath(int8_t *path);

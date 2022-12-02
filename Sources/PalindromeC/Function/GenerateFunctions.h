@@ -9,7 +9,11 @@
 #define GenerateFunctions_h
 
 #include <stdio.h>
-#include "BaseFunction.h"
+
+#include "../Base/Registers.h"
+#include "../Base/Flags.h"
+#include "../Base/Models.h"
+#include "../Base/MRM.h"
 
 typedef void (*CommandFunction)();
 

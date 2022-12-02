@@ -26,7 +26,7 @@ void clearDebugCommands() {
 }
 
 void getCommand() {
-    LOG("%llX:", (uint64_t)(context.index - context.memory));
+    LOG("%llX:", (uint64_t)(context.index - context.program));
 
     uint16_t command = 0;
     uint8_t commandPrefix = 0;
@@ -41,7 +41,8 @@ void getCommand() {
         value = read8u();
     }
 
-    uint8_t* changeSegmentPrefix = NULL;
+    uint16_t changeSegmentPrefix = 0;
+    uint8_t hasSegmentPrefix = 0;
     //    Код 26 - сегмент по умолчанию заменяется на сегмент ES.
     //    Код 2E - сегмент по умолчанию заменяется на сегмент CS.
     //    Код 36 - сегмент по умолчанию заменяется на сегмент SS.
@@ -50,27 +51,33 @@ void getCommand() {
     //    Код 65 - сегмент по умолчанию заменяется на сегмент GS.
     switch (value) {
         case 0x26:
-            changeSegmentPrefix = mem(SR_ES);
+            changeSegmentPrefix = (SR_ES);
+            hasSegmentPrefix = 1;
             value = read8u();
             break;
         case 0x2E:
-            changeSegmentPrefix = mem(SR_CS);
+            changeSegmentPrefix = (SR_CS);
+            hasSegmentPrefix = 1;
             value = read8u();
             break;
         case 0x36:
-            changeSegmentPrefix = mem(SR_SS);
+            changeSegmentPrefix = (SR_SS);
+            hasSegmentPrefix = 1;
             value = read8u();
             break;
         case 0x3E:
-            changeSegmentPrefix = mem(SR_DS);
+            changeSegmentPrefix = (SR_DS);
+            hasSegmentPrefix = 1;
             value = read8u();
             break;
         case 0x64:
-            changeSegmentPrefix = mem(SR_FS);
+            changeSegmentPrefix = (SR_FS);
+            hasSegmentPrefix = 1;
             value = read8u();
             break;
         case 0x65:
-            changeSegmentPrefix = mem(SR_GS);
+            changeSegmentPrefix = (SR_GS);
+            hasSegmentPrefix = 1;
             value = read8u();
             break;
         default:
@@ -109,6 +116,7 @@ void getCommand() {
     command |= (uint16_t)(value);
     DEBUG_RUN({ debugCommands[command] = 1; })
 
+    context.lastCommandInfo.prefixInfo.hasSegmentPrefix = hasSegmentPrefix;
     context.lastCommandInfo.prefixInfo.commandPrefix = commandPrefix;
     context.lastCommandInfo.prefixInfo.changeSegmentPrefix = changeSegmentPrefix;
     context.lastCommandInfo.command = command;
