@@ -238,7 +238,8 @@ fileprivate let moveSegmentRegisterCommand = Command(
             .functionName,
             .mrm,
             .settings([.fixData(16)]),
-            "*(uint%dataSize_t*)target = *(uint%dataSize_t*)source;"
+            "*(uint%dataSize_t*)target = *(uint%dataSize_t*)source;",
+            ""
         ]
     ),
     installFormatter: InitialFormatter()
@@ -265,7 +266,7 @@ fileprivate let moveACommand = Command(
                 BaseFormat { info in
                     """
                     uint%dataSize_t* target = (uint%dataSize_t*)register%dataSizeu(BR_AX);
-                    uint%dataSize_t* source = (uint%dataSize_t*)(memWithReplace(SR_DS) + read%addressSize());
+                    uint%dataSize_t* source = (uint%dataSize_t*)(GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + read%addressSize());
                     """
                 }
             }),
@@ -288,7 +289,7 @@ private func makeLoadMemorySegmentRegister(code: UInt16, reg: String) -> Command
             customizers: [
                 .functionName,
                 .mrm,
-                .template("setMem(\(reg), *(uint16_t*)(target + 2));"),
+                .template("SET_VALUE_IN_SEGMENT(\(reg), *(uint16_t*)(target + 2));"),
                 "*(uint%MOD_t*)source = *(uint%MOD_t*)(target);"
             ]
         ),

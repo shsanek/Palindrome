@@ -75,8 +75,8 @@ void loadProgramInZeroMemory(uint8_t *input, uint size, uint mod) {
     (program + 0xFFFF)[-2] = 0xCD;
     (program + 0xFFFF)[-1] = 0x10;
 
-    setMem(SR_CS, block);
-    setMem(SR_SS, block + (0x0FFF));
+    SET_VALUE_IN_SEGMENT(SR_CS, block);
+    SET_VALUE_IN_SEGMENT(SR_SS, block + (0x0FFF));
     reg_SP_16u = 0xFFFF;
 
     context.mod = mod;
@@ -162,7 +162,7 @@ void loadMZDosProgram() {
     header.fragmentNumber = read16u();
 
     uint16_t* offsets = malloc(2 * header.numberOfShiftElement);
-    for (int i = 0; i < header.numberOfShiftElement; i++) { // 178E
+    for (int i = 0; i < header.numberOfShiftElement; i++) {
         offsets[i * 2] = ((uint16_t*)(start + header.tableShiftAddress))[i * 2];
         offsets[i * 2 + 1] = ((uint16_t*)(start + header.tableShiftAddress))[i * 2 + 1];
     }
@@ -183,18 +183,18 @@ void loadMZDosProgram() {
 
     context.program = programMemory;
 
-    setMem(SR_DS, programBlock - 0x10);
-    setMem(SR_ES, programBlock - 0x10);
+    SET_VALUE_IN_SEGMENT(SR_DS, programBlock - 0x10);
+    SET_VALUE_IN_SEGMENT(SR_ES, programBlock - 0x10);
 
-    setMem(SR_SS, header.stackAddress + programBlock);
+    SET_VALUE_IN_SEGMENT(SR_SS, header.stackAddress + programBlock);
     reg_SP_16u = header.stackIndexAddress;
 
-    setMem(SR_CS, header.codeAddress + programBlock);
-    context.index = mem(SR_CS) + header.codeAddressIndex;
+    SET_VALUE_IN_SEGMENT(SR_CS, header.codeAddress + programBlock);
+    context.index = GET_SEGMENT_POINTER(SR_CS) + header.codeAddressIndex;
 
     for (int i = 0; i < header.numberOfShiftElement; i++) {
-        uint16_t offset = offsets[i * 2] + offsets[i * 2 + 1] * 16;
-        *(uint16_t*)(programMemory + offset) = *(uint16_t*)(programMemory + offset) + programBlock;
+        uint32_t offset = ((uint32_t)offsets[i * 2]) + ((uint32_t)offsets[i * 2 + 1]) * 16;
+        *(uint16_t*)(programMemory + offset) = (*(uint16_t*)(programMemory + offset)) + programBlock;
     }
     free(offsets);
 }
@@ -215,8 +215,8 @@ void loadCOMDosProgram(uint size) {
 
     context.program = programMemory;
 
-    setMem(SR_CS, programMemory);
-    context.index = mem(SR_CS);
+    SET_VALUE_IN_SEGMENT(SR_CS, programBlock);
+    context.index = GET_SEGMENT_POINTER(SR_CS);
 }
 
 void realModCPUSetting() {
@@ -238,7 +238,7 @@ void loadDosProgram(uint8_t *program, uint size) {
     uint16_t magic = *(uint16_t*)program;
     if (magic == 23117) {
         // EXE
-        loadRealModForDos(); realModCPUSetting(); // для PE программ нужно будет убрать
+        loadRealModForDos(); realModCPUSetting(); // для PE програм нужно будет убрать
         loadMZDosProgram();
     } else {
         // COM

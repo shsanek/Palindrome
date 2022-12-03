@@ -37,6 +37,8 @@ typedef struct Context {
     uint16_t segmentRegisters[8];
     uint8_t registers[256];
 
+    uint8_t* segmentRegistersValue[8];
+
     uint8_t* index;
 
     uint8_t* program;

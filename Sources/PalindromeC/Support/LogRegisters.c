@@ -27,11 +27,11 @@ char* print16Registers() {
     printRegister16("SI", *regSIu, out + 9 * 6); sprintf(out + 9 * 6 + 7, "  ");
     printRegister16("DI", *regDIu, out + 9 * 7); sprintf(out + 9 * 7 + 7, " \n");
 
-    printRegister16("DS", context.segmentRegisters[SR_DS], out + 9 * 8); sprintf(out + 9 * 8 + 7, "  ");
-    printRegister16("ES", context.segmentRegisters[SR_ES], out + 9 * 9); sprintf(out + 9 * 9 + 7, "  ");
-    printRegister16("SS", context.segmentRegisters[SR_SS], out + 9 * 10); sprintf(out + 9 * 10 + 7, "  ");
-    printRegister16("CS", context.segmentRegisters[SR_CS], out + 9 * 11); sprintf(out + 9 * 11 + 7, "  ");
-    printRegister16("IP", (uint16_t)(context.index - mem(SR_CS)), out + 9 * 12); sprintf(out + 9 * 12 + 7, "  ");
+    printRegister16("DS", SR_VALUE(SR_DS), out + 9 * 8); sprintf(out + 9 * 8 + 7, "  ");
+    printRegister16("ES", SR_VALUE(SR_ES), out + 9 * 9); sprintf(out + 9 * 9 + 7, "  ");
+    printRegister16("SS", SR_VALUE(SR_SS), out + 9 * 10); sprintf(out + 9 * 10 + 7, "  ");
+    printRegister16("CS", SR_VALUE(SR_CS), out + 9 * 11); sprintf(out + 9 * 11 + 7, "  ");
+    printRegister16("IP", (uint16_t)(context.index - GET_SEGMENT_POINTER(SR_CS)), out + 9 * 12); sprintf(out + 9 * 12 + 7, "  ");
 
     printFlags(out + 9 * 13);
 
@@ -40,7 +40,7 @@ char* print16Registers() {
     return out;
 }
 
-void printRegister32(char *s, uint16_t reg, char* out) {
+void printRegister32(char *s, uint32_t reg, char* out) {
     sprintf(out, "E%s=", s);
     sprintHex(GET_BYTE(reg, 3), out + 4);
     sprintHex(GET_BYTE(reg, 2), out + 6);
@@ -68,7 +68,7 @@ char* print32Registers() {
     sprintf(out + 14 * 8 + 9 * 2 + 7, "  ");
     printRegister16("CS", context.segmentRegisters[SR_CS], out + 14 * 8 + 9 * 3);
     sprintf(out + 14 * 8 + 9 * 3 + 7, "  ");
-    printRegister32("IP", (uint32_t)(context.index - mem(SR_CS)), out + 14 * 8 + 9 * 4);
+    printRegister32("IP", (uint32_t)(context.index - GET_SEGMENT_POINTER(SR_CS)), out + 14 * 8 + 9 * 4);
     sprintf(out + 14 * 12  + 9 * 4 + 12, " 0");
 
     printFlags(out + 14 * 8 + 9 * 4);

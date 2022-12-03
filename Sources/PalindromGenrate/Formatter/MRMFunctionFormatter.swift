@@ -26,14 +26,20 @@ struct MRMFunctionFormatter: IFormatter {
         generator.add("uint8_t mrmByte = read8u();")
         addPrepare(generator, with: info)
         generator.add(baseFormatter.format(with: info))
+        if (info.flags.contains("d") && info.flags.contains("SEGMENT")) {
+            generator.add("recalculatePointerSegmentRegisterMRM")
+        }
         return generator.text
     }
 
     private func addPrepare(_ generator: FunctionGenerator, with info: FormatterInfo) {
-        let registerFunction = info.flags.contains("SEGMENT") ? "(uint8_t*)readSegmentRegisterMRM(mrmByte)" : "(uint8_t*)readRegisterMRM%dataSize(mrmByte)"
+        let reg = info.flags.contains("SEGMENT") ? "uint8_t sr = readMiddle3Bit(mrmByte);" : ""
+
+        let registerFunction = info.flags.contains("SEGMENT") ? "(uint8_t*)readSegmentRegisterMRM" : "(uint8_t*)readRegisterMRM%dataSize(mrmByte)"
         let addressFunction = "(uint8_t*)readAddressMRM%MODFor%dataSize(mrmByte)"
 
         let prepareGenerator = FunctionGenerator()
+        prepareGenerator.add(reg)
         prepareGenerator.add("uint8_t* target = \(addressFunction);")
         prepareGenerator.add("uint8_t* source = \(registerFunction);")
         if info.flags.contains("d") {

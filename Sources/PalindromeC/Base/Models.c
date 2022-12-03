@@ -40,7 +40,7 @@ void other2fInformationFunction(uint8_t a) {
         *regDXu = 0x005A;
         *regSIu = 0x0029;
         *regDIu = 0x2F97;
-        setMem(SR_ES, 0xFCB8);
+        SET_VALUE_IN_SEGMENT(SR_ES, 0xFCB8);
         return;
     }
     if (*regAXu == 0x1600) {
@@ -66,6 +66,7 @@ void resetStack() {
     for (int i = 0; i < 8; i++) {
         *(((uint32_t*)context.registers) + i) = 0;
         *(((uint16_t*)context.segmentRegisters) + i) = 0;
+        context.segmentRegistersValue[i] = 0;
     }
 
     fpuStackIndex = 8;

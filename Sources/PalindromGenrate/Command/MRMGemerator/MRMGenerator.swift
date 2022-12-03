@@ -157,7 +157,7 @@ fileprivate func sibSwitchFunction(
 
     let function1 = { (reg1: String, reg2: String) -> String in
         let `switch` = mrmSwitchFunction(
-            base: "memWithReplace(\(reg1))",
+            base: "GET_SEGMENT_POINTER_WITH_REPLACE(\(reg1))",
             address: operand32AdressMemorySIB1Formatters,
             info: info,
             useBase: useBase,
@@ -170,8 +170,8 @@ fileprivate func sibSwitchFunction(
 
     let function2 = { () -> String in
         let `switch` = mrmSwitchFunction(
-            base: "memWithReplace(SR_SS)",
-            base0: "memWithReplace(SR_DS)",
+            base: "GET_SEGMENT_POINTER_WITH_REPLACE(SR_SS)",
+            base0: "GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS)",
             address: operand32AdressMemorySIB2Formatters,
             info: info,
             useBase: useBase,
@@ -248,8 +248,8 @@ fileprivate func mrm32SwitchFunction(
 
     let function1 = { (reg1: String, reg2: String?, reg3: String) -> String in
         let `switch` = mrmSwitchFunction(
-            base: "memWithReplace(\(reg1))",
-            base0: "memWithReplace(\(reg2 ?? reg1))",
+            base: "GET_SEGMENT_POINTER_WITH_REPLACE(\(reg1))",
+            base0: "GET_SEGMENT_POINTER_WITH_REPLACE(\(reg2 ?? reg1))",
             address: operand32AdressMemoryMrm1Formatters,
             info: info,
             useBase: useBase,
@@ -262,8 +262,8 @@ fileprivate func mrm32SwitchFunction(
 
     let function2 = { (reg1: String, reg2: String?, reg3: String) -> String in
         let `switch` = mrmSwitchFunction(
-            base: "memWithReplace(\(reg1))",
-            base0: "memWithReplace(\(reg2 ?? reg1))",
+            base: "GET_SEGMENT_POINTER_WITH_REPLACE(\(reg1))",
+            base0: "GET_SEGMENT_POINTER_WITH_REPLACE(\(reg2 ?? reg1))",
             address: operand32AdressMemoryMrm2Formatters,
             info: info,
             useBase: useBase,
@@ -319,7 +319,7 @@ fileprivate func mrm16SwitchFunction(
 
     let function1 = { (reg1: String, reg2: String, reg3: String) -> String in
         let `switch` = mrmSwitchFunction(
-            base: "memWithReplace(\(reg1))",
+            base: "GET_SEGMENT_POINTER_WITH_REPLACE(\(reg1))",
             address: twoOperandAdressMemoryMrmFormatters,
             info: info,
             useBase: useBase,
@@ -333,8 +333,8 @@ fileprivate func mrm16SwitchFunction(
 
     let function2 = { (reg1: String, reg2: String?, reg3: String) -> String in
         let `switch` = mrmSwitchFunction(
-            base: "memWithReplace(\(reg1))",
-            base0: "memWithReplace(\(reg2 ?? reg1))",
+            base: "GET_SEGMENT_POINTER_WITH_REPLACE(\(reg1))",
+            base0: "GET_SEGMENT_POINTER_WITH_REPLACE(\(reg2 ?? reg1))",
             address: operand16AdressMemoryMrm1Formatters,
             info: info,
             useBase: useBase,
@@ -347,8 +347,8 @@ fileprivate func mrm16SwitchFunction(
 
     let function3 = { (reg1: String, reg2: String?, reg3: String) -> String in
         let `switch` = mrmSwitchFunction(
-            base: "memWithReplace(\(reg1))",
-            base0: "memWithReplace(\(reg2 ?? reg1))",
+            base: "GET_SEGMENT_POINTER_WITH_REPLACE(\(reg1))",
+            base0: "GET_SEGMENT_POINTER_WITH_REPLACE(\(reg2 ?? reg1))",
             address: operand16AdressMemoryMrm2Formatters,
             info: info,
             useBase: useBase,

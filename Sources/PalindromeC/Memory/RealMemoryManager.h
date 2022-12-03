@@ -27,6 +27,6 @@ int allocateMemoryLoadWithForceBlock(uint16_t paragraph, uint16_t paragraphSize)
 
 uint8_t* realModMemoryGetPointerForBlock(uint16_t block);
 
-#define GET_REAL_MOD_MEMORY_POINTER(block) (RealModeMemory + (block * 16))
+#define GET_REAL_MOD_MEMORY_POINTER(block) (RealModeMemory + ((block) * 16))
 
 #endif /* DosMemoryManager_h */

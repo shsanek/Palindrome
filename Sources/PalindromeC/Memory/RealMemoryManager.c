@@ -70,6 +70,9 @@ void realModMemorySetSize(uint16_t paragraphSize) {
     RealModeMemoryBlockHead->isFree = 1;
     RealModeMemoryBlockHead->next = NULL;
     RealModeMemoryBlockHead->back = NULL;
+    for (int i = 0; i < 8; i++) {
+        SET_VALUE_IN_SEGMENT(i, SR_VALUE(i));
+    }
 }
 
 int realModMemoryAllocateInBlock(uint16_t block, uint16_t paragraphSize, RealModeMemoryBlock* current);

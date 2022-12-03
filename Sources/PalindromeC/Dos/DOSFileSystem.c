@@ -8,7 +8,7 @@
 #include "DOSFileSystem.h"
 
 void dosOpenFile() {
-    char* name = (char*)(mem(SR_DS) + *regDX);
+    char* name = (char*)(GET_SEGMENT_POINTER(SR_DS) + *regDX);
     int file = vfsOpenFile(name, *regAL);
     if (file < 0) {
         *regAX = (uint16_t)-file;
@@ -23,7 +23,7 @@ void dosOpenFile() {
 void dosReadFromFile() {
     uint16_t description = *regBXu;
     char isEnd = 0;
-    int state = vfsReadFile(description, mem(SR_DS) + *regDX, *regCXu, &isEnd);
+    int state = vfsReadFile(description, GET_SEGMENT_POINTER(SR_DS) + *regDX, *regCXu, &isEnd);
     if (state == *regCXu) {
         SET_FLAG(CF, 0);
     } else {
@@ -88,7 +88,7 @@ void dosAllocateMemory() {
 }
 
 void dosFreeMemory() {
-    int result = realModMemoryFree(context.segmentRegisters[SR_ES]);
+    int result = realModMemoryFree(SR_VALUE(SR_ES));
     if (result > 0) {
         SET_FLAG(CF, 0);
     } else {
@@ -98,10 +98,10 @@ void dosFreeMemory() {
 }
 
 void dosResizeMemory() {
-    int result = realModMemoryRelocate(context.segmentRegisters[SR_ES], *regBXu);
+    int result = realModMemoryRelocate(SR_VALUE(SR_ES), *regBXu);
     if (result > 0) {
         SET_FLAG(CF, 0);
-        *regAXu = context.segmentRegisters[SR_ES];
+        *regAXu = SR_VALUE(SR_ES);
     } else {
         SET_FLAG(CF, 1);
         *regAX = 1;
@@ -111,7 +111,7 @@ void dosResizeMemory() {
 
 void dosLinePrint() {
     int i = 0;
-    char *text = (char*)(mem(SR_DS) + *regDX);
+    char *text = (char*)(GET_SEGMENT_POINTER(SR_DS) + *regDX);
     while (text[i] != '$' && text[i] != '\0') {
         i++;
     }
@@ -185,7 +185,7 @@ void systemDOSFunction(uint8_t a) {
         return;
     }
     if (*regAH == 0x35) {
-        setMem(SR_ES, 0x024C);
+        SET_VALUE_IN_SEGMENT(SR_ES, 0x024C);
         *regBXu = 0x0240;
         SET_FLAG(CF, 0);
         return;

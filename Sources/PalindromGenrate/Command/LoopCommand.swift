@@ -58,7 +58,7 @@ fileprivate let callCommand = Command(
             """
             uint%addressSize_t* sp = register%addressSizeu(BR_SP);
             *sp -= %MOD / 8;
-            *(uint%MOD_t*)(mem(SR_SS) + *sp) = (uint%MOD_t)(context.index + %dataSize / 8 - mem(1));
+            *(uint%MOD_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp) = (uint%MOD_t)(context.index + %dataSize / 8 - GET_SEGMENT_POINTER(1));
             context.index += read%dataSize();
             """
         ]
@@ -82,10 +82,10 @@ fileprivate let callFarCommand = Command(
             .settings([.bigAddress]),
             "int%addressSize_t newIP = read%addressSize();",
             "uint16_t newCS = read16u();",
-            .template(pushValue("context.segmentRegisters[SR_CS]", size: "16")),
-            .template(pushValue("((uint%addressSize_t)(context.index - mem(SR_CS)))", size: "%addressSize")),
-            "setMem(SR_CS, newCS);",
-            "context.index = mem(SR_CS) + newIP;"
+            .template(pushValue("SR_VALUE(SR_CS)", size: "16")),
+            .template(pushValue("((uint%addressSize_t)(context.index - GET_SEGMENT_POINTER(SR_CS)))", size: "%addressSize")),
+            "SET_VALUE_IN_SEGMENT(SR_CS, newCS);",
+            "context.index = GET_SEGMENT_POINTER(SR_CS) + newIP;"
         ]
     ),
     installFormatter: InitialFormatter()
@@ -107,7 +107,7 @@ fileprivate let returnC3Command = Command(
             .settings([.bigData]),
             """
             uint%addressSize_t* sp = register%addressSizeu(BR_SP);
-            context.index = mem(1) + *(uint%MOD_t*)(mem(SR_SS) + *sp);
+            context.index = GET_SEGMENT_POINTER(1) + *(uint%MOD_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp);
             *sp += %MOD / 8;
             """
         ]
@@ -130,8 +130,8 @@ fileprivate let returnCBCommand = Command(
             .settings([.bigData]),
             """
             uint%addressSize_t* sp = register%addressSizeu(BR_SP);
-            setMem(1, *(int16_t*)(mem(SR_SS) + *sp + %MOD / 8));
-            context.index = mem(1) + *(uint%MOD_t*)(mem(SR_SS) + *sp);
+            SET_VALUE_IN_SEGMENT(1, *(int16_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp + %MOD / 8));
+            context.index = GET_SEGMENT_POINTER(1) + *(uint%MOD_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp);
             *sp += %MOD / 8 + 2;
             """
         ]

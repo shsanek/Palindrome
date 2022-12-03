@@ -145,34 +145,34 @@ void handlerCommand16Code0006() {
 	LOG("%s","Push");
 	uint8_t rg = 0x00;
 	reg_SP_16u -= 16 / 8;
-	*(uint16_t*)(mem(SR_SS) + reg_SP_16u) = context.segmentRegisters[rg];
+	*(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u) = SR_VALUE(rg);
 }
 //Push
 void handlerCommand16Code000E() {
 	LOG("%s","Push");
 	uint8_t rg = 0x01;
 	reg_SP_16u -= 16 / 8;
-	*(uint16_t*)(mem(SR_SS) + reg_SP_16u) = context.segmentRegisters[rg];
+	*(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u) = SR_VALUE(rg);
 }
 //Push
 void handlerCommand16Code0016() {
 	LOG("%s","Push");
 	uint8_t rg = 0x02;
 	reg_SP_16u -= 16 / 8;
-	*(uint16_t*)(mem(SR_SS) + reg_SP_16u) = context.segmentRegisters[rg];
+	*(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u) = SR_VALUE(rg);
 }
 //Push
 void handlerCommand16Code001E() {
 	LOG("%s","Push");
 	uint8_t rg = 0x03;
 	reg_SP_16u -= 16 / 8;
-	*(uint16_t*)(mem(SR_SS) + reg_SP_16u) = context.segmentRegisters[rg];
+	*(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u) = SR_VALUE(rg);
 }
 //Pop
 void handlerCommand16Code0007() {
 	LOG("%s","Pop");
 	uint8_t rg = 0x00;
-	    context.segmentRegisters[rg] = *(uint16_t*)(mem(SR_SS) + reg_SP_16u);
+	    SET_VALUE_IN_SEGMENT(rg, *(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u));
 	    reg_SP_16u += 16 / 8;
 }
 //Pop
@@ -185,14 +185,14 @@ void handlerCommand16Code000F() {
 void handlerCommand16Code0017() {
 	LOG("%s","Pop");
 	uint8_t rg = 0x02;
-	    context.segmentRegisters[rg] = *(uint16_t*)(mem(SR_SS) + reg_SP_16u);
+	    SET_VALUE_IN_SEGMENT(rg, *(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u));
 	    reg_SP_16u += 16 / 8;
 }
 //Pop
 void handlerCommand16Code001F() {
 	LOG("%s","Pop");
 	uint8_t rg = 0x03;
-	    context.segmentRegisters[rg] = *(uint16_t*)(mem(SR_SS) + reg_SP_16u);
+	    SET_VALUE_IN_SEGMENT(rg, *(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u));
 	    reg_SP_16u += 16 / 8;
 }
 //OR
@@ -1413,7 +1413,7 @@ void handlerCommand16Code0050P66P67() {
 	uint8_t reg = 0x00;
 	uint32_t value = reg_0x00_32u;
 	reg_SP_32u -= 32 / 8;
-	*(uint32_t*)(mem(SR_SS) + reg_SP_32u) = value;
+	*(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u) = value;
 }
 //Push
 void handlerCommand16Code0050P67() {
@@ -1421,7 +1421,7 @@ void handlerCommand16Code0050P67() {
 	uint8_t reg = 0x00;
 	uint16_t value = reg_0x00_16u;
 	reg_SP_32u -= 16 / 8;
-	*(uint16_t*)(mem(SR_SS) + reg_SP_32u) = value;
+	*(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u) = value;
 }
 //Push
 void handlerCommand16Code0050P66() {
@@ -1429,7 +1429,7 @@ void handlerCommand16Code0050P66() {
 	uint8_t reg = 0x00;
 	uint32_t value = reg_0x00_32u;
 	reg_SP_16u -= 32 / 8;
-	*(uint32_t*)(mem(SR_SS) + reg_SP_16u) = value;
+	*(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u) = value;
 }
 //Push
 void handlerCommand16Code0050() {
@@ -1437,7 +1437,7 @@ void handlerCommand16Code0050() {
 	uint8_t reg = 0x00;
 	uint16_t value = reg_0x00_16u;
 	reg_SP_16u -= 16 / 8;
-	*(uint16_t*)(mem(SR_SS) + reg_SP_16u) = value;
+	*(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u) = value;
 }
 //Push
 void handlerCommand16Code0051P66P67() {
@@ -1445,7 +1445,7 @@ void handlerCommand16Code0051P66P67() {
 	uint8_t reg = 0x01;
 	uint32_t value = reg_0x01_32u;
 	reg_SP_32u -= 32 / 8;
-	*(uint32_t*)(mem(SR_SS) + reg_SP_32u) = value;
+	*(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u) = value;
 }
 //Push
 void handlerCommand16Code0051P67() {
@@ -1453,7 +1453,7 @@ void handlerCommand16Code0051P67() {
 	uint8_t reg = 0x01;
 	uint16_t value = reg_0x01_16u;
 	reg_SP_32u -= 16 / 8;
-	*(uint16_t*)(mem(SR_SS) + reg_SP_32u) = value;
+	*(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u) = value;
 }
 //Push
 void handlerCommand16Code0051P66() {
@@ -1461,7 +1461,7 @@ void handlerCommand16Code0051P66() {
 	uint8_t reg = 0x01;
 	uint32_t value = reg_0x01_32u;
 	reg_SP_16u -= 32 / 8;
-	*(uint32_t*)(mem(SR_SS) + reg_SP_16u) = value;
+	*(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u) = value;
 }
 //Push
 void handlerCommand16Code0051() {
@@ -1469,7 +1469,7 @@ void handlerCommand16Code0051() {
 	uint8_t reg = 0x01;
 	uint16_t value = reg_0x01_16u;
 	reg_SP_16u -= 16 / 8;
-	*(uint16_t*)(mem(SR_SS) + reg_SP_16u) = value;
+	*(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u) = value;
 }
 //Push
 void handlerCommand16Code0052P66P67() {
@@ -1477,7 +1477,7 @@ void handlerCommand16Code0052P66P67() {
 	uint8_t reg = 0x02;
 	uint32_t value = reg_0x02_32u;
 	reg_SP_32u -= 32 / 8;
-	*(uint32_t*)(mem(SR_SS) + reg_SP_32u) = value;
+	*(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u) = value;
 }
 //Push
 void handlerCommand16Code0052P67() {
@@ -1485,7 +1485,7 @@ void handlerCommand16Code0052P67() {
 	uint8_t reg = 0x02;
 	uint16_t value = reg_0x02_16u;
 	reg_SP_32u -= 16 / 8;
-	*(uint16_t*)(mem(SR_SS) + reg_SP_32u) = value;
+	*(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u) = value;
 }
 //Push
 void handlerCommand16Code0052P66() {
@@ -1493,7 +1493,7 @@ void handlerCommand16Code0052P66() {
 	uint8_t reg = 0x02;
 	uint32_t value = reg_0x02_32u;
 	reg_SP_16u -= 32 / 8;
-	*(uint32_t*)(mem(SR_SS) + reg_SP_16u) = value;
+	*(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u) = value;
 }
 //Push
 void handlerCommand16Code0052() {
@@ -1501,7 +1501,7 @@ void handlerCommand16Code0052() {
 	uint8_t reg = 0x02;
 	uint16_t value = reg_0x02_16u;
 	reg_SP_16u -= 16 / 8;
-	*(uint16_t*)(mem(SR_SS) + reg_SP_16u) = value;
+	*(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u) = value;
 }
 //Push
 void handlerCommand16Code0053P66P67() {
@@ -1509,7 +1509,7 @@ void handlerCommand16Code0053P66P67() {
 	uint8_t reg = 0x03;
 	uint32_t value = reg_0x03_32u;
 	reg_SP_32u -= 32 / 8;
-	*(uint32_t*)(mem(SR_SS) + reg_SP_32u) = value;
+	*(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u) = value;
 }
 //Push
 void handlerCommand16Code0053P67() {
@@ -1517,7 +1517,7 @@ void handlerCommand16Code0053P67() {
 	uint8_t reg = 0x03;
 	uint16_t value = reg_0x03_16u;
 	reg_SP_32u -= 16 / 8;
-	*(uint16_t*)(mem(SR_SS) + reg_SP_32u) = value;
+	*(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u) = value;
 }
 //Push
 void handlerCommand16Code0053P66() {
@@ -1525,7 +1525,7 @@ void handlerCommand16Code0053P66() {
 	uint8_t reg = 0x03;
 	uint32_t value = reg_0x03_32u;
 	reg_SP_16u -= 32 / 8;
-	*(uint32_t*)(mem(SR_SS) + reg_SP_16u) = value;
+	*(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u) = value;
 }
 //Push
 void handlerCommand16Code0053() {
@@ -1533,7 +1533,7 @@ void handlerCommand16Code0053() {
 	uint8_t reg = 0x03;
 	uint16_t value = reg_0x03_16u;
 	reg_SP_16u -= 16 / 8;
-	*(uint16_t*)(mem(SR_SS) + reg_SP_16u) = value;
+	*(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u) = value;
 }
 //Push
 void handlerCommand16Code0054P66P67() {
@@ -1541,7 +1541,7 @@ void handlerCommand16Code0054P66P67() {
 	uint8_t reg = 0x04;
 	uint32_t value = reg_0x04_32u;
 	reg_SP_32u -= 32 / 8;
-	*(uint32_t*)(mem(SR_SS) + reg_SP_32u) = value;
+	*(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u) = value;
 }
 //Push
 void handlerCommand16Code0054P67() {
@@ -1549,7 +1549,7 @@ void handlerCommand16Code0054P67() {
 	uint8_t reg = 0x04;
 	uint16_t value = reg_0x04_16u;
 	reg_SP_32u -= 16 / 8;
-	*(uint16_t*)(mem(SR_SS) + reg_SP_32u) = value;
+	*(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u) = value;
 }
 //Push
 void handlerCommand16Code0054P66() {
@@ -1557,7 +1557,7 @@ void handlerCommand16Code0054P66() {
 	uint8_t reg = 0x04;
 	uint32_t value = reg_0x04_32u;
 	reg_SP_16u -= 32 / 8;
-	*(uint32_t*)(mem(SR_SS) + reg_SP_16u) = value;
+	*(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u) = value;
 }
 //Push
 void handlerCommand16Code0054() {
@@ -1565,7 +1565,7 @@ void handlerCommand16Code0054() {
 	uint8_t reg = 0x04;
 	uint16_t value = reg_0x04_16u;
 	reg_SP_16u -= 16 / 8;
-	*(uint16_t*)(mem(SR_SS) + reg_SP_16u) = value;
+	*(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u) = value;
 }
 //Push
 void handlerCommand16Code0055P66P67() {
@@ -1573,7 +1573,7 @@ void handlerCommand16Code0055P66P67() {
 	uint8_t reg = 0x05;
 	uint32_t value = reg_0x05_32u;
 	reg_SP_32u -= 32 / 8;
-	*(uint32_t*)(mem(SR_SS) + reg_SP_32u) = value;
+	*(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u) = value;
 }
 //Push
 void handlerCommand16Code0055P67() {
@@ -1581,7 +1581,7 @@ void handlerCommand16Code0055P67() {
 	uint8_t reg = 0x05;
 	uint16_t value = reg_0x05_16u;
 	reg_SP_32u -= 16 / 8;
-	*(uint16_t*)(mem(SR_SS) + reg_SP_32u) = value;
+	*(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u) = value;
 }
 //Push
 void handlerCommand16Code0055P66() {
@@ -1589,7 +1589,7 @@ void handlerCommand16Code0055P66() {
 	uint8_t reg = 0x05;
 	uint32_t value = reg_0x05_32u;
 	reg_SP_16u -= 32 / 8;
-	*(uint32_t*)(mem(SR_SS) + reg_SP_16u) = value;
+	*(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u) = value;
 }
 //Push
 void handlerCommand16Code0055() {
@@ -1597,7 +1597,7 @@ void handlerCommand16Code0055() {
 	uint8_t reg = 0x05;
 	uint16_t value = reg_0x05_16u;
 	reg_SP_16u -= 16 / 8;
-	*(uint16_t*)(mem(SR_SS) + reg_SP_16u) = value;
+	*(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u) = value;
 }
 //Push
 void handlerCommand16Code0056P66P67() {
@@ -1605,7 +1605,7 @@ void handlerCommand16Code0056P66P67() {
 	uint8_t reg = 0x06;
 	uint32_t value = reg_0x06_32u;
 	reg_SP_32u -= 32 / 8;
-	*(uint32_t*)(mem(SR_SS) + reg_SP_32u) = value;
+	*(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u) = value;
 }
 //Push
 void handlerCommand16Code0056P67() {
@@ -1613,7 +1613,7 @@ void handlerCommand16Code0056P67() {
 	uint8_t reg = 0x06;
 	uint16_t value = reg_0x06_16u;
 	reg_SP_32u -= 16 / 8;
-	*(uint16_t*)(mem(SR_SS) + reg_SP_32u) = value;
+	*(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u) = value;
 }
 //Push
 void handlerCommand16Code0056P66() {
@@ -1621,7 +1621,7 @@ void handlerCommand16Code0056P66() {
 	uint8_t reg = 0x06;
 	uint32_t value = reg_0x06_32u;
 	reg_SP_16u -= 32 / 8;
-	*(uint32_t*)(mem(SR_SS) + reg_SP_16u) = value;
+	*(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u) = value;
 }
 //Push
 void handlerCommand16Code0056() {
@@ -1629,7 +1629,7 @@ void handlerCommand16Code0056() {
 	uint8_t reg = 0x06;
 	uint16_t value = reg_0x06_16u;
 	reg_SP_16u -= 16 / 8;
-	*(uint16_t*)(mem(SR_SS) + reg_SP_16u) = value;
+	*(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u) = value;
 }
 //Push
 void handlerCommand16Code0057P66P67() {
@@ -1637,7 +1637,7 @@ void handlerCommand16Code0057P66P67() {
 	uint8_t reg = 0x07;
 	uint32_t value = reg_0x07_32u;
 	reg_SP_32u -= 32 / 8;
-	*(uint32_t*)(mem(SR_SS) + reg_SP_32u) = value;
+	*(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u) = value;
 }
 //Push
 void handlerCommand16Code0057P67() {
@@ -1645,7 +1645,7 @@ void handlerCommand16Code0057P67() {
 	uint8_t reg = 0x07;
 	uint16_t value = reg_0x07_16u;
 	reg_SP_32u -= 16 / 8;
-	*(uint16_t*)(mem(SR_SS) + reg_SP_32u) = value;
+	*(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u) = value;
 }
 //Push
 void handlerCommand16Code0057P66() {
@@ -1653,7 +1653,7 @@ void handlerCommand16Code0057P66() {
 	uint8_t reg = 0x07;
 	uint32_t value = reg_0x07_32u;
 	reg_SP_16u -= 32 / 8;
-	*(uint32_t*)(mem(SR_SS) + reg_SP_16u) = value;
+	*(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u) = value;
 }
 //Push
 void handlerCommand16Code0057() {
@@ -1661,230 +1661,230 @@ void handlerCommand16Code0057() {
 	uint8_t reg = 0x07;
 	uint16_t value = reg_0x07_16u;
 	reg_SP_16u -= 16 / 8;
-	*(uint16_t*)(mem(SR_SS) + reg_SP_16u) = value;
+	*(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u) = value;
 }
 //Pop
 void handlerCommand16Code0058P66P67() {
 	LOG("%s","Pop");
 	uint8_t reg = 0x00;
-	reg_0x00_32u = *(uint32_t*)(mem(SR_SS) + reg_SP_32u);
+	reg_0x00_32u = *(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u);
 	reg_SP_32u += 32 / 8;
 }
 //Pop
 void handlerCommand16Code0058P67() {
 	LOG("%s","Pop");
 	uint8_t reg = 0x00;
-	reg_0x00_16u = *(uint16_t*)(mem(SR_SS) + reg_SP_32u);
+	reg_0x00_16u = *(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u);
 	reg_SP_32u += 16 / 8;
 }
 //Pop
 void handlerCommand16Code0058P66() {
 	LOG("%s","Pop");
 	uint8_t reg = 0x00;
-	reg_0x00_32u = *(uint32_t*)(mem(SR_SS) + reg_SP_16u);
+	reg_0x00_32u = *(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u);
 	reg_SP_16u += 32 / 8;
 }
 //Pop
 void handlerCommand16Code0058() {
 	LOG("%s","Pop");
 	uint8_t reg = 0x00;
-	reg_0x00_16u = *(uint16_t*)(mem(SR_SS) + reg_SP_16u);
+	reg_0x00_16u = *(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u);
 	reg_SP_16u += 16 / 8;
 }
 //Pop
 void handlerCommand16Code0059P66P67() {
 	LOG("%s","Pop");
 	uint8_t reg = 0x01;
-	reg_0x01_32u = *(uint32_t*)(mem(SR_SS) + reg_SP_32u);
+	reg_0x01_32u = *(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u);
 	reg_SP_32u += 32 / 8;
 }
 //Pop
 void handlerCommand16Code0059P67() {
 	LOG("%s","Pop");
 	uint8_t reg = 0x01;
-	reg_0x01_16u = *(uint16_t*)(mem(SR_SS) + reg_SP_32u);
+	reg_0x01_16u = *(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u);
 	reg_SP_32u += 16 / 8;
 }
 //Pop
 void handlerCommand16Code0059P66() {
 	LOG("%s","Pop");
 	uint8_t reg = 0x01;
-	reg_0x01_32u = *(uint32_t*)(mem(SR_SS) + reg_SP_16u);
+	reg_0x01_32u = *(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u);
 	reg_SP_16u += 32 / 8;
 }
 //Pop
 void handlerCommand16Code0059() {
 	LOG("%s","Pop");
 	uint8_t reg = 0x01;
-	reg_0x01_16u = *(uint16_t*)(mem(SR_SS) + reg_SP_16u);
+	reg_0x01_16u = *(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u);
 	reg_SP_16u += 16 / 8;
 }
 //Pop
 void handlerCommand16Code005AP66P67() {
 	LOG("%s","Pop");
 	uint8_t reg = 0x02;
-	reg_0x02_32u = *(uint32_t*)(mem(SR_SS) + reg_SP_32u);
+	reg_0x02_32u = *(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u);
 	reg_SP_32u += 32 / 8;
 }
 //Pop
 void handlerCommand16Code005AP67() {
 	LOG("%s","Pop");
 	uint8_t reg = 0x02;
-	reg_0x02_16u = *(uint16_t*)(mem(SR_SS) + reg_SP_32u);
+	reg_0x02_16u = *(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u);
 	reg_SP_32u += 16 / 8;
 }
 //Pop
 void handlerCommand16Code005AP66() {
 	LOG("%s","Pop");
 	uint8_t reg = 0x02;
-	reg_0x02_32u = *(uint32_t*)(mem(SR_SS) + reg_SP_16u);
+	reg_0x02_32u = *(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u);
 	reg_SP_16u += 32 / 8;
 }
 //Pop
 void handlerCommand16Code005A() {
 	LOG("%s","Pop");
 	uint8_t reg = 0x02;
-	reg_0x02_16u = *(uint16_t*)(mem(SR_SS) + reg_SP_16u);
+	reg_0x02_16u = *(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u);
 	reg_SP_16u += 16 / 8;
 }
 //Pop
 void handlerCommand16Code005BP66P67() {
 	LOG("%s","Pop");
 	uint8_t reg = 0x03;
-	reg_0x03_32u = *(uint32_t*)(mem(SR_SS) + reg_SP_32u);
+	reg_0x03_32u = *(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u);
 	reg_SP_32u += 32 / 8;
 }
 //Pop
 void handlerCommand16Code005BP67() {
 	LOG("%s","Pop");
 	uint8_t reg = 0x03;
-	reg_0x03_16u = *(uint16_t*)(mem(SR_SS) + reg_SP_32u);
+	reg_0x03_16u = *(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u);
 	reg_SP_32u += 16 / 8;
 }
 //Pop
 void handlerCommand16Code005BP66() {
 	LOG("%s","Pop");
 	uint8_t reg = 0x03;
-	reg_0x03_32u = *(uint32_t*)(mem(SR_SS) + reg_SP_16u);
+	reg_0x03_32u = *(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u);
 	reg_SP_16u += 32 / 8;
 }
 //Pop
 void handlerCommand16Code005B() {
 	LOG("%s","Pop");
 	uint8_t reg = 0x03;
-	reg_0x03_16u = *(uint16_t*)(mem(SR_SS) + reg_SP_16u);
+	reg_0x03_16u = *(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u);
 	reg_SP_16u += 16 / 8;
 }
 //Pop
 void handlerCommand16Code005CP66P67() {
 	LOG("%s","Pop");
 	uint8_t reg = 0x04;
-	reg_0x04_32u = *(uint32_t*)(mem(SR_SS) + reg_SP_32u);
+	reg_0x04_32u = *(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u);
 	reg_SP_32u += 32 / 8;
 }
 //Pop
 void handlerCommand16Code005CP67() {
 	LOG("%s","Pop");
 	uint8_t reg = 0x04;
-	reg_0x04_16u = *(uint16_t*)(mem(SR_SS) + reg_SP_32u);
+	reg_0x04_16u = *(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u);
 	reg_SP_32u += 16 / 8;
 }
 //Pop
 void handlerCommand16Code005CP66() {
 	LOG("%s","Pop");
 	uint8_t reg = 0x04;
-	reg_0x04_32u = *(uint32_t*)(mem(SR_SS) + reg_SP_16u);
+	reg_0x04_32u = *(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u);
 	reg_SP_16u += 32 / 8;
 }
 //Pop
 void handlerCommand16Code005C() {
 	LOG("%s","Pop");
 	uint8_t reg = 0x04;
-	reg_0x04_16u = *(uint16_t*)(mem(SR_SS) + reg_SP_16u);
+	reg_0x04_16u = *(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u);
 	reg_SP_16u += 16 / 8;
 }
 //Pop
 void handlerCommand16Code005DP66P67() {
 	LOG("%s","Pop");
 	uint8_t reg = 0x05;
-	reg_0x05_32u = *(uint32_t*)(mem(SR_SS) + reg_SP_32u);
+	reg_0x05_32u = *(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u);
 	reg_SP_32u += 32 / 8;
 }
 //Pop
 void handlerCommand16Code005DP67() {
 	LOG("%s","Pop");
 	uint8_t reg = 0x05;
-	reg_0x05_16u = *(uint16_t*)(mem(SR_SS) + reg_SP_32u);
+	reg_0x05_16u = *(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u);
 	reg_SP_32u += 16 / 8;
 }
 //Pop
 void handlerCommand16Code005DP66() {
 	LOG("%s","Pop");
 	uint8_t reg = 0x05;
-	reg_0x05_32u = *(uint32_t*)(mem(SR_SS) + reg_SP_16u);
+	reg_0x05_32u = *(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u);
 	reg_SP_16u += 32 / 8;
 }
 //Pop
 void handlerCommand16Code005D() {
 	LOG("%s","Pop");
 	uint8_t reg = 0x05;
-	reg_0x05_16u = *(uint16_t*)(mem(SR_SS) + reg_SP_16u);
+	reg_0x05_16u = *(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u);
 	reg_SP_16u += 16 / 8;
 }
 //Pop
 void handlerCommand16Code005EP66P67() {
 	LOG("%s","Pop");
 	uint8_t reg = 0x06;
-	reg_0x06_32u = *(uint32_t*)(mem(SR_SS) + reg_SP_32u);
+	reg_0x06_32u = *(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u);
 	reg_SP_32u += 32 / 8;
 }
 //Pop
 void handlerCommand16Code005EP67() {
 	LOG("%s","Pop");
 	uint8_t reg = 0x06;
-	reg_0x06_16u = *(uint16_t*)(mem(SR_SS) + reg_SP_32u);
+	reg_0x06_16u = *(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u);
 	reg_SP_32u += 16 / 8;
 }
 //Pop
 void handlerCommand16Code005EP66() {
 	LOG("%s","Pop");
 	uint8_t reg = 0x06;
-	reg_0x06_32u = *(uint32_t*)(mem(SR_SS) + reg_SP_16u);
+	reg_0x06_32u = *(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u);
 	reg_SP_16u += 32 / 8;
 }
 //Pop
 void handlerCommand16Code005E() {
 	LOG("%s","Pop");
 	uint8_t reg = 0x06;
-	reg_0x06_16u = *(uint16_t*)(mem(SR_SS) + reg_SP_16u);
+	reg_0x06_16u = *(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u);
 	reg_SP_16u += 16 / 8;
 }
 //Pop
 void handlerCommand16Code005FP66P67() {
 	LOG("%s","Pop");
 	uint8_t reg = 0x07;
-	reg_0x07_32u = *(uint32_t*)(mem(SR_SS) + reg_SP_32u);
+	reg_0x07_32u = *(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u);
 	reg_SP_32u += 32 / 8;
 }
 //Pop
 void handlerCommand16Code005FP67() {
 	LOG("%s","Pop");
 	uint8_t reg = 0x07;
-	reg_0x07_16u = *(uint16_t*)(mem(SR_SS) + reg_SP_32u);
+	reg_0x07_16u = *(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u);
 	reg_SP_32u += 16 / 8;
 }
 //Pop
 void handlerCommand16Code005FP66() {
 	LOG("%s","Pop");
 	uint8_t reg = 0x07;
-	reg_0x07_32u = *(uint32_t*)(mem(SR_SS) + reg_SP_16u);
+	reg_0x07_32u = *(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u);
 	reg_SP_16u += 32 / 8;
 }
 //Pop
 void handlerCommand16Code005F() {
 	LOG("%s","Pop");
 	uint8_t reg = 0x07;
-	reg_0x07_16u = *(uint16_t*)(mem(SR_SS) + reg_SP_16u);
+	reg_0x07_16u = *(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u);
 	reg_SP_16u += 16 / 8;
 }
 //PUSHA
@@ -1892,104 +1892,104 @@ void handlerCommand16Code0060P66() {
 	LOG("%s","PUSHA");
 	uint32_t tmp = reg_SP_32u;
 	reg_SP_16u -= 32 / 8;
-	*(uint32_t*)(mem(SR_SS) + reg_SP_16u) = reg_AX_32u;
+	*(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u) = reg_AX_32u;
 	reg_SP_16u -= 32 / 8;
-	*(uint32_t*)(mem(SR_SS) + reg_SP_16u) = reg_CX_32u;
+	*(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u) = reg_CX_32u;
 	reg_SP_16u -= 32 / 8;
-	*(uint32_t*)(mem(SR_SS) + reg_SP_16u) = reg_DX_32u;
+	*(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u) = reg_DX_32u;
 	reg_SP_16u -= 32 / 8;
-	*(uint32_t*)(mem(SR_SS) + reg_SP_16u) = reg_BX_32u;
+	*(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u) = reg_BX_32u;
 	reg_SP_16u -= 32 / 8;
-	*(uint32_t*)(mem(SR_SS) + reg_SP_16u) = tmp;
+	*(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u) = tmp;
 	reg_SP_16u -= 32 / 8;
-	*(uint32_t*)(mem(SR_SS) + reg_SP_16u) = reg_BP_32u;
+	*(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u) = reg_BP_32u;
 	reg_SP_16u -= 32 / 8;
-	*(uint32_t*)(mem(SR_SS) + reg_SP_16u) = reg_SI_32u;
+	*(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u) = reg_SI_32u;
 	reg_SP_16u -= 32 / 8;
-	*(uint32_t*)(mem(SR_SS) + reg_SP_16u) = reg_DI_32u;
+	*(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u) = reg_DI_32u;
 }
 //PUSHA
 void handlerCommand16Code0060() {
 	LOG("%s","PUSHA");
 	uint16_t tmp = reg_SP_16u;
 	reg_SP_16u -= 16 / 8;
-	*(uint16_t*)(mem(SR_SS) + reg_SP_16u) = reg_AX_16u;
+	*(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u) = reg_AX_16u;
 	reg_SP_16u -= 16 / 8;
-	*(uint16_t*)(mem(SR_SS) + reg_SP_16u) = reg_CX_16u;
+	*(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u) = reg_CX_16u;
 	reg_SP_16u -= 16 / 8;
-	*(uint16_t*)(mem(SR_SS) + reg_SP_16u) = reg_DX_16u;
+	*(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u) = reg_DX_16u;
 	reg_SP_16u -= 16 / 8;
-	*(uint16_t*)(mem(SR_SS) + reg_SP_16u) = reg_BX_16u;
+	*(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u) = reg_BX_16u;
 	reg_SP_16u -= 16 / 8;
-	*(uint16_t*)(mem(SR_SS) + reg_SP_16u) = tmp;
+	*(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u) = tmp;
 	reg_SP_16u -= 16 / 8;
-	*(uint16_t*)(mem(SR_SS) + reg_SP_16u) = reg_BP_16u;
+	*(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u) = reg_BP_16u;
 	reg_SP_16u -= 16 / 8;
-	*(uint16_t*)(mem(SR_SS) + reg_SP_16u) = reg_SI_16u;
+	*(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u) = reg_SI_16u;
 	reg_SP_16u -= 16 / 8;
-	*(uint16_t*)(mem(SR_SS) + reg_SP_16u) = reg_DI_16u;
+	*(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u) = reg_DI_16u;
 }
 //POPA
 void handlerCommand16Code0061P66() {
 	LOG("%s","POPA");
-	reg_DI_32u = *(uint32_t*)(mem(SR_SS) + reg_SP_16u);
+	reg_DI_32u = *(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u);
 	reg_SP_16u += 32 / 8;
-	reg_SI_32u = *(uint32_t*)(mem(SR_SS) + reg_SP_16u);
+	reg_SI_32u = *(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u);
 	reg_SP_16u += 32 / 8;
-	reg_BP_32u = *(uint32_t*)(mem(SR_SS) + reg_SP_16u);
+	reg_BP_32u = *(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u);
 	reg_SP_16u += 32 / 8;
 	reg_SP_16u += 32 / 8;
-	reg_BX_32u = *(uint32_t*)(mem(SR_SS) + reg_SP_16u);
+	reg_BX_32u = *(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u);
 	reg_SP_16u += 32 / 8;
-	reg_DX_32u = *(uint32_t*)(mem(SR_SS) + reg_SP_16u);
+	reg_DX_32u = *(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u);
 	reg_SP_16u += 32 / 8;
-	reg_CX_32u = *(uint32_t*)(mem(SR_SS) + reg_SP_16u);
+	reg_CX_32u = *(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u);
 	reg_SP_16u += 32 / 8;
-	reg_AX_32u = *(uint32_t*)(mem(SR_SS) + reg_SP_16u);
+	reg_AX_32u = *(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u);
 	reg_SP_16u += 32 / 8;
 }
 //POPA
 void handlerCommand16Code0061() {
 	LOG("%s","POPA");
-	reg_DI_16u = *(uint16_t*)(mem(SR_SS) + reg_SP_16u);
+	reg_DI_16u = *(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u);
 	reg_SP_16u += 16 / 8;
-	reg_SI_16u = *(uint16_t*)(mem(SR_SS) + reg_SP_16u);
+	reg_SI_16u = *(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u);
 	reg_SP_16u += 16 / 8;
-	reg_BP_16u = *(uint16_t*)(mem(SR_SS) + reg_SP_16u);
+	reg_BP_16u = *(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u);
 	reg_SP_16u += 16 / 8;
 	reg_SP_16u += 16 / 8;
-	reg_BX_16u = *(uint16_t*)(mem(SR_SS) + reg_SP_16u);
+	reg_BX_16u = *(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u);
 	reg_SP_16u += 16 / 8;
-	reg_DX_16u = *(uint16_t*)(mem(SR_SS) + reg_SP_16u);
+	reg_DX_16u = *(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u);
 	reg_SP_16u += 16 / 8;
-	reg_CX_16u = *(uint16_t*)(mem(SR_SS) + reg_SP_16u);
+	reg_CX_16u = *(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u);
 	reg_SP_16u += 16 / 8;
-	reg_AX_16u = *(uint16_t*)(mem(SR_SS) + reg_SP_16u);
+	reg_AX_16u = *(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u);
 	reg_SP_16u += 16 / 8;
 }
 //Push
 void handlerCommand16Code0068P66P67() {
 	LOG("%s","Push");
 	reg_SP_32u -= 32 / 8;
-	*(uint32_t*)(mem(SR_SS) + reg_SP_32u) = read32u();
+	*(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u) = read32u();
 }
 //Push
 void handlerCommand16Code0068P67() {
 	LOG("%s","Push");
 	reg_SP_32u -= 16 / 8;
-	*(uint16_t*)(mem(SR_SS) + reg_SP_32u) = read16u();
+	*(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u) = read16u();
 }
 //Push
 void handlerCommand16Code0068P66() {
 	LOG("%s","Push");
 	reg_SP_16u -= 32 / 8;
-	*(uint32_t*)(mem(SR_SS) + reg_SP_16u) = read32u();
+	*(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u) = read32u();
 }
 //Push
 void handlerCommand16Code0068() {
 	LOG("%s","Push");
 	reg_SP_16u -= 16 / 8;
-	*(uint16_t*)(mem(SR_SS) + reg_SP_16u) = read16u();
+	*(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u) = read16u();
 }
 //Mul
 void handlerCommand16Code0069P66() {
@@ -2029,25 +2029,25 @@ void handlerCommand16Code0069() {
 void handlerCommand16Code006AP66P67() {
 	LOG("%s","Push");
 	reg_SP_32u -= 32 / 8;
-	*(int32_t*)(mem(SR_SS) + reg_SP_32u) = (int32_t)read8();
+	*(int32_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u) = (int32_t)read8();
 }
 //Push
 void handlerCommand16Code006AP67() {
 	LOG("%s","Push");
 	reg_SP_32u -= 16 / 8;
-	*(int16_t*)(mem(SR_SS) + reg_SP_32u) = (int16_t)read8();
+	*(int16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u) = (int16_t)read8();
 }
 //Push
 void handlerCommand16Code006AP66() {
 	LOG("%s","Push");
 	reg_SP_16u -= 32 / 8;
-	*(int32_t*)(mem(SR_SS) + reg_SP_16u) = (int32_t)read8();
+	*(int32_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u) = (int32_t)read8();
 }
 //Push
 void handlerCommand16Code006A() {
 	LOG("%s","Push");
 	reg_SP_16u -= 16 / 8;
-	*(int16_t*)(mem(SR_SS) + reg_SP_16u) = (int16_t)read8();
+	*(int16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u) = (int16_t)read8();
 }
 //Mul
 void handlerCommand16Code006B() {
@@ -2957,17 +2957,20 @@ void handlerCommand16Code008B() {
 void handlerCommand16Code008C() {
 	LOG("%s","Move");
 	uint8_t mrmByte = read8u();
+	uint8_t sr = readMiddle3Bit(mrmByte);
 	uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
-	uint8_t* source = (uint8_t*)readSegmentRegisterMRM(mrmByte);
+	uint8_t* source = (uint8_t*)readSegmentRegisterMRM;
 	*(uint16_t*)target = *(uint16_t*)source;
 }
 //Move
 void handlerCommand16Code008E() {
 	LOG("%s","Move");
 	uint8_t mrmByte = read8u();
+	uint8_t sr = readMiddle3Bit(mrmByte);
 	uint8_t* source = (uint8_t*)readAddressMRM16For16(mrmByte);
-	uint8_t* target = (uint8_t*)readSegmentRegisterMRM(mrmByte);
+	uint8_t* target = (uint8_t*)readSegmentRegisterMRM;
 	*(uint16_t*)target = *(uint16_t*)source;
+	recalculatePointerSegmentRegisterMRM
 }
 //Lea
 void handlerCommand16Code008DP66P67() {
@@ -3009,7 +3012,7 @@ void handlerCommand16Code008FP66P67() {
 	switch (nnn) {
 		case 0x00: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For32(mrmByte);
-			*(uint32_t*)target = *(uint32_t*)(mem(SR_SS) + reg_SP_32u);
+			*(uint32_t*)target = *(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u);
 			reg_SP_32u += 32 / 8;
 		}
 		break;
@@ -3025,7 +3028,7 @@ void handlerCommand16Code008FP67() {
 	switch (nnn) {
 		case 0x00: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
-			*(uint16_t*)target = *(uint16_t*)(mem(SR_SS) + reg_SP_32u);
+			*(uint16_t*)target = *(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u);
 			reg_SP_32u += 16 / 8;
 		}
 		break;
@@ -3041,7 +3044,7 @@ void handlerCommand16Code008FP66() {
 	switch (nnn) {
 		case 0x00: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For32(mrmByte);
-			*(uint32_t*)target = *(uint32_t*)(mem(SR_SS) + reg_SP_16u);
+			*(uint32_t*)target = *(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u);
 			reg_SP_16u += 32 / 8;
 		}
 		break;
@@ -3057,7 +3060,7 @@ void handlerCommand16Code008F() {
 	switch (nnn) {
 		case 0x00: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
-			*(uint16_t*)target = *(uint16_t*)(mem(SR_SS) + reg_SP_16u);
+			*(uint16_t*)target = *(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u);
 			reg_SP_16u += 16 / 8;
 		}
 		break;
@@ -3215,11 +3218,11 @@ void handlerCommand16Code009A() {
 	int16_t newIP = read16();
 	uint16_t newCS = read16u();
 	reg_SP_16u -= 16 / 8;
-	*(uint16_t*)(mem(SR_SS) + reg_SP_16u) = context.segmentRegisters[SR_CS];
+	*(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u) = SR_VALUE(SR_CS);
 	reg_SP_16u -= 16 / 8;
-	*(uint16_t*)(mem(SR_SS) + reg_SP_16u) = ((uint16_t)(context.index - mem(SR_CS)));
-	setMem(SR_CS, newCS);
-	context.index = mem(SR_CS) + newIP;
+	*(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u) = ((uint16_t)(context.index - GET_SEGMENT_POINTER(SR_CS)));
+	SET_VALUE_IN_SEGMENT(SR_CS, newCS);
+	context.index = GET_SEGMENT_POINTER(SR_CS) + newIP;
 }
 //PUSHF
 void handlerCommand16Code009CP66() {
@@ -3228,7 +3231,7 @@ void handlerCommand16Code009CP66() {
 	reg_SP_16u -= 32 / 8;
 	EncodeFlagsRegister();
 	uint32_t value = reg_flags & 0xFCFFFF;
-	*(uint32_t*)(mem(SR_SS) + reg_SP_16u) = *((uint32_t*)&value);
+	*(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u) = *((uint32_t*)&value);
 }
 //PUSHF
 void handlerCommand16Code009C() {
@@ -3237,13 +3240,13 @@ void handlerCommand16Code009C() {
 	reg_SP_16u -= 16 / 8;
 	EncodeFlagsRegister();
 	uint32_t value = reg_flags & 0xFCFFFF;
-	*(uint16_t*)(mem(SR_SS) + reg_SP_16u) = *((uint16_t*)&value);
+	*(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u) = *((uint16_t*)&value);
 }
 //POPF
 void handlerCommand16Code009DP66() {
 	LOG("%s","POPF");
 	lazyFlagType = t_UNKNOWN;
-	*(uint32_t*)(&reg_flags) = (*(uint32_t*)(mem(SR_SS) + reg_SP_16u));
+	*(uint32_t*)(&reg_flags) = (*(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u));
 	reg_SP_16u += 32 / 8;
 	DecodeFlagsRegister32();
 }
@@ -3251,7 +3254,7 @@ void handlerCommand16Code009DP66() {
 void handlerCommand16Code009D() {
 	LOG("%s","POPF");
 	lazyFlagType = t_UNKNOWN;
-	*(uint16_t*)(&reg_flags) = (*(uint16_t*)(mem(SR_SS) + reg_SP_16u));
+	*(uint16_t*)(&reg_flags) = (*(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u));
 	reg_SP_16u += 16 / 8;
 	DecodeFlagsRegister16();
 }
@@ -3259,119 +3262,119 @@ void handlerCommand16Code009D() {
 void handlerCommand16Code00A0P66P67() {
 	LOG("%s","Move");
 	uint8_t* target = (uint8_t*)register8u(BR_AX);
-	uint8_t* source = (uint8_t*)(memWithReplace(SR_DS) + read32());
+	uint8_t* source = (uint8_t*)(GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + read32());
 	*(uint8_t*)target = *(uint8_t*)source;
 }
 //Move
 void handlerCommand16Code00A0P66() {
 	LOG("%s","Move");
 	uint8_t* target = (uint8_t*)register8u(BR_AX);
-	uint8_t* source = (uint8_t*)(memWithReplace(SR_DS) + read16());
+	uint8_t* source = (uint8_t*)(GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + read16());
 	*(uint8_t*)target = *(uint8_t*)source;
 }
 //Move
 void handlerCommand16Code00A0P67() {
 	LOG("%s","Move");
 	uint8_t* target = (uint8_t*)register8u(BR_AX);
-	uint8_t* source = (uint8_t*)(memWithReplace(SR_DS) + read32());
+	uint8_t* source = (uint8_t*)(GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + read32());
 	*(uint8_t*)target = *(uint8_t*)source;
 }
 //Move
 void handlerCommand16Code00A0() {
 	LOG("%s","Move");
 	uint8_t* target = (uint8_t*)register8u(BR_AX);
-	uint8_t* source = (uint8_t*)(memWithReplace(SR_DS) + read16());
+	uint8_t* source = (uint8_t*)(GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + read16());
 	*(uint8_t*)target = *(uint8_t*)source;
 }
 //Move
 void handlerCommand16Code00A1P66P67() {
 	LOG("%s","Move");
 	uint32_t* target = (uint32_t*)register32u(BR_AX);
-	uint32_t* source = (uint32_t*)(memWithReplace(SR_DS) + read32());
+	uint32_t* source = (uint32_t*)(GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + read32());
 	*(uint32_t*)target = *(uint32_t*)source;
 }
 //Move
 void handlerCommand16Code00A1P66() {
 	LOG("%s","Move");
 	uint32_t* target = (uint32_t*)register32u(BR_AX);
-	uint32_t* source = (uint32_t*)(memWithReplace(SR_DS) + read16());
+	uint32_t* source = (uint32_t*)(GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + read16());
 	*(uint32_t*)target = *(uint32_t*)source;
 }
 //Move
 void handlerCommand16Code00A1P67() {
 	LOG("%s","Move");
 	uint16_t* target = (uint16_t*)register16u(BR_AX);
-	uint16_t* source = (uint16_t*)(memWithReplace(SR_DS) + read32());
+	uint16_t* source = (uint16_t*)(GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + read32());
 	*(uint16_t*)target = *(uint16_t*)source;
 }
 //Move
 void handlerCommand16Code00A1() {
 	LOG("%s","Move");
 	uint16_t* target = (uint16_t*)register16u(BR_AX);
-	uint16_t* source = (uint16_t*)(memWithReplace(SR_DS) + read16());
+	uint16_t* source = (uint16_t*)(GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + read16());
 	*(uint16_t*)target = *(uint16_t*)source;
 }
 //Move
 void handlerCommand16Code00A2P66P67() {
 	LOG("%s","Move");
 	uint8_t* source = (uint8_t*)register8u(BR_AX);
-	uint8_t* target = (uint8_t*)(memWithReplace(SR_DS) + read32());
+	uint8_t* target = (uint8_t*)(GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + read32());
 	*(uint8_t*)target = *(uint8_t*)source;
 }
 //Move
 void handlerCommand16Code00A2P66() {
 	LOG("%s","Move");
 	uint8_t* source = (uint8_t*)register8u(BR_AX);
-	uint8_t* target = (uint8_t*)(memWithReplace(SR_DS) + read16());
+	uint8_t* target = (uint8_t*)(GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + read16());
 	*(uint8_t*)target = *(uint8_t*)source;
 }
 //Move
 void handlerCommand16Code00A2P67() {
 	LOG("%s","Move");
 	uint8_t* source = (uint8_t*)register8u(BR_AX);
-	uint8_t* target = (uint8_t*)(memWithReplace(SR_DS) + read32());
+	uint8_t* target = (uint8_t*)(GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + read32());
 	*(uint8_t*)target = *(uint8_t*)source;
 }
 //Move
 void handlerCommand16Code00A2() {
 	LOG("%s","Move");
 	uint8_t* source = (uint8_t*)register8u(BR_AX);
-	uint8_t* target = (uint8_t*)(memWithReplace(SR_DS) + read16());
+	uint8_t* target = (uint8_t*)(GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + read16());
 	*(uint8_t*)target = *(uint8_t*)source;
 }
 //Move
 void handlerCommand16Code00A3P66P67() {
 	LOG("%s","Move");
 	uint32_t* source = (uint32_t*)register32u(BR_AX);
-	uint32_t* target = (uint32_t*)(memWithReplace(SR_DS) + read32());
+	uint32_t* target = (uint32_t*)(GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + read32());
 	*(uint32_t*)target = *(uint32_t*)source;
 }
 //Move
 void handlerCommand16Code00A3P66() {
 	LOG("%s","Move");
 	uint32_t* source = (uint32_t*)register32u(BR_AX);
-	uint32_t* target = (uint32_t*)(memWithReplace(SR_DS) + read16());
+	uint32_t* target = (uint32_t*)(GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + read16());
 	*(uint32_t*)target = *(uint32_t*)source;
 }
 //Move
 void handlerCommand16Code00A3P67() {
 	LOG("%s","Move");
 	uint16_t* source = (uint16_t*)register16u(BR_AX);
-	uint16_t* target = (uint16_t*)(memWithReplace(SR_DS) + read32());
+	uint16_t* target = (uint16_t*)(GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + read32());
 	*(uint16_t*)target = *(uint16_t*)source;
 }
 //Move
 void handlerCommand16Code00A3() {
 	LOG("%s","Move");
 	uint16_t* source = (uint16_t*)register16u(BR_AX);
-	uint16_t* target = (uint16_t*)(memWithReplace(SR_DS) + read16());
+	uint16_t* target = (uint16_t*)(GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + read16());
 	*(uint16_t*)target = *(uint16_t*)source;
 }
 //MOVS
 void handlerCommand16Code00A4P66P67() {
 	LOG("%s","MOVS");
-	uint8_t* sourceSegment = memWithReplace(SR_DS);
-	uint8_t* targetSegment = mem(SR_ES);
+	uint8_t* sourceSegment = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS);
+	uint8_t* targetSegment = GET_SEGMENT_POINTER(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_32 != 0) {
@@ -3399,8 +3402,8 @@ void handlerCommand16Code00A4P66P67() {
 //MOVS
 void handlerCommand16Code00A4P66() {
 	LOG("%s","MOVS");
-	uint8_t* sourceSegment = memWithReplace(SR_DS);
-	uint8_t* targetSegment = mem(SR_ES);
+	uint8_t* sourceSegment = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS);
+	uint8_t* targetSegment = GET_SEGMENT_POINTER(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_16 != 0) {
@@ -3428,8 +3431,8 @@ void handlerCommand16Code00A4P66() {
 //MOVS
 void handlerCommand16Code00A4P67() {
 	LOG("%s","MOVS");
-	uint8_t* sourceSegment = memWithReplace(SR_DS);
-	uint8_t* targetSegment = mem(SR_ES);
+	uint8_t* sourceSegment = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS);
+	uint8_t* targetSegment = GET_SEGMENT_POINTER(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_32 != 0) {
@@ -3457,8 +3460,8 @@ void handlerCommand16Code00A4P67() {
 //MOVS
 void handlerCommand16Code00A4() {
 	LOG("%s","MOVS");
-	uint8_t* sourceSegment = memWithReplace(SR_DS);
-	uint8_t* targetSegment = mem(SR_ES);
+	uint8_t* sourceSegment = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS);
+	uint8_t* targetSegment = GET_SEGMENT_POINTER(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_16 != 0) {
@@ -3486,8 +3489,8 @@ void handlerCommand16Code00A4() {
 //MOVS
 void handlerCommand16Code00A5P66P67() {
 	LOG("%s","MOVS");
-	uint8_t* sourceSegment = memWithReplace(SR_DS);
-	uint8_t* targetSegment = mem(SR_ES);
+	uint8_t* sourceSegment = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS);
+	uint8_t* targetSegment = GET_SEGMENT_POINTER(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_32 != 0) {
@@ -3515,8 +3518,8 @@ void handlerCommand16Code00A5P66P67() {
 //MOVS
 void handlerCommand16Code00A5P66() {
 	LOG("%s","MOVS");
-	uint8_t* sourceSegment = memWithReplace(SR_DS);
-	uint8_t* targetSegment = mem(SR_ES);
+	uint8_t* sourceSegment = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS);
+	uint8_t* targetSegment = GET_SEGMENT_POINTER(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_16 != 0) {
@@ -3544,8 +3547,8 @@ void handlerCommand16Code00A5P66() {
 //MOVS
 void handlerCommand16Code00A5P67() {
 	LOG("%s","MOVS");
-	uint8_t* sourceSegment = memWithReplace(SR_DS);
-	uint8_t* targetSegment = mem(SR_ES);
+	uint8_t* sourceSegment = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS);
+	uint8_t* targetSegment = GET_SEGMENT_POINTER(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_32 != 0) {
@@ -3573,8 +3576,8 @@ void handlerCommand16Code00A5P67() {
 //MOVS
 void handlerCommand16Code00A5() {
 	LOG("%s","MOVS");
-	uint8_t* sourceSegment = memWithReplace(SR_DS);
-	uint8_t* targetSegment = mem(SR_ES);
+	uint8_t* sourceSegment = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS);
+	uint8_t* targetSegment = GET_SEGMENT_POINTER(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_16 != 0) {
@@ -3603,8 +3606,8 @@ void handlerCommand16Code00A5() {
 void handlerCommand16Code00A6P66P67() {
 	LOG("%s","CMPS");
 	lazyFlagType = t_UNKNOWN;
-	uint8_t* sourceSegment = memWithReplace(SR_DS);
-	uint8_t* targetSegment = mem(SR_ES);
+	uint8_t* sourceSegment = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS);
+	uint8_t* targetSegment = GET_SEGMENT_POINTER(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF2) {
 			while (reg_CX_32 != 0) {
@@ -3671,8 +3674,8 @@ void handlerCommand16Code00A6P66P67() {
 void handlerCommand16Code00A6P66() {
 	LOG("%s","CMPS");
 	lazyFlagType = t_UNKNOWN;
-	uint8_t* sourceSegment = memWithReplace(SR_DS);
-	uint8_t* targetSegment = mem(SR_ES);
+	uint8_t* sourceSegment = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS);
+	uint8_t* targetSegment = GET_SEGMENT_POINTER(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF2) {
 			while (reg_CX_16 != 0) {
@@ -3739,8 +3742,8 @@ void handlerCommand16Code00A6P66() {
 void handlerCommand16Code00A6P67() {
 	LOG("%s","CMPS");
 	lazyFlagType = t_UNKNOWN;
-	uint8_t* sourceSegment = memWithReplace(SR_DS);
-	uint8_t* targetSegment = mem(SR_ES);
+	uint8_t* sourceSegment = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS);
+	uint8_t* targetSegment = GET_SEGMENT_POINTER(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF2) {
 			while (reg_CX_32 != 0) {
@@ -3807,8 +3810,8 @@ void handlerCommand16Code00A6P67() {
 void handlerCommand16Code00A6() {
 	LOG("%s","CMPS");
 	lazyFlagType = t_UNKNOWN;
-	uint8_t* sourceSegment = memWithReplace(SR_DS);
-	uint8_t* targetSegment = mem(SR_ES);
+	uint8_t* sourceSegment = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS);
+	uint8_t* targetSegment = GET_SEGMENT_POINTER(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF2) {
 			while (reg_CX_16 != 0) {
@@ -3875,8 +3878,8 @@ void handlerCommand16Code00A6() {
 void handlerCommand16Code00A7P66P67() {
 	LOG("%s","CMPS");
 	lazyFlagType = t_UNKNOWN;
-	uint8_t* sourceSegment = memWithReplace(SR_DS);
-	uint8_t* targetSegment = mem(SR_ES);
+	uint8_t* sourceSegment = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS);
+	uint8_t* targetSegment = GET_SEGMENT_POINTER(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF2) {
 			while (reg_CX_32 != 0) {
@@ -3943,8 +3946,8 @@ void handlerCommand16Code00A7P66P67() {
 void handlerCommand16Code00A7P66() {
 	LOG("%s","CMPS");
 	lazyFlagType = t_UNKNOWN;
-	uint8_t* sourceSegment = memWithReplace(SR_DS);
-	uint8_t* targetSegment = mem(SR_ES);
+	uint8_t* sourceSegment = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS);
+	uint8_t* targetSegment = GET_SEGMENT_POINTER(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF2) {
 			while (reg_CX_16 != 0) {
@@ -4011,8 +4014,8 @@ void handlerCommand16Code00A7P66() {
 void handlerCommand16Code00A7P67() {
 	LOG("%s","CMPS");
 	lazyFlagType = t_UNKNOWN;
-	uint8_t* sourceSegment = memWithReplace(SR_DS);
-	uint8_t* targetSegment = mem(SR_ES);
+	uint8_t* sourceSegment = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS);
+	uint8_t* targetSegment = GET_SEGMENT_POINTER(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF2) {
 			while (reg_CX_32 != 0) {
@@ -4079,8 +4082,8 @@ void handlerCommand16Code00A7P67() {
 void handlerCommand16Code00A7() {
 	LOG("%s","CMPS");
 	lazyFlagType = t_UNKNOWN;
-	uint8_t* sourceSegment = memWithReplace(SR_DS);
-	uint8_t* targetSegment = mem(SR_ES);
+	uint8_t* sourceSegment = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS);
+	uint8_t* targetSegment = GET_SEGMENT_POINTER(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF2) {
 			while (reg_CX_16 != 0) {
@@ -4182,8 +4185,8 @@ void handlerCommand16Code00A9() {
 //STOS
 void handlerCommand16Code00AAP66P67() {
 	LOG("%s","STOS");
-	uint8_t* sourceSegment = memWithReplace(SR_DS);
-	uint8_t* targetSegment = mem(SR_ES);
+	uint8_t* sourceSegment = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS);
+	uint8_t* targetSegment = GET_SEGMENT_POINTER(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_32 != 0) {
@@ -4211,8 +4214,8 @@ void handlerCommand16Code00AAP66P67() {
 //STOS
 void handlerCommand16Code00AAP66() {
 	LOG("%s","STOS");
-	uint8_t* sourceSegment = memWithReplace(SR_DS);
-	uint8_t* targetSegment = mem(SR_ES);
+	uint8_t* sourceSegment = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS);
+	uint8_t* targetSegment = GET_SEGMENT_POINTER(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_16 != 0) {
@@ -4240,8 +4243,8 @@ void handlerCommand16Code00AAP66() {
 //STOS
 void handlerCommand16Code00AAP67() {
 	LOG("%s","STOS");
-	uint8_t* sourceSegment = memWithReplace(SR_DS);
-	uint8_t* targetSegment = mem(SR_ES);
+	uint8_t* sourceSegment = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS);
+	uint8_t* targetSegment = GET_SEGMENT_POINTER(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_32 != 0) {
@@ -4269,8 +4272,8 @@ void handlerCommand16Code00AAP67() {
 //STOS
 void handlerCommand16Code00AA() {
 	LOG("%s","STOS");
-	uint8_t* sourceSegment = memWithReplace(SR_DS);
-	uint8_t* targetSegment = mem(SR_ES);
+	uint8_t* sourceSegment = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS);
+	uint8_t* targetSegment = GET_SEGMENT_POINTER(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_16 != 0) {
@@ -4298,8 +4301,8 @@ void handlerCommand16Code00AA() {
 //STOS
 void handlerCommand16Code00ABP66P67() {
 	LOG("%s","STOS");
-	uint8_t* sourceSegment = memWithReplace(SR_DS);
-	uint8_t* targetSegment = mem(SR_ES);
+	uint8_t* sourceSegment = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS);
+	uint8_t* targetSegment = GET_SEGMENT_POINTER(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_32 != 0) {
@@ -4327,8 +4330,8 @@ void handlerCommand16Code00ABP66P67() {
 //STOS
 void handlerCommand16Code00ABP66() {
 	LOG("%s","STOS");
-	uint8_t* sourceSegment = memWithReplace(SR_DS);
-	uint8_t* targetSegment = mem(SR_ES);
+	uint8_t* sourceSegment = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS);
+	uint8_t* targetSegment = GET_SEGMENT_POINTER(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_16 != 0) {
@@ -4356,8 +4359,8 @@ void handlerCommand16Code00ABP66() {
 //STOS
 void handlerCommand16Code00ABP67() {
 	LOG("%s","STOS");
-	uint8_t* sourceSegment = memWithReplace(SR_DS);
-	uint8_t* targetSegment = mem(SR_ES);
+	uint8_t* sourceSegment = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS);
+	uint8_t* targetSegment = GET_SEGMENT_POINTER(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_32 != 0) {
@@ -4385,8 +4388,8 @@ void handlerCommand16Code00ABP67() {
 //STOS
 void handlerCommand16Code00AB() {
 	LOG("%s","STOS");
-	uint8_t* sourceSegment = memWithReplace(SR_DS);
-	uint8_t* targetSegment = mem(SR_ES);
+	uint8_t* sourceSegment = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS);
+	uint8_t* targetSegment = GET_SEGMENT_POINTER(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_16 != 0) {
@@ -4414,8 +4417,8 @@ void handlerCommand16Code00AB() {
 //LOADS
 void handlerCommand16Code00ACP66P67() {
 	LOG("%s","LOADS");
-	uint8_t* sourceSegment = memWithReplace(SR_DS);
-	uint8_t* targetSegment = mem(SR_ES);
+	uint8_t* sourceSegment = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS);
+	uint8_t* targetSegment = GET_SEGMENT_POINTER(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_32 != 0) {
@@ -4443,8 +4446,8 @@ void handlerCommand16Code00ACP66P67() {
 //LOADS
 void handlerCommand16Code00ACP66() {
 	LOG("%s","LOADS");
-	uint8_t* sourceSegment = memWithReplace(SR_DS);
-	uint8_t* targetSegment = mem(SR_ES);
+	uint8_t* sourceSegment = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS);
+	uint8_t* targetSegment = GET_SEGMENT_POINTER(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_16 != 0) {
@@ -4472,8 +4475,8 @@ void handlerCommand16Code00ACP66() {
 //LOADS
 void handlerCommand16Code00ACP67() {
 	LOG("%s","LOADS");
-	uint8_t* sourceSegment = memWithReplace(SR_DS);
-	uint8_t* targetSegment = mem(SR_ES);
+	uint8_t* sourceSegment = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS);
+	uint8_t* targetSegment = GET_SEGMENT_POINTER(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_32 != 0) {
@@ -4501,8 +4504,8 @@ void handlerCommand16Code00ACP67() {
 //LOADS
 void handlerCommand16Code00AC() {
 	LOG("%s","LOADS");
-	uint8_t* sourceSegment = memWithReplace(SR_DS);
-	uint8_t* targetSegment = mem(SR_ES);
+	uint8_t* sourceSegment = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS);
+	uint8_t* targetSegment = GET_SEGMENT_POINTER(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_16 != 0) {
@@ -4530,8 +4533,8 @@ void handlerCommand16Code00AC() {
 //LOADS
 void handlerCommand16Code00ADP66P67() {
 	LOG("%s","LOADS");
-	uint8_t* sourceSegment = memWithReplace(SR_DS);
-	uint8_t* targetSegment = mem(SR_ES);
+	uint8_t* sourceSegment = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS);
+	uint8_t* targetSegment = GET_SEGMENT_POINTER(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_32 != 0) {
@@ -4559,8 +4562,8 @@ void handlerCommand16Code00ADP66P67() {
 //LOADS
 void handlerCommand16Code00ADP66() {
 	LOG("%s","LOADS");
-	uint8_t* sourceSegment = memWithReplace(SR_DS);
-	uint8_t* targetSegment = mem(SR_ES);
+	uint8_t* sourceSegment = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS);
+	uint8_t* targetSegment = GET_SEGMENT_POINTER(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_16 != 0) {
@@ -4588,8 +4591,8 @@ void handlerCommand16Code00ADP66() {
 //LOADS
 void handlerCommand16Code00ADP67() {
 	LOG("%s","LOADS");
-	uint8_t* sourceSegment = memWithReplace(SR_DS);
-	uint8_t* targetSegment = mem(SR_ES);
+	uint8_t* sourceSegment = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS);
+	uint8_t* targetSegment = GET_SEGMENT_POINTER(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_32 != 0) {
@@ -4617,8 +4620,8 @@ void handlerCommand16Code00ADP67() {
 //LOADS
 void handlerCommand16Code00AD() {
 	LOG("%s","LOADS");
-	uint8_t* sourceSegment = memWithReplace(SR_DS);
-	uint8_t* targetSegment = mem(SR_ES);
+	uint8_t* sourceSegment = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS);
+	uint8_t* targetSegment = GET_SEGMENT_POINTER(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_16 != 0) {
@@ -4647,8 +4650,8 @@ void handlerCommand16Code00AD() {
 void handlerCommand16Code00AEP66P67() {
 	LOG("%s","SCAS");
 	lazyFlagType = t_UNKNOWN;
-	uint8_t* sourceSegment = memWithReplace(SR_DS);
-	uint8_t* targetSegment = mem(SR_ES);
+	uint8_t* sourceSegment = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS);
+	uint8_t* targetSegment = GET_SEGMENT_POINTER(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF2) {
 			while (reg_CX_32 != 0) {
@@ -4715,8 +4718,8 @@ void handlerCommand16Code00AEP66P67() {
 void handlerCommand16Code00AEP66() {
 	LOG("%s","SCAS");
 	lazyFlagType = t_UNKNOWN;
-	uint8_t* sourceSegment = memWithReplace(SR_DS);
-	uint8_t* targetSegment = mem(SR_ES);
+	uint8_t* sourceSegment = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS);
+	uint8_t* targetSegment = GET_SEGMENT_POINTER(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF2) {
 			while (reg_CX_16 != 0) {
@@ -4783,8 +4786,8 @@ void handlerCommand16Code00AEP66() {
 void handlerCommand16Code00AEP67() {
 	LOG("%s","SCAS");
 	lazyFlagType = t_UNKNOWN;
-	uint8_t* sourceSegment = memWithReplace(SR_DS);
-	uint8_t* targetSegment = mem(SR_ES);
+	uint8_t* sourceSegment = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS);
+	uint8_t* targetSegment = GET_SEGMENT_POINTER(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF2) {
 			while (reg_CX_32 != 0) {
@@ -4851,8 +4854,8 @@ void handlerCommand16Code00AEP67() {
 void handlerCommand16Code00AE() {
 	LOG("%s","SCAS");
 	lazyFlagType = t_UNKNOWN;
-	uint8_t* sourceSegment = memWithReplace(SR_DS);
-	uint8_t* targetSegment = mem(SR_ES);
+	uint8_t* sourceSegment = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS);
+	uint8_t* targetSegment = GET_SEGMENT_POINTER(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF2) {
 			while (reg_CX_16 != 0) {
@@ -4919,8 +4922,8 @@ void handlerCommand16Code00AE() {
 void handlerCommand16Code00AFP66P67() {
 	LOG("%s","SCAS");
 	lazyFlagType = t_UNKNOWN;
-	uint8_t* sourceSegment = memWithReplace(SR_DS);
-	uint8_t* targetSegment = mem(SR_ES);
+	uint8_t* sourceSegment = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS);
+	uint8_t* targetSegment = GET_SEGMENT_POINTER(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF2) {
 			while (reg_CX_32 != 0) {
@@ -4987,8 +4990,8 @@ void handlerCommand16Code00AFP66P67() {
 void handlerCommand16Code00AFP66() {
 	LOG("%s","SCAS");
 	lazyFlagType = t_UNKNOWN;
-	uint8_t* sourceSegment = memWithReplace(SR_DS);
-	uint8_t* targetSegment = mem(SR_ES);
+	uint8_t* sourceSegment = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS);
+	uint8_t* targetSegment = GET_SEGMENT_POINTER(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF2) {
 			while (reg_CX_16 != 0) {
@@ -5055,8 +5058,8 @@ void handlerCommand16Code00AFP66() {
 void handlerCommand16Code00AFP67() {
 	LOG("%s","SCAS");
 	lazyFlagType = t_UNKNOWN;
-	uint8_t* sourceSegment = memWithReplace(SR_DS);
-	uint8_t* targetSegment = mem(SR_ES);
+	uint8_t* sourceSegment = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS);
+	uint8_t* targetSegment = GET_SEGMENT_POINTER(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF2) {
 			while (reg_CX_32 != 0) {
@@ -5123,8 +5126,8 @@ void handlerCommand16Code00AFP67() {
 void handlerCommand16Code00AF() {
 	LOG("%s","SCAS");
 	lazyFlagType = t_UNKNOWN;
-	uint8_t* sourceSegment = memWithReplace(SR_DS);
-	uint8_t* targetSegment = mem(SR_ES);
+	uint8_t* sourceSegment = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS);
+	uint8_t* targetSegment = GET_SEGMENT_POINTER(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF2) {
 			while (reg_CX_16 != 0) {
@@ -5799,7 +5802,7 @@ void handlerCommand16Code00C1() {
 void handlerCommand16Code00C3() {
 	LOG("%s","Ret");
 	uint16_t* sp = register16u(BR_SP);
-	context.index = mem(1) + *(uint16_t*)(mem(SR_SS) + *sp);
+	context.index = GET_SEGMENT_POINTER(1) + *(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp);
 	*sp += 16 / 8;
 }
 //Load SR_ES
@@ -5808,7 +5811,7 @@ void handlerCommand16Code00C4() {
 	uint8_t mrmByte = read8u();
 	uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
 	uint8_t* source = (uint8_t*)readRegisterMRM16(mrmByte);
-	setMem(SR_ES, *(uint16_t*)(target + 2));
+	SET_VALUE_IN_SEGMENT(SR_ES, *(uint16_t*)(target + 2));
 	*(uint16_t*)source = *(uint16_t*)(target);
 }
 //Load SR_DS
@@ -5817,7 +5820,7 @@ void handlerCommand16Code00C5() {
 	uint8_t mrmByte = read8u();
 	uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
 	uint8_t* source = (uint8_t*)readRegisterMRM16(mrmByte);
-	setMem(SR_DS, *(uint16_t*)(target + 2));
+	SET_VALUE_IN_SEGMENT(SR_DS, *(uint16_t*)(target + 2));
 	*(uint16_t*)source = *(uint16_t*)(target);
 }
 //Move
@@ -5858,16 +5861,16 @@ void handlerCommand16Code00C8P66P67() {
 	uint16_t size = read16u();
 	uint8_t levels = read8u() % 32;
 	reg_SP_32u -= 32 / 8;
-	*(uint32_t*)(mem(SR_SS) + reg_SP_32u) = reg_BP_32u;
+	*(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u) = reg_BP_32u;
 	uint32_t tmp = reg_SP_32u;
 	if (levels > 0) {
 		for (int i = 1; i < levels; ++i) {
 			reg_BP_32u = reg_BP_32u - 32 / 8;
 			reg_SP_32u -= 32 / 8;
-			*(uint32_t*)(mem(SR_SS) + reg_SP_32u) = reg_BP_32u;
+			*(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u) = reg_BP_32u;
 		}
 		reg_SP_32u -= 32 / 8;
-		*(uint32_t*)(mem(SR_SS) + reg_SP_32u) = reg_SP_32u;
+		*(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u) = reg_SP_32u;
 	}
 	reg_BP_32u = tmp;
 	reg_SP_32u = reg_BP_32u - size;
@@ -5878,16 +5881,16 @@ void handlerCommand16Code00C8P67() {
 	uint16_t size = read16u();
 	uint8_t levels = read8u() % 32;
 	reg_SP_32u -= 32 / 8;
-	*(uint32_t*)(mem(SR_SS) + reg_SP_32u) = reg_BP_32u;
+	*(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u) = reg_BP_32u;
 	uint32_t tmp = reg_SP_32u;
 	if (levels > 0) {
 		for (int i = 1; i < levels; ++i) {
 			reg_BP_32u = reg_BP_32u - 16 / 8;
 			reg_SP_32u -= 32 / 8;
-			*(uint32_t*)(mem(SR_SS) + reg_SP_32u) = reg_BP_32u;
+			*(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u) = reg_BP_32u;
 		}
 		reg_SP_32u -= 32 / 8;
-		*(uint32_t*)(mem(SR_SS) + reg_SP_32u) = reg_SP_32u;
+		*(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u) = reg_SP_32u;
 	}
 	reg_BP_32u = tmp;
 	reg_SP_32u = reg_BP_32u - size;
@@ -5898,16 +5901,16 @@ void handlerCommand16Code00C8P66() {
 	uint16_t size = read16u();
 	uint8_t levels = read8u() % 32;
 	reg_SP_16u -= 16 / 8;
-	*(uint16_t*)(mem(SR_SS) + reg_SP_16u) = reg_BP_16u;
+	*(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u) = reg_BP_16u;
 	uint16_t tmp = reg_SP_16u;
 	if (levels > 0) {
 		for (int i = 1; i < levels; ++i) {
 			reg_BP_16u = reg_BP_16u - 32 / 8;
 			reg_SP_16u -= 16 / 8;
-			*(uint16_t*)(mem(SR_SS) + reg_SP_16u) = reg_BP_16u;
+			*(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u) = reg_BP_16u;
 		}
 		reg_SP_16u -= 16 / 8;
-		*(uint16_t*)(mem(SR_SS) + reg_SP_16u) = reg_SP_16u;
+		*(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u) = reg_SP_16u;
 	}
 	reg_BP_16u = tmp;
 	reg_SP_16u = reg_BP_16u - size;
@@ -5918,16 +5921,16 @@ void handlerCommand16Code00C8() {
 	uint16_t size = read16u();
 	uint8_t levels = read8u() % 32;
 	reg_SP_16u -= 16 / 8;
-	*(uint16_t*)(mem(SR_SS) + reg_SP_16u) = reg_BP_16u;
+	*(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u) = reg_BP_16u;
 	uint16_t tmp = reg_SP_16u;
 	if (levels > 0) {
 		for (int i = 1; i < levels; ++i) {
 			reg_BP_16u = reg_BP_16u - 16 / 8;
 			reg_SP_16u -= 16 / 8;
-			*(uint16_t*)(mem(SR_SS) + reg_SP_16u) = reg_BP_16u;
+			*(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u) = reg_BP_16u;
 		}
 		reg_SP_16u -= 16 / 8;
-		*(uint16_t*)(mem(SR_SS) + reg_SP_16u) = reg_SP_16u;
+		*(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u) = reg_SP_16u;
 	}
 	reg_BP_16u = tmp;
 	reg_SP_16u = reg_BP_16u - size;
@@ -5936,36 +5939,36 @@ void handlerCommand16Code00C8() {
 void handlerCommand16Code00C9P66P67() {
 	LOG("%s","Leave");
 	reg_SP_32u = reg_BP_32u;
-	reg_BP_32u = *(uint32_t*)(mem(SR_SS) + reg_SP_32u);
+	reg_BP_32u = *(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u);
 	reg_SP_32u += 32 / 8;
 }
 //Leave
 void handlerCommand16Code00C9P67() {
 	LOG("%s","Leave");
 	reg_SP_32u = reg_BP_32u;
-	reg_BP_32u = *(uint16_t*)(mem(SR_SS) + reg_SP_32u);
+	reg_BP_32u = *(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u);
 	reg_SP_32u += 16 / 8;
 }
 //Leave
 void handlerCommand16Code00C9P66() {
 	LOG("%s","Leave");
 	reg_SP_16u = reg_BP_16u;
-	reg_BP_16u = *(uint32_t*)(mem(SR_SS) + reg_SP_16u);
+	reg_BP_16u = *(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u);
 	reg_SP_16u += 32 / 8;
 }
 //Leave
 void handlerCommand16Code00C9() {
 	LOG("%s","Leave");
 	reg_SP_16u = reg_BP_16u;
-	reg_BP_16u = *(uint16_t*)(mem(SR_SS) + reg_SP_16u);
+	reg_BP_16u = *(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u);
 	reg_SP_16u += 16 / 8;
 }
 //Ret
 void handlerCommand16Code00CB() {
 	LOG("%s","Ret");
 	uint16_t* sp = register16u(BR_SP);
-	setMem(1, *(int16_t*)(mem(SR_SS) + *sp + 16 / 8));
-	context.index = mem(1) + *(uint16_t*)(mem(SR_SS) + *sp);
+	SET_VALUE_IN_SEGMENT(1, *(int16_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp + 16 / 8));
+	context.index = GET_SEGMENT_POINTER(1) + *(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp);
 	*sp += 16 / 8 + 2;
 }
 //Int
@@ -7924,7 +7927,7 @@ void handlerCommand16Code00E8P66() {
 	LOG("%s","Call");
 	uint16_t* sp = register16u(BR_SP);
 	*sp -= 16 / 8;
-	*(uint16_t*)(mem(SR_SS) + *sp) = (uint16_t)(context.index + 32 / 8 - mem(1));
+	*(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp) = (uint16_t)(context.index + 32 / 8 - GET_SEGMENT_POINTER(1));
 	context.index += read32();
 }
 //Call
@@ -7932,7 +7935,7 @@ void handlerCommand16Code00E8() {
 	LOG("%s","Call");
 	uint16_t* sp = register16u(BR_SP);
 	*sp -= 16 / 8;
-	*(uint16_t*)(mem(SR_SS) + *sp) = (uint16_t)(context.index + 16 / 8 - mem(1));
+	*(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp) = (uint16_t)(context.index + 16 / 8 - GET_SEGMENT_POINTER(1));
 	context.index += read16();
 }
 //Jmp
@@ -8400,14 +8403,14 @@ void handlerCommand16Code00FFP66P67() {
 		case 0x4: {
 			// JMP
 			uint8_t* target = (uint8_t*)readAddressMRM16For32(mrmByte);
-			context.index = mem(SR_CS) + (*((uint32_t*)target));
+			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((uint32_t*)target));
 		}
 		break;
 		case 0x6: {
 			// PUSH
 			uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
 			reg_SP_32u -= 16 / 8;
-			*(uint16_t*)(mem(SR_SS) + reg_SP_32u) = *(uint16_t*)target;
+			*(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u) = *(uint16_t*)target;
 		}
 		break;
 		default:
@@ -8439,14 +8442,14 @@ void handlerCommand16Code00FFP67() {
 		case 0x4: {
 			// JMP
 			uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
-			context.index = mem(SR_CS) + (*((uint16_t*)target));
+			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((uint16_t*)target));
 		}
 		break;
 		case 0x6: {
 			// PUSH
 			uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
 			reg_SP_32u -= 16 / 8;
-			*(uint16_t*)(mem(SR_SS) + reg_SP_32u) = *(uint16_t*)target;
+			*(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u) = *(uint16_t*)target;
 		}
 		break;
 		default:
@@ -8478,14 +8481,14 @@ void handlerCommand16Code00FFP66() {
 		case 0x4: {
 			// JMP
 			uint8_t* target = (uint8_t*)readAddressMRM16For32(mrmByte);
-			context.index = mem(SR_CS) + (*((uint32_t*)target));
+			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((uint32_t*)target));
 		}
 		break;
 		case 0x6: {
 			// PUSH
 			uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
 			reg_SP_16u -= 16 / 8;
-			*(uint16_t*)(mem(SR_SS) + reg_SP_16u) = *(uint16_t*)target;
+			*(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u) = *(uint16_t*)target;
 		}
 		break;
 		default:
@@ -8517,14 +8520,14 @@ void handlerCommand16Code00FF() {
 		case 0x4: {
 			// JMP
 			uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
-			context.index = mem(SR_CS) + (*((uint16_t*)target));
+			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((uint16_t*)target));
 		}
 		break;
 		case 0x6: {
 			// PUSH
 			uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
 			reg_SP_16u -= 16 / 8;
-			*(uint16_t*)(mem(SR_SS) + reg_SP_16u) = *(uint16_t*)target;
+			*(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u) = *(uint16_t*)target;
 		}
 		break;
 		default:
@@ -9328,7 +9331,7 @@ void handlerCommand16Code01B2() {
 	uint8_t mrmByte = read8u();
 	uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
 	uint8_t* source = (uint8_t*)readRegisterMRM16(mrmByte);
-	setMem(SR_SS, *(uint16_t*)(target + 2));
+	SET_VALUE_IN_SEGMENT(SR_SS, *(uint16_t*)(target + 2));
 	*(uint16_t*)source = *(uint16_t*)(target);
 }
 //BTR
@@ -9365,7 +9368,7 @@ void handlerCommand16Code01B4() {
 	uint8_t mrmByte = read8u();
 	uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
 	uint8_t* source = (uint8_t*)readRegisterMRM16(mrmByte);
-	setMem(SR_FS, *(uint16_t*)(target + 2));
+	SET_VALUE_IN_SEGMENT(SR_FS, *(uint16_t*)(target + 2));
 	*(uint16_t*)source = *(uint16_t*)(target);
 }
 //Load SR_GS
@@ -9374,7 +9377,7 @@ void handlerCommand16Code01B5() {
 	uint8_t mrmByte = read8u();
 	uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
 	uint8_t* source = (uint8_t*)readRegisterMRM16(mrmByte);
-	setMem(SR_GS, *(uint16_t*)(target + 2));
+	SET_VALUE_IN_SEGMENT(SR_GS, *(uint16_t*)(target + 2));
 	*(uint16_t*)source = *(uint16_t*)(target);
 }
 //MOVZX
@@ -9916,34 +9919,34 @@ void handlerCommand32Code0006() {
 	LOG("%s","Push");
 	uint8_t rg = 0x00;
 	reg_SP_32u -= 16 / 8;
-	*(uint16_t*)(mem(SR_SS) + reg_SP_32u) = context.segmentRegisters[rg];
+	*(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u) = SR_VALUE(rg);
 }
 //Push
 void handlerCommand32Code000E() {
 	LOG("%s","Push");
 	uint8_t rg = 0x01;
 	reg_SP_32u -= 16 / 8;
-	*(uint16_t*)(mem(SR_SS) + reg_SP_32u) = context.segmentRegisters[rg];
+	*(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u) = SR_VALUE(rg);
 }
 //Push
 void handlerCommand32Code0016() {
 	LOG("%s","Push");
 	uint8_t rg = 0x02;
 	reg_SP_32u -= 16 / 8;
-	*(uint16_t*)(mem(SR_SS) + reg_SP_32u) = context.segmentRegisters[rg];
+	*(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u) = SR_VALUE(rg);
 }
 //Push
 void handlerCommand32Code001E() {
 	LOG("%s","Push");
 	uint8_t rg = 0x03;
 	reg_SP_32u -= 16 / 8;
-	*(uint16_t*)(mem(SR_SS) + reg_SP_32u) = context.segmentRegisters[rg];
+	*(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u) = SR_VALUE(rg);
 }
 //Pop
 void handlerCommand32Code0007() {
 	LOG("%s","Pop");
 	uint8_t rg = 0x00;
-	    context.segmentRegisters[rg] = *(uint16_t*)(mem(SR_SS) + reg_SP_32u);
+	    SET_VALUE_IN_SEGMENT(rg, *(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u));
 	    reg_SP_32u += 16 / 8;
 }
 //Pop
@@ -9956,14 +9959,14 @@ void handlerCommand32Code000F() {
 void handlerCommand32Code0017() {
 	LOG("%s","Pop");
 	uint8_t rg = 0x02;
-	    context.segmentRegisters[rg] = *(uint16_t*)(mem(SR_SS) + reg_SP_32u);
+	    SET_VALUE_IN_SEGMENT(rg, *(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u));
 	    reg_SP_32u += 16 / 8;
 }
 //Pop
 void handlerCommand32Code001F() {
 	LOG("%s","Pop");
 	uint8_t rg = 0x03;
-	    context.segmentRegisters[rg] = *(uint16_t*)(mem(SR_SS) + reg_SP_32u);
+	    SET_VALUE_IN_SEGMENT(rg, *(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u));
 	    reg_SP_32u += 16 / 8;
 }
 //OR
@@ -11184,7 +11187,7 @@ void handlerCommand32Code0050P66P67() {
 	uint8_t reg = 0x00;
 	uint16_t value = reg_0x00_16u;
 	reg_SP_16u -= 16 / 8;
-	*(uint16_t*)(mem(SR_SS) + reg_SP_16u) = value;
+	*(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u) = value;
 }
 //Push
 void handlerCommand32Code0050P67() {
@@ -11192,7 +11195,7 @@ void handlerCommand32Code0050P67() {
 	uint8_t reg = 0x00;
 	uint32_t value = reg_0x00_32u;
 	reg_SP_16u -= 32 / 8;
-	*(uint32_t*)(mem(SR_SS) + reg_SP_16u) = value;
+	*(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u) = value;
 }
 //Push
 void handlerCommand32Code0050P66() {
@@ -11200,7 +11203,7 @@ void handlerCommand32Code0050P66() {
 	uint8_t reg = 0x00;
 	uint16_t value = reg_0x00_16u;
 	reg_SP_32u -= 16 / 8;
-	*(uint16_t*)(mem(SR_SS) + reg_SP_32u) = value;
+	*(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u) = value;
 }
 //Push
 void handlerCommand32Code0050() {
@@ -11208,7 +11211,7 @@ void handlerCommand32Code0050() {
 	uint8_t reg = 0x00;
 	uint32_t value = reg_0x00_32u;
 	reg_SP_32u -= 32 / 8;
-	*(uint32_t*)(mem(SR_SS) + reg_SP_32u) = value;
+	*(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u) = value;
 }
 //Push
 void handlerCommand32Code0051P66P67() {
@@ -11216,7 +11219,7 @@ void handlerCommand32Code0051P66P67() {
 	uint8_t reg = 0x01;
 	uint16_t value = reg_0x01_16u;
 	reg_SP_16u -= 16 / 8;
-	*(uint16_t*)(mem(SR_SS) + reg_SP_16u) = value;
+	*(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u) = value;
 }
 //Push
 void handlerCommand32Code0051P67() {
@@ -11224,7 +11227,7 @@ void handlerCommand32Code0051P67() {
 	uint8_t reg = 0x01;
 	uint32_t value = reg_0x01_32u;
 	reg_SP_16u -= 32 / 8;
-	*(uint32_t*)(mem(SR_SS) + reg_SP_16u) = value;
+	*(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u) = value;
 }
 //Push
 void handlerCommand32Code0051P66() {
@@ -11232,7 +11235,7 @@ void handlerCommand32Code0051P66() {
 	uint8_t reg = 0x01;
 	uint16_t value = reg_0x01_16u;
 	reg_SP_32u -= 16 / 8;
-	*(uint16_t*)(mem(SR_SS) + reg_SP_32u) = value;
+	*(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u) = value;
 }
 //Push
 void handlerCommand32Code0051() {
@@ -11240,7 +11243,7 @@ void handlerCommand32Code0051() {
 	uint8_t reg = 0x01;
 	uint32_t value = reg_0x01_32u;
 	reg_SP_32u -= 32 / 8;
-	*(uint32_t*)(mem(SR_SS) + reg_SP_32u) = value;
+	*(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u) = value;
 }
 //Push
 void handlerCommand32Code0052P66P67() {
@@ -11248,7 +11251,7 @@ void handlerCommand32Code0052P66P67() {
 	uint8_t reg = 0x02;
 	uint16_t value = reg_0x02_16u;
 	reg_SP_16u -= 16 / 8;
-	*(uint16_t*)(mem(SR_SS) + reg_SP_16u) = value;
+	*(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u) = value;
 }
 //Push
 void handlerCommand32Code0052P67() {
@@ -11256,7 +11259,7 @@ void handlerCommand32Code0052P67() {
 	uint8_t reg = 0x02;
 	uint32_t value = reg_0x02_32u;
 	reg_SP_16u -= 32 / 8;
-	*(uint32_t*)(mem(SR_SS) + reg_SP_16u) = value;
+	*(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u) = value;
 }
 //Push
 void handlerCommand32Code0052P66() {
@@ -11264,7 +11267,7 @@ void handlerCommand32Code0052P66() {
 	uint8_t reg = 0x02;
 	uint16_t value = reg_0x02_16u;
 	reg_SP_32u -= 16 / 8;
-	*(uint16_t*)(mem(SR_SS) + reg_SP_32u) = value;
+	*(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u) = value;
 }
 //Push
 void handlerCommand32Code0052() {
@@ -11272,7 +11275,7 @@ void handlerCommand32Code0052() {
 	uint8_t reg = 0x02;
 	uint32_t value = reg_0x02_32u;
 	reg_SP_32u -= 32 / 8;
-	*(uint32_t*)(mem(SR_SS) + reg_SP_32u) = value;
+	*(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u) = value;
 }
 //Push
 void handlerCommand32Code0053P66P67() {
@@ -11280,7 +11283,7 @@ void handlerCommand32Code0053P66P67() {
 	uint8_t reg = 0x03;
 	uint16_t value = reg_0x03_16u;
 	reg_SP_16u -= 16 / 8;
-	*(uint16_t*)(mem(SR_SS) + reg_SP_16u) = value;
+	*(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u) = value;
 }
 //Push
 void handlerCommand32Code0053P67() {
@@ -11288,7 +11291,7 @@ void handlerCommand32Code0053P67() {
 	uint8_t reg = 0x03;
 	uint32_t value = reg_0x03_32u;
 	reg_SP_16u -= 32 / 8;
-	*(uint32_t*)(mem(SR_SS) + reg_SP_16u) = value;
+	*(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u) = value;
 }
 //Push
 void handlerCommand32Code0053P66() {
@@ -11296,7 +11299,7 @@ void handlerCommand32Code0053P66() {
 	uint8_t reg = 0x03;
 	uint16_t value = reg_0x03_16u;
 	reg_SP_32u -= 16 / 8;
-	*(uint16_t*)(mem(SR_SS) + reg_SP_32u) = value;
+	*(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u) = value;
 }
 //Push
 void handlerCommand32Code0053() {
@@ -11304,7 +11307,7 @@ void handlerCommand32Code0053() {
 	uint8_t reg = 0x03;
 	uint32_t value = reg_0x03_32u;
 	reg_SP_32u -= 32 / 8;
-	*(uint32_t*)(mem(SR_SS) + reg_SP_32u) = value;
+	*(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u) = value;
 }
 //Push
 void handlerCommand32Code0054P66P67() {
@@ -11312,7 +11315,7 @@ void handlerCommand32Code0054P66P67() {
 	uint8_t reg = 0x04;
 	uint16_t value = reg_0x04_16u;
 	reg_SP_16u -= 16 / 8;
-	*(uint16_t*)(mem(SR_SS) + reg_SP_16u) = value;
+	*(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u) = value;
 }
 //Push
 void handlerCommand32Code0054P67() {
@@ -11320,7 +11323,7 @@ void handlerCommand32Code0054P67() {
 	uint8_t reg = 0x04;
 	uint32_t value = reg_0x04_32u;
 	reg_SP_16u -= 32 / 8;
-	*(uint32_t*)(mem(SR_SS) + reg_SP_16u) = value;
+	*(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u) = value;
 }
 //Push
 void handlerCommand32Code0054P66() {
@@ -11328,7 +11331,7 @@ void handlerCommand32Code0054P66() {
 	uint8_t reg = 0x04;
 	uint16_t value = reg_0x04_16u;
 	reg_SP_32u -= 16 / 8;
-	*(uint16_t*)(mem(SR_SS) + reg_SP_32u) = value;
+	*(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u) = value;
 }
 //Push
 void handlerCommand32Code0054() {
@@ -11336,7 +11339,7 @@ void handlerCommand32Code0054() {
 	uint8_t reg = 0x04;
 	uint32_t value = reg_0x04_32u;
 	reg_SP_32u -= 32 / 8;
-	*(uint32_t*)(mem(SR_SS) + reg_SP_32u) = value;
+	*(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u) = value;
 }
 //Push
 void handlerCommand32Code0055P66P67() {
@@ -11344,7 +11347,7 @@ void handlerCommand32Code0055P66P67() {
 	uint8_t reg = 0x05;
 	uint16_t value = reg_0x05_16u;
 	reg_SP_16u -= 16 / 8;
-	*(uint16_t*)(mem(SR_SS) + reg_SP_16u) = value;
+	*(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u) = value;
 }
 //Push
 void handlerCommand32Code0055P67() {
@@ -11352,7 +11355,7 @@ void handlerCommand32Code0055P67() {
 	uint8_t reg = 0x05;
 	uint32_t value = reg_0x05_32u;
 	reg_SP_16u -= 32 / 8;
-	*(uint32_t*)(mem(SR_SS) + reg_SP_16u) = value;
+	*(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u) = value;
 }
 //Push
 void handlerCommand32Code0055P66() {
@@ -11360,7 +11363,7 @@ void handlerCommand32Code0055P66() {
 	uint8_t reg = 0x05;
 	uint16_t value = reg_0x05_16u;
 	reg_SP_32u -= 16 / 8;
-	*(uint16_t*)(mem(SR_SS) + reg_SP_32u) = value;
+	*(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u) = value;
 }
 //Push
 void handlerCommand32Code0055() {
@@ -11368,7 +11371,7 @@ void handlerCommand32Code0055() {
 	uint8_t reg = 0x05;
 	uint32_t value = reg_0x05_32u;
 	reg_SP_32u -= 32 / 8;
-	*(uint32_t*)(mem(SR_SS) + reg_SP_32u) = value;
+	*(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u) = value;
 }
 //Push
 void handlerCommand32Code0056P66P67() {
@@ -11376,7 +11379,7 @@ void handlerCommand32Code0056P66P67() {
 	uint8_t reg = 0x06;
 	uint16_t value = reg_0x06_16u;
 	reg_SP_16u -= 16 / 8;
-	*(uint16_t*)(mem(SR_SS) + reg_SP_16u) = value;
+	*(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u) = value;
 }
 //Push
 void handlerCommand32Code0056P67() {
@@ -11384,7 +11387,7 @@ void handlerCommand32Code0056P67() {
 	uint8_t reg = 0x06;
 	uint32_t value = reg_0x06_32u;
 	reg_SP_16u -= 32 / 8;
-	*(uint32_t*)(mem(SR_SS) + reg_SP_16u) = value;
+	*(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u) = value;
 }
 //Push
 void handlerCommand32Code0056P66() {
@@ -11392,7 +11395,7 @@ void handlerCommand32Code0056P66() {
 	uint8_t reg = 0x06;
 	uint16_t value = reg_0x06_16u;
 	reg_SP_32u -= 16 / 8;
-	*(uint16_t*)(mem(SR_SS) + reg_SP_32u) = value;
+	*(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u) = value;
 }
 //Push
 void handlerCommand32Code0056() {
@@ -11400,7 +11403,7 @@ void handlerCommand32Code0056() {
 	uint8_t reg = 0x06;
 	uint32_t value = reg_0x06_32u;
 	reg_SP_32u -= 32 / 8;
-	*(uint32_t*)(mem(SR_SS) + reg_SP_32u) = value;
+	*(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u) = value;
 }
 //Push
 void handlerCommand32Code0057P66P67() {
@@ -11408,7 +11411,7 @@ void handlerCommand32Code0057P66P67() {
 	uint8_t reg = 0x07;
 	uint16_t value = reg_0x07_16u;
 	reg_SP_16u -= 16 / 8;
-	*(uint16_t*)(mem(SR_SS) + reg_SP_16u) = value;
+	*(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u) = value;
 }
 //Push
 void handlerCommand32Code0057P67() {
@@ -11416,7 +11419,7 @@ void handlerCommand32Code0057P67() {
 	uint8_t reg = 0x07;
 	uint32_t value = reg_0x07_32u;
 	reg_SP_16u -= 32 / 8;
-	*(uint32_t*)(mem(SR_SS) + reg_SP_16u) = value;
+	*(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u) = value;
 }
 //Push
 void handlerCommand32Code0057P66() {
@@ -11424,7 +11427,7 @@ void handlerCommand32Code0057P66() {
 	uint8_t reg = 0x07;
 	uint16_t value = reg_0x07_16u;
 	reg_SP_32u -= 16 / 8;
-	*(uint16_t*)(mem(SR_SS) + reg_SP_32u) = value;
+	*(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u) = value;
 }
 //Push
 void handlerCommand32Code0057() {
@@ -11432,230 +11435,230 @@ void handlerCommand32Code0057() {
 	uint8_t reg = 0x07;
 	uint32_t value = reg_0x07_32u;
 	reg_SP_32u -= 32 / 8;
-	*(uint32_t*)(mem(SR_SS) + reg_SP_32u) = value;
+	*(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u) = value;
 }
 //Pop
 void handlerCommand32Code0058P66P67() {
 	LOG("%s","Pop");
 	uint8_t reg = 0x00;
-	reg_0x00_16u = *(uint16_t*)(mem(SR_SS) + reg_SP_16u);
+	reg_0x00_16u = *(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u);
 	reg_SP_16u += 16 / 8;
 }
 //Pop
 void handlerCommand32Code0058P67() {
 	LOG("%s","Pop");
 	uint8_t reg = 0x00;
-	reg_0x00_32u = *(uint32_t*)(mem(SR_SS) + reg_SP_16u);
+	reg_0x00_32u = *(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u);
 	reg_SP_16u += 32 / 8;
 }
 //Pop
 void handlerCommand32Code0058P66() {
 	LOG("%s","Pop");
 	uint8_t reg = 0x00;
-	reg_0x00_16u = *(uint16_t*)(mem(SR_SS) + reg_SP_32u);
+	reg_0x00_16u = *(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u);
 	reg_SP_32u += 16 / 8;
 }
 //Pop
 void handlerCommand32Code0058() {
 	LOG("%s","Pop");
 	uint8_t reg = 0x00;
-	reg_0x00_32u = *(uint32_t*)(mem(SR_SS) + reg_SP_32u);
+	reg_0x00_32u = *(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u);
 	reg_SP_32u += 32 / 8;
 }
 //Pop
 void handlerCommand32Code0059P66P67() {
 	LOG("%s","Pop");
 	uint8_t reg = 0x01;
-	reg_0x01_16u = *(uint16_t*)(mem(SR_SS) + reg_SP_16u);
+	reg_0x01_16u = *(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u);
 	reg_SP_16u += 16 / 8;
 }
 //Pop
 void handlerCommand32Code0059P67() {
 	LOG("%s","Pop");
 	uint8_t reg = 0x01;
-	reg_0x01_32u = *(uint32_t*)(mem(SR_SS) + reg_SP_16u);
+	reg_0x01_32u = *(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u);
 	reg_SP_16u += 32 / 8;
 }
 //Pop
 void handlerCommand32Code0059P66() {
 	LOG("%s","Pop");
 	uint8_t reg = 0x01;
-	reg_0x01_16u = *(uint16_t*)(mem(SR_SS) + reg_SP_32u);
+	reg_0x01_16u = *(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u);
 	reg_SP_32u += 16 / 8;
 }
 //Pop
 void handlerCommand32Code0059() {
 	LOG("%s","Pop");
 	uint8_t reg = 0x01;
-	reg_0x01_32u = *(uint32_t*)(mem(SR_SS) + reg_SP_32u);
+	reg_0x01_32u = *(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u);
 	reg_SP_32u += 32 / 8;
 }
 //Pop
 void handlerCommand32Code005AP66P67() {
 	LOG("%s","Pop");
 	uint8_t reg = 0x02;
-	reg_0x02_16u = *(uint16_t*)(mem(SR_SS) + reg_SP_16u);
+	reg_0x02_16u = *(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u);
 	reg_SP_16u += 16 / 8;
 }
 //Pop
 void handlerCommand32Code005AP67() {
 	LOG("%s","Pop");
 	uint8_t reg = 0x02;
-	reg_0x02_32u = *(uint32_t*)(mem(SR_SS) + reg_SP_16u);
+	reg_0x02_32u = *(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u);
 	reg_SP_16u += 32 / 8;
 }
 //Pop
 void handlerCommand32Code005AP66() {
 	LOG("%s","Pop");
 	uint8_t reg = 0x02;
-	reg_0x02_16u = *(uint16_t*)(mem(SR_SS) + reg_SP_32u);
+	reg_0x02_16u = *(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u);
 	reg_SP_32u += 16 / 8;
 }
 //Pop
 void handlerCommand32Code005A() {
 	LOG("%s","Pop");
 	uint8_t reg = 0x02;
-	reg_0x02_32u = *(uint32_t*)(mem(SR_SS) + reg_SP_32u);
+	reg_0x02_32u = *(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u);
 	reg_SP_32u += 32 / 8;
 }
 //Pop
 void handlerCommand32Code005BP66P67() {
 	LOG("%s","Pop");
 	uint8_t reg = 0x03;
-	reg_0x03_16u = *(uint16_t*)(mem(SR_SS) + reg_SP_16u);
+	reg_0x03_16u = *(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u);
 	reg_SP_16u += 16 / 8;
 }
 //Pop
 void handlerCommand32Code005BP67() {
 	LOG("%s","Pop");
 	uint8_t reg = 0x03;
-	reg_0x03_32u = *(uint32_t*)(mem(SR_SS) + reg_SP_16u);
+	reg_0x03_32u = *(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u);
 	reg_SP_16u += 32 / 8;
 }
 //Pop
 void handlerCommand32Code005BP66() {
 	LOG("%s","Pop");
 	uint8_t reg = 0x03;
-	reg_0x03_16u = *(uint16_t*)(mem(SR_SS) + reg_SP_32u);
+	reg_0x03_16u = *(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u);
 	reg_SP_32u += 16 / 8;
 }
 //Pop
 void handlerCommand32Code005B() {
 	LOG("%s","Pop");
 	uint8_t reg = 0x03;
-	reg_0x03_32u = *(uint32_t*)(mem(SR_SS) + reg_SP_32u);
+	reg_0x03_32u = *(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u);
 	reg_SP_32u += 32 / 8;
 }
 //Pop
 void handlerCommand32Code005CP66P67() {
 	LOG("%s","Pop");
 	uint8_t reg = 0x04;
-	reg_0x04_16u = *(uint16_t*)(mem(SR_SS) + reg_SP_16u);
+	reg_0x04_16u = *(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u);
 	reg_SP_16u += 16 / 8;
 }
 //Pop
 void handlerCommand32Code005CP67() {
 	LOG("%s","Pop");
 	uint8_t reg = 0x04;
-	reg_0x04_32u = *(uint32_t*)(mem(SR_SS) + reg_SP_16u);
+	reg_0x04_32u = *(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u);
 	reg_SP_16u += 32 / 8;
 }
 //Pop
 void handlerCommand32Code005CP66() {
 	LOG("%s","Pop");
 	uint8_t reg = 0x04;
-	reg_0x04_16u = *(uint16_t*)(mem(SR_SS) + reg_SP_32u);
+	reg_0x04_16u = *(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u);
 	reg_SP_32u += 16 / 8;
 }
 //Pop
 void handlerCommand32Code005C() {
 	LOG("%s","Pop");
 	uint8_t reg = 0x04;
-	reg_0x04_32u = *(uint32_t*)(mem(SR_SS) + reg_SP_32u);
+	reg_0x04_32u = *(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u);
 	reg_SP_32u += 32 / 8;
 }
 //Pop
 void handlerCommand32Code005DP66P67() {
 	LOG("%s","Pop");
 	uint8_t reg = 0x05;
-	reg_0x05_16u = *(uint16_t*)(mem(SR_SS) + reg_SP_16u);
+	reg_0x05_16u = *(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u);
 	reg_SP_16u += 16 / 8;
 }
 //Pop
 void handlerCommand32Code005DP67() {
 	LOG("%s","Pop");
 	uint8_t reg = 0x05;
-	reg_0x05_32u = *(uint32_t*)(mem(SR_SS) + reg_SP_16u);
+	reg_0x05_32u = *(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u);
 	reg_SP_16u += 32 / 8;
 }
 //Pop
 void handlerCommand32Code005DP66() {
 	LOG("%s","Pop");
 	uint8_t reg = 0x05;
-	reg_0x05_16u = *(uint16_t*)(mem(SR_SS) + reg_SP_32u);
+	reg_0x05_16u = *(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u);
 	reg_SP_32u += 16 / 8;
 }
 //Pop
 void handlerCommand32Code005D() {
 	LOG("%s","Pop");
 	uint8_t reg = 0x05;
-	reg_0x05_32u = *(uint32_t*)(mem(SR_SS) + reg_SP_32u);
+	reg_0x05_32u = *(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u);
 	reg_SP_32u += 32 / 8;
 }
 //Pop
 void handlerCommand32Code005EP66P67() {
 	LOG("%s","Pop");
 	uint8_t reg = 0x06;
-	reg_0x06_16u = *(uint16_t*)(mem(SR_SS) + reg_SP_16u);
+	reg_0x06_16u = *(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u);
 	reg_SP_16u += 16 / 8;
 }
 //Pop
 void handlerCommand32Code005EP67() {
 	LOG("%s","Pop");
 	uint8_t reg = 0x06;
-	reg_0x06_32u = *(uint32_t*)(mem(SR_SS) + reg_SP_16u);
+	reg_0x06_32u = *(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u);
 	reg_SP_16u += 32 / 8;
 }
 //Pop
 void handlerCommand32Code005EP66() {
 	LOG("%s","Pop");
 	uint8_t reg = 0x06;
-	reg_0x06_16u = *(uint16_t*)(mem(SR_SS) + reg_SP_32u);
+	reg_0x06_16u = *(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u);
 	reg_SP_32u += 16 / 8;
 }
 //Pop
 void handlerCommand32Code005E() {
 	LOG("%s","Pop");
 	uint8_t reg = 0x06;
-	reg_0x06_32u = *(uint32_t*)(mem(SR_SS) + reg_SP_32u);
+	reg_0x06_32u = *(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u);
 	reg_SP_32u += 32 / 8;
 }
 //Pop
 void handlerCommand32Code005FP66P67() {
 	LOG("%s","Pop");
 	uint8_t reg = 0x07;
-	reg_0x07_16u = *(uint16_t*)(mem(SR_SS) + reg_SP_16u);
+	reg_0x07_16u = *(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u);
 	reg_SP_16u += 16 / 8;
 }
 //Pop
 void handlerCommand32Code005FP67() {
 	LOG("%s","Pop");
 	uint8_t reg = 0x07;
-	reg_0x07_32u = *(uint32_t*)(mem(SR_SS) + reg_SP_16u);
+	reg_0x07_32u = *(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u);
 	reg_SP_16u += 32 / 8;
 }
 //Pop
 void handlerCommand32Code005FP66() {
 	LOG("%s","Pop");
 	uint8_t reg = 0x07;
-	reg_0x07_16u = *(uint16_t*)(mem(SR_SS) + reg_SP_32u);
+	reg_0x07_16u = *(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u);
 	reg_SP_32u += 16 / 8;
 }
 //Pop
 void handlerCommand32Code005F() {
 	LOG("%s","Pop");
 	uint8_t reg = 0x07;
-	reg_0x07_32u = *(uint32_t*)(mem(SR_SS) + reg_SP_32u);
+	reg_0x07_32u = *(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u);
 	reg_SP_32u += 32 / 8;
 }
 //PUSHA
@@ -11663,104 +11666,104 @@ void handlerCommand32Code0060P66() {
 	LOG("%s","PUSHA");
 	uint16_t tmp = reg_SP_16u;
 	reg_SP_32u -= 16 / 8;
-	*(uint16_t*)(mem(SR_SS) + reg_SP_32u) = reg_AX_16u;
+	*(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u) = reg_AX_16u;
 	reg_SP_32u -= 16 / 8;
-	*(uint16_t*)(mem(SR_SS) + reg_SP_32u) = reg_CX_16u;
+	*(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u) = reg_CX_16u;
 	reg_SP_32u -= 16 / 8;
-	*(uint16_t*)(mem(SR_SS) + reg_SP_32u) = reg_DX_16u;
+	*(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u) = reg_DX_16u;
 	reg_SP_32u -= 16 / 8;
-	*(uint16_t*)(mem(SR_SS) + reg_SP_32u) = reg_BX_16u;
+	*(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u) = reg_BX_16u;
 	reg_SP_32u -= 16 / 8;
-	*(uint16_t*)(mem(SR_SS) + reg_SP_32u) = tmp;
+	*(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u) = tmp;
 	reg_SP_32u -= 16 / 8;
-	*(uint16_t*)(mem(SR_SS) + reg_SP_32u) = reg_BP_16u;
+	*(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u) = reg_BP_16u;
 	reg_SP_32u -= 16 / 8;
-	*(uint16_t*)(mem(SR_SS) + reg_SP_32u) = reg_SI_16u;
+	*(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u) = reg_SI_16u;
 	reg_SP_32u -= 16 / 8;
-	*(uint16_t*)(mem(SR_SS) + reg_SP_32u) = reg_DI_16u;
+	*(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u) = reg_DI_16u;
 }
 //PUSHA
 void handlerCommand32Code0060() {
 	LOG("%s","PUSHA");
 	uint32_t tmp = reg_SP_32u;
 	reg_SP_32u -= 32 / 8;
-	*(uint32_t*)(mem(SR_SS) + reg_SP_32u) = reg_AX_32u;
+	*(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u) = reg_AX_32u;
 	reg_SP_32u -= 32 / 8;
-	*(uint32_t*)(mem(SR_SS) + reg_SP_32u) = reg_CX_32u;
+	*(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u) = reg_CX_32u;
 	reg_SP_32u -= 32 / 8;
-	*(uint32_t*)(mem(SR_SS) + reg_SP_32u) = reg_DX_32u;
+	*(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u) = reg_DX_32u;
 	reg_SP_32u -= 32 / 8;
-	*(uint32_t*)(mem(SR_SS) + reg_SP_32u) = reg_BX_32u;
+	*(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u) = reg_BX_32u;
 	reg_SP_32u -= 32 / 8;
-	*(uint32_t*)(mem(SR_SS) + reg_SP_32u) = tmp;
+	*(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u) = tmp;
 	reg_SP_32u -= 32 / 8;
-	*(uint32_t*)(mem(SR_SS) + reg_SP_32u) = reg_BP_32u;
+	*(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u) = reg_BP_32u;
 	reg_SP_32u -= 32 / 8;
-	*(uint32_t*)(mem(SR_SS) + reg_SP_32u) = reg_SI_32u;
+	*(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u) = reg_SI_32u;
 	reg_SP_32u -= 32 / 8;
-	*(uint32_t*)(mem(SR_SS) + reg_SP_32u) = reg_DI_32u;
+	*(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u) = reg_DI_32u;
 }
 //POPA
 void handlerCommand32Code0061P66() {
 	LOG("%s","POPA");
-	reg_DI_16u = *(uint16_t*)(mem(SR_SS) + reg_SP_32u);
+	reg_DI_16u = *(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u);
 	reg_SP_32u += 16 / 8;
-	reg_SI_16u = *(uint16_t*)(mem(SR_SS) + reg_SP_32u);
+	reg_SI_16u = *(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u);
 	reg_SP_32u += 16 / 8;
-	reg_BP_16u = *(uint16_t*)(mem(SR_SS) + reg_SP_32u);
+	reg_BP_16u = *(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u);
 	reg_SP_32u += 16 / 8;
 	reg_SP_32u += 16 / 8;
-	reg_BX_16u = *(uint16_t*)(mem(SR_SS) + reg_SP_32u);
+	reg_BX_16u = *(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u);
 	reg_SP_32u += 16 / 8;
-	reg_DX_16u = *(uint16_t*)(mem(SR_SS) + reg_SP_32u);
+	reg_DX_16u = *(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u);
 	reg_SP_32u += 16 / 8;
-	reg_CX_16u = *(uint16_t*)(mem(SR_SS) + reg_SP_32u);
+	reg_CX_16u = *(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u);
 	reg_SP_32u += 16 / 8;
-	reg_AX_16u = *(uint16_t*)(mem(SR_SS) + reg_SP_32u);
+	reg_AX_16u = *(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u);
 	reg_SP_32u += 16 / 8;
 }
 //POPA
 void handlerCommand32Code0061() {
 	LOG("%s","POPA");
-	reg_DI_32u = *(uint32_t*)(mem(SR_SS) + reg_SP_32u);
+	reg_DI_32u = *(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u);
 	reg_SP_32u += 32 / 8;
-	reg_SI_32u = *(uint32_t*)(mem(SR_SS) + reg_SP_32u);
+	reg_SI_32u = *(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u);
 	reg_SP_32u += 32 / 8;
-	reg_BP_32u = *(uint32_t*)(mem(SR_SS) + reg_SP_32u);
+	reg_BP_32u = *(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u);
 	reg_SP_32u += 32 / 8;
 	reg_SP_32u += 32 / 8;
-	reg_BX_32u = *(uint32_t*)(mem(SR_SS) + reg_SP_32u);
+	reg_BX_32u = *(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u);
 	reg_SP_32u += 32 / 8;
-	reg_DX_32u = *(uint32_t*)(mem(SR_SS) + reg_SP_32u);
+	reg_DX_32u = *(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u);
 	reg_SP_32u += 32 / 8;
-	reg_CX_32u = *(uint32_t*)(mem(SR_SS) + reg_SP_32u);
+	reg_CX_32u = *(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u);
 	reg_SP_32u += 32 / 8;
-	reg_AX_32u = *(uint32_t*)(mem(SR_SS) + reg_SP_32u);
+	reg_AX_32u = *(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u);
 	reg_SP_32u += 32 / 8;
 }
 //Push
 void handlerCommand32Code0068P66P67() {
 	LOG("%s","Push");
 	reg_SP_16u -= 16 / 8;
-	*(uint16_t*)(mem(SR_SS) + reg_SP_16u) = read16u();
+	*(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u) = read16u();
 }
 //Push
 void handlerCommand32Code0068P67() {
 	LOG("%s","Push");
 	reg_SP_16u -= 32 / 8;
-	*(uint32_t*)(mem(SR_SS) + reg_SP_16u) = read32u();
+	*(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u) = read32u();
 }
 //Push
 void handlerCommand32Code0068P66() {
 	LOG("%s","Push");
 	reg_SP_32u -= 16 / 8;
-	*(uint16_t*)(mem(SR_SS) + reg_SP_32u) = read16u();
+	*(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u) = read16u();
 }
 //Push
 void handlerCommand32Code0068() {
 	LOG("%s","Push");
 	reg_SP_32u -= 32 / 8;
-	*(uint32_t*)(mem(SR_SS) + reg_SP_32u) = read32u();
+	*(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u) = read32u();
 }
 //Mul
 void handlerCommand32Code0069P66() {
@@ -11800,25 +11803,25 @@ void handlerCommand32Code0069() {
 void handlerCommand32Code006AP66P67() {
 	LOG("%s","Push");
 	reg_SP_16u -= 16 / 8;
-	*(int16_t*)(mem(SR_SS) + reg_SP_16u) = (int16_t)read8();
+	*(int16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u) = (int16_t)read8();
 }
 //Push
 void handlerCommand32Code006AP67() {
 	LOG("%s","Push");
 	reg_SP_16u -= 32 / 8;
-	*(int32_t*)(mem(SR_SS) + reg_SP_16u) = (int32_t)read8();
+	*(int32_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u) = (int32_t)read8();
 }
 //Push
 void handlerCommand32Code006AP66() {
 	LOG("%s","Push");
 	reg_SP_32u -= 16 / 8;
-	*(int16_t*)(mem(SR_SS) + reg_SP_32u) = (int16_t)read8();
+	*(int16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u) = (int16_t)read8();
 }
 //Push
 void handlerCommand32Code006A() {
 	LOG("%s","Push");
 	reg_SP_32u -= 32 / 8;
-	*(int32_t*)(mem(SR_SS) + reg_SP_32u) = (int32_t)read8();
+	*(int32_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u) = (int32_t)read8();
 }
 //Mul
 void handlerCommand32Code006B() {
@@ -12728,17 +12731,20 @@ void handlerCommand32Code008B() {
 void handlerCommand32Code008C() {
 	LOG("%s","Move");
 	uint8_t mrmByte = read8u();
+	uint8_t sr = readMiddle3Bit(mrmByte);
 	uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
-	uint8_t* source = (uint8_t*)readSegmentRegisterMRM(mrmByte);
+	uint8_t* source = (uint8_t*)readSegmentRegisterMRM;
 	*(uint16_t*)target = *(uint16_t*)source;
 }
 //Move
 void handlerCommand32Code008E() {
 	LOG("%s","Move");
 	uint8_t mrmByte = read8u();
+	uint8_t sr = readMiddle3Bit(mrmByte);
 	uint8_t* source = (uint8_t*)readAddressMRM32For32(mrmByte);
-	uint8_t* target = (uint8_t*)readSegmentRegisterMRM(mrmByte);
+	uint8_t* target = (uint8_t*)readSegmentRegisterMRM;
 	*(uint16_t*)target = *(uint16_t*)source;
+	recalculatePointerSegmentRegisterMRM
 }
 //Lea
 void handlerCommand32Code008DP66P67() {
@@ -12780,7 +12786,7 @@ void handlerCommand32Code008FP66P67() {
 	switch (nnn) {
 		case 0x00: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For16(mrmByte);
-			*(uint16_t*)target = *(uint16_t*)(mem(SR_SS) + reg_SP_16u);
+			*(uint16_t*)target = *(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u);
 			reg_SP_16u += 16 / 8;
 		}
 		break;
@@ -12796,7 +12802,7 @@ void handlerCommand32Code008FP67() {
 	switch (nnn) {
 		case 0x00: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
-			*(uint32_t*)target = *(uint32_t*)(mem(SR_SS) + reg_SP_16u);
+			*(uint32_t*)target = *(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u);
 			reg_SP_16u += 32 / 8;
 		}
 		break;
@@ -12812,7 +12818,7 @@ void handlerCommand32Code008FP66() {
 	switch (nnn) {
 		case 0x00: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For16(mrmByte);
-			*(uint16_t*)target = *(uint16_t*)(mem(SR_SS) + reg_SP_32u);
+			*(uint16_t*)target = *(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u);
 			reg_SP_32u += 16 / 8;
 		}
 		break;
@@ -12828,7 +12834,7 @@ void handlerCommand32Code008F() {
 	switch (nnn) {
 		case 0x00: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
-			*(uint32_t*)target = *(uint32_t*)(mem(SR_SS) + reg_SP_32u);
+			*(uint32_t*)target = *(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u);
 			reg_SP_32u += 32 / 8;
 		}
 		break;
@@ -12986,11 +12992,11 @@ void handlerCommand32Code009A() {
 	int32_t newIP = read32();
 	uint16_t newCS = read16u();
 	reg_SP_32u -= 16 / 8;
-	*(uint16_t*)(mem(SR_SS) + reg_SP_32u) = context.segmentRegisters[SR_CS];
+	*(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u) = SR_VALUE(SR_CS);
 	reg_SP_32u -= 32 / 8;
-	*(uint32_t*)(mem(SR_SS) + reg_SP_32u) = ((uint32_t)(context.index - mem(SR_CS)));
-	setMem(SR_CS, newCS);
-	context.index = mem(SR_CS) + newIP;
+	*(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u) = ((uint32_t)(context.index - GET_SEGMENT_POINTER(SR_CS)));
+	SET_VALUE_IN_SEGMENT(SR_CS, newCS);
+	context.index = GET_SEGMENT_POINTER(SR_CS) + newIP;
 }
 //PUSHF
 void handlerCommand32Code009CP66() {
@@ -12999,7 +13005,7 @@ void handlerCommand32Code009CP66() {
 	reg_SP_32u -= 16 / 8;
 	EncodeFlagsRegister();
 	uint32_t value = reg_flags & 0xFCFFFF;
-	*(uint16_t*)(mem(SR_SS) + reg_SP_32u) = *((uint16_t*)&value);
+	*(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u) = *((uint16_t*)&value);
 }
 //PUSHF
 void handlerCommand32Code009C() {
@@ -13008,13 +13014,13 @@ void handlerCommand32Code009C() {
 	reg_SP_32u -= 32 / 8;
 	EncodeFlagsRegister();
 	uint32_t value = reg_flags & 0xFCFFFF;
-	*(uint32_t*)(mem(SR_SS) + reg_SP_32u) = *((uint32_t*)&value);
+	*(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u) = *((uint32_t*)&value);
 }
 //POPF
 void handlerCommand32Code009DP66() {
 	LOG("%s","POPF");
 	lazyFlagType = t_UNKNOWN;
-	*(uint16_t*)(&reg_flags) = (*(uint16_t*)(mem(SR_SS) + reg_SP_32u));
+	*(uint16_t*)(&reg_flags) = (*(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u));
 	reg_SP_32u += 16 / 8;
 	DecodeFlagsRegister16();
 }
@@ -13022,7 +13028,7 @@ void handlerCommand32Code009DP66() {
 void handlerCommand32Code009D() {
 	LOG("%s","POPF");
 	lazyFlagType = t_UNKNOWN;
-	*(uint32_t*)(&reg_flags) = (*(uint32_t*)(mem(SR_SS) + reg_SP_32u));
+	*(uint32_t*)(&reg_flags) = (*(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u));
 	reg_SP_32u += 32 / 8;
 	DecodeFlagsRegister32();
 }
@@ -13030,119 +13036,119 @@ void handlerCommand32Code009D() {
 void handlerCommand32Code00A0P66P67() {
 	LOG("%s","Move");
 	uint8_t* target = (uint8_t*)register8u(BR_AX);
-	uint8_t* source = (uint8_t*)(memWithReplace(SR_DS) + read16());
+	uint8_t* source = (uint8_t*)(GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + read16());
 	*(uint8_t*)target = *(uint8_t*)source;
 }
 //Move
 void handlerCommand32Code00A0P66() {
 	LOG("%s","Move");
 	uint8_t* target = (uint8_t*)register8u(BR_AX);
-	uint8_t* source = (uint8_t*)(memWithReplace(SR_DS) + read32());
+	uint8_t* source = (uint8_t*)(GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + read32());
 	*(uint8_t*)target = *(uint8_t*)source;
 }
 //Move
 void handlerCommand32Code00A0P67() {
 	LOG("%s","Move");
 	uint8_t* target = (uint8_t*)register8u(BR_AX);
-	uint8_t* source = (uint8_t*)(memWithReplace(SR_DS) + read16());
+	uint8_t* source = (uint8_t*)(GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + read16());
 	*(uint8_t*)target = *(uint8_t*)source;
 }
 //Move
 void handlerCommand32Code00A0() {
 	LOG("%s","Move");
 	uint8_t* target = (uint8_t*)register8u(BR_AX);
-	uint8_t* source = (uint8_t*)(memWithReplace(SR_DS) + read32());
+	uint8_t* source = (uint8_t*)(GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + read32());
 	*(uint8_t*)target = *(uint8_t*)source;
 }
 //Move
 void handlerCommand32Code00A1P66P67() {
 	LOG("%s","Move");
 	uint16_t* target = (uint16_t*)register16u(BR_AX);
-	uint16_t* source = (uint16_t*)(memWithReplace(SR_DS) + read16());
+	uint16_t* source = (uint16_t*)(GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + read16());
 	*(uint16_t*)target = *(uint16_t*)source;
 }
 //Move
 void handlerCommand32Code00A1P66() {
 	LOG("%s","Move");
 	uint16_t* target = (uint16_t*)register16u(BR_AX);
-	uint16_t* source = (uint16_t*)(memWithReplace(SR_DS) + read32());
+	uint16_t* source = (uint16_t*)(GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + read32());
 	*(uint16_t*)target = *(uint16_t*)source;
 }
 //Move
 void handlerCommand32Code00A1P67() {
 	LOG("%s","Move");
 	uint32_t* target = (uint32_t*)register32u(BR_AX);
-	uint32_t* source = (uint32_t*)(memWithReplace(SR_DS) + read16());
+	uint32_t* source = (uint32_t*)(GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + read16());
 	*(uint32_t*)target = *(uint32_t*)source;
 }
 //Move
 void handlerCommand32Code00A1() {
 	LOG("%s","Move");
 	uint32_t* target = (uint32_t*)register32u(BR_AX);
-	uint32_t* source = (uint32_t*)(memWithReplace(SR_DS) + read32());
+	uint32_t* source = (uint32_t*)(GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + read32());
 	*(uint32_t*)target = *(uint32_t*)source;
 }
 //Move
 void handlerCommand32Code00A2P66P67() {
 	LOG("%s","Move");
 	uint8_t* source = (uint8_t*)register8u(BR_AX);
-	uint8_t* target = (uint8_t*)(memWithReplace(SR_DS) + read16());
+	uint8_t* target = (uint8_t*)(GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + read16());
 	*(uint8_t*)target = *(uint8_t*)source;
 }
 //Move
 void handlerCommand32Code00A2P66() {
 	LOG("%s","Move");
 	uint8_t* source = (uint8_t*)register8u(BR_AX);
-	uint8_t* target = (uint8_t*)(memWithReplace(SR_DS) + read32());
+	uint8_t* target = (uint8_t*)(GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + read32());
 	*(uint8_t*)target = *(uint8_t*)source;
 }
 //Move
 void handlerCommand32Code00A2P67() {
 	LOG("%s","Move");
 	uint8_t* source = (uint8_t*)register8u(BR_AX);
-	uint8_t* target = (uint8_t*)(memWithReplace(SR_DS) + read16());
+	uint8_t* target = (uint8_t*)(GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + read16());
 	*(uint8_t*)target = *(uint8_t*)source;
 }
 //Move
 void handlerCommand32Code00A2() {
 	LOG("%s","Move");
 	uint8_t* source = (uint8_t*)register8u(BR_AX);
-	uint8_t* target = (uint8_t*)(memWithReplace(SR_DS) + read32());
+	uint8_t* target = (uint8_t*)(GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + read32());
 	*(uint8_t*)target = *(uint8_t*)source;
 }
 //Move
 void handlerCommand32Code00A3P66P67() {
 	LOG("%s","Move");
 	uint16_t* source = (uint16_t*)register16u(BR_AX);
-	uint16_t* target = (uint16_t*)(memWithReplace(SR_DS) + read16());
+	uint16_t* target = (uint16_t*)(GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + read16());
 	*(uint16_t*)target = *(uint16_t*)source;
 }
 //Move
 void handlerCommand32Code00A3P66() {
 	LOG("%s","Move");
 	uint16_t* source = (uint16_t*)register16u(BR_AX);
-	uint16_t* target = (uint16_t*)(memWithReplace(SR_DS) + read32());
+	uint16_t* target = (uint16_t*)(GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + read32());
 	*(uint16_t*)target = *(uint16_t*)source;
 }
 //Move
 void handlerCommand32Code00A3P67() {
 	LOG("%s","Move");
 	uint32_t* source = (uint32_t*)register32u(BR_AX);
-	uint32_t* target = (uint32_t*)(memWithReplace(SR_DS) + read16());
+	uint32_t* target = (uint32_t*)(GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + read16());
 	*(uint32_t*)target = *(uint32_t*)source;
 }
 //Move
 void handlerCommand32Code00A3() {
 	LOG("%s","Move");
 	uint32_t* source = (uint32_t*)register32u(BR_AX);
-	uint32_t* target = (uint32_t*)(memWithReplace(SR_DS) + read32());
+	uint32_t* target = (uint32_t*)(GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + read32());
 	*(uint32_t*)target = *(uint32_t*)source;
 }
 //MOVS
 void handlerCommand32Code00A4P66P67() {
 	LOG("%s","MOVS");
-	uint8_t* sourceSegment = memWithReplace(SR_DS);
-	uint8_t* targetSegment = mem(SR_ES);
+	uint8_t* sourceSegment = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS);
+	uint8_t* targetSegment = GET_SEGMENT_POINTER(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_16 != 0) {
@@ -13170,8 +13176,8 @@ void handlerCommand32Code00A4P66P67() {
 //MOVS
 void handlerCommand32Code00A4P66() {
 	LOG("%s","MOVS");
-	uint8_t* sourceSegment = memWithReplace(SR_DS);
-	uint8_t* targetSegment = mem(SR_ES);
+	uint8_t* sourceSegment = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS);
+	uint8_t* targetSegment = GET_SEGMENT_POINTER(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_32 != 0) {
@@ -13199,8 +13205,8 @@ void handlerCommand32Code00A4P66() {
 //MOVS
 void handlerCommand32Code00A4P67() {
 	LOG("%s","MOVS");
-	uint8_t* sourceSegment = memWithReplace(SR_DS);
-	uint8_t* targetSegment = mem(SR_ES);
+	uint8_t* sourceSegment = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS);
+	uint8_t* targetSegment = GET_SEGMENT_POINTER(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_16 != 0) {
@@ -13228,8 +13234,8 @@ void handlerCommand32Code00A4P67() {
 //MOVS
 void handlerCommand32Code00A4() {
 	LOG("%s","MOVS");
-	uint8_t* sourceSegment = memWithReplace(SR_DS);
-	uint8_t* targetSegment = mem(SR_ES);
+	uint8_t* sourceSegment = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS);
+	uint8_t* targetSegment = GET_SEGMENT_POINTER(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_32 != 0) {
@@ -13257,8 +13263,8 @@ void handlerCommand32Code00A4() {
 //MOVS
 void handlerCommand32Code00A5P66P67() {
 	LOG("%s","MOVS");
-	uint8_t* sourceSegment = memWithReplace(SR_DS);
-	uint8_t* targetSegment = mem(SR_ES);
+	uint8_t* sourceSegment = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS);
+	uint8_t* targetSegment = GET_SEGMENT_POINTER(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_16 != 0) {
@@ -13286,8 +13292,8 @@ void handlerCommand32Code00A5P66P67() {
 //MOVS
 void handlerCommand32Code00A5P66() {
 	LOG("%s","MOVS");
-	uint8_t* sourceSegment = memWithReplace(SR_DS);
-	uint8_t* targetSegment = mem(SR_ES);
+	uint8_t* sourceSegment = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS);
+	uint8_t* targetSegment = GET_SEGMENT_POINTER(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_32 != 0) {
@@ -13315,8 +13321,8 @@ void handlerCommand32Code00A5P66() {
 //MOVS
 void handlerCommand32Code00A5P67() {
 	LOG("%s","MOVS");
-	uint8_t* sourceSegment = memWithReplace(SR_DS);
-	uint8_t* targetSegment = mem(SR_ES);
+	uint8_t* sourceSegment = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS);
+	uint8_t* targetSegment = GET_SEGMENT_POINTER(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_16 != 0) {
@@ -13344,8 +13350,8 @@ void handlerCommand32Code00A5P67() {
 //MOVS
 void handlerCommand32Code00A5() {
 	LOG("%s","MOVS");
-	uint8_t* sourceSegment = memWithReplace(SR_DS);
-	uint8_t* targetSegment = mem(SR_ES);
+	uint8_t* sourceSegment = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS);
+	uint8_t* targetSegment = GET_SEGMENT_POINTER(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_32 != 0) {
@@ -13374,8 +13380,8 @@ void handlerCommand32Code00A5() {
 void handlerCommand32Code00A6P66P67() {
 	LOG("%s","CMPS");
 	lazyFlagType = t_UNKNOWN;
-	uint8_t* sourceSegment = memWithReplace(SR_DS);
-	uint8_t* targetSegment = mem(SR_ES);
+	uint8_t* sourceSegment = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS);
+	uint8_t* targetSegment = GET_SEGMENT_POINTER(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF2) {
 			while (reg_CX_16 != 0) {
@@ -13442,8 +13448,8 @@ void handlerCommand32Code00A6P66P67() {
 void handlerCommand32Code00A6P66() {
 	LOG("%s","CMPS");
 	lazyFlagType = t_UNKNOWN;
-	uint8_t* sourceSegment = memWithReplace(SR_DS);
-	uint8_t* targetSegment = mem(SR_ES);
+	uint8_t* sourceSegment = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS);
+	uint8_t* targetSegment = GET_SEGMENT_POINTER(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF2) {
 			while (reg_CX_32 != 0) {
@@ -13510,8 +13516,8 @@ void handlerCommand32Code00A6P66() {
 void handlerCommand32Code00A6P67() {
 	LOG("%s","CMPS");
 	lazyFlagType = t_UNKNOWN;
-	uint8_t* sourceSegment = memWithReplace(SR_DS);
-	uint8_t* targetSegment = mem(SR_ES);
+	uint8_t* sourceSegment = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS);
+	uint8_t* targetSegment = GET_SEGMENT_POINTER(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF2) {
 			while (reg_CX_16 != 0) {
@@ -13578,8 +13584,8 @@ void handlerCommand32Code00A6P67() {
 void handlerCommand32Code00A6() {
 	LOG("%s","CMPS");
 	lazyFlagType = t_UNKNOWN;
-	uint8_t* sourceSegment = memWithReplace(SR_DS);
-	uint8_t* targetSegment = mem(SR_ES);
+	uint8_t* sourceSegment = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS);
+	uint8_t* targetSegment = GET_SEGMENT_POINTER(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF2) {
 			while (reg_CX_32 != 0) {
@@ -13646,8 +13652,8 @@ void handlerCommand32Code00A6() {
 void handlerCommand32Code00A7P66P67() {
 	LOG("%s","CMPS");
 	lazyFlagType = t_UNKNOWN;
-	uint8_t* sourceSegment = memWithReplace(SR_DS);
-	uint8_t* targetSegment = mem(SR_ES);
+	uint8_t* sourceSegment = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS);
+	uint8_t* targetSegment = GET_SEGMENT_POINTER(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF2) {
 			while (reg_CX_16 != 0) {
@@ -13714,8 +13720,8 @@ void handlerCommand32Code00A7P66P67() {
 void handlerCommand32Code00A7P66() {
 	LOG("%s","CMPS");
 	lazyFlagType = t_UNKNOWN;
-	uint8_t* sourceSegment = memWithReplace(SR_DS);
-	uint8_t* targetSegment = mem(SR_ES);
+	uint8_t* sourceSegment = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS);
+	uint8_t* targetSegment = GET_SEGMENT_POINTER(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF2) {
 			while (reg_CX_32 != 0) {
@@ -13782,8 +13788,8 @@ void handlerCommand32Code00A7P66() {
 void handlerCommand32Code00A7P67() {
 	LOG("%s","CMPS");
 	lazyFlagType = t_UNKNOWN;
-	uint8_t* sourceSegment = memWithReplace(SR_DS);
-	uint8_t* targetSegment = mem(SR_ES);
+	uint8_t* sourceSegment = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS);
+	uint8_t* targetSegment = GET_SEGMENT_POINTER(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF2) {
 			while (reg_CX_16 != 0) {
@@ -13850,8 +13856,8 @@ void handlerCommand32Code00A7P67() {
 void handlerCommand32Code00A7() {
 	LOG("%s","CMPS");
 	lazyFlagType = t_UNKNOWN;
-	uint8_t* sourceSegment = memWithReplace(SR_DS);
-	uint8_t* targetSegment = mem(SR_ES);
+	uint8_t* sourceSegment = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS);
+	uint8_t* targetSegment = GET_SEGMENT_POINTER(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF2) {
 			while (reg_CX_32 != 0) {
@@ -13953,8 +13959,8 @@ void handlerCommand32Code00A9() {
 //STOS
 void handlerCommand32Code00AAP66P67() {
 	LOG("%s","STOS");
-	uint8_t* sourceSegment = memWithReplace(SR_DS);
-	uint8_t* targetSegment = mem(SR_ES);
+	uint8_t* sourceSegment = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS);
+	uint8_t* targetSegment = GET_SEGMENT_POINTER(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_16 != 0) {
@@ -13982,8 +13988,8 @@ void handlerCommand32Code00AAP66P67() {
 //STOS
 void handlerCommand32Code00AAP66() {
 	LOG("%s","STOS");
-	uint8_t* sourceSegment = memWithReplace(SR_DS);
-	uint8_t* targetSegment = mem(SR_ES);
+	uint8_t* sourceSegment = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS);
+	uint8_t* targetSegment = GET_SEGMENT_POINTER(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_32 != 0) {
@@ -14011,8 +14017,8 @@ void handlerCommand32Code00AAP66() {
 //STOS
 void handlerCommand32Code00AAP67() {
 	LOG("%s","STOS");
-	uint8_t* sourceSegment = memWithReplace(SR_DS);
-	uint8_t* targetSegment = mem(SR_ES);
+	uint8_t* sourceSegment = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS);
+	uint8_t* targetSegment = GET_SEGMENT_POINTER(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_16 != 0) {
@@ -14040,8 +14046,8 @@ void handlerCommand32Code00AAP67() {
 //STOS
 void handlerCommand32Code00AA() {
 	LOG("%s","STOS");
-	uint8_t* sourceSegment = memWithReplace(SR_DS);
-	uint8_t* targetSegment = mem(SR_ES);
+	uint8_t* sourceSegment = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS);
+	uint8_t* targetSegment = GET_SEGMENT_POINTER(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_32 != 0) {
@@ -14069,8 +14075,8 @@ void handlerCommand32Code00AA() {
 //STOS
 void handlerCommand32Code00ABP66P67() {
 	LOG("%s","STOS");
-	uint8_t* sourceSegment = memWithReplace(SR_DS);
-	uint8_t* targetSegment = mem(SR_ES);
+	uint8_t* sourceSegment = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS);
+	uint8_t* targetSegment = GET_SEGMENT_POINTER(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_16 != 0) {
@@ -14098,8 +14104,8 @@ void handlerCommand32Code00ABP66P67() {
 //STOS
 void handlerCommand32Code00ABP66() {
 	LOG("%s","STOS");
-	uint8_t* sourceSegment = memWithReplace(SR_DS);
-	uint8_t* targetSegment = mem(SR_ES);
+	uint8_t* sourceSegment = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS);
+	uint8_t* targetSegment = GET_SEGMENT_POINTER(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_32 != 0) {
@@ -14127,8 +14133,8 @@ void handlerCommand32Code00ABP66() {
 //STOS
 void handlerCommand32Code00ABP67() {
 	LOG("%s","STOS");
-	uint8_t* sourceSegment = memWithReplace(SR_DS);
-	uint8_t* targetSegment = mem(SR_ES);
+	uint8_t* sourceSegment = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS);
+	uint8_t* targetSegment = GET_SEGMENT_POINTER(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_16 != 0) {
@@ -14156,8 +14162,8 @@ void handlerCommand32Code00ABP67() {
 //STOS
 void handlerCommand32Code00AB() {
 	LOG("%s","STOS");
-	uint8_t* sourceSegment = memWithReplace(SR_DS);
-	uint8_t* targetSegment = mem(SR_ES);
+	uint8_t* sourceSegment = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS);
+	uint8_t* targetSegment = GET_SEGMENT_POINTER(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_32 != 0) {
@@ -14185,8 +14191,8 @@ void handlerCommand32Code00AB() {
 //LOADS
 void handlerCommand32Code00ACP66P67() {
 	LOG("%s","LOADS");
-	uint8_t* sourceSegment = memWithReplace(SR_DS);
-	uint8_t* targetSegment = mem(SR_ES);
+	uint8_t* sourceSegment = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS);
+	uint8_t* targetSegment = GET_SEGMENT_POINTER(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_16 != 0) {
@@ -14214,8 +14220,8 @@ void handlerCommand32Code00ACP66P67() {
 //LOADS
 void handlerCommand32Code00ACP66() {
 	LOG("%s","LOADS");
-	uint8_t* sourceSegment = memWithReplace(SR_DS);
-	uint8_t* targetSegment = mem(SR_ES);
+	uint8_t* sourceSegment = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS);
+	uint8_t* targetSegment = GET_SEGMENT_POINTER(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_32 != 0) {
@@ -14243,8 +14249,8 @@ void handlerCommand32Code00ACP66() {
 //LOADS
 void handlerCommand32Code00ACP67() {
 	LOG("%s","LOADS");
-	uint8_t* sourceSegment = memWithReplace(SR_DS);
-	uint8_t* targetSegment = mem(SR_ES);
+	uint8_t* sourceSegment = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS);
+	uint8_t* targetSegment = GET_SEGMENT_POINTER(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_16 != 0) {
@@ -14272,8 +14278,8 @@ void handlerCommand32Code00ACP67() {
 //LOADS
 void handlerCommand32Code00AC() {
 	LOG("%s","LOADS");
-	uint8_t* sourceSegment = memWithReplace(SR_DS);
-	uint8_t* targetSegment = mem(SR_ES);
+	uint8_t* sourceSegment = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS);
+	uint8_t* targetSegment = GET_SEGMENT_POINTER(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_32 != 0) {
@@ -14301,8 +14307,8 @@ void handlerCommand32Code00AC() {
 //LOADS
 void handlerCommand32Code00ADP66P67() {
 	LOG("%s","LOADS");
-	uint8_t* sourceSegment = memWithReplace(SR_DS);
-	uint8_t* targetSegment = mem(SR_ES);
+	uint8_t* sourceSegment = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS);
+	uint8_t* targetSegment = GET_SEGMENT_POINTER(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_16 != 0) {
@@ -14330,8 +14336,8 @@ void handlerCommand32Code00ADP66P67() {
 //LOADS
 void handlerCommand32Code00ADP66() {
 	LOG("%s","LOADS");
-	uint8_t* sourceSegment = memWithReplace(SR_DS);
-	uint8_t* targetSegment = mem(SR_ES);
+	uint8_t* sourceSegment = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS);
+	uint8_t* targetSegment = GET_SEGMENT_POINTER(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_32 != 0) {
@@ -14359,8 +14365,8 @@ void handlerCommand32Code00ADP66() {
 //LOADS
 void handlerCommand32Code00ADP67() {
 	LOG("%s","LOADS");
-	uint8_t* sourceSegment = memWithReplace(SR_DS);
-	uint8_t* targetSegment = mem(SR_ES);
+	uint8_t* sourceSegment = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS);
+	uint8_t* targetSegment = GET_SEGMENT_POINTER(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_16 != 0) {
@@ -14388,8 +14394,8 @@ void handlerCommand32Code00ADP67() {
 //LOADS
 void handlerCommand32Code00AD() {
 	LOG("%s","LOADS");
-	uint8_t* sourceSegment = memWithReplace(SR_DS);
-	uint8_t* targetSegment = mem(SR_ES);
+	uint8_t* sourceSegment = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS);
+	uint8_t* targetSegment = GET_SEGMENT_POINTER(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix != 0) {
 			while (reg_CX_32 != 0) {
@@ -14418,8 +14424,8 @@ void handlerCommand32Code00AD() {
 void handlerCommand32Code00AEP66P67() {
 	LOG("%s","SCAS");
 	lazyFlagType = t_UNKNOWN;
-	uint8_t* sourceSegment = memWithReplace(SR_DS);
-	uint8_t* targetSegment = mem(SR_ES);
+	uint8_t* sourceSegment = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS);
+	uint8_t* targetSegment = GET_SEGMENT_POINTER(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF2) {
 			while (reg_CX_16 != 0) {
@@ -14486,8 +14492,8 @@ void handlerCommand32Code00AEP66P67() {
 void handlerCommand32Code00AEP66() {
 	LOG("%s","SCAS");
 	lazyFlagType = t_UNKNOWN;
-	uint8_t* sourceSegment = memWithReplace(SR_DS);
-	uint8_t* targetSegment = mem(SR_ES);
+	uint8_t* sourceSegment = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS);
+	uint8_t* targetSegment = GET_SEGMENT_POINTER(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF2) {
 			while (reg_CX_32 != 0) {
@@ -14554,8 +14560,8 @@ void handlerCommand32Code00AEP66() {
 void handlerCommand32Code00AEP67() {
 	LOG("%s","SCAS");
 	lazyFlagType = t_UNKNOWN;
-	uint8_t* sourceSegment = memWithReplace(SR_DS);
-	uint8_t* targetSegment = mem(SR_ES);
+	uint8_t* sourceSegment = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS);
+	uint8_t* targetSegment = GET_SEGMENT_POINTER(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF2) {
 			while (reg_CX_16 != 0) {
@@ -14622,8 +14628,8 @@ void handlerCommand32Code00AEP67() {
 void handlerCommand32Code00AE() {
 	LOG("%s","SCAS");
 	lazyFlagType = t_UNKNOWN;
-	uint8_t* sourceSegment = memWithReplace(SR_DS);
-	uint8_t* targetSegment = mem(SR_ES);
+	uint8_t* sourceSegment = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS);
+	uint8_t* targetSegment = GET_SEGMENT_POINTER(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF2) {
 			while (reg_CX_32 != 0) {
@@ -14690,8 +14696,8 @@ void handlerCommand32Code00AE() {
 void handlerCommand32Code00AFP66P67() {
 	LOG("%s","SCAS");
 	lazyFlagType = t_UNKNOWN;
-	uint8_t* sourceSegment = memWithReplace(SR_DS);
-	uint8_t* targetSegment = mem(SR_ES);
+	uint8_t* sourceSegment = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS);
+	uint8_t* targetSegment = GET_SEGMENT_POINTER(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF2) {
 			while (reg_CX_16 != 0) {
@@ -14758,8 +14764,8 @@ void handlerCommand32Code00AFP66P67() {
 void handlerCommand32Code00AFP66() {
 	LOG("%s","SCAS");
 	lazyFlagType = t_UNKNOWN;
-	uint8_t* sourceSegment = memWithReplace(SR_DS);
-	uint8_t* targetSegment = mem(SR_ES);
+	uint8_t* sourceSegment = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS);
+	uint8_t* targetSegment = GET_SEGMENT_POINTER(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF2) {
 			while (reg_CX_32 != 0) {
@@ -14826,8 +14832,8 @@ void handlerCommand32Code00AFP66() {
 void handlerCommand32Code00AFP67() {
 	LOG("%s","SCAS");
 	lazyFlagType = t_UNKNOWN;
-	uint8_t* sourceSegment = memWithReplace(SR_DS);
-	uint8_t* targetSegment = mem(SR_ES);
+	uint8_t* sourceSegment = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS);
+	uint8_t* targetSegment = GET_SEGMENT_POINTER(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF2) {
 			while (reg_CX_16 != 0) {
@@ -14894,8 +14900,8 @@ void handlerCommand32Code00AFP67() {
 void handlerCommand32Code00AF() {
 	LOG("%s","SCAS");
 	lazyFlagType = t_UNKNOWN;
-	uint8_t* sourceSegment = memWithReplace(SR_DS);
-	uint8_t* targetSegment = mem(SR_ES);
+	uint8_t* sourceSegment = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS);
+	uint8_t* targetSegment = GET_SEGMENT_POINTER(SR_ES);
 	if (GET_FLAG(DF)) {
 		if (context.lastCommandInfo.prefixInfo.commandPrefix == 0xF2) {
 			while (reg_CX_32 != 0) {
@@ -15570,7 +15576,7 @@ void handlerCommand32Code00C1() {
 void handlerCommand32Code00C3() {
 	LOG("%s","Ret");
 	uint32_t* sp = register32u(BR_SP);
-	context.index = mem(1) + *(uint32_t*)(mem(SR_SS) + *sp);
+	context.index = GET_SEGMENT_POINTER(1) + *(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp);
 	*sp += 32 / 8;
 }
 //Load SR_ES
@@ -15579,7 +15585,7 @@ void handlerCommand32Code00C4() {
 	uint8_t mrmByte = read8u();
 	uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
 	uint8_t* source = (uint8_t*)readRegisterMRM32(mrmByte);
-	setMem(SR_ES, *(uint16_t*)(target + 2));
+	SET_VALUE_IN_SEGMENT(SR_ES, *(uint16_t*)(target + 2));
 	*(uint32_t*)source = *(uint32_t*)(target);
 }
 //Load SR_DS
@@ -15588,7 +15594,7 @@ void handlerCommand32Code00C5() {
 	uint8_t mrmByte = read8u();
 	uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
 	uint8_t* source = (uint8_t*)readRegisterMRM32(mrmByte);
-	setMem(SR_DS, *(uint16_t*)(target + 2));
+	SET_VALUE_IN_SEGMENT(SR_DS, *(uint16_t*)(target + 2));
 	*(uint32_t*)source = *(uint32_t*)(target);
 }
 //Move
@@ -15629,16 +15635,16 @@ void handlerCommand32Code00C8P66P67() {
 	uint16_t size = read16u();
 	uint8_t levels = read8u() % 32;
 	reg_SP_16u -= 16 / 8;
-	*(uint16_t*)(mem(SR_SS) + reg_SP_16u) = reg_BP_16u;
+	*(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u) = reg_BP_16u;
 	uint16_t tmp = reg_SP_16u;
 	if (levels > 0) {
 		for (int i = 1; i < levels; ++i) {
 			reg_BP_16u = reg_BP_16u - 16 / 8;
 			reg_SP_16u -= 16 / 8;
-			*(uint16_t*)(mem(SR_SS) + reg_SP_16u) = reg_BP_16u;
+			*(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u) = reg_BP_16u;
 		}
 		reg_SP_16u -= 16 / 8;
-		*(uint16_t*)(mem(SR_SS) + reg_SP_16u) = reg_SP_16u;
+		*(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u) = reg_SP_16u;
 	}
 	reg_BP_16u = tmp;
 	reg_SP_16u = reg_BP_16u - size;
@@ -15649,16 +15655,16 @@ void handlerCommand32Code00C8P67() {
 	uint16_t size = read16u();
 	uint8_t levels = read8u() % 32;
 	reg_SP_16u -= 16 / 8;
-	*(uint16_t*)(mem(SR_SS) + reg_SP_16u) = reg_BP_16u;
+	*(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u) = reg_BP_16u;
 	uint16_t tmp = reg_SP_16u;
 	if (levels > 0) {
 		for (int i = 1; i < levels; ++i) {
 			reg_BP_16u = reg_BP_16u - 32 / 8;
 			reg_SP_16u -= 16 / 8;
-			*(uint16_t*)(mem(SR_SS) + reg_SP_16u) = reg_BP_16u;
+			*(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u) = reg_BP_16u;
 		}
 		reg_SP_16u -= 16 / 8;
-		*(uint16_t*)(mem(SR_SS) + reg_SP_16u) = reg_SP_16u;
+		*(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u) = reg_SP_16u;
 	}
 	reg_BP_16u = tmp;
 	reg_SP_16u = reg_BP_16u - size;
@@ -15669,16 +15675,16 @@ void handlerCommand32Code00C8P66() {
 	uint16_t size = read16u();
 	uint8_t levels = read8u() % 32;
 	reg_SP_32u -= 32 / 8;
-	*(uint32_t*)(mem(SR_SS) + reg_SP_32u) = reg_BP_32u;
+	*(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u) = reg_BP_32u;
 	uint32_t tmp = reg_SP_32u;
 	if (levels > 0) {
 		for (int i = 1; i < levels; ++i) {
 			reg_BP_32u = reg_BP_32u - 16 / 8;
 			reg_SP_32u -= 32 / 8;
-			*(uint32_t*)(mem(SR_SS) + reg_SP_32u) = reg_BP_32u;
+			*(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u) = reg_BP_32u;
 		}
 		reg_SP_32u -= 32 / 8;
-		*(uint32_t*)(mem(SR_SS) + reg_SP_32u) = reg_SP_32u;
+		*(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u) = reg_SP_32u;
 	}
 	reg_BP_32u = tmp;
 	reg_SP_32u = reg_BP_32u - size;
@@ -15689,16 +15695,16 @@ void handlerCommand32Code00C8() {
 	uint16_t size = read16u();
 	uint8_t levels = read8u() % 32;
 	reg_SP_32u -= 32 / 8;
-	*(uint32_t*)(mem(SR_SS) + reg_SP_32u) = reg_BP_32u;
+	*(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u) = reg_BP_32u;
 	uint32_t tmp = reg_SP_32u;
 	if (levels > 0) {
 		for (int i = 1; i < levels; ++i) {
 			reg_BP_32u = reg_BP_32u - 32 / 8;
 			reg_SP_32u -= 32 / 8;
-			*(uint32_t*)(mem(SR_SS) + reg_SP_32u) = reg_BP_32u;
+			*(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u) = reg_BP_32u;
 		}
 		reg_SP_32u -= 32 / 8;
-		*(uint32_t*)(mem(SR_SS) + reg_SP_32u) = reg_SP_32u;
+		*(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u) = reg_SP_32u;
 	}
 	reg_BP_32u = tmp;
 	reg_SP_32u = reg_BP_32u - size;
@@ -15707,36 +15713,36 @@ void handlerCommand32Code00C8() {
 void handlerCommand32Code00C9P66P67() {
 	LOG("%s","Leave");
 	reg_SP_16u = reg_BP_16u;
-	reg_BP_16u = *(uint16_t*)(mem(SR_SS) + reg_SP_16u);
+	reg_BP_16u = *(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u);
 	reg_SP_16u += 16 / 8;
 }
 //Leave
 void handlerCommand32Code00C9P67() {
 	LOG("%s","Leave");
 	reg_SP_16u = reg_BP_16u;
-	reg_BP_16u = *(uint32_t*)(mem(SR_SS) + reg_SP_16u);
+	reg_BP_16u = *(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u);
 	reg_SP_16u += 32 / 8;
 }
 //Leave
 void handlerCommand32Code00C9P66() {
 	LOG("%s","Leave");
 	reg_SP_32u = reg_BP_32u;
-	reg_BP_32u = *(uint16_t*)(mem(SR_SS) + reg_SP_32u);
+	reg_BP_32u = *(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u);
 	reg_SP_32u += 16 / 8;
 }
 //Leave
 void handlerCommand32Code00C9() {
 	LOG("%s","Leave");
 	reg_SP_32u = reg_BP_32u;
-	reg_BP_32u = *(uint32_t*)(mem(SR_SS) + reg_SP_32u);
+	reg_BP_32u = *(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u);
 	reg_SP_32u += 32 / 8;
 }
 //Ret
 void handlerCommand32Code00CB() {
 	LOG("%s","Ret");
 	uint32_t* sp = register32u(BR_SP);
-	setMem(1, *(int16_t*)(mem(SR_SS) + *sp + 32 / 8));
-	context.index = mem(1) + *(uint32_t*)(mem(SR_SS) + *sp);
+	SET_VALUE_IN_SEGMENT(1, *(int16_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp + 32 / 8));
+	context.index = GET_SEGMENT_POINTER(1) + *(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp);
 	*sp += 32 / 8 + 2;
 }
 //Int
@@ -17695,7 +17701,7 @@ void handlerCommand32Code00E8P66() {
 	LOG("%s","Call");
 	uint32_t* sp = register32u(BR_SP);
 	*sp -= 32 / 8;
-	*(uint32_t*)(mem(SR_SS) + *sp) = (uint32_t)(context.index + 16 / 8 - mem(1));
+	*(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp) = (uint32_t)(context.index + 16 / 8 - GET_SEGMENT_POINTER(1));
 	context.index += read16();
 }
 //Call
@@ -17703,7 +17709,7 @@ void handlerCommand32Code00E8() {
 	LOG("%s","Call");
 	uint32_t* sp = register32u(BR_SP);
 	*sp -= 32 / 8;
-	*(uint32_t*)(mem(SR_SS) + *sp) = (uint32_t)(context.index + 32 / 8 - mem(1));
+	*(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp) = (uint32_t)(context.index + 32 / 8 - GET_SEGMENT_POINTER(1));
 	context.index += read32();
 }
 //Jmp
@@ -18171,14 +18177,14 @@ void handlerCommand32Code00FFP66P67() {
 		case 0x4: {
 			// JMP
 			uint8_t* target = (uint8_t*)readAddressMRM32For16(mrmByte);
-			context.index = mem(SR_CS) + (*((uint16_t*)target));
+			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((uint16_t*)target));
 		}
 		break;
 		case 0x6: {
 			// PUSH
 			uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
 			reg_SP_16u -= 32 / 8;
-			*(uint32_t*)(mem(SR_SS) + reg_SP_16u) = *(uint32_t*)target;
+			*(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u) = *(uint32_t*)target;
 		}
 		break;
 		default:
@@ -18210,14 +18216,14 @@ void handlerCommand32Code00FFP67() {
 		case 0x4: {
 			// JMP
 			uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
-			context.index = mem(SR_CS) + (*((uint32_t*)target));
+			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((uint32_t*)target));
 		}
 		break;
 		case 0x6: {
 			// PUSH
 			uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
 			reg_SP_16u -= 32 / 8;
-			*(uint32_t*)(mem(SR_SS) + reg_SP_16u) = *(uint32_t*)target;
+			*(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u) = *(uint32_t*)target;
 		}
 		break;
 		default:
@@ -18249,14 +18255,14 @@ void handlerCommand32Code00FFP66() {
 		case 0x4: {
 			// JMP
 			uint8_t* target = (uint8_t*)readAddressMRM32For16(mrmByte);
-			context.index = mem(SR_CS) + (*((uint16_t*)target));
+			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((uint16_t*)target));
 		}
 		break;
 		case 0x6: {
 			// PUSH
 			uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
 			reg_SP_32u -= 32 / 8;
-			*(uint32_t*)(mem(SR_SS) + reg_SP_32u) = *(uint32_t*)target;
+			*(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u) = *(uint32_t*)target;
 		}
 		break;
 		default:
@@ -18288,14 +18294,14 @@ void handlerCommand32Code00FF() {
 		case 0x4: {
 			// JMP
 			uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
-			context.index = mem(SR_CS) + (*((uint32_t*)target));
+			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((uint32_t*)target));
 		}
 		break;
 		case 0x6: {
 			// PUSH
 			uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
 			reg_SP_32u -= 32 / 8;
-			*(uint32_t*)(mem(SR_SS) + reg_SP_32u) = *(uint32_t*)target;
+			*(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u) = *(uint32_t*)target;
 		}
 		break;
 		default:
@@ -19099,7 +19105,7 @@ void handlerCommand32Code01B2() {
 	uint8_t mrmByte = read8u();
 	uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
 	uint8_t* source = (uint8_t*)readRegisterMRM32(mrmByte);
-	setMem(SR_SS, *(uint16_t*)(target + 2));
+	SET_VALUE_IN_SEGMENT(SR_SS, *(uint16_t*)(target + 2));
 	*(uint32_t*)source = *(uint32_t*)(target);
 }
 //BTR
@@ -19136,7 +19142,7 @@ void handlerCommand32Code01B4() {
 	uint8_t mrmByte = read8u();
 	uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
 	uint8_t* source = (uint8_t*)readRegisterMRM32(mrmByte);
-	setMem(SR_FS, *(uint16_t*)(target + 2));
+	SET_VALUE_IN_SEGMENT(SR_FS, *(uint16_t*)(target + 2));
 	*(uint32_t*)source = *(uint32_t*)(target);
 }
 //Load SR_GS
@@ -19145,7 +19151,7 @@ void handlerCommand32Code01B5() {
 	uint8_t mrmByte = read8u();
 	uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
 	uint8_t* source = (uint8_t*)readRegisterMRM32(mrmByte);
-	setMem(SR_GS, *(uint16_t*)(target + 2));
+	SET_VALUE_IN_SEGMENT(SR_GS, *(uint16_t*)(target + 2));
 	*(uint32_t*)source = *(uint32_t*)(target);
 }
 //MOVZX

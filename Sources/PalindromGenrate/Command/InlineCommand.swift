@@ -6,8 +6,8 @@ fileprivate let regCIDec = "reg_SI_%addressSizeu -= %dataSize / 8;"
 fileprivate let regCXDec = "reg_CX_%addressSizeu -= 1;"
 
 fileprivate let memoryToMemoryHeader = """
-uint8_t* sourceSegment = memWithReplace(SR_DS);
-uint8_t* targetSegment = mem(SR_ES);
+uint8_t* sourceSegment = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS);
+uint8_t* targetSegment = GET_SEGMENT_POINTER(SR_ES);
 """
 
 fileprivate func inlineOperationIfWhile(_ function: () -> String) -> String {

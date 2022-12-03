@@ -152,13 +152,13 @@ void runCommand() {
 void pushInStack32u(uint32_t value) {
     uint32_t* sp = register32u(BR_SP);
     *sp -= 32 / 8;
-    *(uint32_t*)(mem(SR_SS) + *sp) = value;
+    *(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp) = value;
 }
 
 void pushInStack32(int32_t value) {
     uint32_t* sp = register32u(BR_SP);
     *sp -= 32 / 8;
-    *(int32_t*)(mem(SR_SS) + *sp) = value;
+    *(int32_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp) = value;
 }
 
 void run32ToEnd() {

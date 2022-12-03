@@ -1,13 +1,13 @@
 func pushValue(_ value: String, size: String = "%dataSize") -> String {
     """
     reg_SP_%addressSizeu -= \(size) / 8;
-    *(uint\(size)_t*)(mem(SR_SS) + reg_SP_%addressSizeu) = \(value);
+    *(uint\(size)_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_%addressSizeu) = \(value);
     """
 }
 
 func popValue(_ value: String) -> String {
     """
-    \(value) = *(uint%dataSize_t*)(mem(SR_SS) + reg_SP_%addressSizeu);
+    \(value) = *(uint%dataSize_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_%addressSizeu);
     reg_SP_%addressSizeu += %dataSize / 8;
     """
 }
@@ -54,7 +54,7 @@ fileprivate let pushData1Command = Command(
             .settings([.bigData, .bigAddress]),
             """
             reg_SP_%addressSizeu -= %dataSize / 8;
-            *(int%dataSize_t*)(mem(SR_SS) + reg_SP_%addressSizeu) = (int%dataSize_t)read8();
+            *(int%dataSize_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_%addressSizeu) = (int%dataSize_t)read8();
             """
         ]
     ),
@@ -131,7 +131,7 @@ fileprivate let oftherCommand = Command(
                             .settings([.bigData]),
                             "// JMP",
                             .formatter(targetMRMFormat),
-                            "context.index = mem(SR_CS) + (*((uint%dataSize_t*)target));"
+                            "context.index = GET_SEGMENT_POINTER(SR_CS) + (*((uint%dataSize_t*)target));"
                         ]
                     )
                 ),
@@ -191,7 +191,7 @@ fileprivate let pushSegRegCommand = Command(
             .settings([.bigAddress]),
             """
             reg_SP_%addressSizeu -= 16 / 8;
-            *(uint16_t*)(mem(SR_SS) + reg_SP_%addressSizeu) = context.segmentRegisters[rg];
+            *(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_%addressSizeu) = SR_VALUE(rg);
             """
         ]
     ),
@@ -218,7 +218,7 @@ fileprivate let popSegRegCommand = Command(
                     return "// 0f???"
                 }
                 return """
-                    context.segmentRegisters[rg] = *(uint16_t*)(mem(SR_SS) + reg_SP_%addressSizeu);
+                    SET_VALUE_IN_SEGMENT(rg, *(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_%addressSizeu));
                     reg_SP_%addressSizeu += 16 / 8;
                 """
             }))
@@ -246,7 +246,7 @@ fileprivate let pushFlagRegCommand = Command(
             reg_SP_%addressSizeu -= %dataSize / 8;
             EncodeFlagsRegister();
             uint32_t value = reg_flags & 0xFCFFFF;
-            *(uint%dataSize_t*)(mem(SR_SS) + reg_SP_%addressSizeu) = *((uint%dataSize_t*)&value);
+            *(uint%dataSize_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_%addressSizeu) = *((uint%dataSize_t*)&value);
             """
         ]
     ),
@@ -269,7 +269,7 @@ fileprivate let popFlagRegCommand = Command(
             .settings([.bigAddress, .bigData]),
             """
             lazyFlagType = t_UNKNOWN;
-            *(uint%dataSize_t*)(&reg_flags) = (*(uint%dataSize_t*)(mem(SR_SS) + reg_SP_%addressSizeu));
+            *(uint%dataSize_t*)(&reg_flags) = (*(uint%dataSize_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_%addressSizeu));
             reg_SP_%addressSizeu += %dataSize / 8;
             DecodeFlagsRegister%dataSize();
             """

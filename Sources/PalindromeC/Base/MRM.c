@@ -11,21 +11,21 @@ uint8_t* readAddressMRM32For32(uint8_t mrmByte) {
 			switch (mod) {
 				case 0: {
 					int32_t address = *register32(BR_EAX_F);
-					uint8_t* memory = memWithReplace(SR_DS) + address;
+					uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 					DATA_LOG32((uint64_t)memory, memory);
 					return memory;;
 				}
 				break;
 				case 1: {
 					int32_t address = *register32(BR_EAX_F) + ((int16_t)read8());
-					uint8_t* memory = memWithReplace(SR_DS) + address;
+					uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 					DATA_LOG32((uint64_t)memory, memory);
 					return memory;;
 				}
 				break;
 				case 2: {
 					int32_t address = *register32(BR_EAX_F) + read32();
-					uint8_t* memory = memWithReplace(SR_DS) + address;
+					uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 					DATA_LOG32((uint64_t)memory, memory);
 					return memory;;
 				}
@@ -40,21 +40,21 @@ uint8_t* readAddressMRM32For32(uint8_t mrmByte) {
 			switch (mod) {
 				case 0: {
 					int32_t address = *register32(BR_ECX_F);
-					uint8_t* memory = memWithReplace(SR_DS) + address;
+					uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 					DATA_LOG32((uint64_t)memory, memory);
 					return memory;;
 				}
 				break;
 				case 1: {
 					int32_t address = *register32(BR_ECX_F) + ((int16_t)read8());
-					uint8_t* memory = memWithReplace(SR_DS) + address;
+					uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 					DATA_LOG32((uint64_t)memory, memory);
 					return memory;;
 				}
 				break;
 				case 2: {
 					int32_t address = *register32(BR_ECX_F) + read32();
-					uint8_t* memory = memWithReplace(SR_DS) + address;
+					uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 					DATA_LOG32((uint64_t)memory, memory);
 					return memory;;
 				}
@@ -69,21 +69,21 @@ uint8_t* readAddressMRM32For32(uint8_t mrmByte) {
 			switch (mod) {
 				case 0: {
 					int32_t address = *register32(BR_EDX_F);
-					uint8_t* memory = memWithReplace(SR_DS) + address;
+					uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 					DATA_LOG32((uint64_t)memory, memory);
 					return memory;;
 				}
 				break;
 				case 1: {
 					int32_t address = *register32(BR_EDX_F) + ((int16_t)read8());
-					uint8_t* memory = memWithReplace(SR_DS) + address;
+					uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 					DATA_LOG32((uint64_t)memory, memory);
 					return memory;;
 				}
 				break;
 				case 2: {
 					int32_t address = *register32(BR_EDX_F) + read32();
-					uint8_t* memory = memWithReplace(SR_DS) + address;
+					uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 					DATA_LOG32((uint64_t)memory, memory);
 					return memory;;
 				}
@@ -98,21 +98,21 @@ uint8_t* readAddressMRM32For32(uint8_t mrmByte) {
 			switch (mod) {
 				case 0: {
 					int32_t address = *register32(BR_EBX_F);
-					uint8_t* memory = memWithReplace(SR_DS) + address;
+					uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 					DATA_LOG32((uint64_t)memory, memory);
 					return memory;;
 				}
 				break;
 				case 1: {
 					int32_t address = *register32(BR_EBX_F) + ((int16_t)read8());
-					uint8_t* memory = memWithReplace(SR_DS) + address;
+					uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 					DATA_LOG32((uint64_t)memory, memory);
 					return memory;;
 				}
 				break;
 				case 2: {
 					int32_t address = *register32(BR_EBX_F) + read32();
-					uint8_t* memory = memWithReplace(SR_DS) + address;
+					uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 					DATA_LOG32((uint64_t)memory, memory);
 					return memory;;
 				}
@@ -164,21 +164,21 @@ uint8_t* readAddressMRM32For32(uint8_t mrmByte) {
 					switch (mod) {
 						case 0: {
 							int32_t address = *register32(BR_EAX_F) + shift;
-							uint8_t* memory = memWithReplace(SR_DS) + address;
+							uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 							DATA_LOG32((uint64_t)memory, memory);
 							return memory;;
 						}
 						break;
 						case 1: {
 							int32_t address = *register32(BR_EAX_F) + shift + ((int16_t)read8());
-							uint8_t* memory = memWithReplace(SR_DS) + address;
+							uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 							DATA_LOG32((uint64_t)memory, memory);
 							return memory;;
 						}
 						break;
 						case 2: {
 							int32_t address = *register32(BR_EAX_F) + shift + read32();
-							uint8_t* memory = memWithReplace(SR_DS) + address;
+							uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 							DATA_LOG32((uint64_t)memory, memory);
 							return memory;;
 						}
@@ -193,21 +193,21 @@ uint8_t* readAddressMRM32For32(uint8_t mrmByte) {
 					switch (mod) {
 						case 0: {
 							int32_t address = *register32(BR_ECX_F) + shift;
-							uint8_t* memory = memWithReplace(SR_DS) + address;
+							uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 							DATA_LOG32((uint64_t)memory, memory);
 							return memory;;
 						}
 						break;
 						case 1: {
 							int32_t address = *register32(BR_ECX_F) + shift + ((int16_t)read8());
-							uint8_t* memory = memWithReplace(SR_DS) + address;
+							uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 							DATA_LOG32((uint64_t)memory, memory);
 							return memory;;
 						}
 						break;
 						case 2: {
 							int32_t address = *register32(BR_ECX_F) + shift + read32();
-							uint8_t* memory = memWithReplace(SR_DS) + address;
+							uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 							DATA_LOG32((uint64_t)memory, memory);
 							return memory;;
 						}
@@ -222,21 +222,21 @@ uint8_t* readAddressMRM32For32(uint8_t mrmByte) {
 					switch (mod) {
 						case 0: {
 							int32_t address = *register32(BR_EDX_F) + shift;
-							uint8_t* memory = memWithReplace(SR_DS) + address;
+							uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 							DATA_LOG32((uint64_t)memory, memory);
 							return memory;;
 						}
 						break;
 						case 1: {
 							int32_t address = *register32(BR_EDX_F) + shift + ((int16_t)read8());
-							uint8_t* memory = memWithReplace(SR_DS) + address;
+							uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 							DATA_LOG32((uint64_t)memory, memory);
 							return memory;;
 						}
 						break;
 						case 2: {
 							int32_t address = *register32(BR_EDX_F) + shift + read32();
-							uint8_t* memory = memWithReplace(SR_DS) + address;
+							uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 							DATA_LOG32((uint64_t)memory, memory);
 							return memory;;
 						}
@@ -251,21 +251,21 @@ uint8_t* readAddressMRM32For32(uint8_t mrmByte) {
 					switch (mod) {
 						case 0: {
 							int32_t address = *register32(BR_EBX_F) + shift;
-							uint8_t* memory = memWithReplace(SR_DS) + address;
+							uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 							DATA_LOG32((uint64_t)memory, memory);
 							return memory;;
 						}
 						break;
 						case 1: {
 							int32_t address = *register32(BR_EBX_F) + shift + ((int16_t)read8());
-							uint8_t* memory = memWithReplace(SR_DS) + address;
+							uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 							DATA_LOG32((uint64_t)memory, memory);
 							return memory;;
 						}
 						break;
 						case 2: {
 							int32_t address = *register32(BR_EBX_F) + shift + read32();
-							uint8_t* memory = memWithReplace(SR_DS) + address;
+							uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 							DATA_LOG32((uint64_t)memory, memory);
 							return memory;;
 						}
@@ -280,21 +280,21 @@ uint8_t* readAddressMRM32For32(uint8_t mrmByte) {
 					switch (mod) {
 						case 0: {
 							int32_t address = *register32(BR_ESP_F) + shift;
-							uint8_t* memory = memWithReplace(SR_SS) + address;
+							uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_SS) + address;
 							DATA_LOG32((uint64_t)memory, memory);
 							return memory;;
 						}
 						break;
 						case 1: {
 							int32_t address = *register32(BR_ESP_F) + shift + ((int16_t)read8());
-							uint8_t* memory = memWithReplace(SR_SS) + address;
+							uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_SS) + address;
 							DATA_LOG32((uint64_t)memory, memory);
 							return memory;;
 						}
 						break;
 						case 2: {
 							int32_t address = *register32(BR_ESP_F) + shift + read32();
-							uint8_t* memory = memWithReplace(SR_SS) + address;
+							uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_SS) + address;
 							DATA_LOG32((uint64_t)memory, memory);
 							return memory;;
 						}
@@ -309,21 +309,21 @@ uint8_t* readAddressMRM32For32(uint8_t mrmByte) {
 					switch (mod) {
 						case 0: {
 							int32_t address = read32() + shift;
-							uint8_t* memory = memWithReplace(SR_DS) + address;
+							uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 							DATA_LOG32((uint64_t)memory, memory);
 							return memory;;
 						}
 						break;
 						case 1: {
 							int32_t address = *register32(BR_EBP_F) + shift + ((int16_t)read8());
-							uint8_t* memory = memWithReplace(SR_SS) + address;
+							uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_SS) + address;
 							DATA_LOG32((uint64_t)memory, memory);
 							return memory;;
 						}
 						break;
 						case 2: {
 							int32_t address = *register32(BR_EBP_F) + shift + read32();
-							uint8_t* memory = memWithReplace(SR_SS) + address;
+							uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_SS) + address;
 							DATA_LOG32((uint64_t)memory, memory);
 							return memory;;
 						}
@@ -338,21 +338,21 @@ uint8_t* readAddressMRM32For32(uint8_t mrmByte) {
 					switch (mod) {
 						case 0: {
 							int32_t address = *register32(BR_ESI_F) + shift;
-							uint8_t* memory = memWithReplace(SR_DS) + address;
+							uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 							DATA_LOG32((uint64_t)memory, memory);
 							return memory;;
 						}
 						break;
 						case 1: {
 							int32_t address = *register32(BR_ESI_F) + shift + ((int16_t)read8());
-							uint8_t* memory = memWithReplace(SR_DS) + address;
+							uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 							DATA_LOG32((uint64_t)memory, memory);
 							return memory;;
 						}
 						break;
 						case 2: {
 							int32_t address = *register32(BR_ESI_F) + shift + read32();
-							uint8_t* memory = memWithReplace(SR_DS) + address;
+							uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 							DATA_LOG32((uint64_t)memory, memory);
 							return memory;;
 						}
@@ -367,21 +367,21 @@ uint8_t* readAddressMRM32For32(uint8_t mrmByte) {
 					switch (mod) {
 						case 0: {
 							int32_t address = *register32(BR_EDI_F) + shift;
-							uint8_t* memory = memWithReplace(SR_DS) + address;
+							uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 							DATA_LOG32((uint64_t)memory, memory);
 							return memory;;
 						}
 						break;
 						case 1: {
 							int32_t address = *register32(BR_EDI_F) + shift + ((int16_t)read8());
-							uint8_t* memory = memWithReplace(SR_DS) + address;
+							uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 							DATA_LOG32((uint64_t)memory, memory);
 							return memory;;
 						}
 						break;
 						case 2: {
 							int32_t address = *register32(BR_EDI_F) + shift + read32();
-							uint8_t* memory = memWithReplace(SR_DS) + address;
+							uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 							DATA_LOG32((uint64_t)memory, memory);
 							return memory;;
 						}
@@ -402,21 +402,21 @@ uint8_t* readAddressMRM32For32(uint8_t mrmByte) {
 			switch (mod) {
 				case 0: {
 					int32_t address = read32();
-					uint8_t* memory = memWithReplace(SR_DS) + address;
+					uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 					DATA_LOG32((uint64_t)memory, memory);
 					return memory;;
 				}
 				break;
 				case 1: {
 					int32_t address = *register32(BR_EBP_F) + ((int16_t)read8());
-					uint8_t* memory = memWithReplace(SR_SS) + address;
+					uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_SS) + address;
 					DATA_LOG32((uint64_t)memory, memory);
 					return memory;;
 				}
 				break;
 				case 2: {
 					int32_t address = *register32(BR_EBP_F) + read32();
-					uint8_t* memory = memWithReplace(SR_SS) + address;
+					uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_SS) + address;
 					DATA_LOG32((uint64_t)memory, memory);
 					return memory;;
 				}
@@ -431,21 +431,21 @@ uint8_t* readAddressMRM32For32(uint8_t mrmByte) {
 			switch (mod) {
 				case 0: {
 					int32_t address = *register32(BR_ESI_F);
-					uint8_t* memory = memWithReplace(SR_DS) + address;
+					uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 					DATA_LOG32((uint64_t)memory, memory);
 					return memory;;
 				}
 				break;
 				case 1: {
 					int32_t address = *register32(BR_ESI_F) + ((int16_t)read8());
-					uint8_t* memory = memWithReplace(SR_DS) + address;
+					uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 					DATA_LOG32((uint64_t)memory, memory);
 					return memory;;
 				}
 				break;
 				case 2: {
 					int32_t address = *register32(BR_ESI_F) + read32();
-					uint8_t* memory = memWithReplace(SR_DS) + address;
+					uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 					DATA_LOG32((uint64_t)memory, memory);
 					return memory;;
 				}
@@ -460,21 +460,21 @@ uint8_t* readAddressMRM32For32(uint8_t mrmByte) {
 			switch (mod) {
 				case 0: {
 					int32_t address = *register32(BR_EDI_F);
-					uint8_t* memory = memWithReplace(SR_DS) + address;
+					uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 					DATA_LOG32((uint64_t)memory, memory);
 					return memory;;
 				}
 				break;
 				case 1: {
 					int32_t address = *register32(BR_EDI_F) + ((int16_t)read8());
-					uint8_t* memory = memWithReplace(SR_DS) + address;
+					uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 					DATA_LOG32((uint64_t)memory, memory);
 					return memory;;
 				}
 				break;
 				case 2: {
 					int32_t address = *register32(BR_EDI_F) + read32();
-					uint8_t* memory = memWithReplace(SR_DS) + address;
+					uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 					DATA_LOG32((uint64_t)memory, memory);
 					return memory;;
 				}
@@ -501,21 +501,21 @@ uint8_t* readAddressMRM32For16(uint8_t mrmByte) {
 			switch (mod) {
 				case 0: {
 					int32_t address = *register32(BR_EAX_F);
-					uint8_t* memory = memWithReplace(SR_DS) + address;
+					uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 					DATA_LOG16((uint64_t)memory, memory);
 					return memory;;
 				}
 				break;
 				case 1: {
 					int32_t address = *register32(BR_EAX_F) + ((int16_t)read8());
-					uint8_t* memory = memWithReplace(SR_DS) + address;
+					uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 					DATA_LOG16((uint64_t)memory, memory);
 					return memory;;
 				}
 				break;
 				case 2: {
 					int32_t address = *register32(BR_EAX_F) + read32();
-					uint8_t* memory = memWithReplace(SR_DS) + address;
+					uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 					DATA_LOG16((uint64_t)memory, memory);
 					return memory;;
 				}
@@ -530,21 +530,21 @@ uint8_t* readAddressMRM32For16(uint8_t mrmByte) {
 			switch (mod) {
 				case 0: {
 					int32_t address = *register32(BR_ECX_F);
-					uint8_t* memory = memWithReplace(SR_DS) + address;
+					uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 					DATA_LOG16((uint64_t)memory, memory);
 					return memory;;
 				}
 				break;
 				case 1: {
 					int32_t address = *register32(BR_ECX_F) + ((int16_t)read8());
-					uint8_t* memory = memWithReplace(SR_DS) + address;
+					uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 					DATA_LOG16((uint64_t)memory, memory);
 					return memory;;
 				}
 				break;
 				case 2: {
 					int32_t address = *register32(BR_ECX_F) + read32();
-					uint8_t* memory = memWithReplace(SR_DS) + address;
+					uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 					DATA_LOG16((uint64_t)memory, memory);
 					return memory;;
 				}
@@ -559,21 +559,21 @@ uint8_t* readAddressMRM32For16(uint8_t mrmByte) {
 			switch (mod) {
 				case 0: {
 					int32_t address = *register32(BR_EDX_F);
-					uint8_t* memory = memWithReplace(SR_DS) + address;
+					uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 					DATA_LOG16((uint64_t)memory, memory);
 					return memory;;
 				}
 				break;
 				case 1: {
 					int32_t address = *register32(BR_EDX_F) + ((int16_t)read8());
-					uint8_t* memory = memWithReplace(SR_DS) + address;
+					uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 					DATA_LOG16((uint64_t)memory, memory);
 					return memory;;
 				}
 				break;
 				case 2: {
 					int32_t address = *register32(BR_EDX_F) + read32();
-					uint8_t* memory = memWithReplace(SR_DS) + address;
+					uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 					DATA_LOG16((uint64_t)memory, memory);
 					return memory;;
 				}
@@ -588,21 +588,21 @@ uint8_t* readAddressMRM32For16(uint8_t mrmByte) {
 			switch (mod) {
 				case 0: {
 					int32_t address = *register32(BR_EBX_F);
-					uint8_t* memory = memWithReplace(SR_DS) + address;
+					uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 					DATA_LOG16((uint64_t)memory, memory);
 					return memory;;
 				}
 				break;
 				case 1: {
 					int32_t address = *register32(BR_EBX_F) + ((int16_t)read8());
-					uint8_t* memory = memWithReplace(SR_DS) + address;
+					uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 					DATA_LOG16((uint64_t)memory, memory);
 					return memory;;
 				}
 				break;
 				case 2: {
 					int32_t address = *register32(BR_EBX_F) + read32();
-					uint8_t* memory = memWithReplace(SR_DS) + address;
+					uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 					DATA_LOG16((uint64_t)memory, memory);
 					return memory;;
 				}
@@ -654,21 +654,21 @@ uint8_t* readAddressMRM32For16(uint8_t mrmByte) {
 					switch (mod) {
 						case 0: {
 							int32_t address = *register32(BR_EAX_F) + shift;
-							uint8_t* memory = memWithReplace(SR_DS) + address;
+							uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 							DATA_LOG16((uint64_t)memory, memory);
 							return memory;;
 						}
 						break;
 						case 1: {
 							int32_t address = *register32(BR_EAX_F) + shift + ((int16_t)read8());
-							uint8_t* memory = memWithReplace(SR_DS) + address;
+							uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 							DATA_LOG16((uint64_t)memory, memory);
 							return memory;;
 						}
 						break;
 						case 2: {
 							int32_t address = *register32(BR_EAX_F) + shift + read32();
-							uint8_t* memory = memWithReplace(SR_DS) + address;
+							uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 							DATA_LOG16((uint64_t)memory, memory);
 							return memory;;
 						}
@@ -683,21 +683,21 @@ uint8_t* readAddressMRM32For16(uint8_t mrmByte) {
 					switch (mod) {
 						case 0: {
 							int32_t address = *register32(BR_ECX_F) + shift;
-							uint8_t* memory = memWithReplace(SR_DS) + address;
+							uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 							DATA_LOG16((uint64_t)memory, memory);
 							return memory;;
 						}
 						break;
 						case 1: {
 							int32_t address = *register32(BR_ECX_F) + shift + ((int16_t)read8());
-							uint8_t* memory = memWithReplace(SR_DS) + address;
+							uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 							DATA_LOG16((uint64_t)memory, memory);
 							return memory;;
 						}
 						break;
 						case 2: {
 							int32_t address = *register32(BR_ECX_F) + shift + read32();
-							uint8_t* memory = memWithReplace(SR_DS) + address;
+							uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 							DATA_LOG16((uint64_t)memory, memory);
 							return memory;;
 						}
@@ -712,21 +712,21 @@ uint8_t* readAddressMRM32For16(uint8_t mrmByte) {
 					switch (mod) {
 						case 0: {
 							int32_t address = *register32(BR_EDX_F) + shift;
-							uint8_t* memory = memWithReplace(SR_DS) + address;
+							uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 							DATA_LOG16((uint64_t)memory, memory);
 							return memory;;
 						}
 						break;
 						case 1: {
 							int32_t address = *register32(BR_EDX_F) + shift + ((int16_t)read8());
-							uint8_t* memory = memWithReplace(SR_DS) + address;
+							uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 							DATA_LOG16((uint64_t)memory, memory);
 							return memory;;
 						}
 						break;
 						case 2: {
 							int32_t address = *register32(BR_EDX_F) + shift + read32();
-							uint8_t* memory = memWithReplace(SR_DS) + address;
+							uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 							DATA_LOG16((uint64_t)memory, memory);
 							return memory;;
 						}
@@ -741,21 +741,21 @@ uint8_t* readAddressMRM32For16(uint8_t mrmByte) {
 					switch (mod) {
 						case 0: {
 							int32_t address = *register32(BR_EBX_F) + shift;
-							uint8_t* memory = memWithReplace(SR_DS) + address;
+							uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 							DATA_LOG16((uint64_t)memory, memory);
 							return memory;;
 						}
 						break;
 						case 1: {
 							int32_t address = *register32(BR_EBX_F) + shift + ((int16_t)read8());
-							uint8_t* memory = memWithReplace(SR_DS) + address;
+							uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 							DATA_LOG16((uint64_t)memory, memory);
 							return memory;;
 						}
 						break;
 						case 2: {
 							int32_t address = *register32(BR_EBX_F) + shift + read32();
-							uint8_t* memory = memWithReplace(SR_DS) + address;
+							uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 							DATA_LOG16((uint64_t)memory, memory);
 							return memory;;
 						}
@@ -770,21 +770,21 @@ uint8_t* readAddressMRM32For16(uint8_t mrmByte) {
 					switch (mod) {
 						case 0: {
 							int32_t address = *register32(BR_ESP_F) + shift;
-							uint8_t* memory = memWithReplace(SR_SS) + address;
+							uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_SS) + address;
 							DATA_LOG16((uint64_t)memory, memory);
 							return memory;;
 						}
 						break;
 						case 1: {
 							int32_t address = *register32(BR_ESP_F) + shift + ((int16_t)read8());
-							uint8_t* memory = memWithReplace(SR_SS) + address;
+							uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_SS) + address;
 							DATA_LOG16((uint64_t)memory, memory);
 							return memory;;
 						}
 						break;
 						case 2: {
 							int32_t address = *register32(BR_ESP_F) + shift + read32();
-							uint8_t* memory = memWithReplace(SR_SS) + address;
+							uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_SS) + address;
 							DATA_LOG16((uint64_t)memory, memory);
 							return memory;;
 						}
@@ -799,21 +799,21 @@ uint8_t* readAddressMRM32For16(uint8_t mrmByte) {
 					switch (mod) {
 						case 0: {
 							int32_t address = read32() + shift;
-							uint8_t* memory = memWithReplace(SR_DS) + address;
+							uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 							DATA_LOG16((uint64_t)memory, memory);
 							return memory;;
 						}
 						break;
 						case 1: {
 							int32_t address = *register32(BR_EBP_F) + shift + ((int16_t)read8());
-							uint8_t* memory = memWithReplace(SR_SS) + address;
+							uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_SS) + address;
 							DATA_LOG16((uint64_t)memory, memory);
 							return memory;;
 						}
 						break;
 						case 2: {
 							int32_t address = *register32(BR_EBP_F) + shift + read32();
-							uint8_t* memory = memWithReplace(SR_SS) + address;
+							uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_SS) + address;
 							DATA_LOG16((uint64_t)memory, memory);
 							return memory;;
 						}
@@ -828,21 +828,21 @@ uint8_t* readAddressMRM32For16(uint8_t mrmByte) {
 					switch (mod) {
 						case 0: {
 							int32_t address = *register32(BR_ESI_F) + shift;
-							uint8_t* memory = memWithReplace(SR_DS) + address;
+							uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 							DATA_LOG16((uint64_t)memory, memory);
 							return memory;;
 						}
 						break;
 						case 1: {
 							int32_t address = *register32(BR_ESI_F) + shift + ((int16_t)read8());
-							uint8_t* memory = memWithReplace(SR_DS) + address;
+							uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 							DATA_LOG16((uint64_t)memory, memory);
 							return memory;;
 						}
 						break;
 						case 2: {
 							int32_t address = *register32(BR_ESI_F) + shift + read32();
-							uint8_t* memory = memWithReplace(SR_DS) + address;
+							uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 							DATA_LOG16((uint64_t)memory, memory);
 							return memory;;
 						}
@@ -857,21 +857,21 @@ uint8_t* readAddressMRM32For16(uint8_t mrmByte) {
 					switch (mod) {
 						case 0: {
 							int32_t address = *register32(BR_EDI_F) + shift;
-							uint8_t* memory = memWithReplace(SR_DS) + address;
+							uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 							DATA_LOG16((uint64_t)memory, memory);
 							return memory;;
 						}
 						break;
 						case 1: {
 							int32_t address = *register32(BR_EDI_F) + shift + ((int16_t)read8());
-							uint8_t* memory = memWithReplace(SR_DS) + address;
+							uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 							DATA_LOG16((uint64_t)memory, memory);
 							return memory;;
 						}
 						break;
 						case 2: {
 							int32_t address = *register32(BR_EDI_F) + shift + read32();
-							uint8_t* memory = memWithReplace(SR_DS) + address;
+							uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 							DATA_LOG16((uint64_t)memory, memory);
 							return memory;;
 						}
@@ -892,21 +892,21 @@ uint8_t* readAddressMRM32For16(uint8_t mrmByte) {
 			switch (mod) {
 				case 0: {
 					int32_t address = read32();
-					uint8_t* memory = memWithReplace(SR_DS) + address;
+					uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 					DATA_LOG16((uint64_t)memory, memory);
 					return memory;;
 				}
 				break;
 				case 1: {
 					int32_t address = *register32(BR_EBP_F) + ((int16_t)read8());
-					uint8_t* memory = memWithReplace(SR_SS) + address;
+					uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_SS) + address;
 					DATA_LOG16((uint64_t)memory, memory);
 					return memory;;
 				}
 				break;
 				case 2: {
 					int32_t address = *register32(BR_EBP_F) + read32();
-					uint8_t* memory = memWithReplace(SR_SS) + address;
+					uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_SS) + address;
 					DATA_LOG16((uint64_t)memory, memory);
 					return memory;;
 				}
@@ -921,21 +921,21 @@ uint8_t* readAddressMRM32For16(uint8_t mrmByte) {
 			switch (mod) {
 				case 0: {
 					int32_t address = *register32(BR_ESI_F);
-					uint8_t* memory = memWithReplace(SR_DS) + address;
+					uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 					DATA_LOG16((uint64_t)memory, memory);
 					return memory;;
 				}
 				break;
 				case 1: {
 					int32_t address = *register32(BR_ESI_F) + ((int16_t)read8());
-					uint8_t* memory = memWithReplace(SR_DS) + address;
+					uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 					DATA_LOG16((uint64_t)memory, memory);
 					return memory;;
 				}
 				break;
 				case 2: {
 					int32_t address = *register32(BR_ESI_F) + read32();
-					uint8_t* memory = memWithReplace(SR_DS) + address;
+					uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 					DATA_LOG16((uint64_t)memory, memory);
 					return memory;;
 				}
@@ -950,21 +950,21 @@ uint8_t* readAddressMRM32For16(uint8_t mrmByte) {
 			switch (mod) {
 				case 0: {
 					int32_t address = *register32(BR_EDI_F);
-					uint8_t* memory = memWithReplace(SR_DS) + address;
+					uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 					DATA_LOG16((uint64_t)memory, memory);
 					return memory;;
 				}
 				break;
 				case 1: {
 					int32_t address = *register32(BR_EDI_F) + ((int16_t)read8());
-					uint8_t* memory = memWithReplace(SR_DS) + address;
+					uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 					DATA_LOG16((uint64_t)memory, memory);
 					return memory;;
 				}
 				break;
 				case 2: {
 					int32_t address = *register32(BR_EDI_F) + read32();
-					uint8_t* memory = memWithReplace(SR_DS) + address;
+					uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 					DATA_LOG16((uint64_t)memory, memory);
 					return memory;;
 				}
@@ -991,21 +991,21 @@ uint8_t* readAddressMRM32For8(uint8_t mrmByte) {
 			switch (mod) {
 				case 0: {
 					int32_t address = *register32(BR_EAX_F);
-					uint8_t* memory = memWithReplace(SR_DS) + address;
+					uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 					DATA_LOG8((uint64_t)memory, memory);
 					return memory;;
 				}
 				break;
 				case 1: {
 					int32_t address = *register32(BR_EAX_F) + ((int16_t)read8());
-					uint8_t* memory = memWithReplace(SR_DS) + address;
+					uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 					DATA_LOG8((uint64_t)memory, memory);
 					return memory;;
 				}
 				break;
 				case 2: {
 					int32_t address = *register32(BR_EAX_F) + read32();
-					uint8_t* memory = memWithReplace(SR_DS) + address;
+					uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 					DATA_LOG8((uint64_t)memory, memory);
 					return memory;;
 				}
@@ -1020,21 +1020,21 @@ uint8_t* readAddressMRM32For8(uint8_t mrmByte) {
 			switch (mod) {
 				case 0: {
 					int32_t address = *register32(BR_ECX_F);
-					uint8_t* memory = memWithReplace(SR_DS) + address;
+					uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 					DATA_LOG8((uint64_t)memory, memory);
 					return memory;;
 				}
 				break;
 				case 1: {
 					int32_t address = *register32(BR_ECX_F) + ((int16_t)read8());
-					uint8_t* memory = memWithReplace(SR_DS) + address;
+					uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 					DATA_LOG8((uint64_t)memory, memory);
 					return memory;;
 				}
 				break;
 				case 2: {
 					int32_t address = *register32(BR_ECX_F) + read32();
-					uint8_t* memory = memWithReplace(SR_DS) + address;
+					uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 					DATA_LOG8((uint64_t)memory, memory);
 					return memory;;
 				}
@@ -1049,21 +1049,21 @@ uint8_t* readAddressMRM32For8(uint8_t mrmByte) {
 			switch (mod) {
 				case 0: {
 					int32_t address = *register32(BR_EDX_F);
-					uint8_t* memory = memWithReplace(SR_DS) + address;
+					uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 					DATA_LOG8((uint64_t)memory, memory);
 					return memory;;
 				}
 				break;
 				case 1: {
 					int32_t address = *register32(BR_EDX_F) + ((int16_t)read8());
-					uint8_t* memory = memWithReplace(SR_DS) + address;
+					uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 					DATA_LOG8((uint64_t)memory, memory);
 					return memory;;
 				}
 				break;
 				case 2: {
 					int32_t address = *register32(BR_EDX_F) + read32();
-					uint8_t* memory = memWithReplace(SR_DS) + address;
+					uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 					DATA_LOG8((uint64_t)memory, memory);
 					return memory;;
 				}
@@ -1078,21 +1078,21 @@ uint8_t* readAddressMRM32For8(uint8_t mrmByte) {
 			switch (mod) {
 				case 0: {
 					int32_t address = *register32(BR_EBX_F);
-					uint8_t* memory = memWithReplace(SR_DS) + address;
+					uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 					DATA_LOG8((uint64_t)memory, memory);
 					return memory;;
 				}
 				break;
 				case 1: {
 					int32_t address = *register32(BR_EBX_F) + ((int16_t)read8());
-					uint8_t* memory = memWithReplace(SR_DS) + address;
+					uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 					DATA_LOG8((uint64_t)memory, memory);
 					return memory;;
 				}
 				break;
 				case 2: {
 					int32_t address = *register32(BR_EBX_F) + read32();
-					uint8_t* memory = memWithReplace(SR_DS) + address;
+					uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 					DATA_LOG8((uint64_t)memory, memory);
 					return memory;;
 				}
@@ -1144,21 +1144,21 @@ uint8_t* readAddressMRM32For8(uint8_t mrmByte) {
 					switch (mod) {
 						case 0: {
 							int32_t address = *register32(BR_EAX_F) + shift;
-							uint8_t* memory = memWithReplace(SR_DS) + address;
+							uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 							DATA_LOG8((uint64_t)memory, memory);
 							return memory;;
 						}
 						break;
 						case 1: {
 							int32_t address = *register32(BR_EAX_F) + shift + ((int16_t)read8());
-							uint8_t* memory = memWithReplace(SR_DS) + address;
+							uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 							DATA_LOG8((uint64_t)memory, memory);
 							return memory;;
 						}
 						break;
 						case 2: {
 							int32_t address = *register32(BR_EAX_F) + shift + read32();
-							uint8_t* memory = memWithReplace(SR_DS) + address;
+							uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 							DATA_LOG8((uint64_t)memory, memory);
 							return memory;;
 						}
@@ -1173,21 +1173,21 @@ uint8_t* readAddressMRM32For8(uint8_t mrmByte) {
 					switch (mod) {
 						case 0: {
 							int32_t address = *register32(BR_ECX_F) + shift;
-							uint8_t* memory = memWithReplace(SR_DS) + address;
+							uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 							DATA_LOG8((uint64_t)memory, memory);
 							return memory;;
 						}
 						break;
 						case 1: {
 							int32_t address = *register32(BR_ECX_F) + shift + ((int16_t)read8());
-							uint8_t* memory = memWithReplace(SR_DS) + address;
+							uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 							DATA_LOG8((uint64_t)memory, memory);
 							return memory;;
 						}
 						break;
 						case 2: {
 							int32_t address = *register32(BR_ECX_F) + shift + read32();
-							uint8_t* memory = memWithReplace(SR_DS) + address;
+							uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 							DATA_LOG8((uint64_t)memory, memory);
 							return memory;;
 						}
@@ -1202,21 +1202,21 @@ uint8_t* readAddressMRM32For8(uint8_t mrmByte) {
 					switch (mod) {
 						case 0: {
 							int32_t address = *register32(BR_EDX_F) + shift;
-							uint8_t* memory = memWithReplace(SR_DS) + address;
+							uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 							DATA_LOG8((uint64_t)memory, memory);
 							return memory;;
 						}
 						break;
 						case 1: {
 							int32_t address = *register32(BR_EDX_F) + shift + ((int16_t)read8());
-							uint8_t* memory = memWithReplace(SR_DS) + address;
+							uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 							DATA_LOG8((uint64_t)memory, memory);
 							return memory;;
 						}
 						break;
 						case 2: {
 							int32_t address = *register32(BR_EDX_F) + shift + read32();
-							uint8_t* memory = memWithReplace(SR_DS) + address;
+							uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 							DATA_LOG8((uint64_t)memory, memory);
 							return memory;;
 						}
@@ -1231,21 +1231,21 @@ uint8_t* readAddressMRM32For8(uint8_t mrmByte) {
 					switch (mod) {
 						case 0: {
 							int32_t address = *register32(BR_EBX_F) + shift;
-							uint8_t* memory = memWithReplace(SR_DS) + address;
+							uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 							DATA_LOG8((uint64_t)memory, memory);
 							return memory;;
 						}
 						break;
 						case 1: {
 							int32_t address = *register32(BR_EBX_F) + shift + ((int16_t)read8());
-							uint8_t* memory = memWithReplace(SR_DS) + address;
+							uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 							DATA_LOG8((uint64_t)memory, memory);
 							return memory;;
 						}
 						break;
 						case 2: {
 							int32_t address = *register32(BR_EBX_F) + shift + read32();
-							uint8_t* memory = memWithReplace(SR_DS) + address;
+							uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 							DATA_LOG8((uint64_t)memory, memory);
 							return memory;;
 						}
@@ -1260,21 +1260,21 @@ uint8_t* readAddressMRM32For8(uint8_t mrmByte) {
 					switch (mod) {
 						case 0: {
 							int32_t address = *register32(BR_ESP_F) + shift;
-							uint8_t* memory = memWithReplace(SR_SS) + address;
+							uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_SS) + address;
 							DATA_LOG8((uint64_t)memory, memory);
 							return memory;;
 						}
 						break;
 						case 1: {
 							int32_t address = *register32(BR_ESP_F) + shift + ((int16_t)read8());
-							uint8_t* memory = memWithReplace(SR_SS) + address;
+							uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_SS) + address;
 							DATA_LOG8((uint64_t)memory, memory);
 							return memory;;
 						}
 						break;
 						case 2: {
 							int32_t address = *register32(BR_ESP_F) + shift + read32();
-							uint8_t* memory = memWithReplace(SR_SS) + address;
+							uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_SS) + address;
 							DATA_LOG8((uint64_t)memory, memory);
 							return memory;;
 						}
@@ -1289,21 +1289,21 @@ uint8_t* readAddressMRM32For8(uint8_t mrmByte) {
 					switch (mod) {
 						case 0: {
 							int32_t address = read32() + shift;
-							uint8_t* memory = memWithReplace(SR_DS) + address;
+							uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 							DATA_LOG8((uint64_t)memory, memory);
 							return memory;;
 						}
 						break;
 						case 1: {
 							int32_t address = *register32(BR_EBP_F) + shift + ((int16_t)read8());
-							uint8_t* memory = memWithReplace(SR_SS) + address;
+							uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_SS) + address;
 							DATA_LOG8((uint64_t)memory, memory);
 							return memory;;
 						}
 						break;
 						case 2: {
 							int32_t address = *register32(BR_EBP_F) + shift + read32();
-							uint8_t* memory = memWithReplace(SR_SS) + address;
+							uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_SS) + address;
 							DATA_LOG8((uint64_t)memory, memory);
 							return memory;;
 						}
@@ -1318,21 +1318,21 @@ uint8_t* readAddressMRM32For8(uint8_t mrmByte) {
 					switch (mod) {
 						case 0: {
 							int32_t address = *register32(BR_ESI_F) + shift;
-							uint8_t* memory = memWithReplace(SR_DS) + address;
+							uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 							DATA_LOG8((uint64_t)memory, memory);
 							return memory;;
 						}
 						break;
 						case 1: {
 							int32_t address = *register32(BR_ESI_F) + shift + ((int16_t)read8());
-							uint8_t* memory = memWithReplace(SR_DS) + address;
+							uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 							DATA_LOG8((uint64_t)memory, memory);
 							return memory;;
 						}
 						break;
 						case 2: {
 							int32_t address = *register32(BR_ESI_F) + shift + read32();
-							uint8_t* memory = memWithReplace(SR_DS) + address;
+							uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 							DATA_LOG8((uint64_t)memory, memory);
 							return memory;;
 						}
@@ -1347,21 +1347,21 @@ uint8_t* readAddressMRM32For8(uint8_t mrmByte) {
 					switch (mod) {
 						case 0: {
 							int32_t address = *register32(BR_EDI_F) + shift;
-							uint8_t* memory = memWithReplace(SR_DS) + address;
+							uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 							DATA_LOG8((uint64_t)memory, memory);
 							return memory;;
 						}
 						break;
 						case 1: {
 							int32_t address = *register32(BR_EDI_F) + shift + ((int16_t)read8());
-							uint8_t* memory = memWithReplace(SR_DS) + address;
+							uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 							DATA_LOG8((uint64_t)memory, memory);
 							return memory;;
 						}
 						break;
 						case 2: {
 							int32_t address = *register32(BR_EDI_F) + shift + read32();
-							uint8_t* memory = memWithReplace(SR_DS) + address;
+							uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 							DATA_LOG8((uint64_t)memory, memory);
 							return memory;;
 						}
@@ -1382,21 +1382,21 @@ uint8_t* readAddressMRM32For8(uint8_t mrmByte) {
 			switch (mod) {
 				case 0: {
 					int32_t address = read32();
-					uint8_t* memory = memWithReplace(SR_DS) + address;
+					uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 					DATA_LOG8((uint64_t)memory, memory);
 					return memory;;
 				}
 				break;
 				case 1: {
 					int32_t address = *register32(BR_EBP_F) + ((int16_t)read8());
-					uint8_t* memory = memWithReplace(SR_SS) + address;
+					uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_SS) + address;
 					DATA_LOG8((uint64_t)memory, memory);
 					return memory;;
 				}
 				break;
 				case 2: {
 					int32_t address = *register32(BR_EBP_F) + read32();
-					uint8_t* memory = memWithReplace(SR_SS) + address;
+					uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_SS) + address;
 					DATA_LOG8((uint64_t)memory, memory);
 					return memory;;
 				}
@@ -1411,21 +1411,21 @@ uint8_t* readAddressMRM32For8(uint8_t mrmByte) {
 			switch (mod) {
 				case 0: {
 					int32_t address = *register32(BR_ESI_F);
-					uint8_t* memory = memWithReplace(SR_DS) + address;
+					uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 					DATA_LOG8((uint64_t)memory, memory);
 					return memory;;
 				}
 				break;
 				case 1: {
 					int32_t address = *register32(BR_ESI_F) + ((int16_t)read8());
-					uint8_t* memory = memWithReplace(SR_DS) + address;
+					uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 					DATA_LOG8((uint64_t)memory, memory);
 					return memory;;
 				}
 				break;
 				case 2: {
 					int32_t address = *register32(BR_ESI_F) + read32();
-					uint8_t* memory = memWithReplace(SR_DS) + address;
+					uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 					DATA_LOG8((uint64_t)memory, memory);
 					return memory;;
 				}
@@ -1440,21 +1440,21 @@ uint8_t* readAddressMRM32For8(uint8_t mrmByte) {
 			switch (mod) {
 				case 0: {
 					int32_t address = *register32(BR_EDI_F);
-					uint8_t* memory = memWithReplace(SR_DS) + address;
+					uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 					DATA_LOG8((uint64_t)memory, memory);
 					return memory;;
 				}
 				break;
 				case 1: {
 					int32_t address = *register32(BR_EDI_F) + ((int16_t)read8());
-					uint8_t* memory = memWithReplace(SR_DS) + address;
+					uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 					DATA_LOG8((uint64_t)memory, memory);
 					return memory;;
 				}
 				break;
 				case 2: {
 					int32_t address = *register32(BR_EDI_F) + read32();
-					uint8_t* memory = memWithReplace(SR_DS) + address;
+					uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 					DATA_LOG8((uint64_t)memory, memory);
 					return memory;;
 				}
@@ -2146,21 +2146,21 @@ uint8_t* readAddressMRM16For32(uint8_t mrmByte) {
 			switch (mod) {
 				case 0: {
 					int32_t address = *register16(BR_BX) + *register16(BR_SI);
-					uint8_t* memory = memWithReplace(SR_DS) + address;
+					uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 					DATA_LOG32((uint64_t)memory, memory);
 					return memory;;
 				}
 				break;
 				case 1: {
 					int32_t address = *register16(BR_BX) + *register16(BR_SI) + ((int16_t)read8());
-					uint8_t* memory = memWithReplace(SR_DS) + address;
+					uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 					DATA_LOG32((uint64_t)memory, memory);
 					return memory;;
 				}
 				break;
 				case 2: {
 					int32_t address = *register16(BR_BX) + *register16(BR_SI) + read16();
-					uint8_t* memory = memWithReplace(SR_DS) + address;
+					uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 					DATA_LOG32((uint64_t)memory, memory);
 					return memory;;
 				}
@@ -2175,21 +2175,21 @@ uint8_t* readAddressMRM16For32(uint8_t mrmByte) {
 			switch (mod) {
 				case 0: {
 					int32_t address = *register16(BR_BX) + *register16(BR_DI);
-					uint8_t* memory = memWithReplace(SR_DS) + address;
+					uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 					DATA_LOG32((uint64_t)memory, memory);
 					return memory;;
 				}
 				break;
 				case 1: {
 					int32_t address = *register16(BR_BX) + *register16(BR_DI) + ((int16_t)read8());
-					uint8_t* memory = memWithReplace(SR_DS) + address;
+					uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 					DATA_LOG32((uint64_t)memory, memory);
 					return memory;;
 				}
 				break;
 				case 2: {
 					int32_t address = *register16(BR_BX) + *register16(BR_DI) + read16();
-					uint8_t* memory = memWithReplace(SR_DS) + address;
+					uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 					DATA_LOG32((uint64_t)memory, memory);
 					return memory;;
 				}
@@ -2204,21 +2204,21 @@ uint8_t* readAddressMRM16For32(uint8_t mrmByte) {
 			switch (mod) {
 				case 0: {
 					int32_t address = *register16(BR_BP) + *register16(BR_SI);
-					uint8_t* memory = memWithReplace(SR_SS) + address;
+					uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_SS) + address;
 					DATA_LOG32((uint64_t)memory, memory);
 					return memory;;
 				}
 				break;
 				case 1: {
 					int32_t address = *register16(BR_BP) + *register16(BR_SI) + ((int16_t)read8());
-					uint8_t* memory = memWithReplace(SR_SS) + address;
+					uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_SS) + address;
 					DATA_LOG32((uint64_t)memory, memory);
 					return memory;;
 				}
 				break;
 				case 2: {
 					int32_t address = *register16(BR_BP) + *register16(BR_SI) + read16();
-					uint8_t* memory = memWithReplace(SR_SS) + address;
+					uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_SS) + address;
 					DATA_LOG32((uint64_t)memory, memory);
 					return memory;;
 				}
@@ -2233,21 +2233,21 @@ uint8_t* readAddressMRM16For32(uint8_t mrmByte) {
 			switch (mod) {
 				case 0: {
 					int32_t address = *register16(BR_BP) + *register16(BR_SI);
-					uint8_t* memory = memWithReplace(SR_SS) + address;
+					uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_SS) + address;
 					DATA_LOG32((uint64_t)memory, memory);
 					return memory;;
 				}
 				break;
 				case 1: {
 					int32_t address = *register16(BR_BP) + *register16(BR_SI) + ((int16_t)read8());
-					uint8_t* memory = memWithReplace(SR_SS) + address;
+					uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_SS) + address;
 					DATA_LOG32((uint64_t)memory, memory);
 					return memory;;
 				}
 				break;
 				case 2: {
 					int32_t address = *register16(BR_BP) + *register16(BR_SI) + read16();
-					uint8_t* memory = memWithReplace(SR_SS) + address;
+					uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_SS) + address;
 					DATA_LOG32((uint64_t)memory, memory);
 					return memory;;
 				}
@@ -2262,21 +2262,21 @@ uint8_t* readAddressMRM16For32(uint8_t mrmByte) {
 			switch (mod) {
 				case 0: {
 					int32_t address = *register16(BR_SI);
-					uint8_t* memory = memWithReplace(SR_DS) + address;
+					uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 					DATA_LOG32((uint64_t)memory, memory);
 					return memory;;
 				}
 				break;
 				case 1: {
 					int32_t address = *register16(BR_SI) + ((int16_t)read8());
-					uint8_t* memory = memWithReplace(SR_DS) + address;
+					uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 					DATA_LOG32((uint64_t)memory, memory);
 					return memory;;
 				}
 				break;
 				case 2: {
 					int32_t address = *register16(BR_SI) + read16();
-					uint8_t* memory = memWithReplace(SR_DS) + address;
+					uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 					DATA_LOG32((uint64_t)memory, memory);
 					return memory;;
 				}
@@ -2291,21 +2291,21 @@ uint8_t* readAddressMRM16For32(uint8_t mrmByte) {
 			switch (mod) {
 				case 0: {
 					int32_t address = *register16(BR_DI);
-					uint8_t* memory = memWithReplace(SR_DS) + address;
+					uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 					DATA_LOG32((uint64_t)memory, memory);
 					return memory;;
 				}
 				break;
 				case 1: {
 					int32_t address = *register16(BR_DI) + ((int16_t)read8());
-					uint8_t* memory = memWithReplace(SR_DS) + address;
+					uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 					DATA_LOG32((uint64_t)memory, memory);
 					return memory;;
 				}
 				break;
 				case 2: {
 					int32_t address = *register16(BR_DI) + read16();
-					uint8_t* memory = memWithReplace(SR_DS) + address;
+					uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 					DATA_LOG32((uint64_t)memory, memory);
 					return memory;;
 				}
@@ -2320,21 +2320,21 @@ uint8_t* readAddressMRM16For32(uint8_t mrmByte) {
 			switch (mod) {
 				case 0: {
 					int32_t address = read16();
-					uint8_t* memory = memWithReplace(SR_DS) + address;
+					uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 					DATA_LOG32((uint64_t)memory, memory);
 					return memory;;
 				}
 				break;
 				case 1: {
 					int32_t address = *register16(BR_BP) + ((int16_t)read8());
-					uint8_t* memory = memWithReplace(SR_SS) + address;
+					uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_SS) + address;
 					DATA_LOG32((uint64_t)memory, memory);
 					return memory;;
 				}
 				break;
 				case 2: {
 					int32_t address = *register16(BR_BP) + read16();
-					uint8_t* memory = memWithReplace(SR_SS) + address;
+					uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_SS) + address;
 					DATA_LOG32((uint64_t)memory, memory);
 					return memory;;
 				}
@@ -2349,21 +2349,21 @@ uint8_t* readAddressMRM16For32(uint8_t mrmByte) {
 			switch (mod) {
 				case 0: {
 					int32_t address = *register16(BR_BX);
-					uint8_t* memory = memWithReplace(SR_DS) + address;
+					uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 					DATA_LOG32((uint64_t)memory, memory);
 					return memory;;
 				}
 				break;
 				case 1: {
 					int32_t address = *register16(BR_BX) + ((int16_t)read8());
-					uint8_t* memory = memWithReplace(SR_DS) + address;
+					uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 					DATA_LOG32((uint64_t)memory, memory);
 					return memory;;
 				}
 				break;
 				case 2: {
 					int32_t address = *register16(BR_BX) + read16();
-					uint8_t* memory = memWithReplace(SR_DS) + address;
+					uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 					DATA_LOG32((uint64_t)memory, memory);
 					return memory;;
 				}
@@ -2390,21 +2390,21 @@ uint8_t* readAddressMRM16For16(uint8_t mrmByte) {
 			switch (mod) {
 				case 0: {
 					int32_t address = *register16(BR_BX) + *register16(BR_SI);
-					uint8_t* memory = memWithReplace(SR_DS) + address;
+					uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 					DATA_LOG16((uint64_t)memory, memory);
 					return memory;;
 				}
 				break;
 				case 1: {
 					int32_t address = *register16(BR_BX) + *register16(BR_SI) + ((int16_t)read8());
-					uint8_t* memory = memWithReplace(SR_DS) + address;
+					uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 					DATA_LOG16((uint64_t)memory, memory);
 					return memory;;
 				}
 				break;
 				case 2: {
 					int32_t address = *register16(BR_BX) + *register16(BR_SI) + read16();
-					uint8_t* memory = memWithReplace(SR_DS) + address;
+					uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 					DATA_LOG16((uint64_t)memory, memory);
 					return memory;;
 				}
@@ -2419,21 +2419,21 @@ uint8_t* readAddressMRM16For16(uint8_t mrmByte) {
 			switch (mod) {
 				case 0: {
 					int32_t address = *register16(BR_BX) + *register16(BR_DI);
-					uint8_t* memory = memWithReplace(SR_DS) + address;
+					uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 					DATA_LOG16((uint64_t)memory, memory);
 					return memory;;
 				}
 				break;
 				case 1: {
 					int32_t address = *register16(BR_BX) + *register16(BR_DI) + ((int16_t)read8());
-					uint8_t* memory = memWithReplace(SR_DS) + address;
+					uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 					DATA_LOG16((uint64_t)memory, memory);
 					return memory;;
 				}
 				break;
 				case 2: {
 					int32_t address = *register16(BR_BX) + *register16(BR_DI) + read16();
-					uint8_t* memory = memWithReplace(SR_DS) + address;
+					uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 					DATA_LOG16((uint64_t)memory, memory);
 					return memory;;
 				}
@@ -2448,21 +2448,21 @@ uint8_t* readAddressMRM16For16(uint8_t mrmByte) {
 			switch (mod) {
 				case 0: {
 					int32_t address = *register16(BR_BP) + *register16(BR_SI);
-					uint8_t* memory = memWithReplace(SR_SS) + address;
+					uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_SS) + address;
 					DATA_LOG16((uint64_t)memory, memory);
 					return memory;;
 				}
 				break;
 				case 1: {
 					int32_t address = *register16(BR_BP) + *register16(BR_SI) + ((int16_t)read8());
-					uint8_t* memory = memWithReplace(SR_SS) + address;
+					uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_SS) + address;
 					DATA_LOG16((uint64_t)memory, memory);
 					return memory;;
 				}
 				break;
 				case 2: {
 					int32_t address = *register16(BR_BP) + *register16(BR_SI) + read16();
-					uint8_t* memory = memWithReplace(SR_SS) + address;
+					uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_SS) + address;
 					DATA_LOG16((uint64_t)memory, memory);
 					return memory;;
 				}
@@ -2477,21 +2477,21 @@ uint8_t* readAddressMRM16For16(uint8_t mrmByte) {
 			switch (mod) {
 				case 0: {
 					int32_t address = *register16(BR_BP) + *register16(BR_SI);
-					uint8_t* memory = memWithReplace(SR_SS) + address;
+					uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_SS) + address;
 					DATA_LOG16((uint64_t)memory, memory);
 					return memory;;
 				}
 				break;
 				case 1: {
 					int32_t address = *register16(BR_BP) + *register16(BR_SI) + ((int16_t)read8());
-					uint8_t* memory = memWithReplace(SR_SS) + address;
+					uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_SS) + address;
 					DATA_LOG16((uint64_t)memory, memory);
 					return memory;;
 				}
 				break;
 				case 2: {
 					int32_t address = *register16(BR_BP) + *register16(BR_SI) + read16();
-					uint8_t* memory = memWithReplace(SR_SS) + address;
+					uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_SS) + address;
 					DATA_LOG16((uint64_t)memory, memory);
 					return memory;;
 				}
@@ -2506,21 +2506,21 @@ uint8_t* readAddressMRM16For16(uint8_t mrmByte) {
 			switch (mod) {
 				case 0: {
 					int32_t address = *register16(BR_SI);
-					uint8_t* memory = memWithReplace(SR_DS) + address;
+					uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 					DATA_LOG16((uint64_t)memory, memory);
 					return memory;;
 				}
 				break;
 				case 1: {
 					int32_t address = *register16(BR_SI) + ((int16_t)read8());
-					uint8_t* memory = memWithReplace(SR_DS) + address;
+					uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 					DATA_LOG16((uint64_t)memory, memory);
 					return memory;;
 				}
 				break;
 				case 2: {
 					int32_t address = *register16(BR_SI) + read16();
-					uint8_t* memory = memWithReplace(SR_DS) + address;
+					uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 					DATA_LOG16((uint64_t)memory, memory);
 					return memory;;
 				}
@@ -2535,21 +2535,21 @@ uint8_t* readAddressMRM16For16(uint8_t mrmByte) {
 			switch (mod) {
 				case 0: {
 					int32_t address = *register16(BR_DI);
-					uint8_t* memory = memWithReplace(SR_DS) + address;
+					uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 					DATA_LOG16((uint64_t)memory, memory);
 					return memory;;
 				}
 				break;
 				case 1: {
 					int32_t address = *register16(BR_DI) + ((int16_t)read8());
-					uint8_t* memory = memWithReplace(SR_DS) + address;
+					uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 					DATA_LOG16((uint64_t)memory, memory);
 					return memory;;
 				}
 				break;
 				case 2: {
 					int32_t address = *register16(BR_DI) + read16();
-					uint8_t* memory = memWithReplace(SR_DS) + address;
+					uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 					DATA_LOG16((uint64_t)memory, memory);
 					return memory;;
 				}
@@ -2564,21 +2564,21 @@ uint8_t* readAddressMRM16For16(uint8_t mrmByte) {
 			switch (mod) {
 				case 0: {
 					int32_t address = read16();
-					uint8_t* memory = memWithReplace(SR_DS) + address;
+					uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 					DATA_LOG16((uint64_t)memory, memory);
 					return memory;;
 				}
 				break;
 				case 1: {
 					int32_t address = *register16(BR_BP) + ((int16_t)read8());
-					uint8_t* memory = memWithReplace(SR_SS) + address;
+					uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_SS) + address;
 					DATA_LOG16((uint64_t)memory, memory);
 					return memory;;
 				}
 				break;
 				case 2: {
 					int32_t address = *register16(BR_BP) + read16();
-					uint8_t* memory = memWithReplace(SR_SS) + address;
+					uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_SS) + address;
 					DATA_LOG16((uint64_t)memory, memory);
 					return memory;;
 				}
@@ -2593,21 +2593,21 @@ uint8_t* readAddressMRM16For16(uint8_t mrmByte) {
 			switch (mod) {
 				case 0: {
 					int32_t address = *register16(BR_BX);
-					uint8_t* memory = memWithReplace(SR_DS) + address;
+					uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 					DATA_LOG16((uint64_t)memory, memory);
 					return memory;;
 				}
 				break;
 				case 1: {
 					int32_t address = *register16(BR_BX) + ((int16_t)read8());
-					uint8_t* memory = memWithReplace(SR_DS) + address;
+					uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 					DATA_LOG16((uint64_t)memory, memory);
 					return memory;;
 				}
 				break;
 				case 2: {
 					int32_t address = *register16(BR_BX) + read16();
-					uint8_t* memory = memWithReplace(SR_DS) + address;
+					uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 					DATA_LOG16((uint64_t)memory, memory);
 					return memory;;
 				}
@@ -2634,21 +2634,21 @@ uint8_t* readAddressMRM16For8(uint8_t mrmByte) {
 			switch (mod) {
 				case 0: {
 					int32_t address = *register16(BR_BX) + *register16(BR_SI);
-					uint8_t* memory = memWithReplace(SR_DS) + address;
+					uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 					DATA_LOG8((uint64_t)memory, memory);
 					return memory;;
 				}
 				break;
 				case 1: {
 					int32_t address = *register16(BR_BX) + *register16(BR_SI) + ((int16_t)read8());
-					uint8_t* memory = memWithReplace(SR_DS) + address;
+					uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 					DATA_LOG8((uint64_t)memory, memory);
 					return memory;;
 				}
 				break;
 				case 2: {
 					int32_t address = *register16(BR_BX) + *register16(BR_SI) + read16();
-					uint8_t* memory = memWithReplace(SR_DS) + address;
+					uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 					DATA_LOG8((uint64_t)memory, memory);
 					return memory;;
 				}
@@ -2663,21 +2663,21 @@ uint8_t* readAddressMRM16For8(uint8_t mrmByte) {
 			switch (mod) {
 				case 0: {
 					int32_t address = *register16(BR_BX) + *register16(BR_DI);
-					uint8_t* memory = memWithReplace(SR_DS) + address;
+					uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 					DATA_LOG8((uint64_t)memory, memory);
 					return memory;;
 				}
 				break;
 				case 1: {
 					int32_t address = *register16(BR_BX) + *register16(BR_DI) + ((int16_t)read8());
-					uint8_t* memory = memWithReplace(SR_DS) + address;
+					uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 					DATA_LOG8((uint64_t)memory, memory);
 					return memory;;
 				}
 				break;
 				case 2: {
 					int32_t address = *register16(BR_BX) + *register16(BR_DI) + read16();
-					uint8_t* memory = memWithReplace(SR_DS) + address;
+					uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 					DATA_LOG8((uint64_t)memory, memory);
 					return memory;;
 				}
@@ -2692,21 +2692,21 @@ uint8_t* readAddressMRM16For8(uint8_t mrmByte) {
 			switch (mod) {
 				case 0: {
 					int32_t address = *register16(BR_BP) + *register16(BR_SI);
-					uint8_t* memory = memWithReplace(SR_SS) + address;
+					uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_SS) + address;
 					DATA_LOG8((uint64_t)memory, memory);
 					return memory;;
 				}
 				break;
 				case 1: {
 					int32_t address = *register16(BR_BP) + *register16(BR_SI) + ((int16_t)read8());
-					uint8_t* memory = memWithReplace(SR_SS) + address;
+					uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_SS) + address;
 					DATA_LOG8((uint64_t)memory, memory);
 					return memory;;
 				}
 				break;
 				case 2: {
 					int32_t address = *register16(BR_BP) + *register16(BR_SI) + read16();
-					uint8_t* memory = memWithReplace(SR_SS) + address;
+					uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_SS) + address;
 					DATA_LOG8((uint64_t)memory, memory);
 					return memory;;
 				}
@@ -2721,21 +2721,21 @@ uint8_t* readAddressMRM16For8(uint8_t mrmByte) {
 			switch (mod) {
 				case 0: {
 					int32_t address = *register16(BR_BP) + *register16(BR_SI);
-					uint8_t* memory = memWithReplace(SR_SS) + address;
+					uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_SS) + address;
 					DATA_LOG8((uint64_t)memory, memory);
 					return memory;;
 				}
 				break;
 				case 1: {
 					int32_t address = *register16(BR_BP) + *register16(BR_SI) + ((int16_t)read8());
-					uint8_t* memory = memWithReplace(SR_SS) + address;
+					uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_SS) + address;
 					DATA_LOG8((uint64_t)memory, memory);
 					return memory;;
 				}
 				break;
 				case 2: {
 					int32_t address = *register16(BR_BP) + *register16(BR_SI) + read16();
-					uint8_t* memory = memWithReplace(SR_SS) + address;
+					uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_SS) + address;
 					DATA_LOG8((uint64_t)memory, memory);
 					return memory;;
 				}
@@ -2750,21 +2750,21 @@ uint8_t* readAddressMRM16For8(uint8_t mrmByte) {
 			switch (mod) {
 				case 0: {
 					int32_t address = *register16(BR_SI);
-					uint8_t* memory = memWithReplace(SR_DS) + address;
+					uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 					DATA_LOG8((uint64_t)memory, memory);
 					return memory;;
 				}
 				break;
 				case 1: {
 					int32_t address = *register16(BR_SI) + ((int16_t)read8());
-					uint8_t* memory = memWithReplace(SR_DS) + address;
+					uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 					DATA_LOG8((uint64_t)memory, memory);
 					return memory;;
 				}
 				break;
 				case 2: {
 					int32_t address = *register16(BR_SI) + read16();
-					uint8_t* memory = memWithReplace(SR_DS) + address;
+					uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 					DATA_LOG8((uint64_t)memory, memory);
 					return memory;;
 				}
@@ -2779,21 +2779,21 @@ uint8_t* readAddressMRM16For8(uint8_t mrmByte) {
 			switch (mod) {
 				case 0: {
 					int32_t address = *register16(BR_DI);
-					uint8_t* memory = memWithReplace(SR_DS) + address;
+					uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 					DATA_LOG8((uint64_t)memory, memory);
 					return memory;;
 				}
 				break;
 				case 1: {
 					int32_t address = *register16(BR_DI) + ((int16_t)read8());
-					uint8_t* memory = memWithReplace(SR_DS) + address;
+					uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 					DATA_LOG8((uint64_t)memory, memory);
 					return memory;;
 				}
 				break;
 				case 2: {
 					int32_t address = *register16(BR_DI) + read16();
-					uint8_t* memory = memWithReplace(SR_DS) + address;
+					uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 					DATA_LOG8((uint64_t)memory, memory);
 					return memory;;
 				}
@@ -2808,21 +2808,21 @@ uint8_t* readAddressMRM16For8(uint8_t mrmByte) {
 			switch (mod) {
 				case 0: {
 					int32_t address = read16();
-					uint8_t* memory = memWithReplace(SR_DS) + address;
+					uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 					DATA_LOG8((uint64_t)memory, memory);
 					return memory;;
 				}
 				break;
 				case 1: {
 					int32_t address = *register16(BR_BP) + ((int16_t)read8());
-					uint8_t* memory = memWithReplace(SR_SS) + address;
+					uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_SS) + address;
 					DATA_LOG8((uint64_t)memory, memory);
 					return memory;;
 				}
 				break;
 				case 2: {
 					int32_t address = *register16(BR_BP) + read16();
-					uint8_t* memory = memWithReplace(SR_SS) + address;
+					uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_SS) + address;
 					DATA_LOG8((uint64_t)memory, memory);
 					return memory;;
 				}
@@ -2837,21 +2837,21 @@ uint8_t* readAddressMRM16For8(uint8_t mrmByte) {
 			switch (mod) {
 				case 0: {
 					int32_t address = *register16(BR_BX);
-					uint8_t* memory = memWithReplace(SR_DS) + address;
+					uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 					DATA_LOG8((uint64_t)memory, memory);
 					return memory;;
 				}
 				break;
 				case 1: {
 					int32_t address = *register16(BR_BX) + ((int16_t)read8());
-					uint8_t* memory = memWithReplace(SR_DS) + address;
+					uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 					DATA_LOG8((uint64_t)memory, memory);
 					return memory;;
 				}
 				break;
 				case 2: {
 					int32_t address = *register16(BR_BX) + read16();
-					uint8_t* memory = memWithReplace(SR_DS) + address;
+					uint8_t* memory = GET_SEGMENT_POINTER_WITH_REPLACE(SR_DS) + address;
 					DATA_LOG8((uint64_t)memory, memory);
 					return memory;;
 				}
