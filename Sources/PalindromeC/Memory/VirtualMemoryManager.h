@@ -22,6 +22,10 @@ int virtualModMemoryAllocate(uint32_t size);
 int virtualModMemoryRelocate(uint16_t block, uint32_t size);
 int virtualModMemoryFree(uint16_t block);
 
+int onlyVirtualModMemoryAllocate(uint32_t size);
+int onlyVirtualModMemoryRelocate(uint16_t block, uint32_t size);
+int onlyVirtualModMemoryFree(uint16_t block);
+
 int virtualModMemoryConvertFromRealMemory(uint8_t* block, uint8_t isRoot);
 
 void installVirtualModMemory();

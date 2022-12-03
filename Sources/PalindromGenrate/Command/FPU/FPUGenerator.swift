@@ -27,14 +27,17 @@ final class FPUGenerator {
                     .filter { !$0.isFlag }
                     .map { (name: $0.name, value: $0.value ?? $0.getByte(UInt8(variation & 0x00FF)).hex) }
                 if flags.contains("pop") && !flags.contains("d") { continue }
-                var info = FormatterInfo(command: command, flags: Set(flags), mode: .mod16, variation: variation, vars: vars, prefixs: [])
+                var info = FormatterInfo(command: command, flags: Set(flags), mode: .mod16, cpuMode: .protected, variation: variation, vars: vars, prefixs: [])
                 info.additionalInfo = [.fpu]
 
                 let realCommand = variation >> 3
                 nnnFunctions[realCommand] = nnnFunctions[realCommand] ?? [:]
                 let nnn = UInt8(variation & 7)
                 nnnFunctions[realCommand]?[nnn.hex] = BaseFormat({ cInfo in
-                    command.functionFormatter.format(with: info.update { $0.mode = cInfo.mode })
+                    command.functionFormatter.format(with: info.update {
+                        $0.mode = cInfo.mode
+                        $0.cpuMode = cInfo.cpuMode
+                    })
                 })
             }
         }

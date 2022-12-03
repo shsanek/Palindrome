@@ -48,10 +48,13 @@ typedef struct Context {
     uint16_t cursor;
     uint8_t *text;
 
+    uint8_t pmode;
+
     CommandInfo lastCommandInfo;
 
     InterruptCallFunction functions[256];
 
+    // продолжаем пока 0 если стало 0x14 обновляем мод
     char end;
 
     void *additionalContext;
@@ -62,5 +65,6 @@ extern Context context;
 Context* resetContext();
 void freeContext();
 void emptyInterruptCallFunction(uint8_t a);
+void installCommandFunction();
 
 #endif /* Models_h */

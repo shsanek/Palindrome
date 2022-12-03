@@ -28,11 +28,8 @@ uint32_t read32u();
 
 #define SR_VALUE(SR) (context.segmentRegisters[SR])
 
-// #define GET_SEGMENT_POINTER(reg) (context.segmentRegistersValue[reg])
-//#define GET_SEGMENT_POINTER_WITH_REPLACE(reg) ((context.lastCommandInfo.prefixInfo.hasSegmentPrefix) ? GET_SEGMENT_POINTER(context.lastCommandInfo.prefixInfo.changeSegmentPrefix) : GET_SEGMENT_POINTER(reg))
-
-uint8_t* GET_SEGMENT_POINTER(uint8_t reg);
-uint8_t* GET_SEGMENT_POINTER_WITH_REPLACE(uint8_t reg);
+#define GET_SEGMENT_POINTER(reg) (context.segmentRegistersValue[reg])
+#define GET_SEGMENT_POINTER_WITH_REPLACE(reg) ((context.lastCommandInfo.prefixInfo.hasSegmentPrefix) ? GET_SEGMENT_POINTER(context.lastCommandInfo.prefixInfo.changeSegmentPrefix) : GET_SEGMENT_POINTER(reg))
 
 #define SET_VALUE_IN_SEGMENT(reg, value) { \
     context.segmentRegisters[reg] = (value);\

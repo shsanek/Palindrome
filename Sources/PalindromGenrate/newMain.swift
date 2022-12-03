@@ -37,7 +37,7 @@ func generate() {
         """
     )
 
-    let text = fileGenerator.text + generator.generateAllCommand(installGenerate)
+    let text = fileGenerator.text + generator.generateAllCommand(installPrefix())
 
     try! text.write(toFile: file, atomically: true, encoding: .utf8)
 }
@@ -54,19 +54,10 @@ func fpuGenerator(generator: Generator) {
     fpuGenerator.generateAllCommand(generator: generator)
 }
 
-private func installGenerate(_ content: String) -> String {
-    let base = """
-
-    void installCommandFunction() {
+private func installPrefix() -> String {
+    """
     for(int i = 0; i < 256 * 8; i++) {
-    commandFunctions16[i] = mCommandFunctionEmpty;
-    commandFunctions32[i] = mCommandFunctionEmpty;
-    }
-    \(content)
+    commandFunctions[i] = mCommandFunctionEmpty;
     }
     """
-    let generator = FunctionGenerator()
-    generator.add(base)
-
-    return generator.text
 }

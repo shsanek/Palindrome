@@ -12,7 +12,16 @@ struct FunctionBodyFormatter: IFormatter {
         generator.add("//\(info.command.name)")
         generator.add("void \(name)() {")
         generator.add("LOG(\"%s\",\"\(info.command.name)\");")
-        generator.add(baseFormatter.format(with: info))
+        let body = String(baseFormatter.format(with: info) ?? "")
+        if info.cpuMode == .protected {
+            generator.add(
+                body
+                    .replacingOccurrences(of: "SET_VALUE_IN_SEGMENT", with: "SET_VALUE_IN_SEGMENT_P")
+                    .replacingOccurrences(of: "recalculatePointerSegmentRegisterMRM", with: "recalculatePointerSegmentRegisterMRM_P")
+            )
+        } else {
+            generator.add(body)
+        }
         generator.add("}")
         return generator.text
     }
@@ -278,16 +287,15 @@ final class Formatter: IFormatter {
 struct InitialFormatter: IFormatter {
     func format(with info: FormatterInfo) -> String? {
         let generator = FunctionGenerator()
-        let prefix = info.mode == .mod32 ? "32" : "16"
-        generator.add("commandFunctions\(prefix)[\(info.variation)] = \(info.functionName);")
+        generator.add("commandFunctions[\(info.variation)] = \(info.functionName);")
         if info.command.format.hasPrefixAddress {
-            generator.add("commandFunctions\(prefix)[\(info.variation) | 0x0200 ] = \(info.update { $0.prefixs += [.addressSizePrefix] }.functionName);")
+            generator.add("commandFunctions[\(info.variation) | 0x0200 ] = \(info.update { $0.prefixs += [.addressSizePrefix] }.functionName);")
         }
         if info.command.format.hasPrefixData {
-            generator.add("commandFunctions\(prefix)[\(info.variation) | 0x0400] = \(info.update { $0.prefixs += [.dataSizePrefix] }.functionName);")
+            generator.add("commandFunctions[\(info.variation) | 0x0400] = \(info.update { $0.prefixs += [.dataSizePrefix] }.functionName);")
         }
         if info.command.format.hasPrefixData && info.command.format.hasPrefixAddress {
-            generator.add("commandFunctions\(prefix)[\(info.variation) | 0x0200 | 0x0400] = \(info.update { $0.prefixs += [.dataSizePrefix, .addressSizePrefix] }.functionName);")
+            generator.add("commandFunctions[\(info.variation) | 0x0200 | 0x0400] = \(info.update { $0.prefixs += [.dataSizePrefix, .addressSizePrefix] }.functionName);")
         }
         return generator.text
     }

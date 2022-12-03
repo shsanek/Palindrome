@@ -227,6 +227,10 @@ void realModCPUSetting() {
     IF = 1;
     TF = 1;
     NT = 1;
+    VM = 1;
+
+    context.pmode = 0;
+    context.mod = 0;
 
     *regBX = 0x000A;
     *regCX = 0xE8E5;

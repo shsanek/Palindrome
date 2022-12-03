@@ -3,6 +3,11 @@ enum Mode {
     case mod16
 }
 
+enum CPUMod {
+    case real
+    case protected
+}
+
 extension Mode {
     var togle: Mode {
         switch self {

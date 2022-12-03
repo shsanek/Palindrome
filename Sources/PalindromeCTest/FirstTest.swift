@@ -18,7 +18,7 @@ final class FirstTest: XCTestCase {
 
         DebugOnlyPrint = 1;
 
-        run16ToEndWithStop(10000)
+        runFullModeToEndWithStop(10000)
 
         let cString = wrapContext.context?[0].text
         let result = String(cString: cString!)
@@ -64,7 +64,7 @@ final class FirstTest: XCTestCase {
             """
         )
 
-        run32ToEndWithStop(0)
+        runFullModeToEndWithStop(0)
 
         let value = fregister32(UInt8(BR_EAX_F))?[0]
 
@@ -91,7 +91,7 @@ final class FirstTest: XCTestCase {
         pushInStack32(10)
         returnToTopStack();
 
-        run32ToEndWithStop(10000)
+        runFullModeToEndWithStop(10000)
 
         let value = fregister32(UInt8(BR_EAX_F))?[0]
 
@@ -113,7 +113,7 @@ final class FirstTest: XCTestCase {
             programm
         )
 
-        run32ToEndWithStop(10000)
+        runFullModeToEndWithStop(10000)
 
         let cString = wrapContext.context?[0].text
         let result = String(cString: cString!)
@@ -135,7 +135,7 @@ final class FirstTest: XCTestCase {
             programm
         )
 
-        run32ToEndWithStop(10000)
+        runFullModeToEndWithStop(10000)
 
         let cString = wrapContext.context?[0].text
         let result = String(cString: cString!)
@@ -157,7 +157,7 @@ final class FirstTest: XCTestCase {
             programm
         )
 
-        run32ToEndWithStop(10000)
+        runFullModeToEndWithStop(10000)
 
         let cString = wrapContext.context?[0].text
         let result = String(cString: cString!)
@@ -180,7 +180,7 @@ final class FirstTest: XCTestCase {
             programm
         )
 
-        run32ToEndWithStop(10000)
+        runFullModeToEndWithStop(10000)
 
         let cString = wrapContext.context?[0].text
         let result = String(cString: cString!)
@@ -203,7 +203,7 @@ final class FirstTest: XCTestCase {
             programm
         )
 
-        run32ToEndWithStop(10000)
+        runFullModeToEndWithStop(10000)
 
         let cString = wrapContext.context?[0].text
         let result = String(cString: cString!)
@@ -224,7 +224,7 @@ final class FirstTest: XCTestCase {
             programm
         )
 
-        run32ToEndWithStop(10000)
+        runFullModeToEndWithStop(10000)
 
         let cString = wrapContext.context?[0].text
         let result = String(cString: cString!)
@@ -245,7 +245,7 @@ final class FirstTest: XCTestCase {
             programm
         )
 
-        run32ToEndWithStop(10000)
+        runFullModeToEndWithStop(10000)
 
         let cString = wrapContext.context?[0].text
         let result = String(cString: cString!)
@@ -265,7 +265,7 @@ final class FirstTest: XCTestCase {
 
         wrapContext.loadProgram(with: .program, programm)
 
-        let value = run16AndSaveToEndWithStop(104)
+        let value = runFullModeToEndWithStopForTest(104)
 
         let result = String(cString: value!)
 
@@ -296,7 +296,7 @@ final class FirstTest: XCTestCase {
         wrapContext.loadProgram(with: .program, programm)
 
         let number = 6721
-        let value = run16AndSaveToEndWithStop(Int32(number))
+        let value = runFullModeToEndWithStopForTest(Int32(number))
         let result = String(cString: value!)
         value?.deallocate()
 
@@ -311,7 +311,7 @@ final class FirstTest: XCTestCase {
 
         TAssert(error == number)
 
-        run16ToEndWithStop(0);
+        runFullModeToEndWithStop(0);
     }
 
     func test09() throws {
@@ -331,7 +331,7 @@ final class FirstTest: XCTestCase {
 
 
         let number = 1000
-        let value = run16AndSaveToEndWithStop(Int32(number))
+        let value = runFullModeToEndWithStopForTest(Int32(number))
         let result = String(cString: value!)
         value?.deallocate()
 
@@ -342,7 +342,7 @@ final class FirstTest: XCTestCase {
 
         TAssert(error == nil || error == number)
 
-        run16ToEndWithStop(0);
+        runFullModeToEndWithStop(0);
     }
 }
 

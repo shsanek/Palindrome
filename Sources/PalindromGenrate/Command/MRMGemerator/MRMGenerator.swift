@@ -410,7 +410,7 @@ fileprivate func generateFunction(mod: Int, size: Int, info: FormatterInfo, useB
 }
 
 func generateMRMFunction(info: FormatterInfo?) -> String {
-    let info = info ?? .init(command: .init(code: 0, name: "", format: .init(hasPrefixAddress: false, hasPrefixData: false, inlines: []), functionFormatter: TemplateFormat(""), installFormatter: TemplateFormat("")), flags: Set<String>(), mode: .mod16, variation: 0, vars: [], prefixs: [])
+    let info = info ?? .init(command: .init(code: 0, name: "", format: .init(hasPrefixAddress: false, hasPrefixData: false, inlines: []), functionFormatter: TemplateFormat(""), installFormatter: TemplateFormat("")), flags: Set<String>(), mode: .mod16, cpuMode: .protected, variation: 0, vars: [], prefixs: [])
     let generate = FunctionGenerator()
 
     generate.add("#include \"MRM.h\"")

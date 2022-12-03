@@ -132,12 +132,12 @@ void getCommand() {
 
 #define runCommand16() {\
     getCommand();\
-    commandFunctions16[context.lastCommandInfo.command]();\
+    commandFunctions[context.lastCommandInfo.command]();\
 }
 
 #define runCommand32() { \
     getCommand(); \
-    commandFunctions32[context.lastCommandInfo.command](); \
+    commandFunctions[context.lastCommandInfo.command](); \
 }
 
 void runCommand() {
@@ -161,57 +161,11 @@ void pushInStack32(int32_t value) {
     *(int32_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp) = value;
 }
 
-void run32ToEnd() {
-    context.mod = 1;
-    clearDebugCommands();
-    clearDebugLine();
-    while (context.end == 0) {
-        runCommand32();
-    }
-}
-
-void run16ToEnd() {
-    context.mod = 0;
-    clearDebugCommands();
-    clearDebugLine();
-    while (context.end == 0) {
-        runCommand16();
-    }
-}
-
-void run32ToEndWithStop(int count) {
-    PRINT32_REGS
-    context.mod = 1;
-    clearDebugCommands();
-    clearDebugLine();
-    int index = 0;
-    int last = *regESP;
-    int first = *regESP;
-    while (context.end == 0 && count > 0) {
-        LOG("step %d|", index);
-        runCommand32();
-        LOG("%s", " ");
-        DEBUG_RUN({
-            printDebugLine();
-        })
-        LOG("%s", "\n\n");
-        LOG("stack=%d(%d)(%d)\n", *regESP, (last - *regESP), (first - *regESP));
-        last = *regESP;
-        PRINT32_REGS
-        count--;
-        index += 1;
-    }
-}
-
-void run16ToEndWithStop(int count) {
+void run16FromFullModeToEnd(int* count, int *index) {
     LOG("%s","\n\n");
     PRINT16_REGS
-    context.mod = 0;
-    clearDebugCommands(); 
-    clearDebugLine();
-    DEBUG_RUN( int index = 0; );
-    while (context.end == 0 && count > 0) {
-        LOG("step %d|", index);
+    while (context.end == 0 && (*count) > 0) {
+        LOG("step %d|", *index);
         runCommand16();
         LOG("%s", " ");
         DEBUG_RUN({
@@ -219,43 +173,128 @@ void run16ToEndWithStop(int count) {
         })
         LOG("%s", "\n\n");
         PRINT16_REGS
-        DEBUG_RUN({ index += 1; })
-        count--;
+        DEBUG_RUN({ (*index) += 1; })
+        (*count)--;
     }
-}
-// 39 
-char* run16AndSaveToEndWithStop(int count) {
-    char *out = malloc((count + 2) * REG16_PRINT_SIZE + 1);
-    context.mod = 0;
-    clearDebugCommands();
-    clearDebugLine();
-    int index = 0;
-    while (context.end == 0 && count > 0) {
-        runCommand16();
-        char* regs = print16Registers();
-        sprintf(out + index * REG16_PRINT_SIZE, "%s", regs);
-        free(regs);
-        index++;
-        count--;
-    }
-    return out;
 }
 
-int run16AndTestToEndWithStop(int count, char* in) {
-    context.mod = 0;
+void run32FromFullModeToEnd(int* count, int *index) {
+    LOG("%s","\n\n");
+    PRINT32_REGS
+    while (context.end == 0 && (*count) > 0) {
+        LOG("step %d|", (*index));
+        runCommand32();
+        LOG("%s", " ");
+        DEBUG_RUN({
+            printDebugLine();
+        })
+        LOG("%s", "\n\n");
+        PRINT32_REGS
+        DEBUG_RUN({ (*index) += 1; })
+        (*count)--;
+    }
+}
+
+void runFullModeToEndWithStop(int count) {
     clearDebugCommands();
     clearDebugLine();
     int index = 0;
     while (context.end == 0 && count > 0) {
+        installCommandFunction();
+        if (context.mod) {
+            run32FromFullModeToEnd(&count, &index);
+        } else {
+            run16FromFullModeToEnd(&count, &index);
+        }
+        if (context.end == 0x14) {
+            context.end = 0;
+        }
+    }
+}
+
+void run16FromFullMode() {
+    while (context.end == 0) {
+        runCommand16();
+    }
+}
+
+void run32FromFullMode() {
+    while (context.end == 0) {
+        runCommand32();
+    }
+}
+
+void runFullMode(int count) {
+    while (context.end == 0) {
+        installCommandFunction();
+        if (context.mod) {
+            run32FromFullMode();
+        } else {
+            run16FromFullMode();
+        }
+        if (context.end == 0x14) {
+            context.end = 0;
+        }
+    }
+}
+
+void run16FullModeToEndWithStopForTest(int* count, int* index, char** out) {
+    while (context.end == 0 && (*count) > 0) {
         runCommand16();
         char* regs = print16Registers();
-        for (int i = 0; i < REG16_PRINT_SIZE; i++) {
-            if (regs[i] != in[REG16_PRINT_SIZE * index + i]) {
-                return index;
-            }
-        }
-        index++;
-        count--;
+        sprintf(*out, "%s", regs);
+        (*out) += REG16_PRINT_SIZE;
+        free(regs);
+        (*index)++;
+        (*count)--;
     }
-    return -1;
+}
+
+void run32FullModeToEndWithStopForTest(int* count, int* index, char** out) {
+    while (context.end == 0 && (*count) > 0) {
+        runCommand32();
+        char* regs = print32Registers();
+        sprintf(*out, "%s", regs);
+        (*out) += REG32_PRINT_SIZE;
+        free(regs);
+        (*index)++;
+        (*count)--;
+    }
+}
+
+char* runFullModeToEndWithStopForTest(int count) {
+    char *out = malloc((count + 2) * REG32_PRINT_SIZE + 1);
+    char *result = out;
+    clearDebugCommands();
+    clearDebugLine();
+    int index = 0;
+    while (context.end == 0 && count > 0) {
+        installCommandFunction();
+        if (context.mod) {
+            run32FullModeToEndWithStopForTest(&count, &index, &out);
+        } else {
+            run16FullModeToEndWithStopForTest(&count, &index, &out);
+        }
+
+        if (context.end == 0x14) {
+            context.end = 0;
+        }
+    }
+    return result;
+}
+
+void installCommandFunction() {
+    if (context.pmode) {
+        if (context.mod) {
+            installCommandFunction32PM();
+        } else {
+            installCommandFunction16PM();
+        }
+    } else {
+        if (context.mod) {
+            installCommandFunction32RM();
+        } else {
+            installCommandFunction16RM();
+        }
+    }
 }

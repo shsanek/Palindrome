@@ -17,7 +17,12 @@
 
 typedef void (*CommandFunction)();
 
-CommandFunction commandFunctions16[256 * 8];
-CommandFunction commandFunctions32[256 * 8];
+CommandFunction commandFunctions[256 * 8];
+
+void installCommandFunction32RM();
+void installCommandFunction16RM();
+
+void installCommandFunction32PM();
+void installCommandFunction16PM();
 
 #endif /* GenerateFunctions_h */

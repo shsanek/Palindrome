@@ -2,6 +2,7 @@ struct FormatterInfo {
     let command: Command
     var flags: Set<String>
     var mode: Mode
+    var cpuMode: CPUMod
     let variation: UInt16
     var vars: [(name: String, value: String)]
     var prefixs: [CommandPrefix]
@@ -210,6 +211,6 @@ extension FormatterInfo {
     }
 
     var functionName: String {
-        "handlerCommand\(mode == .mod32 ? "32" : "16")Code\(variation.rawHex)" + Array(Set(prefixs)).sorted(by: { $0.rawValue < $1.rawValue }).map { "P\($0.rawValue)" }.joined()
+        "handlerCommand\(mode == .mod32 ? "32" : "16")Code\(variation.rawHex)" + Array(Set(prefixs)).sorted(by: { $0.rawValue < $1.rawValue }).map { "P\($0.rawValue)" }.joined() + "_\(cpuMode == .protected ? "PM": "RM")"
     }
 }

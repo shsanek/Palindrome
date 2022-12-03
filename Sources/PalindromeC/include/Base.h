@@ -18,7 +18,6 @@
 
 extern uint8_t *debugCommands;
 
-void installCommandFunction();
 void runCommand();
 
 void resetStack();
@@ -26,14 +25,8 @@ void resetStack();
 void pushInStack32u(uint32_t value);
 void pushInStack32(int32_t value);
 
-void run32ToEnd();
-void run16ToEnd();
-
-void run32ToEndWithStop(int count);
-void run16ToEndWithStop(int count);
-
-
-int run16AndTestToEndWithStop(int count, char* in);
-char* run16AndSaveToEndWithStop(int count);
+char* runFullModeToEndWithStopForTest(int count);
+void runFullModeToEndWithStop(int count);
+void runFullMode(int count);
 
 #endif /* Base_h */

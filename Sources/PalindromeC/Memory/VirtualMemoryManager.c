@@ -71,6 +71,24 @@ int virtualModMemoryFree(uint16_t block) {
         return 0;
     }
     free(VirtualModMemoryTable[block]);
+    VirtualModMemoryTable[block] = NULL;
+    FreePoolVirtualModMemoryPush(block);
+}
+
+int onlyVirtualModMemoryAllocate(uint32_t size) {
+    uint8_t* block = malloc(size);
+    uint16_t id = FreePoolVirtualModMemoryPop();
+    VirtualModMemoryTable[id] = block;
+}
+
+int onlyVirtualModMemoryRelocate(uint16_t block, uint32_t size) {
+    VirtualModMemoryTable[block] = realloc(VirtualModMemoryTable[block], size);
+    return size;
+}
+
+int onlyVirtualModMemoryFree(uint16_t block) {
+    free(VirtualModMemoryTable[block]);
+    VirtualModMemoryTable[block] = NULL;
     FreePoolVirtualModMemoryPush(block);
 }
 

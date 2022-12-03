@@ -854,7 +854,9 @@ void DecodeFlagsRegister16() {
     // должно быть условие на протекшен мод и уровень привелегий
     // в досбоксе выглядит вот так (cpu.pmode && !GETFLAG(VM) && (GETFLAG_IOPL<cpu.cpl))
     // в функции CPU_POPF
-    DECODE_FLAG(IF)
+    if (!context.pmode) {
+        DECODE_FLAG(IF)
+    }
 
     DECODE_FLAG(TF)
     DECODE_FLAG(DF)

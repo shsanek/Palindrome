@@ -64,12 +64,3 @@ void dumpLog(int64_t address, uint8_t* target, int size) {
     printHexWithSize(target, size);
     printf("]");
 }
-
-uint8_t* GET_SEGMENT_POINTER(uint8_t reg) {
-    assert((context.segmentRegistersValue[reg] - RealModeMemory) / 16 == context.segmentRegisters[reg]);
-    return context.segmentRegistersValue[reg];
-}
-
-uint8_t* GET_SEGMENT_POINTER_WITH_REPLACE(uint8_t reg) {
-    return ((context.lastCommandInfo.prefixInfo.hasSegmentPrefix) ? GET_SEGMENT_POINTER(context.lastCommandInfo.prefixInfo.changeSegmentPrefix) : GET_SEGMENT_POINTER(reg));
-}

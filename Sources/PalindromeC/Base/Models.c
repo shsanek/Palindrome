@@ -98,6 +98,7 @@ Context* resetContext() {
         context.text[i] = 0;
     }
 
+    context.pmode = 0;
     resetStack();
     setRegisterPointers();
 
