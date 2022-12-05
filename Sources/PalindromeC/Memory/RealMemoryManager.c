@@ -7,8 +7,6 @@
 
 #include "RealMemoryManager.h"
 
-ARRAY_STACK_IMP(debugTestNewMemoryBlock, uint16_t);
-
 uint8_t *RealModeMemory = NULL;
 
 RealModeMemoryBlock *RealModeMemoryBlockHead = NULL;
@@ -58,7 +56,10 @@ void realModMemorySetSize(uint16_t paragraphSize) {
     if (RealModeMemory != NULL) {
         free(RealModeMemory);
     }
-    RealModeMemory = malloc(16 * (int)(paragraphSize + 0x0FFF));
+    RealModeMemory = malloc(16 * (((int)(paragraphSize)) + 0x0FFF));
+    for (int i = 0; i < 16 * (((int)(paragraphSize)) + 0x0FFF); i++) {
+        RealModeMemory[i] = 0;
+    }
     RealModeMemoryBlockHead = malloc(sizeof(RealModeMemoryBlock));
     RealModeMemoryBlockHead->paragraph = 0;
     RealModeMemoryBlockHead->paragraphSize = paragraphSize;
@@ -152,12 +153,6 @@ int realModMemoryAllocateInBlock(uint16_t block, uint16_t paragraphSize, RealMod
 }
 
 int realModMemoryAllocate(uint16_t paragraphSize) {
-    DEBUG_RUN({
-        if (debugTestNewMemoryBlockIndex > 0) {
-            allocateMemoryLoadWithForceBlock(debugTestNewMemoryBlockPop(), paragraphSize);
-            return;
-        }
-    })
     uint16_t max = 0;
     RealModeMemoryBlock* current = RealModeMemoryBlockHead;
     while (current!= NULL && !(current->isFree && current->paragraphSize >= paragraphSize)) {

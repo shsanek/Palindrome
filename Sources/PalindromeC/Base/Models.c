@@ -111,6 +111,8 @@ void resetStack() {
         context.segmentRegistersValue[i] = 0;
     }
 
+    realModMemorySetSize(0xFFFF);
+
     fpuStackIndex = 8;
 
     reg_flags = 0;

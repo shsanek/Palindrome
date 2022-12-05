@@ -75,7 +75,9 @@ void loadBaseInterrupt() {
     uint8_t* implementationPointer = GET_REAL_MOD_MEMORY_POINTER(implementation);
 
     for (int i = 0; i < 256; i++) {
-        *((uint16_t*)(addressPointer + i * 4 + 0)) = i * 3;
+        int value = i;
+        if (i == 190) { value = 189; }
+        *((uint16_t*)(addressPointer + i * 4 + 0)) = value * 3;
         *((uint16_t*)(addressPointer + i * 4 + 2)) = implementation;
 
         *(implementationPointer + i * 3 + 0) = 0xF1;
@@ -208,7 +210,7 @@ void loadMZDosProgram() {
 
     GET_REAL_MOD_MEMORY_POINTER(0xFCB8)[0x2F97] = 0xB0;
     GET_REAL_MOD_MEMORY_POINTER(0xFCB8)[0x2F98] = 0x01;
-    GET_REAL_MOD_MEMORY_POINTER(0xFCB8)[0x2F99] = 0xCD;
+    GET_REAL_MOD_MEMORY_POINTER(0xFCB8)[0x2F99] = 0xF1;
     GET_REAL_MOD_MEMORY_POINTER(0xFCB8)[0x2F9A] = 0x20;
     GET_REAL_MOD_MEMORY_POINTER(0xFCB8)[0x2F9B] = 0xCB;
 }
@@ -239,7 +241,7 @@ void realModCPUSetting() {
     RegFlagBaseValue = 0x2;
     IOPL = 3;
     IF = 1;
-    TF = 0;
+    TF = 1;
     NT = 1;
     VM = 1;
 

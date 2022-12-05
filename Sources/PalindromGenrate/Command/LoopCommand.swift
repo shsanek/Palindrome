@@ -157,7 +157,7 @@ fileprivate let returnCACommand = Command(
             SET_VALUE_IN_SEGMENT(1, *(int16_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp + %MOD / 8));
             context.index = GET_SEGMENT_POINTER(1) + *(uint%MOD_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp);
             *sp += %MOD / 8 + 2;
-            *sp += ((%MOD / 8) + read16u() * (%dataSize / 16));
+            *sp += (read16u() * (%dataSize / 16));
             """
         ]
     ),

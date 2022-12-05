@@ -13,8 +13,6 @@
 #include "../Function/BaseFunction.h"
 #include "../Support/Log.h"
 
-ARRAY_STACK(debugTestNewMemoryBlock, uint16_t)
-
 typedef struct RealModeMemoryBlock {
     uint16_t paragraph;
     uint16_t paragraphSize;

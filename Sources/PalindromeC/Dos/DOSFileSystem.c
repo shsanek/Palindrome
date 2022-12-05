@@ -196,5 +196,15 @@ void systemDOSFunction(uint8_t a) {
         dosLinePrint();
         return;
     }
+    if (*regAH == 0x35) {
+        *regBX = *(uint16_t*)(GET_REAL_MOD_MEMORY_POINTER(0) + *regAL * 4 );
+        SET_VALUE_IN_SEGMENT(SR_ES, (*(uint16_t*)(GET_REAL_MOD_MEMORY_POINTER(0) + *regAL * 4 + 2)))
+        return;
+    }
+    if (*regAH == 0x25) {
+        *(uint16_t*)(GET_REAL_MOD_MEMORY_POINTER(0) + *regAL * 4 ) = *regDX;
+        (*(uint16_t*)(GET_REAL_MOD_MEMORY_POINTER(0) + *regAL * 4 + 2)) = SR_VALUE(SR_DS);
+        return;
+    }
     emptyInterruptCallFunction(a);
 }

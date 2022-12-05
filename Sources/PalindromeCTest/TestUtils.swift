@@ -65,8 +65,8 @@ extension String {
     }
 
     func getErrorCommand(source: String) -> Int? {
-        var raws1 = self.removeAllTwoSpaceSpace().convertIgnore(flags: ["PO", "PE", "NA", "AC"]).split(separator: "\n")
-        var raws2 = source.removeAllTwoSpaceSpace().convertIgnore(flags: ["PO", "PE", "NA", "AC"]).split(separator: "\n")
+        var raws1 = self.removeAllTwoSpaceSpace().convertIgnore(flags: ["PO", "PE", "NA", "AC", "NC", "CY"]).split(separator: "\n")
+        var raws2 = source.removeAllTwoSpaceSpace().convertIgnore(flags: ["PO", "PE", "NA", "AC", "NC", "CY"]).split(separator: "\n")
 
         raws1 = raws1.map { $0.hasSuffix(" ") ? $0.dropLast() : $0 }
         raws2 = raws2.map { $0.hasSuffix(" ") ? $0.dropLast() : $0 }

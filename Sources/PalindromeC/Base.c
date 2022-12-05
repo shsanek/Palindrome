@@ -119,7 +119,7 @@ void getCommand() {
     }
 
     command |= (uint16_t)(value);
-    DEBUG_RUN({ debugCommands[command] = 1; })
+    DEBUG_RUN({ debugCommands[command & 0x1FF] = 1; })
 
     context.lastCommandInfo.prefixInfo.hasSegmentPrefix = hasSegmentPrefix;
     context.lastCommandInfo.prefixInfo.commandPrefix = commandPrefix;
@@ -152,12 +152,29 @@ void pushInStack32(int32_t value) {
     *(int32_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp) = value;
 }
 
+void skipInt() {
+    uint16_t* sp = register16u(BR_SP);
+    uint16_t segmentValue = *(int16_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp + 16 / 8);
+    uint8_t* pointer = GET_REAL_MOD_MEMORY_POINTER(segmentValue) + *(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp);
+
+    while (context.end == 0) {
+        if (context.index == pointer) {
+            return;
+        }
+        runCommand();
+    }
+}
+
+
 void run16FromFullModeToEnd(int* count, int *index) {
     LOG("%s","\n\n");
     PRINT16_REGS
     while (context.end == 0 && (*count) > 0) {
         LOG("step %d|", *index);
         runCommand();
+        if (context.lastCommandInfo.command == 0x00CD) {
+            skipInt();
+        }
         LOG("%s", " ");
         DEBUG_RUN({
             printDebugLine();
@@ -175,6 +192,9 @@ void run32FromFullModeToEnd(int* count, int *index) {
     while (context.end == 0 && (*count) > 0) {
         LOG("step %d|", (*index));
         runCommand();
+        if (context.lastCommandInfo.command == 0x00CD) {
+            skipInt();
+        }
         LOG("%s", " ");
         DEBUG_RUN({
             printDebugLine();
@@ -226,19 +246,6 @@ void runFullMode(int count) {
         if (context.end == 0x14) {
             context.end = 0;
         }
-    }
-}
-
-void skipInt() {
-    uint16_t* sp = register16u(BR_SP);
-    uint16_t segmentValue = *(int16_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp + 16 / 8);
-    uint8_t* pointer = GET_REAL_MOD_MEMORY_POINTER(segmentValue) + *(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp);
-
-    while (context.end == 0) {
-        if (context.index == pointer) {
-            return;
-        }
-        runCommand();
     }
 }
 
@@ -308,3 +315,7 @@ void installCommandFunction() {
         }
     }
 }
+
+//432109876543210
+//111001001000110
+//111001101000110

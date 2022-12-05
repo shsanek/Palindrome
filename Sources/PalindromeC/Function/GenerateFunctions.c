@@ -5977,7 +5977,7 @@ void handlerCommand16Code00CA_RM() {
 	SET_VALUE_IN_SEGMENT(1, *(int16_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp + 16 / 8));
 	context.index = GET_SEGMENT_POINTER(1) + *(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp);
 	*sp += 16 / 8 + 2;
-	*sp += ((16 / 8) + read16u() * (16 / 16));
+	*sp += (read16u() * (16 / 16));
 }
 //Ret
 void handlerCommand16Code00CB_RM() {
