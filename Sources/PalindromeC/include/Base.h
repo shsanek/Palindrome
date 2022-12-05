@@ -18,8 +18,6 @@
 
 extern uint8_t *debugCommands;
 
-void runCommand();
-
 void resetStack();
 
 void pushInStack32u(uint32_t value);

@@ -126,7 +126,12 @@ void systemDOSFunction(uint8_t a) {
         controlBreakFunction();
         return;
     }
-    if (*regAH == 0x30) {
+    if (*regAH == 0x38) { // инфо о стране
+        *regAXu = 0001;
+        *regBXu = 0001;
+        return;
+    }
+    if (*regAH == 0x30) { // инфо о версии дос
         *regBX = 0;
         *regCX = 0;
         *regAL = 7;
@@ -134,6 +139,8 @@ void systemDOSFunction(uint8_t a) {
         *regBX = 0xFF00;
         return;
     }
+
+    /// затычки для файловых дескрипторов
     if (*regAH == 0x44 && *regAL == 0 && *regBX == 4) {
         *regDX = 0xA0C0;
         *regAX = 0xA0C0;
@@ -152,17 +159,6 @@ void systemDOSFunction(uint8_t a) {
         SET_FLAG(CF, 0);
         return;
     }
-    if (*regAH == 0x38) {
-        *regAX = 0x0001;
-        *regBX = 0x0001;
-        SET_FLAG(CF, 0);
-        return;
-    }
-//    if (*regAH == 0x4A) {
-//        *regAX = 0x178E;
-//        SET_FLAG(CF, 0);
-//        return;
-//    }
     if (*regAH == 0x3e) {
         dosCloseFile();
         return;
@@ -182,12 +178,6 @@ void systemDOSFunction(uint8_t a) {
     }
     if (*regAH == 0x42) {
         doslSeekFile();
-        return;
-    }
-    if (*regAH == 0x35) {
-        SET_VALUE_IN_SEGMENT(SR_ES, 0x024C);
-        *regBXu = 0x0240;
-        SET_FLAG(CF, 0);
         return;
     }
     if (*regAH == 0x48) {

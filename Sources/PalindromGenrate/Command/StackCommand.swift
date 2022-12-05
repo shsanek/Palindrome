@@ -135,6 +135,18 @@ fileprivate let oftherCommand = Command(
                         ]
                     )
                 ),
+                (
+                    code: "0x5",
+                    formatter: Formatter(
+                        customizers: [
+                            .settings([.bigData]),
+                            "// JMP",
+                            .formatter(targetMRMFormat),
+                            "SET_VALUE_IN_SEGMENT(SR_CS, (*((uint16_t*)(target + 2))));",
+                            "context.index = GET_SEGMENT_POINTER(SR_CS) + (*((uint%dataSize_t*)(target)));"
+                        ]
+                    )
+                ),
                 (code: "0x6",
                  formatter: Formatter(
                     customizers: [

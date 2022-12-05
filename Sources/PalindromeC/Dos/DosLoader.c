@@ -62,9 +62,48 @@ typedef struct DOSHeader {
     uint16_t* offsets;
 } DOSHeader;
 
-void loadProgramInZeroMemory(uint8_t *input, uint size, uint mod) {
+//"SET_VALUE_IN_SEGMENT(SR_CS, (*((uint16_t*)(target + 2))));",
+//"context.index = GET_SEGMENT_POINTER(SR_CS) + (*((uint%dataSize_t*)(target)));"
+void loadBaseInterrupt() {
     realModMemorySetSize(0xFFFF);
-    uint16_t blocks = 0xFFFF;
+    uint16_t address = realModMemoryAllocate(0x04FF);
+    uint8_t* addressPointer = GET_REAL_MOD_MEMORY_POINTER(address);
+
+    realModMemoryAllocate(0x126F);
+
+    uint16_t implementation = allocateMemoryLoadWithForceBlock(0xF000, 0x03FF);
+    uint8_t* implementationPointer = GET_REAL_MOD_MEMORY_POINTER(implementation);
+
+    for (int i = 0; i < 256; i++) {
+        *((uint16_t*)(addressPointer + i * 4 + 0)) = i * 3;
+        *((uint16_t*)(addressPointer + i * 4 + 2)) = implementation;
+
+        *(implementationPointer + i * 3 + 0) = 0xF1;
+        *(implementationPointer + i * 3 + 1) = (uint8_t)i;
+        *(implementationPointer + i * 3 + 2) = 0xCB;
+    }
+}
+
+void loadRealModForDos() {
+    realModMemorySetSize(0xFFFF);
+    loadBaseInterrupt();
+
+    uint8_t* downMemory = GET_REAL_MOD_MEMORY_POINTER(0);
+    uint8_t* upMemory = GET_REAL_MOD_MEMORY_POINTER(0xFFFF);
+
+    *(GET_REAL_MOD_MEMORY_POINTER(0xF000) - 2 + 0) = 0xFC;
+    *(GET_REAL_MOD_MEMORY_POINTER(0xF000) - 2 + 1) = 0xC4;
+
+    *(upMemory + 0x30 + 0) = 0x4D;
+    *(upMemory + 0x30 + 1) = 0x53;
+    *(upMemory + 0x30 + 2) = 0xFF;
+    *(upMemory + 0x30 + 3) = 0xFF;
+}
+
+void loadProgramInZeroMemory(uint8_t *input, uint size, uint mod) {
+    loadRealModForDos();
+
+    uint16_t blocks = 0x1FFF;
     int block = realModMemoryAllocate(blocks);
     uint8_t *program = GET_REAL_MOD_MEMORY_POINTER(block);
     memcpy(program, input, size);
@@ -73,11 +112,13 @@ void loadProgramInZeroMemory(uint8_t *input, uint size, uint mod) {
     context.index = program;
 
     (program + 0xFFFF)[-2] = 0xCD;
-    (program + 0xFFFF)[-1] = 0x10;
+    (program + 0xFFFF)[-1] = 0x20;
 
     SET_VALUE_IN_SEGMENT(SR_CS, block);
+    SET_VALUE_IN_SEGMENT(SR_DS, block);
+    SET_VALUE_IN_SEGMENT(SR_ES, block);
     SET_VALUE_IN_SEGMENT(SR_SS, block + (0x0FFF));
-    reg_SP_16u = 0xFFFF;
+    reg_SP_16u = 0x0FFF;
 
     context.mod = mod;
 
@@ -95,45 +136,12 @@ void returnToTopStack() {
     }
 }
 
-void loadRealModForDos() {
-    realModMemorySetSize(0xFFFF);
-
-    uint16_t block = realModMemoryAllocate(0x176E);
-    assert(block == 0x0);
-
-    uint8_t* downMemory = GET_REAL_MOD_MEMORY_POINTER(0);
-    uint8_t* upMemory = GET_REAL_MOD_MEMORY_POINTER(0xFFFF);
-
-    for (int i = 0; i < 128; i++) {
-        *(downMemory + 0x02F0 + i) = dos02F0HeaderDamp[i];
-    }
-
-    for (int i = 0; i < 320; i++) {
-        *(downMemory + 0x0020 + i) = dos0020HeaderDamp[i];
-    }
-
-    *(GET_REAL_MOD_MEMORY_POINTER(0xF000) - 2 + 0) = 0xFC;
-    *(GET_REAL_MOD_MEMORY_POINTER(0xF000) - 2 + 1) = 0xC4;
-
-    *(upMemory + 0x30 + 0) = 0x4D;
-    *(upMemory + 0x30 + 1) = 0x53;
-    *(upMemory + 0x30 + 2) = 0xFF;
-    *(upMemory + 0x30 + 3) = 0xFF;
-
-    *(downMemory + 0x20 + 0) = 0x00;
-    *(downMemory + 0x20 + 1) = 0x00;
-    *(downMemory + 0x20 + 2) = 0x5F;
-    *(downMemory + 0x20 + 3) = 0x0A;
-}
-
 void allocateMZDosHeader() {
     uint16_t block = realModMemoryAllocate(0x20);
     assert(block == 0x176E);
 }
 
 void fillMZDosHeader() {
-    uint16_t block = realModMemoryRelocate(0x176E, 0x2);
-    assert(block > 0);
     uint8_t *memory = GET_REAL_MOD_MEMORY_POINTER(0x179E);
 
     for (int i = 0; i < 528; i++) {
@@ -197,6 +205,12 @@ void loadMZDosProgram() {
         *(uint16_t*)(programMemory + offset) = (*(uint16_t*)(programMemory + offset)) + programBlock;
     }
     free(offsets);
+
+    GET_REAL_MOD_MEMORY_POINTER(0xFCB8)[0x2F97] = 0xB0;
+    GET_REAL_MOD_MEMORY_POINTER(0xFCB8)[0x2F98] = 0x01;
+    GET_REAL_MOD_MEMORY_POINTER(0xFCB8)[0x2F99] = 0xCD;
+    GET_REAL_MOD_MEMORY_POINTER(0xFCB8)[0x2F9A] = 0x20;
+    GET_REAL_MOD_MEMORY_POINTER(0xFCB8)[0x2F9B] = 0xCB;
 }
 
 void loadCOMDosProgram(uint size) {
@@ -225,15 +239,18 @@ void realModCPUSetting() {
     RegFlagBaseValue = 0x2;
     IOPL = 3;
     IF = 1;
-    TF = 1;
+    TF = 0;
     NT = 1;
     VM = 1;
 
     context.pmode = 0;
     context.mod = 0;
 
-    *regBX = 0x000A;
-    *regCX = 0xE8E5;
+//    *regBX = 0x000A;
+//    *regCX = 0xE8E5;
+
+    *regBX = 0x0001;
+    *regCX = 0xDFC7;
 }
 
 

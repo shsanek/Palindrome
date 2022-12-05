@@ -12,15 +12,52 @@
 #include "../Dos/DOSFileSystem.h"
 #include "../Function/BaseFunction.h"
 #include "../Dos/VideoServiceInterrupt.h"
-
+#include "../Memory/VirtualMemoryManager.h"
 Context context;
 
 void emptyInterruptCallFunction(uint8_t a) {
     printf(", call %X-%X", a, *regAH);
 }
 
+void inProtectedMode() {
+    if (context.pmode) {
+        assert(0);
+        return;
+    }
+    assert(0);
+    // installVirtualModMemory();
+
+//    SET_VALUE_IN_SEGMENT_P(SR_FS, 0);
+//    SET_VALUE_IN_SEGMENT_P(SR_GS, 0);
+//
+//    SET_VALUE_IN_SEGMENT_P(SR_SS, virtualModMemoryConvertFromRealMemory(GET_SEGMENT_POINTER(SR_SS), 0));
+//    SET_VALUE_IN_SEGMENT_P(SR_ES, virtualModMemoryConvertFromRealMemory(GET_SEGMENT_POINTER(SR_ES), 0));
+//    SET_VALUE_IN_SEGMENT_P(SR_DS, virtualModMemoryConvertFromRealMemory(GET_SEGMENT_POINTER(SR_DS), 0));
+//
+//    if (context.mod) {
+//        uint16_t* stack = (uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + *regESPu + 4);
+//        uint16_t cs = virtualModMemoryConvertFromRealMemory(GET_REAL_MOD_MEMORY_POINTER(*stack), 0);
+//        (*stack) = cs;
+//    } else {
+//        uint16_t* stack = (uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + *regSPu + 2);
+//        uint16_t cs = virtualModMemoryConvertFromRealMemory(GET_REAL_MOD_MEMORY_POINTER(*stack), 0);
+//        (*stack) = cs;
+//    }
+
+    VM = 0;
+    context.pmode = 1;
+    context.end = 0x14;
+}
+
+void DPMIFunction(uint8_t a) {
+}
+
 void endCallFunction(uint8_t a) {
-    context.end = 1;
+    if (*regAXu == 255) {
+        inProtectedMode();
+    } else {
+        context.end = 1;
+    }
 }
 
 void other15InformationFunction(uint8_t a) {
@@ -34,6 +71,10 @@ void other15InformationFunction(uint8_t a) {
 
 void other2fInformationFunction(uint8_t a) {
     if (*regAXu == 0x1687) {
+        if (context.pmode) {
+            *regAXu = 0x0001;
+            return;
+        }
         *regAXu = 0x0000;
         *regBXu = 0x0001;
         *regCXu = 0x0104;
@@ -60,6 +101,7 @@ void setBaseFunction() {
     context.functions[0x20] = endCallFunction;
     context.functions[0x21] = systemDOSFunction;
     context.functions[0x2f] = other2fInformationFunction;
+    context.functions[0x31] = DPMIFunction;
 }
 
 void resetStack() {

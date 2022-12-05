@@ -6,7 +6,7 @@ struct FunctionBodyFormatter: IFormatter {
     func format(with info: FormatterInfo) -> String? {
         let generator = FunctionGenerator()
         let name = info.functionName;
-        if info.prefixs.isEmpty && info.mode == .mod32 && !info.isFPU {
+        if info.prefixs.isEmpty && info.mode == .mod32 && !info.isFPU && info.cpuMode == .protected {
             countCommand += 1
         }
         generator.add("//\(info.command.name)")

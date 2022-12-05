@@ -1,99 +1,99 @@
-AX=0000  BX=000A  CX=E8E5  DX=0000  SP=0340  BP=0000  SI=0000  DI=0000          
+AX=0000  BX=0001  CX=DFC7  DX=0000  SP=0340  BP=0000  SI=0000  DI=0000
 DS=178E  ES=178E  SS=18BF  CS=195B  IP=2372   NV UP EI PL NZ NA PO NC           
 195B:2372 BF9E17        MOV     DI,179E                                         
 
-AX=0000  BX=000A  CX=E8E5  DX=0000  SP=0340  BP=0000  SI=0000  DI=179E          
+AX=0000  BX=0001  CX=DFC7  DX=0000  SP=0340  BP=0000  SI=0000  DI=179E
 DS=178E  ES=178E  SS=18BF  CS=195B  IP=2375   NV UP EI PL NZ NA PO NC           
 195B:2375 8ED7          MOV     SS,DI                                           
 
-AX=0000  BX=000A  CX=E8E5  DX=0000  SP=154E  BP=0000  SI=0000  DI=179E          
+AX=0000  BX=0001  CX=DFC7  DX=0000  SP=154E  BP=0000  SI=0000  DI=179E
 DS=178E  ES=178E  SS=179E  CS=195B  IP=237B   NV UP EI PL NZ NA PE NC           
 195B:237B BE5B19        MOV     SI,195B                                         
 
-AX=0000  BX=000A  CX=E8E5  DX=0000  SP=154E  BP=0000  SI=195B  DI=179E          
+AX=0000  BX=0001  CX=DFC7  DX=0000  SP=154E  BP=0000  SI=195B  DI=179E
 DS=178E  ES=178E  SS=179E  CS=195B  IP=237E   NV UP EI PL NZ NA PE NC           
 195B:237E 2BF7          SUB     SI,DI                                           
 
-AX=0000  BX=000A  CX=E8E5  DX=0000  SP=154E  BP=0000  SI=01BD  DI=179E          
+AX=0000  BX=0001  CX=DFC7  DX=0000  SP=154E  BP=0000  SI=01BD  DI=179E
 DS=178E  ES=178E  SS=179E  CS=195B  IP=2380   NV UP EI PL NZ AC PE NC           
 195B:2380 8BC6          MOV     AX,SI                                           
 
-AX=01BD  BX=000A  CX=E8E5  DX=0000  SP=154E  BP=0000  SI=01BD  DI=179E          
+AX=01BD  BX=0001  CX=DFC7  DX=0000  SP=154E  BP=0000  SI=01BD  DI=179E
 DS=178E  ES=178E  SS=179E  CS=195B  IP=2382   NV UP EI PL NZ AC PE NC           
 195B:2382 B104          MOV     CL,04                                           
 
-AX=01BD  BX=000A  CX=E804  DX=0000  SP=154E  BP=0000  SI=01BD  DI=179E          
+AX=01BD  BX=0001  CX=DF04  DX=0000  SP=154E  BP=0000  SI=01BD  DI=179E
 DS=178E  ES=178E  SS=179E  CS=195B  IP=2384   NV UP EI PL NZ AC PE NC           
 195B:2384 D3E0          SHL     AX,CL                                           
 
-AX=1BD0  BX=000A  CX=E804  DX=0000  SP=154E  BP=0000  SI=01BD  DI=179E          
+AX=1BD0  BX=0001  CX=DF04  DX=0000  SP=154E  BP=0000  SI=01BD  DI=179E
 DS=178E  ES=178E  SS=179E  CS=195B  IP=2386   NV UP EI PL NZ NA PO NC           
 195B:2386 48            DEC     AX                                              
 
-AX=1BCF  BX=000A  CX=E804  DX=0000  SP=154E  BP=0000  SI=01BD  DI=179E          
+AX=1BCF  BX=0001  CX=DF04  DX=0000  SP=154E  BP=0000  SI=01BD  DI=179E
 DS=178E  ES=178E  SS=179E  CS=195B  IP=2387   NV UP EI PL NZ AC PE NC           
 195B:2387 36            SS:                                                     
 195B:2388 A3E40C        MOV     t0CE4J,AX                          SS:0CE4=0000 
 
-AX=1BCF  BX=000A  CX=E804  DX=0000  SP=154E  BP=0000  SI=01BD  DI=179E          
+AX=1BCF  BX=0001  CX=DF04  DX=0000  SP=154E  BP=0000  SI=01BD  DI=179E
 DS=178E  ES=178E  SS=179E  CS=195B  IP=238B   NV UP EI PL NZ AC PE NC           
 195B:238B 36            SS:                                                     
 195B:238C 8926DA0C      MOV     t0CDAJ,SP                          SS:0CDA=0000 
 
-AX=1BCF  BX=000A  CX=E804  DX=0000  SP=154E  BP=0000  SI=01BD  DI=179E          
+AX=1BCF  BX=0001  CX=DF04  DX=0000  SP=154E  BP=0000  SI=01BD  DI=179E
 DS=178E  ES=178E  SS=179E  CS=195B  IP=2390   NV UP EI PL NZ AC PE NC           
 195B:2390 BEA926        MOV     SI,26A9                                         
 
-AX=1BCF  BX=000A  CX=E804  DX=0000  SP=154E  BP=0000  SI=26A9  DI=179E          
+AX=1BCF  BX=0001  CX=DF04  DX=0000  SP=154E  BP=0000  SI=26A9  DI=179E
 DS=178E  ES=178E  SS=179E  CS=195B  IP=2393   NV UP EI PL NZ AC PE NC           
 195B:2393 46            INC     SI                                              
 
-AX=1BCF  BX=000A  CX=E804  DX=0000  SP=154E  BP=0000  SI=26AA  DI=179E          
+AX=1BCF  BX=0001  CX=DF04  DX=0000  SP=154E  BP=0000  SI=26AA  DI=179E
 DS=178E  ES=178E  SS=179E  CS=195B  IP=2394   NV UP EI PL NZ NA PE NC           
 195B:2394 89360200      MOV     t0002J,SI                          DS:0002=A000 
 
-AX=1BCF  BX=000A  CX=E804  DX=0000  SP=154E  BP=0000  SI=26AA  DI=179E          
+AX=1BCF  BX=0001  CX=DF04  DX=0000  SP=154E  BP=0000  SI=26AA  DI=179E
 DS=178E  ES=178E  SS=179E  CS=195B  IP=2398   NV UP EI PL NZ NA PE NC           
 195B:2398 8CC3          MOV     BX,ES                                           
 
-AX=1BCF  BX=178E  CX=E804  DX=0000  SP=154E  BP=0000  SI=26AA  DI=179E          
+AX=1BCF  BX=178E  CX=DF04  DX=0000  SP=154E  BP=0000  SI=26AA  DI=179E
 DS=178E  ES=178E  SS=179E  CS=195B  IP=239A   NV UP EI PL NZ NA PE NC           
 195B:239A 2BDE          SUB     BX,SI                                           
 
-AX=1BCF  BX=F0E4  CX=E804  DX=0000  SP=154E  BP=0000  SI=26AA  DI=179E          
+AX=1BCF  BX=F0E4  CX=DF04  DX=0000  SP=154E  BP=0000  SI=26AA  DI=179E
 DS=178E  ES=178E  SS=179E  CS=195B  IP=239C   NV UP EI NG NZ NA PE CY           
 195B:239C F7DB          NEG     BX                                              
 
-AX=1BCF  BX=0F1C  CX=E804  DX=0000  SP=154E  BP=0000  SI=26AA  DI=179E          
+AX=1BCF  BX=0F1C  CX=DF04  DX=0000  SP=154E  BP=0000  SI=26AA  DI=179E
 DS=178E  ES=178E  SS=179E  CS=195B  IP=239E   NV UP EI PL NZ AC PO CY           
 195B:239E B44A          MOV     AH,4A                                           
 
-AX=4ACF  BX=0F1C  CX=E804  DX=0000  SP=154E  BP=0000  SI=26AA  DI=179E          
+AX=4ACF  BX=0F1C  CX=DF04  DX=0000  SP=154E  BP=0000  SI=26AA  DI=179E
 DS=178E  ES=178E  SS=179E  CS=195B  IP=23A0   NV UP EI PL NZ AC PO CY           
 195B:23A0 CD21          INT     21                                              
 
-AX=178E  BX=0F1C  CX=E804  DX=0000  SP=154E  BP=0000  SI=26AA  DI=179E          
+AX=178E  BX=0F1C  CX=DF04  DX=0000  SP=154E  BP=0000  SI=26AA  DI=179E
 DS=178E  ES=178E  SS=179E  CS=195B  IP=23A2   NV UP EI PL NZ AC PO NC           
 195B:23A2 36            SS:                                                     
 195B:23A3 8C1EEA0C      MOV     t0CEAJ,DS                          SS:0CEA=0000 
 
-AX=178E  BX=0F1C  CX=E804  DX=0000  SP=154E  BP=0000  SI=26AA  DI=179E          
+AX=178E  BX=0F1C  CX=DF04  DX=0000  SP=154E  BP=0000  SI=26AA  DI=179E
 DS=178E  ES=178E  SS=179E  CS=195B  IP=23A7   NV UP EI PL NZ AC PO NC           
 195B:23A7 16            PUSH    SS                                              
 
-AX=178E  BX=0F1C  CX=E804  DX=0000  SP=154C  BP=0000  SI=26AA  DI=179E          
+AX=178E  BX=0F1C  CX=DF04  DX=0000  SP=154C  BP=0000  SI=26AA  DI=179E
 DS=178E  ES=178E  SS=179E  CS=195B  IP=23A8   NV UP EI PL NZ AC PO NC           
 195B:23A8 07            POP     ES                                              
 
-AX=178E  BX=0F1C  CX=E804  DX=0000  SP=154E  BP=0000  SI=26AA  DI=179E          
+AX=178E  BX=0F1C  CX=DF04  DX=0000  SP=154E  BP=0000  SI=26AA  DI=179E
 DS=178E  ES=179E  SS=179E  CS=195B  IP=23A9   NV UP EI PL NZ AC PO NC           
 195B:23A9 FC            CLD                                                     
 
-AX=178E  BX=0F1C  CX=E804  DX=0000  SP=154E  BP=0000  SI=26AA  DI=179E          
+AX=178E  BX=0F1C  CX=DF04  DX=0000  SP=154E  BP=0000  SI=26AA  DI=179E
 DS=178E  ES=179E  SS=179E  CS=195B  IP=23AA   NV UP EI PL NZ AC PO NC           
 195B:23AA BF8611        MOV     DI,1186                                         
 
-AX=178E  BX=0F1C  CX=E804  DX=0000  SP=154E  BP=0000  SI=26AA  DI=1186          
+AX=178E  BX=0F1C  CX=DF04  DX=0000  SP=154E  BP=0000  SI=26AA  DI=1186          
 DS=178E  ES=179E  SS=179E  CS=195B  IP=23AD   NV UP EI PL NZ AC PO NC           
 195B:23AD B91012        MOV     CX,1210                                         
 

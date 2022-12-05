@@ -15,6 +15,15 @@
 
 ARRAY_STACK(debugTestNewMemoryBlock, uint16_t)
 
+typedef struct RealModeMemoryBlock {
+    uint16_t paragraph;
+    uint16_t paragraphSize;
+    uint8_t isFree;
+
+    struct RealModeMemoryBlock* next;
+    struct RealModeMemoryBlock* back;
+} RealModeMemoryBlock;
+
 extern uint8_t *RealModeMemory;
 
 void realModMemorySetSize(uint16_t paragraphSize);
@@ -27,6 +36,7 @@ int allocateMemoryLoadWithForceBlock(uint16_t paragraph, uint16_t paragraphSize)
 
 uint8_t* realModMemoryGetPointerForBlock(uint16_t block);
 
+RealModeMemoryBlock* getAllBlockRealModMemory();
 #define GET_REAL_MOD_MEMORY_POINTER(block) (RealModeMemory + ((block) * 16))
 
 #endif /* DosMemoryManager_h */

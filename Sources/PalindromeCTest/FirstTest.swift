@@ -295,7 +295,7 @@ final class FirstTest: XCTestCase {
 
         wrapContext.loadProgram(with: .program, programm)
 
-        let number = 6721
+        let number = 6000
         let value = runFullModeToEndWithStopForTest(Int32(number))
         let result = String(cString: value!)
         value?.deallocate()
@@ -304,14 +304,14 @@ final class FirstTest: XCTestCase {
 //
 //        try! out.write(toFile: testPath, atomically: true, encoding: .utf8)
 
-        // try! result.convertFullOutToTest().write(toFile: testPath, atomically: true, encoding: .utf8)
+        try! result.convertFullOutToTest().write(toFile: testPath, atomically: true, encoding: .utf8)
 
         let source = String(data: try! Data(contentsOf: URL(fileURLWithPath: testPath)), encoding: .utf8)!
         let error = result.getErrorCommand(source: source)
 
         TAssert(error == number)
 
-        runFullModeToEndWithStop(0);
+        runFullModeToEndWithStop(10000);
     }
 
     func test09() throws {
@@ -343,6 +343,43 @@ final class FirstTest: XCTestCase {
         TAssert(error == nil || error == number)
 
         runFullModeToEndWithStop(0);
+    }
+
+    func test10() throws {
+        let wrapContext = WrapContext()
+        wrapContext.context?[0].mod = 1
+
+        let testPath = "/Users/alexandershipin/Documents/projects/Palindrome/Sources/TestSource/prince/reg.txt"
+//        let out = String(data: try! Data(contentsOf: URL(fileURLWithPath: "/Users/alexandershipin/Documents/projects/Palindrome/Sources/TestSource/prince/full.log")), encoding: .utf8)!.convertFullOutToTest()
+//
+//        try! out.write(toFile: testPath, atomically: true, encoding: .utf8)
+
+        let programm = try! Data(
+            contentsOf: URL.init(
+                fileURLWithPath: "/Users/alexandershipin/Downloads/pop1dem/POP1DEMO/PRINCE.EXE"
+            )
+        )
+
+        wrapContext.addVirtualFolder("D:\\", path: "/Users/alexandershipin/Downloads/pop1dem/POP1DEMO")
+        wrapContext.addVirtualFolder("D:\\DOOM.EXE", path: "/Users/alexandershipin/Downloads/pop1dem/POP1DEMO/PRINCE.EXE")
+
+        wrapContext.loadProgram(with: .program, programm)
+
+        let number = 315
+        let value = runFullModeToEndWithStopForTest(Int32(number))
+        let result = String(cString: value!)
+        value?.deallocate()
+
+        // try! result.write(toFile: testPath, atomically: true, encoding: .utf8)
+
+        let source = String(data: try! Data(contentsOf: URL(fileURLWithPath: testPath)), encoding: .utf8)!
+        let error = result.getErrorCommand(source: source)
+
+        TAssert(error == nil || error == number)
+
+        runFullModeToEndWithStop(40000);
+
+        TAssert(true);
     }
 }
 

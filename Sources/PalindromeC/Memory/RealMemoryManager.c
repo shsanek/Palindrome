@@ -11,16 +11,11 @@ ARRAY_STACK_IMP(debugTestNewMemoryBlock, uint16_t);
 
 uint8_t *RealModeMemory = NULL;
 
-typedef struct RealModeMemoryBlock {
-    uint16_t paragraph;
-    uint16_t paragraphSize;
-    uint8_t isFree;
-
-    struct RealModeMemoryBlock* next;
-    struct RealModeMemoryBlock* back;
-} RealModeMemoryBlock;
-
 RealModeMemoryBlock *RealModeMemoryBlockHead = NULL;
+
+RealModeMemoryBlock* getAllBlockRealModMemory() {
+    return RealModeMemoryBlockHead;
+}
 
 void removeRealModeMemoryBlock(RealModeMemoryBlock *block) {
     if (block == NULL) {
@@ -82,7 +77,8 @@ int allocateMemoryLoadWithForceBlock(uint16_t paragraph, uint16_t paragraphSize)
     while (current!= NULL && !(current->paragraph <= paragraph && paragraph < current->paragraphSize + current->paragraph)) {
         current = current->next;
     }
-    return realModMemoryAllocateInBlock(paragraph, paragraphSize, current);
+    realModMemoryAllocateInBlock(paragraph, paragraphSize, current);
+    return paragraph;
 }
 
 int realModMemoryRelocate(uint16_t paragraph, uint16_t paragraphSize) {

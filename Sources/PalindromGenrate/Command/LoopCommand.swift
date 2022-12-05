@@ -115,6 +115,55 @@ fileprivate let returnC3Command = Command(
     installFormatter: InitialFormatter()
 )
 
+
+fileprivate let returnC2Command = Command(
+    code: 0x00C2,
+    name: "Ret",
+    format: .init(
+        hasPrefixAddress: false,
+        hasPrefixData: false,
+        inlines: []
+    ),
+    functionFormatter: Formatter(
+        customizers: [
+            .functionName,
+            .vars,
+            .settings([.bigData]),
+            """
+            uint%addressSize_t* sp = register%addressSizeu(BR_SP);
+            context.index = GET_SEGMENT_POINTER(1) + *(uint%MOD_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp);
+            *sp += ((%MOD / 8) + read16u() * (%dataSize / 16));
+            """
+        ]
+    ),
+    installFormatter: InitialFormatter()
+)
+
+fileprivate let returnCACommand = Command(
+    code: 0x00CA,
+    name: "Ret",
+    format: .init(
+        hasPrefixAddress: false,
+        hasPrefixData: false,
+        inlines: []
+    ),
+    functionFormatter: Formatter(
+        customizers: [
+            .functionName,
+            .vars,
+            .settings([.bigData]),
+            """
+            uint%addressSize_t* sp = register%addressSizeu(BR_SP);
+            SET_VALUE_IN_SEGMENT(1, *(int16_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp + %MOD / 8));
+            context.index = GET_SEGMENT_POINTER(1) + *(uint%MOD_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp);
+            *sp += %MOD / 8 + 2;
+            *sp += ((%MOD / 8) + read16u() * (%dataSize / 16));
+            """
+        ]
+    ),
+    installFormatter: InitialFormatter()
+)
+
 fileprivate let returnCBCommand = Command(
     code: 0x00CB,
     name: "Ret",
@@ -287,14 +336,18 @@ func appendLoopCommand(generator: Generator) {
     generator.addCommand(loopE1Command)
     generator.addCommand(loopE0Command)
 
+    generator.addCommand(jmpCondCommand)
+
     generator.addCommand(jmpCommand)
     generator.addCommand(jmpBigCommand)
     generator.addCommand(bigJmpCondCommand)
+
     generator.addCommand(callCommand)
     generator.addCommand(callFarCommand)
-    generator.addCommand(jmpCondCommand)
 
+    generator.addCommand(returnC2Command)
     generator.addCommand(returnC3Command)
+    generator.addCommand(returnCACommand)
     generator.addCommand(returnCBCommand)
 }
 

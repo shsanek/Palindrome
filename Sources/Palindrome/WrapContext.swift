@@ -69,10 +69,6 @@ public final class WrapContext {
         freeContext()
     }
 
-    public func runCommand() {
-        PalindromeC.runCommand()
-    }
-
     public func loadProgram(with type: LoadProgramType, pointer: UnsafeMutablePointer<UInt8>, size: Int) {
         switch type {
         case .program:

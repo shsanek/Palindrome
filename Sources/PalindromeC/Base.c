@@ -41,6 +41,11 @@ void getCommand() {
         value = read8u();
     }
 
+    if (value == 0x66) {
+        command |= 0x0400;
+        value = read8u();
+    }
+    
     uint16_t changeSegmentPrefix = 0;
     uint8_t hasSegmentPrefix = 0;
     //    Код 26 - сегмент по умолчанию заменяется на сегмент ES.
@@ -130,23 +135,9 @@ void getCommand() {
 
 // readMRM
 
-#define runCommand16() {\
+#define runCommand() {\
     getCommand();\
     commandFunctions[context.lastCommandInfo.command]();\
-}
-
-#define runCommand32() { \
-    getCommand(); \
-    commandFunctions[context.lastCommandInfo.command](); \
-}
-
-void runCommand() {
-    context.lastCommandInfo.command = 0;
-    if (context.mod) {
-        runCommand32();
-    } else {
-        runCommand16();
-    }
 }
 
 void pushInStack32u(uint32_t value) {
@@ -166,7 +157,7 @@ void run16FromFullModeToEnd(int* count, int *index) {
     PRINT16_REGS
     while (context.end == 0 && (*count) > 0) {
         LOG("step %d|", *index);
-        runCommand16();
+        runCommand();
         LOG("%s", " ");
         DEBUG_RUN({
             printDebugLine();
@@ -183,7 +174,7 @@ void run32FromFullModeToEnd(int* count, int *index) {
     PRINT32_REGS
     while (context.end == 0 && (*count) > 0) {
         LOG("step %d|", (*index));
-        runCommand32();
+        runCommand();
         LOG("%s", " ");
         DEBUG_RUN({
             printDebugLine();
@@ -214,13 +205,13 @@ void runFullModeToEndWithStop(int count) {
 
 void run16FromFullMode() {
     while (context.end == 0) {
-        runCommand16();
+        runCommand();
     }
 }
 
 void run32FromFullMode() {
     while (context.end == 0) {
-        runCommand32();
+        runCommand();
     }
 }
 
@@ -238,9 +229,25 @@ void runFullMode(int count) {
     }
 }
 
+void skipInt() {
+    uint16_t* sp = register16u(BR_SP);
+    uint16_t segmentValue = *(int16_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp + 16 / 8);
+    uint8_t* pointer = GET_REAL_MOD_MEMORY_POINTER(segmentValue) + *(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp);
+
+    while (context.end == 0) {
+        if (context.index == pointer) {
+            return;
+        }
+        runCommand();
+    }
+}
+
 void run16FullModeToEndWithStopForTest(int* count, int* index, char** out) {
     while (context.end == 0 && (*count) > 0) {
-        runCommand16();
+        runCommand();
+        if (context.lastCommandInfo.command == 0x00CD) {
+            skipInt();
+        }
         char* regs = print16Registers();
         sprintf(*out, "%s", regs);
         (*out) += REG16_PRINT_SIZE;
@@ -252,7 +259,10 @@ void run16FullModeToEndWithStopForTest(int* count, int* index, char** out) {
 
 void run32FullModeToEndWithStopForTest(int* count, int* index, char** out) {
     while (context.end == 0 && (*count) > 0) {
-        runCommand32();
+        runCommand();
+        if (context.lastCommandInfo.command == 0x00CD) {
+            skipInt();
+        }
         char* regs = print32Registers();
         sprintf(*out, "%s", regs);
         (*out) += REG32_PRINT_SIZE;

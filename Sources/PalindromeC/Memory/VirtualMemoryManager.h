@@ -14,24 +14,32 @@
 #include "../Support/Log.h"
 #include "RealMemoryManager.h"
 
-#define VirtualModMemoryMASK 0x1FFF
+#define VirtualModMemoryMASK(value) (value >> 2)
+#define MAX_HANDLER (0xFF - 1)
 
-extern uint8_t* VirtualModMemoryTable[0x1FFF];
+typedef struct VirtualMemoryItem {
+    uint8_t isAllocate;
+    uint16_t limit;
+    uint32_t base;
+    uint8_t size;
+    uint8_t UDX;
+    uint8_t info;
+    uint16_t index;
+    uint8_t *pointer;
 
-int virtualModMemoryAllocate(uint32_t size);
-int virtualModMemoryRelocate(uint16_t block, uint32_t size);
-int virtualModMemoryFree(uint16_t block);
+    struct VirtualMemoryItem *next;
+} VirtualMemoryItem;
 
-int onlyVirtualModMemoryAllocate(uint32_t size);
-int onlyVirtualModMemoryRelocate(uint16_t block, uint32_t size);
-int onlyVirtualModMemoryFree(uint16_t block);
+extern uint8_t* VirtualMemoryPointerMap[0x3FFF];
+typedef uint16_t HANDLER;
+void installVirtualMemoryGlobalTable();
+void installVirtualMemoryTableForProcess(HANDLER handler);
+void activeVirtualMemoryTableForProcess(HANDLER handler);
+//
+//int virtualModMemoryConvertFromRealMemory(uint8_t* block, uint8_t isRoot);
+//
+//uint8_t* virtualModMemoryGetPointerForBlock(uint16_t block);
 
-int virtualModMemoryConvertFromRealMemory(uint8_t* block, uint8_t isRoot);
-
-void installVirtualModMemory();
-
-uint8_t* virtualModMemoryGetPointerForBlock(uint16_t block);
-
-#define GET_VIRTUAL_MOD_MEMORY_POINTER(block) (VirtualModMemoryTable[(block) & 0x1FFF])
+#define GET_VIRTUAL_MOD_MEMORY_POINTER(block) (VirtualMemoryPointerMap[VirtualModMemoryMASK(block)])
 
 #endif /* VirtualMemoryManager_h */

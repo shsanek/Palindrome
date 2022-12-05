@@ -1,0 +1,1279 @@
+AX=0000  BX=0001  CX=DFC7  DX=0000  SP=0080  BP=0000  SI=0000  DI=0000          
+DS=178E  ES=178E  SS=368B  CS=34C1  IP=0012   NV UP EI PL NZ NA PO NC           
+34C1:0012 8CC0          MOV     AX,ES                                           
+
+AX=178E  BX=0001  CX=DFC7  DX=0000  SP=0080  BP=0000  SI=0000  DI=0000          
+DS=178E  ES=178E  SS=368B  CS=34C1  IP=0014   NV UP EI PL NZ NA PO NC           
+34C1:0014 051000        ADD     AX,0010                                         
+
+AX=179E  BX=0001  CX=DFC7  DX=0000  SP=0080  BP=0000  SI=0000  DI=0000          
+DS=178E  ES=178E  SS=368B  CS=34C1  IP=0017   NV UP EI PL NZ NA PO NC           
+34C1:0017 0E            PUSH    CS                                              
+
+AX=179E  BX=0001  CX=DFC7  DX=0000  SP=007E  BP=0000  SI=0000  DI=0000          
+DS=178E  ES=178E  SS=368B  CS=34C1  IP=0018   NV UP EI PL NZ NA PO NC           
+34C1:0018 1F            POP     DS                                              
+
+AX=179E  BX=0001  CX=DFC7  DX=0000  SP=0080  BP=0000  SI=0000  DI=0000          
+DS=34C1  ES=178E  SS=368B  CS=34C1  IP=0019   NV UP EI PL NZ NA PO NC           
+34C1:0019 A30400        MOV     t0004J,AX                          DS:0004=0000 
+
+AX=179E  BX=0001  CX=DFC7  DX=0000  SP=0080  BP=0000  SI=0000  DI=0000          
+DS=34C1  ES=178E  SS=368B  CS=34C1  IP=001C   NV UP EI PL NZ NA PO NC           
+34C1:001C 03060C00      ADD     AX,t000CJ                          DS:000C=1E13 
+
+AX=35B1  BX=0001  CX=DFC7  DX=0000  SP=0080  BP=0000  SI=0000  DI=0000          
+DS=34C1  ES=178E  SS=368B  CS=34C1  IP=0020   NV UP EI PL NZ AC PE NC           
+34C1:0020 8EC0          MOV     ES,AX                                           
+
+AX=35B1  BX=0001  CX=DFC7  DX=0000  SP=0080  BP=0000  SI=0000  DI=0000          
+DS=34C1  ES=35B1  SS=368B  CS=34C1  IP=0022   NV UP EI PL NZ AC PE NC           
+34C1:0022 8B0E0600      MOV     CX,t0006J                          DS:0006=0D97 
+
+AX=35B1  BX=0001  CX=0D97  DX=0000  SP=0080  BP=0000  SI=0000  DI=0000          
+DS=34C1  ES=35B1  SS=368B  CS=34C1  IP=0026   NV UP EI PL NZ AC PE NC           
+34C1:0026 8BF9          MOV     DI,CX                                           
+
+AX=35B1  BX=0001  CX=0D97  DX=0000  SP=0080  BP=0000  SI=0000  DI=0D97          
+DS=34C1  ES=35B1  SS=368B  CS=34C1  IP=0028   NV UP EI PL NZ AC PE NC           
+34C1:0028 4F            DEC     DI                                              
+
+AX=35B1  BX=0001  CX=0D97  DX=0000  SP=0080  BP=0000  SI=0000  DI=0D96          
+DS=34C1  ES=35B1  SS=368B  CS=34C1  IP=0029   NV UP EI PL NZ NA PE NC           
+34C1:0029 8BF7          MOV     SI,DI                                           
+
+AX=35B1  BX=0001  CX=0D97  DX=0000  SP=0080  BP=0000  SI=0D96  DI=0D96          
+DS=34C1  ES=35B1  SS=368B  CS=34C1  IP=002B   NV UP EI PL NZ NA PE NC           
+34C1:002B FD            STD                                                     
+
+AX=35B1  BX=0001  CX=0D97  DX=0000  SP=0080  BP=0000  SI=0D96  DI=0D96          
+DS=34C1  ES=35B1  SS=368B  CS=34C1  IP=002C   NV DN EI PL NZ NA PE NC           
+34C1:002C F3            REPZ                                                    
+34C1:002D A4            MOVSB                                                   
+
+AX=35B1  BX=0001  CX=0000  DX=0000  SP=0080  BP=0000  SI=FFFF  DI=FFFF          
+DS=34C1  ES=35B1  SS=368B  CS=34C1  IP=002E   NV DN EI PL NZ NA PE NC           
+34C1:002E 8B160E00      MOV     DX,t000EJ                          DS:000E=0001 
+
+AX=35B1  BX=0001  CX=0000  DX=0001  SP=0080  BP=0000  SI=FFFF  DI=FFFF          
+DS=34C1  ES=35B1  SS=368B  CS=34C1  IP=0032   NV DN EI PL NZ NA PE NC           
+34C1:0032 50            PUSH    AX                                              
+
+AX=35B1  BX=0001  CX=0000  DX=0001  SP=007E  BP=0000  SI=FFFF  DI=FFFF          
+DS=34C1  ES=35B1  SS=368B  CS=34C1  IP=0033   NV DN EI PL NZ NA PE NC           
+34C1:0033 B83800        MOV     AX,0038                                         
+
+AX=0038  BX=0001  CX=0000  DX=0001  SP=007E  BP=0000  SI=FFFF  DI=FFFF          
+DS=34C1  ES=35B1  SS=368B  CS=34C1  IP=0036   NV DN EI PL NZ NA PE NC           
+34C1:0036 50            PUSH    AX                                              
+
+AX=0038  BX=0001  CX=0000  DX=0001  SP=007C  BP=0000  SI=FFFF  DI=FFFF          
+DS=34C1  ES=35B1  SS=368B  CS=34C1  IP=0037   NV DN EI PL NZ NA PE NC           
+34C1:0037 CB            RETF                                                    
+
+AX=0038  BX=0001  CX=0000  DX=0001  SP=0080  BP=0000  SI=FFFF  DI=FFFF          
+DS=34C1  ES=35B1  SS=368B  CS=35B1  IP=0038   NV DN EI PL NZ NA PE NC           
+35B1:0038 8CC3          MOV     BX,ES                                           
+
+AX=0038  BX=35B1  CX=0000  DX=0001  SP=0080  BP=0000  SI=FFFF  DI=FFFF          
+DS=34C1  ES=35B1  SS=368B  CS=35B1  IP=003A   NV DN EI PL NZ NA PE NC           
+35B1:003A 8CD8          MOV     AX,DS                                           
+
+AX=34C1  BX=35B1  CX=0000  DX=0001  SP=0080  BP=0000  SI=FFFF  DI=FFFF          
+DS=34C1  ES=35B1  SS=368B  CS=35B1  IP=003C   NV DN EI PL NZ NA PE NC           
+35B1:003C 2BC2          SUB     AX,DX                                           
+
+AX=34C0  BX=35B1  CX=0000  DX=0001  SP=0080  BP=0000  SI=FFFF  DI=FFFF          
+DS=34C1  ES=35B1  SS=368B  CS=35B1  IP=003E   NV DN EI PL NZ NA PE NC           
+35B1:003E 8ED8          MOV     DS,AX                                           
+
+AX=34C0  BX=35B1  CX=0000  DX=0001  SP=0080  BP=0000  SI=FFFF  DI=FFFF          
+DS=34C0  ES=35B1  SS=368B  CS=35B1  IP=0040   NV DN EI PL NZ NA PE NC           
+35B1:0040 8EC0          MOV     ES,AX                                           
+
+AX=34C0  BX=35B1  CX=0000  DX=0001  SP=0080  BP=0000  SI=FFFF  DI=FFFF          
+DS=34C0  ES=34C0  SS=368B  CS=35B1  IP=0042   NV DN EI PL NZ NA PE NC           
+35B1:0042 BF0F00        MOV     DI,000F                                         
+
+AX=34C0  BX=35B1  CX=0000  DX=0001  SP=0080  BP=0000  SI=FFFF  DI=000F          
+DS=34C0  ES=34C0  SS=368B  CS=35B1  IP=0045   NV DN EI PL NZ NA PE NC           
+35B1:0045 B91000        MOV     CX,0010                                         
+
+AX=34C0  BX=35B1  CX=0010  DX=0001  SP=0080  BP=0000  SI=FFFF  DI=000F          
+DS=34C0  ES=34C0  SS=368B  CS=35B1  IP=0048   NV DN EI PL NZ NA PE NC           
+35B1:0048 B0FF          MOV     AL,FF                                           
+
+AX=34FF  BX=35B1  CX=0010  DX=0001  SP=0080  BP=0000  SI=FFFF  DI=000F          
+DS=34C0  ES=34C0  SS=368B  CS=35B1  IP=004A   NV DN EI PL NZ NA PE NC           
+35B1:004A F3            REPZ                                                    
+35B1:004B AE            SCASB                                                   
+
+AX=34FF  BX=35B1  CX=0004  DX=0001  SP=0080  BP=0000  SI=FFFF  DI=0003          
+DS=34C0  ES=34C0  SS=368B  CS=35B1  IP=004C   NV DN EI PL NZ NA PO NC           
+35B1:004C 47            INC     DI                                              
+
+AX=34FF  BX=35B1  CX=0004  DX=0001  SP=0080  BP=0000  SI=FFFF  DI=0004          
+DS=34C0  ES=34C0  SS=368B  CS=35B1  IP=004D   NV DN EI PL NZ NA PO NC           
+35B1:004D 8BF7          MOV     SI,DI                                           
+
+AX=34FF  BX=35B1  CX=0004  DX=0001  SP=0080  BP=0000  SI=0004  DI=0004          
+DS=34C0  ES=34C0  SS=368B  CS=35B1  IP=004F   NV DN EI PL NZ NA PO NC           
+35B1:004F 8BC3          MOV     AX,BX                                           
+
+AX=35B1  BX=35B1  CX=0004  DX=0001  SP=0080  BP=0000  SI=0004  DI=0004          
+DS=34C0  ES=34C0  SS=368B  CS=35B1  IP=0051   NV DN EI PL NZ NA PO NC           
+35B1:0051 2BC2          SUB     AX,DX                                           
+
+AX=35B0  BX=35B1  CX=0004  DX=0001  SP=0080  BP=0000  SI=0004  DI=0004          
+DS=34C0  ES=34C0  SS=368B  CS=35B1  IP=0053   NV DN EI PL NZ NA PO NC           
+35B1:0053 8EC0          MOV     ES,AX                                           
+
+AX=35B0  BX=35B1  CX=0004  DX=0001  SP=0080  BP=0000  SI=0004  DI=0004          
+DS=34C0  ES=35B0  SS=368B  CS=35B1  IP=0055   NV DN EI PL NZ NA PO NC           
+35B1:0055 BF0F00        MOV     DI,000F                                         
+
+AX=35B0  BX=35B1  CX=0004  DX=0001  SP=0080  BP=0000  SI=0004  DI=000F          
+DS=34C0  ES=35B0  SS=368B  CS=35B1  IP=0058   NV DN EI PL NZ NA PO NC           
+35B1:0058 B104          MOV     CL,04                                           
+
+AX=35B0  BX=35B1  CX=0004  DX=0001  SP=0080  BP=0000  SI=0004  DI=000F          
+DS=34C0  ES=35B0  SS=368B  CS=35B1  IP=005A   NV DN EI PL NZ NA PO NC           
+35B1:005A 8BC6          MOV     AX,SI                                           
+
+AX=0004  BX=35B1  CX=0004  DX=0001  SP=0080  BP=0000  SI=0004  DI=000F          
+DS=34C0  ES=35B0  SS=368B  CS=35B1  IP=005C   NV DN EI PL NZ NA PO NC           
+35B1:005C F7D0          NOT     AX                                              
+
+AX=FFFB  BX=35B1  CX=0004  DX=0001  SP=0080  BP=0000  SI=0004  DI=000F          
+DS=34C0  ES=35B0  SS=368B  CS=35B1  IP=005E   NV DN EI PL NZ NA PO NC           
+35B1:005E D3E8          SHR     AX,CL                                           
+
+AX=0FFF  BX=35B1  CX=0004  DX=0001  SP=0080  BP=0000  SI=0004  DI=000F          
+DS=34C0  ES=35B0  SS=368B  CS=35B1  IP=0060   NV DN EI PL NZ NA PE CY           
+35B1:0060 7409          JZ      006B                                            
+
+AX=0FFF  BX=35B1  CX=0004  DX=0001  SP=0080  BP=0000  SI=0004  DI=000F          
+DS=34C0  ES=35B0  SS=368B  CS=35B1  IP=0062   NV DN EI PL NZ NA PE CY           
+35B1:0062 8CDA          MOV     DX,DS                                           
+
+AX=0FFF  BX=35B1  CX=0004  DX=34C0  SP=0080  BP=0000  SI=0004  DI=000F          
+DS=34C0  ES=35B0  SS=368B  CS=35B1  IP=0064   NV DN EI PL NZ NA PE CY           
+35B1:0064 2BD0          SUB     DX,AX                                           
+
+AX=0FFF  BX=35B1  CX=0004  DX=24C1  SP=0080  BP=0000  SI=0004  DI=000F          
+DS=34C0  ES=35B0  SS=368B  CS=35B1  IP=0066   NV DN EI PL NZ AC PO NC           
+35B1:0066 8EDA          MOV     DS,DX                                           
+
+AX=0FFF  BX=35B1  CX=0004  DX=24C1  SP=0080  BP=0000  SI=0004  DI=000F          
+DS=24C1  ES=35B0  SS=368B  CS=35B1  IP=0068   NV DN EI PL NZ AC PO NC           
+35B1:0068 83CEF0        OR      SI,-10                                          
+
+AX=0FFF  BX=35B1  CX=0004  DX=24C1  SP=0080  BP=0000  SI=FFF4  DI=000F          
+DS=24C1  ES=35B0  SS=368B  CS=35B1  IP=006B   NV DN EI NG NZ NA PO NC           
+35B1:006B 8BC7          MOV     AX,DI                                           
+
+AX=000F  BX=35B1  CX=0004  DX=24C1  SP=0080  BP=0000  SI=FFF4  DI=000F          
+DS=24C1  ES=35B0  SS=368B  CS=35B1  IP=006D   NV DN EI NG NZ NA PO NC           
+35B1:006D F7D0          NOT     AX                                              
+
+AX=FFF0  BX=35B1  CX=0004  DX=24C1  SP=0080  BP=0000  SI=FFF4  DI=000F          
+DS=24C1  ES=35B0  SS=368B  CS=35B1  IP=006F   NV DN EI NG NZ NA PO NC           
+35B1:006F D3E8          SHR     AX,CL                                           
+
+AX=0FFF  BX=35B1  CX=0004  DX=24C1  SP=0080  BP=0000  SI=FFF4  DI=000F          
+DS=24C1  ES=35B0  SS=368B  CS=35B1  IP=0071   NV DN EI PL NZ NA PE NC           
+35B1:0071 7409          JZ      007C                                            
+
+AX=0FFF  BX=35B1  CX=0004  DX=24C1  SP=0080  BP=0000  SI=FFF4  DI=000F          
+DS=24C1  ES=35B0  SS=368B  CS=35B1  IP=0073   NV DN EI PL NZ NA PE NC           
+35B1:0073 8CC2          MOV     DX,ES                                           
+
+AX=0FFF  BX=35B1  CX=0004  DX=35B0  SP=0080  BP=0000  SI=FFF4  DI=000F          
+DS=24C1  ES=35B0  SS=368B  CS=35B1  IP=0075   NV DN EI PL NZ NA PE NC           
+35B1:0075 2BD0          SUB     DX,AX                                           
+
+AX=0FFF  BX=35B1  CX=0004  DX=25B1  SP=0080  BP=0000  SI=FFF4  DI=000F          
+DS=24C1  ES=35B0  SS=368B  CS=35B1  IP=0077   NV DN EI PL NZ AC PE NC           
+35B1:0077 8EC2          MOV     ES,DX                                           
+
+AX=0FFF  BX=35B1  CX=0004  DX=25B1  SP=0080  BP=0000  SI=FFF4  DI=000F          
+DS=24C1  ES=25B1  SS=368B  CS=35B1  IP=0079   NV DN EI PL NZ AC PE NC           
+35B1:0079 83CFF0        OR      DI,-10                                          
+
+AX=0FFF  BX=35B1  CX=0004  DX=25B1  SP=0080  BP=0000  SI=FFF4  DI=FFFF          
+DS=24C1  ES=25B1  SS=368B  CS=35B1  IP=007C   NV DN EI NG NZ NA PE NC           
+35B1:007C AC            LODSB                                                   
+
+AX=0FB0  BX=35B1  CX=0004  DX=25B1  SP=0080  BP=0000  SI=FFF3  DI=FFFF          
+DS=24C1  ES=25B1  SS=368B  CS=35B1  IP=007D   NV DN EI NG NZ NA PE NC           
+35B1:007D 8AD0          MOV     DL,AL                                           
+
+AX=0FB0  BX=35B1  CX=0004  DX=25B0  SP=0080  BP=0000  SI=FFF3  DI=FFFF          
+DS=24C1  ES=25B1  SS=368B  CS=35B1  IP=007F   NV DN EI NG NZ NA PE NC           
+35B1:007F 4E            DEC     SI                                              
+
+AX=0FB0  BX=35B1  CX=0004  DX=25B0  SP=0080  BP=0000  SI=FFF2  DI=FFFF          
+DS=24C1  ES=25B1  SS=368B  CS=35B1  IP=0080   NV DN EI NG NZ NA PO NC           
+35B1:0080 AD            LODSW                                                   
+
+AX=0003  BX=35B1  CX=0004  DX=25B0  SP=0080  BP=0000  SI=FFF0  DI=FFFF          
+DS=24C1  ES=25B1  SS=368B  CS=35B1  IP=0081   NV DN EI NG NZ NA PO NC           
+35B1:0081 8BC8          MOV     CX,AX                                           
+
+AX=0003  BX=35B1  CX=0003  DX=25B0  SP=0080  BP=0000  SI=FFF0  DI=FFFF          
+DS=24C1  ES=25B1  SS=368B  CS=35B1  IP=0083   NV DN EI NG NZ NA PO NC           
+35B1:0083 46            INC     SI                                              
+
+AX=0003  BX=35B1  CX=0003  DX=25B0  SP=0080  BP=0000  SI=FFF1  DI=FFFF          
+DS=24C1  ES=25B1  SS=368B  CS=35B1  IP=0084   NV DN EI NG NZ NA PO NC           
+35B1:0084 8AC2          MOV     AL,DL                                           
+
+AX=00B0  BX=35B1  CX=0003  DX=25B0  SP=0080  BP=0000  SI=FFF1  DI=FFFF          
+DS=24C1  ES=25B1  SS=368B  CS=35B1  IP=0086   NV DN EI NG NZ NA PO NC           
+35B1:0086 24FE          AND     AL,FE                                           
+
+AX=00B0  BX=35B1  CX=0003  DX=25B0  SP=0080  BP=0000  SI=FFF1  DI=FFFF          
+DS=24C1  ES=25B1  SS=368B  CS=35B1  IP=0088   NV DN EI NG NZ NA PO NC           
+35B1:0088 3CB0          CMP     AL,B0                                           
+
+AX=00B0  BX=35B1  CX=0003  DX=25B0  SP=0080  BP=0000  SI=FFF1  DI=FFFF          
+DS=24C1  ES=25B1  SS=368B  CS=35B1  IP=008A   NV DN EI PL ZR NA PE NC           
+35B1:008A 7506          JNZ     0092                                            
+
+AX=00B0  BX=35B1  CX=0003  DX=25B0  SP=0080  BP=0000  SI=FFF1  DI=FFFF          
+DS=24C1  ES=25B1  SS=368B  CS=35B1  IP=008C   NV DN EI PL ZR NA PE NC           
+35B1:008C AC            LODSB                                                   
+
+AX=0000  BX=35B1  CX=0003  DX=25B0  SP=0080  BP=0000  SI=FFF0  DI=FFFF          
+DS=24C1  ES=25B1  SS=368B  CS=35B1  IP=008D   NV DN EI PL ZR NA PE NC           
+35B1:008D F3            REPZ                                                    
+35B1:008E AA            STOSB                                                   
+
+AX=0000  BX=35B1  CX=0000  DX=25B0  SP=0080  BP=0000  SI=FFF0  DI=FFFC          
+DS=24C1  ES=25B1  SS=368B  CS=35B1  IP=008F   NV DN EI PL ZR NA PE NC           
+35B1:008F EB07          JMP     0098                                            
+
+AX=0000  BX=35B1  CX=0000  DX=25B0  SP=0080  BP=0000  SI=FFF0  DI=FFFC          
+DS=24C1  ES=25B1  SS=368B  CS=35B1  IP=0098   NV DN EI PL ZR NA PE NC           
+35B1:0098 8AC2          MOV     AL,DL                                           
+
+AX=00B0  BX=35B1  CX=0000  DX=25B0  SP=0080  BP=0000  SI=FFF0  DI=FFFC          
+DS=24C1  ES=25B1  SS=368B  CS=35B1  IP=009A   NV DN EI PL ZR NA PE NC           
+35B1:009A A801          TEST    AL,01                                           
+
+AX=00B0  BX=35B1  CX=0000  DX=25B0  SP=0080  BP=0000  SI=FFF0  DI=FFFC          
+DS=24C1  ES=25B1  SS=368B  CS=35B1  IP=009C   NV DN EI PL ZR NA PE NC           
+35B1:009C 74BA          JZ      0058                                            
+
+AX=00B0  BX=35B1  CX=0000  DX=25B0  SP=0080  BP=0000  SI=FFF0  DI=FFFC          
+DS=24C1  ES=25B1  SS=368B  CS=35B1  IP=0058   NV DN EI PL ZR NA PE NC           
+35B1:0058 B104          MOV     CL,04                                           
+
+AX=00B0  BX=35B1  CX=0004  DX=25B0  SP=0080  BP=0000  SI=FFF0  DI=FFFC          
+DS=24C1  ES=25B1  SS=368B  CS=35B1  IP=005A   NV DN EI PL ZR NA PE NC           
+35B1:005A 8BC6          MOV     AX,SI                                           
+
+AX=FFF0  BX=35B1  CX=0004  DX=25B0  SP=0080  BP=0000  SI=FFF0  DI=FFFC          
+DS=24C1  ES=25B1  SS=368B  CS=35B1  IP=005C   NV DN EI PL ZR NA PE NC           
+35B1:005C F7D0          NOT     AX                                              
+
+AX=000F  BX=35B1  CX=0004  DX=25B0  SP=0080  BP=0000  SI=FFF0  DI=FFFC          
+DS=24C1  ES=25B1  SS=368B  CS=35B1  IP=005E   NV DN EI PL ZR NA PE NC           
+35B1:005E D3E8          SHR     AX,CL                                           
+
+AX=0000  BX=35B1  CX=0004  DX=25B0  SP=0080  BP=0000  SI=FFF0  DI=FFFC          
+DS=24C1  ES=25B1  SS=368B  CS=35B1  IP=0060   NV DN EI PL ZR NA PE CY           
+35B1:0060 7409          JZ      006B                                            
+
+AX=0000  BX=35B1  CX=0004  DX=25B0  SP=0080  BP=0000  SI=FFF0  DI=FFFC          
+DS=24C1  ES=25B1  SS=368B  CS=35B1  IP=006B   NV DN EI PL ZR NA PE CY           
+35B1:006B 8BC7          MOV     AX,DI                                           
+
+AX=FFFC  BX=35B1  CX=0004  DX=25B0  SP=0080  BP=0000  SI=FFF0  DI=FFFC          
+DS=24C1  ES=25B1  SS=368B  CS=35B1  IP=006D   NV DN EI PL ZR NA PE CY           
+35B1:006D F7D0          NOT     AX                                              
+
+AX=0003  BX=35B1  CX=0004  DX=25B0  SP=0080  BP=0000  SI=FFF0  DI=FFFC          
+DS=24C1  ES=25B1  SS=368B  CS=35B1  IP=006F   NV DN EI PL ZR NA PE CY           
+35B1:006F D3E8          SHR     AX,CL                                           
+
+AX=0000  BX=35B1  CX=0004  DX=25B0  SP=0080  BP=0000  SI=FFF0  DI=FFFC          
+DS=24C1  ES=25B1  SS=368B  CS=35B1  IP=0071   NV DN EI PL ZR NA PE NC           
+35B1:0071 7409          JZ      007C                                            
+
+AX=0000  BX=35B1  CX=0004  DX=25B0  SP=0080  BP=0000  SI=FFF0  DI=FFFC          
+DS=24C1  ES=25B1  SS=368B  CS=35B1  IP=007C   NV DN EI PL ZR NA PE NC           
+35B1:007C AC            LODSB                                                   
+
+AX=00B2  BX=35B1  CX=0004  DX=25B0  SP=0080  BP=0000  SI=FFEF  DI=FFFC          
+DS=24C1  ES=25B1  SS=368B  CS=35B1  IP=007D   NV DN EI PL ZR NA PE NC           
+35B1:007D 8AD0          MOV     DL,AL                                           
+
+AX=00B2  BX=35B1  CX=0004  DX=25B2  SP=0080  BP=0000  SI=FFEF  DI=FFFC          
+DS=24C1  ES=25B1  SS=368B  CS=35B1  IP=007F   NV DN EI PL ZR NA PE NC           
+35B1:007F 4E            DEC     SI                                              
+
+AX=00B2  BX=35B1  CX=0004  DX=25B2  SP=0080  BP=0000  SI=FFEE  DI=FFFC          
+DS=24C1  ES=25B1  SS=368B  CS=35B1  IP=0080   NV DN EI NG NZ NA PE NC           
+35B1:0080 AD            LODSW                                                   
+
+AX=00DD  BX=35B1  CX=0004  DX=25B2  SP=0080  BP=0000  SI=FFEC  DI=FFFC          
+DS=24C1  ES=25B1  SS=368B  CS=35B1  IP=0081   NV DN EI NG NZ NA PE NC           
+35B1:0081 8BC8          MOV     CX,AX                                           
+
+AX=00DD  BX=35B1  CX=00DD  DX=25B2  SP=0080  BP=0000  SI=FFEC  DI=FFFC          
+DS=24C1  ES=25B1  SS=368B  CS=35B1  IP=0083   NV DN EI NG NZ NA PE NC           
+35B1:0083 46            INC     SI                                              
+
+AX=00DD  BX=35B1  CX=00DD  DX=25B2  SP=0080  BP=0000  SI=FFED  DI=FFFC          
+DS=24C1  ES=25B1  SS=368B  CS=35B1  IP=0084   NV DN EI NG NZ NA PE NC           
+35B1:0084 8AC2          MOV     AL,DL                                           
+
+AX=00B2  BX=35B1  CX=00DD  DX=25B2  SP=0080  BP=0000  SI=FFED  DI=FFFC          
+DS=24C1  ES=25B1  SS=368B  CS=35B1  IP=0086   NV DN EI NG NZ NA PE NC           
+35B1:0086 24FE          AND     AL,FE                                           
+
+AX=00B2  BX=35B1  CX=00DD  DX=25B2  SP=0080  BP=0000  SI=FFED  DI=FFFC          
+DS=24C1  ES=25B1  SS=368B  CS=35B1  IP=0088   NV DN EI NG NZ NA PE NC           
+35B1:0088 3CB0          CMP     AL,B0                                           
+
+AX=00B2  BX=35B1  CX=00DD  DX=25B2  SP=0080  BP=0000  SI=FFED  DI=FFFC          
+DS=24C1  ES=25B1  SS=368B  CS=35B1  IP=008A   NV DN EI PL NZ NA PO NC           
+35B1:008A 7506          JNZ     0092                                            
+
+AX=00B2  BX=35B1  CX=00DD  DX=25B2  SP=0080  BP=0000  SI=FFED  DI=FFFC          
+DS=24C1  ES=25B1  SS=368B  CS=35B1  IP=0092   NV DN EI PL NZ NA PO NC           
+35B1:0092 3CB2          CMP     AL,B2                                           
+
+AX=00B2  BX=35B1  CX=00DD  DX=25B2  SP=0080  BP=0000  SI=FFED  DI=FFFC          
+DS=24C1  ES=25B1  SS=368B  CS=35B1  IP=0094   NV DN EI PL ZR NA PE NC           
+35B1:0094 756B          JNZ     0101                                            
+
+AX=00B2  BX=35B1  CX=00DD  DX=25B2  SP=0080  BP=0000  SI=FFED  DI=FFFC          
+DS=24C1  ES=25B1  SS=368B  CS=35B1  IP=0096   NV DN EI PL ZR NA PE NC           
+35B1:0096 F3            REPZ                                                    
+35B1:0097 A4            MOVSB                                                   
+
+AX=00B2  BX=35B1  CX=0000  DX=25B2  SP=0080  BP=0000  SI=FF10  DI=FF1F          
+DS=24C1  ES=25B1  SS=368B  CS=35B1  IP=0098   NV DN EI PL ZR NA PE NC           
+35B1:0098 8AC2          MOV     AL,DL                                           
+
+AX=00B2  BX=35B1  CX=0000  DX=25B2  SP=0080  BP=0000  SI=FF10  DI=FF1F          
+DS=24C1  ES=25B1  SS=368B  CS=35B1  IP=009A   NV DN EI PL ZR NA PE NC           
+35B1:009A A801          TEST    AL,01                                           
+
+AX=00B2  BX=35B1  CX=0000  DX=25B2  SP=0080  BP=0000  SI=FF10  DI=FF1F          
+DS=24C1  ES=25B1  SS=368B  CS=35B1  IP=009C   NV DN EI PL ZR NA PE NC           
+35B1:009C 74BA          JZ      0058                                            
+
+AX=00B2  BX=35B1  CX=0000  DX=25B2  SP=0080  BP=0000  SI=FF10  DI=FF1F          
+DS=24C1  ES=25B1  SS=368B  CS=35B1  IP=0058   NV DN EI PL ZR NA PE NC           
+35B1:0058 B104          MOV     CL,04                                           
+
+AX=00B2  BX=35B1  CX=0004  DX=25B2  SP=0080  BP=0000  SI=FF10  DI=FF1F          
+DS=24C1  ES=25B1  SS=368B  CS=35B1  IP=005A   NV DN EI PL ZR NA PE NC           
+35B1:005A 8BC6          MOV     AX,SI                                           
+
+AX=FF10  BX=35B1  CX=0004  DX=25B2  SP=0080  BP=0000  SI=FF10  DI=FF1F          
+DS=24C1  ES=25B1  SS=368B  CS=35B1  IP=005C   NV DN EI PL ZR NA PE NC           
+35B1:005C F7D0          NOT     AX                                              
+
+AX=00EF  BX=35B1  CX=0004  DX=25B2  SP=0080  BP=0000  SI=FF10  DI=FF1F          
+DS=24C1  ES=25B1  SS=368B  CS=35B1  IP=005E   NV DN EI PL ZR NA PE NC           
+35B1:005E D3E8          SHR     AX,CL                                           
+
+AX=000E  BX=35B1  CX=0004  DX=25B2  SP=0080  BP=0000  SI=FF10  DI=FF1F          
+DS=24C1  ES=25B1  SS=368B  CS=35B1  IP=0060   NV DN EI PL NZ NA PO CY           
+35B1:0060 7409          JZ      006B                                            
+
+AX=000E  BX=35B1  CX=0004  DX=25B2  SP=0080  BP=0000  SI=FF10  DI=FF1F          
+DS=24C1  ES=25B1  SS=368B  CS=35B1  IP=0062   NV DN EI PL NZ NA PO CY           
+35B1:0062 8CDA          MOV     DX,DS                                           
+
+AX=000E  BX=35B1  CX=0004  DX=24C1  SP=0080  BP=0000  SI=FF10  DI=FF1F          
+DS=24C1  ES=25B1  SS=368B  CS=35B1  IP=0064   NV DN EI PL NZ NA PO CY           
+35B1:0064 2BD0          SUB     DX,AX                                           
+
+AX=000E  BX=35B1  CX=0004  DX=24B3  SP=0080  BP=0000  SI=FF10  DI=FF1F          
+DS=24C1  ES=25B1  SS=368B  CS=35B1  IP=0066   NV DN EI PL NZ AC PO NC           
+35B1:0066 8EDA          MOV     DS,DX                                           
+
+AX=000E  BX=35B1  CX=0004  DX=24B3  SP=0080  BP=0000  SI=FF10  DI=FF1F          
+DS=24B3  ES=25B1  SS=368B  CS=35B1  IP=0068   NV DN EI PL NZ AC PO NC           
+35B1:0068 83CEF0        OR      SI,-10                                          
+
+AX=000E  BX=35B1  CX=0004  DX=24B3  SP=0080  BP=0000  SI=FFF0  DI=FF1F          
+DS=24B3  ES=25B1  SS=368B  CS=35B1  IP=006B   NV DN EI NG NZ NA PE NC           
+35B1:006B 8BC7          MOV     AX,DI                                           
+
+AX=FF1F  BX=35B1  CX=0004  DX=24B3  SP=0080  BP=0000  SI=FFF0  DI=FF1F          
+DS=24B3  ES=25B1  SS=368B  CS=35B1  IP=006D   NV DN EI NG NZ NA PE NC           
+35B1:006D F7D0          NOT     AX                                              
+
+AX=00E0  BX=35B1  CX=0004  DX=24B3  SP=0080  BP=0000  SI=FFF0  DI=FF1F          
+DS=24B3  ES=25B1  SS=368B  CS=35B1  IP=006F   NV DN EI NG NZ NA PE NC           
+35B1:006F D3E8          SHR     AX,CL                                           
+
+AX=000E  BX=35B1  CX=0004  DX=24B3  SP=0080  BP=0000  SI=FFF0  DI=FF1F          
+DS=24B3  ES=25B1  SS=368B  CS=35B1  IP=0071   NV DN EI PL NZ NA PO NC           
+35B1:0071 7409          JZ      007C                                            
+
+AX=000E  BX=35B1  CX=0004  DX=24B3  SP=0080  BP=0000  SI=FFF0  DI=FF1F          
+DS=24B3  ES=25B1  SS=368B  CS=35B1  IP=0073   NV DN EI PL NZ NA PO NC           
+35B1:0073 8CC2          MOV     DX,ES                                           
+
+AX=000E  BX=35B1  CX=0004  DX=25B1  SP=0080  BP=0000  SI=FFF0  DI=FF1F          
+DS=24B3  ES=25B1  SS=368B  CS=35B1  IP=0075   NV DN EI PL NZ NA PO NC           
+35B1:0075 2BD0          SUB     DX,AX                                           
+
+AX=000E  BX=35B1  CX=0004  DX=25A3  SP=0080  BP=0000  SI=FFF0  DI=FF1F          
+DS=24B3  ES=25B1  SS=368B  CS=35B1  IP=0077   NV DN EI PL NZ AC PE NC           
+35B1:0077 8EC2          MOV     ES,DX                                           
+
+AX=000E  BX=35B1  CX=0004  DX=25A3  SP=0080  BP=0000  SI=FFF0  DI=FF1F          
+DS=24B3  ES=25A3  SS=368B  CS=35B1  IP=0079   NV DN EI PL NZ AC PE NC           
+35B1:0079 83CFF0        OR      DI,-10                                          
+
+AX=000E  BX=35B1  CX=0004  DX=25A3  SP=0080  BP=0000  SI=FFF0  DI=FFFF          
+DS=24B3  ES=25A3  SS=368B  CS=35B1  IP=007C   NV DN EI NG NZ NA PE NC           
+35B1:007C AC            LODSB                                                   
+
+AX=00B0  BX=35B1  CX=0004  DX=25A3  SP=0080  BP=0000  SI=FFEF  DI=FFFF          
+DS=24B3  ES=25A3  SS=368B  CS=35B1  IP=007D   NV DN EI NG NZ NA PE NC           
+35B1:007D 8AD0          MOV     DL,AL                                           
+
+AX=00B0  BX=35B1  CX=0004  DX=25B0  SP=0080  BP=0000  SI=FFEF  DI=FFFF          
+DS=24B3  ES=25A3  SS=368B  CS=35B1  IP=007F   NV DN EI NG NZ NA PE NC           
+35B1:007F 4E            DEC     SI                                              
+
+AX=00B0  BX=35B1  CX=0004  DX=25B0  SP=0080  BP=0000  SI=FFEE  DI=FFFF          
+DS=24B3  ES=25A3  SS=368B  CS=35B1  IP=0080   NV DN EI NG NZ NA PE NC           
+35B1:0080 AD            LODSW                                                   
+
+AX=0019  BX=35B1  CX=0004  DX=25B0  SP=0080  BP=0000  SI=FFEC  DI=FFFF          
+DS=24B3  ES=25A3  SS=368B  CS=35B1  IP=0081   NV DN EI NG NZ NA PE NC           
+35B1:0081 8BC8          MOV     CX,AX                                           
+
+AX=0019  BX=35B1  CX=0019  DX=25B0  SP=0080  BP=0000  SI=FFEC  DI=FFFF          
+DS=24B3  ES=25A3  SS=368B  CS=35B1  IP=0083   NV DN EI NG NZ NA PE NC           
+35B1:0083 46            INC     SI                                              
+
+AX=0019  BX=35B1  CX=0019  DX=25B0  SP=0080  BP=0000  SI=FFED  DI=FFFF          
+DS=24B3  ES=25A3  SS=368B  CS=35B1  IP=0084   NV DN EI NG NZ NA PE NC           
+35B1:0084 8AC2          MOV     AL,DL                                           
+
+AX=00B0  BX=35B1  CX=0019  DX=25B0  SP=0080  BP=0000  SI=FFED  DI=FFFF          
+DS=24B3  ES=25A3  SS=368B  CS=35B1  IP=0086   NV DN EI NG NZ NA PE NC           
+35B1:0086 24FE          AND     AL,FE                                           
+
+AX=00B0  BX=35B1  CX=0019  DX=25B0  SP=0080  BP=0000  SI=FFED  DI=FFFF          
+DS=24B3  ES=25A3  SS=368B  CS=35B1  IP=0088   NV DN EI NG NZ NA PO NC           
+35B1:0088 3CB0          CMP     AL,B0                                           
+
+AX=00B0  BX=35B1  CX=0019  DX=25B0  SP=0080  BP=0000  SI=FFED  DI=FFFF          
+DS=24B3  ES=25A3  SS=368B  CS=35B1  IP=008A   NV DN EI PL ZR NA PE NC           
+35B1:008A 7506          JNZ     0092                                            
+
+AX=00B0  BX=35B1  CX=0019  DX=25B0  SP=0080  BP=0000  SI=FFED  DI=FFFF          
+DS=24B3  ES=25A3  SS=368B  CS=35B1  IP=008C   NV DN EI PL ZR NA PE NC           
+35B1:008C AC            LODSB                                                   
+
+AX=0000  BX=35B1  CX=0019  DX=25B0  SP=0080  BP=0000  SI=FFEC  DI=FFFF          
+DS=24B3  ES=25A3  SS=368B  CS=35B1  IP=008D   NV DN EI PL ZR NA PE NC           
+35B1:008D F3            REPZ                                                    
+35B1:008E AA            STOSB                                                   
+
+AX=0000  BX=35B1  CX=0000  DX=25B0  SP=0080  BP=0000  SI=FFEC  DI=FFE6          
+DS=24B3  ES=25A3  SS=368B  CS=35B1  IP=008F   NV DN EI PL ZR NA PE NC           
+35B1:008F EB07          JMP     0098                                            
+
+AX=0000  BX=35B1  CX=0000  DX=25B0  SP=0080  BP=0000  SI=FFEC  DI=FFE6          
+DS=24B3  ES=25A3  SS=368B  CS=35B1  IP=0098   NV DN EI PL ZR NA PE NC           
+35B1:0098 8AC2          MOV     AL,DL                                           
+
+AX=00B0  BX=35B1  CX=0000  DX=25B0  SP=0080  BP=0000  SI=FFEC  DI=FFE6          
+DS=24B3  ES=25A3  SS=368B  CS=35B1  IP=009A   NV DN EI PL ZR NA PE NC           
+35B1:009A A801          TEST    AL,01                                           
+
+AX=00B0  BX=35B1  CX=0000  DX=25B0  SP=0080  BP=0000  SI=FFEC  DI=FFE6          
+DS=24B3  ES=25A3  SS=368B  CS=35B1  IP=009C   NV DN EI PL ZR NA PE NC           
+35B1:009C 74BA          JZ      0058                                            
+
+AX=00B0  BX=35B1  CX=0000  DX=25B0  SP=0080  BP=0000  SI=FFEC  DI=FFE6          
+DS=24B3  ES=25A3  SS=368B  CS=35B1  IP=0058   NV DN EI PL ZR NA PE NC           
+35B1:0058 B104          MOV     CL,04                                           
+
+AX=00B0  BX=35B1  CX=0004  DX=25B0  SP=0080  BP=0000  SI=FFEC  DI=FFE6          
+DS=24B3  ES=25A3  SS=368B  CS=35B1  IP=005A   NV DN EI PL ZR NA PE NC           
+35B1:005A 8BC6          MOV     AX,SI                                           
+
+AX=FFEC  BX=35B1  CX=0004  DX=25B0  SP=0080  BP=0000  SI=FFEC  DI=FFE6          
+DS=24B3  ES=25A3  SS=368B  CS=35B1  IP=005C   NV DN EI PL ZR NA PE NC           
+35B1:005C F7D0          NOT     AX                                              
+
+AX=0013  BX=35B1  CX=0004  DX=25B0  SP=0080  BP=0000  SI=FFEC  DI=FFE6          
+DS=24B3  ES=25A3  SS=368B  CS=35B1  IP=005E   NV DN EI PL ZR NA PE NC           
+35B1:005E D3E8          SHR     AX,CL                                           
+
+AX=0001  BX=35B1  CX=0004  DX=25B0  SP=0080  BP=0000  SI=FFEC  DI=FFE6          
+DS=24B3  ES=25A3  SS=368B  CS=35B1  IP=0060   NV DN EI PL NZ NA PO NC           
+35B1:0060 7409          JZ      006B                                            
+
+AX=0001  BX=35B1  CX=0004  DX=25B0  SP=0080  BP=0000  SI=FFEC  DI=FFE6          
+DS=24B3  ES=25A3  SS=368B  CS=35B1  IP=0062   NV DN EI PL NZ NA PO NC           
+35B1:0062 8CDA          MOV     DX,DS                                           
+
+AX=0001  BX=35B1  CX=0004  DX=24B3  SP=0080  BP=0000  SI=FFEC  DI=FFE6          
+DS=24B3  ES=25A3  SS=368B  CS=35B1  IP=0064   NV DN EI PL NZ NA PO NC           
+35B1:0064 2BD0          SUB     DX,AX                                           
+
+AX=0001  BX=35B1  CX=0004  DX=24B2  SP=0080  BP=0000  SI=FFEC  DI=FFE6          
+DS=24B3  ES=25A3  SS=368B  CS=35B1  IP=0066   NV DN EI PL NZ NA PE NC           
+35B1:0066 8EDA          MOV     DS,DX                                           
+
+AX=0001  BX=35B1  CX=0004  DX=24B2  SP=0080  BP=0000  SI=FFEC  DI=FFE6          
+DS=24B2  ES=25A3  SS=368B  CS=35B1  IP=0068   NV DN EI PL NZ NA PE NC           
+35B1:0068 83CEF0        OR      SI,-10                                          
+
+AX=0001  BX=35B1  CX=0004  DX=24B2  SP=0080  BP=0000  SI=FFFC  DI=FFE6          
+DS=24B2  ES=25A3  SS=368B  CS=35B1  IP=006B   NV DN EI NG NZ NA PE NC           
+35B1:006B 8BC7          MOV     AX,DI                                           
+
+AX=FFE6  BX=35B1  CX=0004  DX=24B2  SP=0080  BP=0000  SI=FFFC  DI=FFE6          
+DS=24B2  ES=25A3  SS=368B  CS=35B1  IP=006D   NV DN EI NG NZ NA PE NC           
+35B1:006D F7D0          NOT     AX                                              
+
+AX=0019  BX=35B1  CX=0004  DX=24B2  SP=0080  BP=0000  SI=FFFC  DI=FFE6          
+DS=24B2  ES=25A3  SS=368B  CS=35B1  IP=006F   NV DN EI NG NZ NA PE NC           
+35B1:006F D3E8          SHR     AX,CL                                           
+
+AX=0001  BX=35B1  CX=0004  DX=24B2  SP=0080  BP=0000  SI=FFFC  DI=FFE6          
+DS=24B2  ES=25A3  SS=368B  CS=35B1  IP=0071   NV DN EI PL NZ NA PO CY           
+35B1:0071 7409          JZ      007C                                            
+
+AX=0001  BX=35B1  CX=0004  DX=24B2  SP=0080  BP=0000  SI=FFFC  DI=FFE6          
+DS=24B2  ES=25A3  SS=368B  CS=35B1  IP=0073   NV DN EI PL NZ NA PO CY           
+35B1:0073 8CC2          MOV     DX,ES                                           
+
+AX=0001  BX=35B1  CX=0004  DX=25A3  SP=0080  BP=0000  SI=FFFC  DI=FFE6          
+DS=24B2  ES=25A3  SS=368B  CS=35B1  IP=0075   NV DN EI PL NZ NA PO CY           
+35B1:0075 2BD0          SUB     DX,AX                                           
+
+AX=0001  BX=35B1  CX=0004  DX=25A2  SP=0080  BP=0000  SI=FFFC  DI=FFE6          
+DS=24B2  ES=25A3  SS=368B  CS=35B1  IP=0077   NV DN EI PL NZ NA PO NC           
+35B1:0077 8EC2          MOV     ES,DX                                           
+
+AX=0001  BX=35B1  CX=0004  DX=25A2  SP=0080  BP=0000  SI=FFFC  DI=FFE6          
+DS=24B2  ES=25A2  SS=368B  CS=35B1  IP=0079   NV DN EI PL NZ NA PO NC           
+35B1:0079 83CFF0        OR      DI,-10                                          
+
+AX=0001  BX=35B1  CX=0004  DX=25A2  SP=0080  BP=0000  SI=FFFC  DI=FFF6          
+DS=24B2  ES=25A2  SS=368B  CS=35B1  IP=007C   NV DN EI NG NZ NA PE NC           
+35B1:007C AC            LODSB                                                   
+
+AX=00B2  BX=35B1  CX=0004  DX=25A2  SP=0080  BP=0000  SI=FFFB  DI=FFF6          
+DS=24B2  ES=25A2  SS=368B  CS=35B1  IP=007D   NV DN EI NG NZ NA PE NC           
+35B1:007D 8AD0          MOV     DL,AL                                           
+
+AX=00B2  BX=35B1  CX=0004  DX=25B2  SP=0080  BP=0000  SI=FFFB  DI=FFF6          
+DS=24B2  ES=25A2  SS=368B  CS=35B1  IP=007F   NV DN EI NG NZ NA PE NC           
+35B1:007F 4E            DEC     SI                                              
+
+AX=00B2  BX=35B1  CX=0004  DX=25B2  SP=0080  BP=0000  SI=FFFA  DI=FFF6          
+DS=24B2  ES=25A2  SS=368B  CS=35B1  IP=0080   NV DN EI NG NZ NA PE NC           
+35B1:0080 AD            LODSW                                                   
+
+AX=0023  BX=35B1  CX=0004  DX=25B2  SP=0080  BP=0000  SI=FFF8  DI=FFF6          
+DS=24B2  ES=25A2  SS=368B  CS=35B1  IP=0081   NV DN EI NG NZ NA PE NC           
+35B1:0081 8BC8          MOV     CX,AX                                           
+
+AX=0023  BX=35B1  CX=0023  DX=25B2  SP=0080  BP=0000  SI=FFF8  DI=FFF6          
+DS=24B2  ES=25A2  SS=368B  CS=35B1  IP=0083   NV DN EI NG NZ NA PE NC           
+35B1:0083 46            INC     SI                                              
+
+AX=0023  BX=35B1  CX=0023  DX=25B2  SP=0080  BP=0000  SI=FFF9  DI=FFF6          
+DS=24B2  ES=25A2  SS=368B  CS=35B1  IP=0084   NV DN EI NG NZ NA PE NC           
+35B1:0084 8AC2          MOV     AL,DL                                           
+
+AX=00B2  BX=35B1  CX=0023  DX=25B2  SP=0080  BP=0000  SI=FFF9  DI=FFF6          
+DS=24B2  ES=25A2  SS=368B  CS=35B1  IP=0086   NV DN EI NG NZ NA PE NC           
+35B1:0086 24FE          AND     AL,FE                                           
+
+AX=00B2  BX=35B1  CX=0023  DX=25B2  SP=0080  BP=0000  SI=FFF9  DI=FFF6          
+DS=24B2  ES=25A2  SS=368B  CS=35B1  IP=0088   NV DN EI NG NZ NA PE NC           
+35B1:0088 3CB0          CMP     AL,B0                                           
+
+AX=00B2  BX=35B1  CX=0023  DX=25B2  SP=0080  BP=0000  SI=FFF9  DI=FFF6          
+DS=24B2  ES=25A2  SS=368B  CS=35B1  IP=008A   NV DN EI PL NZ NA PO NC           
+35B1:008A 7506          JNZ     0092                                            
+
+AX=00B2  BX=35B1  CX=0023  DX=25B2  SP=0080  BP=0000  SI=FFF9  DI=FFF6          
+DS=24B2  ES=25A2  SS=368B  CS=35B1  IP=0092   NV DN EI PL NZ NA PO NC           
+35B1:0092 3CB2          CMP     AL,B2                                           
+
+AX=00B2  BX=35B1  CX=0023  DX=25B2  SP=0080  BP=0000  SI=FFF9  DI=FFF6          
+DS=24B2  ES=25A2  SS=368B  CS=35B1  IP=0094   NV DN EI PL ZR NA PE NC           
+35B1:0094 756B          JNZ     0101                                            
+
+AX=00B2  BX=35B1  CX=0023  DX=25B2  SP=0080  BP=0000  SI=FFF9  DI=FFF6          
+DS=24B2  ES=25A2  SS=368B  CS=35B1  IP=0096   NV DN EI PL ZR NA PE NC           
+35B1:0096 F3            REPZ                                                    
+35B1:0097 A4            MOVSB                                                   
+
+AX=00B2  BX=35B1  CX=0000  DX=25B2  SP=0080  BP=0000  SI=FFD6  DI=FFD3          
+DS=24B2  ES=25A2  SS=368B  CS=35B1  IP=0098   NV DN EI PL ZR NA PE NC           
+35B1:0098 8AC2          MOV     AL,DL                                           
+
+AX=00B2  BX=35B1  CX=0000  DX=25B2  SP=0080  BP=0000  SI=FFD6  DI=FFD3          
+DS=24B2  ES=25A2  SS=368B  CS=35B1  IP=009A   NV DN EI PL ZR NA PE NC           
+35B1:009A A801          TEST    AL,01                                           
+
+AX=00B2  BX=35B1  CX=0000  DX=25B2  SP=0080  BP=0000  SI=FFD6  DI=FFD3          
+DS=24B2  ES=25A2  SS=368B  CS=35B1  IP=009C   NV DN EI PL ZR NA PE NC           
+35B1:009C 74BA          JZ      0058                                            
+
+AX=00B2  BX=35B1  CX=0000  DX=25B2  SP=0080  BP=0000  SI=FFD6  DI=FFD3          
+DS=24B2  ES=25A2  SS=368B  CS=35B1  IP=0058   NV DN EI PL ZR NA PE NC           
+35B1:0058 B104          MOV     CL,04                                           
+
+AX=00B2  BX=35B1  CX=0004  DX=25B2  SP=0080  BP=0000  SI=FFD6  DI=FFD3          
+DS=24B2  ES=25A2  SS=368B  CS=35B1  IP=005A   NV DN EI PL ZR NA PE NC           
+35B1:005A 8BC6          MOV     AX,SI                                           
+
+AX=FFD6  BX=35B1  CX=0004  DX=25B2  SP=0080  BP=0000  SI=FFD6  DI=FFD3          
+DS=24B2  ES=25A2  SS=368B  CS=35B1  IP=005C   NV DN EI PL ZR NA PE NC           
+35B1:005C F7D0          NOT     AX                                              
+
+AX=0029  BX=35B1  CX=0004  DX=25B2  SP=0080  BP=0000  SI=FFD6  DI=FFD3          
+DS=24B2  ES=25A2  SS=368B  CS=35B1  IP=005E   NV DN EI PL ZR NA PE NC           
+35B1:005E D3E8          SHR     AX,CL                                           
+
+AX=0002  BX=35B1  CX=0004  DX=25B2  SP=0080  BP=0000  SI=FFD6  DI=FFD3          
+DS=24B2  ES=25A2  SS=368B  CS=35B1  IP=0060   NV DN EI PL NZ NA PO CY           
+35B1:0060 7409          JZ      006B                                            
+
+AX=0002  BX=35B1  CX=0004  DX=25B2  SP=0080  BP=0000  SI=FFD6  DI=FFD3          
+DS=24B2  ES=25A2  SS=368B  CS=35B1  IP=0062   NV DN EI PL NZ NA PO CY           
+35B1:0062 8CDA          MOV     DX,DS                                           
+
+AX=0002  BX=35B1  CX=0004  DX=24B2  SP=0080  BP=0000  SI=FFD6  DI=FFD3          
+DS=24B2  ES=25A2  SS=368B  CS=35B1  IP=0064   NV DN EI PL NZ NA PO CY           
+35B1:0064 2BD0          SUB     DX,AX                                           
+
+AX=0002  BX=35B1  CX=0004  DX=24B0  SP=0080  BP=0000  SI=FFD6  DI=FFD3          
+DS=24B2  ES=25A2  SS=368B  CS=35B1  IP=0066   NV DN EI PL NZ NA PO NC           
+35B1:0066 8EDA          MOV     DS,DX                                           
+
+AX=0002  BX=35B1  CX=0004  DX=24B0  SP=0080  BP=0000  SI=FFD6  DI=FFD3          
+DS=24B0  ES=25A2  SS=368B  CS=35B1  IP=0068   NV DN EI PL NZ NA PO NC           
+35B1:0068 83CEF0        OR      SI,-10                                          
+
+AX=0002  BX=35B1  CX=0004  DX=24B0  SP=0080  BP=0000  SI=FFF6  DI=FFD3          
+DS=24B0  ES=25A2  SS=368B  CS=35B1  IP=006B   NV DN EI NG NZ NA PE NC           
+35B1:006B 8BC7          MOV     AX,DI                                           
+
+AX=FFD3  BX=35B1  CX=0004  DX=24B0  SP=0080  BP=0000  SI=FFF6  DI=FFD3          
+DS=24B0  ES=25A2  SS=368B  CS=35B1  IP=006D   NV DN EI NG NZ NA PE NC           
+35B1:006D F7D0          NOT     AX                                              
+
+AX=002C  BX=35B1  CX=0004  DX=24B0  SP=0080  BP=0000  SI=FFF6  DI=FFD3          
+DS=24B0  ES=25A2  SS=368B  CS=35B1  IP=006F   NV DN EI NG NZ NA PE NC           
+35B1:006F D3E8          SHR     AX,CL                                           
+
+AX=0002  BX=35B1  CX=0004  DX=24B0  SP=0080  BP=0000  SI=FFF6  DI=FFD3          
+DS=24B0  ES=25A2  SS=368B  CS=35B1  IP=0071   NV DN EI PL NZ NA PO CY           
+35B1:0071 7409          JZ      007C                                            
+
+AX=0002  BX=35B1  CX=0004  DX=24B0  SP=0080  BP=0000  SI=FFF6  DI=FFD3          
+DS=24B0  ES=25A2  SS=368B  CS=35B1  IP=0073   NV DN EI PL NZ NA PO CY           
+35B1:0073 8CC2          MOV     DX,ES                                           
+
+AX=0002  BX=35B1  CX=0004  DX=25A2  SP=0080  BP=0000  SI=FFF6  DI=FFD3          
+DS=24B0  ES=25A2  SS=368B  CS=35B1  IP=0075   NV DN EI PL NZ NA PO CY           
+35B1:0075 2BD0          SUB     DX,AX                                           
+
+AX=0002  BX=35B1  CX=0004  DX=25A0  SP=0080  BP=0000  SI=FFF6  DI=FFD3          
+DS=24B0  ES=25A2  SS=368B  CS=35B1  IP=0077   NV DN EI PL NZ NA PE NC           
+35B1:0077 8EC2          MOV     ES,DX                                           
+
+AX=0002  BX=35B1  CX=0004  DX=25A0  SP=0080  BP=0000  SI=FFF6  DI=FFD3          
+DS=24B0  ES=25A0  SS=368B  CS=35B1  IP=0079   NV DN EI PL NZ NA PE NC           
+35B1:0079 83CFF0        OR      DI,-10                                          
+
+AX=0002  BX=35B1  CX=0004  DX=25A0  SP=0080  BP=0000  SI=FFF6  DI=FFF3          
+DS=24B0  ES=25A0  SS=368B  CS=35B1  IP=007C   NV DN EI NG NZ NA PE NC           
+35B1:007C AC            LODSB                                                   
+
+AX=00B0  BX=35B1  CX=0004  DX=25A0  SP=0080  BP=0000  SI=FFF5  DI=FFF3          
+DS=24B0  ES=25A0  SS=368B  CS=35B1  IP=007D   NV DN EI NG NZ NA PE NC           
+35B1:007D 8AD0          MOV     DL,AL                                           
+
+AX=00B0  BX=35B1  CX=0004  DX=25B0  SP=0080  BP=0000  SI=FFF5  DI=FFF3          
+DS=24B0  ES=25A0  SS=368B  CS=35B1  IP=007F   NV DN EI NG NZ NA PE NC           
+35B1:007F 4E            DEC     SI                                              
+
+AX=00B0  BX=35B1  CX=0004  DX=25B0  SP=0080  BP=0000  SI=FFF4  DI=FFF3          
+DS=24B0  ES=25A0  SS=368B  CS=35B1  IP=0080   NV DN EI NG NZ NA PO NC           
+35B1:0080 AD            LODSW                                                   
+
+AX=0011  BX=35B1  CX=0004  DX=25B0  SP=0080  BP=0000  SI=FFF2  DI=FFF3          
+DS=24B0  ES=25A0  SS=368B  CS=35B1  IP=0081   NV DN EI NG NZ NA PO NC           
+35B1:0081 8BC8          MOV     CX,AX                                           
+
+AX=0011  BX=35B1  CX=0011  DX=25B0  SP=0080  BP=0000  SI=FFF2  DI=FFF3          
+DS=24B0  ES=25A0  SS=368B  CS=35B1  IP=0083   NV DN EI NG NZ NA PO NC           
+35B1:0083 46            INC     SI                                              
+
+AX=0011  BX=35B1  CX=0011  DX=25B0  SP=0080  BP=0000  SI=FFF3  DI=FFF3          
+DS=24B0  ES=25A0  SS=368B  CS=35B1  IP=0084   NV DN EI NG NZ NA PE NC           
+35B1:0084 8AC2          MOV     AL,DL                                           
+
+AX=00B0  BX=35B1  CX=0011  DX=25B0  SP=0080  BP=0000  SI=FFF3  DI=FFF3          
+DS=24B0  ES=25A0  SS=368B  CS=35B1  IP=0086   NV DN EI NG NZ NA PE NC           
+35B1:0086 24FE          AND     AL,FE                                           
+
+AX=00B0  BX=35B1  CX=0011  DX=25B0  SP=0080  BP=0000  SI=FFF3  DI=FFF3          
+DS=24B0  ES=25A0  SS=368B  CS=35B1  IP=0088   NV DN EI NG NZ NA PO NC           
+35B1:0088 3CB0          CMP     AL,B0                                           
+
+AX=00B0  BX=35B1  CX=0011  DX=25B0  SP=0080  BP=0000  SI=FFF3  DI=FFF3          
+DS=24B0  ES=25A0  SS=368B  CS=35B1  IP=008A   NV DN EI PL ZR NA PE NC           
+35B1:008A 7506          JNZ     0092                                            
+
+AX=00B0  BX=35B1  CX=0011  DX=25B0  SP=0080  BP=0000  SI=FFF3  DI=FFF3          
+DS=24B0  ES=25A0  SS=368B  CS=35B1  IP=008C   NV DN EI PL ZR NA PE NC           
+35B1:008C AC            LODSB                                                   
+
+AX=0000  BX=35B1  CX=0011  DX=25B0  SP=0080  BP=0000  SI=FFF2  DI=FFF3          
+DS=24B0  ES=25A0  SS=368B  CS=35B1  IP=008D   NV DN EI PL ZR NA PE NC           
+35B1:008D F3            REPZ                                                    
+35B1:008E AA            STOSB                                                   
+
+AX=0000  BX=35B1  CX=0000  DX=25B0  SP=0080  BP=0000  SI=FFF2  DI=FFE2          
+DS=24B0  ES=25A0  SS=368B  CS=35B1  IP=008F   NV DN EI PL ZR NA PE NC           
+35B1:008F EB07          JMP     0098                                            
+
+AX=0000  BX=35B1  CX=0000  DX=25B0  SP=0080  BP=0000  SI=FFF2  DI=FFE2          
+DS=24B0  ES=25A0  SS=368B  CS=35B1  IP=0098   NV DN EI PL ZR NA PE NC           
+35B1:0098 8AC2          MOV     AL,DL                                           
+
+AX=00B0  BX=35B1  CX=0000  DX=25B0  SP=0080  BP=0000  SI=FFF2  DI=FFE2          
+DS=24B0  ES=25A0  SS=368B  CS=35B1  IP=009A   NV DN EI PL ZR NA PE NC           
+35B1:009A A801          TEST    AL,01                                           
+
+AX=00B0  BX=35B1  CX=0000  DX=25B0  SP=0080  BP=0000  SI=FFF2  DI=FFE2          
+DS=24B0  ES=25A0  SS=368B  CS=35B1  IP=009C   NV DN EI PL ZR NA PE NC           
+35B1:009C 74BA          JZ      0058                                            
+
+AX=00B0  BX=35B1  CX=0000  DX=25B0  SP=0080  BP=0000  SI=FFF2  DI=FFE2          
+DS=24B0  ES=25A0  SS=368B  CS=35B1  IP=0058   NV DN EI PL ZR NA PE NC           
+35B1:0058 B104          MOV     CL,04                                           
+
+AX=00B0  BX=35B1  CX=0004  DX=25B0  SP=0080  BP=0000  SI=FFF2  DI=FFE2          
+DS=24B0  ES=25A0  SS=368B  CS=35B1  IP=005A   NV DN EI PL ZR NA PE NC           
+35B1:005A 8BC6          MOV     AX,SI                                           
+
+AX=FFF2  BX=35B1  CX=0004  DX=25B0  SP=0080  BP=0000  SI=FFF2  DI=FFE2          
+DS=24B0  ES=25A0  SS=368B  CS=35B1  IP=005C   NV DN EI PL ZR NA PE NC           
+35B1:005C F7D0          NOT     AX                                              
+
+AX=000D  BX=35B1  CX=0004  DX=25B0  SP=0080  BP=0000  SI=FFF2  DI=FFE2          
+DS=24B0  ES=25A0  SS=368B  CS=35B1  IP=005E   NV DN EI PL ZR NA PE NC           
+35B1:005E D3E8          SHR     AX,CL                                           
+
+AX=0000  BX=35B1  CX=0004  DX=25B0  SP=0080  BP=0000  SI=FFF2  DI=FFE2          
+DS=24B0  ES=25A0  SS=368B  CS=35B1  IP=0060   NV DN EI PL ZR NA PE CY           
+35B1:0060 7409          JZ      006B                                            
+
+AX=0000  BX=35B1  CX=0004  DX=25B0  SP=0080  BP=0000  SI=FFF2  DI=FFE2          
+DS=24B0  ES=25A0  SS=368B  CS=35B1  IP=006B   NV DN EI PL ZR NA PE CY           
+35B1:006B 8BC7          MOV     AX,DI                                           
+
+AX=FFE2  BX=35B1  CX=0004  DX=25B0  SP=0080  BP=0000  SI=FFF2  DI=FFE2          
+DS=24B0  ES=25A0  SS=368B  CS=35B1  IP=006D   NV DN EI PL ZR NA PE CY           
+35B1:006D F7D0          NOT     AX                                              
+
+AX=001D  BX=35B1  CX=0004  DX=25B0  SP=0080  BP=0000  SI=FFF2  DI=FFE2          
+DS=24B0  ES=25A0  SS=368B  CS=35B1  IP=006F   NV DN EI PL ZR NA PE CY           
+35B1:006F D3E8          SHR     AX,CL                                           
+
+AX=0001  BX=35B1  CX=0004  DX=25B0  SP=0080  BP=0000  SI=FFF2  DI=FFE2          
+DS=24B0  ES=25A0  SS=368B  CS=35B1  IP=0071   NV DN EI PL NZ NA PO CY           
+35B1:0071 7409          JZ      007C                                            
+
+AX=0001  BX=35B1  CX=0004  DX=25B0  SP=0080  BP=0000  SI=FFF2  DI=FFE2          
+DS=24B0  ES=25A0  SS=368B  CS=35B1  IP=0073   NV DN EI PL NZ NA PO CY           
+35B1:0073 8CC2          MOV     DX,ES                                           
+
+AX=0001  BX=35B1  CX=0004  DX=25A0  SP=0080  BP=0000  SI=FFF2  DI=FFE2          
+DS=24B0  ES=25A0  SS=368B  CS=35B1  IP=0075   NV DN EI PL NZ NA PO CY           
+35B1:0075 2BD0          SUB     DX,AX                                           
+
+AX=0001  BX=35B1  CX=0004  DX=259F  SP=0080  BP=0000  SI=FFF2  DI=FFE2          
+DS=24B0  ES=25A0  SS=368B  CS=35B1  IP=0077   NV DN EI PL NZ AC PE NC           
+35B1:0077 8EC2          MOV     ES,DX                                           
+
+AX=0001  BX=35B1  CX=0004  DX=259F  SP=0080  BP=0000  SI=FFF2  DI=FFE2          
+DS=24B0  ES=259F  SS=368B  CS=35B1  IP=0079   NV DN EI PL NZ AC PE NC           
+35B1:0079 83CFF0        OR      DI,-10                                          
+
+AX=0001  BX=35B1  CX=0004  DX=259F  SP=0080  BP=0000  SI=FFF2  DI=FFF2          
+DS=24B0  ES=259F  SS=368B  CS=35B1  IP=007C   NV DN EI NG NZ NA PO NC           
+35B1:007C AC            LODSB                                                   
+
+AX=00B2  BX=35B1  CX=0004  DX=259F  SP=0080  BP=0000  SI=FFF1  DI=FFF2          
+DS=24B0  ES=259F  SS=368B  CS=35B1  IP=007D   NV DN EI NG NZ NA PO NC           
+35B1:007D 8AD0          MOV     DL,AL                                           
+
+AX=00B2  BX=35B1  CX=0004  DX=25B2  SP=0080  BP=0000  SI=FFF1  DI=FFF2          
+DS=24B0  ES=259F  SS=368B  CS=35B1  IP=007F   NV DN EI NG NZ NA PO NC           
+35B1:007F 4E            DEC     SI                                              
+
+AX=00B2  BX=35B1  CX=0004  DX=25B2  SP=0080  BP=0000  SI=FFF0  DI=FFF2          
+DS=24B0  ES=259F  SS=368B  CS=35B1  IP=0080   NV DN EI NG NZ NA PE NC           
+35B1:0080 AD            LODSW                                                   
+
+AX=0003  BX=35B1  CX=0004  DX=25B2  SP=0080  BP=0000  SI=FFEE  DI=FFF2          
+DS=24B0  ES=259F  SS=368B  CS=35B1  IP=0081   NV DN EI NG NZ NA PE NC           
+35B1:0081 8BC8          MOV     CX,AX                                           
+
+AX=0003  BX=35B1  CX=0003  DX=25B2  SP=0080  BP=0000  SI=FFEE  DI=FFF2          
+DS=24B0  ES=259F  SS=368B  CS=35B1  IP=0083   NV DN EI NG NZ NA PE NC           
+35B1:0083 46            INC     SI                                              
+
+AX=0003  BX=35B1  CX=0003  DX=25B2  SP=0080  BP=0000  SI=FFEF  DI=FFF2          
+DS=24B0  ES=259F  SS=368B  CS=35B1  IP=0084   NV DN EI NG NZ NA PO NC           
+35B1:0084 8AC2          MOV     AL,DL                                           
+
+AX=00B2  BX=35B1  CX=0003  DX=25B2  SP=0080  BP=0000  SI=FFEF  DI=FFF2          
+DS=24B0  ES=259F  SS=368B  CS=35B1  IP=0086   NV DN EI NG NZ NA PO NC           
+35B1:0086 24FE          AND     AL,FE                                           
+
+AX=00B2  BX=35B1  CX=0003  DX=25B2  SP=0080  BP=0000  SI=FFEF  DI=FFF2          
+DS=24B0  ES=259F  SS=368B  CS=35B1  IP=0088   NV DN EI NG NZ NA PE NC           
+35B1:0088 3CB0          CMP     AL,B0                                           
+
+AX=00B2  BX=35B1  CX=0003  DX=25B2  SP=0080  BP=0000  SI=FFEF  DI=FFF2          
+DS=24B0  ES=259F  SS=368B  CS=35B1  IP=008A   NV DN EI PL NZ NA PO NC           
+35B1:008A 7506          JNZ     0092                                            
+
+AX=00B2  BX=35B1  CX=0003  DX=25B2  SP=0080  BP=0000  SI=FFEF  DI=FFF2          
+DS=24B0  ES=259F  SS=368B  CS=35B1  IP=0092   NV DN EI PL NZ NA PO NC           
+35B1:0092 3CB2          CMP     AL,B2                                           
+
+AX=00B2  BX=35B1  CX=0003  DX=25B2  SP=0080  BP=0000  SI=FFEF  DI=FFF2          
+DS=24B0  ES=259F  SS=368B  CS=35B1  IP=0094   NV DN EI PL ZR NA PE NC           
+35B1:0094 756B          JNZ     0101                                            
+
+AX=00B2  BX=35B1  CX=0003  DX=25B2  SP=0080  BP=0000  SI=FFEF  DI=FFF2          
+DS=24B0  ES=259F  SS=368B  CS=35B1  IP=0096   NV DN EI PL ZR NA PE NC           
+35B1:0096 F3            REPZ                                                    
+35B1:0097 A4            MOVSB                                                   
+
+AX=00B2  BX=35B1  CX=0000  DX=25B2  SP=0080  BP=0000  SI=FFEC  DI=FFEF          
+DS=24B0  ES=259F  SS=368B  CS=35B1  IP=0098   NV DN EI PL ZR NA PE NC           
+35B1:0098 8AC2          MOV     AL,DL                                           
+
+AX=00B2  BX=35B1  CX=0000  DX=25B2  SP=0080  BP=0000  SI=FFEC  DI=FFEF          
+DS=24B0  ES=259F  SS=368B  CS=35B1  IP=009A   NV DN EI PL ZR NA PE NC           
+35B1:009A A801          TEST    AL,01                                           
+
+AX=00B2  BX=35B1  CX=0000  DX=25B2  SP=0080  BP=0000  SI=FFEC  DI=FFEF          
+DS=24B0  ES=259F  SS=368B  CS=35B1  IP=009C   NV DN EI PL ZR NA PE NC           
+35B1:009C 74BA          JZ      0058                                            
+
+AX=00B2  BX=35B1  CX=0000  DX=25B2  SP=0080  BP=0000  SI=FFEC  DI=FFEF          
+DS=24B0  ES=259F  SS=368B  CS=35B1  IP=0058   NV DN EI PL ZR NA PE NC           
+35B1:0058 B104          MOV     CL,04                                           
+
+AX=00B2  BX=35B1  CX=0004  DX=25B2  SP=0080  BP=0000  SI=FFEC  DI=FFEF          
+DS=24B0  ES=259F  SS=368B  CS=35B1  IP=005A   NV DN EI PL ZR NA PE NC           
+35B1:005A 8BC6          MOV     AX,SI                                           
+
+AX=FFEC  BX=35B1  CX=0004  DX=25B2  SP=0080  BP=0000  SI=FFEC  DI=FFEF          
+DS=24B0  ES=259F  SS=368B  CS=35B1  IP=005C   NV DN EI PL ZR NA PE NC           
+35B1:005C F7D0          NOT     AX                                              
+
+AX=0013  BX=35B1  CX=0004  DX=25B2  SP=0080  BP=0000  SI=FFEC  DI=FFEF          
+DS=24B0  ES=259F  SS=368B  CS=35B1  IP=005E   NV DN EI PL ZR NA PE NC           
+35B1:005E D3E8          SHR     AX,CL                                           
+
+AX=0001  BX=35B1  CX=0004  DX=25B2  SP=0080  BP=0000  SI=FFEC  DI=FFEF          
+DS=24B0  ES=259F  SS=368B  CS=35B1  IP=0060   NV DN EI PL NZ NA PO NC           
+35B1:0060 7409          JZ      006B                                            
+
+AX=0001  BX=35B1  CX=0004  DX=25B2  SP=0080  BP=0000  SI=FFEC  DI=FFEF          
+DS=24B0  ES=259F  SS=368B  CS=35B1  IP=0062   NV DN EI PL NZ NA PO NC           
+35B1:0062 8CDA          MOV     DX,DS                                           
+
+AX=0001  BX=35B1  CX=0004  DX=24B0  SP=0080  BP=0000  SI=FFEC  DI=FFEF          
+DS=24B0  ES=259F  SS=368B  CS=35B1  IP=0064   NV DN EI PL NZ NA PO NC           
+35B1:0064 2BD0          SUB     DX,AX                                           
+
+AX=0001  BX=35B1  CX=0004  DX=24AF  SP=0080  BP=0000  SI=FFEC  DI=FFEF          
+DS=24B0  ES=259F  SS=368B  CS=35B1  IP=0066   NV DN EI PL NZ AC PE NC           
+35B1:0066 8EDA          MOV     DS,DX                                           
+
+AX=0001  BX=35B1  CX=0004  DX=24AF  SP=0080  BP=0000  SI=FFEC  DI=FFEF          
+DS=24AF  ES=259F  SS=368B  CS=35B1  IP=0068   NV DN EI PL NZ AC PE NC           
+35B1:0068 83CEF0        OR      SI,-10                                          
+
+AX=0001  BX=35B1  CX=0004  DX=24AF  SP=0080  BP=0000  SI=FFFC  DI=FFEF          
+DS=24AF  ES=259F  SS=368B  CS=35B1  IP=006B   NV DN EI NG NZ NA PE NC           
+35B1:006B 8BC7          MOV     AX,DI                                           
+
+AX=FFEF  BX=35B1  CX=0004  DX=24AF  SP=0080  BP=0000  SI=FFFC  DI=FFEF          
+DS=24AF  ES=259F  SS=368B  CS=35B1  IP=006D   NV DN EI NG NZ NA PE NC           
+35B1:006D F7D0          NOT     AX                                              
+
+AX=0010  BX=35B1  CX=0004  DX=24AF  SP=0080  BP=0000  SI=FFFC  DI=FFEF          
+DS=24AF  ES=259F  SS=368B  CS=35B1  IP=006F   NV DN EI NG NZ NA PE NC           
+35B1:006F D3E8          SHR     AX,CL                                           
+
+AX=0001  BX=35B1  CX=0004  DX=24AF  SP=0080  BP=0000  SI=FFFC  DI=FFEF          
+DS=24AF  ES=259F  SS=368B  CS=35B1  IP=0071   NV DN EI PL NZ NA PO NC           
+35B1:0071 7409          JZ      007C                                            
+
+AX=0001  BX=35B1  CX=0004  DX=24AF  SP=0080  BP=0000  SI=FFFC  DI=FFEF          
+DS=24AF  ES=259F  SS=368B  CS=35B1  IP=0073   NV DN EI PL NZ NA PO NC           
+35B1:0073 8CC2          MOV     DX,ES                                           
+
+AX=0001  BX=35B1  CX=0004  DX=259F  SP=0080  BP=0000  SI=FFFC  DI=FFEF          
+DS=24AF  ES=259F  SS=368B  CS=35B1  IP=0075   NV DN EI PL NZ NA PO NC           
+35B1:0075 2BD0          SUB     DX,AX                                           
+
+AX=0001  BX=35B1  CX=0004  DX=259E  SP=0080  BP=0000  SI=FFFC  DI=FFEF          
+DS=24AF  ES=259F  SS=368B  CS=35B1  IP=0077   NV DN EI PL NZ NA PO NC           
+35B1:0077 8EC2          MOV     ES,DX                                           
+
+AX=0001  BX=35B1  CX=0004  DX=259E  SP=0080  BP=0000  SI=FFFC  DI=FFEF          
+DS=24AF  ES=259E  SS=368B  CS=35B1  IP=0079   NV DN EI PL NZ NA PO NC           
+35B1:0079 83CFF0        OR      DI,-10                                          
+
+AX=0001  BX=35B1  CX=0004  DX=259E  SP=0080  BP=0000  SI=FFFC  DI=FFFF          
+DS=24AF  ES=259E  SS=368B  CS=35B1  IP=007C   NV DN EI NG NZ NA PE NC           
+35B1:007C AC            LODSB                                                   
+
+AX=00B0  BX=35B1  CX=0004  DX=259E  SP=0080  BP=0000  SI=FFFB  DI=FFFF          
+DS=24AF  ES=259E  SS=368B  CS=35B1  IP=007D   NV DN EI NG NZ NA PE NC           
+35B1:007D 8AD0          MOV     DL,AL                                           
+
+AX=00B0  BX=35B1  CX=0004  DX=25B0  SP=0080  BP=0000  SI=FFFB  DI=FFFF          
+DS=24AF  ES=259E  SS=368B  CS=35B1  IP=007F   NV DN EI NG NZ NA PE NC           
+35B1:007F 4E            DEC     SI                                              
+
+AX=00B0  BX=35B1  CX=0004  DX=25B0  SP=0080  BP=0000  SI=FFFA  DI=FFFF          
+DS=24AF  ES=259E  SS=368B  CS=35B1  IP=0080   NV DN EI NG NZ NA PE NC           
+35B1:0080 AD            LODSW                                                   
+
+AX=0020  BX=35B1  CX=0004  DX=25B0  SP=0080  BP=0000  SI=FFF8  DI=FFFF          
+DS=24AF  ES=259E  SS=368B  CS=35B1  IP=0081   NV DN EI NG NZ NA PE NC           
+35B1:0081 8BC8          MOV     CX,AX                                           
+
+AX=0020  BX=35B1  CX=0020  DX=25B0  SP=0080  BP=0000  SI=FFF8  DI=FFFF          
+DS=24AF  ES=259E  SS=368B  CS=35B1  IP=0083   NV DN EI NG NZ NA PE NC           
+35B1:0083 46            INC     SI                                              
+
+AX=0020  BX=35B1  CX=0020  DX=25B0  SP=0080  BP=0000  SI=FFF9  DI=FFFF          
+DS=24AF  ES=259E  SS=368B  CS=35B1  IP=0084   NV DN EI NG NZ NA PE NC           
+35B1:0084 8AC2          MOV     AL,DL                                           
+
+AX=00B0  BX=35B1  CX=0020  DX=25B0  SP=0080  BP=0000  SI=FFF9  DI=FFFF          
+DS=24AF  ES=259E  SS=368B  CS=35B1  IP=0086   NV DN EI NG NZ NA PE NC           
+35B1:0086 24FE          AND     AL,FE                                           
+
+AX=00B0  BX=35B1  CX=0020  DX=25B0  SP=0080  BP=0000  SI=FFF9  DI=FFFF          
+DS=24AF  ES=259E  SS=368B  CS=35B1  IP=0088   NV DN EI NG NZ NA PO NC           
+35B1:0088 3CB0          CMP     AL,B0                                           
+
+AX=00B0  BX=35B1  CX=0020  DX=25B0  SP=0080  BP=0000  SI=FFF9  DI=FFFF          
+DS=24AF  ES=259E  SS=368B  CS=35B1  IP=008A   NV DN EI PL ZR NA PE NC           
+35B1:008A 7506          JNZ     0092                                            
+
+AX=00B0  BX=35B1  CX=0020  DX=25B0  SP=0080  BP=0000  SI=FFF9  DI=FFFF          
+DS=24AF  ES=259E  SS=368B  CS=35B1  IP=008C   NV DN EI PL ZR NA PE NC           
+35B1:008C AC            LODSB                                                   
+
+AX=0000  BX=35B1  CX=0020  DX=25B0  SP=0080  BP=0000  SI=FFF8  DI=FFFF          
+DS=24AF  ES=259E  SS=368B  CS=35B1  IP=008D   NV DN EI PL ZR NA PE NC           
+35B1:008D F3            REPZ                                                    
+35B1:008E AA            STOSB                                                   
+
+AX=0000  BX=35B1  CX=0000  DX=25B0  SP=0080  BP=0000  SI=FFF8  DI=FFDF          
+DS=24AF  ES=259E  SS=368B  CS=35B1  IP=008F   NV DN EI PL ZR NA PE NC           
+35B1:008F EB07          JMP     0098                                            
+
+AX=0000  BX=35B1  CX=0000  DX=25B0  SP=0080  BP=0000  SI=FFF8  DI=FFDF          
+DS=24AF  ES=259E  SS=368B  CS=35B1  IP=0098   NV DN EI PL ZR NA PE NC           
+35B1:0098 8AC2          MOV     AL,DL                                           
+
+AX=00B0  BX=35B1  CX=0000  DX=25B0  SP=0080  BP=0000  SI=FFF8  DI=FFDF          
+DS=24AF  ES=259E  SS=368B  CS=35B1  IP=009A   NV DN EI PL ZR NA PE NC           
+35B1:009A A801          TEST    AL,01                                           
+
+AX=00B0  BX=35B1  CX=0000  DX=25B0  SP=0080  BP=0000  SI=FFF8  DI=FFDF          
+DS=24AF  ES=259E  SS=368B  CS=35B1  IP=009C   NV DN EI PL ZR NA PE NC           
+35B1:009C 74BA          JZ      0058                                            
+
+AX=00B0  BX=35B1  CX=0000  DX=25B0  SP=0080  BP=0000  SI=FFF8  DI=FFDF          
+DS=24AF  ES=259E  SS=368B  CS=35B1  IP=0058   NV DN EI PL ZR NA PE NC           
+35B1:0058 B104          MOV     CL,04                                           
+
+AX=00B0  BX=35B1  CX=0004  DX=25B0  SP=0080  BP=0000  SI=FFF8  DI=FFDF          
+DS=24AF  ES=259E  SS=368B  CS=35B1  IP=005A   NV DN EI PL ZR NA PE NC           
+35B1:005A 8BC6          MOV     AX,SI                                           
+
+AX=FFF8  BX=35B1  CX=0004  DX=25B0  SP=0080  BP=0000  SI=FFF8  DI=FFDF          
+DS=24AF  ES=259E  SS=368B  CS=35B1  IP=005C   NV DN EI PL ZR NA PE NC           
+35B1:005C F7D0          NOT     AX                                              
+
+AX=0007  BX=35B1  CX=0004  DX=25B0  SP=0080  BP=0000  SI=FFF8  DI=FFDF          
+DS=24AF  ES=259E  SS=368B  CS=35B1  IP=005E   NV DN EI PL ZR NA PE NC           
+35B1:005E D3E8          SHR     AX,CL                                           
+
+AX=0000  BX=35B1  CX=0004  DX=25B0  SP=0080  BP=0000  SI=FFF8  DI=FFDF          
+DS=24AF  ES=259E  SS=368B  CS=35B1  IP=0060   NV DN EI PL ZR NA PE NC           
+35B1:0060 7409          JZ      006B                                            
+
+AX=0000  BX=35B1  CX=0004  DX=25B0  SP=0080  BP=0000  SI=FFF8  DI=FFDF          
+DS=24AF  ES=259E  SS=368B  CS=35B1  IP=006B   NV DN EI PL ZR NA PE NC           
+35B1:006B 8BC7          MOV     AX,DI                                           
+
+AX=FFDF  BX=35B1  CX=0004  DX=25B0  SP=0080  BP=0000  SI=FFF8  DI=FFDF          
+DS=24AF  ES=259E  SS=368B  CS=35B1  IP=006D   NV DN EI PL ZR NA PE NC           
+35B1:006D F7D0          NOT     AX                                              
+
+AX=0020  BX=35B1  CX=0004  DX=25B0  SP=0080  BP=0000  SI=FFF8  DI=FFDF          
+DS=24AF  ES=259E  SS=368B  CS=35B1  IP=006F   NV DN EI PL ZR NA PE NC           
+35B1:006F D3E8          SHR     AX,CL                                           
+
+AX=0002  BX=35B1  CX=0004  DX=25B0  SP=0080  BP=0000  SI=FFF8  DI=FFDF          
+DS=24AF  ES=259E  SS=368B  CS=35B1  IP=0071   NV DN EI PL NZ NA PO NC           
+35B1:0071 7409          JZ      007C                                            
+
+AX=0002  BX=35B1  CX=0004  DX=25B0  SP=0080  BP=0000  SI=FFF8  DI=FFDF          
+DS=24AF  ES=259E  SS=368B  CS=35B1  IP=0073   NV DN EI PL NZ NA PO NC           
+35B1:0073 8CC2          MOV     DX,ES                                           
+
+AX=0002  BX=35B1  CX=0004  DX=259E  SP=0080  BP=0000  SI=FFF8  DI=FFDF          
+DS=24AF  ES=259E  SS=368B  CS=35B1  IP=0075   NV DN EI PL NZ NA PO NC           
+35B1:0075 2BD0          SUB     DX,AX                                           
+
+AX=0002  BX=35B1  CX=0004  DX=259C  SP=0080  BP=0000  SI=FFF8  DI=FFDF          
+DS=24AF  ES=259E  SS=368B  CS=35B1  IP=0077   NV DN EI PL NZ NA PE NC           
+35B1:0077 8EC2          MOV     ES,DX                                           
+
+AX=0002  BX=35B1  CX=0004  DX=259C  SP=0080  BP=0000  SI=FFF8  DI=FFDF          
+DS=24AF  ES=259C  SS=368B  CS=35B1  IP=0079   NV DN EI PL NZ NA PE NC           
+35B1:0079 83CFF0        OR      DI,-10                                          
+
+AX=0002  BX=35B1  CX=0004  DX=259C  SP=0080  BP=0000  SI=FFF8  DI=FFFF          
+DS=24AF  ES=259C  SS=368B  CS=35B1  IP=007C   NV DN EI NG NZ NA PE NC           
+35B1:007C AC            LODSB                                                   
+
+AX=00B2  BX=35B1  CX=0004  DX=259C  SP=0080  BP=0000  SI=FFF7  DI=FFFF          
+DS=24AF  ES=259C  SS=368B  CS=35B1  IP=007D   NV DN EI NG NZ NA PE NC           
+35B1:007D 8AD0          MOV     DL,AL                                           
+
+AX=00B2  BX=35B1  CX=0004  DX=25B2  SP=0080  BP=0000  SI=FFF7  DI=FFFF          
+DS=24AF  ES=259C  SS=368B  CS=35B1  IP=007F   NV DN EI NG NZ NA PE NC           
+35B1:007F 4E            DEC     SI                                              
+
+AX=00B2  BX=35B1  CX=0004  DX=25B2  SP=0080  BP=0000  SI=FFF6  DI=FFFF          
+DS=24AF  ES=259C  SS=368B  CS=35B1  IP=0080   NV DN EI NG NZ NA PE NC           
+35B1:0080 AD            LODSW                                                   
+
+AX=0009  BX=35B1  CX=0004  DX=25B2  SP=0080  BP=0000  SI=FFF4  DI=FFFF          
+DS=24AF  ES=259C  SS=368B  CS=35B1  IP=0081   NV DN EI NG NZ NA PE NC           
+35B1:0081 8BC8          MOV     CX,AX                                           
+
+AX=0009  BX=35B1  CX=0009  DX=25B2  SP=0080  BP=0000  SI=FFF4  DI=FFFF          
+DS=24AF  ES=259C  SS=368B  CS=35B1  IP=0083   NV DN EI NG NZ NA PE NC           
+35B1:0083 46            INC     SI                                              
+
+AX=0009  BX=35B1  CX=0009  DX=25B2  SP=0080  BP=0000  SI=FFF5  DI=FFFF          
+DS=24AF  ES=259C  SS=368B  CS=35B1  IP=0084   NV DN EI NG NZ NA PE NC           
+35B1:0084 8AC2          MOV     AL,DL                                           
+
+AX=00B2  BX=35B1  CX=0009  DX=25B2  SP=0080  BP=0000  SI=FFF5  DI=FFFF          
+DS=24AF  ES=259C  SS=368B  CS=35B1  IP=0086   NV DN EI NG NZ NA PE NC           
+35B1:0086 24FE          AND     AL,FE                                           
+
+AX=00B2  BX=35B1  CX=0009  DX=25B2  SP=0080  BP=0000  SI=FFF5  DI=FFFF          
+DS=24AF  ES=259C  SS=368B  CS=35B1  IP=0088   NV DN EI NG NZ NA PE NC           
+35B1:0088 3CB0          CMP     AL,B0                                           
+
+AX=00B2  BX=35B1  CX=0009  DX=25B2  SP=0080  BP=0000  SI=FFF5  DI=FFFF          
+DS=24AF  ES=259C  SS=368B  CS=35B1  IP=008A   NV DN EI PL NZ NA PO NC           
+35B1:008A 7506          JNZ     0092                                            
+
+AX=00B2  BX=35B1  CX=0009  DX=25B2  SP=0080  BP=0000  SI=FFF5  DI=FFFF          
+DS=24AF  ES=259C  SS=368B  CS=35B1  IP=0092   NV DN EI PL NZ NA PO NC           
+35B1:0092 3CB2          CMP     AL,B2                                           
+
+AX=00B2  BX=35B1  CX=0009  DX=25B2  SP=0080  BP=0000  SI=FFF5  DI=FFFF          
+DS=24AF  ES=259C  SS=368B  CS=35B1  IP=0094   NV DN EI PL ZR NA PE NC           
+35B1:0094 756B          JNZ     0101                                            
+
+AX=00B2  BX=35B1  CX=0009  DX=25B2  SP=0080  BP=0000  SI=FFF5  DI=FFFF          
+DS=24AF  ES=259C  SS=368B  CS=35B1  IP=0096   NV DN EI PL ZR NA PE NC           
+35B1:0096 F3            REPZ                                                    
+35B1:0097 A4            MOVSB                                                   
+
+AX=00B2  BX=35B1  CX=0000  DX=25B2  SP=0080  BP=0000  SI=FFEC  DI=FFF6          
+DS=24AF  ES=259C  SS=368B  CS=35B1  IP=0098   NV DN EI PL ZR NA PE NC           
+35B1:0098 8AC2          MOV     AL,DL                                           
+
+AX=00B2  BX=35B1  CX=0000  DX=25B2  SP=0080  BP=0000  SI=FFEC  DI=FFF6          
+DS=24AF  ES=259C  SS=368B  CS=35B1  IP=009A   NV DN EI PL ZR NA PE NC           
+35B1:009A A801          TEST    AL,01                                           
+
+AX=00B2  BX=35B1  CX=0000  DX=25B2  SP=0080  BP=0000  SI=FFEC  DI=FFF6          
+DS=24AF  ES=259C  SS=368B  CS=35B1  IP=009C   NV DN EI PL ZR NA PE NC           
+35B1:009C 74BA          JZ      0058                                            
+
+AX=00B2  BX=35B1  CX=0000  DX=25B2  SP=0080  BP=0000  SI=FFEC  DI=FFF6          
+DS=24AF  ES=259C  SS=368B  CS=35B1  IP=0058   NV DN EI PL ZR NA PE NC           
+35B1:0058 B104          MOV     CL,04                                           
+
+AX=00B2  BX=35B1  CX=0004  DX=25B2  SP=0080  BP=0000  SI=FFEC  DI=FFF6          
+DS=24AF  ES=259C  SS=368B  CS=35B1  IP=005A   NV DN EI PL ZR NA PE NC           
+35B1:005A 8BC6          MOV     AX,SI                                           
+
+AX=FFEC  BX=35B1  CX=0004  DX=25B2  SP=0080  BP=0000  SI=FFEC  DI=FFF6          
+DS=24AF  ES=259C  SS=368B  CS=35B1  IP=005C   NV DN EI PL ZR NA PE NC           
+35B1:005C F7D0          NOT     AX                                              
+
+AX=0013  BX=35B1  CX=0004  DX=25B2  SP=0080  BP=0000  SI=FFEC  DI=FFF6          
+DS=24AF  ES=259C  SS=368B  CS=35B1  IP=005E   NV DN EI PL ZR NA PE NC           
+35B1:005E D3E8          SHR     AX,CL                                           
+
+AX=0001  BX=35B1  CX=0004  DX=25B2  SP=0080  BP=0000  SI=FFEC  DI=FFF6          
+DS=24AF  ES=259C  SS=368B  CS=35B1  IP=0060   NV DN EI PL NZ NA PO NC           
+35B1:0060 7409          JZ      006B                                            
+
+AX=0001  BX=35B1  CX=0004  DX=25B2  SP=0080  BP=0000  SI=FFEC  DI=FFF6          
+DS=24AF  ES=259C  SS=368B  CS=35B1  IP=0062   NV DN EI PL NZ NA PO NC           
+35B1:0062 8CDA          MOV     DX,DS                                           
+
+AX=0001  BX=35B1  CX=0004  DX=24AF  SP=0080  BP=0000  SI=FFEC  DI=FFF6          
+DS=24AF  ES=259C  SS=368B  CS=35B1  IP=0064   NV DN EI PL NZ NA PO NC           
+35B1:0064 2BD0          SUB     DX,AX                                           
+
+AX=0001  BX=35B1  CX=0004  DX=24AE  SP=0080  BP=0000  SI=FFEC  DI=FFF6          
+DS=24AF  ES=259C  SS=368B  CS=35B1  IP=0066   NV DN EI PL NZ NA PO NC           
+35B1:0066 8EDA          MOV     DS,DX                                           
+
+AX=0001  BX=35B1  CX=0004  DX=24AE  SP=0080  BP=0000  SI=FFEC  DI=FFF6          
+DS=24AE  ES=259C  SS=368B  CS=35B1  IP=0068   NV DN EI PL NZ NA PO NC           
+35B1:0068 83CEF0        OR      SI,-10                                          
+
+AX=0001  BX=35B1  CX=0004  DX=24AE  SP=0080  BP=0000  SI=FFFC  DI=FFF6          
+DS=24AE  ES=259C  SS=368B  CS=35B1  IP=006B   NV DN EI NG NZ NA PE NC           
+35B1:006B 8BC7          MOV     AX,DI                                           
+
+AX=FFF6  BX=35B1  CX=0004  DX=24AE  SP=0080  BP=0000  SI=FFFC  DI=FFF6          
+DS=24AE  ES=259C  SS=368B  CS=35B1  IP=006D   NV DN EI NG NZ NA PE NC           
+35B1:006D F7D0          NOT     AX                                              
+
+AX=0009  BX=35B1  CX=0004  DX=24AE  SP=0080  BP=0000  SI=FFFC  DI=FFF6          
+DS=24AE  ES=259C  SS=368B  CS=35B1  IP=006F   NV DN EI NG NZ NA PE NC           
+35B1:006F D3E8          SHR     AX,CL                                           
+
+AX=0000  BX=35B1  CX=0004  DX=24AE  SP=0080  BP=0000  SI=FFFC  DI=FFF6          
+DS=24AE  ES=259C  SS=368B  CS=35B1  IP=0071   NV DN EI PL ZR NA PE CY           
+35B1:0071 7409          JZ      007C                                            
+
+AX=0000  BX=35B1  CX=0004  DX=24AE  SP=0080  BP=0000  SI=FFFC  DI=FFF6          
+DS=24AE  ES=259C  SS=368B  CS=35B1  IP=007C   NV DN EI PL ZR NA PE CY           
+35B1:007C AC            LODSB                                                   
+
+AX=00B0  BX=35B1  CX=0004  DX=24AE  SP=0080  BP=0000  SI=FFFB  DI=FFF6          
+DS=24AE  ES=259C  SS=368B  CS=35B1  IP=007D   NV DN EI PL ZR NA PE CY           
+35B1:007D 8AD0          MOV     DL,AL                                           
+
+AX=00B0  BX=35B1  CX=0004  DX=24B0  SP=0080  BP=0000  SI=FFFB  DI=FFF6          
+DS=24AE  ES=259C  SS=368B  CS=35B1  IP=007F   NV DN EI PL ZR NA PE CY           
+35B1:007F 4E            DEC     SI                                              
+
+AX=00B0  BX=35B1  CX=0004  DX=24B0  SP=0080  BP=0000  SI=FFFA  DI=FFF6          
+DS=24AE  ES=259C  SS=368B  CS=35B1  IP=0080   NV DN EI NG NZ NA PE CY           
+35B1:0080 AD            LODSW                                                   
+
+AX=0077  BX=35B1  CX=0004  DX=24B0  SP=0080  BP=0000  SI=FFF8  DI=FFF6          
+DS=24AE  ES=259C  SS=368B  CS=35B1  IP=0081   NV DN EI NG NZ NA PE CY           
+35B1:0081 8BC8          MOV     CX,AX                                           
+
+AX=0077  BX=35B1  CX=0077  DX=24B0  SP=0080  BP=0000  SI=FFF8  DI=FFF6          
+DS=24AE  ES=259C  SS=368B  CS=35B1  IP=0083   NV DN EI NG NZ NA PE CY           
+35B1:0083 46            INC     SI                                              
+
+AX=0077  BX=35B1  CX=0077  DX=24B0  SP=0080  BP=0000  SI=FFF9  DI=FFF6          
+DS=24AE  ES=259C  SS=368B  CS=35B1  IP=0084   NV DN EI NG NZ NA PE CY           
+35B1:0084 8AC2          MOV     AL,DL                                           
+
+AX=00B0  BX=35B1  CX=0077  DX=24B0  SP=0080  BP=0000  SI=FFF9  DI=FFF6          
+DS=24AE  ES=259C  SS=368B  CS=35B1  IP=0086   NV DN EI NG NZ NA PE CY           
+35B1:0086 24FE          AND     AL,FE                                           
+
+AX=00B0  BX=35B1  CX=0077  DX=24B0  SP=0080  BP=0000  SI=FFF9  DI=FFF6          
+DS=24AE  ES=259C  SS=368B  CS=35B1  IP=0088   NV DN EI NG NZ NA PO NC           
+35B1:0088 3CB0          CMP     AL,B0                                           
+
+AX=00B0  BX=35B1  CX=0077  DX=24B0  SP=0080  BP=0000  SI=FFF9  DI=FFF6          
+DS=24AE  ES=259C  SS=368B  CS=35B1  IP=008A   NV DN EI PL ZR NA PE NC           
+35B1:008A 7506          JNZ     0092                                            
+
+AX=00B0  BX=35B1  CX=0077  DX=24B0  SP=0080  BP=0000  SI=FFF9  DI=FFF6          
+DS=24AE  ES=259C  SS=368B  CS=35B1  IP=008C   NV DN EI PL ZR NA PE NC           
+35B1:008C AC            LODSB                                                   
+
+AX=0000  BX=35B1  CX=0077  DX=24B0  SP=0080  BP=0000  SI=FFF8  DI=FFF6          
+DS=24AE  ES=259C  SS=368B  CS=35B1  IP=008D   NV DN EI PL ZR NA PE NC           
+35B1:008D F3            REPZ                                                    
+35B1:008E AA            STOSB                                                   
+
+AX=0000  BX=35B1  CX=0000  DX=24B0  SP=0080  BP=0000  SI=FFF8  DI=FF7F          
+DS=24AE  ES=259C  SS=368B  CS=35B1  IP=008F   NV DN EI PL ZR NA PE NC           
+35B1:008F EB07          JMP     0098                                            
+
+AX=0000  BX=35B1  CX=0000  DX=24B0  SP=0080  BP=0000  SI=FFF8  DI=FF7F          
+DS=24AE  ES=259C  SS=368B  CS=35B1  IP=0098   NV DN EI PL ZR NA PE NC           
+35B1:0098 8AC2          MOV     AL,DL                                           
+
+AX=00B0  BX=35B1  CX=0000  DX=24B0  SP=0080  BP=0000  SI=FFF8  DI=FF7F          
+DS=24AE  ES=259C  SS=368B  CS=35B1  IP=009A   NV DN EI PL ZR NA PE NC           
+35B1:009A A801          TEST    AL,01                                           
+
+AX=00B0  BX=35B1  CX=0000  DX=24B0  SP=0080  BP=0000  SI=FFF8  DI=FF7F          
+DS=24AE  ES=259C  SS=368B  CS=35B1  IP=009C   NV DN EI PL ZR NA PE NC           
+35B1:009C 74BA          JZ      0058                                            
+
+AX=00B0  BX=35B1  CX=0000  DX=24B0  SP=0080  BP=0000  SI=FFF8  DI=FF7F          
+DS=24AE  ES=259C  SS=368B  CS=35B1  IP=0058   NV DN EI PL ZR NA PE NC           
+35B1:0058 B104          MOV     CL,04                                           
+
+AX=00B0  BX=35B1  CX=0004  DX=24B0  SP=0080  BP=0000  SI=FFF8  DI=FF7F          
+DS=24AE  ES=259C  SS=368B  CS=35B1  IP=005A   NV DN EI PL ZR NA PE NC           
+35B1:005A 8BC6          MOV     AX,SI                                           
+
+AX=FFF8  BX=35B1  CX=0004  DX=24B0  SP=0080  BP=0000  SI=FFF8  DI=FF7F          
+DS=24AE  ES=259C  SS=368B  CS=35B1  IP=005C   NV DN EI PL ZR NA PE NC           
+35B1:005C F7D0          NOT     AX                                              
+
+AX=0007  BX=35B1  CX=0004  DX=24B0  SP=0080  BP=0000  SI=FFF8  DI=FF7F          
+DS=24AE  ES=259C  SS=368B  CS=35B1  IP=005E   NV DN EI PL ZR NA PE NC           
+35B1:005E D3E8          SHR     AX,CL                                           
+
+AX=0000  BX=35B1  CX=0004  DX=24B0  SP=0080  BP=0000  SI=FFF8  DI=FF7F          
+DS=24AE  ES=259C  SS=368B  CS=35B1  IP=0060   NV DN EI PL ZR NA PE NC           
+35B1:0060 7409          JZ      006B                                            
+
+AX=0000  BX=35B1  CX=0004  DX=24B0  SP=0080  BP=0000  SI=FFF8  DI=FF7F          
+DS=24AE  ES=259C  SS=368B  CS=35B1  IP=006B   NV DN EI PL ZR NA PE NC           
+35B1:006B 8BC7          MOV     AX,DI                                           
+
+AX=FF7F  BX=35B1  CX=0004  DX=24B0  SP=0080  BP=0000  SI=FFF8  DI=FF7F          
+DS=24AE  ES=259C  SS=368B  CS=35B1  IP=006D   NV DN EI PL ZR NA PE NC           
+35B1:006D F7D0          NOT     AX                                              
+

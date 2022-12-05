@@ -5799,6 +5799,13 @@ void handlerCommand16Code00C1_RM() {
 	}
 }
 //Ret
+void handlerCommand16Code00C2_RM() {
+	LOG("%s","Ret");
+	uint16_t* sp = register16u(BR_SP);
+	context.index = GET_SEGMENT_POINTER(1) + *(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp);
+	*sp += ((16 / 8) + read16u() * (16 / 16));
+}
+//Ret
 void handlerCommand16Code00C3_RM() {
 	LOG("%s","Ret");
 	uint16_t* sp = register16u(BR_SP);
@@ -5964,6 +5971,15 @@ void handlerCommand16Code00C9_RM() {
 	reg_SP_16u += 16 / 8;
 }
 //Ret
+void handlerCommand16Code00CA_RM() {
+	LOG("%s","Ret");
+	uint16_t* sp = register16u(BR_SP);
+	SET_VALUE_IN_SEGMENT(1, *(int16_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp + 16 / 8));
+	context.index = GET_SEGMENT_POINTER(1) + *(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp);
+	*sp += 16 / 8 + 2;
+	*sp += ((16 / 8) + read16u() * (16 / 16));
+}
+//Ret
 void handlerCommand16Code00CB_RM() {
 	LOG("%s","Ret");
 	uint16_t* sp = register16u(BR_SP);
@@ -5974,9 +5990,13 @@ void handlerCommand16Code00CB_RM() {
 //Int
 void handlerCommand16Code00CD_RM() {
 	LOG("%s","Int");
-	uint8_t addr = read8u();
-	FillFlags();
-	context.functions[addr](addr);
+	uint8_t *target = GET_REAL_MOD_MEMORY_POINTER(0) + (read8u() * (2 + 2));
+	reg_SP_16u -= 16 / 8;
+	*(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u) = SR_VALUE(SR_CS);
+	reg_SP_16u -= 16 / 8;
+	*(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u) = ((uint16_t)(context.index - GET_SEGMENT_POINTER(SR_CS)));
+	SET_VALUE_IN_SEGMENT(SR_CS, (*((uint16_t*)(target + 2))));
+	context.index = GET_SEGMENT_POINTER(SR_CS) + (*((uint16_t*)(target)));
 }
 //Move bits
 void handlerCommand16Code00D0P66_RM() {
@@ -7953,6 +7973,13 @@ void handlerCommand16Code00EB_RM() {
 	LOG("%s","Jmp");
 	context.index += read8();
 }
+//External call
+void handlerCommand16Code00F1_RM() {
+	LOG("%s","External call");
+	uint8_t addr = read8u();
+	FillFlags();
+	context.functions[addr](addr);
+}
 //~CF
 void handlerCommand16Code00F5_RM() {
 	LOG("%s","~CF");
@@ -8406,6 +8433,13 @@ void handlerCommand16Code00FFP66P67_RM() {
 			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((uint32_t*)target));
 		}
 		break;
+		case 0x5: {
+			// JMP
+			uint8_t* target = (uint8_t*)readAddressMRM16For32(mrmByte);
+			SET_VALUE_IN_SEGMENT(SR_CS, (*((uint16_t*)(target + 2))));
+			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((uint32_t*)(target)));
+		}
+		break;
 		case 0x6: {
 			// PUSH
 			uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
@@ -8443,6 +8477,13 @@ void handlerCommand16Code00FFP67_RM() {
 			// JMP
 			uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
 			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((uint16_t*)target));
+		}
+		break;
+		case 0x5: {
+			// JMP
+			uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
+			SET_VALUE_IN_SEGMENT(SR_CS, (*((uint16_t*)(target + 2))));
+			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((uint16_t*)(target)));
 		}
 		break;
 		case 0x6: {
@@ -8484,6 +8525,13 @@ void handlerCommand16Code00FFP66_RM() {
 			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((uint32_t*)target));
 		}
 		break;
+		case 0x5: {
+			// JMP
+			uint8_t* target = (uint8_t*)readAddressMRM16For32(mrmByte);
+			SET_VALUE_IN_SEGMENT(SR_CS, (*((uint16_t*)(target + 2))));
+			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((uint32_t*)(target)));
+		}
+		break;
 		case 0x6: {
 			// PUSH
 			uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
@@ -8521,6 +8569,13 @@ void handlerCommand16Code00FF_RM() {
 			// JMP
 			uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
 			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((uint16_t*)target));
+		}
+		break;
+		case 0x5: {
+			// JMP
+			uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
+			SET_VALUE_IN_SEGMENT(SR_CS, (*((uint16_t*)(target + 2))));
+			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((uint16_t*)(target)));
 		}
 		break;
 		case 0x6: {
@@ -15573,6 +15628,13 @@ void handlerCommand32Code00C1_RM() {
 	}
 }
 //Ret
+void handlerCommand32Code00C2_RM() {
+	LOG("%s","Ret");
+	uint32_t* sp = register32u(BR_SP);
+	context.index = GET_SEGMENT_POINTER(1) + *(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp);
+	*sp += ((32 / 8) + read16u() * (32 / 16));
+}
+//Ret
 void handlerCommand32Code00C3_RM() {
 	LOG("%s","Ret");
 	uint32_t* sp = register32u(BR_SP);
@@ -15738,6 +15800,15 @@ void handlerCommand32Code00C9_RM() {
 	reg_SP_32u += 32 / 8;
 }
 //Ret
+void handlerCommand32Code00CA_RM() {
+	LOG("%s","Ret");
+	uint32_t* sp = register32u(BR_SP);
+	SET_VALUE_IN_SEGMENT(1, *(int16_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp + 32 / 8));
+	context.index = GET_SEGMENT_POINTER(1) + *(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp);
+	*sp += 32 / 8 + 2;
+	*sp += ((32 / 8) + read16u() * (32 / 16));
+}
+//Ret
 void handlerCommand32Code00CB_RM() {
 	LOG("%s","Ret");
 	uint32_t* sp = register32u(BR_SP);
@@ -15748,9 +15819,13 @@ void handlerCommand32Code00CB_RM() {
 //Int
 void handlerCommand32Code00CD_RM() {
 	LOG("%s","Int");
-	uint8_t addr = read8u();
-	FillFlags();
-	context.functions[addr](addr);
+	uint8_t *target = GET_REAL_MOD_MEMORY_POINTER(0) + (read8u() * (2 + 2));
+	reg_SP_32u -= 16 / 8;
+	*(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u) = SR_VALUE(SR_CS);
+	reg_SP_32u -= 32 / 8;
+	*(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u) = ((uint32_t)(context.index - GET_SEGMENT_POINTER(SR_CS)));
+	SET_VALUE_IN_SEGMENT(SR_CS, (*((uint16_t*)(target + 2))));
+	context.index = GET_SEGMENT_POINTER(SR_CS) + (*((uint16_t*)(target)));
 }
 //Move bits
 void handlerCommand32Code00D0P66_RM() {
@@ -17727,6 +17802,13 @@ void handlerCommand32Code00EB_RM() {
 	LOG("%s","Jmp");
 	context.index += read8();
 }
+//External call
+void handlerCommand32Code00F1_RM() {
+	LOG("%s","External call");
+	uint8_t addr = read8u();
+	FillFlags();
+	context.functions[addr](addr);
+}
 //~CF
 void handlerCommand32Code00F5_RM() {
 	LOG("%s","~CF");
@@ -18180,6 +18262,13 @@ void handlerCommand32Code00FFP66P67_RM() {
 			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((uint16_t*)target));
 		}
 		break;
+		case 0x5: {
+			// JMP
+			uint8_t* target = (uint8_t*)readAddressMRM32For16(mrmByte);
+			SET_VALUE_IN_SEGMENT(SR_CS, (*((uint16_t*)(target + 2))));
+			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((uint16_t*)(target)));
+		}
+		break;
 		case 0x6: {
 			// PUSH
 			uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
@@ -18217,6 +18306,13 @@ void handlerCommand32Code00FFP67_RM() {
 			// JMP
 			uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
 			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((uint32_t*)target));
+		}
+		break;
+		case 0x5: {
+			// JMP
+			uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
+			SET_VALUE_IN_SEGMENT(SR_CS, (*((uint16_t*)(target + 2))));
+			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((uint32_t*)(target)));
 		}
 		break;
 		case 0x6: {
@@ -18258,6 +18354,13 @@ void handlerCommand32Code00FFP66_RM() {
 			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((uint16_t*)target));
 		}
 		break;
+		case 0x5: {
+			// JMP
+			uint8_t* target = (uint8_t*)readAddressMRM32For16(mrmByte);
+			SET_VALUE_IN_SEGMENT(SR_CS, (*((uint16_t*)(target + 2))));
+			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((uint16_t*)(target)));
+		}
+		break;
 		case 0x6: {
 			// PUSH
 			uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
@@ -18295,6 +18398,13 @@ void handlerCommand32Code00FF_RM() {
 			// JMP
 			uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
 			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((uint32_t*)target));
+		}
+		break;
+		case 0x5: {
+			// JMP
+			uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
+			SET_VALUE_IN_SEGMENT(SR_CS, (*((uint16_t*)(target + 2))));
+			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((uint32_t*)(target)));
 		}
 		break;
 		case 0x6: {
@@ -25347,6 +25457,13 @@ void handlerCommand16Code00C1_PM() {
 	}
 }
 //Ret
+void handlerCommand16Code00C2_PM() {
+	LOG("%s","Ret");
+	uint16_t* sp = register16u(BR_SP);
+	context.index = GET_SEGMENT_POINTER(1) + *(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp);
+	*sp += ((16 / 8) + read16u() * (16 / 16));
+}
+//Ret
 void handlerCommand16Code00C3_PM() {
 	LOG("%s","Ret");
 	uint16_t* sp = register16u(BR_SP);
@@ -25512,6 +25629,15 @@ void handlerCommand16Code00C9_PM() {
 	reg_SP_16u += 16 / 8;
 }
 //Ret
+void handlerCommand16Code00CA_PM() {
+	LOG("%s","Ret");
+	uint16_t* sp = register16u(BR_SP);
+	SET_VALUE_IN_SEGMENT_P(1, *(int16_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp + 16 / 8));
+	context.index = GET_SEGMENT_POINTER(1) + *(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp);
+	*sp += 16 / 8 + 2;
+	*sp += ((16 / 8) + read16u() * (16 / 16));
+}
+//Ret
 void handlerCommand16Code00CB_PM() {
 	LOG("%s","Ret");
 	uint16_t* sp = register16u(BR_SP);
@@ -25522,9 +25648,13 @@ void handlerCommand16Code00CB_PM() {
 //Int
 void handlerCommand16Code00CD_PM() {
 	LOG("%s","Int");
-	uint8_t addr = read8u();
-	FillFlags();
-	context.functions[addr](addr);
+	uint8_t *target = GET_REAL_MOD_MEMORY_POINTER(0) + (read8u() * (2 + 2));
+	reg_SP_16u -= 16 / 8;
+	*(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u) = SR_VALUE(SR_CS);
+	reg_SP_16u -= 16 / 8;
+	*(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u) = ((uint16_t)(context.index - GET_SEGMENT_POINTER(SR_CS)));
+	SET_VALUE_IN_SEGMENT_P(SR_CS, (*((uint16_t*)(target + 2))));
+	context.index = GET_SEGMENT_POINTER(SR_CS) + (*((uint16_t*)(target)));
 }
 //Move bits
 void handlerCommand16Code00D0P66_PM() {
@@ -27501,6 +27631,13 @@ void handlerCommand16Code00EB_PM() {
 	LOG("%s","Jmp");
 	context.index += read8();
 }
+//External call
+void handlerCommand16Code00F1_PM() {
+	LOG("%s","External call");
+	uint8_t addr = read8u();
+	FillFlags();
+	context.functions[addr](addr);
+}
 //~CF
 void handlerCommand16Code00F5_PM() {
 	LOG("%s","~CF");
@@ -27954,6 +28091,13 @@ void handlerCommand16Code00FFP66P67_PM() {
 			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((uint32_t*)target));
 		}
 		break;
+		case 0x5: {
+			// JMP
+			uint8_t* target = (uint8_t*)readAddressMRM16For32(mrmByte);
+			SET_VALUE_IN_SEGMENT_P(SR_CS, (*((uint16_t*)(target + 2))));
+			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((uint32_t*)(target)));
+		}
+		break;
 		case 0x6: {
 			// PUSH
 			uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
@@ -27991,6 +28135,13 @@ void handlerCommand16Code00FFP67_PM() {
 			// JMP
 			uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
 			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((uint16_t*)target));
+		}
+		break;
+		case 0x5: {
+			// JMP
+			uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
+			SET_VALUE_IN_SEGMENT_P(SR_CS, (*((uint16_t*)(target + 2))));
+			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((uint16_t*)(target)));
 		}
 		break;
 		case 0x6: {
@@ -28032,6 +28183,13 @@ void handlerCommand16Code00FFP66_PM() {
 			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((uint32_t*)target));
 		}
 		break;
+		case 0x5: {
+			// JMP
+			uint8_t* target = (uint8_t*)readAddressMRM16For32(mrmByte);
+			SET_VALUE_IN_SEGMENT_P(SR_CS, (*((uint16_t*)(target + 2))));
+			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((uint32_t*)(target)));
+		}
+		break;
 		case 0x6: {
 			// PUSH
 			uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
@@ -28069,6 +28227,13 @@ void handlerCommand16Code00FF_PM() {
 			// JMP
 			uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
 			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((uint16_t*)target));
+		}
+		break;
+		case 0x5: {
+			// JMP
+			uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
+			SET_VALUE_IN_SEGMENT_P(SR_CS, (*((uint16_t*)(target + 2))));
+			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((uint16_t*)(target)));
 		}
 		break;
 		case 0x6: {
@@ -35121,6 +35286,13 @@ void handlerCommand32Code00C1_PM() {
 	}
 }
 //Ret
+void handlerCommand32Code00C2_PM() {
+	LOG("%s","Ret");
+	uint32_t* sp = register32u(BR_SP);
+	context.index = GET_SEGMENT_POINTER(1) + *(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp);
+	*sp += ((32 / 8) + read16u() * (32 / 16));
+}
+//Ret
 void handlerCommand32Code00C3_PM() {
 	LOG("%s","Ret");
 	uint32_t* sp = register32u(BR_SP);
@@ -35286,6 +35458,15 @@ void handlerCommand32Code00C9_PM() {
 	reg_SP_32u += 32 / 8;
 }
 //Ret
+void handlerCommand32Code00CA_PM() {
+	LOG("%s","Ret");
+	uint32_t* sp = register32u(BR_SP);
+	SET_VALUE_IN_SEGMENT_P(1, *(int16_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp + 32 / 8));
+	context.index = GET_SEGMENT_POINTER(1) + *(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp);
+	*sp += 32 / 8 + 2;
+	*sp += ((32 / 8) + read16u() * (32 / 16));
+}
+//Ret
 void handlerCommand32Code00CB_PM() {
 	LOG("%s","Ret");
 	uint32_t* sp = register32u(BR_SP);
@@ -35296,9 +35477,13 @@ void handlerCommand32Code00CB_PM() {
 //Int
 void handlerCommand32Code00CD_PM() {
 	LOG("%s","Int");
-	uint8_t addr = read8u();
-	FillFlags();
-	context.functions[addr](addr);
+	uint8_t *target = GET_REAL_MOD_MEMORY_POINTER(0) + (read8u() * (2 + 2));
+	reg_SP_32u -= 16 / 8;
+	*(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u) = SR_VALUE(SR_CS);
+	reg_SP_32u -= 32 / 8;
+	*(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u) = ((uint32_t)(context.index - GET_SEGMENT_POINTER(SR_CS)));
+	SET_VALUE_IN_SEGMENT_P(SR_CS, (*((uint16_t*)(target + 2))));
+	context.index = GET_SEGMENT_POINTER(SR_CS) + (*((uint16_t*)(target)));
 }
 //Move bits
 void handlerCommand32Code00D0P66_PM() {
@@ -37275,6 +37460,13 @@ void handlerCommand32Code00EB_PM() {
 	LOG("%s","Jmp");
 	context.index += read8();
 }
+//External call
+void handlerCommand32Code00F1_PM() {
+	LOG("%s","External call");
+	uint8_t addr = read8u();
+	FillFlags();
+	context.functions[addr](addr);
+}
 //~CF
 void handlerCommand32Code00F5_PM() {
 	LOG("%s","~CF");
@@ -37728,6 +37920,13 @@ void handlerCommand32Code00FFP66P67_PM() {
 			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((uint16_t*)target));
 		}
 		break;
+		case 0x5: {
+			// JMP
+			uint8_t* target = (uint8_t*)readAddressMRM32For16(mrmByte);
+			SET_VALUE_IN_SEGMENT_P(SR_CS, (*((uint16_t*)(target + 2))));
+			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((uint16_t*)(target)));
+		}
+		break;
 		case 0x6: {
 			// PUSH
 			uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
@@ -37765,6 +37964,13 @@ void handlerCommand32Code00FFP67_PM() {
 			// JMP
 			uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
 			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((uint32_t*)target));
+		}
+		break;
+		case 0x5: {
+			// JMP
+			uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
+			SET_VALUE_IN_SEGMENT_P(SR_CS, (*((uint16_t*)(target + 2))));
+			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((uint32_t*)(target)));
 		}
 		break;
 		case 0x6: {
@@ -37806,6 +38012,13 @@ void handlerCommand32Code00FFP66_PM() {
 			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((uint16_t*)target));
 		}
 		break;
+		case 0x5: {
+			// JMP
+			uint8_t* target = (uint8_t*)readAddressMRM32For16(mrmByte);
+			SET_VALUE_IN_SEGMENT_P(SR_CS, (*((uint16_t*)(target + 2))));
+			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((uint16_t*)(target)));
+		}
+		break;
 		case 0x6: {
 			// PUSH
 			uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
@@ -37843,6 +38056,13 @@ void handlerCommand32Code00FF_PM() {
 			// JMP
 			uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
 			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((uint32_t*)target));
+		}
+		break;
+		case 0x5: {
+			// JMP
+			uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
+			SET_VALUE_IN_SEGMENT_P(SR_CS, (*((uint16_t*)(target + 2))));
+			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((uint32_t*)(target)));
 		}
 		break;
 		case 0x6: {
@@ -39490,6 +39710,7 @@ void handlerCommand32Code01CF_PM() {
 	commandFunctions[192 | 0x0400] = handlerCommand16Code00C0P66_RM;
 	commandFunctions[193] = handlerCommand16Code00C1_RM;
 	commandFunctions[193 | 0x0400] = handlerCommand16Code00C1P66_RM;
+	commandFunctions[194] = handlerCommand16Code00C2_RM;
 	commandFunctions[195] = handlerCommand16Code00C3_RM;
 	commandFunctions[196] = handlerCommand16Code00C4_RM;
 	commandFunctions[197] = handlerCommand16Code00C5_RM;
@@ -39505,6 +39726,7 @@ void handlerCommand32Code01CF_PM() {
 	commandFunctions[201 | 0x0200 ] = handlerCommand16Code00C9P67_RM;
 	commandFunctions[201 | 0x0400] = handlerCommand16Code00C9P66_RM;
 	commandFunctions[201 | 0x0200 | 0x0400] = handlerCommand16Code00C9P66P67_RM;
+	commandFunctions[202] = handlerCommand16Code00CA_RM;
 	commandFunctions[203] = handlerCommand16Code00CB_RM;
 	commandFunctions[205] = handlerCommand16Code00CD_RM;
 	commandFunctions[208] = handlerCommand16Code00D0_RM;
@@ -39532,6 +39754,7 @@ void handlerCommand32Code01CF_PM() {
 	commandFunctions[233] = handlerCommand16Code00E9_RM;
 	commandFunctions[233 | 0x0400] = handlerCommand16Code00E9P66_RM;
 	commandFunctions[235] = handlerCommand16Code00EB_RM;
+	commandFunctions[241] = handlerCommand16Code00F1_RM;
 	commandFunctions[245] = handlerCommand16Code00F5_RM;
 	commandFunctions[246] = handlerCommand16Code00F6_RM;
 	commandFunctions[246 | 0x0400] = handlerCommand16Code00F6P66_RM;
@@ -40018,6 +40241,7 @@ void installCommandFunction32RM() {
 	commandFunctions[192 | 0x0400] = handlerCommand32Code00C0P66_RM;
 	commandFunctions[193] = handlerCommand32Code00C1_RM;
 	commandFunctions[193 | 0x0400] = handlerCommand32Code00C1P66_RM;
+	commandFunctions[194] = handlerCommand32Code00C2_RM;
 	commandFunctions[195] = handlerCommand32Code00C3_RM;
 	commandFunctions[196] = handlerCommand32Code00C4_RM;
 	commandFunctions[197] = handlerCommand32Code00C5_RM;
@@ -40033,6 +40257,7 @@ void installCommandFunction32RM() {
 	commandFunctions[201 | 0x0200 ] = handlerCommand32Code00C9P67_RM;
 	commandFunctions[201 | 0x0400] = handlerCommand32Code00C9P66_RM;
 	commandFunctions[201 | 0x0200 | 0x0400] = handlerCommand32Code00C9P66P67_RM;
+	commandFunctions[202] = handlerCommand32Code00CA_RM;
 	commandFunctions[203] = handlerCommand32Code00CB_RM;
 	commandFunctions[205] = handlerCommand32Code00CD_RM;
 	commandFunctions[208] = handlerCommand32Code00D0_RM;
@@ -40060,6 +40285,7 @@ void installCommandFunction32RM() {
 	commandFunctions[233] = handlerCommand32Code00E9_RM;
 	commandFunctions[233 | 0x0400] = handlerCommand32Code00E9P66_RM;
 	commandFunctions[235] = handlerCommand32Code00EB_RM;
+	commandFunctions[241] = handlerCommand32Code00F1_RM;
 	commandFunctions[245] = handlerCommand32Code00F5_RM;
 	commandFunctions[246] = handlerCommand32Code00F6_RM;
 	commandFunctions[246 | 0x0400] = handlerCommand32Code00F6P66_RM;
@@ -40546,6 +40772,7 @@ void installCommandFunction16PM() {
 	commandFunctions[192 | 0x0400] = handlerCommand16Code00C0P66_PM;
 	commandFunctions[193] = handlerCommand16Code00C1_PM;
 	commandFunctions[193 | 0x0400] = handlerCommand16Code00C1P66_PM;
+	commandFunctions[194] = handlerCommand16Code00C2_PM;
 	commandFunctions[195] = handlerCommand16Code00C3_PM;
 	commandFunctions[196] = handlerCommand16Code00C4_PM;
 	commandFunctions[197] = handlerCommand16Code00C5_PM;
@@ -40561,6 +40788,7 @@ void installCommandFunction16PM() {
 	commandFunctions[201 | 0x0200 ] = handlerCommand16Code00C9P67_PM;
 	commandFunctions[201 | 0x0400] = handlerCommand16Code00C9P66_PM;
 	commandFunctions[201 | 0x0200 | 0x0400] = handlerCommand16Code00C9P66P67_PM;
+	commandFunctions[202] = handlerCommand16Code00CA_PM;
 	commandFunctions[203] = handlerCommand16Code00CB_PM;
 	commandFunctions[205] = handlerCommand16Code00CD_PM;
 	commandFunctions[208] = handlerCommand16Code00D0_PM;
@@ -40588,6 +40816,7 @@ void installCommandFunction16PM() {
 	commandFunctions[233] = handlerCommand16Code00E9_PM;
 	commandFunctions[233 | 0x0400] = handlerCommand16Code00E9P66_PM;
 	commandFunctions[235] = handlerCommand16Code00EB_PM;
+	commandFunctions[241] = handlerCommand16Code00F1_PM;
 	commandFunctions[245] = handlerCommand16Code00F5_PM;
 	commandFunctions[246] = handlerCommand16Code00F6_PM;
 	commandFunctions[246 | 0x0400] = handlerCommand16Code00F6P66_PM;
@@ -41074,6 +41303,7 @@ void installCommandFunction32PM() {
 	commandFunctions[192 | 0x0400] = handlerCommand32Code00C0P66_PM;
 	commandFunctions[193] = handlerCommand32Code00C1_PM;
 	commandFunctions[193 | 0x0400] = handlerCommand32Code00C1P66_PM;
+	commandFunctions[194] = handlerCommand32Code00C2_PM;
 	commandFunctions[195] = handlerCommand32Code00C3_PM;
 	commandFunctions[196] = handlerCommand32Code00C4_PM;
 	commandFunctions[197] = handlerCommand32Code00C5_PM;
@@ -41089,6 +41319,7 @@ void installCommandFunction32PM() {
 	commandFunctions[201 | 0x0200 ] = handlerCommand32Code00C9P67_PM;
 	commandFunctions[201 | 0x0400] = handlerCommand32Code00C9P66_PM;
 	commandFunctions[201 | 0x0200 | 0x0400] = handlerCommand32Code00C9P66P67_PM;
+	commandFunctions[202] = handlerCommand32Code00CA_PM;
 	commandFunctions[203] = handlerCommand32Code00CB_PM;
 	commandFunctions[205] = handlerCommand32Code00CD_PM;
 	commandFunctions[208] = handlerCommand32Code00D0_PM;
@@ -41116,6 +41347,7 @@ void installCommandFunction32PM() {
 	commandFunctions[233] = handlerCommand32Code00E9_PM;
 	commandFunctions[233 | 0x0400] = handlerCommand32Code00E9P66_PM;
 	commandFunctions[235] = handlerCommand32Code00EB_PM;
+	commandFunctions[241] = handlerCommand32Code00F1_PM;
 	commandFunctions[245] = handlerCommand32Code00F5_PM;
 	commandFunctions[246] = handlerCommand32Code00F6_PM;
 	commandFunctions[246 | 0x0400] = handlerCommand32Code00F6P66_PM;
