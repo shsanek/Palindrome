@@ -379,7 +379,7 @@ final class FirstTest: XCTestCase {
 
         TAssert(error == nil || error == number)
 
-        runFullModeToEndWithStop(40000);
+        // runFullModeToEndWithStop(40000);
 
         TAssert(true);
     }

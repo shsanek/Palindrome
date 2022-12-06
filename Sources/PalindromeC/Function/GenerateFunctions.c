@@ -8025,7 +8025,7 @@ void handlerCommand16Code00EB_RM() {
 //External call
 void handlerCommand16Code00F1_RM() {
 	LOG("%s","External call");
-	uint8_t addr = read8u();
+	uint16_t addr = read16u();
 	FillFlags();
 	context.functions[addr](addr);
 }
@@ -17939,7 +17939,7 @@ void handlerCommand32Code00EB_RM() {
 //External call
 void handlerCommand32Code00F1_RM() {
 	LOG("%s","External call");
-	uint8_t addr = read8u();
+	uint16_t addr = read16u();
 	FillFlags();
 	context.functions[addr](addr);
 }
@@ -27853,7 +27853,7 @@ void handlerCommand16Code00EB_PM() {
 //External call
 void handlerCommand16Code00F1_PM() {
 	LOG("%s","External call");
-	uint8_t addr = read8u();
+	uint16_t addr = read16u();
 	FillFlags();
 	context.functions[addr](addr);
 }
@@ -37767,7 +37767,7 @@ void handlerCommand32Code00EB_PM() {
 //External call
 void handlerCommand32Code00F1_PM() {
 	LOG("%s","External call");
-	uint8_t addr = read8u();
+	uint16_t addr = read16u();
 	FillFlags();
 	context.functions[addr](addr);
 }

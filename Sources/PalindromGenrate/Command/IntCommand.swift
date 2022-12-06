@@ -32,7 +32,7 @@ fileprivate let externalCallCommand = Command(
         customizers: [
             .functionName,
             """
-            uint8_t addr = read8u();
+            uint16_t addr = read16u();
             FillFlags();
             context.functions[addr](addr);
             """

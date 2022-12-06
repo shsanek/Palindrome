@@ -71,18 +71,18 @@ void loadBaseInterrupt() {
 
     realModMemoryAllocate(0x126F);
 
-    uint16_t implementation = allocateMemoryLoadWithForceBlock(0xF000, 0x03FF);
+    uint16_t implementation = allocateMemoryLoadWithForceBlock(0xF000, 0x04FF);
     uint8_t* implementationPointer = GET_REAL_MOD_MEMORY_POINTER(implementation);
 
     for (int i = 0; i < 256; i++) {
         int value = i;
         if (i == 190) { value = 189; }
-        *((uint16_t*)(addressPointer + i * 4 + 0)) = value * 3;
+        *((uint16_t*)(addressPointer + i * 4 + 0)) = value * 4;
         *((uint16_t*)(addressPointer + i * 4 + 2)) = implementation;
 
-        *(implementationPointer + i * 3 + 0) = 0xF1;
-        *(implementationPointer + i * 3 + 1) = (uint8_t)i;
-        *(implementationPointer + i * 3 + 2) = 0xCB;
+        *(implementationPointer + i * 4 + 0) = 0xF1;
+        *(uint16_t*)(implementationPointer + i * 4 + 1) = (uint16_t)i;
+        *(implementationPointer + i * 4 + 3) = 0xCB;
     }
 }
 
