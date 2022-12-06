@@ -15,6 +15,7 @@
 #include "../Memory/VirtualMemoryManager.h"
 #include "ExternalFunction.h"
 #include "External/ExternalInterruptBaseHandler.h"
+#include <pthread.h>
 
 Context context;
 
@@ -68,6 +69,10 @@ Context* resetContext() {
     resetStack();
     setRegisterPointers();
 
+    pthread_mutex_init(&context.interruptLock, NULL);
+    pthread_mutex_init(&context.mainThreadLock, NULL);
+    pthread_mutex_init(&context.interruptImplementationLock, NULL);
+
     return &context;
 }
 
@@ -77,5 +82,9 @@ void freeContext() {
         return;
     }
     free(context.text);
+    pthread_mutex_destroy(&context.interruptLock);
+    pthread_mutex_destroy(&context.mainThreadLock);
+    pthread_mutex_destroy(&context.interruptImplementationLock);
+
     isInstall = 0;
 }

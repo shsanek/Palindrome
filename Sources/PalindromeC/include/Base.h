@@ -29,4 +29,6 @@ char* runFullModeToEndWithStopForTest(int count);
 void runFullModeToEndWithStop(int count);
 void runFullMode(int count);
 
+void InterruptCall(uint8_t value);
+
 #endif /* Base_h */

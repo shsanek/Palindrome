@@ -43,6 +43,11 @@ typedef struct Context {
     uint8_t *text;
 
     uint8_t pmode;
+    uint8_t hasInterrupt;
+
+    pthread_mutex_t mainThreadLock;
+    pthread_mutex_t interruptLock;
+    pthread_mutex_t interruptImplementationLock;
 
     CommandInfo lastCommandInfo;
 

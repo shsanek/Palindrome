@@ -10,11 +10,11 @@
 #include "Registers.h"
 
 void emptyIOPortOutputFunction(uint16_t port, uint8_t* value, uint8_t size) {
-    printf("not found");
+    printf("[OUT]found");
 }
 
 void emptyIOPortInputFunction(uint16_t port, uint8_t* value, uint8_t size) {
-    printf("not found");
+    printf("[IN]found");
 }
 
 

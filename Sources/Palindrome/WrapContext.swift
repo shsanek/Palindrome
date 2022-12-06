@@ -44,6 +44,7 @@ public final class WrapContext {
         return .invalidate
     }
     public private(set) var context: UnsafeMutablePointer<Context>?
+    public let timer = TickTimer()
 
     private var functionsContainer = FunctionContainer()
 
@@ -66,6 +67,7 @@ public final class WrapContext {
     }
 
     deinit {
+        timer.stop()
         freeContext()
     }
 
@@ -111,6 +113,52 @@ public final class WrapContext {
         }
         block(buffer, programm.count)
         buffer.deallocate()
+    }
+
+}
+
+public final class TickTimer {
+    private var firstTime: TimeInterval = Date().timeIntervalSince1970
+    private var tick = 0
+    private var timer: Timer?
+    private let stepTime: TimeInterval
+
+    private var isRun: Bool = false
+    private let queue = DispatchQueue(label: "TickTimer")
+
+    init(stepTime: TimeInterval = 55.0 / 1000.0) {
+        self.stepTime = stepTime
+    }
+
+    @discardableResult
+    public func stop() -> Self {
+        queue.sync {
+            self.isRun = false
+        }
+        return self
+    }
+
+    @discardableResult
+    public func run() -> Self {
+        queue.async {
+            self.isRun = true
+            self.runTickTimer()
+        }
+        return self
+    }
+
+    private func runTickTimer() {
+        let base = TimeInterval(self.tick + 1) * self.stepTime
+        let count = (base - self.firstTime) / self.stepTime
+
+        queue.asyncAfter(deadline: .now() + self.stepTime / count) {
+            guard self.isRun else {
+                return
+            }
+            InterruptCall(0x08)
+            self.tick += 1
+            self.runTickTimer()
+        }
     }
 }
 

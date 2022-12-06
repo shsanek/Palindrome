@@ -18,4 +18,6 @@ void ExternalCallFunctionEmpty(uint16_t a);
 
 void ExternalCallFunctionInstall();
 
+void InterruptRun();
+
 #endif /* Interrupt_h */

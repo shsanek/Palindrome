@@ -14,6 +14,7 @@
 #include <stdlib.h>
 #include "Support/Log.h"
 #include <sys/time.h>
+#include <pthread.h>
 
 uint8_t *debugCommands = NULL;
 
@@ -165,32 +166,24 @@ void getCommand() {
     commandFunctions[context.lastCommandInfo.command]();\
 }
 
-void skipInt();
+void InterruptRun() {
+    uint16_t* sp = register16u(BR_SP);
+    uint16_t segmentValue = *(int16_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp + 16 / 8);
+    uint8_t* pointer = GET_REAL_MOD_MEMORY_POINTER(segmentValue) + *(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp);
 
-void callInterrupt(uint8_t value) {
-    uint16_t newIP = *(uint16_t*)(GET_REAL_MOD_MEMORY_POINTER(0) + value * 4);
-    uint16_t newCS = *(uint16_t*)(GET_REAL_MOD_MEMORY_POINTER(0) + value * 4 + 2);
+    LOG("%s", "\nSTART INT\n");
 
-    pushInStack16u(SR_VALUE(SR_CS));
-    pushInStack16u(((uint16_t)(context.index - GET_SEGMENT_POINTER(SR_CS))));
-
-    SET_VALUE_IN_SEGMENT(SR_CS, newCS);
-    context.index = GET_SEGMENT_POINTER(SR_CS) + newIP;
-
-    skipInt();
-}
-
-clock_t LastTimerCallTime = 0;
-void ExternalInterruptCallsHandler() {
-    clock_t currentTime = clock();
-    if (LastTimerCallTime == 0) {
-        LastTimerCallTime = currentTime;
-        return;
+    while (context.end == 0 && context.index != pointer) {
+        runCommand();
+        LOG("%s", " ");
+        DEBUG_RUN({
+            printDebugLine();
+        })
+        LOG("%s", "\n\n");
+        PRINT_REGS
     }
-    if ((currentTime - LastTimerCallTime) / 55 >= 1) {
-        LastTimerCallTime = currentTime;
-        callInterrupt(0x08);
-    }
+
+    LOG("%s", "\nEND INT\n");
 }
 
 void pushInStack32u(uint32_t value) {
@@ -217,75 +210,39 @@ void pushInStack16(int16_t value) {
     *(int16_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp) = value;
 }
 
-void skipInt() {
-    uint16_t* sp = register16u(BR_SP);
-    uint16_t segmentValue = *(int16_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp + 16 / 8);
-    uint8_t* pointer = GET_REAL_MOD_MEMORY_POINTER(segmentValue) + *(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp);
-
-    printf("\nSTART INT\n");
-
-    while (context.end == 0 && context.index != pointer) {
+void runFromFullModeToEnd(int* count, int *index) {
+    LOG("%s","\n\n");
+    PRINT_REGS
+    pthread_mutex_lock(&context.interruptLock);
+    while (context.end == 0 ) {
+        LOG("step %d|", *index);
         runCommand();
+        DEBUG_RUN({
+            if (context.lastCommandInfo.command == 0x00CD) {
+                InterruptRun();
+            }
+        })
         LOG("%s", " ");
         DEBUG_RUN({
             printDebugLine();
         })
         LOG("%s", "\n\n");
         PRINT_REGS
-    }
-
-    printf("\nEND INT\n");
-}
-
-void runFromFullModeToEnd(int* count, int *index) {
-    LOG("%s","\n\n");
-    PRINT_REGS
-    while (context.end == 0) {
-        clock_t timerEnd, timerStart;
-        int timeFrameCount = 10;
-        uint64_t expectedTimeInterval = 55;
-        uint32_t delta_us = 0;
-        uint32_t commandCount = 0;
-        timerStart = clock();
-        int lastTimeFrameCount = timeFrameCount;
-        while (!context.end) {
-            while (timeFrameCount > 0) {
-                // CODE START
-                LOG("step %d|", *index);
-                runCommand();
-                if (context.lastCommandInfo.command == 0x00CD) {
-                    skipInt();
-                }
-                LOG("%s", " ");
-                DEBUG_RUN({
-                    printDebugLine();
-                })
-                LOG("%s", "\n\n");
-                PRINT_REGS
-                DEBUG_RUN({ (*index) += 1; })
-                (*count)--;
-                if (*count == 0) { context.end = 0x02; commandCount = 1; }
-                // CODE END
-
-                timeFrameCount -= 1;
-                commandCount += 1;
+        DEBUG_RUN({ (*index) += 1; })
+        DEBUG_RUN({
+            (*count)--;
+            if (*count == 0) {
+                break;
             }
-            timerEnd = clock();
-            delta_us += timerEnd - timerStart;
-            timerStart = clock();
-            if (delta_us >= expectedTimeInterval) {
-                // ExternalInterruptCallsHandler();
-                double value = (double)expectedTimeInterval / (double)delta_us;
-                lastTimeFrameCount = (uint32_t)(value * (double)commandCount) + 1;
-                printf("\n<count: %d, cps: %d, tfc: %d>\n", commandCount, ((int)((double)commandCount / ((double)delta_us / 1000.0))), lastTimeFrameCount);
-                delta_us = 0;
-                commandCount = 0;
-                timeFrameCount = lastTimeFrameCount;
-            } else {
-                timeFrameCount = lastTimeFrameCount * 0.1;
-            }
+        })
+        if (context.hasInterrupt && IF) {
+            pthread_mutex_unlock(&context.interruptLock);
+            pthread_mutex_lock(&context.mainThreadLock);
+            pthread_mutex_lock(&context.interruptLock);
+            pthread_mutex_unlock(&context.mainThreadLock);
         }
     }
+    pthread_mutex_unlock(&context.interruptLock);
 }
 
 void runFullModeToEndWithStop(int count) {
@@ -295,7 +252,7 @@ void runFullModeToEndWithStop(int count) {
     installCommandFunction();
     while (context.end == 0 && count > 0) {
         runFromFullModeToEnd(&count, &index);
-        if (context.end == 0x14) {
+        if (context.end == 0x0A) {
             context.end = 0;
             installCommandFunction();
         }
@@ -312,7 +269,7 @@ void runFullMode(int count) {
     while (context.end == 0) {
         installCommandFunction();
         runFromFullMode();
-        if (context.end == 0x14) {
+        if (context.end == 0x0A) {
             context.end = 0;
         }
     }
@@ -322,7 +279,7 @@ void run16FullModeToEndWithStopForTest(int* count, int* index, char** out) {
     while (context.end == 0 && (*count) > 0) {
         runCommand();
         if (context.lastCommandInfo.command == 0x00CD) {
-            skipInt();
+            InterruptRun();
         }
         char* regs = print16Registers();
         sprintf(*out, "%s", regs);
@@ -337,7 +294,7 @@ void run32FullModeToEndWithStopForTest(int* count, int* index, char** out) {
     while (context.end == 0 && (*count) > 0) {
         runCommand();
         if (context.lastCommandInfo.command == 0x00CD) {
-            skipInt();
+            InterruptRun();
         }
         char* regs = print32Registers();
         sprintf(*out, "%s", regs);
