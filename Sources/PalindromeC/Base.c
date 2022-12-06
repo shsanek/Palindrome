@@ -51,6 +51,8 @@ timeFrameCount = (uint32_t)(value * (double)commandCount);\
 }\
 }\
 
+enum TestContext testContext;
+
 void getCommand() {
     LOG("%llX:", (uint64_t)(context.index - context.program));
 

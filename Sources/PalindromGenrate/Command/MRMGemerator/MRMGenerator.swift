@@ -3,45 +3,45 @@ import Foundation
 
 fileprivate let twoOperandAdressMemoryMrmFormatters: [Int: String] = [
     0: "*register16u(%fR) + *register16u(%lR)",
-    1: "*register16u(%fR) + *register16u(%lR) + ((int16_t)read8u())",
-    2: "*register16u(%fR) + *register16u(%lR) + read16u()"
+    1: "*register16u(%fR) + *register16u(%lR) + ((int16_t)read8())",
+    2: "*register16u(%fR) + *register16u(%lR) + read16()"
 ]
 
 fileprivate let operand16AdressMemoryMrm1Formatters: [Int: String] = [
     0: "*register16u(%fR)",
     1: "*register16u(%fR) + ((int16_t)read8())",
-    2: "*register16u(%fR) + read16u()"
+    2: "*register16u(%fR) + read16()"
 ]
 
 fileprivate let operand16AdressMemoryMrm2Formatters: [Int: String] = [
     0: "read16u()",
     1: "*register16u(%fR) + ((int16_t)read8())",
-    2: "*register16u(%fR) + read16u()"
+    2: "*register16u(%fR) + read16()"
 ]
 
 
 fileprivate let operand32AdressMemoryMrm1Formatters: [Int: String] = [
     0: "*register32u(%fR)",
     1: "*register32u(%fR) + ((int16_t)read8())",
-    2: "*register32u(%fR) + read32u()"
+    2: "*register32u(%fR) + read32()"
 ]
 
 fileprivate let operand32AdressMemoryMrm2Formatters: [Int: String] = [
     0: "read32u()",
     1: "*register32u(%fR) + ((int16_t)read8())",
-    2: "*register32u(%fR) + read32u()"
+    2: "*register32u(%fR) + read32()"
 ]
 
 fileprivate let operand32AdressMemorySIB1Formatters: [Int: String] = [
     0: "*register32u(%fR) + shift",
     1: "*register32u(%fR) + shift + ((int16_t)read8())",
-    2: "*register32u(%fR) + shift + read32u()"
+    2: "*register32u(%fR) + shift + read32()"
 ]
 
 fileprivate let operand32AdressMemorySIB2Formatters: [Int: String] = [
     0: "read32u() + shift",
     1: "*register32u(%fR) + shift + ((int16_t)read8())",
-    2: "*register32u(%fR) + shift + read32u()"
+    2: "*register32u(%fR) + shift + read32()"
 ]
 
 fileprivate func generateSwitchFunction(

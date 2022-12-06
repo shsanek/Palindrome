@@ -31,4 +31,9 @@ void runFullMode(int count);
 
 void InterruptCall(uint8_t value);
 
+enum TestContext {
+    TestContextNone = 0, TestContextDoom = 1, TestContextPrince = 2
+};
+
+extern enum TestContext testContext;
 #endif /* Base_h */

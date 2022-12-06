@@ -254,6 +254,8 @@ final class FirstTest: XCTestCase {
     }
 
     func test07() throws {
+        testContext = TestContextDoom
+        testContext = TestContext(0)
         let wrapContext = WrapContext()
 
         let testPath = "/Users/alexandershipin/Documents/projects/Palindrome/Sources/TestSource/Tetris/out.txt"
@@ -283,6 +285,7 @@ final class FirstTest: XCTestCase {
     }
 
     func test08() throws {
+        testContext = TestContextDoom
         let wrapContext = WrapContext()
 
         let testPath = "/Users/alexandershipin/Documents/projects/Palindrome/Sources/TestSource/Doom/out.txt"
@@ -313,41 +316,43 @@ final class FirstTest: XCTestCase {
 
         TAssert(error == nil || error == number)
 
-        // runFullModeToEndWithStop(100);
-    }
-
-    func test09() throws {
-        let wrapContext = WrapContext()
-        wrapContext.context?[0].mod = 1
-
-        let testPath = "/Users/alexandershipin/Documents/projects/Palindrome/Sources/TestSource/Wolf/out.txt"
-
-        let programm = try! Data(
-            contentsOf: URL.init(
-                fileURLWithPath: "/Users/alexandershipin/Downloads/wolf3d-box/WOLF3D/WOLF3D.EXE"
-            )
-        )
-
-        wrapContext.addVirtualFolder("D:\\", path: "/Users/alexandershipin/Downloads/wolf3d-box/WOLF3D/")
-        wrapContext.loadProgram(with: .program, programm)
-
-
-        let number = 1000
-        let value = runFullModeToEndWithStopForTest(Int32(number))
-        let result = String(cString: value!)
-        value?.deallocate()
-
-        // try! result.write(toFile: testPath, atomically: true, encoding: .utf8)
-
-        let source = String(data: try! Data(contentsOf: URL(fileURLWithPath: testPath)), encoding: .utf8)!
-        let error = result.getErrorCommand(source: source)
-
-        TAssert(error == nil || error == number)
-
         runFullModeToEndWithStop(0);
     }
 
+//    func test09() throws {
+//        testContext = TestContextDoom
+//        let wrapContext = WrapContext()
+//        wrapContext.context?[0].mod = 1
+//
+//        let testPath = "/Users/alexandershipin/Documents/projects/Palindrome/Sources/TestSource/Wolf/out.txt"
+//
+//        let programm = try! Data(
+//            contentsOf: URL.init(
+//                fileURLWithPath: "/Users/alexandershipin/Downloads/wolf3d-box/WOLF3D/WOLF3D.EXE"
+//            )
+//        )
+//
+//        wrapContext.addVirtualFolder("D:\\", path: "/Users/alexandershipin/Downloads/wolf3d-box/WOLF3D/")
+//        wrapContext.loadProgram(with: .program, programm)
+//
+//
+//        let number = 1000
+//        let value = runFullModeToEndWithStopForTest(Int32(number))
+//        let result = String(cString: value!)
+//        value?.deallocate()
+//
+//        // try! result.write(toFile: testPath, atomically: true, encoding: .utf8)
+//
+//        let source = String(data: try! Data(contentsOf: URL(fileURLWithPath: testPath)), encoding: .utf8)!
+//        let error = result.getErrorCommand(source: source)
+//
+//        TAssert(error == nil || error == number)
+//
+//        runFullModeToEndWithStop(0);
+//    }
+
     func test10() throws {
+        testContext = TestContextPrince
         let wrapContext = WrapContext()
         wrapContext.context?[0].mod = 1
 
@@ -366,7 +371,6 @@ final class FirstTest: XCTestCase {
 //        try! out.write(toFile: testPath, atomically: true, encoding: .utf8)
 
         wrapContext.addVirtualFolder("D:\\", path: "/Users/alexandershipin/Downloads/pop1dem/POP1DEMO")
-        wrapContext.addVirtualFolder("D:\\DOOM.EXE", path: "/Users/alexandershipin/Downloads/pop1dem/POP1DEMO/PRINCE.EXE")
         wrapContext.addVirtualFolder("C:\\", path: "/Users/alexandershipin/Downloads/pop1dem/POP1DEMO")
 
         wrapContext.loadProgram(with: .program, programm)
@@ -382,8 +386,6 @@ final class FirstTest: XCTestCase {
         let error = result.getErrorCommand(source: source)
 
         TAssert(error == nil || error == number)
-
-        runFullModeToEndWithStop(40000);
     }
 }
 

@@ -213,17 +213,22 @@ void systemDOSFunction(uint16_t a) {
     }
     if (*regAH == 0x47) {
         *regAX = 0;
-        *(context.segmentRegistersValue[SR_DS] + *regSIu + 0) = 'W';
-        *(context.segmentRegistersValue[SR_DS] + *regSIu + 1) = 'I';
-        *(context.segmentRegistersValue[SR_DS] + *regSIu + 2) = 'N';
-        *(context.segmentRegistersValue[SR_DS] + *regSIu + 3) = 'D';
-        *(context.segmentRegistersValue[SR_DS] + *regSIu + 4) = 'O';
-        *(context.segmentRegistersValue[SR_DS] + *regSIu + 5) = 'W';
-        *(context.segmentRegistersValue[SR_DS] + *regSIu + 6) = 'S';
-        *(context.segmentRegistersValue[SR_DS] + *regSIu + 7) = 0;
+        if (testContext != TestContextNone) {
+            *(context.segmentRegistersValue[SR_DS] + *regSIu + 0) = 'W';
+            *(context.segmentRegistersValue[SR_DS] + *regSIu + 1) = 'I';
+            *(context.segmentRegistersValue[SR_DS] + *regSIu + 2) = 'N';
+            *(context.segmentRegistersValue[SR_DS] + *regSIu + 3) = 'D';
+            *(context.segmentRegistersValue[SR_DS] + *regSIu + 4) = 'O';
+            *(context.segmentRegistersValue[SR_DS] + *regSIu + 5) = 'W';
+            *(context.segmentRegistersValue[SR_DS] + *regSIu + 6) = 'S';
+            *(context.segmentRegistersValue[SR_DS] + *regSIu + 7) = 0;
+        } else {
+            *(context.segmentRegistersValue[SR_DS] + *regSIu + 0) = 0;
+        }
         return;
     }
     if (*regAH == 0x02) {
+        printf("\n[T]%c\n", *regDL);
         *regAL = *regDL;
         return;
     }

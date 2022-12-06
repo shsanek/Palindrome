@@ -7,6 +7,7 @@
 
 #include "DosLoader.h"
 #include "VideoServiceInterrupt.h"
+#include "../include/Base.h"
 
 typedef struct DOSHeader {
     /// 0000h
@@ -93,8 +94,8 @@ void loadRealModForDos() {
     uint8_t* downMemory = GET_REAL_MOD_MEMORY_POINTER(0);
     uint8_t* upMemory = GET_REAL_MOD_MEMORY_POINTER(0xFFFF);
 
-    *(GET_REAL_MOD_MEMORY_POINTER(0xF000) - 2 + 0) = 0xFC;
-    *(GET_REAL_MOD_MEMORY_POINTER(0xF000) - 2 + 1) = 0xC4;
+    *(GET_REAL_MOD_MEMORY_POINTER(0xF000) + 0xFFFE + 0) = 0xFC;
+    *(GET_REAL_MOD_MEMORY_POINTER(0xF000) + 0xFFFE + 1) = 0xC4;
 
     *(upMemory + 0x30 + 0) = 0x4D;
     *(upMemory + 0x30 + 1) = 0x53;
@@ -146,8 +147,18 @@ void allocateMZDosHeader() {
 void fillMZDosHeader() {
     uint8_t *memory = GET_REAL_MOD_MEMORY_POINTER(0x179E);
 
+
     for (int i = 0; i < 528; i++) {
-        *(memory - 528 + i) = dosPrinceExeHeaderDamp[i]; // тут заголовок дума надо будет поменять этот моментик
+        // тут заголовок дума надо будет поменять этот моментик
+        if (testContext == TestContextDoom) {
+            *(memory - 528 + i) = dosExeHeaderDamp[i];
+        } else if (testContext == TestContextPrince) {
+            *(memory - 528 + i) = dosPrinceExeHeaderDamp[i];
+        } else {
+
+            /// все это костыль нужны конфиги для запуска
+            *(memory - 528 + i) = dosPrinceExeHeaderDamp[i];
+        }
     }
 }
 
