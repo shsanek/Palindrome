@@ -5802,15 +5802,16 @@ void handlerCommand16Code00C1_RM() {
 void handlerCommand16Code00C2_RM() {
 	LOG("%s","Ret");
 	uint16_t* sp = register16u(BR_SP);
-	context.index = GET_SEGMENT_POINTER(1) + *(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp);
-	*sp += ((16 / 8) + read16u() * (16 / 16));
+	context.index = GET_SEGMENT_POINTER(1) + *(int16_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp);
+	*sp += (16 / 8);
+	*sp += (read16u() * (16 / 16));
 }
 //Ret
 void handlerCommand16Code00C3_RM() {
 	LOG("%s","Ret");
 	uint16_t* sp = register16u(BR_SP);
-	context.index = GET_SEGMENT_POINTER(1) + *(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp);
-	*sp += 16 / 8;
+	context.index = GET_SEGMENT_POINTER(1) + *(int16_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp);
+	*sp += (16 / 8);
 }
 //Load SR_ES
 void handlerCommand16Code00C4_RM() {
@@ -5975,8 +5976,8 @@ void handlerCommand16Code00CA_RM() {
 	LOG("%s","Ret");
 	uint16_t* sp = register16u(BR_SP);
 	SET_VALUE_IN_SEGMENT(1, *(int16_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp + 16 / 8));
-	context.index = GET_SEGMENT_POINTER(1) + *(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp);
-	*sp += 16 / 8 + 2;
+	context.index = GET_SEGMENT_POINTER(1) + *(int16_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp);
+	*sp += (16 / 8 + 2);
 	*sp += (read16u() * (16 / 16));
 }
 //Ret
@@ -5984,8 +5985,8 @@ void handlerCommand16Code00CB_RM() {
 	LOG("%s","Ret");
 	uint16_t* sp = register16u(BR_SP);
 	SET_VALUE_IN_SEGMENT(1, *(int16_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp + 16 / 8));
-	context.index = GET_SEGMENT_POINTER(1) + *(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp);
-	*sp += 16 / 8 + 2;
+	context.index = GET_SEGMENT_POINTER(1) + *(int16_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp);
+	*sp += (16 / 8 + 2);
 }
 //Int
 void handlerCommand16Code00CD_RM() {
@@ -7942,6 +7943,54 @@ void handlerCommand16Code00E3_RM() {
 		context.index += addr;
 	}
 }
+//In
+void handlerCommand16Code00E4P66_RM() {
+	LOG("%s","In");
+	uint8_t port = read8u();
+	context.ports[port].input(port, (uint8_t*)register8u(0x00), 8 / 4);
+}
+//In
+void handlerCommand16Code00E4_RM() {
+	LOG("%s","In");
+	uint8_t port = read8u();
+	context.ports[port].input(port, (uint8_t*)register8u(0x00), 8 / 4);
+}
+//In
+void handlerCommand16Code00E5P66_RM() {
+	LOG("%s","In");
+	uint8_t port = read8u();
+	context.ports[port].input(port, (uint8_t*)register32u(0x00), 32 / 4);
+}
+//In
+void handlerCommand16Code00E5_RM() {
+	LOG("%s","In");
+	uint8_t port = read8u();
+	context.ports[port].input(port, (uint8_t*)register16u(0x00), 16 / 4);
+}
+//Out
+void handlerCommand16Code00E6P66_RM() {
+	LOG("%s","Out");
+	uint8_t port = read8u();
+	context.ports[port].output(port, (uint8_t*)register8u(0x00), 8 / 4);
+}
+//Out
+void handlerCommand16Code00E6_RM() {
+	LOG("%s","Out");
+	uint8_t port = read8u();
+	context.ports[port].output(port, (uint8_t*)register8u(0x00), 8 / 4);
+}
+//Out
+void handlerCommand16Code00E7P66_RM() {
+	LOG("%s","Out");
+	uint8_t port = read8u();
+	context.ports[port].output(port, (uint8_t*)register32u(0x00), 32 / 4);
+}
+//Out
+void handlerCommand16Code00E7_RM() {
+	LOG("%s","Out");
+	uint8_t port = read8u();
+	context.ports[port].output(port, (uint8_t*)register16u(0x00), 16 / 4);
+}
 //Call
 void handlerCommand16Code00E8P66_RM() {
 	LOG("%s","Call");
@@ -8427,17 +8476,26 @@ void handlerCommand16Code00FFP66P67_RM() {
 			lazyFlagType = t_DEC32;
 		}
 		break;
+		case 0x2: {
+			// Call
+			uint8_t* target = (uint8_t*)readAddressMRM16For32(mrmByte);
+			uint16_t* sp = register16u(BR_SP);
+			*sp -= 16 / 8;
+			*(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp) = (uint16_t)(context.index - GET_SEGMENT_POINTER(SR_CS));
+			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((int32_t*)target));
+		}
+		break;
 		case 0x4: {
 			// JMP
 			uint8_t* target = (uint8_t*)readAddressMRM16For32(mrmByte);
-			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((uint32_t*)target));
+			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((int32_t*)target));
 		}
 		break;
 		case 0x5: {
 			// JMP
 			uint8_t* target = (uint8_t*)readAddressMRM16For32(mrmByte);
 			SET_VALUE_IN_SEGMENT(SR_CS, (*((uint16_t*)(target + 2))));
-			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((uint32_t*)(target)));
+			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((int32_t*)(target)));
 		}
 		break;
 		case 0x6: {
@@ -8473,17 +8531,26 @@ void handlerCommand16Code00FFP67_RM() {
 			lazyFlagType = t_DEC16;
 		}
 		break;
+		case 0x2: {
+			// Call
+			uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
+			uint16_t* sp = register16u(BR_SP);
+			*sp -= 16 / 8;
+			*(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp) = (uint16_t)(context.index - GET_SEGMENT_POINTER(SR_CS));
+			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((int16_t*)target));
+		}
+		break;
 		case 0x4: {
 			// JMP
 			uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
-			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((uint16_t*)target));
+			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((int16_t*)target));
 		}
 		break;
 		case 0x5: {
 			// JMP
 			uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
 			SET_VALUE_IN_SEGMENT(SR_CS, (*((uint16_t*)(target + 2))));
-			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((uint16_t*)(target)));
+			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((int16_t*)(target)));
 		}
 		break;
 		case 0x6: {
@@ -8519,17 +8586,26 @@ void handlerCommand16Code00FFP66_RM() {
 			lazyFlagType = t_DEC32;
 		}
 		break;
+		case 0x2: {
+			// Call
+			uint8_t* target = (uint8_t*)readAddressMRM16For32(mrmByte);
+			uint16_t* sp = register16u(BR_SP);
+			*sp -= 16 / 8;
+			*(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp) = (uint16_t)(context.index - GET_SEGMENT_POINTER(SR_CS));
+			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((int32_t*)target));
+		}
+		break;
 		case 0x4: {
 			// JMP
 			uint8_t* target = (uint8_t*)readAddressMRM16For32(mrmByte);
-			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((uint32_t*)target));
+			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((int32_t*)target));
 		}
 		break;
 		case 0x5: {
 			// JMP
 			uint8_t* target = (uint8_t*)readAddressMRM16For32(mrmByte);
 			SET_VALUE_IN_SEGMENT(SR_CS, (*((uint16_t*)(target + 2))));
-			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((uint32_t*)(target)));
+			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((int32_t*)(target)));
 		}
 		break;
 		case 0x6: {
@@ -8565,17 +8641,26 @@ void handlerCommand16Code00FF_RM() {
 			lazyFlagType = t_DEC16;
 		}
 		break;
+		case 0x2: {
+			// Call
+			uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
+			uint16_t* sp = register16u(BR_SP);
+			*sp -= 16 / 8;
+			*(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp) = (uint16_t)(context.index - GET_SEGMENT_POINTER(SR_CS));
+			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((int16_t*)target));
+		}
+		break;
 		case 0x4: {
 			// JMP
 			uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
-			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((uint16_t*)target));
+			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((int16_t*)target));
 		}
 		break;
 		case 0x5: {
 			// JMP
 			uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
 			SET_VALUE_IN_SEGMENT(SR_CS, (*((uint16_t*)(target + 2))));
-			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((uint16_t*)(target)));
+			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((int16_t*)(target)));
 		}
 		break;
 		case 0x6: {
@@ -15631,15 +15716,16 @@ void handlerCommand32Code00C1_RM() {
 void handlerCommand32Code00C2_RM() {
 	LOG("%s","Ret");
 	uint32_t* sp = register32u(BR_SP);
-	context.index = GET_SEGMENT_POINTER(1) + *(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp);
-	*sp += ((32 / 8) + read16u() * (32 / 16));
+	context.index = GET_SEGMENT_POINTER(1) + *(int32_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp);
+	*sp += (32 / 8);
+	*sp += (read16u() * (32 / 16));
 }
 //Ret
 void handlerCommand32Code00C3_RM() {
 	LOG("%s","Ret");
 	uint32_t* sp = register32u(BR_SP);
-	context.index = GET_SEGMENT_POINTER(1) + *(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp);
-	*sp += 32 / 8;
+	context.index = GET_SEGMENT_POINTER(1) + *(int32_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp);
+	*sp += (32 / 8);
 }
 //Load SR_ES
 void handlerCommand32Code00C4_RM() {
@@ -15804,17 +15890,17 @@ void handlerCommand32Code00CA_RM() {
 	LOG("%s","Ret");
 	uint32_t* sp = register32u(BR_SP);
 	SET_VALUE_IN_SEGMENT(1, *(int16_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp + 32 / 8));
-	context.index = GET_SEGMENT_POINTER(1) + *(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp);
-	*sp += 32 / 8 + 2;
-	*sp += ((32 / 8) + read16u() * (32 / 16));
+	context.index = GET_SEGMENT_POINTER(1) + *(int32_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp);
+	*sp += (32 / 8 + 2);
+	*sp += (read16u() * (32 / 16));
 }
 //Ret
 void handlerCommand32Code00CB_RM() {
 	LOG("%s","Ret");
 	uint32_t* sp = register32u(BR_SP);
 	SET_VALUE_IN_SEGMENT(1, *(int16_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp + 32 / 8));
-	context.index = GET_SEGMENT_POINTER(1) + *(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp);
-	*sp += 32 / 8 + 2;
+	context.index = GET_SEGMENT_POINTER(1) + *(int32_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp);
+	*sp += (32 / 8 + 2);
 }
 //Int
 void handlerCommand32Code00CD_RM() {
@@ -17771,6 +17857,54 @@ void handlerCommand32Code00E3_RM() {
 		context.index += addr;
 	}
 }
+//In
+void handlerCommand32Code00E4P66_RM() {
+	LOG("%s","In");
+	uint8_t port = read8u();
+	context.ports[port].input(port, (uint8_t*)register8u(0x00), 8 / 4);
+}
+//In
+void handlerCommand32Code00E4_RM() {
+	LOG("%s","In");
+	uint8_t port = read8u();
+	context.ports[port].input(port, (uint8_t*)register8u(0x00), 8 / 4);
+}
+//In
+void handlerCommand32Code00E5P66_RM() {
+	LOG("%s","In");
+	uint8_t port = read8u();
+	context.ports[port].input(port, (uint8_t*)register16u(0x00), 16 / 4);
+}
+//In
+void handlerCommand32Code00E5_RM() {
+	LOG("%s","In");
+	uint8_t port = read8u();
+	context.ports[port].input(port, (uint8_t*)register32u(0x00), 32 / 4);
+}
+//Out
+void handlerCommand32Code00E6P66_RM() {
+	LOG("%s","Out");
+	uint8_t port = read8u();
+	context.ports[port].output(port, (uint8_t*)register8u(0x00), 8 / 4);
+}
+//Out
+void handlerCommand32Code00E6_RM() {
+	LOG("%s","Out");
+	uint8_t port = read8u();
+	context.ports[port].output(port, (uint8_t*)register8u(0x00), 8 / 4);
+}
+//Out
+void handlerCommand32Code00E7P66_RM() {
+	LOG("%s","Out");
+	uint8_t port = read8u();
+	context.ports[port].output(port, (uint8_t*)register16u(0x00), 16 / 4);
+}
+//Out
+void handlerCommand32Code00E7_RM() {
+	LOG("%s","Out");
+	uint8_t port = read8u();
+	context.ports[port].output(port, (uint8_t*)register32u(0x00), 32 / 4);
+}
 //Call
 void handlerCommand32Code00E8P66_RM() {
 	LOG("%s","Call");
@@ -18256,17 +18390,26 @@ void handlerCommand32Code00FFP66P67_RM() {
 			lazyFlagType = t_DEC16;
 		}
 		break;
+		case 0x2: {
+			// Call
+			uint8_t* target = (uint8_t*)readAddressMRM32For16(mrmByte);
+			uint32_t* sp = register32u(BR_SP);
+			*sp -= 32 / 8;
+			*(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp) = (uint32_t)(context.index - GET_SEGMENT_POINTER(SR_CS));
+			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((int16_t*)target));
+		}
+		break;
 		case 0x4: {
 			// JMP
 			uint8_t* target = (uint8_t*)readAddressMRM32For16(mrmByte);
-			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((uint16_t*)target));
+			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((int16_t*)target));
 		}
 		break;
 		case 0x5: {
 			// JMP
 			uint8_t* target = (uint8_t*)readAddressMRM32For16(mrmByte);
 			SET_VALUE_IN_SEGMENT(SR_CS, (*((uint16_t*)(target + 2))));
-			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((uint16_t*)(target)));
+			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((int16_t*)(target)));
 		}
 		break;
 		case 0x6: {
@@ -18302,17 +18445,26 @@ void handlerCommand32Code00FFP67_RM() {
 			lazyFlagType = t_DEC32;
 		}
 		break;
+		case 0x2: {
+			// Call
+			uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
+			uint32_t* sp = register32u(BR_SP);
+			*sp -= 32 / 8;
+			*(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp) = (uint32_t)(context.index - GET_SEGMENT_POINTER(SR_CS));
+			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((int32_t*)target));
+		}
+		break;
 		case 0x4: {
 			// JMP
 			uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
-			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((uint32_t*)target));
+			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((int32_t*)target));
 		}
 		break;
 		case 0x5: {
 			// JMP
 			uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
 			SET_VALUE_IN_SEGMENT(SR_CS, (*((uint16_t*)(target + 2))));
-			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((uint32_t*)(target)));
+			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((int32_t*)(target)));
 		}
 		break;
 		case 0x6: {
@@ -18348,17 +18500,26 @@ void handlerCommand32Code00FFP66_RM() {
 			lazyFlagType = t_DEC16;
 		}
 		break;
+		case 0x2: {
+			// Call
+			uint8_t* target = (uint8_t*)readAddressMRM32For16(mrmByte);
+			uint32_t* sp = register32u(BR_SP);
+			*sp -= 32 / 8;
+			*(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp) = (uint32_t)(context.index - GET_SEGMENT_POINTER(SR_CS));
+			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((int16_t*)target));
+		}
+		break;
 		case 0x4: {
 			// JMP
 			uint8_t* target = (uint8_t*)readAddressMRM32For16(mrmByte);
-			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((uint16_t*)target));
+			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((int16_t*)target));
 		}
 		break;
 		case 0x5: {
 			// JMP
 			uint8_t* target = (uint8_t*)readAddressMRM32For16(mrmByte);
 			SET_VALUE_IN_SEGMENT(SR_CS, (*((uint16_t*)(target + 2))));
-			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((uint16_t*)(target)));
+			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((int16_t*)(target)));
 		}
 		break;
 		case 0x6: {
@@ -18394,17 +18555,26 @@ void handlerCommand32Code00FF_RM() {
 			lazyFlagType = t_DEC32;
 		}
 		break;
+		case 0x2: {
+			// Call
+			uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
+			uint32_t* sp = register32u(BR_SP);
+			*sp -= 32 / 8;
+			*(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp) = (uint32_t)(context.index - GET_SEGMENT_POINTER(SR_CS));
+			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((int32_t*)target));
+		}
+		break;
 		case 0x4: {
 			// JMP
 			uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
-			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((uint32_t*)target));
+			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((int32_t*)target));
 		}
 		break;
 		case 0x5: {
 			// JMP
 			uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
 			SET_VALUE_IN_SEGMENT(SR_CS, (*((uint16_t*)(target + 2))));
-			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((uint32_t*)(target)));
+			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((int32_t*)(target)));
 		}
 		break;
 		case 0x6: {
@@ -25460,15 +25630,16 @@ void handlerCommand16Code00C1_PM() {
 void handlerCommand16Code00C2_PM() {
 	LOG("%s","Ret");
 	uint16_t* sp = register16u(BR_SP);
-	context.index = GET_SEGMENT_POINTER(1) + *(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp);
-	*sp += ((16 / 8) + read16u() * (16 / 16));
+	context.index = GET_SEGMENT_POINTER(1) + *(int16_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp);
+	*sp += (16 / 8);
+	*sp += (read16u() * (16 / 16));
 }
 //Ret
 void handlerCommand16Code00C3_PM() {
 	LOG("%s","Ret");
 	uint16_t* sp = register16u(BR_SP);
-	context.index = GET_SEGMENT_POINTER(1) + *(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp);
-	*sp += 16 / 8;
+	context.index = GET_SEGMENT_POINTER(1) + *(int16_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp);
+	*sp += (16 / 8);
 }
 //Load SR_ES
 void handlerCommand16Code00C4_PM() {
@@ -25633,17 +25804,17 @@ void handlerCommand16Code00CA_PM() {
 	LOG("%s","Ret");
 	uint16_t* sp = register16u(BR_SP);
 	SET_VALUE_IN_SEGMENT_P(1, *(int16_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp + 16 / 8));
-	context.index = GET_SEGMENT_POINTER(1) + *(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp);
-	*sp += 16 / 8 + 2;
-	*sp += ((16 / 8) + read16u() * (16 / 16));
+	context.index = GET_SEGMENT_POINTER(1) + *(int16_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp);
+	*sp += (16 / 8 + 2);
+	*sp += (read16u() * (16 / 16));
 }
 //Ret
 void handlerCommand16Code00CB_PM() {
 	LOG("%s","Ret");
 	uint16_t* sp = register16u(BR_SP);
 	SET_VALUE_IN_SEGMENT_P(1, *(int16_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp + 16 / 8));
-	context.index = GET_SEGMENT_POINTER(1) + *(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp);
-	*sp += 16 / 8 + 2;
+	context.index = GET_SEGMENT_POINTER(1) + *(int16_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp);
+	*sp += (16 / 8 + 2);
 }
 //Int
 void handlerCommand16Code00CD_PM() {
@@ -27600,6 +27771,54 @@ void handlerCommand16Code00E3_PM() {
 		context.index += addr;
 	}
 }
+//In
+void handlerCommand16Code00E4P66_PM() {
+	LOG("%s","In");
+	uint8_t port = read8u();
+	context.ports[port].input(port, (uint8_t*)register8u(0x00), 8 / 4);
+}
+//In
+void handlerCommand16Code00E4_PM() {
+	LOG("%s","In");
+	uint8_t port = read8u();
+	context.ports[port].input(port, (uint8_t*)register8u(0x00), 8 / 4);
+}
+//In
+void handlerCommand16Code00E5P66_PM() {
+	LOG("%s","In");
+	uint8_t port = read8u();
+	context.ports[port].input(port, (uint8_t*)register32u(0x00), 32 / 4);
+}
+//In
+void handlerCommand16Code00E5_PM() {
+	LOG("%s","In");
+	uint8_t port = read8u();
+	context.ports[port].input(port, (uint8_t*)register16u(0x00), 16 / 4);
+}
+//Out
+void handlerCommand16Code00E6P66_PM() {
+	LOG("%s","Out");
+	uint8_t port = read8u();
+	context.ports[port].output(port, (uint8_t*)register8u(0x00), 8 / 4);
+}
+//Out
+void handlerCommand16Code00E6_PM() {
+	LOG("%s","Out");
+	uint8_t port = read8u();
+	context.ports[port].output(port, (uint8_t*)register8u(0x00), 8 / 4);
+}
+//Out
+void handlerCommand16Code00E7P66_PM() {
+	LOG("%s","Out");
+	uint8_t port = read8u();
+	context.ports[port].output(port, (uint8_t*)register32u(0x00), 32 / 4);
+}
+//Out
+void handlerCommand16Code00E7_PM() {
+	LOG("%s","Out");
+	uint8_t port = read8u();
+	context.ports[port].output(port, (uint8_t*)register16u(0x00), 16 / 4);
+}
 //Call
 void handlerCommand16Code00E8P66_PM() {
 	LOG("%s","Call");
@@ -28085,17 +28304,26 @@ void handlerCommand16Code00FFP66P67_PM() {
 			lazyFlagType = t_DEC32;
 		}
 		break;
+		case 0x2: {
+			// Call
+			uint8_t* target = (uint8_t*)readAddressMRM16For32(mrmByte);
+			uint16_t* sp = register16u(BR_SP);
+			*sp -= 16 / 8;
+			*(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp) = (uint16_t)(context.index - GET_SEGMENT_POINTER(SR_CS));
+			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((int32_t*)target));
+		}
+		break;
 		case 0x4: {
 			// JMP
 			uint8_t* target = (uint8_t*)readAddressMRM16For32(mrmByte);
-			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((uint32_t*)target));
+			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((int32_t*)target));
 		}
 		break;
 		case 0x5: {
 			// JMP
 			uint8_t* target = (uint8_t*)readAddressMRM16For32(mrmByte);
 			SET_VALUE_IN_SEGMENT_P(SR_CS, (*((uint16_t*)(target + 2))));
-			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((uint32_t*)(target)));
+			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((int32_t*)(target)));
 		}
 		break;
 		case 0x6: {
@@ -28131,17 +28359,26 @@ void handlerCommand16Code00FFP67_PM() {
 			lazyFlagType = t_DEC16;
 		}
 		break;
+		case 0x2: {
+			// Call
+			uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
+			uint16_t* sp = register16u(BR_SP);
+			*sp -= 16 / 8;
+			*(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp) = (uint16_t)(context.index - GET_SEGMENT_POINTER(SR_CS));
+			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((int16_t*)target));
+		}
+		break;
 		case 0x4: {
 			// JMP
 			uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
-			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((uint16_t*)target));
+			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((int16_t*)target));
 		}
 		break;
 		case 0x5: {
 			// JMP
 			uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
 			SET_VALUE_IN_SEGMENT_P(SR_CS, (*((uint16_t*)(target + 2))));
-			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((uint16_t*)(target)));
+			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((int16_t*)(target)));
 		}
 		break;
 		case 0x6: {
@@ -28177,17 +28414,26 @@ void handlerCommand16Code00FFP66_PM() {
 			lazyFlagType = t_DEC32;
 		}
 		break;
+		case 0x2: {
+			// Call
+			uint8_t* target = (uint8_t*)readAddressMRM16For32(mrmByte);
+			uint16_t* sp = register16u(BR_SP);
+			*sp -= 16 / 8;
+			*(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp) = (uint16_t)(context.index - GET_SEGMENT_POINTER(SR_CS));
+			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((int32_t*)target));
+		}
+		break;
 		case 0x4: {
 			// JMP
 			uint8_t* target = (uint8_t*)readAddressMRM16For32(mrmByte);
-			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((uint32_t*)target));
+			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((int32_t*)target));
 		}
 		break;
 		case 0x5: {
 			// JMP
 			uint8_t* target = (uint8_t*)readAddressMRM16For32(mrmByte);
 			SET_VALUE_IN_SEGMENT_P(SR_CS, (*((uint16_t*)(target + 2))));
-			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((uint32_t*)(target)));
+			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((int32_t*)(target)));
 		}
 		break;
 		case 0x6: {
@@ -28223,17 +28469,26 @@ void handlerCommand16Code00FF_PM() {
 			lazyFlagType = t_DEC16;
 		}
 		break;
+		case 0x2: {
+			// Call
+			uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
+			uint16_t* sp = register16u(BR_SP);
+			*sp -= 16 / 8;
+			*(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp) = (uint16_t)(context.index - GET_SEGMENT_POINTER(SR_CS));
+			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((int16_t*)target));
+		}
+		break;
 		case 0x4: {
 			// JMP
 			uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
-			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((uint16_t*)target));
+			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((int16_t*)target));
 		}
 		break;
 		case 0x5: {
 			// JMP
 			uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
 			SET_VALUE_IN_SEGMENT_P(SR_CS, (*((uint16_t*)(target + 2))));
-			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((uint16_t*)(target)));
+			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((int16_t*)(target)));
 		}
 		break;
 		case 0x6: {
@@ -35289,15 +35544,16 @@ void handlerCommand32Code00C1_PM() {
 void handlerCommand32Code00C2_PM() {
 	LOG("%s","Ret");
 	uint32_t* sp = register32u(BR_SP);
-	context.index = GET_SEGMENT_POINTER(1) + *(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp);
-	*sp += ((32 / 8) + read16u() * (32 / 16));
+	context.index = GET_SEGMENT_POINTER(1) + *(int32_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp);
+	*sp += (32 / 8);
+	*sp += (read16u() * (32 / 16));
 }
 //Ret
 void handlerCommand32Code00C3_PM() {
 	LOG("%s","Ret");
 	uint32_t* sp = register32u(BR_SP);
-	context.index = GET_SEGMENT_POINTER(1) + *(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp);
-	*sp += 32 / 8;
+	context.index = GET_SEGMENT_POINTER(1) + *(int32_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp);
+	*sp += (32 / 8);
 }
 //Load SR_ES
 void handlerCommand32Code00C4_PM() {
@@ -35462,17 +35718,17 @@ void handlerCommand32Code00CA_PM() {
 	LOG("%s","Ret");
 	uint32_t* sp = register32u(BR_SP);
 	SET_VALUE_IN_SEGMENT_P(1, *(int16_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp + 32 / 8));
-	context.index = GET_SEGMENT_POINTER(1) + *(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp);
-	*sp += 32 / 8 + 2;
-	*sp += ((32 / 8) + read16u() * (32 / 16));
+	context.index = GET_SEGMENT_POINTER(1) + *(int32_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp);
+	*sp += (32 / 8 + 2);
+	*sp += (read16u() * (32 / 16));
 }
 //Ret
 void handlerCommand32Code00CB_PM() {
 	LOG("%s","Ret");
 	uint32_t* sp = register32u(BR_SP);
 	SET_VALUE_IN_SEGMENT_P(1, *(int16_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp + 32 / 8));
-	context.index = GET_SEGMENT_POINTER(1) + *(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp);
-	*sp += 32 / 8 + 2;
+	context.index = GET_SEGMENT_POINTER(1) + *(int32_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp);
+	*sp += (32 / 8 + 2);
 }
 //Int
 void handlerCommand32Code00CD_PM() {
@@ -37429,6 +37685,54 @@ void handlerCommand32Code00E3_PM() {
 		context.index += addr;
 	}
 }
+//In
+void handlerCommand32Code00E4P66_PM() {
+	LOG("%s","In");
+	uint8_t port = read8u();
+	context.ports[port].input(port, (uint8_t*)register8u(0x00), 8 / 4);
+}
+//In
+void handlerCommand32Code00E4_PM() {
+	LOG("%s","In");
+	uint8_t port = read8u();
+	context.ports[port].input(port, (uint8_t*)register8u(0x00), 8 / 4);
+}
+//In
+void handlerCommand32Code00E5P66_PM() {
+	LOG("%s","In");
+	uint8_t port = read8u();
+	context.ports[port].input(port, (uint8_t*)register16u(0x00), 16 / 4);
+}
+//In
+void handlerCommand32Code00E5_PM() {
+	LOG("%s","In");
+	uint8_t port = read8u();
+	context.ports[port].input(port, (uint8_t*)register32u(0x00), 32 / 4);
+}
+//Out
+void handlerCommand32Code00E6P66_PM() {
+	LOG("%s","Out");
+	uint8_t port = read8u();
+	context.ports[port].output(port, (uint8_t*)register8u(0x00), 8 / 4);
+}
+//Out
+void handlerCommand32Code00E6_PM() {
+	LOG("%s","Out");
+	uint8_t port = read8u();
+	context.ports[port].output(port, (uint8_t*)register8u(0x00), 8 / 4);
+}
+//Out
+void handlerCommand32Code00E7P66_PM() {
+	LOG("%s","Out");
+	uint8_t port = read8u();
+	context.ports[port].output(port, (uint8_t*)register16u(0x00), 16 / 4);
+}
+//Out
+void handlerCommand32Code00E7_PM() {
+	LOG("%s","Out");
+	uint8_t port = read8u();
+	context.ports[port].output(port, (uint8_t*)register32u(0x00), 32 / 4);
+}
 //Call
 void handlerCommand32Code00E8P66_PM() {
 	LOG("%s","Call");
@@ -37914,17 +38218,26 @@ void handlerCommand32Code00FFP66P67_PM() {
 			lazyFlagType = t_DEC16;
 		}
 		break;
+		case 0x2: {
+			// Call
+			uint8_t* target = (uint8_t*)readAddressMRM32For16(mrmByte);
+			uint32_t* sp = register32u(BR_SP);
+			*sp -= 32 / 8;
+			*(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp) = (uint32_t)(context.index - GET_SEGMENT_POINTER(SR_CS));
+			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((int16_t*)target));
+		}
+		break;
 		case 0x4: {
 			// JMP
 			uint8_t* target = (uint8_t*)readAddressMRM32For16(mrmByte);
-			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((uint16_t*)target));
+			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((int16_t*)target));
 		}
 		break;
 		case 0x5: {
 			// JMP
 			uint8_t* target = (uint8_t*)readAddressMRM32For16(mrmByte);
 			SET_VALUE_IN_SEGMENT_P(SR_CS, (*((uint16_t*)(target + 2))));
-			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((uint16_t*)(target)));
+			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((int16_t*)(target)));
 		}
 		break;
 		case 0x6: {
@@ -37960,17 +38273,26 @@ void handlerCommand32Code00FFP67_PM() {
 			lazyFlagType = t_DEC32;
 		}
 		break;
+		case 0x2: {
+			// Call
+			uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
+			uint32_t* sp = register32u(BR_SP);
+			*sp -= 32 / 8;
+			*(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp) = (uint32_t)(context.index - GET_SEGMENT_POINTER(SR_CS));
+			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((int32_t*)target));
+		}
+		break;
 		case 0x4: {
 			// JMP
 			uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
-			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((uint32_t*)target));
+			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((int32_t*)target));
 		}
 		break;
 		case 0x5: {
 			// JMP
 			uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
 			SET_VALUE_IN_SEGMENT_P(SR_CS, (*((uint16_t*)(target + 2))));
-			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((uint32_t*)(target)));
+			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((int32_t*)(target)));
 		}
 		break;
 		case 0x6: {
@@ -38006,17 +38328,26 @@ void handlerCommand32Code00FFP66_PM() {
 			lazyFlagType = t_DEC16;
 		}
 		break;
+		case 0x2: {
+			// Call
+			uint8_t* target = (uint8_t*)readAddressMRM32For16(mrmByte);
+			uint32_t* sp = register32u(BR_SP);
+			*sp -= 32 / 8;
+			*(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp) = (uint32_t)(context.index - GET_SEGMENT_POINTER(SR_CS));
+			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((int16_t*)target));
+		}
+		break;
 		case 0x4: {
 			// JMP
 			uint8_t* target = (uint8_t*)readAddressMRM32For16(mrmByte);
-			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((uint16_t*)target));
+			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((int16_t*)target));
 		}
 		break;
 		case 0x5: {
 			// JMP
 			uint8_t* target = (uint8_t*)readAddressMRM32For16(mrmByte);
 			SET_VALUE_IN_SEGMENT_P(SR_CS, (*((uint16_t*)(target + 2))));
-			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((uint16_t*)(target)));
+			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((int16_t*)(target)));
 		}
 		break;
 		case 0x6: {
@@ -38052,17 +38383,26 @@ void handlerCommand32Code00FF_PM() {
 			lazyFlagType = t_DEC32;
 		}
 		break;
+		case 0x2: {
+			// Call
+			uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
+			uint32_t* sp = register32u(BR_SP);
+			*sp -= 32 / 8;
+			*(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp) = (uint32_t)(context.index - GET_SEGMENT_POINTER(SR_CS));
+			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((int32_t*)target));
+		}
+		break;
 		case 0x4: {
 			// JMP
 			uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
-			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((uint32_t*)target));
+			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((int32_t*)target));
 		}
 		break;
 		case 0x5: {
 			// JMP
 			uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
 			SET_VALUE_IN_SEGMENT_P(SR_CS, (*((uint16_t*)(target + 2))));
-			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((uint32_t*)(target)));
+			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((int32_t*)(target)));
 		}
 		break;
 		case 0x6: {
@@ -39749,6 +40089,14 @@ void handlerCommand32Code01CF_PM() {
 	commandFunctions[225] = handlerCommand16Code00E1_RM;
 	commandFunctions[226] = handlerCommand16Code00E2_RM;
 	commandFunctions[227] = handlerCommand16Code00E3_RM;
+	commandFunctions[228] = handlerCommand16Code00E4_RM;
+	commandFunctions[228 | 0x0400] = handlerCommand16Code00E4P66_RM;
+	commandFunctions[229] = handlerCommand16Code00E5_RM;
+	commandFunctions[229 | 0x0400] = handlerCommand16Code00E5P66_RM;
+	commandFunctions[230] = handlerCommand16Code00E6_RM;
+	commandFunctions[230 | 0x0400] = handlerCommand16Code00E6P66_RM;
+	commandFunctions[231] = handlerCommand16Code00E7_RM;
+	commandFunctions[231 | 0x0400] = handlerCommand16Code00E7P66_RM;
 	commandFunctions[232] = handlerCommand16Code00E8_RM;
 	commandFunctions[232 | 0x0400] = handlerCommand16Code00E8P66_RM;
 	commandFunctions[233] = handlerCommand16Code00E9_RM;
@@ -40280,6 +40628,14 @@ void installCommandFunction32RM() {
 	commandFunctions[225] = handlerCommand32Code00E1_RM;
 	commandFunctions[226] = handlerCommand32Code00E2_RM;
 	commandFunctions[227] = handlerCommand32Code00E3_RM;
+	commandFunctions[228] = handlerCommand32Code00E4_RM;
+	commandFunctions[228 | 0x0400] = handlerCommand32Code00E4P66_RM;
+	commandFunctions[229] = handlerCommand32Code00E5_RM;
+	commandFunctions[229 | 0x0400] = handlerCommand32Code00E5P66_RM;
+	commandFunctions[230] = handlerCommand32Code00E6_RM;
+	commandFunctions[230 | 0x0400] = handlerCommand32Code00E6P66_RM;
+	commandFunctions[231] = handlerCommand32Code00E7_RM;
+	commandFunctions[231 | 0x0400] = handlerCommand32Code00E7P66_RM;
 	commandFunctions[232] = handlerCommand32Code00E8_RM;
 	commandFunctions[232 | 0x0400] = handlerCommand32Code00E8P66_RM;
 	commandFunctions[233] = handlerCommand32Code00E9_RM;
@@ -40811,6 +41167,14 @@ void installCommandFunction16PM() {
 	commandFunctions[225] = handlerCommand16Code00E1_PM;
 	commandFunctions[226] = handlerCommand16Code00E2_PM;
 	commandFunctions[227] = handlerCommand16Code00E3_PM;
+	commandFunctions[228] = handlerCommand16Code00E4_PM;
+	commandFunctions[228 | 0x0400] = handlerCommand16Code00E4P66_PM;
+	commandFunctions[229] = handlerCommand16Code00E5_PM;
+	commandFunctions[229 | 0x0400] = handlerCommand16Code00E5P66_PM;
+	commandFunctions[230] = handlerCommand16Code00E6_PM;
+	commandFunctions[230 | 0x0400] = handlerCommand16Code00E6P66_PM;
+	commandFunctions[231] = handlerCommand16Code00E7_PM;
+	commandFunctions[231 | 0x0400] = handlerCommand16Code00E7P66_PM;
 	commandFunctions[232] = handlerCommand16Code00E8_PM;
 	commandFunctions[232 | 0x0400] = handlerCommand16Code00E8P66_PM;
 	commandFunctions[233] = handlerCommand16Code00E9_PM;
@@ -41342,6 +41706,14 @@ void installCommandFunction32PM() {
 	commandFunctions[225] = handlerCommand32Code00E1_PM;
 	commandFunctions[226] = handlerCommand32Code00E2_PM;
 	commandFunctions[227] = handlerCommand32Code00E3_PM;
+	commandFunctions[228] = handlerCommand32Code00E4_PM;
+	commandFunctions[228 | 0x0400] = handlerCommand32Code00E4P66_PM;
+	commandFunctions[229] = handlerCommand32Code00E5_PM;
+	commandFunctions[229 | 0x0400] = handlerCommand32Code00E5P66_PM;
+	commandFunctions[230] = handlerCommand32Code00E6_PM;
+	commandFunctions[230 | 0x0400] = handlerCommand32Code00E6P66_PM;
+	commandFunctions[231] = handlerCommand32Code00E7_PM;
+	commandFunctions[231 | 0x0400] = handlerCommand32Code00E7P66_PM;
 	commandFunctions[232] = handlerCommand32Code00E8_PM;
 	commandFunctions[232 | 0x0400] = handlerCommand32Code00E8P66_PM;
 	commandFunctions[233] = handlerCommand32Code00E9_PM;

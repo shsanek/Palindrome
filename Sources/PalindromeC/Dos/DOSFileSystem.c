@@ -49,7 +49,8 @@ void dosCloseFile() {
 void doslSeekFile() {
     uint16_t description = *regBXu;
     if (*regAL == 2 && *regCX == 0 && *regAX == 0) {
-        emptyInterruptCallFunction(0x21);
+        ExternalCallFunctionEmpty(0x21);
+        return;
     }
     int32_t offset = (*regCXu * 65536) + *regDXu;
     int32_t newOffset = vfsLseekFile(description, offset, *regAL);
@@ -121,7 +122,7 @@ void dosLinePrint() {
     text[i] = symbol;
 }
 
-void systemDOSFunction(uint8_t a) {
+void systemDOSFunction(uint16_t a) {
     if (*regAH == 0x33) {
         controlBreakFunction();
         return;
@@ -206,5 +207,10 @@ void systemDOSFunction(uint8_t a) {
         (*(uint16_t*)(GET_REAL_MOD_MEMORY_POINTER(0) + *regAL * 4 + 2)) = SR_VALUE(SR_DS);
         return;
     }
-    emptyInterruptCallFunction(a);
+    ExternalCallFunctionEmpty(a);
+}
+
+
+void SystemDOSInstall() {
+    context.functions[0x21] = systemDOSFunction;
 }

@@ -10,6 +10,8 @@
 
 #include <stdio.h>
 #include "FPU.h"
+#include "InOutPorts.h"
+#include "ExternalFunction.h"
 
 
 typedef struct CommandPrefixInfo {
@@ -20,18 +22,10 @@ typedef struct CommandPrefixInfo {
     uint8_t hasSegmentPrefix;
 } CommandPrefixInfo;
 
-typedef struct ASMMRMInfo {
-
-} ASMMRMInfo;
-
 typedef struct CommandInfo {
     CommandPrefixInfo prefixInfo;
     uint16_t command;
 } CommandInfo;
-
-typedef void (*InterruptCallFunction)(
-    uint8_t index
-);
 
 typedef struct Context {
     uint16_t segmentRegisters[8];
@@ -52,7 +46,8 @@ typedef struct Context {
 
     CommandInfo lastCommandInfo;
 
-    InterruptCallFunction functions[256];
+    ExternalCallFunction functions[0xFFFF];
+    IOPort ports[256];
 
     // продолжаем пока 0 если стало 0x14 обновляем мод
     char end;
@@ -64,7 +59,6 @@ extern Context context;
 
 Context* resetContext();
 void freeContext();
-void emptyInterruptCallFunction(uint8_t a);
 void installCommandFunction();
 
 #endif /* Models_h */

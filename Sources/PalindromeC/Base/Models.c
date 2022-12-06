@@ -13,95 +13,16 @@
 #include "../Function/BaseFunction.h"
 #include "../Dos/VideoServiceInterrupt.h"
 #include "../Memory/VirtualMemoryManager.h"
+#include "ExternalFunction.h"
+#include "External/ExternalInterruptBaseHandler.h"
+
 Context context;
 
-void emptyInterruptCallFunction(uint8_t a) {
-    printf(", call %X-%X", a, *regAH);
-}
-
-void inProtectedMode() {
-    if (context.pmode) {
-        assert(0);
-        return;
-    }
-    assert(0);
-    // installVirtualModMemory();
-
-//    SET_VALUE_IN_SEGMENT_P(SR_FS, 0);
-//    SET_VALUE_IN_SEGMENT_P(SR_GS, 0);
-//
-//    SET_VALUE_IN_SEGMENT_P(SR_SS, virtualModMemoryConvertFromRealMemory(GET_SEGMENT_POINTER(SR_SS), 0));
-//    SET_VALUE_IN_SEGMENT_P(SR_ES, virtualModMemoryConvertFromRealMemory(GET_SEGMENT_POINTER(SR_ES), 0));
-//    SET_VALUE_IN_SEGMENT_P(SR_DS, virtualModMemoryConvertFromRealMemory(GET_SEGMENT_POINTER(SR_DS), 0));
-//
-//    if (context.mod) {
-//        uint16_t* stack = (uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + *regESPu + 4);
-//        uint16_t cs = virtualModMemoryConvertFromRealMemory(GET_REAL_MOD_MEMORY_POINTER(*stack), 0);
-//        (*stack) = cs;
-//    } else {
-//        uint16_t* stack = (uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + *regSPu + 2);
-//        uint16_t cs = virtualModMemoryConvertFromRealMemory(GET_REAL_MOD_MEMORY_POINTER(*stack), 0);
-//        (*stack) = cs;
-//    }
-
-    VM = 0;
-    context.pmode = 1;
-    context.end = 0x14;
-}
-
-void DPMIFunction(uint8_t a) {
-}
-
-void endCallFunction(uint8_t a) {
-    if (*regAXu == 255) {
-        inProtectedMode();
-    } else {
-        context.end = 1;
-    }
-}
-
-void other15InformationFunction(uint8_t a) {
-    if (*regAHu == 0xBF) {
-        *regAHu = 0x86;
-        SET_FLAG(CF, 1);
-        return;
-    }
-    emptyInterruptCallFunction(a);
-}
-
-void other2fInformationFunction(uint8_t a) {
-    if (*regAXu == 0x1687) {
-        if (context.pmode) {
-            *regAXu = 0x0001;
-            return;
-        }
-        *regAXu = 0x0000;
-        *regBXu = 0x0001;
-        *regCXu = 0x0104;
-        *regDXu = 0x005A;
-        *regSIu = 0x0029;
-        *regDIu = 0x2F97;
-        SET_VALUE_IN_SEGMENT(SR_ES, 0xFCB8);
-        return;
-    }
-    if (*regAXu == 0x1600) {
-        *regAX = 0x0004;
-        return;
-    }
-    emptyInterruptCallFunction(a);
-}
-
-
-void setBaseFunction() {
-    for (int i = 0; i < 256; i++) {
-        context.functions[i] = emptyInterruptCallFunction;
-    }
-    context.functions[0x10] = callVideoServiceInterrupt;
-    context.functions[0x15] = other15InformationFunction;
-    context.functions[0x20] = endCallFunction;
-    context.functions[0x21] = systemDOSFunction;
-    context.functions[0x2f] = other2fInformationFunction;
-    context.functions[0x31] = DPMIFunction;
+void ExternalFunctionFunction() {
+    ExternalCallFunctionInstall();
+    ExternalInterruptBaseHandlerInstall();
+    VideoServiceInstall();
+    SystemDOSInstall();
 }
 
 void resetStack() {
@@ -121,6 +42,9 @@ void resetStack() {
     context.cursor = 0;
     context.end = 0;
     context.index = context.program;
+
+    IOPortInstall();
+    ExternalFunctionFunction();
 }
 
 int isInstall = 0;
@@ -130,8 +54,6 @@ Context* resetContext() {
     isInstall = 1;
 
     uint8_t mod = 0;
-
-    setBaseFunction();
 
     context.mod = mod;
     context.end = 0;

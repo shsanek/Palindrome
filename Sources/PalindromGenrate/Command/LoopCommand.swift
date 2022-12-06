@@ -92,6 +92,23 @@ fileprivate let callFarCommand = Command(
 )
 
 
+func templateFarReturn() -> String {
+    """
+    uint%addressSize_t* sp = register%addressSizeu(BR_SP);
+    SET_VALUE_IN_SEGMENT(1, *(int16_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp + %MOD / 8));
+    context.index = GET_SEGMENT_POINTER(1) + *(int%MOD_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp);
+    *sp += (%MOD / 8 + 2);
+    """
+}
+
+func templateNearReturn() -> String {
+    """
+    uint%addressSize_t* sp = register%addressSizeu(BR_SP);
+    context.index = GET_SEGMENT_POINTER(1) + *(int%MOD_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp);
+    *sp += (%MOD / 8);
+    """
+}
+
 fileprivate let returnC3Command = Command(
     code: 0x00C3,
     name: "Ret",
@@ -105,11 +122,7 @@ fileprivate let returnC3Command = Command(
             .functionName,
             .vars,
             .settings([.bigData]),
-            """
-            uint%addressSize_t* sp = register%addressSizeu(BR_SP);
-            context.index = GET_SEGMENT_POINTER(1) + *(uint%MOD_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp);
-            *sp += %MOD / 8;
-            """
+            .template(templateNearReturn())
         ]
     ),
     installFormatter: InitialFormatter()
@@ -129,11 +142,8 @@ fileprivate let returnC2Command = Command(
             .functionName,
             .vars,
             .settings([.bigData]),
-            """
-            uint%addressSize_t* sp = register%addressSizeu(BR_SP);
-            context.index = GET_SEGMENT_POINTER(1) + *(uint%MOD_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp);
-            *sp += ((%MOD / 8) + read16u() * (%dataSize / 16));
-            """
+            .template(templateNearReturn()),
+            "*sp += (read16u() * (%dataSize / 16));"
         ]
     ),
     installFormatter: InitialFormatter()
@@ -152,13 +162,8 @@ fileprivate let returnCACommand = Command(
             .functionName,
             .vars,
             .settings([.bigData]),
-            """
-            uint%addressSize_t* sp = register%addressSizeu(BR_SP);
-            SET_VALUE_IN_SEGMENT(1, *(int16_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp + %MOD / 8));
-            context.index = GET_SEGMENT_POINTER(1) + *(uint%MOD_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp);
-            *sp += %MOD / 8 + 2;
-            *sp += (read16u() * (%dataSize / 16));
-            """
+            .template(templateFarReturn()),
+            "*sp += (read16u() * (%dataSize / 16));"
         ]
     ),
     installFormatter: InitialFormatter()
@@ -177,12 +182,7 @@ fileprivate let returnCBCommand = Command(
             .functionName,
             .vars,
             .settings([.bigData]),
-            """
-            uint%addressSize_t* sp = register%addressSizeu(BR_SP);
-            SET_VALUE_IN_SEGMENT(1, *(int16_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp + %MOD / 8));
-            context.index = GET_SEGMENT_POINTER(1) + *(uint%MOD_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp);
-            *sp += %MOD / 8 + 2;
-            """
+            .template(templateFarReturn())
         ]
     ),
     installFormatter: InitialFormatter()

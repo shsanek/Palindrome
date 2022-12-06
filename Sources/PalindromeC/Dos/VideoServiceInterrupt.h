@@ -16,6 +16,6 @@
 
 extern uint8_t DebugOnlyPrint;
 
-void callVideoServiceInterrupt(uint8_t a);
+void VideoServiceInstall();
 
 #endif /* VidioServiceInterrupt_h */

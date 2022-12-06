@@ -125,13 +125,27 @@ fileprivate let oftherCommand = Command(
                     )
                 ),
                 (
+                    code: "0x2",
+                    formatter: Formatter(
+                        customizers: [
+                            .settings([.bigData]),
+                            "// Call",
+                            .formatter(targetMRMFormat),
+                            "uint%addressSize_t* sp = register%addressSizeu(BR_SP);",
+                            "*sp -= %MOD / 8;",
+                            "*(uint%MOD_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp) = (uint%MOD_t)(context.index - GET_SEGMENT_POINTER(SR_CS));",
+                            "context.index = GET_SEGMENT_POINTER(SR_CS) + (*((int%dataSize_t*)target));"
+                        ]
+                    )
+                ),
+                (
                     code: "0x4",
                     formatter: Formatter(
                         customizers: [
                             .settings([.bigData]),
                             "// JMP",
                             .formatter(targetMRMFormat),
-                            "context.index = GET_SEGMENT_POINTER(SR_CS) + (*((uint%dataSize_t*)target));"
+                            "context.index = GET_SEGMENT_POINTER(SR_CS) + (*((int%dataSize_t*)target));"
                         ]
                     )
                 ),
@@ -143,7 +157,7 @@ fileprivate let oftherCommand = Command(
                             "// JMP",
                             .formatter(targetMRMFormat),
                             "SET_VALUE_IN_SEGMENT(SR_CS, (*((uint16_t*)(target + 2))));",
-                            "context.index = GET_SEGMENT_POINTER(SR_CS) + (*((uint%dataSize_t*)(target)));"
+                            "context.index = GET_SEGMENT_POINTER(SR_CS) + (*((int%dataSize_t*)(target)));"
                         ]
                     )
                 ),

@@ -13,6 +13,7 @@
 #include "Function/GenerateFunctions.h"
 #include <stdlib.h>
 #include "Support/Log.h"
+#include <sys/time.h>
 
 uint8_t *debugCommands = NULL;
 
@@ -24,6 +25,30 @@ void clearDebugCommands() {
         debugCommands[i] = 0;
     }
 }
+
+#define INT_HANDLER_WITH_TICK_BEGIN \
+clock_t timerEnd, timerStart;\
+int timeFrameCount = 10;\
+uint64_t expectedTimeInterval = 10;\
+uint32_t delta_us = 0;\
+uint32_t commandCount = 0;\
+while (context.end) {\
+    timerStart = clock();\
+    while (timeFrameCount > 0 && context.end) {\
+
+#define INT_HANDLER_WITH_TICK_END(HANDLER) \
+timeFrameCount -= 1;\
+commandCount += 1;\
+}\
+timerEnd = clock();\
+delta_us += timerEnd - timerStart;\
+if (delta_us >= expectedTimeInterval) {\
+delta_us = 0;\
+HANDLER\
+double value = (double)expectedTimeInterval / (double)delta_us;\
+timeFrameCount = (uint32_t)(value * (double)commandCount);\
+}\
+}\
 
 void getCommand() {
     LOG("%llX:", (uint64_t)(context.index - context.program));
@@ -140,6 +165,34 @@ void getCommand() {
     commandFunctions[context.lastCommandInfo.command]();\
 }
 
+void skipInt();
+
+void callInterrupt(uint8_t value) {
+    uint16_t newIP = *(uint16_t*)(GET_REAL_MOD_MEMORY_POINTER(0) + value * 4);
+    uint16_t newCS = *(uint16_t*)(GET_REAL_MOD_MEMORY_POINTER(0) + value * 4 + 2);
+
+    pushInStack16u(SR_VALUE(SR_CS));
+    pushInStack16u(((uint16_t)(context.index - GET_SEGMENT_POINTER(SR_CS))));
+
+    SET_VALUE_IN_SEGMENT(SR_CS, newCS);
+    context.index = GET_SEGMENT_POINTER(SR_CS) + newIP;
+
+    skipInt();
+}
+
+clock_t LastTimerCallTime = 0;
+void ExternalInterruptCallsHandler() {
+    clock_t currentTime = clock();
+    if (LastTimerCallTime == 0) {
+        LastTimerCallTime = currentTime;
+        return;
+    }
+    if ((currentTime - LastTimerCallTime) / 55 >= 1) {
+        LastTimerCallTime = currentTime;
+        callInterrupt(0x08);
+    }
+}
+
 void pushInStack32u(uint32_t value) {
     uint32_t* sp = register32u(BR_SP);
     *sp -= 32 / 8;
@@ -147,9 +200,21 @@ void pushInStack32u(uint32_t value) {
 }
 
 void pushInStack32(int32_t value) {
-    uint32_t* sp = register32u(BR_SP);
+    uint16_t* sp = register16u(BR_SP);
     *sp -= 32 / 8;
     *(int32_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp) = value;
+}
+
+void pushInStack16u(uint16_t value) {
+    uint16_t* sp = register16u(BR_SP);
+    *sp -= 16 / 8;
+    *(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp) = value;
+}
+
+void pushInStack16(int16_t value) {
+    uint32_t* sp = register32u(BR_SP);
+    *sp -= 16 / 8;
+    *(int16_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp) = value;
 }
 
 void skipInt() {
@@ -157,52 +222,69 @@ void skipInt() {
     uint16_t segmentValue = *(int16_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp + 16 / 8);
     uint8_t* pointer = GET_REAL_MOD_MEMORY_POINTER(segmentValue) + *(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp);
 
+    printf("\nSTART INT\n");
+
+    while (context.end == 0 && context.index != pointer) {
+        runCommand();
+        LOG("%s", " ");
+        DEBUG_RUN({
+            printDebugLine();
+        })
+        LOG("%s", "\n\n");
+        PRINT_REGS
+    }
+
+    printf("\nEND INT\n");
+}
+
+void runFromFullModeToEnd(int* count, int *index) {
+    LOG("%s","\n\n");
+    PRINT_REGS
     while (context.end == 0) {
-        if (context.index == pointer) {
-            return;
-        }
-        runCommand();
-    }
-}
+        clock_t timerEnd, timerStart;
+        int timeFrameCount = 10;
+        uint64_t expectedTimeInterval = 55;
+        uint32_t delta_us = 0;
+        uint32_t commandCount = 0;
+        timerStart = clock();
+        int lastTimeFrameCount = timeFrameCount;
+        while (!context.end) {
+            while (timeFrameCount > 0) {
+                // CODE START
+                LOG("step %d|", *index);
+                runCommand();
+                if (context.lastCommandInfo.command == 0x00CD) {
+                    skipInt();
+                }
+                LOG("%s", " ");
+                DEBUG_RUN({
+                    printDebugLine();
+                })
+                LOG("%s", "\n\n");
+                PRINT_REGS
+                DEBUG_RUN({ (*index) += 1; })
+                (*count)--;
+                if (*count == 0) { context.end = 0x02; commandCount = 1; }
+                // CODE END
 
-
-void run16FromFullModeToEnd(int* count, int *index) {
-    LOG("%s","\n\n");
-    PRINT16_REGS
-    while (context.end == 0 && (*count) > 0) {
-        LOG("step %d|", *index);
-        runCommand();
-        if (context.lastCommandInfo.command == 0x00CD) {
-            skipInt();
+                timeFrameCount -= 1;
+                commandCount += 1;
+            }
+            timerEnd = clock();
+            delta_us += timerEnd - timerStart;
+            timerStart = clock();
+            if (delta_us >= expectedTimeInterval) {
+                // ExternalInterruptCallsHandler();
+                double value = (double)expectedTimeInterval / (double)delta_us;
+                lastTimeFrameCount = (uint32_t)(value * (double)commandCount) + 1;
+                printf("\n<count: %d, cps: %d, tfc: %d>\n", commandCount, ((int)((double)commandCount / ((double)delta_us / 1000.0))), lastTimeFrameCount);
+                delta_us = 0;
+                commandCount = 0;
+                timeFrameCount = lastTimeFrameCount;
+            } else {
+                timeFrameCount = lastTimeFrameCount * 0.1;
+            }
         }
-        LOG("%s", " ");
-        DEBUG_RUN({
-            printDebugLine();
-        })
-        LOG("%s", "\n\n");
-        PRINT16_REGS
-        DEBUG_RUN({ (*index) += 1; })
-        (*count)--;
-    }
-}
-
-void run32FromFullModeToEnd(int* count, int *index) {
-    LOG("%s","\n\n");
-    PRINT32_REGS
-    while (context.end == 0 && (*count) > 0) {
-        LOG("step %d|", (*index));
-        runCommand();
-        if (context.lastCommandInfo.command == 0x00CD) {
-            skipInt();
-        }
-        LOG("%s", " ");
-        DEBUG_RUN({
-            printDebugLine();
-        })
-        LOG("%s", "\n\n");
-        PRINT32_REGS
-        DEBUG_RUN({ (*index) += 1; })
-        (*count)--;
     }
 }
 
@@ -210,26 +292,17 @@ void runFullModeToEndWithStop(int count) {
     clearDebugCommands();
     clearDebugLine();
     int index = 0;
+    installCommandFunction();
     while (context.end == 0 && count > 0) {
-        installCommandFunction();
-        if (context.mod) {
-            run32FromFullModeToEnd(&count, &index);
-        } else {
-            run16FromFullModeToEnd(&count, &index);
-        }
+        runFromFullModeToEnd(&count, &index);
         if (context.end == 0x14) {
             context.end = 0;
+            installCommandFunction();
         }
     }
 }
 
-void run16FromFullMode() {
-    while (context.end == 0) {
-        runCommand();
-    }
-}
-
-void run32FromFullMode() {
+void runFromFullMode() {
     while (context.end == 0) {
         runCommand();
     }
@@ -238,11 +311,7 @@ void run32FromFullMode() {
 void runFullMode(int count) {
     while (context.end == 0) {
         installCommandFunction();
-        if (context.mod) {
-            run32FromFullMode();
-        } else {
-            run16FromFullMode();
-        }
+        runFromFullMode();
         if (context.end == 0x14) {
             context.end = 0;
         }
@@ -285,16 +354,16 @@ char* runFullModeToEndWithStopForTest(int count) {
     clearDebugCommands();
     clearDebugLine();
     int index = 0;
+    installCommandFunction();
     while (context.end == 0 && count > 0) {
-        installCommandFunction();
         if (context.mod) {
             run32FullModeToEndWithStopForTest(&count, &index, &out);
         } else {
             run16FullModeToEndWithStopForTest(&count, &index, &out);
         }
-
-        if (context.end == 0x14) {
+        if (context.end == 0x0A) {
             context.end = 0;
+            installCommandFunction();
         }
     }
     return result;
@@ -315,7 +384,3 @@ void installCommandFunction() {
         }
     }
 }
-
-//432109876543210
-//111001001000110
-//111001101000110

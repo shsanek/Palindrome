@@ -279,7 +279,7 @@ final class FirstTest: XCTestCase {
         let error = result.getErrorCommand(source: source)
         TAssert(error == nil)
 
-        // runFullModeToEndWithStop(40010);
+        runFullModeToEndWithStop(0);
     }
 
     func test08() throws {

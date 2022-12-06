@@ -248,9 +248,6 @@ void realModCPUSetting() {
     context.pmode = 0;
     context.mod = 0;
 
-//    *regBX = 0x000A;
-//    *regCX = 0xE8E5;
-
     *regBX = 0x0001;
     *regCX = 0xDFC7;
 }

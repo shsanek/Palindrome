@@ -16,10 +16,7 @@
 #include "../Function/BaseFunction.h"
 #include "../Memory/RealMemoryManager.h"
 
-void dosOpenFile();
-void dosReadFromFile();
-void dosCloseFile();
 
-void systemDOSFunction(uint8_t a);
+void SystemDOSInstall();
 
 #endif /* DOSFileSystem_h */

@@ -22,6 +22,8 @@ void resetStack();
 
 void pushInStack32u(uint32_t value);
 void pushInStack32(int32_t value);
+void pushInStack16u(uint16_t value);
+void pushInStack16(int16_t value);
 
 char* runFullModeToEndWithStopForTest(int count);
 void runFullModeToEndWithStop(int count);

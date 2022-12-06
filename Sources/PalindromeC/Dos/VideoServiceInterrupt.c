@@ -13,7 +13,7 @@ uint8_t DisplayCurrentMode = 3;
 uint8_t DisplayTextColumnCount = 0x50;
 uint8_t DisplayActivePage = 0;
 
-void callVideoServiceInterrupt(uint8_t a) {
+void callVideoServiceInterrupt(uint16_t a) {
     if (*regAHu == 0x0E || DebugOnlyPrint) {
         context.text[context.cursor] = *register8(BR_AL);
         context.cursor += 1;
@@ -25,7 +25,11 @@ void callVideoServiceInterrupt(uint8_t a) {
         *regBH = DisplayActivePage;
         return;
     }
-    emptyInterruptCallFunction(a);
+    ExternalCallFunctionEmpty(a);
+}
+
+void VideoServiceInstall() {
+    context.functions[0x10] = callVideoServiceInterrupt;
 }
 
 // AX=5003  BX=0001  CX=3301  DX=0A01  SP=1476  BP=14F8  SI=00BC  DI=1026

@@ -30,4 +30,12 @@ char* print16Registers();
 #define REG16_PRINT_SIZE (9 * 13 + FLAGS_PRINT_SIZE)
 #define PRINT16_REGS DEBUG_RUN({ char* out = print16Registers(); printf("%s", out); free(out); })
 
+#define PRINT_REGS DEBUG_RUN({\
+if (context.mod) {\
+    char* out = print32Registers(); printf("%s", out); free(out);\
+} else { \
+    char* out = print16Registers(); printf("%s", out); free(out);\
+}\
+})\
+
 #endif /* LogRegisters_h */
