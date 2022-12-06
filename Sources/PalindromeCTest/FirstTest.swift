@@ -351,7 +351,7 @@ final class FirstTest: XCTestCase {
         let wrapContext = WrapContext()
         wrapContext.context?[0].mod = 1
 
-        let testPath = "/Users/alexandershipin/Documents/projects/Palindrome/Sources/TestSource/prince/regs_1.txt"
+        let testPath = "/Users/alexandershipin/Documents/projects/Palindrome/Sources/TestSource/prince/reg.txt"
 //        let out = String(data: try! Data(contentsOf: URL(fileURLWithPath: "/Users/alexandershipin/Documents/projects/Palindrome/Sources/TestSource/prince/full.log")), encoding: .utf8)!.convertFullOutToTest()
 //
 //        try! out.write(toFile: testPath, atomically: true, encoding: .utf8)
@@ -362,15 +362,16 @@ final class FirstTest: XCTestCase {
             )
         )
 
-        let out = String(data: try! Data(contentsOf: URL(fileURLWithPath: "/Users/alexandershipin/Documents/projects/Palindrome/Sources/TestSource/prince/full_1.log")), encoding: .utf8)!.convertFullOutToTest()
-        try! out.write(toFile: testPath, atomically: true, encoding: .utf8)
+//        let out = String(data: try! Data(contentsOf: URL(fileURLWithPath: "/Users/alexandershipin/Documents/projects/Palindrome/Sources/TestSource/prince/full_1.log")), encoding: .utf8)!.convertFullOutToTest()
+//        try! out.write(toFile: testPath, atomically: true, encoding: .utf8)
 
         wrapContext.addVirtualFolder("D:\\", path: "/Users/alexandershipin/Downloads/pop1dem/POP1DEMO")
         wrapContext.addVirtualFolder("D:\\DOOM.EXE", path: "/Users/alexandershipin/Downloads/pop1dem/POP1DEMO/PRINCE.EXE")
+        wrapContext.addVirtualFolder("C:\\", path: "/Users/alexandershipin/Downloads/pop1dem/POP1DEMO")
 
         wrapContext.loadProgram(with: .program, programm)
 
-        let number = 315
+        let number = 21447
         let value = runFullModeToEndWithStopForTest(Int32(number))
         let result = String(cString: value!)
         value?.deallocate()
@@ -383,8 +384,6 @@ final class FirstTest: XCTestCase {
         TAssert(error == nil || error == number)
 
         runFullModeToEndWithStop(40000);
-
-        TAssert(false);
     }
 }
 

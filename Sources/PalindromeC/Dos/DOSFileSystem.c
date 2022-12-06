@@ -207,6 +207,26 @@ void systemDOSFunction(uint16_t a) {
         (*(uint16_t*)(GET_REAL_MOD_MEMORY_POINTER(0) + *regAL * 4 + 2)) = SR_VALUE(SR_DS);
         return;
     }
+    if (*regAH == 0x19) { // disk number
+        *regAL = 0x2;
+        return;
+    }
+    if (*regAH == 0x47) {
+        *regAX = 0;
+        *(context.segmentRegistersValue[SR_DS] + *regSIu + 0) = 'W';
+        *(context.segmentRegistersValue[SR_DS] + *regSIu + 1) = 'I';
+        *(context.segmentRegistersValue[SR_DS] + *regSIu + 2) = 'N';
+        *(context.segmentRegistersValue[SR_DS] + *regSIu + 3) = 'D';
+        *(context.segmentRegistersValue[SR_DS] + *regSIu + 4) = 'O';
+        *(context.segmentRegistersValue[SR_DS] + *regSIu + 5) = 'W';
+        *(context.segmentRegistersValue[SR_DS] + *regSIu + 6) = 'S';
+        *(context.segmentRegistersValue[SR_DS] + *regSIu + 7) = 0;
+        return;
+    }
+    if (*regAH == 0x02) {
+        *regAL = *regDL;
+        return;
+    }
     ExternalCallFunctionEmpty(a);
 }
 

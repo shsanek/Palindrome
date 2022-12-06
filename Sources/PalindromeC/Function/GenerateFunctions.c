@@ -3215,7 +3215,7 @@ void handlerCommand16Code0099_RM() {
 //Call
 void handlerCommand16Code009A_RM() {
 	LOG("%s","Call");
-	int16_t newIP = read16();
+	uint16_t newIP = read16u();
 	uint16_t newCS = read16u();
 	reg_SP_16u -= 16 / 8;
 	*(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u) = SR_VALUE(SR_CS);
@@ -5801,16 +5801,17 @@ void handlerCommand16Code00C1_RM() {
 //Ret
 void handlerCommand16Code00C2_RM() {
 	LOG("%s","Ret");
+	uint16_t stackValue = read16u();
 	uint16_t* sp = register16u(BR_SP);
-	context.index = GET_SEGMENT_POINTER(1) + *(int16_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp);
+	context.index = GET_SEGMENT_POINTER(1) + *(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp);
 	*sp += (16 / 8);
-	*sp += (read16u() * (16 / 16));
+	*sp += (stackValue * (16 / 16));
 }
 //Ret
 void handlerCommand16Code00C3_RM() {
 	LOG("%s","Ret");
 	uint16_t* sp = register16u(BR_SP);
-	context.index = GET_SEGMENT_POINTER(1) + *(int16_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp);
+	context.index = GET_SEGMENT_POINTER(1) + *(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp);
 	*sp += (16 / 8);
 }
 //Load SR_ES
@@ -5974,17 +5975,19 @@ void handlerCommand16Code00C9_RM() {
 //Ret
 void handlerCommand16Code00CA_RM() {
 	LOG("%s","Ret");
+	uint16_t stackValue = read16u();
 	uint16_t* sp = register16u(BR_SP);
 	SET_VALUE_IN_SEGMENT(1, *(int16_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp + 16 / 8));
-	context.index = GET_SEGMENT_POINTER(1) + *(int16_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp);
+	context.index = GET_SEGMENT_POINTER(1) + *(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp);
 	*sp += (16 / 8 + 2);
+	*sp += (stackValue * (16 / 16));
 }
 //Ret
 void handlerCommand16Code00CB_RM() {
 	LOG("%s","Ret");
 	uint16_t* sp = register16u(BR_SP);
 	SET_VALUE_IN_SEGMENT(1, *(int16_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp + 16 / 8));
-	context.index = GET_SEGMENT_POINTER(1) + *(int16_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp);
+	context.index = GET_SEGMENT_POINTER(1) + *(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp);
 	*sp += (16 / 8 + 2);
 }
 //Int
@@ -8481,7 +8484,20 @@ void handlerCommand16Code00FFP66P67_RM() {
 			uint16_t* sp = register16u(BR_SP);
 			*sp -= 16 / 8;
 			*(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp) = (uint16_t)(context.index - GET_SEGMENT_POINTER(SR_CS));
-			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((int32_t*)target));
+			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((uint32_t*)target));
+		}
+		break;
+		case 0x3: {
+			// Call far
+			uint8_t* target = (uint8_t*)readAddressMRM16For32(mrmByte);
+			uint16_t newIP = *(uint16_t*)target;
+			uint16_t newCS = *(uint16_t*)(target + 16 / 8);
+			reg_SP_16u -= 16 / 8;
+			*(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u) = SR_VALUE(SR_CS);
+			reg_SP_16u -= 16 / 8;
+			*(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u) = ((uint16_t)(context.index - GET_SEGMENT_POINTER(SR_CS)));
+			SET_VALUE_IN_SEGMENT(SR_CS, newCS);
+			context.index = GET_SEGMENT_POINTER(SR_CS) + newIP;
 		}
 		break;
 		case 0x4: {
@@ -8494,7 +8510,7 @@ void handlerCommand16Code00FFP66P67_RM() {
 			// JMP
 			uint8_t* target = (uint8_t*)readAddressMRM16For32(mrmByte);
 			SET_VALUE_IN_SEGMENT(SR_CS, (*((uint16_t*)(target + 2))));
-			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((int32_t*)(target)));
+			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((uint32_t*)(target)));
 		}
 		break;
 		case 0x6: {
@@ -8536,7 +8552,20 @@ void handlerCommand16Code00FFP67_RM() {
 			uint16_t* sp = register16u(BR_SP);
 			*sp -= 16 / 8;
 			*(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp) = (uint16_t)(context.index - GET_SEGMENT_POINTER(SR_CS));
-			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((int16_t*)target));
+			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((uint16_t*)target));
+		}
+		break;
+		case 0x3: {
+			// Call far
+			uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
+			uint16_t newIP = *(uint16_t*)target;
+			uint16_t newCS = *(uint16_t*)(target + 16 / 8);
+			reg_SP_16u -= 16 / 8;
+			*(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u) = SR_VALUE(SR_CS);
+			reg_SP_16u -= 16 / 8;
+			*(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u) = ((uint16_t)(context.index - GET_SEGMENT_POINTER(SR_CS)));
+			SET_VALUE_IN_SEGMENT(SR_CS, newCS);
+			context.index = GET_SEGMENT_POINTER(SR_CS) + newIP;
 		}
 		break;
 		case 0x4: {
@@ -8549,7 +8578,7 @@ void handlerCommand16Code00FFP67_RM() {
 			// JMP
 			uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
 			SET_VALUE_IN_SEGMENT(SR_CS, (*((uint16_t*)(target + 2))));
-			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((int16_t*)(target)));
+			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((uint16_t*)(target)));
 		}
 		break;
 		case 0x6: {
@@ -8591,7 +8620,20 @@ void handlerCommand16Code00FFP66_RM() {
 			uint16_t* sp = register16u(BR_SP);
 			*sp -= 16 / 8;
 			*(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp) = (uint16_t)(context.index - GET_SEGMENT_POINTER(SR_CS));
-			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((int32_t*)target));
+			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((uint32_t*)target));
+		}
+		break;
+		case 0x3: {
+			// Call far
+			uint8_t* target = (uint8_t*)readAddressMRM16For32(mrmByte);
+			uint16_t newIP = *(uint16_t*)target;
+			uint16_t newCS = *(uint16_t*)(target + 16 / 8);
+			reg_SP_16u -= 16 / 8;
+			*(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u) = SR_VALUE(SR_CS);
+			reg_SP_16u -= 16 / 8;
+			*(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u) = ((uint16_t)(context.index - GET_SEGMENT_POINTER(SR_CS)));
+			SET_VALUE_IN_SEGMENT(SR_CS, newCS);
+			context.index = GET_SEGMENT_POINTER(SR_CS) + newIP;
 		}
 		break;
 		case 0x4: {
@@ -8604,7 +8646,7 @@ void handlerCommand16Code00FFP66_RM() {
 			// JMP
 			uint8_t* target = (uint8_t*)readAddressMRM16For32(mrmByte);
 			SET_VALUE_IN_SEGMENT(SR_CS, (*((uint16_t*)(target + 2))));
-			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((int32_t*)(target)));
+			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((uint32_t*)(target)));
 		}
 		break;
 		case 0x6: {
@@ -8646,7 +8688,20 @@ void handlerCommand16Code00FF_RM() {
 			uint16_t* sp = register16u(BR_SP);
 			*sp -= 16 / 8;
 			*(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp) = (uint16_t)(context.index - GET_SEGMENT_POINTER(SR_CS));
-			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((int16_t*)target));
+			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((uint16_t*)target));
+		}
+		break;
+		case 0x3: {
+			// Call far
+			uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
+			uint16_t newIP = *(uint16_t*)target;
+			uint16_t newCS = *(uint16_t*)(target + 16 / 8);
+			reg_SP_16u -= 16 / 8;
+			*(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u) = SR_VALUE(SR_CS);
+			reg_SP_16u -= 16 / 8;
+			*(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u) = ((uint16_t)(context.index - GET_SEGMENT_POINTER(SR_CS)));
+			SET_VALUE_IN_SEGMENT(SR_CS, newCS);
+			context.index = GET_SEGMENT_POINTER(SR_CS) + newIP;
 		}
 		break;
 		case 0x4: {
@@ -8659,7 +8714,7 @@ void handlerCommand16Code00FF_RM() {
 			// JMP
 			uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
 			SET_VALUE_IN_SEGMENT(SR_CS, (*((uint16_t*)(target + 2))));
-			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((int16_t*)(target)));
+			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((uint16_t*)(target)));
 		}
 		break;
 		case 0x6: {
@@ -13128,7 +13183,7 @@ void handlerCommand32Code0099_RM() {
 //Call
 void handlerCommand32Code009A_RM() {
 	LOG("%s","Call");
-	int32_t newIP = read32();
+	uint32_t newIP = read32u();
 	uint16_t newCS = read16u();
 	reg_SP_32u -= 16 / 8;
 	*(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u) = SR_VALUE(SR_CS);
@@ -15714,16 +15769,17 @@ void handlerCommand32Code00C1_RM() {
 //Ret
 void handlerCommand32Code00C2_RM() {
 	LOG("%s","Ret");
+	uint16_t stackValue = read16u();
 	uint32_t* sp = register32u(BR_SP);
-	context.index = GET_SEGMENT_POINTER(1) + *(int32_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp);
+	context.index = GET_SEGMENT_POINTER(1) + *(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp);
 	*sp += (32 / 8);
-	*sp += (read16u() * (32 / 16));
+	*sp += (stackValue * (32 / 16));
 }
 //Ret
 void handlerCommand32Code00C3_RM() {
 	LOG("%s","Ret");
 	uint32_t* sp = register32u(BR_SP);
-	context.index = GET_SEGMENT_POINTER(1) + *(int32_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp);
+	context.index = GET_SEGMENT_POINTER(1) + *(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp);
 	*sp += (32 / 8);
 }
 //Load SR_ES
@@ -15887,18 +15943,19 @@ void handlerCommand32Code00C9_RM() {
 //Ret
 void handlerCommand32Code00CA_RM() {
 	LOG("%s","Ret");
+	uint16_t stackValue = read16u();
 	uint32_t* sp = register32u(BR_SP);
 	SET_VALUE_IN_SEGMENT(1, *(int16_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp + 32 / 8));
-	context.index = GET_SEGMENT_POINTER(1) + *(int32_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp);
+	context.index = GET_SEGMENT_POINTER(1) + *(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp);
 	*sp += (32 / 8 + 2);
-	*sp += (read16u() * (32 / 16));
+	*sp += (stackValue * (32 / 16));
 }
 //Ret
 void handlerCommand32Code00CB_RM() {
 	LOG("%s","Ret");
 	uint32_t* sp = register32u(BR_SP);
 	SET_VALUE_IN_SEGMENT(1, *(int16_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp + 32 / 8));
-	context.index = GET_SEGMENT_POINTER(1) + *(int32_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp);
+	context.index = GET_SEGMENT_POINTER(1) + *(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp);
 	*sp += (32 / 8 + 2);
 }
 //Int
@@ -18395,7 +18452,20 @@ void handlerCommand32Code00FFP66P67_RM() {
 			uint32_t* sp = register32u(BR_SP);
 			*sp -= 32 / 8;
 			*(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp) = (uint32_t)(context.index - GET_SEGMENT_POINTER(SR_CS));
-			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((int16_t*)target));
+			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((uint16_t*)target));
+		}
+		break;
+		case 0x3: {
+			// Call far
+			uint8_t* target = (uint8_t*)readAddressMRM32For16(mrmByte);
+			uint32_t newIP = *(uint32_t*)target;
+			uint16_t newCS = *(uint16_t*)(target + 32 / 8);
+			reg_SP_32u -= 16 / 8;
+			*(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u) = SR_VALUE(SR_CS);
+			reg_SP_32u -= 32 / 8;
+			*(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u) = ((uint32_t)(context.index - GET_SEGMENT_POINTER(SR_CS)));
+			SET_VALUE_IN_SEGMENT(SR_CS, newCS);
+			context.index = GET_SEGMENT_POINTER(SR_CS) + newIP;
 		}
 		break;
 		case 0x4: {
@@ -18408,7 +18478,7 @@ void handlerCommand32Code00FFP66P67_RM() {
 			// JMP
 			uint8_t* target = (uint8_t*)readAddressMRM32For16(mrmByte);
 			SET_VALUE_IN_SEGMENT(SR_CS, (*((uint16_t*)(target + 2))));
-			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((int16_t*)(target)));
+			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((uint16_t*)(target)));
 		}
 		break;
 		case 0x6: {
@@ -18450,7 +18520,20 @@ void handlerCommand32Code00FFP67_RM() {
 			uint32_t* sp = register32u(BR_SP);
 			*sp -= 32 / 8;
 			*(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp) = (uint32_t)(context.index - GET_SEGMENT_POINTER(SR_CS));
-			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((int32_t*)target));
+			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((uint32_t*)target));
+		}
+		break;
+		case 0x3: {
+			// Call far
+			uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
+			uint32_t newIP = *(uint32_t*)target;
+			uint16_t newCS = *(uint16_t*)(target + 32 / 8);
+			reg_SP_32u -= 16 / 8;
+			*(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u) = SR_VALUE(SR_CS);
+			reg_SP_32u -= 32 / 8;
+			*(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u) = ((uint32_t)(context.index - GET_SEGMENT_POINTER(SR_CS)));
+			SET_VALUE_IN_SEGMENT(SR_CS, newCS);
+			context.index = GET_SEGMENT_POINTER(SR_CS) + newIP;
 		}
 		break;
 		case 0x4: {
@@ -18463,7 +18546,7 @@ void handlerCommand32Code00FFP67_RM() {
 			// JMP
 			uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
 			SET_VALUE_IN_SEGMENT(SR_CS, (*((uint16_t*)(target + 2))));
-			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((int32_t*)(target)));
+			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((uint32_t*)(target)));
 		}
 		break;
 		case 0x6: {
@@ -18505,7 +18588,20 @@ void handlerCommand32Code00FFP66_RM() {
 			uint32_t* sp = register32u(BR_SP);
 			*sp -= 32 / 8;
 			*(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp) = (uint32_t)(context.index - GET_SEGMENT_POINTER(SR_CS));
-			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((int16_t*)target));
+			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((uint16_t*)target));
+		}
+		break;
+		case 0x3: {
+			// Call far
+			uint8_t* target = (uint8_t*)readAddressMRM32For16(mrmByte);
+			uint32_t newIP = *(uint32_t*)target;
+			uint16_t newCS = *(uint16_t*)(target + 32 / 8);
+			reg_SP_32u -= 16 / 8;
+			*(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u) = SR_VALUE(SR_CS);
+			reg_SP_32u -= 32 / 8;
+			*(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u) = ((uint32_t)(context.index - GET_SEGMENT_POINTER(SR_CS)));
+			SET_VALUE_IN_SEGMENT(SR_CS, newCS);
+			context.index = GET_SEGMENT_POINTER(SR_CS) + newIP;
 		}
 		break;
 		case 0x4: {
@@ -18518,7 +18614,7 @@ void handlerCommand32Code00FFP66_RM() {
 			// JMP
 			uint8_t* target = (uint8_t*)readAddressMRM32For16(mrmByte);
 			SET_VALUE_IN_SEGMENT(SR_CS, (*((uint16_t*)(target + 2))));
-			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((int16_t*)(target)));
+			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((uint16_t*)(target)));
 		}
 		break;
 		case 0x6: {
@@ -18560,7 +18656,20 @@ void handlerCommand32Code00FF_RM() {
 			uint32_t* sp = register32u(BR_SP);
 			*sp -= 32 / 8;
 			*(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp) = (uint32_t)(context.index - GET_SEGMENT_POINTER(SR_CS));
-			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((int32_t*)target));
+			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((uint32_t*)target));
+		}
+		break;
+		case 0x3: {
+			// Call far
+			uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
+			uint32_t newIP = *(uint32_t*)target;
+			uint16_t newCS = *(uint16_t*)(target + 32 / 8);
+			reg_SP_32u -= 16 / 8;
+			*(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u) = SR_VALUE(SR_CS);
+			reg_SP_32u -= 32 / 8;
+			*(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u) = ((uint32_t)(context.index - GET_SEGMENT_POINTER(SR_CS)));
+			SET_VALUE_IN_SEGMENT(SR_CS, newCS);
+			context.index = GET_SEGMENT_POINTER(SR_CS) + newIP;
 		}
 		break;
 		case 0x4: {
@@ -18573,7 +18682,7 @@ void handlerCommand32Code00FF_RM() {
 			// JMP
 			uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
 			SET_VALUE_IN_SEGMENT(SR_CS, (*((uint16_t*)(target + 2))));
-			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((int32_t*)(target)));
+			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((uint32_t*)(target)));
 		}
 		break;
 		case 0x6: {
@@ -23042,7 +23151,7 @@ void handlerCommand16Code0099_PM() {
 //Call
 void handlerCommand16Code009A_PM() {
 	LOG("%s","Call");
-	int16_t newIP = read16();
+	uint16_t newIP = read16u();
 	uint16_t newCS = read16u();
 	reg_SP_16u -= 16 / 8;
 	*(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u) = SR_VALUE(SR_CS);
@@ -25628,16 +25737,17 @@ void handlerCommand16Code00C1_PM() {
 //Ret
 void handlerCommand16Code00C2_PM() {
 	LOG("%s","Ret");
+	uint16_t stackValue = read16u();
 	uint16_t* sp = register16u(BR_SP);
-	context.index = GET_SEGMENT_POINTER(1) + *(int16_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp);
+	context.index = GET_SEGMENT_POINTER(1) + *(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp);
 	*sp += (16 / 8);
-	*sp += (read16u() * (16 / 16));
+	*sp += (stackValue * (16 / 16));
 }
 //Ret
 void handlerCommand16Code00C3_PM() {
 	LOG("%s","Ret");
 	uint16_t* sp = register16u(BR_SP);
-	context.index = GET_SEGMENT_POINTER(1) + *(int16_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp);
+	context.index = GET_SEGMENT_POINTER(1) + *(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp);
 	*sp += (16 / 8);
 }
 //Load SR_ES
@@ -25801,18 +25911,19 @@ void handlerCommand16Code00C9_PM() {
 //Ret
 void handlerCommand16Code00CA_PM() {
 	LOG("%s","Ret");
+	uint16_t stackValue = read16u();
 	uint16_t* sp = register16u(BR_SP);
 	SET_VALUE_IN_SEGMENT_P(1, *(int16_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp + 16 / 8));
-	context.index = GET_SEGMENT_POINTER(1) + *(int16_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp);
+	context.index = GET_SEGMENT_POINTER(1) + *(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp);
 	*sp += (16 / 8 + 2);
-	*sp += (read16u() * (16 / 16));
+	*sp += (stackValue * (16 / 16));
 }
 //Ret
 void handlerCommand16Code00CB_PM() {
 	LOG("%s","Ret");
 	uint16_t* sp = register16u(BR_SP);
 	SET_VALUE_IN_SEGMENT_P(1, *(int16_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp + 16 / 8));
-	context.index = GET_SEGMENT_POINTER(1) + *(int16_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp);
+	context.index = GET_SEGMENT_POINTER(1) + *(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp);
 	*sp += (16 / 8 + 2);
 }
 //Int
@@ -28309,7 +28420,20 @@ void handlerCommand16Code00FFP66P67_PM() {
 			uint16_t* sp = register16u(BR_SP);
 			*sp -= 16 / 8;
 			*(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp) = (uint16_t)(context.index - GET_SEGMENT_POINTER(SR_CS));
-			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((int32_t*)target));
+			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((uint32_t*)target));
+		}
+		break;
+		case 0x3: {
+			// Call far
+			uint8_t* target = (uint8_t*)readAddressMRM16For32(mrmByte);
+			uint16_t newIP = *(uint16_t*)target;
+			uint16_t newCS = *(uint16_t*)(target + 16 / 8);
+			reg_SP_16u -= 16 / 8;
+			*(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u) = SR_VALUE(SR_CS);
+			reg_SP_16u -= 16 / 8;
+			*(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u) = ((uint16_t)(context.index - GET_SEGMENT_POINTER(SR_CS)));
+			SET_VALUE_IN_SEGMENT_P(SR_CS, newCS);
+			context.index = GET_SEGMENT_POINTER(SR_CS) + newIP;
 		}
 		break;
 		case 0x4: {
@@ -28322,7 +28446,7 @@ void handlerCommand16Code00FFP66P67_PM() {
 			// JMP
 			uint8_t* target = (uint8_t*)readAddressMRM16For32(mrmByte);
 			SET_VALUE_IN_SEGMENT_P(SR_CS, (*((uint16_t*)(target + 2))));
-			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((int32_t*)(target)));
+			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((uint32_t*)(target)));
 		}
 		break;
 		case 0x6: {
@@ -28364,7 +28488,20 @@ void handlerCommand16Code00FFP67_PM() {
 			uint16_t* sp = register16u(BR_SP);
 			*sp -= 16 / 8;
 			*(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp) = (uint16_t)(context.index - GET_SEGMENT_POINTER(SR_CS));
-			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((int16_t*)target));
+			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((uint16_t*)target));
+		}
+		break;
+		case 0x3: {
+			// Call far
+			uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
+			uint16_t newIP = *(uint16_t*)target;
+			uint16_t newCS = *(uint16_t*)(target + 16 / 8);
+			reg_SP_16u -= 16 / 8;
+			*(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u) = SR_VALUE(SR_CS);
+			reg_SP_16u -= 16 / 8;
+			*(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u) = ((uint16_t)(context.index - GET_SEGMENT_POINTER(SR_CS)));
+			SET_VALUE_IN_SEGMENT_P(SR_CS, newCS);
+			context.index = GET_SEGMENT_POINTER(SR_CS) + newIP;
 		}
 		break;
 		case 0x4: {
@@ -28377,7 +28514,7 @@ void handlerCommand16Code00FFP67_PM() {
 			// JMP
 			uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
 			SET_VALUE_IN_SEGMENT_P(SR_CS, (*((uint16_t*)(target + 2))));
-			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((int16_t*)(target)));
+			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((uint16_t*)(target)));
 		}
 		break;
 		case 0x6: {
@@ -28419,7 +28556,20 @@ void handlerCommand16Code00FFP66_PM() {
 			uint16_t* sp = register16u(BR_SP);
 			*sp -= 16 / 8;
 			*(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp) = (uint16_t)(context.index - GET_SEGMENT_POINTER(SR_CS));
-			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((int32_t*)target));
+			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((uint32_t*)target));
+		}
+		break;
+		case 0x3: {
+			// Call far
+			uint8_t* target = (uint8_t*)readAddressMRM16For32(mrmByte);
+			uint16_t newIP = *(uint16_t*)target;
+			uint16_t newCS = *(uint16_t*)(target + 16 / 8);
+			reg_SP_16u -= 16 / 8;
+			*(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u) = SR_VALUE(SR_CS);
+			reg_SP_16u -= 16 / 8;
+			*(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u) = ((uint16_t)(context.index - GET_SEGMENT_POINTER(SR_CS)));
+			SET_VALUE_IN_SEGMENT_P(SR_CS, newCS);
+			context.index = GET_SEGMENT_POINTER(SR_CS) + newIP;
 		}
 		break;
 		case 0x4: {
@@ -28432,7 +28582,7 @@ void handlerCommand16Code00FFP66_PM() {
 			// JMP
 			uint8_t* target = (uint8_t*)readAddressMRM16For32(mrmByte);
 			SET_VALUE_IN_SEGMENT_P(SR_CS, (*((uint16_t*)(target + 2))));
-			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((int32_t*)(target)));
+			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((uint32_t*)(target)));
 		}
 		break;
 		case 0x6: {
@@ -28474,7 +28624,20 @@ void handlerCommand16Code00FF_PM() {
 			uint16_t* sp = register16u(BR_SP);
 			*sp -= 16 / 8;
 			*(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp) = (uint16_t)(context.index - GET_SEGMENT_POINTER(SR_CS));
-			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((int16_t*)target));
+			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((uint16_t*)target));
+		}
+		break;
+		case 0x3: {
+			// Call far
+			uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
+			uint16_t newIP = *(uint16_t*)target;
+			uint16_t newCS = *(uint16_t*)(target + 16 / 8);
+			reg_SP_16u -= 16 / 8;
+			*(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u) = SR_VALUE(SR_CS);
+			reg_SP_16u -= 16 / 8;
+			*(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_16u) = ((uint16_t)(context.index - GET_SEGMENT_POINTER(SR_CS)));
+			SET_VALUE_IN_SEGMENT_P(SR_CS, newCS);
+			context.index = GET_SEGMENT_POINTER(SR_CS) + newIP;
 		}
 		break;
 		case 0x4: {
@@ -28487,7 +28650,7 @@ void handlerCommand16Code00FF_PM() {
 			// JMP
 			uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
 			SET_VALUE_IN_SEGMENT_P(SR_CS, (*((uint16_t*)(target + 2))));
-			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((int16_t*)(target)));
+			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((uint16_t*)(target)));
 		}
 		break;
 		case 0x6: {
@@ -32956,7 +33119,7 @@ void handlerCommand32Code0099_PM() {
 //Call
 void handlerCommand32Code009A_PM() {
 	LOG("%s","Call");
-	int32_t newIP = read32();
+	uint32_t newIP = read32u();
 	uint16_t newCS = read16u();
 	reg_SP_32u -= 16 / 8;
 	*(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u) = SR_VALUE(SR_CS);
@@ -35542,16 +35705,17 @@ void handlerCommand32Code00C1_PM() {
 //Ret
 void handlerCommand32Code00C2_PM() {
 	LOG("%s","Ret");
+	uint16_t stackValue = read16u();
 	uint32_t* sp = register32u(BR_SP);
-	context.index = GET_SEGMENT_POINTER(1) + *(int32_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp);
+	context.index = GET_SEGMENT_POINTER(1) + *(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp);
 	*sp += (32 / 8);
-	*sp += (read16u() * (32 / 16));
+	*sp += (stackValue * (32 / 16));
 }
 //Ret
 void handlerCommand32Code00C3_PM() {
 	LOG("%s","Ret");
 	uint32_t* sp = register32u(BR_SP);
-	context.index = GET_SEGMENT_POINTER(1) + *(int32_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp);
+	context.index = GET_SEGMENT_POINTER(1) + *(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp);
 	*sp += (32 / 8);
 }
 //Load SR_ES
@@ -35715,18 +35879,19 @@ void handlerCommand32Code00C9_PM() {
 //Ret
 void handlerCommand32Code00CA_PM() {
 	LOG("%s","Ret");
+	uint16_t stackValue = read16u();
 	uint32_t* sp = register32u(BR_SP);
 	SET_VALUE_IN_SEGMENT_P(1, *(int16_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp + 32 / 8));
-	context.index = GET_SEGMENT_POINTER(1) + *(int32_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp);
+	context.index = GET_SEGMENT_POINTER(1) + *(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp);
 	*sp += (32 / 8 + 2);
-	*sp += (read16u() * (32 / 16));
+	*sp += (stackValue * (32 / 16));
 }
 //Ret
 void handlerCommand32Code00CB_PM() {
 	LOG("%s","Ret");
 	uint32_t* sp = register32u(BR_SP);
 	SET_VALUE_IN_SEGMENT_P(1, *(int16_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp + 32 / 8));
-	context.index = GET_SEGMENT_POINTER(1) + *(int32_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp);
+	context.index = GET_SEGMENT_POINTER(1) + *(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp);
 	*sp += (32 / 8 + 2);
 }
 //Int
@@ -38223,7 +38388,20 @@ void handlerCommand32Code00FFP66P67_PM() {
 			uint32_t* sp = register32u(BR_SP);
 			*sp -= 32 / 8;
 			*(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp) = (uint32_t)(context.index - GET_SEGMENT_POINTER(SR_CS));
-			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((int16_t*)target));
+			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((uint16_t*)target));
+		}
+		break;
+		case 0x3: {
+			// Call far
+			uint8_t* target = (uint8_t*)readAddressMRM32For16(mrmByte);
+			uint32_t newIP = *(uint32_t*)target;
+			uint16_t newCS = *(uint16_t*)(target + 32 / 8);
+			reg_SP_32u -= 16 / 8;
+			*(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u) = SR_VALUE(SR_CS);
+			reg_SP_32u -= 32 / 8;
+			*(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u) = ((uint32_t)(context.index - GET_SEGMENT_POINTER(SR_CS)));
+			SET_VALUE_IN_SEGMENT_P(SR_CS, newCS);
+			context.index = GET_SEGMENT_POINTER(SR_CS) + newIP;
 		}
 		break;
 		case 0x4: {
@@ -38236,7 +38414,7 @@ void handlerCommand32Code00FFP66P67_PM() {
 			// JMP
 			uint8_t* target = (uint8_t*)readAddressMRM32For16(mrmByte);
 			SET_VALUE_IN_SEGMENT_P(SR_CS, (*((uint16_t*)(target + 2))));
-			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((int16_t*)(target)));
+			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((uint16_t*)(target)));
 		}
 		break;
 		case 0x6: {
@@ -38278,7 +38456,20 @@ void handlerCommand32Code00FFP67_PM() {
 			uint32_t* sp = register32u(BR_SP);
 			*sp -= 32 / 8;
 			*(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp) = (uint32_t)(context.index - GET_SEGMENT_POINTER(SR_CS));
-			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((int32_t*)target));
+			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((uint32_t*)target));
+		}
+		break;
+		case 0x3: {
+			// Call far
+			uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
+			uint32_t newIP = *(uint32_t*)target;
+			uint16_t newCS = *(uint16_t*)(target + 32 / 8);
+			reg_SP_32u -= 16 / 8;
+			*(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u) = SR_VALUE(SR_CS);
+			reg_SP_32u -= 32 / 8;
+			*(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u) = ((uint32_t)(context.index - GET_SEGMENT_POINTER(SR_CS)));
+			SET_VALUE_IN_SEGMENT_P(SR_CS, newCS);
+			context.index = GET_SEGMENT_POINTER(SR_CS) + newIP;
 		}
 		break;
 		case 0x4: {
@@ -38291,7 +38482,7 @@ void handlerCommand32Code00FFP67_PM() {
 			// JMP
 			uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
 			SET_VALUE_IN_SEGMENT_P(SR_CS, (*((uint16_t*)(target + 2))));
-			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((int32_t*)(target)));
+			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((uint32_t*)(target)));
 		}
 		break;
 		case 0x6: {
@@ -38333,7 +38524,20 @@ void handlerCommand32Code00FFP66_PM() {
 			uint32_t* sp = register32u(BR_SP);
 			*sp -= 32 / 8;
 			*(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp) = (uint32_t)(context.index - GET_SEGMENT_POINTER(SR_CS));
-			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((int16_t*)target));
+			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((uint16_t*)target));
+		}
+		break;
+		case 0x3: {
+			// Call far
+			uint8_t* target = (uint8_t*)readAddressMRM32For16(mrmByte);
+			uint32_t newIP = *(uint32_t*)target;
+			uint16_t newCS = *(uint16_t*)(target + 32 / 8);
+			reg_SP_32u -= 16 / 8;
+			*(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u) = SR_VALUE(SR_CS);
+			reg_SP_32u -= 32 / 8;
+			*(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u) = ((uint32_t)(context.index - GET_SEGMENT_POINTER(SR_CS)));
+			SET_VALUE_IN_SEGMENT_P(SR_CS, newCS);
+			context.index = GET_SEGMENT_POINTER(SR_CS) + newIP;
 		}
 		break;
 		case 0x4: {
@@ -38346,7 +38550,7 @@ void handlerCommand32Code00FFP66_PM() {
 			// JMP
 			uint8_t* target = (uint8_t*)readAddressMRM32For16(mrmByte);
 			SET_VALUE_IN_SEGMENT_P(SR_CS, (*((uint16_t*)(target + 2))));
-			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((int16_t*)(target)));
+			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((uint16_t*)(target)));
 		}
 		break;
 		case 0x6: {
@@ -38388,7 +38592,20 @@ void handlerCommand32Code00FF_PM() {
 			uint32_t* sp = register32u(BR_SP);
 			*sp -= 32 / 8;
 			*(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp) = (uint32_t)(context.index - GET_SEGMENT_POINTER(SR_CS));
-			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((int32_t*)target));
+			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((uint32_t*)target));
+		}
+		break;
+		case 0x3: {
+			// Call far
+			uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
+			uint32_t newIP = *(uint32_t*)target;
+			uint16_t newCS = *(uint16_t*)(target + 32 / 8);
+			reg_SP_32u -= 16 / 8;
+			*(uint16_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u) = SR_VALUE(SR_CS);
+			reg_SP_32u -= 32 / 8;
+			*(uint32_t*)(GET_SEGMENT_POINTER(SR_SS) + reg_SP_32u) = ((uint32_t)(context.index - GET_SEGMENT_POINTER(SR_CS)));
+			SET_VALUE_IN_SEGMENT_P(SR_CS, newCS);
+			context.index = GET_SEGMENT_POINTER(SR_CS) + newIP;
 		}
 		break;
 		case 0x4: {
@@ -38401,7 +38618,7 @@ void handlerCommand32Code00FF_PM() {
 			// JMP
 			uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
 			SET_VALUE_IN_SEGMENT_P(SR_CS, (*((uint16_t*)(target + 2))));
-			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((int32_t*)(target)));
+			context.index = GET_SEGMENT_POINTER(SR_CS) + (*((uint32_t*)(target)));
 		}
 		break;
 		case 0x6: {

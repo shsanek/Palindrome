@@ -80,7 +80,7 @@ fileprivate let callFarCommand = Command(
             .functionName,
             .vars,
             .settings([.bigAddress]),
-            "int%addressSize_t newIP = read%addressSize();",
+            "uint%addressSize_t newIP = read%addressSizeu();",
             "uint16_t newCS = read16u();",
             .template(pushValue("SR_VALUE(SR_CS)", size: "16")),
             .template(pushValue("((uint%addressSize_t)(context.index - GET_SEGMENT_POINTER(SR_CS)))", size: "%addressSize")),
@@ -96,7 +96,7 @@ func templateFarReturn() -> String {
     """
     uint%addressSize_t* sp = register%addressSizeu(BR_SP);
     SET_VALUE_IN_SEGMENT(1, *(int16_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp + %MOD / 8));
-    context.index = GET_SEGMENT_POINTER(1) + *(int%MOD_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp);
+    context.index = GET_SEGMENT_POINTER(1) + *(uint%MOD_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp);
     *sp += (%MOD / 8 + 2);
     """
 }
@@ -104,7 +104,7 @@ func templateFarReturn() -> String {
 func templateNearReturn() -> String {
     """
     uint%addressSize_t* sp = register%addressSizeu(BR_SP);
-    context.index = GET_SEGMENT_POINTER(1) + *(int%MOD_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp);
+    context.index = GET_SEGMENT_POINTER(1) + *(uint%MOD_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp);
     *sp += (%MOD / 8);
     """
 }
@@ -142,8 +142,9 @@ fileprivate let returnC2Command = Command(
             .functionName,
             .vars,
             .settings([.bigData]),
+            "uint16_t stackValue = read16u();",
             .template(templateNearReturn()),
-            "*sp += (read16u() * (%dataSize / 16));"
+            "*sp += (stackValue * (%dataSize / 16));"
         ]
     ),
     installFormatter: InitialFormatter()
@@ -162,8 +163,9 @@ fileprivate let returnCACommand = Command(
             .functionName,
             .vars,
             .settings([.bigData]),
+            "uint16_t stackValue = read16u();",
             .template(templateFarReturn()),
-            "*sp += (read16u() * (%dataSize / 16));"
+            "*sp += (stackValue * (%dataSize / 16));"
         ]
     ),
     installFormatter: InitialFormatter()

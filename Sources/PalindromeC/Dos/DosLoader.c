@@ -147,7 +147,7 @@ void fillMZDosHeader() {
     uint8_t *memory = GET_REAL_MOD_MEMORY_POINTER(0x179E);
 
     for (int i = 0; i < 528; i++) {
-        *(memory - 528 + i) = dosExeHeaderDamp[i]; // тут заголовок дума надо будет поменять этот моментик
+        *(memory - 528 + i) = dosPrinceExeHeaderDamp[i]; // тут заголовок дума надо будет поменять этот моментик
     }
 }
 
@@ -203,7 +203,7 @@ void loadMZDosProgram() {
     context.index = GET_SEGMENT_POINTER(SR_CS) + header.codeAddressIndex;
 
     for (int i = 0; i < header.numberOfShiftElement; i++) {
-        uint32_t offset = ((uint32_t)offsets[i * 2]) + ((uint32_t)offsets[i * 2 + 1]) * 16;
+        uint32_t offset = ((int32_t)offsets[i * 2]) + ((uint32_t)offsets[i * 2 + 1]) * 16;
         *(uint16_t*)(programMemory + offset) = (*(uint16_t*)(programMemory + offset)) + programBlock;
     }
     free(offsets);

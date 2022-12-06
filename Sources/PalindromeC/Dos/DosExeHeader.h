@@ -11,7 +11,6 @@
 #include <stdio.h>
 
 extern uint8_t dosExeHeaderDamp[528];
-extern uint8_t dos02F0HeaderDamp[128];
-extern uint8_t dos0020HeaderDamp[320];
+extern uint8_t dosPrinceExeHeaderDamp[528];
 
 #endif /* DosExeHeader_h */

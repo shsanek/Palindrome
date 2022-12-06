@@ -134,7 +134,23 @@ fileprivate let oftherCommand = Command(
                             "uint%addressSize_t* sp = register%addressSizeu(BR_SP);",
                             "*sp -= %MOD / 8;",
                             "*(uint%MOD_t*)(GET_SEGMENT_POINTER(SR_SS) + *sp) = (uint%MOD_t)(context.index - GET_SEGMENT_POINTER(SR_CS));",
-                            "context.index = GET_SEGMENT_POINTER(SR_CS) + (*((int%dataSize_t*)target));"
+                            "context.index = GET_SEGMENT_POINTER(SR_CS) + (*((uint%dataSize_t*)target));"
+                        ]
+                    )
+                ),
+                (
+                    code: "0x3",
+                    formatter: Formatter(
+                        customizers: [
+                            .settings([.bigData]),
+                            "// Call far",
+                            .formatter(targetMRMFormat),
+                            "uint%addressSize_t newIP = *(uint%addressSize_t*)target;",
+                            "uint16_t newCS = *(uint16_t*)(target + %addressSize / 8);",
+                            .template(pushValue("SR_VALUE(SR_CS)", size: "16")),
+                            .template(pushValue("((uint%addressSize_t)(context.index - GET_SEGMENT_POINTER(SR_CS)))", size: "%addressSize")),
+                            "SET_VALUE_IN_SEGMENT(SR_CS, newCS);",
+                            "context.index = GET_SEGMENT_POINTER(SR_CS) + newIP;"
                         ]
                     )
                 ),
@@ -157,7 +173,7 @@ fileprivate let oftherCommand = Command(
                             "// JMP",
                             .formatter(targetMRMFormat),
                             "SET_VALUE_IN_SEGMENT(SR_CS, (*((uint16_t*)(target + 2))));",
-                            "context.index = GET_SEGMENT_POINTER(SR_CS) + (*((int%dataSize_t*)(target)));"
+                            "context.index = GET_SEGMENT_POINTER(SR_CS) + (*((uint%dataSize_t*)(target)));"
                         ]
                     )
                 ),

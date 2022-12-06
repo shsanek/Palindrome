@@ -2,46 +2,46 @@ import Foundation
 
 
 fileprivate let twoOperandAdressMemoryMrmFormatters: [Int: String] = [
-    0: "*register16(%fR) + *register16(%lR)",
-    1: "*register16(%fR) + *register16(%lR) + ((int16_t)read8())",
-    2: "*register16(%fR) + *register16(%lR) + read16()"
+    0: "*register16u(%fR) + *register16u(%lR)",
+    1: "*register16u(%fR) + *register16u(%lR) + ((int16_t)read8u())",
+    2: "*register16u(%fR) + *register16u(%lR) + read16u()"
 ]
 
 fileprivate let operand16AdressMemoryMrm1Formatters: [Int: String] = [
-    0: "*register16(%fR)",
-    1: "*register16(%fR) + ((int16_t)read8())",
-    2: "*register16(%fR) + read16()"
+    0: "*register16u(%fR)",
+    1: "*register16u(%fR) + ((int16_t)read8())",
+    2: "*register16u(%fR) + read16u()"
 ]
 
 fileprivate let operand16AdressMemoryMrm2Formatters: [Int: String] = [
-    0: "read16()",
-    1: "*register16(%fR) + ((int16_t)read8())",
-    2: "*register16(%fR) + read16()"
+    0: "read16u()",
+    1: "*register16u(%fR) + ((int16_t)read8())",
+    2: "*register16u(%fR) + read16u()"
 ]
 
 
 fileprivate let operand32AdressMemoryMrm1Formatters: [Int: String] = [
-    0: "*register32(%fR)",
-    1: "*register32(%fR) + ((int16_t)read8())",
-    2: "*register32(%fR) + read32()"
+    0: "*register32u(%fR)",
+    1: "*register32u(%fR) + ((int16_t)read8())",
+    2: "*register32u(%fR) + read32u()"
 ]
 
 fileprivate let operand32AdressMemoryMrm2Formatters: [Int: String] = [
-    0: "read32()",
-    1: "*register32(%fR) + ((int16_t)read8())",
-    2: "*register32(%fR) + read32()"
+    0: "read32u()",
+    1: "*register32u(%fR) + ((int16_t)read8())",
+    2: "*register32u(%fR) + read32u()"
 ]
 
 fileprivate let operand32AdressMemorySIB1Formatters: [Int: String] = [
-    0: "*register32(%fR) + shift",
-    1: "*register32(%fR) + shift + ((int16_t)read8())",
-    2: "*register32(%fR) + shift + read32()"
+    0: "*register32u(%fR) + shift",
+    1: "*register32u(%fR) + shift + ((int16_t)read8())",
+    2: "*register32u(%fR) + shift + read32u()"
 ]
 
 fileprivate let operand32AdressMemorySIB2Formatters: [Int: String] = [
-    0: "read32() + shift",
-    1: "*register32(%fR) + shift + ((int16_t)read8())",
-    2: "*register32(%fR) + shift + read32()"
+    0: "read32u() + shift",
+    1: "*register32u(%fR) + shift + ((int16_t)read8())",
+    2: "*register32u(%fR) + shift + read32u()"
 ]
 
 fileprivate func generateSwitchFunction(
