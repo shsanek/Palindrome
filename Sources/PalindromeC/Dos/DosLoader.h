@@ -18,6 +18,7 @@
 #include "../Memory/RealMemoryManager.h"
 #include "../Base/Registers.h"
 
+void loadProgramWithShiftMemory(uint8_t *input, uint size, uint mod, uint16_t shift);
 void loadProgramInZeroMemory(uint8_t *program, uint size, uint mod);
 void returnToTopStack();
 void loadDosProgram(uint8_t *program, uint size);

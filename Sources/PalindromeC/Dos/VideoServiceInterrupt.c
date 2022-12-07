@@ -25,6 +25,11 @@ void callVideoServiceInterrupt(uint16_t a) {
         *regBH = DisplayActivePage;
         return;
     }
+    if (*regAXu == 0x1A00) {
+        *regBX = 0;
+        *regAL = 0x08;
+        return;
+    }
     ExternalCallFunctionEmpty(a);
 }
 

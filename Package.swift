@@ -13,7 +13,8 @@ let package = Package(
         .executable(
             name: "PalindromGenrate",
             targets: ["PalindromGenrate"]
-        )
+        ),
+        .executable(name: "TestGenerator", targets: ["TestGenerator"])
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
@@ -31,6 +32,7 @@ let package = Package(
         .target(
             name: "PalindromeC",
             dependencies: []),
+        .target(name: "TestGenerator"),
         .testTarget(
             name: "PalindromeCTest",
             dependencies: ["PalindromeC", "Palindrome", "PalindromGenrate", "Wolf"]

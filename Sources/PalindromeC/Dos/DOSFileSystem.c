@@ -227,9 +227,14 @@ void systemDOSFunction(uint16_t a) {
         }
         return;
     }
-    if (*regAH == 0x02) {
+    if (*regAH == 0x02) { // принт символа d
         printf("\n[T]%c\n", *regDL);
         *regAL = *regDL;
+        return;
+    }
+    if (*regAH == 0x4E) { // поиск файла
+        *regAXu = 0x01;
+        SET_FLAG(CF, 1);
         return;
     }
     ExternalCallFunctionEmpty(a);

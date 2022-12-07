@@ -19,7 +19,7 @@ void emptyIOPortInputFunction(uint16_t port, uint8_t* value, uint8_t size) {
 
 
 void IOPortInstall() {
-    for (int i = 0; i < 256; i++) {
+    for (int i = 0; i < 0xFFFF; i++) {
         context.ports[i].input = emptyIOPortInputFunction;
         context.ports[i].output = emptyIOPortOutputFunction;
     }

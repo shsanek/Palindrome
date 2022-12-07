@@ -103,29 +103,44 @@ void loadRealModForDos() {
     *(upMemory + 0x30 + 3) = 0xFF;
 }
 
-void loadProgramInZeroMemory(uint8_t *input, uint size, uint mod) {
+void loadProgramWithShiftMemory(uint8_t *input, uint size, uint mod, uint16_t shift) {
     loadRealModForDos();
 
-    uint16_t blocks = 0x1FFF;
+    RegFlagBaseValue = 0x2;
+    IOPL = 3;
+    IF = 1;
+    TF = 1;
+    NT = 1;
+    VM = 1;
+    
+    uint16_t blocks = 0x2FFF;
     int block = realModMemoryAllocate(blocks);
-    uint8_t *program = GET_REAL_MOD_MEMORY_POINTER(block);
-    memcpy(program, input, size);
+    uint8_t *program = GET_REAL_MOD_MEMORY_POINTER(0x176C);
+
+    memcpy(program + shift, input, size);
 
     context.program = program;
-    context.index = program;
+    context.index = program + shift;
 
     (program + 0xFFFF)[-2] = 0xCD;
     (program + 0xFFFF)[-1] = 0x20;
 
-    SET_VALUE_IN_SEGMENT(SR_CS, block);
-    SET_VALUE_IN_SEGMENT(SR_DS, block);
-    SET_VALUE_IN_SEGMENT(SR_ES, block);
-    SET_VALUE_IN_SEGMENT(SR_SS, block + (0x0FFF));
-    reg_SP_16u = 0x0FFF;
+    SET_VALUE_IN_SEGMENT(SR_CS, 0x176C);
+    SET_VALUE_IN_SEGMENT(SR_DS, 0x176C);
+    SET_VALUE_IN_SEGMENT(SR_ES, 0x176C);
+    SET_VALUE_IN_SEGMENT(SR_SS, 0x176C);
+
+    reg_SP_16u = 0xFFEE;
 
     context.mod = mod;
 
-    returnToTopStack();
+    if (shift == 0) {
+        returnToTopStack();
+    }
+}
+
+void loadProgramInZeroMemory(uint8_t *program, uint size, uint mod) {
+    loadProgramWithShiftMemory(program, size, mod, 0x00);
 }
 
 void returnToTopStack() {

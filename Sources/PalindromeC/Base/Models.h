@@ -52,7 +52,7 @@ typedef struct Context {
     CommandInfo lastCommandInfo;
 
     ExternalCallFunction functions[0xFFFF];
-    IOPort ports[256];
+    IOPort ports[0xFFFF];
 
     // продолжаем пока 0 если стало 0x14 обновляем мод
     char end;

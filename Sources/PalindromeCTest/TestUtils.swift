@@ -49,11 +49,22 @@ extension String {
         }
         return result
     }
+
     func convertFullOutToTest() -> String {
-        removeAllTwoSpaceSpace()
+        var log = removeAllTwoSpaceSpace()
             .split(separator: "\n")
             .filter({ $0.hasPrefix("AX=") || $0.hasPrefix("DS=") })
-            .joined(separator: "\n")
+        log.removeFirst()
+        log.removeFirst()
+        return log.joined(separator: "\n")
+    }
+
+    func convertFullOutToCode() -> String {
+        let code = removeAllTwoSpaceSpace()
+            .split(separator: "\n")
+            .filter({ !$0.hasPrefix("AX=") && !$0.hasPrefix("DS=") && !$0.hasPrefix(" ") })
+            .map( {  String($0.components(separatedBy: " ")[1]) })
+        return code.joined(separator: "\n")
     }
 
     func convertIgnore(flags: [String]) -> String {

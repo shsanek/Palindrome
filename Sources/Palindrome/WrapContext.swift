@@ -7,6 +7,9 @@ public enum Mod {
 }
 
 public enum LoadProgramType {
+    case test(mod: Mod, codeShift: UInt16)
+
+
     /// программа будет загружена с 0 байта, ограничения `(программа) < 0xFFFF - 2`
     /// все регистры 0 кроме стековых
     /// годиться только для тестов
@@ -77,6 +80,8 @@ public final class WrapContext {
             loadDosProgram(pointer, UInt32(size))
         case .simple(let mod):
             loadProgramInZeroMemory(pointer, UInt32(size), mod == .mod16 ? 0: 1)
+        case .test(let mod, let codeShift):
+            loadProgramWithShiftMemory(pointer, UInt32(size), mod == .mod16 ? 0: 1, codeShift)
         }
     }
 

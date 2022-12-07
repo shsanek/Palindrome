@@ -348,13 +348,12 @@ final class FirstTest: XCTestCase {
 //
 //        TAssert(error == nil || error == number)
 //
-//        runFullModeToEndWithStop(0);
+//        runFullModeToEndWithStop(100000);
 //    }
 
     func test10() throws {
         testContext = TestContextPrince
         let wrapContext = WrapContext()
-        wrapContext.context?[0].mod = 1
 
         let testPath = "/Users/alexandershipin/Documents/projects/Palindrome/Sources/TestSource/prince/reg.txt"
 //        let out = String(data: try! Data(contentsOf: URL(fileURLWithPath: "/Users/alexandershipin/Documents/projects/Palindrome/Sources/TestSource/prince/full.log")), encoding: .utf8)!.convertFullOutToTest()
@@ -370,8 +369,8 @@ final class FirstTest: XCTestCase {
 //        let out = String(data: try! Data(contentsOf: URL(fileURLWithPath: "/Users/alexandershipin/Documents/projects/Palindrome/Sources/TestSource/prince/full_1.log")), encoding: .utf8)!.convertFullOutToTest()
 //        try! out.write(toFile: testPath, atomically: true, encoding: .utf8)
 
-        wrapContext.addVirtualFolder("D:\\", path: "/Users/alexandershipin/Downloads/pop1dem/POP1DEMO")
-        wrapContext.addVirtualFolder("C:\\", path: "/Users/alexandershipin/Downloads/pop1dem/POP1DEMO")
+        wrapContext.addVirtualFolder("D:\\", path: "/Users/alexandershipin/Downloads/pop1dem/POP1DEMO/")
+        wrapContext.addVirtualFolder("C:\\", path: "/Users/alexandershipin/Downloads/pop1dem/POP1DEMO/")
 
         wrapContext.loadProgram(with: .program, programm)
 
@@ -386,6 +385,59 @@ final class FirstTest: XCTestCase {
         let error = result.getErrorCommand(source: source)
 
         TAssert(error == nil || error == number)
+
+        // runFullModeToEndWithStop(100000);
+    }
+
+    func test99_00Add() {
+        baseTestFunction(name: "Add", suffix: "_ff")
+        baseTestFunction(name: "Add", suffix: "_00")
+    }
+
+    func test99_01Or() {
+        baseTestFunction(name: "Or", suffix: "_00")
+        baseTestFunction(name: "Or", suffix: "_ff")
+    }
+
+    func test99_02And() {
+        baseTestFunction(name: "And", suffix: "_00")
+        baseTestFunction(name: "And", suffix: "_ff")
+    }
+
+    func test99_03Xor() {
+        baseTestFunction(name: "Xor", suffix: "_00")
+        baseTestFunction(name: "Xor", suffix: "_ff")
+    }
+
+    func test99_04Neg() {
+        baseTestFunction(name: "Neg", suffix: "_ff")
+    }
+
+    func test99_05Not() {
+        baseTestFunction(name: "Not", suffix: "_00")
+    }
+
+    func test99_06Sbb() {
+        baseTestFunction(name: "Sbb", suffix: "_ff")
+    }
+
+    func baseTestFunction(name: String, suffix: String, file: StaticString = #file, line: UInt = #line, function: String = #function) {
+        let path = "/Users/alexandershipin/Documents/projects/Palindrome/Sources/TestSource/Base/" + name + "/full\(suffix).log"
+        let content = try! String(contentsOfFile: path)
+
+        let code = content.convertFullOutToCode()
+        let log = content.convertFullOutToTest()
+        let count = code.split(separator: "\n").count - 1
+
+        let wrapContext = WrapContext()
+        wrapContext.loadProgram(with: .test(mod: .mod16, codeShift: 0x100), code)
+
+        let value = runFullModeToEndWithStopForTest(Int32(count))
+        let result = String(cString: value!)
+        value?.deallocate()
+
+        let error = result.getErrorCommand(source: log)
+        TAssert(error == nil || error == count, file: file, line: line, function: function)
     }
 }
 

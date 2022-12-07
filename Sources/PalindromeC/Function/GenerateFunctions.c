@@ -8024,6 +8024,54 @@ void handlerCommand16Code00EB_RM() {
 	LOG("%s","Jmp");
 	context.index += read8();
 }
+//In
+void handlerCommand16Code00ECP66_RM() {
+	LOG("%s","In");
+	uint16_t port = *regDXu;
+	context.ports[port].input(port, (uint8_t*)register8u(0x00), 8 / 4);
+}
+//In
+void handlerCommand16Code00EC_RM() {
+	LOG("%s","In");
+	uint16_t port = *regDXu;
+	context.ports[port].input(port, (uint8_t*)register8u(0x00), 8 / 4);
+}
+//In
+void handlerCommand16Code00EDP66_RM() {
+	LOG("%s","In");
+	uint16_t port = *regDXu;
+	context.ports[port].input(port, (uint8_t*)register32u(0x00), 32 / 4);
+}
+//In
+void handlerCommand16Code00ED_RM() {
+	LOG("%s","In");
+	uint16_t port = *regDXu;
+	context.ports[port].input(port, (uint8_t*)register16u(0x00), 16 / 4);
+}
+//Out
+void handlerCommand16Code00EEP66_RM() {
+	LOG("%s","Out");
+	uint16_t port = *regDXu;
+	context.ports[port].output(port, (uint8_t*)register8u(0x00), 8 / 4);
+}
+//Out
+void handlerCommand16Code00EE_RM() {
+	LOG("%s","Out");
+	uint16_t port = *regDXu;
+	context.ports[port].output(port, (uint8_t*)register8u(0x00), 8 / 4);
+}
+//Out
+void handlerCommand16Code00EFP66_RM() {
+	LOG("%s","Out");
+	uint16_t port = *regDXu;
+	context.ports[port].output(port, (uint8_t*)register32u(0x00), 32 / 4);
+}
+//Out
+void handlerCommand16Code00EF_RM() {
+	LOG("%s","Out");
+	uint16_t port = *regDXu;
+	context.ports[port].output(port, (uint8_t*)register16u(0x00), 16 / 4);
+}
 //External call
 void handlerCommand16Code00F1_RM() {
 	LOG("%s","External call");
@@ -17991,6 +18039,54 @@ void handlerCommand32Code00E9_RM() {
 void handlerCommand32Code00EB_RM() {
 	LOG("%s","Jmp");
 	context.index += read8();
+}
+//In
+void handlerCommand32Code00ECP66_RM() {
+	LOG("%s","In");
+	uint16_t port = *regDXu;
+	context.ports[port].input(port, (uint8_t*)register8u(0x00), 8 / 4);
+}
+//In
+void handlerCommand32Code00EC_RM() {
+	LOG("%s","In");
+	uint16_t port = *regDXu;
+	context.ports[port].input(port, (uint8_t*)register8u(0x00), 8 / 4);
+}
+//In
+void handlerCommand32Code00EDP66_RM() {
+	LOG("%s","In");
+	uint16_t port = *regDXu;
+	context.ports[port].input(port, (uint8_t*)register16u(0x00), 16 / 4);
+}
+//In
+void handlerCommand32Code00ED_RM() {
+	LOG("%s","In");
+	uint16_t port = *regDXu;
+	context.ports[port].input(port, (uint8_t*)register32u(0x00), 32 / 4);
+}
+//Out
+void handlerCommand32Code00EEP66_RM() {
+	LOG("%s","Out");
+	uint16_t port = *regDXu;
+	context.ports[port].output(port, (uint8_t*)register8u(0x00), 8 / 4);
+}
+//Out
+void handlerCommand32Code00EE_RM() {
+	LOG("%s","Out");
+	uint16_t port = *regDXu;
+	context.ports[port].output(port, (uint8_t*)register8u(0x00), 8 / 4);
+}
+//Out
+void handlerCommand32Code00EFP66_RM() {
+	LOG("%s","Out");
+	uint16_t port = *regDXu;
+	context.ports[port].output(port, (uint8_t*)register16u(0x00), 16 / 4);
+}
+//Out
+void handlerCommand32Code00EF_RM() {
+	LOG("%s","Out");
+	uint16_t port = *regDXu;
+	context.ports[port].output(port, (uint8_t*)register32u(0x00), 32 / 4);
 }
 //External call
 void handlerCommand32Code00F1_RM() {
@@ -27960,6 +28056,54 @@ void handlerCommand16Code00EB_PM() {
 	LOG("%s","Jmp");
 	context.index += read8();
 }
+//In
+void handlerCommand16Code00ECP66_PM() {
+	LOG("%s","In");
+	uint16_t port = *regDXu;
+	context.ports[port].input(port, (uint8_t*)register8u(0x00), 8 / 4);
+}
+//In
+void handlerCommand16Code00EC_PM() {
+	LOG("%s","In");
+	uint16_t port = *regDXu;
+	context.ports[port].input(port, (uint8_t*)register8u(0x00), 8 / 4);
+}
+//In
+void handlerCommand16Code00EDP66_PM() {
+	LOG("%s","In");
+	uint16_t port = *regDXu;
+	context.ports[port].input(port, (uint8_t*)register32u(0x00), 32 / 4);
+}
+//In
+void handlerCommand16Code00ED_PM() {
+	LOG("%s","In");
+	uint16_t port = *regDXu;
+	context.ports[port].input(port, (uint8_t*)register16u(0x00), 16 / 4);
+}
+//Out
+void handlerCommand16Code00EEP66_PM() {
+	LOG("%s","Out");
+	uint16_t port = *regDXu;
+	context.ports[port].output(port, (uint8_t*)register8u(0x00), 8 / 4);
+}
+//Out
+void handlerCommand16Code00EE_PM() {
+	LOG("%s","Out");
+	uint16_t port = *regDXu;
+	context.ports[port].output(port, (uint8_t*)register8u(0x00), 8 / 4);
+}
+//Out
+void handlerCommand16Code00EFP66_PM() {
+	LOG("%s","Out");
+	uint16_t port = *regDXu;
+	context.ports[port].output(port, (uint8_t*)register32u(0x00), 32 / 4);
+}
+//Out
+void handlerCommand16Code00EF_PM() {
+	LOG("%s","Out");
+	uint16_t port = *regDXu;
+	context.ports[port].output(port, (uint8_t*)register16u(0x00), 16 / 4);
+}
 //External call
 void handlerCommand16Code00F1_PM() {
 	LOG("%s","External call");
@@ -37928,6 +38072,54 @@ void handlerCommand32Code00EB_PM() {
 	LOG("%s","Jmp");
 	context.index += read8();
 }
+//In
+void handlerCommand32Code00ECP66_PM() {
+	LOG("%s","In");
+	uint16_t port = *regDXu;
+	context.ports[port].input(port, (uint8_t*)register8u(0x00), 8 / 4);
+}
+//In
+void handlerCommand32Code00EC_PM() {
+	LOG("%s","In");
+	uint16_t port = *regDXu;
+	context.ports[port].input(port, (uint8_t*)register8u(0x00), 8 / 4);
+}
+//In
+void handlerCommand32Code00EDP66_PM() {
+	LOG("%s","In");
+	uint16_t port = *regDXu;
+	context.ports[port].input(port, (uint8_t*)register16u(0x00), 16 / 4);
+}
+//In
+void handlerCommand32Code00ED_PM() {
+	LOG("%s","In");
+	uint16_t port = *regDXu;
+	context.ports[port].input(port, (uint8_t*)register32u(0x00), 32 / 4);
+}
+//Out
+void handlerCommand32Code00EEP66_PM() {
+	LOG("%s","Out");
+	uint16_t port = *regDXu;
+	context.ports[port].output(port, (uint8_t*)register8u(0x00), 8 / 4);
+}
+//Out
+void handlerCommand32Code00EE_PM() {
+	LOG("%s","Out");
+	uint16_t port = *regDXu;
+	context.ports[port].output(port, (uint8_t*)register8u(0x00), 8 / 4);
+}
+//Out
+void handlerCommand32Code00EFP66_PM() {
+	LOG("%s","Out");
+	uint16_t port = *regDXu;
+	context.ports[port].output(port, (uint8_t*)register16u(0x00), 16 / 4);
+}
+//Out
+void handlerCommand32Code00EF_PM() {
+	LOG("%s","Out");
+	uint16_t port = *regDXu;
+	context.ports[port].output(port, (uint8_t*)register32u(0x00), 32 / 4);
+}
 //External call
 void handlerCommand32Code00F1_PM() {
 	LOG("%s","External call");
@@ -40318,6 +40510,14 @@ void handlerCommand32Code01CF_PM() {
 	commandFunctions[233] = handlerCommand16Code00E9_RM;
 	commandFunctions[233 | 0x0400] = handlerCommand16Code00E9P66_RM;
 	commandFunctions[235] = handlerCommand16Code00EB_RM;
+	commandFunctions[236] = handlerCommand16Code00EC_RM;
+	commandFunctions[236 | 0x0400] = handlerCommand16Code00ECP66_RM;
+	commandFunctions[237] = handlerCommand16Code00ED_RM;
+	commandFunctions[237 | 0x0400] = handlerCommand16Code00EDP66_RM;
+	commandFunctions[238] = handlerCommand16Code00EE_RM;
+	commandFunctions[238 | 0x0400] = handlerCommand16Code00EEP66_RM;
+	commandFunctions[239] = handlerCommand16Code00EF_RM;
+	commandFunctions[239 | 0x0400] = handlerCommand16Code00EFP66_RM;
 	commandFunctions[241] = handlerCommand16Code00F1_RM;
 	commandFunctions[245] = handlerCommand16Code00F5_RM;
 	commandFunctions[246] = handlerCommand16Code00F6_RM;
@@ -40857,6 +41057,14 @@ void installCommandFunction32RM() {
 	commandFunctions[233] = handlerCommand32Code00E9_RM;
 	commandFunctions[233 | 0x0400] = handlerCommand32Code00E9P66_RM;
 	commandFunctions[235] = handlerCommand32Code00EB_RM;
+	commandFunctions[236] = handlerCommand32Code00EC_RM;
+	commandFunctions[236 | 0x0400] = handlerCommand32Code00ECP66_RM;
+	commandFunctions[237] = handlerCommand32Code00ED_RM;
+	commandFunctions[237 | 0x0400] = handlerCommand32Code00EDP66_RM;
+	commandFunctions[238] = handlerCommand32Code00EE_RM;
+	commandFunctions[238 | 0x0400] = handlerCommand32Code00EEP66_RM;
+	commandFunctions[239] = handlerCommand32Code00EF_RM;
+	commandFunctions[239 | 0x0400] = handlerCommand32Code00EFP66_RM;
 	commandFunctions[241] = handlerCommand32Code00F1_RM;
 	commandFunctions[245] = handlerCommand32Code00F5_RM;
 	commandFunctions[246] = handlerCommand32Code00F6_RM;
@@ -41396,6 +41604,14 @@ void installCommandFunction16PM() {
 	commandFunctions[233] = handlerCommand16Code00E9_PM;
 	commandFunctions[233 | 0x0400] = handlerCommand16Code00E9P66_PM;
 	commandFunctions[235] = handlerCommand16Code00EB_PM;
+	commandFunctions[236] = handlerCommand16Code00EC_PM;
+	commandFunctions[236 | 0x0400] = handlerCommand16Code00ECP66_PM;
+	commandFunctions[237] = handlerCommand16Code00ED_PM;
+	commandFunctions[237 | 0x0400] = handlerCommand16Code00EDP66_PM;
+	commandFunctions[238] = handlerCommand16Code00EE_PM;
+	commandFunctions[238 | 0x0400] = handlerCommand16Code00EEP66_PM;
+	commandFunctions[239] = handlerCommand16Code00EF_PM;
+	commandFunctions[239 | 0x0400] = handlerCommand16Code00EFP66_PM;
 	commandFunctions[241] = handlerCommand16Code00F1_PM;
 	commandFunctions[245] = handlerCommand16Code00F5_PM;
 	commandFunctions[246] = handlerCommand16Code00F6_PM;
@@ -41935,6 +42151,14 @@ void installCommandFunction32PM() {
 	commandFunctions[233] = handlerCommand32Code00E9_PM;
 	commandFunctions[233 | 0x0400] = handlerCommand32Code00E9P66_PM;
 	commandFunctions[235] = handlerCommand32Code00EB_PM;
+	commandFunctions[236] = handlerCommand32Code00EC_PM;
+	commandFunctions[236 | 0x0400] = handlerCommand32Code00ECP66_PM;
+	commandFunctions[237] = handlerCommand32Code00ED_PM;
+	commandFunctions[237 | 0x0400] = handlerCommand32Code00EDP66_PM;
+	commandFunctions[238] = handlerCommand32Code00EE_PM;
+	commandFunctions[238 | 0x0400] = handlerCommand32Code00EEP66_PM;
+	commandFunctions[239] = handlerCommand32Code00EF_PM;
+	commandFunctions[239 | 0x0400] = handlerCommand32Code00EFP66_PM;
 	commandFunctions[241] = handlerCommand32Code00F1_PM;
 	commandFunctions[245] = handlerCommand32Code00F5_PM;
 	commandFunctions[246] = handlerCommand32Code00F6_PM;
