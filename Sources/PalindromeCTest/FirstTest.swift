@@ -16,7 +16,7 @@ final class FirstTest: XCTestCase {
             "BB1100B90D00B40E8A0743CD10E2F9CD2048656C6C6F2C20576F726C6421"
         )
 
-        DebugOnlyPrint = 1;
+        DebugOnlyPrint = 1
 
         runFullModeToEndWithStop(10000)
 
@@ -28,6 +28,7 @@ final class FirstTest: XCTestCase {
 
     func test01() throws {
         let wrapContext = WrapContext()
+        DebugOnlyPrint = 1
         wrapContext.loadProgram(
             with: .simple(mod: .mod32),
             """
@@ -73,6 +74,7 @@ final class FirstTest: XCTestCase {
 
     func test02() throws {
         let wrapContext = WrapContext()
+        DebugOnlyPrint = 1
         wrapContext.loadProgram(
             with: .simple(mod: .mod32),
             """
@@ -102,7 +104,7 @@ final class FirstTest: XCTestCase {
 
     func test03() throws {
         let wrapContext = WrapContext()
-
+        DebugOnlyPrint = 1
         let programm = try! Data(
             contentsOf: URL.init(
                 fileURLWithPath: basePath + "FactorialTest/factorial.bin"
@@ -124,7 +126,7 @@ final class FirstTest: XCTestCase {
 
     func test03_O1() throws {
         let wrapContext = WrapContext()
-
+        DebugOnlyPrint = 1
         let programm = try! Data(
             contentsOf: URL.init(
                 fileURLWithPath: basePath + "FactorialTest/factorialO1.bin"
@@ -146,7 +148,7 @@ final class FirstTest: XCTestCase {
 
     func test04() throws {
         let wrapContext = WrapContext()
-
+        DebugOnlyPrint = 1
         let programm = try! Data(
             contentsOf: URL.init(
                 fileURLWithPath: basePath + "SortTest/sort.bin"
@@ -169,7 +171,7 @@ final class FirstTest: XCTestCase {
 
     func test04_O1() throws {
         let wrapContext = WrapContext()
-
+        DebugOnlyPrint = 1
         let programm = try! Data(
             contentsOf: URL.init(
                 fileURLWithPath: basePath + "SortTest/sortO1.bin"
@@ -192,7 +194,7 @@ final class FirstTest: XCTestCase {
 
     func test05() throws {
         let wrapContext = WrapContext()
-
+        DebugOnlyPrint = 1
         let programm = try! Data(
             contentsOf: URL.init(
                 fileURLWithPath: basePath + "NegTest/neg.bin"
@@ -234,7 +236,7 @@ final class FirstTest: XCTestCase {
 
     func test06() throws {
         let wrapContext = WrapContext()
-
+        DebugOnlyPrint = 1
         let programm = try! Data(
             contentsOf: URL.init(
                 fileURLWithPath: basePath + "FpuTest/fpu.bin"
@@ -440,6 +442,32 @@ final class FirstTest: XCTestCase {
 
     func test99_09IMul() {
         baseTestFunction(name: "IMul", suffix: "")
+    }
+
+    func test99_10Rol() {
+        baseTestFunction(name: "Rol", suffix: "_one_00")
+        baseTestFunction(name: "Rol", suffix: "_one_ff")
+    }
+
+    func test99_11Sar() {
+        baseTestFunction(name: "Sar", suffix: "_one_00")
+        baseTestFunction(name: "Sar", suffix: "_ff")
+    }
+
+    func test99_12Shl() {
+        baseTestFunction(name: "Shl", suffix: "_one_00")
+        baseTestFunction(name: "Shl", suffix: "_ff")
+    }
+
+    func test99_13Shr() {
+        baseTestFunction(name: "Shr", suffix: "_one_00")
+        baseTestFunction(name: "Shr", suffix: "_one_ff")
+        baseTestFunction(name: "Shr", suffix: "_00")
+    }
+
+    func test99_14Rcr() {
+        baseTestFunction(name: "Rcr", suffix: "_00")
+        baseTestFunction(name: "Rcr", suffix: "_ff")
     }
 
     func baseTestFunction(name: String, suffix: String, file: StaticString = #file, line: UInt = #line, function: String = #function) {

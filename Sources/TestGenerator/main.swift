@@ -25,9 +25,10 @@ func makeCommand(name: String, arg1: String, arg2: String?, arg3: String?) -> St
 
 let mathCommands = ["ADD", "OR", "ADC", "SBB", "AND", "SUB", "XOR"]
 let mathMulDivCommands = ["MUL", "DIV", "IMUL", "IDIV"]
+let shiftCommands = ["SHL", "SHR", "SAL", "SAR", "ROL", "ROR", "RCL", "RCR"]
 
-let oneOperandCommands = ["NOT", "NEG"]
-let specialValue: [UInt16] = [0x0000, 0x0001, 0xFFFF, 0x8000, 0x7FFF, 0x7F, 0x80, 0x8001, 0x7FFE, 0x7E, 0x81]
+let oneOperandCommands = ["SHL", "SHR", "SAL", "SAR", "ROL", "ROR", "RCL", "RCR"]//["NOT", "NEG"]
+let specialValue: [UInt16] = [0x0000, 0x0001, 0xFFFF, 0x8000, 0x7FFF, 0x7F, 0x80, 0x8001, 0x7FFE, 0x7E, 0x81, 0x10, 0x8, 0x11, 0x9]
 
 extension UInt8 {
     public var rawHex: String {
@@ -42,18 +43,19 @@ extension UInt16 {
 }
 
 func generateMove(value1: String, value2: String?, w: Bool) -> String {
-    var result = ""
+    var result: String = ""
     if (w) {
         result.append("\(makeMove(target: "AX", value: value1))\n")
         if let value2 {
-            result.append("\(makeMove(target: "DX", value: value2))\n")
-            result.append("\(makeMove(target: "BX", value: value2))\n")
+            result.append("\(makeMove(target: "CL", value: String(value2.suffix(2))))\n")
+            // result.append("\(makeMove(target: "BX", value: value2))\n")
+            //result.append("\(makeMove(target: "DI", value: value2))\n")
         }
     } else {
-        result.append("\(makeMove(target: "AL", value: String(value1.suffix(2))))\n")
+        result.append("\(makeMove(target: "AH", value: String(value1.suffix(2))))\n")
         if let value2 {
-            result.append("\(makeMove(target: "DL", value: String(value2.suffix(2))))\n")
-            result.append("\(makeMove(target: "BL", value: String(value2.suffix(2)))))\n")
+            result.append("\(makeMove(target: "CL", value: String(value2.suffix(2))))\n")
+            //result.append("\(makeMove(target: "BL", value: String(value2.suffix(2))))\n")
         }
     }
     return result
@@ -68,9 +70,9 @@ func generateCommand(for command: String, value1: String, value2: String? = nil,
         if !useData {
             result.append(generateMove(value1: value1, value2: value2, w: w))
             if (w) {
-                result.append("\(makeCommand(name: command, arg1: "AX", arg2: "DX", arg3: nil))\n")
+                result.append("\(makeCommand(name: command, arg1: "AX", arg2: "CL", arg3: nil))\n")
             } else {
-                result.append("\(makeCommand(name: command, arg1: "AL", arg2: "DL", arg3: nil))\n")
+                result.append("\(makeCommand(name: command, arg1: "AL", arg2: "CL", arg3: nil))\n")
             }
         } else {
             if (w) {
@@ -95,8 +97,8 @@ func generateCommand(for command: String, value1: String, value2: String? = nil,
 
 func generateMulCommand(for command: String, value1: String, value2: String, useData: Bool, w: Bool = true) -> String {
     var value2 = value2
-    if !((w && value2 != "0000") || (!w && String(value1.suffix(2)) != "00")) {
-        value2 = "1"
+    if (w && value2 == "0000") || (!w && String(value2.suffix(2)) == "00") {
+        value2 = "1111"
     }
     var result = ""
     result.append("PUSH BP\nPUSH BP\nPOPF\n")
@@ -105,14 +107,18 @@ func generateMulCommand(for command: String, value1: String, value2: String, use
     result.append(generateMove(value1: value1, value2: value2, w: w))
     if (!useData) {
         if (w) {
+            result.append("\(makeMove(target: "DX", value: "0000"))\n")
             result.append("\(makeCommand(name: command, arg1: "BX", arg2: nil, arg3: nil))\n")
         } else {
+            result.append("\(makeMove(target: "AH", value: "00"))\n")
             result.append("\(makeCommand(name: command, arg1: "BL", arg2: nil, arg3: nil))\n")
         }
     } else {
         if (w) {
+            result.append("\(makeMove(target: "DX", value: "0000"))\n")
             result.append("\(makeCommand(name: command, arg1: "AX", arg2: "BX", arg3: value1))\n")
         } else {
+            result.append("\(makeMove(target: "AH", value: "00"))\n")
             result.append("\(makeCommand(name: command, arg1: "AL", arg2: "BL", arg3: String(value1.suffix(2))))\n")
         }
     }
@@ -200,50 +206,52 @@ func generateOneOperand(for command: String, randomCount: Int) -> String {
 
 var result = ""
 
-//for command in mathCommands {
-//    result.append("\"\(command)_flag_of\": \"\"\"\n")
-//    result.append("\(makeMove(target: "SI", value: "SP"))\n")
-//    result.append("\(makeMove(target: "BP", value: "0000"))\n")
-//    result.append(generate(for: command, randomCount: 10))
-//    result.append("int 20\n")
-//    result.append("\"\"\",\n")
-//}
-//for command in oneOperandCommands {
-//    result.append("\"\(command)_flag_off\": \"\"\"\n")
-//    result.append("\(makeMove(target: "SI", value: "SP"))\n")
-//    result.append("\(makeMove(target: "BP", value: "0000"))\n")
-//    result.append(generate(for: command, randomCount: 10))
-//    result.append("int 20\n")
-//    result.append("\"\"\",\n")
-//}
-//for command in mathCommands {
-//    result.append("\"\(command)_flag_on\": \"\"\"\n")
-//    result.append("\(makeMove(target: "SI", value: "SP"))\n")
-//    result.append("\(makeMove(target: "BP", value: "FFFF"))\n")
-//    result.append(generate(for: command, randomCount: 10))
-//    result.append("int 20\n")
-//    result.append("\"\"\",\n")
-//}
-//for command in oneOperandCommands {
-//    result.append("\"\(command)_flag_on\": \"\"\"\n")
-//    result.append("\(makeMove(target: "SI", value: "SP"))\n")
-//    result.append("\(makeMove(target: "BP", value: "FFFF"))\n")
-//    result.append(generate(for: command, randomCount: 10))
-//    result.append("int 20\n")
-//    result.append("\"\"\",\n")
-//}
-
-
-for command in mathMulDivCommands {
-    result.append("\"\(command)_flag\": \"\"\"\n")
+for command in shiftCommands {
+    result.append("\"\(command)_flag_of\": \"\"\"\n")
     result.append("\(makeMove(target: "SI", value: "SP"))\n")
     result.append("\(makeMove(target: "BP", value: "0000"))\n")
-    result.append(generateMul(for: command, randomCount: 10))
+    result.append(generate(for: command, randomCount: 5))
     result.append("int 20\n")
     result.append("\"\"\",\n")
 }
-result = result.lowercased()
+for command in oneOperandCommands {
+    result.append("\"\(command)_one_flag_off\": \"\"\"\n")
+    result.append("\(makeMove(target: "SI", value: "SP"))\n")
+    result.append("\(makeMove(target: "BP", value: "0000"))\n")
+    result.append(generate(for: command, randomCount: 5))
+    result.append("int 20\n")
+    result.append("\"\"\",\n")
+}
+for command in shiftCommands {
+    result.append("\"\(command)_flag_on\": \"\"\"\n")
+    result.append("\(makeMove(target: "SI", value: "SP"))\n")
+    result.append("\(makeMove(target: "BP", value: "FFFF"))\n")
+    result.append(generate(for: command, randomCount: 5))
+    result.append("int 20\n")
+    result.append("\"\"\",\n")
+}
+for command in oneOperandCommands {
+    result.append("\"\(command)_one_flag_on\": \"\"\"\n")
+    result.append("\(makeMove(target: "SI", value: "SP"))\n")
+    result.append("\(makeMove(target: "BP", value: "FFFF"))\n")
+    result.append(generate(for: command, randomCount: 5))
+    result.append("int 20\n")
+    result.append("\"\"\",\n")
+}
 
-print(result)
+
+//for command in mathMulDivCommands {
+//    result.append("\"\(command)_flag\": \"\"\"\n")
+//    result.append("\(makeMove(target: "SI", value: "SP"))\n")
+//    result.append("\(makeMove(target: "BP", value: "0000"))\n")
+//    result.append(generateMul(for: command, randomCount: 10))
+//    result.append("int 20\n")
+//    result.append("\"\"\",\n")
+//}
+result = result.lowercased()
+result.removeLast()
+result.removeLast()
+
+print("[" + result + "]")
 
 print("\n")

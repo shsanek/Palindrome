@@ -7949,49 +7949,49 @@ void handlerCommand16Code00E3_RM() {
 void handlerCommand16Code00E4P66_RM() {
 	LOG("%s","In");
 	uint8_t port = read8u();
-	context.ports[port].input(port, (uint8_t*)register8u(0x00), 8 / 4);
+	context.ports[port].input(port, (uint8_t*)register8u(0x00), 8 / 8);
 }
 //In
 void handlerCommand16Code00E4_RM() {
 	LOG("%s","In");
 	uint8_t port = read8u();
-	context.ports[port].input(port, (uint8_t*)register8u(0x00), 8 / 4);
+	context.ports[port].input(port, (uint8_t*)register8u(0x00), 8 / 8);
 }
 //In
 void handlerCommand16Code00E5P66_RM() {
 	LOG("%s","In");
 	uint8_t port = read8u();
-	context.ports[port].input(port, (uint8_t*)register32u(0x00), 32 / 4);
+	context.ports[port].input(port, (uint8_t*)register32u(0x00), 32 / 8);
 }
 //In
 void handlerCommand16Code00E5_RM() {
 	LOG("%s","In");
 	uint8_t port = read8u();
-	context.ports[port].input(port, (uint8_t*)register16u(0x00), 16 / 4);
+	context.ports[port].input(port, (uint8_t*)register16u(0x00), 16 / 8);
 }
 //Out
 void handlerCommand16Code00E6P66_RM() {
 	LOG("%s","Out");
 	uint8_t port = read8u();
-	context.ports[port].output(port, (uint8_t*)register8u(0x00), 8 / 4);
+	context.ports[port].output(port, (uint8_t*)register8u(0x00), 8 / 8);
 }
 //Out
 void handlerCommand16Code00E6_RM() {
 	LOG("%s","Out");
 	uint8_t port = read8u();
-	context.ports[port].output(port, (uint8_t*)register8u(0x00), 8 / 4);
+	context.ports[port].output(port, (uint8_t*)register8u(0x00), 8 / 8);
 }
 //Out
 void handlerCommand16Code00E7P66_RM() {
 	LOG("%s","Out");
 	uint8_t port = read8u();
-	context.ports[port].output(port, (uint8_t*)register32u(0x00), 32 / 4);
+	context.ports[port].output(port, (uint8_t*)register32u(0x00), 32 / 8);
 }
 //Out
 void handlerCommand16Code00E7_RM() {
 	LOG("%s","Out");
 	uint8_t port = read8u();
-	context.ports[port].output(port, (uint8_t*)register16u(0x00), 16 / 4);
+	context.ports[port].output(port, (uint8_t*)register16u(0x00), 16 / 8);
 }
 //Call
 void handlerCommand16Code00E8P66_RM() {
@@ -8028,49 +8028,49 @@ void handlerCommand16Code00EB_RM() {
 void handlerCommand16Code00ECP66_RM() {
 	LOG("%s","In");
 	uint16_t port = *regDXu;
-	context.ports[port].input(port, (uint8_t*)register8u(0x00), 8 / 4);
+	context.ports[port].input(port, (uint8_t*)register8u(0x00), 8 / 8);
 }
 //In
 void handlerCommand16Code00EC_RM() {
 	LOG("%s","In");
 	uint16_t port = *regDXu;
-	context.ports[port].input(port, (uint8_t*)register8u(0x00), 8 / 4);
+	context.ports[port].input(port, (uint8_t*)register8u(0x00), 8 / 8);
 }
 //In
 void handlerCommand16Code00EDP66_RM() {
 	LOG("%s","In");
 	uint16_t port = *regDXu;
-	context.ports[port].input(port, (uint8_t*)register32u(0x00), 32 / 4);
+	context.ports[port].input(port, (uint8_t*)register32u(0x00), 32 / 8);
 }
 //In
 void handlerCommand16Code00ED_RM() {
 	LOG("%s","In");
 	uint16_t port = *regDXu;
-	context.ports[port].input(port, (uint8_t*)register16u(0x00), 16 / 4);
+	context.ports[port].input(port, (uint8_t*)register16u(0x00), 16 / 8);
 }
 //Out
 void handlerCommand16Code00EEP66_RM() {
 	LOG("%s","Out");
 	uint16_t port = *regDXu;
-	context.ports[port].output(port, (uint8_t*)register8u(0x00), 8 / 4);
+	context.ports[port].output(port, (uint8_t*)register8u(0x00), 8 / 8);
 }
 //Out
 void handlerCommand16Code00EE_RM() {
 	LOG("%s","Out");
 	uint16_t port = *regDXu;
-	context.ports[port].output(port, (uint8_t*)register8u(0x00), 8 / 4);
+	context.ports[port].output(port, (uint8_t*)register8u(0x00), 8 / 8);
 }
 //Out
 void handlerCommand16Code00EFP66_RM() {
 	LOG("%s","Out");
 	uint16_t port = *regDXu;
-	context.ports[port].output(port, (uint8_t*)register32u(0x00), 32 / 4);
+	context.ports[port].output(port, (uint8_t*)register32u(0x00), 32 / 8);
 }
 //Out
 void handlerCommand16Code00EF_RM() {
 	LOG("%s","Out");
 	uint16_t port = *regDXu;
-	context.ports[port].output(port, (uint8_t*)register16u(0x00), 16 / 4);
+	context.ports[port].output(port, (uint8_t*)register16u(0x00), 16 / 8);
 }
 //External call
 void handlerCommand16Code00F1_RM() {
@@ -17965,49 +17965,49 @@ void handlerCommand32Code00E3_RM() {
 void handlerCommand32Code00E4P66_RM() {
 	LOG("%s","In");
 	uint8_t port = read8u();
-	context.ports[port].input(port, (uint8_t*)register8u(0x00), 8 / 4);
+	context.ports[port].input(port, (uint8_t*)register8u(0x00), 8 / 8);
 }
 //In
 void handlerCommand32Code00E4_RM() {
 	LOG("%s","In");
 	uint8_t port = read8u();
-	context.ports[port].input(port, (uint8_t*)register8u(0x00), 8 / 4);
+	context.ports[port].input(port, (uint8_t*)register8u(0x00), 8 / 8);
 }
 //In
 void handlerCommand32Code00E5P66_RM() {
 	LOG("%s","In");
 	uint8_t port = read8u();
-	context.ports[port].input(port, (uint8_t*)register16u(0x00), 16 / 4);
+	context.ports[port].input(port, (uint8_t*)register16u(0x00), 16 / 8);
 }
 //In
 void handlerCommand32Code00E5_RM() {
 	LOG("%s","In");
 	uint8_t port = read8u();
-	context.ports[port].input(port, (uint8_t*)register32u(0x00), 32 / 4);
+	context.ports[port].input(port, (uint8_t*)register32u(0x00), 32 / 8);
 }
 //Out
 void handlerCommand32Code00E6P66_RM() {
 	LOG("%s","Out");
 	uint8_t port = read8u();
-	context.ports[port].output(port, (uint8_t*)register8u(0x00), 8 / 4);
+	context.ports[port].output(port, (uint8_t*)register8u(0x00), 8 / 8);
 }
 //Out
 void handlerCommand32Code00E6_RM() {
 	LOG("%s","Out");
 	uint8_t port = read8u();
-	context.ports[port].output(port, (uint8_t*)register8u(0x00), 8 / 4);
+	context.ports[port].output(port, (uint8_t*)register8u(0x00), 8 / 8);
 }
 //Out
 void handlerCommand32Code00E7P66_RM() {
 	LOG("%s","Out");
 	uint8_t port = read8u();
-	context.ports[port].output(port, (uint8_t*)register16u(0x00), 16 / 4);
+	context.ports[port].output(port, (uint8_t*)register16u(0x00), 16 / 8);
 }
 //Out
 void handlerCommand32Code00E7_RM() {
 	LOG("%s","Out");
 	uint8_t port = read8u();
-	context.ports[port].output(port, (uint8_t*)register32u(0x00), 32 / 4);
+	context.ports[port].output(port, (uint8_t*)register32u(0x00), 32 / 8);
 }
 //Call
 void handlerCommand32Code00E8P66_RM() {
@@ -18044,49 +18044,49 @@ void handlerCommand32Code00EB_RM() {
 void handlerCommand32Code00ECP66_RM() {
 	LOG("%s","In");
 	uint16_t port = *regDXu;
-	context.ports[port].input(port, (uint8_t*)register8u(0x00), 8 / 4);
+	context.ports[port].input(port, (uint8_t*)register8u(0x00), 8 / 8);
 }
 //In
 void handlerCommand32Code00EC_RM() {
 	LOG("%s","In");
 	uint16_t port = *regDXu;
-	context.ports[port].input(port, (uint8_t*)register8u(0x00), 8 / 4);
+	context.ports[port].input(port, (uint8_t*)register8u(0x00), 8 / 8);
 }
 //In
 void handlerCommand32Code00EDP66_RM() {
 	LOG("%s","In");
 	uint16_t port = *regDXu;
-	context.ports[port].input(port, (uint8_t*)register16u(0x00), 16 / 4);
+	context.ports[port].input(port, (uint8_t*)register16u(0x00), 16 / 8);
 }
 //In
 void handlerCommand32Code00ED_RM() {
 	LOG("%s","In");
 	uint16_t port = *regDXu;
-	context.ports[port].input(port, (uint8_t*)register32u(0x00), 32 / 4);
+	context.ports[port].input(port, (uint8_t*)register32u(0x00), 32 / 8);
 }
 //Out
 void handlerCommand32Code00EEP66_RM() {
 	LOG("%s","Out");
 	uint16_t port = *regDXu;
-	context.ports[port].output(port, (uint8_t*)register8u(0x00), 8 / 4);
+	context.ports[port].output(port, (uint8_t*)register8u(0x00), 8 / 8);
 }
 //Out
 void handlerCommand32Code00EE_RM() {
 	LOG("%s","Out");
 	uint16_t port = *regDXu;
-	context.ports[port].output(port, (uint8_t*)register8u(0x00), 8 / 4);
+	context.ports[port].output(port, (uint8_t*)register8u(0x00), 8 / 8);
 }
 //Out
 void handlerCommand32Code00EFP66_RM() {
 	LOG("%s","Out");
 	uint16_t port = *regDXu;
-	context.ports[port].output(port, (uint8_t*)register16u(0x00), 16 / 4);
+	context.ports[port].output(port, (uint8_t*)register16u(0x00), 16 / 8);
 }
 //Out
 void handlerCommand32Code00EF_RM() {
 	LOG("%s","Out");
 	uint16_t port = *regDXu;
-	context.ports[port].output(port, (uint8_t*)register32u(0x00), 32 / 4);
+	context.ports[port].output(port, (uint8_t*)register32u(0x00), 32 / 8);
 }
 //External call
 void handlerCommand32Code00F1_RM() {
@@ -27981,49 +27981,49 @@ void handlerCommand16Code00E3_PM() {
 void handlerCommand16Code00E4P66_PM() {
 	LOG("%s","In");
 	uint8_t port = read8u();
-	context.ports[port].input(port, (uint8_t*)register8u(0x00), 8 / 4);
+	context.ports[port].input(port, (uint8_t*)register8u(0x00), 8 / 8);
 }
 //In
 void handlerCommand16Code00E4_PM() {
 	LOG("%s","In");
 	uint8_t port = read8u();
-	context.ports[port].input(port, (uint8_t*)register8u(0x00), 8 / 4);
+	context.ports[port].input(port, (uint8_t*)register8u(0x00), 8 / 8);
 }
 //In
 void handlerCommand16Code00E5P66_PM() {
 	LOG("%s","In");
 	uint8_t port = read8u();
-	context.ports[port].input(port, (uint8_t*)register32u(0x00), 32 / 4);
+	context.ports[port].input(port, (uint8_t*)register32u(0x00), 32 / 8);
 }
 //In
 void handlerCommand16Code00E5_PM() {
 	LOG("%s","In");
 	uint8_t port = read8u();
-	context.ports[port].input(port, (uint8_t*)register16u(0x00), 16 / 4);
+	context.ports[port].input(port, (uint8_t*)register16u(0x00), 16 / 8);
 }
 //Out
 void handlerCommand16Code00E6P66_PM() {
 	LOG("%s","Out");
 	uint8_t port = read8u();
-	context.ports[port].output(port, (uint8_t*)register8u(0x00), 8 / 4);
+	context.ports[port].output(port, (uint8_t*)register8u(0x00), 8 / 8);
 }
 //Out
 void handlerCommand16Code00E6_PM() {
 	LOG("%s","Out");
 	uint8_t port = read8u();
-	context.ports[port].output(port, (uint8_t*)register8u(0x00), 8 / 4);
+	context.ports[port].output(port, (uint8_t*)register8u(0x00), 8 / 8);
 }
 //Out
 void handlerCommand16Code00E7P66_PM() {
 	LOG("%s","Out");
 	uint8_t port = read8u();
-	context.ports[port].output(port, (uint8_t*)register32u(0x00), 32 / 4);
+	context.ports[port].output(port, (uint8_t*)register32u(0x00), 32 / 8);
 }
 //Out
 void handlerCommand16Code00E7_PM() {
 	LOG("%s","Out");
 	uint8_t port = read8u();
-	context.ports[port].output(port, (uint8_t*)register16u(0x00), 16 / 4);
+	context.ports[port].output(port, (uint8_t*)register16u(0x00), 16 / 8);
 }
 //Call
 void handlerCommand16Code00E8P66_PM() {
@@ -28060,49 +28060,49 @@ void handlerCommand16Code00EB_PM() {
 void handlerCommand16Code00ECP66_PM() {
 	LOG("%s","In");
 	uint16_t port = *regDXu;
-	context.ports[port].input(port, (uint8_t*)register8u(0x00), 8 / 4);
+	context.ports[port].input(port, (uint8_t*)register8u(0x00), 8 / 8);
 }
 //In
 void handlerCommand16Code00EC_PM() {
 	LOG("%s","In");
 	uint16_t port = *regDXu;
-	context.ports[port].input(port, (uint8_t*)register8u(0x00), 8 / 4);
+	context.ports[port].input(port, (uint8_t*)register8u(0x00), 8 / 8);
 }
 //In
 void handlerCommand16Code00EDP66_PM() {
 	LOG("%s","In");
 	uint16_t port = *regDXu;
-	context.ports[port].input(port, (uint8_t*)register32u(0x00), 32 / 4);
+	context.ports[port].input(port, (uint8_t*)register32u(0x00), 32 / 8);
 }
 //In
 void handlerCommand16Code00ED_PM() {
 	LOG("%s","In");
 	uint16_t port = *regDXu;
-	context.ports[port].input(port, (uint8_t*)register16u(0x00), 16 / 4);
+	context.ports[port].input(port, (uint8_t*)register16u(0x00), 16 / 8);
 }
 //Out
 void handlerCommand16Code00EEP66_PM() {
 	LOG("%s","Out");
 	uint16_t port = *regDXu;
-	context.ports[port].output(port, (uint8_t*)register8u(0x00), 8 / 4);
+	context.ports[port].output(port, (uint8_t*)register8u(0x00), 8 / 8);
 }
 //Out
 void handlerCommand16Code00EE_PM() {
 	LOG("%s","Out");
 	uint16_t port = *regDXu;
-	context.ports[port].output(port, (uint8_t*)register8u(0x00), 8 / 4);
+	context.ports[port].output(port, (uint8_t*)register8u(0x00), 8 / 8);
 }
 //Out
 void handlerCommand16Code00EFP66_PM() {
 	LOG("%s","Out");
 	uint16_t port = *regDXu;
-	context.ports[port].output(port, (uint8_t*)register32u(0x00), 32 / 4);
+	context.ports[port].output(port, (uint8_t*)register32u(0x00), 32 / 8);
 }
 //Out
 void handlerCommand16Code00EF_PM() {
 	LOG("%s","Out");
 	uint16_t port = *regDXu;
-	context.ports[port].output(port, (uint8_t*)register16u(0x00), 16 / 4);
+	context.ports[port].output(port, (uint8_t*)register16u(0x00), 16 / 8);
 }
 //External call
 void handlerCommand16Code00F1_PM() {
@@ -37997,49 +37997,49 @@ void handlerCommand32Code00E3_PM() {
 void handlerCommand32Code00E4P66_PM() {
 	LOG("%s","In");
 	uint8_t port = read8u();
-	context.ports[port].input(port, (uint8_t*)register8u(0x00), 8 / 4);
+	context.ports[port].input(port, (uint8_t*)register8u(0x00), 8 / 8);
 }
 //In
 void handlerCommand32Code00E4_PM() {
 	LOG("%s","In");
 	uint8_t port = read8u();
-	context.ports[port].input(port, (uint8_t*)register8u(0x00), 8 / 4);
+	context.ports[port].input(port, (uint8_t*)register8u(0x00), 8 / 8);
 }
 //In
 void handlerCommand32Code00E5P66_PM() {
 	LOG("%s","In");
 	uint8_t port = read8u();
-	context.ports[port].input(port, (uint8_t*)register16u(0x00), 16 / 4);
+	context.ports[port].input(port, (uint8_t*)register16u(0x00), 16 / 8);
 }
 //In
 void handlerCommand32Code00E5_PM() {
 	LOG("%s","In");
 	uint8_t port = read8u();
-	context.ports[port].input(port, (uint8_t*)register32u(0x00), 32 / 4);
+	context.ports[port].input(port, (uint8_t*)register32u(0x00), 32 / 8);
 }
 //Out
 void handlerCommand32Code00E6P66_PM() {
 	LOG("%s","Out");
 	uint8_t port = read8u();
-	context.ports[port].output(port, (uint8_t*)register8u(0x00), 8 / 4);
+	context.ports[port].output(port, (uint8_t*)register8u(0x00), 8 / 8);
 }
 //Out
 void handlerCommand32Code00E6_PM() {
 	LOG("%s","Out");
 	uint8_t port = read8u();
-	context.ports[port].output(port, (uint8_t*)register8u(0x00), 8 / 4);
+	context.ports[port].output(port, (uint8_t*)register8u(0x00), 8 / 8);
 }
 //Out
 void handlerCommand32Code00E7P66_PM() {
 	LOG("%s","Out");
 	uint8_t port = read8u();
-	context.ports[port].output(port, (uint8_t*)register16u(0x00), 16 / 4);
+	context.ports[port].output(port, (uint8_t*)register16u(0x00), 16 / 8);
 }
 //Out
 void handlerCommand32Code00E7_PM() {
 	LOG("%s","Out");
 	uint8_t port = read8u();
-	context.ports[port].output(port, (uint8_t*)register32u(0x00), 32 / 4);
+	context.ports[port].output(port, (uint8_t*)register32u(0x00), 32 / 8);
 }
 //Call
 void handlerCommand32Code00E8P66_PM() {
@@ -38076,49 +38076,49 @@ void handlerCommand32Code00EB_PM() {
 void handlerCommand32Code00ECP66_PM() {
 	LOG("%s","In");
 	uint16_t port = *regDXu;
-	context.ports[port].input(port, (uint8_t*)register8u(0x00), 8 / 4);
+	context.ports[port].input(port, (uint8_t*)register8u(0x00), 8 / 8);
 }
 //In
 void handlerCommand32Code00EC_PM() {
 	LOG("%s","In");
 	uint16_t port = *regDXu;
-	context.ports[port].input(port, (uint8_t*)register8u(0x00), 8 / 4);
+	context.ports[port].input(port, (uint8_t*)register8u(0x00), 8 / 8);
 }
 //In
 void handlerCommand32Code00EDP66_PM() {
 	LOG("%s","In");
 	uint16_t port = *regDXu;
-	context.ports[port].input(port, (uint8_t*)register16u(0x00), 16 / 4);
+	context.ports[port].input(port, (uint8_t*)register16u(0x00), 16 / 8);
 }
 //In
 void handlerCommand32Code00ED_PM() {
 	LOG("%s","In");
 	uint16_t port = *regDXu;
-	context.ports[port].input(port, (uint8_t*)register32u(0x00), 32 / 4);
+	context.ports[port].input(port, (uint8_t*)register32u(0x00), 32 / 8);
 }
 //Out
 void handlerCommand32Code00EEP66_PM() {
 	LOG("%s","Out");
 	uint16_t port = *regDXu;
-	context.ports[port].output(port, (uint8_t*)register8u(0x00), 8 / 4);
+	context.ports[port].output(port, (uint8_t*)register8u(0x00), 8 / 8);
 }
 //Out
 void handlerCommand32Code00EE_PM() {
 	LOG("%s","Out");
 	uint16_t port = *regDXu;
-	context.ports[port].output(port, (uint8_t*)register8u(0x00), 8 / 4);
+	context.ports[port].output(port, (uint8_t*)register8u(0x00), 8 / 8);
 }
 //Out
 void handlerCommand32Code00EFP66_PM() {
 	LOG("%s","Out");
 	uint16_t port = *regDXu;
-	context.ports[port].output(port, (uint8_t*)register16u(0x00), 16 / 4);
+	context.ports[port].output(port, (uint8_t*)register16u(0x00), 16 / 8);
 }
 //Out
 void handlerCommand32Code00EF_PM() {
 	LOG("%s","Out");
 	uint16_t port = *regDXu;
-	context.ports[port].output(port, (uint8_t*)register32u(0x00), 32 / 4);
+	context.ports[port].output(port, (uint8_t*)register32u(0x00), 32 / 8);
 }
 //External call
 void handlerCommand32Code00F1_PM() {

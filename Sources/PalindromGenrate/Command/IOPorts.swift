@@ -14,7 +14,7 @@ fileprivate let inputCommand = Command(
             .functionName,
             .settings([.changeableData]),
             "uint8_t port = read8u();",
-            "context.ports[port].input(port, (uint8_t*)register%dataSizeu(0x00), %dataSize / 4);"
+            "context.ports[port].input(port, (uint8_t*)register%dataSizeu(0x00), %dataSize / 8);"
         ]
     ),
     installFormatter: InitialFormatter()
@@ -36,7 +36,7 @@ fileprivate let outputRegCommand = Command(
             .functionName,
             .settings([.changeableData]),
             "uint8_t port = read8u();",
-            "context.ports[port].output(port, (uint8_t*)register%dataSizeu(0x00), %dataSize / 4);"
+            "context.ports[port].output(port, (uint8_t*)register%dataSizeu(0x00), %dataSize / 8);"
         ]
     ),
     installFormatter: InitialFormatter()
@@ -58,7 +58,7 @@ fileprivate let inputRegCommand = Command(
             .functionName,
             .settings([.changeableData]),
             "uint16_t port = *regDXu;",
-            "context.ports[port].input(port, (uint8_t*)register%dataSizeu(0x00), %dataSize / 4);"
+            "context.ports[port].input(port, (uint8_t*)register%dataSizeu(0x00), %dataSize / 8);"
         ]
     ),
     installFormatter: InitialFormatter()
@@ -80,7 +80,7 @@ fileprivate let outputCommand = Command(
             .functionName,
             .settings([.changeableData]),
             "uint16_t port = *regDXu;",
-            "context.ports[port].output(port, (uint8_t*)register%dataSizeu(0x00), %dataSize / 4);"
+            "context.ports[port].output(port, (uint8_t*)register%dataSizeu(0x00), %dataSize / 8);"
         ]
     ),
     installFormatter: InitialFormatter()
