@@ -1,0 +1,2060 @@
+AX=0000  BX=0000  CX=0000  DX=0000  SP=FFEE  BP=0000  SI=0000  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0100   NV UP EI PL NZ NA PO NC           
+176C:0100 89E6          MOV     SI,SP                                           
+
+AX=0000  BX=0000  CX=0000  DX=0000  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0102   NV UP EI PL NZ NA PO NC           
+176C:0102 BD0000        MOV     BP,0000                                         
+
+AX=0000  BX=0000  CX=0000  DX=0000  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0105   NV UP EI PL NZ NA PO NC           
+176C:0105 55            PUSH    BP                                              
+
+AX=0000  BX=0000  CX=0000  DX=0000  SP=FFEC  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0106   NV UP EI PL NZ NA PO NC           
+176C:0106 55            PUSH    BP                                              
+
+AX=0000  BX=0000  CX=0000  DX=0000  SP=FFEA  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0107   NV UP EI PL NZ NA PO NC           
+176C:0107 9D            POPF                                                    
+
+AX=0000  BX=0000  CX=0000  DX=0000  SP=FFEC  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0108   NV UP DI PL NZ NA PO NC           
+176C:0108 89F4          MOV     SP,SI                                           
+
+AX=0000  BX=0000  CX=0000  DX=0000  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=010A   NV UP DI PL NZ NA PO NC           
+176C:010A B0AA          MOV     AL,AA                                           
+
+AX=00AA  BX=0000  CX=0000  DX=0000  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=010C   NV UP DI PL NZ NA PO NC           
+176C:010C B2A7          MOV     DL,A7                                           
+
+AX=00AA  BX=0000  CX=0000  DX=00A7  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=010E   NV UP DI PL NZ NA PO NC           
+176C:010E B3A7          MOV     BL,A7                                           
+
+AX=00AA  BX=00A7  CX=0000  DX=00A7  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0110   NV UP DI PL NZ NA PO NC           
+176C:0110 F6E3          MUL     BL                                              
+
+AX=6EE6  BX=00A7  CX=0000  DX=00A7  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0112   OV UP DI NG NZ NA PO CY           
+176C:0112 55            PUSH    BP                                              
+
+AX=6EE6  BX=00A7  CX=0000  DX=00A7  SP=FFEC  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0113   OV UP DI NG NZ NA PO CY           
+176C:0113 55            PUSH    BP                                              
+
+AX=6EE6  BX=00A7  CX=0000  DX=00A7  SP=FFEA  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0114   OV UP DI NG NZ NA PO CY           
+176C:0114 9D            POPF                                                    
+
+AX=6EE6  BX=00A7  CX=0000  DX=00A7  SP=FFEC  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0115   NV UP DI PL NZ NA PO NC           
+176C:0115 89F4          MOV     SP,SI                                           
+
+AX=6EE6  BX=00A7  CX=0000  DX=00A7  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0117   NV UP DI PL NZ NA PO NC           
+176C:0117 B8AA2F        MOV     AX,2FAA                                         
+
+AX=2FAA  BX=00A7  CX=0000  DX=00A7  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=011A   NV UP DI PL NZ NA PO NC           
+176C:011A BAA75F        MOV     DX,5FA7                                         
+
+AX=2FAA  BX=00A7  CX=0000  DX=5FA7  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=011D   NV UP DI PL NZ NA PO NC           
+176C:011D BBA75F        MOV     BX,5FA7                                         
+
+AX=2FAA  BX=5FA7  CX=0000  DX=5FA7  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0120   NV UP DI PL NZ NA PO NC           
+176C:0120 F7E3          MUL     BX                                              
+
+AX=2DE6  BX=5FA7  CX=0000  DX=11CF  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0122   OV UP DI PL NZ NA PO CY           
+176C:0122 55            PUSH    BP                                              
+
+AX=2DE6  BX=5FA7  CX=0000  DX=11CF  SP=FFEC  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0123   OV UP DI PL NZ NA PO CY           
+176C:0123 55            PUSH    BP                                              
+
+AX=2DE6  BX=5FA7  CX=0000  DX=11CF  SP=FFEA  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0124   OV UP DI PL NZ NA PO CY           
+176C:0124 9D            POPF                                                    
+
+AX=2DE6  BX=5FA7  CX=0000  DX=11CF  SP=FFEC  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0125   NV UP DI PL NZ NA PO NC           
+176C:0125 89F4          MOV     SP,SI                                           
+
+AX=2DE6  BX=5FA7  CX=0000  DX=11CF  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0127   NV UP DI PL NZ NA PO NC           
+176C:0127 B026          MOV     AL,26                                           
+
+AX=2D26  BX=5FA7  CX=0000  DX=11CF  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0129   NV UP DI PL NZ NA PO NC           
+176C:0129 B2D2          MOV     DL,D2                                           
+
+AX=2D26  BX=5FA7  CX=0000  DX=11D2  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=012B   NV UP DI PL NZ NA PO NC           
+176C:012B B3D2          MOV     BL,D2                                           
+
+AX=2D26  BX=5FD2  CX=0000  DX=11D2  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=012D   NV UP DI PL NZ NA PO NC           
+176C:012D F6E3          MUL     BL                                              
+
+AX=1F2C  BX=5FD2  CX=0000  DX=11D2  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=012F   OV UP DI PL NZ NA PO CY           
+176C:012F 55            PUSH    BP                                              
+
+AX=1F2C  BX=5FD2  CX=0000  DX=11D2  SP=FFEC  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0130   OV UP DI PL NZ NA PO CY           
+176C:0130 55            PUSH    BP                                              
+
+AX=1F2C  BX=5FD2  CX=0000  DX=11D2  SP=FFEA  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0131   OV UP DI PL NZ NA PO CY           
+176C:0131 9D            POPF                                                    
+
+AX=1F2C  BX=5FD2  CX=0000  DX=11D2  SP=FFEC  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0132   NV UP DI PL NZ NA PO NC           
+176C:0132 89F4          MOV     SP,SI                                           
+
+AX=1F2C  BX=5FD2  CX=0000  DX=11D2  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0134   NV UP DI PL NZ NA PO NC           
+176C:0134 B826B7        MOV     AX,B726                                         
+
+AX=B726  BX=5FD2  CX=0000  DX=11D2  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0137   NV UP DI PL NZ NA PO NC           
+176C:0137 BAD2F1        MOV     DX,F1D2                                         
+
+AX=B726  BX=5FD2  CX=0000  DX=F1D2  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=013A   NV UP DI PL NZ NA PO NC           
+176C:013A BBD2F1        MOV     BX,F1D2                                         
+
+AX=B726  BX=F1D2  CX=0000  DX=F1D2  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=013D   NV UP DI PL NZ NA PO NC           
+176C:013D F7E3          MUL     BX                                              
+
+AX=032C  BX=F1D2  CX=0000  DX=AD01  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=013F   OV UP DI PL NZ NA PO CY           
+176C:013F 55            PUSH    BP                                              
+
+AX=032C  BX=F1D2  CX=0000  DX=AD01  SP=FFEC  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0140   OV UP DI PL NZ NA PO CY           
+176C:0140 55            PUSH    BP                                              
+
+AX=032C  BX=F1D2  CX=0000  DX=AD01  SP=FFEA  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0141   OV UP DI PL NZ NA PO CY           
+176C:0141 9D            POPF                                                    
+
+AX=032C  BX=F1D2  CX=0000  DX=AD01  SP=FFEC  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0142   NV UP DI PL NZ NA PO NC           
+176C:0142 89F4          MOV     SP,SI                                           
+
+AX=032C  BX=F1D2  CX=0000  DX=AD01  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0144   NV UP DI PL NZ NA PO NC           
+176C:0144 B04B          MOV     AL,4B                                           
+
+AX=034B  BX=F1D2  CX=0000  DX=AD01  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0146   NV UP DI PL NZ NA PO NC           
+176C:0146 B233          MOV     DL,33                                           
+
+AX=034B  BX=F1D2  CX=0000  DX=AD33  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0148   NV UP DI PL NZ NA PO NC           
+176C:0148 B333          MOV     BL,33                                           
+
+AX=034B  BX=F133  CX=0000  DX=AD33  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=014A   NV UP DI PL NZ NA PO NC           
+176C:014A F6E3          MUL     BL                                              
+
+AX=0EF1  BX=F133  CX=0000  DX=AD33  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=014C   OV UP DI NG NZ NA PO CY           
+176C:014C 55            PUSH    BP                                              
+
+AX=0EF1  BX=F133  CX=0000  DX=AD33  SP=FFEC  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=014D   OV UP DI NG NZ NA PO CY           
+176C:014D 55            PUSH    BP                                              
+
+AX=0EF1  BX=F133  CX=0000  DX=AD33  SP=FFEA  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=014E   OV UP DI NG NZ NA PO CY           
+176C:014E 9D            POPF                                                    
+
+AX=0EF1  BX=F133  CX=0000  DX=AD33  SP=FFEC  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=014F   NV UP DI PL NZ NA PO NC           
+176C:014F 89F4          MOV     SP,SI                                           
+
+AX=0EF1  BX=F133  CX=0000  DX=AD33  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0151   NV UP DI PL NZ NA PO NC           
+176C:0151 B84B9E        MOV     AX,9E4B                                         
+
+AX=9E4B  BX=F133  CX=0000  DX=AD33  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0154   NV UP DI PL NZ NA PO NC           
+176C:0154 BA3342        MOV     DX,4233                                         
+
+AX=9E4B  BX=F133  CX=0000  DX=4233  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0157   NV UP DI PL NZ NA PO NC           
+176C:0157 BB3342        MOV     BX,4233                                         
+
+AX=9E4B  BX=4233  CX=0000  DX=4233  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=015A   NV UP DI PL NZ NA PO NC           
+176C:015A F7E3          MUL     BX                                              
+
+AX=DEF1  BX=4233  CX=0000  DX=28EE  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=015C   OV UP DI NG NZ NA PO CY           
+176C:015C 55            PUSH    BP                                              
+
+AX=DEF1  BX=4233  CX=0000  DX=28EE  SP=FFEC  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=015D   OV UP DI NG NZ NA PO CY           
+176C:015D 55            PUSH    BP                                              
+
+AX=DEF1  BX=4233  CX=0000  DX=28EE  SP=FFEA  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=015E   OV UP DI NG NZ NA PO CY           
+176C:015E 9D            POPF                                                    
+
+AX=DEF1  BX=4233  CX=0000  DX=28EE  SP=FFEC  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=015F   NV UP DI PL NZ NA PO NC           
+176C:015F 89F4          MOV     SP,SI                                           
+
+AX=DEF1  BX=4233  CX=0000  DX=28EE  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0161   NV UP DI PL NZ NA PO NC           
+176C:0161 B018          MOV     AL,18                                           
+
+AX=DE18  BX=4233  CX=0000  DX=28EE  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0163   NV UP DI PL NZ NA PO NC           
+176C:0163 B209          MOV     DL,09                                           
+
+AX=DE18  BX=4233  CX=0000  DX=2809  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0165   NV UP DI PL NZ NA PO NC           
+176C:0165 B309          MOV     BL,09                                           
+
+AX=DE18  BX=4209  CX=0000  DX=2809  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0167   NV UP DI PL NZ NA PO NC           
+176C:0167 F6E3          MUL     BL                                              
+
+AX=00D8  BX=4209  CX=0000  DX=2809  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0169   NV UP DI NG NZ NA PE NC           
+176C:0169 55            PUSH    BP                                              
+
+AX=00D8  BX=4209  CX=0000  DX=2809  SP=FFEC  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=016A   NV UP DI NG NZ NA PE NC           
+176C:016A 55            PUSH    BP                                              
+
+AX=00D8  BX=4209  CX=0000  DX=2809  SP=FFEA  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=016B   NV UP DI NG NZ NA PE NC           
+176C:016B 9D            POPF                                                    
+
+AX=00D8  BX=4209  CX=0000  DX=2809  SP=FFEC  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=016C   NV UP DI PL NZ NA PO NC           
+176C:016C 89F4          MOV     SP,SI                                           
+
+AX=00D8  BX=4209  CX=0000  DX=2809  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=016E   NV UP DI PL NZ NA PO NC           
+176C:016E B8185E        MOV     AX,5E18                                         
+
+AX=5E18  BX=4209  CX=0000  DX=2809  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0171   NV UP DI PL NZ NA PO NC           
+176C:0171 BA0939        MOV     DX,3909                                         
+
+AX=5E18  BX=4209  CX=0000  DX=3909  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0174   NV UP DI PL NZ NA PO NC           
+176C:0174 BB0939        MOV     BX,3909                                         
+
+AX=5E18  BX=3909  CX=0000  DX=3909  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0177   NV UP DI PL NZ NA PO NC           
+176C:0177 F7E3          MUL     BX                                              
+
+AX=A6D8  BX=3909  CX=0000  DX=14F6  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0179   OV UP DI NG NZ NA PE CY           
+176C:0179 55            PUSH    BP                                              
+
+AX=A6D8  BX=3909  CX=0000  DX=14F6  SP=FFEC  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=017A   OV UP DI NG NZ NA PE CY           
+176C:017A 55            PUSH    BP                                              
+
+AX=A6D8  BX=3909  CX=0000  DX=14F6  SP=FFEA  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=017B   OV UP DI NG NZ NA PE CY           
+176C:017B 9D            POPF                                                    
+
+AX=A6D8  BX=3909  CX=0000  DX=14F6  SP=FFEC  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=017C   NV UP DI PL NZ NA PO NC           
+176C:017C 89F4          MOV     SP,SI                                           
+
+AX=A6D8  BX=3909  CX=0000  DX=14F6  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=017E   NV UP DI PL NZ NA PO NC           
+176C:017E B074          MOV     AL,74                                           
+
+AX=A674  BX=3909  CX=0000  DX=14F6  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0180   NV UP DI PL NZ NA PO NC           
+176C:0180 B283          MOV     DL,83                                           
+
+AX=A674  BX=3909  CX=0000  DX=1483  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0182   NV UP DI PL NZ NA PO NC           
+176C:0182 B383          MOV     BL,83                                           
+
+AX=A674  BX=3983  CX=0000  DX=1483  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0184   NV UP DI PL NZ NA PO NC           
+176C:0184 F6E3          MUL     BL                                              
+
+AX=3B5C  BX=3983  CX=0000  DX=1483  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0186   OV UP DI PL NZ NA PE CY           
+176C:0186 55            PUSH    BP                                              
+
+AX=3B5C  BX=3983  CX=0000  DX=1483  SP=FFEC  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0187   OV UP DI PL NZ NA PE CY           
+176C:0187 55            PUSH    BP                                              
+
+AX=3B5C  BX=3983  CX=0000  DX=1483  SP=FFEA  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0188   OV UP DI PL NZ NA PE CY           
+176C:0188 9D            POPF                                                    
+
+AX=3B5C  BX=3983  CX=0000  DX=1483  SP=FFEC  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0189   NV UP DI PL NZ NA PO NC           
+176C:0189 89F4          MOV     SP,SI                                           
+
+AX=3B5C  BX=3983  CX=0000  DX=1483  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=018B   NV UP DI PL NZ NA PO NC           
+176C:018B B87456        MOV     AX,5674                                         
+
+AX=5674  BX=3983  CX=0000  DX=1483  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=018E   NV UP DI PL NZ NA PO NC           
+176C:018E BA83DE        MOV     DX,DE83                                         
+
+AX=5674  BX=3983  CX=0000  DX=DE83  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0191   NV UP DI PL NZ NA PO NC           
+176C:0191 BB83DE        MOV     BX,DE83                                         
+
+AX=5674  BX=DE83  CX=0000  DX=DE83  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0194   NV UP DI PL NZ NA PO NC           
+176C:0194 F7E3          MUL     BX                                              
+
+AX=D55C  BX=DE83  CX=0000  DX=4B24  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0196   OV UP DI NG NZ NA PE CY           
+176C:0196 55            PUSH    BP                                              
+
+AX=D55C  BX=DE83  CX=0000  DX=4B24  SP=FFEC  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0197   OV UP DI NG NZ NA PE CY           
+176C:0197 55            PUSH    BP                                              
+
+AX=D55C  BX=DE83  CX=0000  DX=4B24  SP=FFEA  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0198   OV UP DI NG NZ NA PE CY           
+176C:0198 9D            POPF                                                    
+
+AX=D55C  BX=DE83  CX=0000  DX=4B24  SP=FFEC  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0199   NV UP DI PL NZ NA PO NC           
+176C:0199 89F4          MOV     SP,SI                                           
+
+AX=D55C  BX=DE83  CX=0000  DX=4B24  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=019B   NV UP DI PL NZ NA PO NC           
+176C:019B B078          MOV     AL,78                                           
+
+AX=D578  BX=DE83  CX=0000  DX=4B24  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=019D   NV UP DI PL NZ NA PO NC           
+176C:019D B231          MOV     DL,31                                           
+
+AX=D578  BX=DE83  CX=0000  DX=4B31  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=019F   NV UP DI PL NZ NA PO NC           
+176C:019F B331          MOV     BL,31                                           
+
+AX=D578  BX=DE31  CX=0000  DX=4B31  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=01A1   NV UP DI PL NZ NA PO NC           
+176C:01A1 F6E3          MUL     BL                                              
+
+AX=16F8  BX=DE31  CX=0000  DX=4B31  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=01A3   OV UP DI NG NZ NA PO CY           
+176C:01A3 55            PUSH    BP                                              
+
+AX=16F8  BX=DE31  CX=0000  DX=4B31  SP=FFEC  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=01A4   OV UP DI NG NZ NA PO CY           
+176C:01A4 55            PUSH    BP                                              
+
+AX=16F8  BX=DE31  CX=0000  DX=4B31  SP=FFEA  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=01A5   OV UP DI NG NZ NA PO CY           
+176C:01A5 9D            POPF                                                    
+
+AX=16F8  BX=DE31  CX=0000  DX=4B31  SP=FFEC  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=01A6   NV UP DI PL NZ NA PO NC           
+176C:01A6 89F4          MOV     SP,SI                                           
+
+AX=16F8  BX=DE31  CX=0000  DX=4B31  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=01A8   NV UP DI PL NZ NA PO NC           
+176C:01A8 B87811        MOV     AX,1178                                         
+
+AX=1178  BX=DE31  CX=0000  DX=4B31  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=01AB   NV UP DI PL NZ NA PO NC           
+176C:01AB BA3174        MOV     DX,7431                                         
+
+AX=1178  BX=DE31  CX=0000  DX=7431  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=01AE   NV UP DI PL NZ NA PO NC           
+176C:01AE BB3174        MOV     BX,7431                                         
+
+AX=1178  BX=7431  CX=0000  DX=7431  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=01B1   NV UP DI PL NZ NA PO NC           
+176C:01B1 F7E3          MUL     BX                                              
+
+AX=B7F8  BX=7431  CX=0000  DX=07ED  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=01B3   OV UP DI NG NZ NA PO CY           
+176C:01B3 55            PUSH    BP                                              
+
+AX=B7F8  BX=7431  CX=0000  DX=07ED  SP=FFEC  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=01B4   OV UP DI NG NZ NA PO CY           
+176C:01B4 55            PUSH    BP                                              
+
+AX=B7F8  BX=7431  CX=0000  DX=07ED  SP=FFEA  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=01B5   OV UP DI NG NZ NA PO CY           
+176C:01B5 9D            POPF                                                    
+
+AX=B7F8  BX=7431  CX=0000  DX=07ED  SP=FFEC  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=01B6   NV UP DI PL NZ NA PO NC           
+176C:01B6 89F4          MOV     SP,SI                                           
+
+AX=B7F8  BX=7431  CX=0000  DX=07ED  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=01B8   NV UP DI PL NZ NA PO NC           
+176C:01B8 B0F1          MOV     AL,F1                                           
+
+AX=B7F1  BX=7431  CX=0000  DX=07ED  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=01BA   NV UP DI PL NZ NA PO NC           
+176C:01BA B2ED          MOV     DL,ED                                           
+
+AX=B7F1  BX=7431  CX=0000  DX=07ED  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=01BC   NV UP DI PL NZ NA PO NC           
+176C:01BC B3ED          MOV     BL,ED                                           
+
+AX=B7F1  BX=74ED  CX=0000  DX=07ED  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=01BE   NV UP DI PL NZ NA PO NC           
+176C:01BE F6E3          MUL     BL                                              
+
+AX=DF1D  BX=74ED  CX=0000  DX=07ED  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=01C0   OV UP DI PL NZ NA PE CY           
+176C:01C0 55            PUSH    BP                                              
+
+AX=DF1D  BX=74ED  CX=0000  DX=07ED  SP=FFEC  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=01C1   OV UP DI PL NZ NA PE CY           
+176C:01C1 55            PUSH    BP                                              
+
+AX=DF1D  BX=74ED  CX=0000  DX=07ED  SP=FFEA  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=01C2   OV UP DI PL NZ NA PE CY           
+176C:01C2 9D            POPF                                                    
+
+AX=DF1D  BX=74ED  CX=0000  DX=07ED  SP=FFEC  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=01C3   NV UP DI PL NZ NA PO NC           
+176C:01C3 89F4          MOV     SP,SI                                           
+
+AX=DF1D  BX=74ED  CX=0000  DX=07ED  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=01C5   NV UP DI PL NZ NA PO NC           
+176C:01C5 B8F13B        MOV     AX,3BF1                                         
+
+AX=3BF1  BX=74ED  CX=0000  DX=07ED  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=01C8   NV UP DI PL NZ NA PO NC           
+176C:01C8 BAEDE9        MOV     DX,E9ED                                         
+
+AX=3BF1  BX=74ED  CX=0000  DX=E9ED  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=01CB   NV UP DI PL NZ NA PO NC           
+176C:01CB BBEDE9        MOV     BX,E9ED                                         
+
+AX=3BF1  BX=E9ED  CX=0000  DX=E9ED  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=01CE   NV UP DI PL NZ NA PO NC           
+176C:01CE F7E3          MUL     BX                                              
+
+AX=D71D  BX=E9ED  CX=0000  DX=36C5  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=01D0   OV UP DI NG NZ NA PE CY           
+176C:01D0 55            PUSH    BP                                              
+
+AX=D71D  BX=E9ED  CX=0000  DX=36C5  SP=FFEC  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=01D1   OV UP DI NG NZ NA PE CY           
+176C:01D1 55            PUSH    BP                                              
+
+AX=D71D  BX=E9ED  CX=0000  DX=36C5  SP=FFEA  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=01D2   OV UP DI NG NZ NA PE CY           
+176C:01D2 9D            POPF                                                    
+
+AX=D71D  BX=E9ED  CX=0000  DX=36C5  SP=FFEC  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=01D3   NV UP DI PL NZ NA PO NC           
+176C:01D3 89F4          MOV     SP,SI                                           
+
+AX=D71D  BX=E9ED  CX=0000  DX=36C5  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=01D5   NV UP DI PL NZ NA PO NC           
+176C:01D5 B0D2          MOV     AL,D2                                           
+
+AX=D7D2  BX=E9ED  CX=0000  DX=36C5  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=01D7   NV UP DI PL NZ NA PO NC           
+176C:01D7 B244          MOV     DL,44                                           
+
+AX=D7D2  BX=E9ED  CX=0000  DX=3644  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=01D9   NV UP DI PL NZ NA PO NC           
+176C:01D9 B344          MOV     BL,44                                           
+
+AX=D7D2  BX=E944  CX=0000  DX=3644  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=01DB   NV UP DI PL NZ NA PO NC           
+176C:01DB F6E3          MUL     BL                                              
+
+AX=37C8  BX=E944  CX=0000  DX=3644  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=01DD   OV UP DI NG NZ NA PO CY           
+176C:01DD 55            PUSH    BP                                              
+
+AX=37C8  BX=E944  CX=0000  DX=3644  SP=FFEC  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=01DE   OV UP DI NG NZ NA PO CY           
+176C:01DE 55            PUSH    BP                                              
+
+AX=37C8  BX=E944  CX=0000  DX=3644  SP=FFEA  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=01DF   OV UP DI NG NZ NA PO CY           
+176C:01DF 9D            POPF                                                    
+
+AX=37C8  BX=E944  CX=0000  DX=3644  SP=FFEC  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=01E0   NV UP DI PL NZ NA PO NC           
+176C:01E0 89F4          MOV     SP,SI                                           
+
+AX=37C8  BX=E944  CX=0000  DX=3644  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=01E2   NV UP DI PL NZ NA PO NC           
+176C:01E2 B8D21A        MOV     AX,1AD2                                         
+
+AX=1AD2  BX=E944  CX=0000  DX=3644  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=01E5   NV UP DI PL NZ NA PO NC           
+176C:01E5 BA4460        MOV     DX,6044                                         
+
+AX=1AD2  BX=E944  CX=0000  DX=6044  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=01E8   NV UP DI PL NZ NA PO NC           
+176C:01E8 BB4460        MOV     BX,6044                                         
+
+AX=1AD2  BX=6044  CX=0000  DX=6044  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=01EB   NV UP DI PL NZ NA PO NC           
+176C:01EB F7E3          MUL     BX                                              
+
+AX=DFC8  BX=6044  CX=0000  DX=0A15  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=01ED   OV UP DI NG NZ NA PO CY           
+176C:01ED 55            PUSH    BP                                              
+
+AX=DFC8  BX=6044  CX=0000  DX=0A15  SP=FFEC  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=01EE   OV UP DI NG NZ NA PO CY           
+176C:01EE 55            PUSH    BP                                              
+
+AX=DFC8  BX=6044  CX=0000  DX=0A15  SP=FFEA  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=01EF   OV UP DI NG NZ NA PO CY           
+176C:01EF 9D            POPF                                                    
+
+AX=DFC8  BX=6044  CX=0000  DX=0A15  SP=FFEC  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=01F0   NV UP DI PL NZ NA PO NC           
+176C:01F0 89F4          MOV     SP,SI                                           
+
+AX=DFC8  BX=6044  CX=0000  DX=0A15  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=01F2   NV UP DI PL NZ NA PO NC           
+176C:01F2 B0B0          MOV     AL,B0                                           
+
+AX=DFB0  BX=6044  CX=0000  DX=0A15  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=01F4   NV UP DI PL NZ NA PO NC           
+176C:01F4 B289          MOV     DL,89                                           
+
+AX=DFB0  BX=6044  CX=0000  DX=0A89  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=01F6   NV UP DI PL NZ NA PO NC           
+176C:01F6 B389          MOV     BL,89                                           
+
+AX=DFB0  BX=6089  CX=0000  DX=0A89  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=01F8   NV UP DI PL NZ NA PO NC           
+176C:01F8 F6E3          MUL     BL                                              
+
+AX=5E30  BX=6089  CX=0000  DX=0A89  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=01FA   OV UP DI PL NZ NA PE CY           
+176C:01FA 55            PUSH    BP                                              
+
+AX=5E30  BX=6089  CX=0000  DX=0A89  SP=FFEC  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=01FB   OV UP DI PL NZ NA PE CY           
+176C:01FB 55            PUSH    BP                                              
+
+AX=5E30  BX=6089  CX=0000  DX=0A89  SP=FFEA  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=01FC   OV UP DI PL NZ NA PE CY           
+176C:01FC 9D            POPF                                                    
+
+AX=5E30  BX=6089  CX=0000  DX=0A89  SP=FFEC  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=01FD   NV UP DI PL NZ NA PO NC           
+176C:01FD 89F4          MOV     SP,SI                                           
+
+AX=5E30  BX=6089  CX=0000  DX=0A89  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=01FF   NV UP DI PL NZ NA PO NC           
+176C:01FF B8B0D4        MOV     AX,D4B0                                         
+
+AX=D4B0  BX=6089  CX=0000  DX=0A89  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0202   NV UP DI PL NZ NA PO NC           
+176C:0202 BA8954        MOV     DX,5489                                         
+
+AX=D4B0  BX=6089  CX=0000  DX=5489  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0205   NV UP DI PL NZ NA PO NC           
+176C:0205 BB8954        MOV     BX,5489                                         
+
+AX=D4B0  BX=5489  CX=0000  DX=5489  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0208   NV UP DI PL NZ NA PO NC           
+176C:0208 F7E3          MUL     BX                                              
+
+AX=9230  BX=5489  CX=0000  DX=463B  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=020A   OV UP DI NG NZ NA PE CY           
+176C:020A 55            PUSH    BP                                              
+
+AX=9230  BX=5489  CX=0000  DX=463B  SP=FFEC  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=020B   OV UP DI NG NZ NA PE CY           
+176C:020B 55            PUSH    BP                                              
+
+AX=9230  BX=5489  CX=0000  DX=463B  SP=FFEA  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=020C   OV UP DI NG NZ NA PE CY           
+176C:020C 9D            POPF                                                    
+
+AX=9230  BX=5489  CX=0000  DX=463B  SP=FFEC  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=020D   NV UP DI PL NZ NA PO NC           
+176C:020D 89F4          MOV     SP,SI                                           
+
+AX=9230  BX=5489  CX=0000  DX=463B  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=020F   NV UP DI PL NZ NA PO NC           
+176C:020F B057          MOV     AL,57                                           
+
+AX=9257  BX=5489  CX=0000  DX=463B  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0211   NV UP DI PL NZ NA PO NC           
+176C:0211 B26C          MOV     DL,6C                                           
+
+AX=9257  BX=5489  CX=0000  DX=466C  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0213   NV UP DI PL NZ NA PO NC           
+176C:0213 B36C          MOV     BL,6C                                           
+
+AX=9257  BX=546C  CX=0000  DX=466C  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0215   NV UP DI PL NZ NA PO NC           
+176C:0215 F6E3          MUL     BL                                              
+
+AX=24B4  BX=546C  CX=0000  DX=466C  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0217   OV UP DI NG NZ NA PE CY           
+176C:0217 55            PUSH    BP                                              
+
+AX=24B4  BX=546C  CX=0000  DX=466C  SP=FFEC  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0218   OV UP DI NG NZ NA PE CY           
+176C:0218 55            PUSH    BP                                              
+
+AX=24B4  BX=546C  CX=0000  DX=466C  SP=FFEA  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0219   OV UP DI NG NZ NA PE CY           
+176C:0219 9D            POPF                                                    
+
+AX=24B4  BX=546C  CX=0000  DX=466C  SP=FFEC  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=021A   NV UP DI PL NZ NA PO NC           
+176C:021A 89F4          MOV     SP,SI                                           
+
+AX=24B4  BX=546C  CX=0000  DX=466C  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=021C   NV UP DI PL NZ NA PO NC           
+176C:021C B857E3        MOV     AX,E357                                         
+
+AX=E357  BX=546C  CX=0000  DX=466C  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=021F   NV UP DI PL NZ NA PO NC           
+176C:021F BA6CCC        MOV     DX,CC6C                                         
+
+AX=E357  BX=546C  CX=0000  DX=CC6C  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0222   NV UP DI PL NZ NA PO NC           
+176C:0222 BB6CCC        MOV     BX,CC6C                                         
+
+AX=E357  BX=CC6C  CX=0000  DX=CC6C  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0225   NV UP DI PL NZ NA PO NC           
+176C:0225 F7E3          MUL     BX                                              
+
+AX=3CB4  BX=CC6C  CX=0000  DX=B589  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0227   OV UP DI PL NZ NA PE CY           
+176C:0227 55            PUSH    BP                                              
+
+AX=3CB4  BX=CC6C  CX=0000  DX=B589  SP=FFEC  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0228   OV UP DI PL NZ NA PE CY           
+176C:0228 55            PUSH    BP                                              
+
+AX=3CB4  BX=CC6C  CX=0000  DX=B589  SP=FFEA  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0229   OV UP DI PL NZ NA PE CY           
+176C:0229 9D            POPF                                                    
+
+AX=3CB4  BX=CC6C  CX=0000  DX=B589  SP=FFEC  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=022A   NV UP DI PL NZ NA PO NC           
+176C:022A 89F4          MOV     SP,SI                                           
+
+AX=3CB4  BX=CC6C  CX=0000  DX=B589  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=022C   NV UP DI PL NZ NA PO NC           
+176C:022C B000          MOV     AL,00                                           
+
+AX=3C00  BX=CC6C  CX=0000  DX=B589  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=022E   NV UP DI PL NZ NA PO NC           
+176C:022E B201          MOV     DL,01                                           
+
+AX=3C00  BX=CC6C  CX=0000  DX=B501  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0230   NV UP DI PL NZ NA PO NC           
+176C:0230 B301          MOV     BL,01                                           
+
+AX=3C00  BX=CC01  CX=0000  DX=B501  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0232   NV UP DI PL NZ NA PO NC           
+176C:0232 F6E3          MUL     BL                                              
+
+AX=0000  BX=CC01  CX=0000  DX=B501  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0234   NV UP DI PL ZR NA PE NC           
+176C:0234 55            PUSH    BP                                              
+
+AX=0000  BX=CC01  CX=0000  DX=B501  SP=FFEC  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0235   NV UP DI PL ZR NA PE NC           
+176C:0235 55            PUSH    BP                                              
+
+AX=0000  BX=CC01  CX=0000  DX=B501  SP=FFEA  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0236   NV UP DI PL ZR NA PE NC           
+176C:0236 9D            POPF                                                    
+
+AX=0000  BX=CC01  CX=0000  DX=B501  SP=FFEC  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0237   NV UP DI PL NZ NA PO NC           
+176C:0237 89F4          MOV     SP,SI                                           
+
+AX=0000  BX=CC01  CX=0000  DX=B501  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0239   NV UP DI PL NZ NA PO NC           
+176C:0239 B80000        MOV     AX,0000                                         
+
+AX=0000  BX=CC01  CX=0000  DX=B501  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=023C   NV UP DI PL NZ NA PO NC           
+176C:023C BA0100        MOV     DX,0001                                         
+
+AX=0000  BX=CC01  CX=0000  DX=0001  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=023F   NV UP DI PL NZ NA PO NC           
+176C:023F BB0100        MOV     BX,0001                                         
+
+AX=0000  BX=0001  CX=0000  DX=0001  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0242   NV UP DI PL NZ NA PO NC           
+176C:0242 F7E3          MUL     BX                                              
+
+AX=0000  BX=0001  CX=0000  DX=0000  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0244   NV UP DI PL ZR NA PE NC           
+176C:0244 55            PUSH    BP                                              
+
+AX=0000  BX=0001  CX=0000  DX=0000  SP=FFEC  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0245   NV UP DI PL ZR NA PE NC           
+176C:0245 55            PUSH    BP                                              
+
+AX=0000  BX=0001  CX=0000  DX=0000  SP=FFEA  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0246   NV UP DI PL ZR NA PE NC           
+176C:0246 9D            POPF                                                    
+
+AX=0000  BX=0001  CX=0000  DX=0000  SP=FFEC  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0247   NV UP DI PL NZ NA PO NC           
+176C:0247 89F4          MOV     SP,SI                                           
+
+AX=0000  BX=0001  CX=0000  DX=0000  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0249   NV UP DI PL NZ NA PO NC           
+176C:0249 B000          MOV     AL,00                                           
+
+AX=0000  BX=0001  CX=0000  DX=0000  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=024B   NV UP DI PL NZ NA PO NC           
+176C:024B B201          MOV     DL,01                                           
+
+AX=0000  BX=0001  CX=0000  DX=0001  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=024D   NV UP DI PL NZ NA PO NC           
+176C:024D B301          MOV     BL,01                                           
+
+AX=0000  BX=0001  CX=0000  DX=0001  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=024F   NV UP DI PL NZ NA PO NC           
+176C:024F F6E3          MUL     BL                                              
+
+AX=0000  BX=0001  CX=0000  DX=0001  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0251   NV UP DI PL ZR NA PE NC           
+176C:0251 55            PUSH    BP                                              
+
+AX=0000  BX=0001  CX=0000  DX=0001  SP=FFEC  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0252   NV UP DI PL ZR NA PE NC           
+176C:0252 55            PUSH    BP                                              
+
+AX=0000  BX=0001  CX=0000  DX=0001  SP=FFEA  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0253   NV UP DI PL ZR NA PE NC           
+176C:0253 9D            POPF                                                    
+
+AX=0000  BX=0001  CX=0000  DX=0001  SP=FFEC  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0254   NV UP DI PL NZ NA PO NC           
+176C:0254 89F4          MOV     SP,SI                                           
+
+AX=0000  BX=0001  CX=0000  DX=0001  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0256   NV UP DI PL NZ NA PO NC           
+176C:0256 B80000        MOV     AX,0000                                         
+
+AX=0000  BX=0001  CX=0000  DX=0001  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0259   NV UP DI PL NZ NA PO NC           
+176C:0259 BA0100        MOV     DX,0001                                         
+
+AX=0000  BX=0001  CX=0000  DX=0001  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=025C   NV UP DI PL NZ NA PO NC           
+176C:025C BB0100        MOV     BX,0001                                         
+
+AX=0000  BX=0001  CX=0000  DX=0001  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=025F   NV UP DI PL NZ NA PO NC           
+176C:025F F7E3          MUL     BX                                              
+
+AX=0000  BX=0001  CX=0000  DX=0000  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0261   NV UP DI PL ZR NA PE NC           
+176C:0261 55            PUSH    BP                                              
+
+AX=0000  BX=0001  CX=0000  DX=0000  SP=FFEC  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0262   NV UP DI PL ZR NA PE NC           
+176C:0262 55            PUSH    BP                                              
+
+AX=0000  BX=0001  CX=0000  DX=0000  SP=FFEA  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0263   NV UP DI PL ZR NA PE NC           
+176C:0263 9D            POPF                                                    
+
+AX=0000  BX=0001  CX=0000  DX=0000  SP=FFEC  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0264   NV UP DI PL NZ NA PO NC           
+176C:0264 89F4          MOV     SP,SI                                           
+
+AX=0000  BX=0001  CX=0000  DX=0000  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0266   NV UP DI PL NZ NA PO NC           
+176C:0266 B001          MOV     AL,01                                           
+
+AX=0001  BX=0001  CX=0000  DX=0000  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0268   NV UP DI PL NZ NA PO NC           
+176C:0268 B200          MOV     DL,00                                           
+
+AX=0001  BX=0001  CX=0000  DX=0000  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=026A   NV UP DI PL NZ NA PO NC           
+176C:026A B300          MOV     BL,00                                           
+
+AX=0001  BX=0000  CX=0000  DX=0000  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=026C   NV UP DI PL NZ NA PO NC           
+176C:026C F6E3          MUL     BL                                              
+
+AX=0000  BX=0000  CX=0000  DX=0000  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=026E   NV UP DI PL ZR NA PE NC           
+176C:026E 55            PUSH    BP                                              
+
+AX=0000  BX=0000  CX=0000  DX=0000  SP=FFEC  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=026F   NV UP DI PL ZR NA PE NC           
+176C:026F 55            PUSH    BP                                              
+
+AX=0000  BX=0000  CX=0000  DX=0000  SP=FFEA  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0270   NV UP DI PL ZR NA PE NC           
+176C:0270 9D            POPF                                                    
+
+AX=0000  BX=0000  CX=0000  DX=0000  SP=FFEC  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0271   NV UP DI PL NZ NA PO NC           
+176C:0271 89F4          MOV     SP,SI                                           
+
+AX=0000  BX=0000  CX=0000  DX=0000  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0273   NV UP DI PL NZ NA PO NC           
+176C:0273 B80100        MOV     AX,0001                                         
+
+AX=0001  BX=0000  CX=0000  DX=0000  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0276   NV UP DI PL NZ NA PO NC           
+176C:0276 BA0100        MOV     DX,0001                                         
+
+AX=0001  BX=0000  CX=0000  DX=0001  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0279   NV UP DI PL NZ NA PO NC           
+176C:0279 BB0100        MOV     BX,0001                                         
+
+AX=0001  BX=0001  CX=0000  DX=0001  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=027C   NV UP DI PL NZ NA PO NC           
+176C:027C F7E3          MUL     BX                                              
+
+AX=0001  BX=0001  CX=0000  DX=0000  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=027E   NV UP DI PL NZ NA PO NC           
+176C:027E 55            PUSH    BP                                              
+
+AX=0001  BX=0001  CX=0000  DX=0000  SP=FFEC  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=027F   NV UP DI PL NZ NA PO NC           
+176C:027F 55            PUSH    BP                                              
+
+AX=0001  BX=0001  CX=0000  DX=0000  SP=FFEA  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0280   NV UP DI PL NZ NA PO NC           
+176C:0280 9D            POPF                                                    
+
+AX=0001  BX=0001  CX=0000  DX=0000  SP=FFEC  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0281   NV UP DI PL NZ NA PO NC           
+176C:0281 89F4          MOV     SP,SI                                           
+
+AX=0001  BX=0001  CX=0000  DX=0000  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0283   NV UP DI PL NZ NA PO NC           
+176C:0283 B001          MOV     AL,01                                           
+
+AX=0001  BX=0001  CX=0000  DX=0000  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0285   NV UP DI PL NZ NA PO NC           
+176C:0285 B201          MOV     DL,01                                           
+
+AX=0001  BX=0001  CX=0000  DX=0001  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0287   NV UP DI PL NZ NA PO NC           
+176C:0287 B301          MOV     BL,01                                           
+
+AX=0001  BX=0001  CX=0000  DX=0001  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0289   NV UP DI PL NZ NA PO NC           
+176C:0289 F6E3          MUL     BL                                              
+
+AX=0001  BX=0001  CX=0000  DX=0001  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=028B   NV UP DI PL NZ NA PO NC           
+176C:028B 55            PUSH    BP                                              
+
+AX=0001  BX=0001  CX=0000  DX=0001  SP=FFEC  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=028C   NV UP DI PL NZ NA PO NC           
+176C:028C 55            PUSH    BP                                              
+
+AX=0001  BX=0001  CX=0000  DX=0001  SP=FFEA  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=028D   NV UP DI PL NZ NA PO NC           
+176C:028D 9D            POPF                                                    
+
+AX=0001  BX=0001  CX=0000  DX=0001  SP=FFEC  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=028E   NV UP DI PL NZ NA PO NC           
+176C:028E 89F4          MOV     SP,SI                                           
+
+AX=0001  BX=0001  CX=0000  DX=0001  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0290   NV UP DI PL NZ NA PO NC           
+176C:0290 B80100        MOV     AX,0001                                         
+
+AX=0001  BX=0001  CX=0000  DX=0001  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0293   NV UP DI PL NZ NA PO NC           
+176C:0293 BA0100        MOV     DX,0001                                         
+
+AX=0001  BX=0001  CX=0000  DX=0001  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0296   NV UP DI PL NZ NA PO NC           
+176C:0296 BB0100        MOV     BX,0001                                         
+
+AX=0001  BX=0001  CX=0000  DX=0001  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0299   NV UP DI PL NZ NA PO NC           
+176C:0299 F7E3          MUL     BX                                              
+
+AX=0001  BX=0001  CX=0000  DX=0000  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=029B   NV UP DI PL NZ NA PO NC           
+176C:029B 55            PUSH    BP                                              
+
+AX=0001  BX=0001  CX=0000  DX=0000  SP=FFEC  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=029C   NV UP DI PL NZ NA PO NC           
+176C:029C 55            PUSH    BP                                              
+
+AX=0001  BX=0001  CX=0000  DX=0000  SP=FFEA  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=029D   NV UP DI PL NZ NA PO NC           
+176C:029D 9D            POPF                                                    
+
+AX=0001  BX=0001  CX=0000  DX=0000  SP=FFEC  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=029E   NV UP DI PL NZ NA PO NC           
+176C:029E 89F4          MOV     SP,SI                                           
+
+AX=0001  BX=0001  CX=0000  DX=0000  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=02A0   NV UP DI PL NZ NA PO NC           
+176C:02A0 B0FF          MOV     AL,FF                                           
+
+AX=00FF  BX=0001  CX=0000  DX=0000  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=02A2   NV UP DI PL NZ NA PO NC           
+176C:02A2 B200          MOV     DL,00                                           
+
+AX=00FF  BX=0001  CX=0000  DX=0000  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=02A4   NV UP DI PL NZ NA PO NC           
+176C:02A4 B300          MOV     BL,00                                           
+
+AX=00FF  BX=0000  CX=0000  DX=0000  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=02A6   NV UP DI PL NZ NA PO NC           
+176C:02A6 F6E3          MUL     BL                                              
+
+AX=0000  BX=0000  CX=0000  DX=0000  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=02A8   NV UP DI PL ZR NA PE NC           
+176C:02A8 55            PUSH    BP                                              
+
+AX=0000  BX=0000  CX=0000  DX=0000  SP=FFEC  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=02A9   NV UP DI PL ZR NA PE NC           
+176C:02A9 55            PUSH    BP                                              
+
+AX=0000  BX=0000  CX=0000  DX=0000  SP=FFEA  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=02AA   NV UP DI PL ZR NA PE NC           
+176C:02AA 9D            POPF                                                    
+
+AX=0000  BX=0000  CX=0000  DX=0000  SP=FFEC  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=02AB   NV UP DI PL NZ NA PO NC           
+176C:02AB 89F4          MOV     SP,SI                                           
+
+AX=0000  BX=0000  CX=0000  DX=0000  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=02AD   NV UP DI PL NZ NA PO NC           
+176C:02AD B8FFFF        MOV     AX,FFFF                                         
+
+AX=FFFF  BX=0000  CX=0000  DX=0000  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=02B0   NV UP DI PL NZ NA PO NC           
+176C:02B0 BA0100        MOV     DX,0001                                         
+
+AX=FFFF  BX=0000  CX=0000  DX=0001  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=02B3   NV UP DI PL NZ NA PO NC           
+176C:02B3 BB0100        MOV     BX,0001                                         
+
+AX=FFFF  BX=0001  CX=0000  DX=0001  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=02B6   NV UP DI PL NZ NA PO NC           
+176C:02B6 F7E3          MUL     BX                                              
+
+AX=FFFF  BX=0001  CX=0000  DX=0000  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=02B8   NV UP DI NG NZ NA PE NC           
+176C:02B8 55            PUSH    BP                                              
+
+AX=FFFF  BX=0001  CX=0000  DX=0000  SP=FFEC  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=02B9   NV UP DI NG NZ NA PE NC           
+176C:02B9 55            PUSH    BP                                              
+
+AX=FFFF  BX=0001  CX=0000  DX=0000  SP=FFEA  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=02BA   NV UP DI NG NZ NA PE NC           
+176C:02BA 9D            POPF                                                    
+
+AX=FFFF  BX=0001  CX=0000  DX=0000  SP=FFEC  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=02BB   NV UP DI PL NZ NA PO NC           
+176C:02BB 89F4          MOV     SP,SI                                           
+
+AX=FFFF  BX=0001  CX=0000  DX=0000  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=02BD   NV UP DI PL NZ NA PO NC           
+176C:02BD B0FF          MOV     AL,FF                                           
+
+AX=FFFF  BX=0001  CX=0000  DX=0000  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=02BF   NV UP DI PL NZ NA PO NC           
+176C:02BF B201          MOV     DL,01                                           
+
+AX=FFFF  BX=0001  CX=0000  DX=0001  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=02C1   NV UP DI PL NZ NA PO NC           
+176C:02C1 B301          MOV     BL,01                                           
+
+AX=FFFF  BX=0001  CX=0000  DX=0001  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=02C3   NV UP DI PL NZ NA PO NC           
+176C:02C3 F6E3          MUL     BL                                              
+
+AX=00FF  BX=0001  CX=0000  DX=0001  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=02C5   NV UP DI NG NZ NA PE NC           
+176C:02C5 55            PUSH    BP                                              
+
+AX=00FF  BX=0001  CX=0000  DX=0001  SP=FFEC  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=02C6   NV UP DI NG NZ NA PE NC           
+176C:02C6 55            PUSH    BP                                              
+
+AX=00FF  BX=0001  CX=0000  DX=0001  SP=FFEA  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=02C7   NV UP DI NG NZ NA PE NC           
+176C:02C7 9D            POPF                                                    
+
+AX=00FF  BX=0001  CX=0000  DX=0001  SP=FFEC  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=02C8   NV UP DI PL NZ NA PO NC           
+176C:02C8 89F4          MOV     SP,SI                                           
+
+AX=00FF  BX=0001  CX=0000  DX=0001  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=02CA   NV UP DI PL NZ NA PO NC           
+176C:02CA B8FFFF        MOV     AX,FFFF                                         
+
+AX=FFFF  BX=0001  CX=0000  DX=0001  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=02CD   NV UP DI PL NZ NA PO NC           
+176C:02CD BA0100        MOV     DX,0001                                         
+
+AX=FFFF  BX=0001  CX=0000  DX=0001  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=02D0   NV UP DI PL NZ NA PO NC           
+176C:02D0 BB0100        MOV     BX,0001                                         
+
+AX=FFFF  BX=0001  CX=0000  DX=0001  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=02D3   NV UP DI PL NZ NA PO NC           
+176C:02D3 F7E3          MUL     BX                                              
+
+AX=FFFF  BX=0001  CX=0000  DX=0000  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=02D5   NV UP DI NG NZ NA PE NC           
+176C:02D5 55            PUSH    BP                                              
+
+AX=FFFF  BX=0001  CX=0000  DX=0000  SP=FFEC  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=02D6   NV UP DI NG NZ NA PE NC           
+176C:02D6 55            PUSH    BP                                              
+
+AX=FFFF  BX=0001  CX=0000  DX=0000  SP=FFEA  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=02D7   NV UP DI NG NZ NA PE NC           
+176C:02D7 9D            POPF                                                    
+
+AX=FFFF  BX=0001  CX=0000  DX=0000  SP=FFEC  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=02D8   NV UP DI PL NZ NA PO NC           
+176C:02D8 89F4          MOV     SP,SI                                           
+
+AX=FFFF  BX=0001  CX=0000  DX=0000  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=02DA   NV UP DI PL NZ NA PO NC           
+176C:02DA B000          MOV     AL,00                                           
+
+AX=FF00  BX=0001  CX=0000  DX=0000  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=02DC   NV UP DI PL NZ NA PO NC           
+176C:02DC B201          MOV     DL,01                                           
+
+AX=FF00  BX=0001  CX=0000  DX=0001  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=02DE   NV UP DI PL NZ NA PO NC           
+176C:02DE B301          MOV     BL,01                                           
+
+AX=FF00  BX=0001  CX=0000  DX=0001  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=02E0   NV UP DI PL NZ NA PO NC           
+176C:02E0 F6E3          MUL     BL                                              
+
+AX=0000  BX=0001  CX=0000  DX=0001  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=02E2   NV UP DI PL ZR NA PE NC           
+176C:02E2 55            PUSH    BP                                              
+
+AX=0000  BX=0001  CX=0000  DX=0001  SP=FFEC  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=02E3   NV UP DI PL ZR NA PE NC           
+176C:02E3 55            PUSH    BP                                              
+
+AX=0000  BX=0001  CX=0000  DX=0001  SP=FFEA  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=02E4   NV UP DI PL ZR NA PE NC           
+176C:02E4 9D            POPF                                                    
+
+AX=0000  BX=0001  CX=0000  DX=0001  SP=FFEC  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=02E5   NV UP DI PL NZ NA PO NC           
+176C:02E5 89F4          MOV     SP,SI                                           
+
+AX=0000  BX=0001  CX=0000  DX=0001  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=02E7   NV UP DI PL NZ NA PO NC           
+176C:02E7 B80080        MOV     AX,8000                                         
+
+AX=8000  BX=0001  CX=0000  DX=0001  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=02EA   NV UP DI PL NZ NA PO NC           
+176C:02EA BA0100        MOV     DX,0001                                         
+
+AX=8000  BX=0001  CX=0000  DX=0001  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=02ED   NV UP DI PL NZ NA PO NC           
+176C:02ED BB0100        MOV     BX,0001                                         
+
+AX=8000  BX=0001  CX=0000  DX=0001  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=02F0   NV UP DI PL NZ NA PO NC           
+176C:02F0 F7E3          MUL     BX                                              
+
+AX=8000  BX=0001  CX=0000  DX=0000  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=02F2   NV UP DI NG NZ NA PE NC           
+176C:02F2 55            PUSH    BP                                              
+
+AX=8000  BX=0001  CX=0000  DX=0000  SP=FFEC  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=02F3   NV UP DI NG NZ NA PE NC           
+176C:02F3 55            PUSH    BP                                              
+
+AX=8000  BX=0001  CX=0000  DX=0000  SP=FFEA  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=02F4   NV UP DI NG NZ NA PE NC           
+176C:02F4 9D            POPF                                                    
+
+AX=8000  BX=0001  CX=0000  DX=0000  SP=FFEC  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=02F5   NV UP DI PL NZ NA PO NC           
+176C:02F5 89F4          MOV     SP,SI                                           
+
+AX=8000  BX=0001  CX=0000  DX=0000  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=02F7   NV UP DI PL NZ NA PO NC           
+176C:02F7 B000          MOV     AL,00                                           
+
+AX=8000  BX=0001  CX=0000  DX=0000  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=02F9   NV UP DI PL NZ NA PO NC           
+176C:02F9 B201          MOV     DL,01                                           
+
+AX=8000  BX=0001  CX=0000  DX=0001  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=02FB   NV UP DI PL NZ NA PO NC           
+176C:02FB B301          MOV     BL,01                                           
+
+AX=8000  BX=0001  CX=0000  DX=0001  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=02FD   NV UP DI PL NZ NA PO NC           
+176C:02FD F6E3          MUL     BL                                              
+
+AX=0000  BX=0001  CX=0000  DX=0001  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=02FF   NV UP DI PL ZR NA PE NC           
+176C:02FF 55            PUSH    BP                                              
+
+AX=0000  BX=0001  CX=0000  DX=0001  SP=FFEC  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0300   NV UP DI PL ZR NA PE NC           
+176C:0300 55            PUSH    BP                                              
+
+AX=0000  BX=0001  CX=0000  DX=0001  SP=FFEA  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0301   NV UP DI PL ZR NA PE NC           
+176C:0301 9D            POPF                                                    
+
+AX=0000  BX=0001  CX=0000  DX=0001  SP=FFEC  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0302   NV UP DI PL NZ NA PO NC           
+176C:0302 89F4          MOV     SP,SI                                           
+
+AX=0000  BX=0001  CX=0000  DX=0001  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0304   NV UP DI PL NZ NA PO NC           
+176C:0304 B80080        MOV     AX,8000                                         
+
+AX=8000  BX=0001  CX=0000  DX=0001  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0307   NV UP DI PL NZ NA PO NC           
+176C:0307 BA0100        MOV     DX,0001                                         
+
+AX=8000  BX=0001  CX=0000  DX=0001  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=030A   NV UP DI PL NZ NA PO NC           
+176C:030A BB0100        MOV     BX,0001                                         
+
+AX=8000  BX=0001  CX=0000  DX=0001  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=030D   NV UP DI PL NZ NA PO NC           
+176C:030D F7E3          MUL     BX                                              
+
+AX=8000  BX=0001  CX=0000  DX=0000  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=030F   NV UP DI NG NZ NA PE NC           
+176C:030F 55            PUSH    BP                                              
+
+AX=8000  BX=0001  CX=0000  DX=0000  SP=FFEC  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0310   NV UP DI NG NZ NA PE NC           
+176C:0310 55            PUSH    BP                                              
+
+AX=8000  BX=0001  CX=0000  DX=0000  SP=FFEA  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0311   NV UP DI NG NZ NA PE NC           
+176C:0311 9D            POPF                                                    
+
+AX=8000  BX=0001  CX=0000  DX=0000  SP=FFEC  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0312   NV UP DI PL NZ NA PO NC           
+176C:0312 89F4          MOV     SP,SI                                           
+
+AX=8000  BX=0001  CX=0000  DX=0000  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0314   NV UP DI PL NZ NA PO NC           
+176C:0314 B0FF          MOV     AL,FF                                           
+
+AX=80FF  BX=0001  CX=0000  DX=0000  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0316   NV UP DI PL NZ NA PO NC           
+176C:0316 B200          MOV     DL,00                                           
+
+AX=80FF  BX=0001  CX=0000  DX=0000  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0318   NV UP DI PL NZ NA PO NC           
+176C:0318 B300          MOV     BL,00                                           
+
+AX=80FF  BX=0000  CX=0000  DX=0000  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=031A   NV UP DI PL NZ NA PO NC           
+176C:031A F6E3          MUL     BL                                              
+
+AX=0000  BX=0000  CX=0000  DX=0000  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=031C   NV UP DI PL ZR NA PE NC           
+176C:031C 55            PUSH    BP                                              
+
+AX=0000  BX=0000  CX=0000  DX=0000  SP=FFEC  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=031D   NV UP DI PL ZR NA PE NC           
+176C:031D 55            PUSH    BP                                              
+
+AX=0000  BX=0000  CX=0000  DX=0000  SP=FFEA  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=031E   NV UP DI PL ZR NA PE NC           
+176C:031E 9D            POPF                                                    
+
+AX=0000  BX=0000  CX=0000  DX=0000  SP=FFEC  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=031F   NV UP DI PL NZ NA PO NC           
+176C:031F 89F4          MOV     SP,SI                                           
+
+AX=0000  BX=0000  CX=0000  DX=0000  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0321   NV UP DI PL NZ NA PO NC           
+176C:0321 B8FF7F        MOV     AX,7FFF                                         
+
+AX=7FFF  BX=0000  CX=0000  DX=0000  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0324   NV UP DI PL NZ NA PO NC           
+176C:0324 BA0100        MOV     DX,0001                                         
+
+AX=7FFF  BX=0000  CX=0000  DX=0001  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0327   NV UP DI PL NZ NA PO NC           
+176C:0327 BB0100        MOV     BX,0001                                         
+
+AX=7FFF  BX=0001  CX=0000  DX=0001  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=032A   NV UP DI PL NZ NA PO NC           
+176C:032A F7E3          MUL     BX                                              
+
+AX=7FFF  BX=0001  CX=0000  DX=0000  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=032C   NV UP DI PL NZ NA PE NC           
+176C:032C 55            PUSH    BP                                              
+
+AX=7FFF  BX=0001  CX=0000  DX=0000  SP=FFEC  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=032D   NV UP DI PL NZ NA PE NC           
+176C:032D 55            PUSH    BP                                              
+
+AX=7FFF  BX=0001  CX=0000  DX=0000  SP=FFEA  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=032E   NV UP DI PL NZ NA PE NC           
+176C:032E 9D            POPF                                                    
+
+AX=7FFF  BX=0001  CX=0000  DX=0000  SP=FFEC  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=032F   NV UP DI PL NZ NA PO NC           
+176C:032F 89F4          MOV     SP,SI                                           
+
+AX=7FFF  BX=0001  CX=0000  DX=0000  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0331   NV UP DI PL NZ NA PO NC           
+176C:0331 B0FF          MOV     AL,FF                                           
+
+AX=7FFF  BX=0001  CX=0000  DX=0000  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0333   NV UP DI PL NZ NA PO NC           
+176C:0333 B201          MOV     DL,01                                           
+
+AX=7FFF  BX=0001  CX=0000  DX=0001  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0335   NV UP DI PL NZ NA PO NC           
+176C:0335 B301          MOV     BL,01                                           
+
+AX=7FFF  BX=0001  CX=0000  DX=0001  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0337   NV UP DI PL NZ NA PO NC           
+176C:0337 F6E3          MUL     BL                                              
+
+AX=00FF  BX=0001  CX=0000  DX=0001  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0339   NV UP DI NG NZ NA PE NC           
+176C:0339 55            PUSH    BP                                              
+
+AX=00FF  BX=0001  CX=0000  DX=0001  SP=FFEC  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=033A   NV UP DI NG NZ NA PE NC           
+176C:033A 55            PUSH    BP                                              
+
+AX=00FF  BX=0001  CX=0000  DX=0001  SP=FFEA  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=033B   NV UP DI NG NZ NA PE NC           
+176C:033B 9D            POPF                                                    
+
+AX=00FF  BX=0001  CX=0000  DX=0001  SP=FFEC  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=033C   NV UP DI PL NZ NA PO NC           
+176C:033C 89F4          MOV     SP,SI                                           
+
+AX=00FF  BX=0001  CX=0000  DX=0001  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=033E   NV UP DI PL NZ NA PO NC           
+176C:033E B8FF7F        MOV     AX,7FFF                                         
+
+AX=7FFF  BX=0001  CX=0000  DX=0001  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0341   NV UP DI PL NZ NA PO NC           
+176C:0341 BA0100        MOV     DX,0001                                         
+
+AX=7FFF  BX=0001  CX=0000  DX=0001  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0344   NV UP DI PL NZ NA PO NC           
+176C:0344 BB0100        MOV     BX,0001                                         
+
+AX=7FFF  BX=0001  CX=0000  DX=0001  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0347   NV UP DI PL NZ NA PO NC           
+176C:0347 F7E3          MUL     BX                                              
+
+AX=7FFF  BX=0001  CX=0000  DX=0000  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0349   NV UP DI PL NZ NA PE NC           
+176C:0349 55            PUSH    BP                                              
+
+AX=7FFF  BX=0001  CX=0000  DX=0000  SP=FFEC  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=034A   NV UP DI PL NZ NA PE NC           
+176C:034A 55            PUSH    BP                                              
+
+AX=7FFF  BX=0001  CX=0000  DX=0000  SP=FFEA  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=034B   NV UP DI PL NZ NA PE NC           
+176C:034B 9D            POPF                                                    
+
+AX=7FFF  BX=0001  CX=0000  DX=0000  SP=FFEC  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=034C   NV UP DI PL NZ NA PO NC           
+176C:034C 89F4          MOV     SP,SI                                           
+
+AX=7FFF  BX=0001  CX=0000  DX=0000  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=034E   NV UP DI PL NZ NA PO NC           
+176C:034E B07F          MOV     AL,7F                                           
+
+AX=7F7F  BX=0001  CX=0000  DX=0000  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0350   NV UP DI PL NZ NA PO NC           
+176C:0350 B200          MOV     DL,00                                           
+
+AX=7F7F  BX=0001  CX=0000  DX=0000  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0352   NV UP DI PL NZ NA PO NC           
+176C:0352 B300          MOV     BL,00                                           
+
+AX=7F7F  BX=0000  CX=0000  DX=0000  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0354   NV UP DI PL NZ NA PO NC           
+176C:0354 F6E3          MUL     BL                                              
+
+AX=0000  BX=0000  CX=0000  DX=0000  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0356   NV UP DI PL ZR NA PE NC           
+176C:0356 55            PUSH    BP                                              
+
+AX=0000  BX=0000  CX=0000  DX=0000  SP=FFEC  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0357   NV UP DI PL ZR NA PE NC           
+176C:0357 55            PUSH    BP                                              
+
+AX=0000  BX=0000  CX=0000  DX=0000  SP=FFEA  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0358   NV UP DI PL ZR NA PE NC           
+176C:0358 9D            POPF                                                    
+
+AX=0000  BX=0000  CX=0000  DX=0000  SP=FFEC  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0359   NV UP DI PL NZ NA PO NC           
+176C:0359 89F4          MOV     SP,SI                                           
+
+AX=0000  BX=0000  CX=0000  DX=0000  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=035B   NV UP DI PL NZ NA PO NC           
+176C:035B B87F00        MOV     AX,007F                                         
+
+AX=007F  BX=0000  CX=0000  DX=0000  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=035E   NV UP DI PL NZ NA PO NC           
+176C:035E BA0100        MOV     DX,0001                                         
+
+AX=007F  BX=0000  CX=0000  DX=0001  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0361   NV UP DI PL NZ NA PO NC           
+176C:0361 BB0100        MOV     BX,0001                                         
+
+AX=007F  BX=0001  CX=0000  DX=0001  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0364   NV UP DI PL NZ NA PO NC           
+176C:0364 F7E3          MUL     BX                                              
+
+AX=007F  BX=0001  CX=0000  DX=0000  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0366   NV UP DI PL NZ NA PO NC           
+176C:0366 55            PUSH    BP                                              
+
+AX=007F  BX=0001  CX=0000  DX=0000  SP=FFEC  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0367   NV UP DI PL NZ NA PO NC           
+176C:0367 55            PUSH    BP                                              
+
+AX=007F  BX=0001  CX=0000  DX=0000  SP=FFEA  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0368   NV UP DI PL NZ NA PO NC           
+176C:0368 9D            POPF                                                    
+
+AX=007F  BX=0001  CX=0000  DX=0000  SP=FFEC  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0369   NV UP DI PL NZ NA PO NC           
+176C:0369 89F4          MOV     SP,SI                                           
+
+AX=007F  BX=0001  CX=0000  DX=0000  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=036B   NV UP DI PL NZ NA PO NC           
+176C:036B B07F          MOV     AL,7F                                           
+
+AX=007F  BX=0001  CX=0000  DX=0000  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=036D   NV UP DI PL NZ NA PO NC           
+176C:036D B201          MOV     DL,01                                           
+
+AX=007F  BX=0001  CX=0000  DX=0001  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=036F   NV UP DI PL NZ NA PO NC           
+176C:036F B301          MOV     BL,01                                           
+
+AX=007F  BX=0001  CX=0000  DX=0001  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0371   NV UP DI PL NZ NA PO NC           
+176C:0371 F6E3          MUL     BL                                              
+
+AX=007F  BX=0001  CX=0000  DX=0001  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0373   NV UP DI PL NZ NA PO NC           
+176C:0373 55            PUSH    BP                                              
+
+AX=007F  BX=0001  CX=0000  DX=0001  SP=FFEC  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0374   NV UP DI PL NZ NA PO NC           
+176C:0374 55            PUSH    BP                                              
+
+AX=007F  BX=0001  CX=0000  DX=0001  SP=FFEA  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0375   NV UP DI PL NZ NA PO NC           
+176C:0375 9D            POPF                                                    
+
+AX=007F  BX=0001  CX=0000  DX=0001  SP=FFEC  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0376   NV UP DI PL NZ NA PO NC           
+176C:0376 89F4          MOV     SP,SI                                           
+
+AX=007F  BX=0001  CX=0000  DX=0001  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0378   NV UP DI PL NZ NA PO NC           
+176C:0378 B87F00        MOV     AX,007F                                         
+
+AX=007F  BX=0001  CX=0000  DX=0001  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=037B   NV UP DI PL NZ NA PO NC           
+176C:037B BA0100        MOV     DX,0001                                         
+
+AX=007F  BX=0001  CX=0000  DX=0001  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=037E   NV UP DI PL NZ NA PO NC           
+176C:037E BB0100        MOV     BX,0001                                         
+
+AX=007F  BX=0001  CX=0000  DX=0001  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0381   NV UP DI PL NZ NA PO NC           
+176C:0381 F7E3          MUL     BX                                              
+
+AX=007F  BX=0001  CX=0000  DX=0000  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0383   NV UP DI PL NZ NA PO NC           
+176C:0383 55            PUSH    BP                                              
+
+AX=007F  BX=0001  CX=0000  DX=0000  SP=FFEC  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0384   NV UP DI PL NZ NA PO NC           
+176C:0384 55            PUSH    BP                                              
+
+AX=007F  BX=0001  CX=0000  DX=0000  SP=FFEA  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0385   NV UP DI PL NZ NA PO NC           
+176C:0385 9D            POPF                                                    
+
+AX=007F  BX=0001  CX=0000  DX=0000  SP=FFEC  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0386   NV UP DI PL NZ NA PO NC           
+176C:0386 89F4          MOV     SP,SI                                           
+
+AX=007F  BX=0001  CX=0000  DX=0000  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0388   NV UP DI PL NZ NA PO NC           
+176C:0388 B080          MOV     AL,80                                           
+
+AX=0080  BX=0001  CX=0000  DX=0000  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=038A   NV UP DI PL NZ NA PO NC           
+176C:038A B200          MOV     DL,00                                           
+
+AX=0080  BX=0001  CX=0000  DX=0000  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=038C   NV UP DI PL NZ NA PO NC           
+176C:038C B300          MOV     BL,00                                           
+
+AX=0080  BX=0000  CX=0000  DX=0000  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=038E   NV UP DI PL NZ NA PO NC           
+176C:038E F6E3          MUL     BL                                              
+
+AX=0000  BX=0000  CX=0000  DX=0000  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0390   NV UP DI PL ZR NA PE NC           
+176C:0390 55            PUSH    BP                                              
+
+AX=0000  BX=0000  CX=0000  DX=0000  SP=FFEC  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0391   NV UP DI PL ZR NA PE NC           
+176C:0391 55            PUSH    BP                                              
+
+AX=0000  BX=0000  CX=0000  DX=0000  SP=FFEA  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0392   NV UP DI PL ZR NA PE NC           
+176C:0392 9D            POPF                                                    
+
+AX=0000  BX=0000  CX=0000  DX=0000  SP=FFEC  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0393   NV UP DI PL NZ NA PO NC           
+176C:0393 89F4          MOV     SP,SI                                           
+
+AX=0000  BX=0000  CX=0000  DX=0000  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0395   NV UP DI PL NZ NA PO NC           
+176C:0395 B88000        MOV     AX,0080                                         
+
+AX=0080  BX=0000  CX=0000  DX=0000  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0398   NV UP DI PL NZ NA PO NC           
+176C:0398 BA0100        MOV     DX,0001                                         
+
+AX=0080  BX=0000  CX=0000  DX=0001  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=039B   NV UP DI PL NZ NA PO NC           
+176C:039B BB0100        MOV     BX,0001                                         
+
+AX=0080  BX=0001  CX=0000  DX=0001  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=039E   NV UP DI PL NZ NA PO NC           
+176C:039E F7E3          MUL     BX                                              
+
+AX=0080  BX=0001  CX=0000  DX=0000  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=03A0   NV UP DI PL NZ NA PO NC           
+176C:03A0 55            PUSH    BP                                              
+
+AX=0080  BX=0001  CX=0000  DX=0000  SP=FFEC  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=03A1   NV UP DI PL NZ NA PO NC           
+176C:03A1 55            PUSH    BP                                              
+
+AX=0080  BX=0001  CX=0000  DX=0000  SP=FFEA  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=03A2   NV UP DI PL NZ NA PO NC           
+176C:03A2 9D            POPF                                                    
+
+AX=0080  BX=0001  CX=0000  DX=0000  SP=FFEC  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=03A3   NV UP DI PL NZ NA PO NC           
+176C:03A3 89F4          MOV     SP,SI                                           
+
+AX=0080  BX=0001  CX=0000  DX=0000  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=03A5   NV UP DI PL NZ NA PO NC           
+176C:03A5 B080          MOV     AL,80                                           
+
+AX=0080  BX=0001  CX=0000  DX=0000  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=03A7   NV UP DI PL NZ NA PO NC           
+176C:03A7 B201          MOV     DL,01                                           
+
+AX=0080  BX=0001  CX=0000  DX=0001  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=03A9   NV UP DI PL NZ NA PO NC           
+176C:03A9 B301          MOV     BL,01                                           
+
+AX=0080  BX=0001  CX=0000  DX=0001  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=03AB   NV UP DI PL NZ NA PO NC           
+176C:03AB F6E3          MUL     BL                                              
+
+AX=0080  BX=0001  CX=0000  DX=0001  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=03AD   NV UP DI NG NZ NA PO NC           
+176C:03AD 55            PUSH    BP                                              
+
+AX=0080  BX=0001  CX=0000  DX=0001  SP=FFEC  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=03AE   NV UP DI NG NZ NA PO NC           
+176C:03AE 55            PUSH    BP                                              
+
+AX=0080  BX=0001  CX=0000  DX=0001  SP=FFEA  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=03AF   NV UP DI NG NZ NA PO NC           
+176C:03AF 9D            POPF                                                    
+
+AX=0080  BX=0001  CX=0000  DX=0001  SP=FFEC  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=03B0   NV UP DI PL NZ NA PO NC           
+176C:03B0 89F4          MOV     SP,SI                                           
+
+AX=0080  BX=0001  CX=0000  DX=0001  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=03B2   NV UP DI PL NZ NA PO NC           
+176C:03B2 B88000        MOV     AX,0080                                         
+
+AX=0080  BX=0001  CX=0000  DX=0001  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=03B5   NV UP DI PL NZ NA PO NC           
+176C:03B5 BA0100        MOV     DX,0001                                         
+
+AX=0080  BX=0001  CX=0000  DX=0001  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=03B8   NV UP DI PL NZ NA PO NC           
+176C:03B8 BB0100        MOV     BX,0001                                         
+
+AX=0080  BX=0001  CX=0000  DX=0001  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=03BB   NV UP DI PL NZ NA PO NC           
+176C:03BB F7E3          MUL     BX                                              
+
+AX=0080  BX=0001  CX=0000  DX=0000  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=03BD   NV UP DI PL NZ NA PO NC           
+176C:03BD 55            PUSH    BP                                              
+
+AX=0080  BX=0001  CX=0000  DX=0000  SP=FFEC  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=03BE   NV UP DI PL NZ NA PO NC           
+176C:03BE 55            PUSH    BP                                              
+
+AX=0080  BX=0001  CX=0000  DX=0000  SP=FFEA  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=03BF   NV UP DI PL NZ NA PO NC           
+176C:03BF 9D            POPF                                                    
+
+AX=0080  BX=0001  CX=0000  DX=0000  SP=FFEC  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=03C0   NV UP DI PL NZ NA PO NC           
+176C:03C0 89F4          MOV     SP,SI                                           
+
+AX=0080  BX=0001  CX=0000  DX=0000  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=03C2   NV UP DI PL NZ NA PO NC           
+176C:03C2 B001          MOV     AL,01                                           
+
+AX=0001  BX=0001  CX=0000  DX=0000  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=03C4   NV UP DI PL NZ NA PO NC           
+176C:03C4 B200          MOV     DL,00                                           
+
+AX=0001  BX=0001  CX=0000  DX=0000  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=03C6   NV UP DI PL NZ NA PO NC           
+176C:03C6 B300          MOV     BL,00                                           
+
+AX=0001  BX=0000  CX=0000  DX=0000  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=03C8   NV UP DI PL NZ NA PO NC           
+176C:03C8 F6E3          MUL     BL                                              
+
+AX=0000  BX=0000  CX=0000  DX=0000  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=03CA   NV UP DI PL ZR NA PE NC           
+176C:03CA 55            PUSH    BP                                              
+
+AX=0000  BX=0000  CX=0000  DX=0000  SP=FFEC  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=03CB   NV UP DI PL ZR NA PE NC           
+176C:03CB 55            PUSH    BP                                              
+
+AX=0000  BX=0000  CX=0000  DX=0000  SP=FFEA  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=03CC   NV UP DI PL ZR NA PE NC           
+176C:03CC 9D            POPF                                                    
+
+AX=0000  BX=0000  CX=0000  DX=0000  SP=FFEC  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=03CD   NV UP DI PL NZ NA PO NC           
+176C:03CD 89F4          MOV     SP,SI                                           
+
+AX=0000  BX=0000  CX=0000  DX=0000  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=03CF   NV UP DI PL NZ NA PO NC           
+176C:03CF B80180        MOV     AX,8001                                         
+
+AX=8001  BX=0000  CX=0000  DX=0000  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=03D2   NV UP DI PL NZ NA PO NC           
+176C:03D2 BA0100        MOV     DX,0001                                         
+
+AX=8001  BX=0000  CX=0000  DX=0001  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=03D5   NV UP DI PL NZ NA PO NC           
+176C:03D5 BB0100        MOV     BX,0001                                         
+
+AX=8001  BX=0001  CX=0000  DX=0001  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=03D8   NV UP DI PL NZ NA PO NC           
+176C:03D8 F7E3          MUL     BX                                              
+
+AX=8001  BX=0001  CX=0000  DX=0000  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=03DA   NV UP DI NG NZ NA PO NC           
+176C:03DA 55            PUSH    BP                                              
+
+AX=8001  BX=0001  CX=0000  DX=0000  SP=FFEC  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=03DB   NV UP DI NG NZ NA PO NC           
+176C:03DB 55            PUSH    BP                                              
+
+AX=8001  BX=0001  CX=0000  DX=0000  SP=FFEA  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=03DC   NV UP DI NG NZ NA PO NC           
+176C:03DC 9D            POPF                                                    
+
+AX=8001  BX=0001  CX=0000  DX=0000  SP=FFEC  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=03DD   NV UP DI PL NZ NA PO NC           
+176C:03DD 89F4          MOV     SP,SI                                           
+
+AX=8001  BX=0001  CX=0000  DX=0000  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=03DF   NV UP DI PL NZ NA PO NC           
+176C:03DF B001          MOV     AL,01                                           
+
+AX=8001  BX=0001  CX=0000  DX=0000  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=03E1   NV UP DI PL NZ NA PO NC           
+176C:03E1 B201          MOV     DL,01                                           
+
+AX=8001  BX=0001  CX=0000  DX=0001  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=03E3   NV UP DI PL NZ NA PO NC           
+176C:03E3 B301          MOV     BL,01                                           
+
+AX=8001  BX=0001  CX=0000  DX=0001  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=03E5   NV UP DI PL NZ NA PO NC           
+176C:03E5 F6E3          MUL     BL                                              
+
+AX=0001  BX=0001  CX=0000  DX=0001  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=03E7   NV UP DI PL NZ NA PO NC           
+176C:03E7 55            PUSH    BP                                              
+
+AX=0001  BX=0001  CX=0000  DX=0001  SP=FFEC  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=03E8   NV UP DI PL NZ NA PO NC           
+176C:03E8 55            PUSH    BP                                              
+
+AX=0001  BX=0001  CX=0000  DX=0001  SP=FFEA  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=03E9   NV UP DI PL NZ NA PO NC           
+176C:03E9 9D            POPF                                                    
+
+AX=0001  BX=0001  CX=0000  DX=0001  SP=FFEC  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=03EA   NV UP DI PL NZ NA PO NC           
+176C:03EA 89F4          MOV     SP,SI                                           
+
+AX=0001  BX=0001  CX=0000  DX=0001  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=03EC   NV UP DI PL NZ NA PO NC           
+176C:03EC B80180        MOV     AX,8001                                         
+
+AX=8001  BX=0001  CX=0000  DX=0001  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=03EF   NV UP DI PL NZ NA PO NC           
+176C:03EF BA0100        MOV     DX,0001                                         
+
+AX=8001  BX=0001  CX=0000  DX=0001  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=03F2   NV UP DI PL NZ NA PO NC           
+176C:03F2 BB0100        MOV     BX,0001                                         
+
+AX=8001  BX=0001  CX=0000  DX=0001  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=03F5   NV UP DI PL NZ NA PO NC           
+176C:03F5 F7E3          MUL     BX                                              
+
+AX=8001  BX=0001  CX=0000  DX=0000  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=03F7   NV UP DI NG NZ NA PO NC           
+176C:03F7 55            PUSH    BP                                              
+
+AX=8001  BX=0001  CX=0000  DX=0000  SP=FFEC  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=03F8   NV UP DI NG NZ NA PO NC           
+176C:03F8 55            PUSH    BP                                              
+
+AX=8001  BX=0001  CX=0000  DX=0000  SP=FFEA  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=03F9   NV UP DI NG NZ NA PO NC           
+176C:03F9 9D            POPF                                                    
+
+AX=8001  BX=0001  CX=0000  DX=0000  SP=FFEC  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=03FA   NV UP DI PL NZ NA PO NC           
+176C:03FA 89F4          MOV     SP,SI                                           
+
+AX=8001  BX=0001  CX=0000  DX=0000  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=03FC   NV UP DI PL NZ NA PO NC           
+176C:03FC B0FE          MOV     AL,FE                                           
+
+AX=80FE  BX=0001  CX=0000  DX=0000  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=03FE   NV UP DI PL NZ NA PO NC           
+176C:03FE B200          MOV     DL,00                                           
+
+AX=80FE  BX=0001  CX=0000  DX=0000  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0400   NV UP DI PL NZ NA PO NC           
+176C:0400 B300          MOV     BL,00                                           
+
+AX=80FE  BX=0000  CX=0000  DX=0000  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0402   NV UP DI PL NZ NA PO NC           
+176C:0402 F6E3          MUL     BL                                              
+
+AX=0000  BX=0000  CX=0000  DX=0000  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0404   NV UP DI PL ZR NA PE NC           
+176C:0404 55            PUSH    BP                                              
+
+AX=0000  BX=0000  CX=0000  DX=0000  SP=FFEC  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0405   NV UP DI PL ZR NA PE NC           
+176C:0405 55            PUSH    BP                                              
+
+AX=0000  BX=0000  CX=0000  DX=0000  SP=FFEA  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0406   NV UP DI PL ZR NA PE NC           
+176C:0406 9D            POPF                                                    
+
+AX=0000  BX=0000  CX=0000  DX=0000  SP=FFEC  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0407   NV UP DI PL NZ NA PO NC           
+176C:0407 89F4          MOV     SP,SI                                           
+
+AX=0000  BX=0000  CX=0000  DX=0000  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0409   NV UP DI PL NZ NA PO NC           
+176C:0409 B8FE7F        MOV     AX,7FFE                                         
+
+AX=7FFE  BX=0000  CX=0000  DX=0000  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=040C   NV UP DI PL NZ NA PO NC           
+176C:040C BA0100        MOV     DX,0001                                         
+
+AX=7FFE  BX=0000  CX=0000  DX=0001  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=040F   NV UP DI PL NZ NA PO NC           
+176C:040F BB0100        MOV     BX,0001                                         
+
+AX=7FFE  BX=0001  CX=0000  DX=0001  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0412   NV UP DI PL NZ NA PO NC           
+176C:0412 F7E3          MUL     BX                                              
+
+AX=7FFE  BX=0001  CX=0000  DX=0000  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0414   NV UP DI PL NZ NA PO NC           
+176C:0414 55            PUSH    BP                                              
+
+AX=7FFE  BX=0001  CX=0000  DX=0000  SP=FFEC  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0415   NV UP DI PL NZ NA PO NC           
+176C:0415 55            PUSH    BP                                              
+
+AX=7FFE  BX=0001  CX=0000  DX=0000  SP=FFEA  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0416   NV UP DI PL NZ NA PO NC           
+176C:0416 9D            POPF                                                    
+
+AX=7FFE  BX=0001  CX=0000  DX=0000  SP=FFEC  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0417   NV UP DI PL NZ NA PO NC           
+176C:0417 89F4          MOV     SP,SI                                           
+
+AX=7FFE  BX=0001  CX=0000  DX=0000  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0419   NV UP DI PL NZ NA PO NC           
+176C:0419 B0FE          MOV     AL,FE                                           
+
+AX=7FFE  BX=0001  CX=0000  DX=0000  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=041B   NV UP DI PL NZ NA PO NC           
+176C:041B B201          MOV     DL,01                                           
+
+AX=7FFE  BX=0001  CX=0000  DX=0001  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=041D   NV UP DI PL NZ NA PO NC           
+176C:041D B301          MOV     BL,01                                           
+
+AX=7FFE  BX=0001  CX=0000  DX=0001  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=041F   NV UP DI PL NZ NA PO NC           
+176C:041F F6E3          MUL     BL                                              
+
+AX=00FE  BX=0001  CX=0000  DX=0001  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0421   NV UP DI NG NZ NA PO NC           
+176C:0421 55            PUSH    BP                                              
+
+AX=00FE  BX=0001  CX=0000  DX=0001  SP=FFEC  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0422   NV UP DI NG NZ NA PO NC           
+176C:0422 55            PUSH    BP                                              
+
+AX=00FE  BX=0001  CX=0000  DX=0001  SP=FFEA  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0423   NV UP DI NG NZ NA PO NC           
+176C:0423 9D            POPF                                                    
+
+AX=00FE  BX=0001  CX=0000  DX=0001  SP=FFEC  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0424   NV UP DI PL NZ NA PO NC           
+176C:0424 89F4          MOV     SP,SI                                           
+
+AX=00FE  BX=0001  CX=0000  DX=0001  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0426   NV UP DI PL NZ NA PO NC           
+176C:0426 B8FE7F        MOV     AX,7FFE                                         
+
+AX=7FFE  BX=0001  CX=0000  DX=0001  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0429   NV UP DI PL NZ NA PO NC           
+176C:0429 BA0100        MOV     DX,0001                                         
+
+AX=7FFE  BX=0001  CX=0000  DX=0001  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=042C   NV UP DI PL NZ NA PO NC           
+176C:042C BB0100        MOV     BX,0001                                         
+
+AX=7FFE  BX=0001  CX=0000  DX=0001  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=042F   NV UP DI PL NZ NA PO NC           
+176C:042F F7E3          MUL     BX                                              
+
+AX=7FFE  BX=0001  CX=0000  DX=0000  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0431   NV UP DI PL NZ NA PO NC           
+176C:0431 55            PUSH    BP                                              
+
+AX=7FFE  BX=0001  CX=0000  DX=0000  SP=FFEC  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0432   NV UP DI PL NZ NA PO NC           
+176C:0432 55            PUSH    BP                                              
+
+AX=7FFE  BX=0001  CX=0000  DX=0000  SP=FFEA  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0433   NV UP DI PL NZ NA PO NC           
+176C:0433 9D            POPF                                                    
+
+AX=7FFE  BX=0001  CX=0000  DX=0000  SP=FFEC  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0434   NV UP DI PL NZ NA PO NC           
+176C:0434 89F4          MOV     SP,SI                                           
+
+AX=7FFE  BX=0001  CX=0000  DX=0000  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0436   NV UP DI PL NZ NA PO NC           
+176C:0436 B07E          MOV     AL,7E                                           
+
+AX=7F7E  BX=0001  CX=0000  DX=0000  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0438   NV UP DI PL NZ NA PO NC           
+176C:0438 B200          MOV     DL,00                                           
+
+AX=7F7E  BX=0001  CX=0000  DX=0000  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=043A   NV UP DI PL NZ NA PO NC           
+176C:043A B300          MOV     BL,00                                           
+
+AX=7F7E  BX=0000  CX=0000  DX=0000  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=043C   NV UP DI PL NZ NA PO NC           
+176C:043C F6E3          MUL     BL                                              
+
+AX=0000  BX=0000  CX=0000  DX=0000  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=043E   NV UP DI PL ZR NA PE NC           
+176C:043E 55            PUSH    BP                                              
+
+AX=0000  BX=0000  CX=0000  DX=0000  SP=FFEC  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=043F   NV UP DI PL ZR NA PE NC           
+176C:043F 55            PUSH    BP                                              
+
+AX=0000  BX=0000  CX=0000  DX=0000  SP=FFEA  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0440   NV UP DI PL ZR NA PE NC           
+176C:0440 9D            POPF                                                    
+
+AX=0000  BX=0000  CX=0000  DX=0000  SP=FFEC  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0441   NV UP DI PL NZ NA PO NC           
+176C:0441 89F4          MOV     SP,SI                                           
+
+AX=0000  BX=0000  CX=0000  DX=0000  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0443   NV UP DI PL NZ NA PO NC           
+176C:0443 B87E00        MOV     AX,007E                                         
+
+AX=007E  BX=0000  CX=0000  DX=0000  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0446   NV UP DI PL NZ NA PO NC           
+176C:0446 BA0100        MOV     DX,0001                                         
+
+AX=007E  BX=0000  CX=0000  DX=0001  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0449   NV UP DI PL NZ NA PO NC           
+176C:0449 BB0100        MOV     BX,0001                                         
+
+AX=007E  BX=0001  CX=0000  DX=0001  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=044C   NV UP DI PL NZ NA PO NC           
+176C:044C F7E3          MUL     BX                                              
+
+AX=007E  BX=0001  CX=0000  DX=0000  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=044E   NV UP DI PL NZ NA PE NC           
+176C:044E 55            PUSH    BP                                              
+
+AX=007E  BX=0001  CX=0000  DX=0000  SP=FFEC  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=044F   NV UP DI PL NZ NA PE NC           
+176C:044F 55            PUSH    BP                                              
+
+AX=007E  BX=0001  CX=0000  DX=0000  SP=FFEA  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0450   NV UP DI PL NZ NA PE NC           
+176C:0450 9D            POPF                                                    
+
+AX=007E  BX=0001  CX=0000  DX=0000  SP=FFEC  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0451   NV UP DI PL NZ NA PO NC           
+176C:0451 89F4          MOV     SP,SI                                           
+
+AX=007E  BX=0001  CX=0000  DX=0000  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0453   NV UP DI PL NZ NA PO NC           
+176C:0453 B07E          MOV     AL,7E                                           
+
+AX=007E  BX=0001  CX=0000  DX=0000  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0455   NV UP DI PL NZ NA PO NC           
+176C:0455 B201          MOV     DL,01                                           
+
+AX=007E  BX=0001  CX=0000  DX=0001  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0457   NV UP DI PL NZ NA PO NC           
+176C:0457 B301          MOV     BL,01                                           
+
+AX=007E  BX=0001  CX=0000  DX=0001  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0459   NV UP DI PL NZ NA PO NC           
+176C:0459 F6E3          MUL     BL                                              
+
+AX=007E  BX=0001  CX=0000  DX=0001  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=045B   NV UP DI PL NZ NA PE NC           
+176C:045B 55            PUSH    BP                                              
+
+AX=007E  BX=0001  CX=0000  DX=0001  SP=FFEC  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=045C   NV UP DI PL NZ NA PE NC           
+176C:045C 55            PUSH    BP                                              
+
+AX=007E  BX=0001  CX=0000  DX=0001  SP=FFEA  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=045D   NV UP DI PL NZ NA PE NC           
+176C:045D 9D            POPF                                                    
+
+AX=007E  BX=0001  CX=0000  DX=0001  SP=FFEC  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=045E   NV UP DI PL NZ NA PO NC           
+176C:045E 89F4          MOV     SP,SI                                           
+
+AX=007E  BX=0001  CX=0000  DX=0001  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0460   NV UP DI PL NZ NA PO NC           
+176C:0460 B87E00        MOV     AX,007E                                         
+
+AX=007E  BX=0001  CX=0000  DX=0001  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0463   NV UP DI PL NZ NA PO NC           
+176C:0463 BA0100        MOV     DX,0001                                         
+
+AX=007E  BX=0001  CX=0000  DX=0001  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0466   NV UP DI PL NZ NA PO NC           
+176C:0466 BB0100        MOV     BX,0001                                         
+
+AX=007E  BX=0001  CX=0000  DX=0001  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0469   NV UP DI PL NZ NA PO NC           
+176C:0469 F7E3          MUL     BX                                              
+
+AX=007E  BX=0001  CX=0000  DX=0000  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=046B   NV UP DI PL NZ NA PE NC           
+176C:046B 55            PUSH    BP                                              
+
+AX=007E  BX=0001  CX=0000  DX=0000  SP=FFEC  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=046C   NV UP DI PL NZ NA PE NC           
+176C:046C 55            PUSH    BP                                              
+
+AX=007E  BX=0001  CX=0000  DX=0000  SP=FFEA  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=046D   NV UP DI PL NZ NA PE NC           
+176C:046D 9D            POPF                                                    
+
+AX=007E  BX=0001  CX=0000  DX=0000  SP=FFEC  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=046E   NV UP DI PL NZ NA PO NC           
+176C:046E 89F4          MOV     SP,SI                                           
+
+AX=007E  BX=0001  CX=0000  DX=0000  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0470   NV UP DI PL NZ NA PO NC           
+176C:0470 B081          MOV     AL,81                                           
+
+AX=0081  BX=0001  CX=0000  DX=0000  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0472   NV UP DI PL NZ NA PO NC           
+176C:0472 B200          MOV     DL,00                                           
+
+AX=0081  BX=0001  CX=0000  DX=0000  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0474   NV UP DI PL NZ NA PO NC           
+176C:0474 B300          MOV     BL,00                                           
+
+AX=0081  BX=0000  CX=0000  DX=0000  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0476   NV UP DI PL NZ NA PO NC           
+176C:0476 F6E3          MUL     BL                                              
+
+AX=0000  BX=0000  CX=0000  DX=0000  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0478   NV UP DI PL ZR NA PE NC           
+176C:0478 55            PUSH    BP                                              
+
+AX=0000  BX=0000  CX=0000  DX=0000  SP=FFEC  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0479   NV UP DI PL ZR NA PE NC           
+176C:0479 55            PUSH    BP                                              
+
+AX=0000  BX=0000  CX=0000  DX=0000  SP=FFEA  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=047A   NV UP DI PL ZR NA PE NC           
+176C:047A 9D            POPF                                                    
+
+AX=0000  BX=0000  CX=0000  DX=0000  SP=FFEC  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=047B   NV UP DI PL NZ NA PO NC           
+176C:047B 89F4          MOV     SP,SI                                           
+
+AX=0000  BX=0000  CX=0000  DX=0000  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=047D   NV UP DI PL NZ NA PO NC           
+176C:047D B88100        MOV     AX,0081                                         
+
+AX=0081  BX=0000  CX=0000  DX=0000  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0480   NV UP DI PL NZ NA PO NC           
+176C:0480 BA0100        MOV     DX,0001                                         
+
+AX=0081  BX=0000  CX=0000  DX=0001  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0483   NV UP DI PL NZ NA PO NC           
+176C:0483 BB0100        MOV     BX,0001                                         
+
+AX=0081  BX=0001  CX=0000  DX=0001  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0486   NV UP DI PL NZ NA PO NC           
+176C:0486 F7E3          MUL     BX                                              
+
+AX=0081  BX=0001  CX=0000  DX=0000  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0488   NV UP DI PL NZ NA PE NC           
+176C:0488 55            PUSH    BP                                              
+
+AX=0081  BX=0001  CX=0000  DX=0000  SP=FFEC  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0489   NV UP DI PL NZ NA PE NC           
+176C:0489 55            PUSH    BP                                              
+
+AX=0081  BX=0001  CX=0000  DX=0000  SP=FFEA  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=048A   NV UP DI PL NZ NA PE NC           
+176C:048A 9D            POPF                                                    
+
+AX=0081  BX=0001  CX=0000  DX=0000  SP=FFEC  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=048B   NV UP DI PL NZ NA PO NC           
+176C:048B 89F4          MOV     SP,SI                                           
+
+AX=0081  BX=0001  CX=0000  DX=0000  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=048D   NV UP DI PL NZ NA PO NC           
+176C:048D B081          MOV     AL,81                                           
+
+AX=0081  BX=0001  CX=0000  DX=0000  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=048F   NV UP DI PL NZ NA PO NC           
+176C:048F B201          MOV     DL,01                                           
+
+AX=0081  BX=0001  CX=0000  DX=0001  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0491   NV UP DI PL NZ NA PO NC           
+176C:0491 B301          MOV     BL,01                                           
+
+AX=0081  BX=0001  CX=0000  DX=0001  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0493   NV UP DI PL NZ NA PO NC           
+176C:0493 F6E3          MUL     BL                                              
+
+AX=0081  BX=0001  CX=0000  DX=0001  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0495   NV UP DI NG NZ NA PE NC           
+176C:0495 55            PUSH    BP                                              
+
+AX=0081  BX=0001  CX=0000  DX=0001  SP=FFEC  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0496   NV UP DI NG NZ NA PE NC           
+176C:0496 55            PUSH    BP                                              
+
+AX=0081  BX=0001  CX=0000  DX=0001  SP=FFEA  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0497   NV UP DI NG NZ NA PE NC           
+176C:0497 9D            POPF                                                    
+
+AX=0081  BX=0001  CX=0000  DX=0001  SP=FFEC  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=0498   NV UP DI PL NZ NA PO NC           
+176C:0498 89F4          MOV     SP,SI                                           
+
+AX=0081  BX=0001  CX=0000  DX=0001  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=049A   NV UP DI PL NZ NA PO NC           
+176C:049A B88100        MOV     AX,0081                                         
+
+AX=0081  BX=0001  CX=0000  DX=0001  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=049D   NV UP DI PL NZ NA PO NC           
+176C:049D BA0100        MOV     DX,0001                                         
+
+AX=0081  BX=0001  CX=0000  DX=0001  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=04A0   NV UP DI PL NZ NA PO NC           
+176C:04A0 BB0100        MOV     BX,0001                                         
+
+AX=0081  BX=0001  CX=0000  DX=0001  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=04A3   NV UP DI PL NZ NA PO NC           
+176C:04A3 F7E3          MUL     BX                                              
+
+AX=0081  BX=0001  CX=0000  DX=0000  SP=FFEE  BP=0000  SI=FFEE  DI=0000          
+DS=176C  ES=176C  SS=176C  CS=176C  IP=04A5   NV UP DI PL NZ NA PE NC           
+176C:04A5 CD20          INT     20                                              
+

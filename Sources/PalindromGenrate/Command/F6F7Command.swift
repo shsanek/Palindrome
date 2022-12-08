@@ -28,7 +28,7 @@ private let IMULTreg = BaseFormat{ info in
         return """
         reg_AX_16 = reg_AL_8 * (*((int8_t*)target));
         FillFlagsNoCFOF();
-        SET_FLAG(ZF, reg_AX_16 == 0);
+        SET_FLAG(ZF, reg_AL_8 == 0);
         SET_FLAG(SF, reg_AL_8 & 0x80);
         if ((reg_AX_16 & 0xff80)==0xff80 || (reg_AX_16 & 0xff80)==0x0000) {
         SET_FLAG(CF,0);SET_FLAG(OF,0);
@@ -119,43 +119,43 @@ private let DIVreg = BaseFormat{ info in
     if info.dataSize == 8 {
         return """
         uint8_t val= *(uint8_t*)(target);
-        uint16_t quo=reg_AX_16 / val;
-        uint8_t rem=(uint8_t)(reg_AX_16 % val);
-        uint8_t quo8=(uint8_t)(quo&0xff);
-        reg_AH_8=rem;
-        reg_AL_8=quo8;
+        uint16_t quo = reg_AX_16u / val;
+        uint8_t rem = (uint8_t)(reg_AX_16 % val);
+        uint8_t quo8 = (uint8_t)(quo&0xff);
+        reg_AH_8u=rem;
+        reg_AL_8u=quo8;
         FillFlags();
         SET_FLAG(ZF,(rem==0)&&((quo8&1)!=0));
         SET_FLAG(CF,((rem&3) >= 1 && (rem&3) <= 2));
-        SET_FLAG(PF,parity_lookup[rem&0xff]^parity_lookup[quo8&0xff]^GET_FLAG(PF));
+        SET_FLAG(PF,parity_lookup[rem]^parity_lookup[quo8]);
         """
     } else if info.dataSize == 16 {
         return """
         uint16_t val= *(uint16_t*)(target);
-        uint32_t num=((uint32_t)reg_DX_16<<16)|reg_AX_16;
+        uint32_t num=((uint32_t)reg_DX_16u<<16) | reg_AX_16u;
         uint32_t quo=num/val;
         uint16_t rem=(uint16_t)(num % val);
         uint16_t quo16=(uint16_t)(quo&0xffff);
-        reg_DX_16=rem;
-        reg_AX_16=quo16;
+        reg_DX_16u=rem;
+        reg_AX_16u=quo16;
         FillFlags();
         SET_FLAG(ZF,(rem==0)&&((quo16&1)!=0));
         SET_FLAG(CF,((rem&3) >= 1 && (rem&3) <= 2));
-        SET_FLAG(PF,PARITY16(rem&0xffff)^PARITY16(quo16&0xffff)^GET_FLAG(PF));
+        SET_FLAG(PF,PARITY16(rem)^PARITY16(quo16));
         """
     } else {
         return """
         uint32_t val= *(uint32_t*)(target);
-        uint64_t num=(((uint64_t)reg_DX_32)<<32)|reg_AX_32;
+        uint64_t num=(((uint64_t)reg_DX_32u)<<32) | reg_AX_32u;
         uint64_t quo=num/val;
         uint32_t rem=(uint32_t)(num % val);
         uint32_t quo32=(uint32_t)(quo&0xffffffff);
-        reg_DX_32=rem;
-        reg_AX_32=quo32;
+        reg_DX_32u=rem;
+        reg_AX_32u=quo32;
         FillFlags();
         SET_FLAG(ZF,(rem==0)&&((quo32&1)!=0));
         SET_FLAG(CF,((rem&3) >= 1 && (rem&3) <= 2));
-        SET_FLAG(PF,PARITY32(rem&0xffffffff)^PARITY32(quo32&0xffffffff)^GET_FLAG(PF));
+        SET_FLAG(PF,PARITY32(rem)^PARITY32(quo32));
         """
     }
 }
@@ -163,7 +163,7 @@ private let DIVreg = BaseFormat{ info in
 private let MULTreg = BaseFormat{ info in
     if info.dataSize == 8 {
         return """
-        reg_AX_16=((uint16_t)reg_AL_8)*((uint16_t)(*(uint8_t*)target));
+        reg_AX_16u=((uint16_t)reg_AL_8u)*((uint16_t)(*(uint8_t*)target));
         FillFlagsNoCFOF();
         SET_FLAG(ZF,reg_AL_8 == 0);
         SET_FLAG(PF,PARITY16(reg_AX_16));
@@ -175,12 +175,12 @@ private let MULTreg = BaseFormat{ info in
         """
     } else if info.dataSize == 16 {
         return """
-        uint32_t tempu=(uint32_t)reg_AX_16*(uint32_t)(*(uint16_t*)(target));
+        uint32_t tempu=((uint32_t)reg_AX_16u)*(uint32_t)(*(uint16_t*)(target));
         reg_AX_16=(uint16_t)(tempu);
         reg_DX_16=(uint16_t)(tempu >> 16);
         FillFlagsNoCFOF();
         SET_FLAG(ZF,reg_AX_16 == 0);
-        SET_FLAG(PF,PARITY16(reg_AX_16)^PARITY16(reg_DX_16)^GET_FLAG(PF));
+        SET_FLAG(PF,PARITY16(reg_AX_16)^PARITY16(reg_DX_16));
         if (reg_DX_16) {
         SET_FLAG(CF,1);SET_FLAG(OF,1);
         } else {
@@ -189,12 +189,12 @@ private let MULTreg = BaseFormat{ info in
         """
     } else {
         return """
-        uint64_t tempu=(uint64_t)reg_AX_32*(uint64_t)(*(uint32_t*)(target));
+        uint64_t tempu=((uint64_t)reg_AX_32u)*((uint64_t)(*(uint32_t*)(target)));
         reg_AX_32=(uint32_t)(tempu);
         reg_DX_32=(uint32_t)(tempu >> 32);
         FillFlagsNoCFOF();
         SET_FLAG(ZF,reg_AX_32 == 0);
-        SET_FLAG(PF,PARITY32(reg_AX_32)^PARITY32(reg_DX_32)^GET_FLAG(PF));
+        SET_FLAG(PF,PARITY32(reg_AX_32)^PARITY32(reg_DX_32));
         if (reg_DX_32) {
         SET_FLAG(CF,1);SET_FLAG(OF,1);
         } else {

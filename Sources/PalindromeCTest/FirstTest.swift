@@ -411,14 +411,35 @@ final class FirstTest: XCTestCase {
 
     func test99_04Neg() {
         baseTestFunction(name: "Neg", suffix: "_ff")
+        baseTestFunction(name: "Neg", suffix: "_00")
     }
 
     func test99_05Not() {
         baseTestFunction(name: "Not", suffix: "_00")
+        baseTestFunction(name: "Not", suffix: "_ff")
     }
 
     func test99_06Sbb() {
+        baseTestFunction(name: "Sbb", suffix: "_00")
         baseTestFunction(name: "Sbb", suffix: "_ff")
+    }
+
+    func test99_07Adc() {
+        baseTestFunction(name: "Adc", suffix: "_00")
+        baseTestFunction(name: "Adc", suffix: "_ff")
+    }
+
+    func test99_08Sub() {
+        baseTestFunction(name: "Sub", suffix: "_00")
+        baseTestFunction(name: "Sub", suffix: "_ff")
+    }
+
+    func test99_09Mul() {
+        baseTestFunction(name: "Mul", suffix: "")
+    }
+
+    func test99_09IMul() {
+        baseTestFunction(name: "IMul", suffix: "")
     }
 
     func baseTestFunction(name: String, suffix: String, file: StaticString = #file, line: UInt = #line, function: String = #function) {
@@ -438,6 +459,8 @@ final class FirstTest: XCTestCase {
 
         let error = result.getErrorCommand(source: log)
         TAssert(error == nil || error == count, file: file, line: line, function: function)
+
+        // runFullModeToEndWithStop(Int32(1000))
     }
 }
 

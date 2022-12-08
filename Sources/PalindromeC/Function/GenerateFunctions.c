@@ -8116,7 +8116,7 @@ void handlerCommand16Code00F6P66_RM() {
 		break;
 		case 0x04: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
-			reg_AX_16=((uint16_t)reg_AL_8)*((uint16_t)(*(uint8_t*)target));
+			reg_AX_16u=((uint16_t)reg_AL_8u)*((uint16_t)(*(uint8_t*)target));
 			FillFlagsNoCFOF();
 			SET_FLAG(ZF,reg_AL_8 == 0);
 			SET_FLAG(PF,PARITY16(reg_AX_16));
@@ -8131,7 +8131,7 @@ void handlerCommand16Code00F6P66_RM() {
 			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
 			reg_AX_16 = reg_AL_8 * (*((int8_t*)target));
 			FillFlagsNoCFOF();
-			SET_FLAG(ZF, reg_AX_16 == 0);
+			SET_FLAG(ZF, reg_AL_8 == 0);
 			SET_FLAG(SF, reg_AL_8 & 0x80);
 			if ((reg_AX_16 & 0xff80)==0xff80 || (reg_AX_16 & 0xff80)==0x0000) {
 				SET_FLAG(CF,0);SET_FLAG(OF,0);
@@ -8143,15 +8143,15 @@ void handlerCommand16Code00F6P66_RM() {
 		case 0x06: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
 			uint8_t val= *(uint8_t*)(target);
-			uint16_t quo=reg_AX_16 / val;
-			uint8_t rem=(uint8_t)(reg_AX_16 % val);
-			uint8_t quo8=(uint8_t)(quo&0xff);
-			reg_AH_8=rem;
-			reg_AL_8=quo8;
+			uint16_t quo = reg_AX_16u / val;
+			uint8_t rem = (uint8_t)(reg_AX_16 % val);
+			uint8_t quo8 = (uint8_t)(quo&0xff);
+			reg_AH_8u=rem;
+			reg_AL_8u=quo8;
 			FillFlags();
 			SET_FLAG(ZF,(rem==0)&&((quo8&1)!=0));
 			SET_FLAG(CF,((rem&3) >= 1 && (rem&3) <= 2));
-			SET_FLAG(PF,parity_lookup[rem&0xff]^parity_lookup[quo8&0xff]^GET_FLAG(PF));
+			SET_FLAG(PF,parity_lookup[rem]^parity_lookup[quo8]);
 		}
 		break;
 		case 0x07: {
@@ -8204,7 +8204,7 @@ void handlerCommand16Code00F6_RM() {
 		break;
 		case 0x04: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
-			reg_AX_16=((uint16_t)reg_AL_8)*((uint16_t)(*(uint8_t*)target));
+			reg_AX_16u=((uint16_t)reg_AL_8u)*((uint16_t)(*(uint8_t*)target));
 			FillFlagsNoCFOF();
 			SET_FLAG(ZF,reg_AL_8 == 0);
 			SET_FLAG(PF,PARITY16(reg_AX_16));
@@ -8219,7 +8219,7 @@ void handlerCommand16Code00F6_RM() {
 			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
 			reg_AX_16 = reg_AL_8 * (*((int8_t*)target));
 			FillFlagsNoCFOF();
-			SET_FLAG(ZF, reg_AX_16 == 0);
+			SET_FLAG(ZF, reg_AL_8 == 0);
 			SET_FLAG(SF, reg_AL_8 & 0x80);
 			if ((reg_AX_16 & 0xff80)==0xff80 || (reg_AX_16 & 0xff80)==0x0000) {
 				SET_FLAG(CF,0);SET_FLAG(OF,0);
@@ -8231,15 +8231,15 @@ void handlerCommand16Code00F6_RM() {
 		case 0x06: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
 			uint8_t val= *(uint8_t*)(target);
-			uint16_t quo=reg_AX_16 / val;
-			uint8_t rem=(uint8_t)(reg_AX_16 % val);
-			uint8_t quo8=(uint8_t)(quo&0xff);
-			reg_AH_8=rem;
-			reg_AL_8=quo8;
+			uint16_t quo = reg_AX_16u / val;
+			uint8_t rem = (uint8_t)(reg_AX_16 % val);
+			uint8_t quo8 = (uint8_t)(quo&0xff);
+			reg_AH_8u=rem;
+			reg_AL_8u=quo8;
 			FillFlags();
 			SET_FLAG(ZF,(rem==0)&&((quo8&1)!=0));
 			SET_FLAG(CF,((rem&3) >= 1 && (rem&3) <= 2));
-			SET_FLAG(PF,parity_lookup[rem&0xff]^parity_lookup[quo8&0xff]^GET_FLAG(PF));
+			SET_FLAG(PF,parity_lookup[rem]^parity_lookup[quo8]);
 		}
 		break;
 		case 0x07: {
@@ -8292,12 +8292,12 @@ void handlerCommand16Code00F7P66_RM() {
 		break;
 		case 0x04: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For32(mrmByte);
-			uint64_t tempu=(uint64_t)reg_AX_32*(uint64_t)(*(uint32_t*)(target));
+			uint64_t tempu=((uint64_t)reg_AX_32u)*((uint64_t)(*(uint32_t*)(target)));
 			reg_AX_32=(uint32_t)(tempu);
 			reg_DX_32=(uint32_t)(tempu >> 32);
 			FillFlagsNoCFOF();
 			SET_FLAG(ZF,reg_AX_32 == 0);
-			SET_FLAG(PF,PARITY32(reg_AX_32)^PARITY32(reg_DX_32)^GET_FLAG(PF));
+			SET_FLAG(PF,PARITY32(reg_AX_32)^PARITY32(reg_DX_32));
 			if (reg_DX_32) {
 				SET_FLAG(CF,1);SET_FLAG(OF,1);
 			} else {
@@ -8325,16 +8325,16 @@ void handlerCommand16Code00F7P66_RM() {
 		case 0x06: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For32(mrmByte);
 			uint32_t val= *(uint32_t*)(target);
-			uint64_t num=(((uint64_t)reg_DX_32)<<32)|reg_AX_32;
+			uint64_t num=(((uint64_t)reg_DX_32u)<<32) | reg_AX_32u;
 			uint64_t quo=num/val;
 			uint32_t rem=(uint32_t)(num % val);
 			uint32_t quo32=(uint32_t)(quo&0xffffffff);
-			reg_DX_32=rem;
-			reg_AX_32=quo32;
+			reg_DX_32u=rem;
+			reg_AX_32u=quo32;
 			FillFlags();
 			SET_FLAG(ZF,(rem==0)&&((quo32&1)!=0));
 			SET_FLAG(CF,((rem&3) >= 1 && (rem&3) <= 2));
-			SET_FLAG(PF,PARITY32(rem&0xffffffff)^PARITY32(quo32&0xffffffff)^GET_FLAG(PF));
+			SET_FLAG(PF,PARITY32(rem)^PARITY32(quo32));
 		}
 		break;
 		case 0x07: {
@@ -8388,12 +8388,12 @@ void handlerCommand16Code00F7_RM() {
 		break;
 		case 0x04: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
-			uint32_t tempu=(uint32_t)reg_AX_16*(uint32_t)(*(uint16_t*)(target));
+			uint32_t tempu=((uint32_t)reg_AX_16u)*(uint32_t)(*(uint16_t*)(target));
 			reg_AX_16=(uint16_t)(tempu);
 			reg_DX_16=(uint16_t)(tempu >> 16);
 			FillFlagsNoCFOF();
 			SET_FLAG(ZF,reg_AX_16 == 0);
-			SET_FLAG(PF,PARITY16(reg_AX_16)^PARITY16(reg_DX_16)^GET_FLAG(PF));
+			SET_FLAG(PF,PARITY16(reg_AX_16)^PARITY16(reg_DX_16));
 			if (reg_DX_16) {
 				SET_FLAG(CF,1);SET_FLAG(OF,1);
 			} else {
@@ -8419,16 +8419,16 @@ void handlerCommand16Code00F7_RM() {
 		case 0x06: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
 			uint16_t val= *(uint16_t*)(target);
-			uint32_t num=((uint32_t)reg_DX_16<<16)|reg_AX_16;
+			uint32_t num=((uint32_t)reg_DX_16u<<16) | reg_AX_16u;
 			uint32_t quo=num/val;
 			uint16_t rem=(uint16_t)(num % val);
 			uint16_t quo16=(uint16_t)(quo&0xffff);
-			reg_DX_16=rem;
-			reg_AX_16=quo16;
+			reg_DX_16u=rem;
+			reg_AX_16u=quo16;
 			FillFlags();
 			SET_FLAG(ZF,(rem==0)&&((quo16&1)!=0));
 			SET_FLAG(CF,((rem&3) >= 1 && (rem&3) <= 2));
-			SET_FLAG(PF,PARITY16(rem&0xffff)^PARITY16(quo16&0xffff)^GET_FLAG(PF));
+			SET_FLAG(PF,PARITY16(rem)^PARITY16(quo16));
 		}
 		break;
 		case 0x07: {
@@ -18132,7 +18132,7 @@ void handlerCommand32Code00F6P66_RM() {
 		break;
 		case 0x04: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
-			reg_AX_16=((uint16_t)reg_AL_8)*((uint16_t)(*(uint8_t*)target));
+			reg_AX_16u=((uint16_t)reg_AL_8u)*((uint16_t)(*(uint8_t*)target));
 			FillFlagsNoCFOF();
 			SET_FLAG(ZF,reg_AL_8 == 0);
 			SET_FLAG(PF,PARITY16(reg_AX_16));
@@ -18147,7 +18147,7 @@ void handlerCommand32Code00F6P66_RM() {
 			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
 			reg_AX_16 = reg_AL_8 * (*((int8_t*)target));
 			FillFlagsNoCFOF();
-			SET_FLAG(ZF, reg_AX_16 == 0);
+			SET_FLAG(ZF, reg_AL_8 == 0);
 			SET_FLAG(SF, reg_AL_8 & 0x80);
 			if ((reg_AX_16 & 0xff80)==0xff80 || (reg_AX_16 & 0xff80)==0x0000) {
 				SET_FLAG(CF,0);SET_FLAG(OF,0);
@@ -18159,15 +18159,15 @@ void handlerCommand32Code00F6P66_RM() {
 		case 0x06: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
 			uint8_t val= *(uint8_t*)(target);
-			uint16_t quo=reg_AX_16 / val;
-			uint8_t rem=(uint8_t)(reg_AX_16 % val);
-			uint8_t quo8=(uint8_t)(quo&0xff);
-			reg_AH_8=rem;
-			reg_AL_8=quo8;
+			uint16_t quo = reg_AX_16u / val;
+			uint8_t rem = (uint8_t)(reg_AX_16 % val);
+			uint8_t quo8 = (uint8_t)(quo&0xff);
+			reg_AH_8u=rem;
+			reg_AL_8u=quo8;
 			FillFlags();
 			SET_FLAG(ZF,(rem==0)&&((quo8&1)!=0));
 			SET_FLAG(CF,((rem&3) >= 1 && (rem&3) <= 2));
-			SET_FLAG(PF,parity_lookup[rem&0xff]^parity_lookup[quo8&0xff]^GET_FLAG(PF));
+			SET_FLAG(PF,parity_lookup[rem]^parity_lookup[quo8]);
 		}
 		break;
 		case 0x07: {
@@ -18220,7 +18220,7 @@ void handlerCommand32Code00F6_RM() {
 		break;
 		case 0x04: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
-			reg_AX_16=((uint16_t)reg_AL_8)*((uint16_t)(*(uint8_t*)target));
+			reg_AX_16u=((uint16_t)reg_AL_8u)*((uint16_t)(*(uint8_t*)target));
 			FillFlagsNoCFOF();
 			SET_FLAG(ZF,reg_AL_8 == 0);
 			SET_FLAG(PF,PARITY16(reg_AX_16));
@@ -18235,7 +18235,7 @@ void handlerCommand32Code00F6_RM() {
 			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
 			reg_AX_16 = reg_AL_8 * (*((int8_t*)target));
 			FillFlagsNoCFOF();
-			SET_FLAG(ZF, reg_AX_16 == 0);
+			SET_FLAG(ZF, reg_AL_8 == 0);
 			SET_FLAG(SF, reg_AL_8 & 0x80);
 			if ((reg_AX_16 & 0xff80)==0xff80 || (reg_AX_16 & 0xff80)==0x0000) {
 				SET_FLAG(CF,0);SET_FLAG(OF,0);
@@ -18247,15 +18247,15 @@ void handlerCommand32Code00F6_RM() {
 		case 0x06: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
 			uint8_t val= *(uint8_t*)(target);
-			uint16_t quo=reg_AX_16 / val;
-			uint8_t rem=(uint8_t)(reg_AX_16 % val);
-			uint8_t quo8=(uint8_t)(quo&0xff);
-			reg_AH_8=rem;
-			reg_AL_8=quo8;
+			uint16_t quo = reg_AX_16u / val;
+			uint8_t rem = (uint8_t)(reg_AX_16 % val);
+			uint8_t quo8 = (uint8_t)(quo&0xff);
+			reg_AH_8u=rem;
+			reg_AL_8u=quo8;
 			FillFlags();
 			SET_FLAG(ZF,(rem==0)&&((quo8&1)!=0));
 			SET_FLAG(CF,((rem&3) >= 1 && (rem&3) <= 2));
-			SET_FLAG(PF,parity_lookup[rem&0xff]^parity_lookup[quo8&0xff]^GET_FLAG(PF));
+			SET_FLAG(PF,parity_lookup[rem]^parity_lookup[quo8]);
 		}
 		break;
 		case 0x07: {
@@ -18308,12 +18308,12 @@ void handlerCommand32Code00F7P66_RM() {
 		break;
 		case 0x04: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For16(mrmByte);
-			uint32_t tempu=(uint32_t)reg_AX_16*(uint32_t)(*(uint16_t*)(target));
+			uint32_t tempu=((uint32_t)reg_AX_16u)*(uint32_t)(*(uint16_t*)(target));
 			reg_AX_16=(uint16_t)(tempu);
 			reg_DX_16=(uint16_t)(tempu >> 16);
 			FillFlagsNoCFOF();
 			SET_FLAG(ZF,reg_AX_16 == 0);
-			SET_FLAG(PF,PARITY16(reg_AX_16)^PARITY16(reg_DX_16)^GET_FLAG(PF));
+			SET_FLAG(PF,PARITY16(reg_AX_16)^PARITY16(reg_DX_16));
 			if (reg_DX_16) {
 				SET_FLAG(CF,1);SET_FLAG(OF,1);
 			} else {
@@ -18339,16 +18339,16 @@ void handlerCommand32Code00F7P66_RM() {
 		case 0x06: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For16(mrmByte);
 			uint16_t val= *(uint16_t*)(target);
-			uint32_t num=((uint32_t)reg_DX_16<<16)|reg_AX_16;
+			uint32_t num=((uint32_t)reg_DX_16u<<16) | reg_AX_16u;
 			uint32_t quo=num/val;
 			uint16_t rem=(uint16_t)(num % val);
 			uint16_t quo16=(uint16_t)(quo&0xffff);
-			reg_DX_16=rem;
-			reg_AX_16=quo16;
+			reg_DX_16u=rem;
+			reg_AX_16u=quo16;
 			FillFlags();
 			SET_FLAG(ZF,(rem==0)&&((quo16&1)!=0));
 			SET_FLAG(CF,((rem&3) >= 1 && (rem&3) <= 2));
-			SET_FLAG(PF,PARITY16(rem&0xffff)^PARITY16(quo16&0xffff)^GET_FLAG(PF));
+			SET_FLAG(PF,PARITY16(rem)^PARITY16(quo16));
 		}
 		break;
 		case 0x07: {
@@ -18402,12 +18402,12 @@ void handlerCommand32Code00F7_RM() {
 		break;
 		case 0x04: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
-			uint64_t tempu=(uint64_t)reg_AX_32*(uint64_t)(*(uint32_t*)(target));
+			uint64_t tempu=((uint64_t)reg_AX_32u)*((uint64_t)(*(uint32_t*)(target)));
 			reg_AX_32=(uint32_t)(tempu);
 			reg_DX_32=(uint32_t)(tempu >> 32);
 			FillFlagsNoCFOF();
 			SET_FLAG(ZF,reg_AX_32 == 0);
-			SET_FLAG(PF,PARITY32(reg_AX_32)^PARITY32(reg_DX_32)^GET_FLAG(PF));
+			SET_FLAG(PF,PARITY32(reg_AX_32)^PARITY32(reg_DX_32));
 			if (reg_DX_32) {
 				SET_FLAG(CF,1);SET_FLAG(OF,1);
 			} else {
@@ -18435,16 +18435,16 @@ void handlerCommand32Code00F7_RM() {
 		case 0x06: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
 			uint32_t val= *(uint32_t*)(target);
-			uint64_t num=(((uint64_t)reg_DX_32)<<32)|reg_AX_32;
+			uint64_t num=(((uint64_t)reg_DX_32u)<<32) | reg_AX_32u;
 			uint64_t quo=num/val;
 			uint32_t rem=(uint32_t)(num % val);
 			uint32_t quo32=(uint32_t)(quo&0xffffffff);
-			reg_DX_32=rem;
-			reg_AX_32=quo32;
+			reg_DX_32u=rem;
+			reg_AX_32u=quo32;
 			FillFlags();
 			SET_FLAG(ZF,(rem==0)&&((quo32&1)!=0));
 			SET_FLAG(CF,((rem&3) >= 1 && (rem&3) <= 2));
-			SET_FLAG(PF,PARITY32(rem&0xffffffff)^PARITY32(quo32&0xffffffff)^GET_FLAG(PF));
+			SET_FLAG(PF,PARITY32(rem)^PARITY32(quo32));
 		}
 		break;
 		case 0x07: {
@@ -28148,7 +28148,7 @@ void handlerCommand16Code00F6P66_PM() {
 		break;
 		case 0x04: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
-			reg_AX_16=((uint16_t)reg_AL_8)*((uint16_t)(*(uint8_t*)target));
+			reg_AX_16u=((uint16_t)reg_AL_8u)*((uint16_t)(*(uint8_t*)target));
 			FillFlagsNoCFOF();
 			SET_FLAG(ZF,reg_AL_8 == 0);
 			SET_FLAG(PF,PARITY16(reg_AX_16));
@@ -28163,7 +28163,7 @@ void handlerCommand16Code00F6P66_PM() {
 			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
 			reg_AX_16 = reg_AL_8 * (*((int8_t*)target));
 			FillFlagsNoCFOF();
-			SET_FLAG(ZF, reg_AX_16 == 0);
+			SET_FLAG(ZF, reg_AL_8 == 0);
 			SET_FLAG(SF, reg_AL_8 & 0x80);
 			if ((reg_AX_16 & 0xff80)==0xff80 || (reg_AX_16 & 0xff80)==0x0000) {
 				SET_FLAG(CF,0);SET_FLAG(OF,0);
@@ -28175,15 +28175,15 @@ void handlerCommand16Code00F6P66_PM() {
 		case 0x06: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
 			uint8_t val= *(uint8_t*)(target);
-			uint16_t quo=reg_AX_16 / val;
-			uint8_t rem=(uint8_t)(reg_AX_16 % val);
-			uint8_t quo8=(uint8_t)(quo&0xff);
-			reg_AH_8=rem;
-			reg_AL_8=quo8;
+			uint16_t quo = reg_AX_16u / val;
+			uint8_t rem = (uint8_t)(reg_AX_16 % val);
+			uint8_t quo8 = (uint8_t)(quo&0xff);
+			reg_AH_8u=rem;
+			reg_AL_8u=quo8;
 			FillFlags();
 			SET_FLAG(ZF,(rem==0)&&((quo8&1)!=0));
 			SET_FLAG(CF,((rem&3) >= 1 && (rem&3) <= 2));
-			SET_FLAG(PF,parity_lookup[rem&0xff]^parity_lookup[quo8&0xff]^GET_FLAG(PF));
+			SET_FLAG(PF,parity_lookup[rem]^parity_lookup[quo8]);
 		}
 		break;
 		case 0x07: {
@@ -28236,7 +28236,7 @@ void handlerCommand16Code00F6_PM() {
 		break;
 		case 0x04: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
-			reg_AX_16=((uint16_t)reg_AL_8)*((uint16_t)(*(uint8_t*)target));
+			reg_AX_16u=((uint16_t)reg_AL_8u)*((uint16_t)(*(uint8_t*)target));
 			FillFlagsNoCFOF();
 			SET_FLAG(ZF,reg_AL_8 == 0);
 			SET_FLAG(PF,PARITY16(reg_AX_16));
@@ -28251,7 +28251,7 @@ void handlerCommand16Code00F6_PM() {
 			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
 			reg_AX_16 = reg_AL_8 * (*((int8_t*)target));
 			FillFlagsNoCFOF();
-			SET_FLAG(ZF, reg_AX_16 == 0);
+			SET_FLAG(ZF, reg_AL_8 == 0);
 			SET_FLAG(SF, reg_AL_8 & 0x80);
 			if ((reg_AX_16 & 0xff80)==0xff80 || (reg_AX_16 & 0xff80)==0x0000) {
 				SET_FLAG(CF,0);SET_FLAG(OF,0);
@@ -28263,15 +28263,15 @@ void handlerCommand16Code00F6_PM() {
 		case 0x06: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
 			uint8_t val= *(uint8_t*)(target);
-			uint16_t quo=reg_AX_16 / val;
-			uint8_t rem=(uint8_t)(reg_AX_16 % val);
-			uint8_t quo8=(uint8_t)(quo&0xff);
-			reg_AH_8=rem;
-			reg_AL_8=quo8;
+			uint16_t quo = reg_AX_16u / val;
+			uint8_t rem = (uint8_t)(reg_AX_16 % val);
+			uint8_t quo8 = (uint8_t)(quo&0xff);
+			reg_AH_8u=rem;
+			reg_AL_8u=quo8;
 			FillFlags();
 			SET_FLAG(ZF,(rem==0)&&((quo8&1)!=0));
 			SET_FLAG(CF,((rem&3) >= 1 && (rem&3) <= 2));
-			SET_FLAG(PF,parity_lookup[rem&0xff]^parity_lookup[quo8&0xff]^GET_FLAG(PF));
+			SET_FLAG(PF,parity_lookup[rem]^parity_lookup[quo8]);
 		}
 		break;
 		case 0x07: {
@@ -28324,12 +28324,12 @@ void handlerCommand16Code00F7P66_PM() {
 		break;
 		case 0x04: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For32(mrmByte);
-			uint64_t tempu=(uint64_t)reg_AX_32*(uint64_t)(*(uint32_t*)(target));
+			uint64_t tempu=((uint64_t)reg_AX_32u)*((uint64_t)(*(uint32_t*)(target)));
 			reg_AX_32=(uint32_t)(tempu);
 			reg_DX_32=(uint32_t)(tempu >> 32);
 			FillFlagsNoCFOF();
 			SET_FLAG(ZF,reg_AX_32 == 0);
-			SET_FLAG(PF,PARITY32(reg_AX_32)^PARITY32(reg_DX_32)^GET_FLAG(PF));
+			SET_FLAG(PF,PARITY32(reg_AX_32)^PARITY32(reg_DX_32));
 			if (reg_DX_32) {
 				SET_FLAG(CF,1);SET_FLAG(OF,1);
 			} else {
@@ -28357,16 +28357,16 @@ void handlerCommand16Code00F7P66_PM() {
 		case 0x06: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For32(mrmByte);
 			uint32_t val= *(uint32_t*)(target);
-			uint64_t num=(((uint64_t)reg_DX_32)<<32)|reg_AX_32;
+			uint64_t num=(((uint64_t)reg_DX_32u)<<32) | reg_AX_32u;
 			uint64_t quo=num/val;
 			uint32_t rem=(uint32_t)(num % val);
 			uint32_t quo32=(uint32_t)(quo&0xffffffff);
-			reg_DX_32=rem;
-			reg_AX_32=quo32;
+			reg_DX_32u=rem;
+			reg_AX_32u=quo32;
 			FillFlags();
 			SET_FLAG(ZF,(rem==0)&&((quo32&1)!=0));
 			SET_FLAG(CF,((rem&3) >= 1 && (rem&3) <= 2));
-			SET_FLAG(PF,PARITY32(rem&0xffffffff)^PARITY32(quo32&0xffffffff)^GET_FLAG(PF));
+			SET_FLAG(PF,PARITY32(rem)^PARITY32(quo32));
 		}
 		break;
 		case 0x07: {
@@ -28420,12 +28420,12 @@ void handlerCommand16Code00F7_PM() {
 		break;
 		case 0x04: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
-			uint32_t tempu=(uint32_t)reg_AX_16*(uint32_t)(*(uint16_t*)(target));
+			uint32_t tempu=((uint32_t)reg_AX_16u)*(uint32_t)(*(uint16_t*)(target));
 			reg_AX_16=(uint16_t)(tempu);
 			reg_DX_16=(uint16_t)(tempu >> 16);
 			FillFlagsNoCFOF();
 			SET_FLAG(ZF,reg_AX_16 == 0);
-			SET_FLAG(PF,PARITY16(reg_AX_16)^PARITY16(reg_DX_16)^GET_FLAG(PF));
+			SET_FLAG(PF,PARITY16(reg_AX_16)^PARITY16(reg_DX_16));
 			if (reg_DX_16) {
 				SET_FLAG(CF,1);SET_FLAG(OF,1);
 			} else {
@@ -28451,16 +28451,16 @@ void handlerCommand16Code00F7_PM() {
 		case 0x06: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
 			uint16_t val= *(uint16_t*)(target);
-			uint32_t num=((uint32_t)reg_DX_16<<16)|reg_AX_16;
+			uint32_t num=((uint32_t)reg_DX_16u<<16) | reg_AX_16u;
 			uint32_t quo=num/val;
 			uint16_t rem=(uint16_t)(num % val);
 			uint16_t quo16=(uint16_t)(quo&0xffff);
-			reg_DX_16=rem;
-			reg_AX_16=quo16;
+			reg_DX_16u=rem;
+			reg_AX_16u=quo16;
 			FillFlags();
 			SET_FLAG(ZF,(rem==0)&&((quo16&1)!=0));
 			SET_FLAG(CF,((rem&3) >= 1 && (rem&3) <= 2));
-			SET_FLAG(PF,PARITY16(rem&0xffff)^PARITY16(quo16&0xffff)^GET_FLAG(PF));
+			SET_FLAG(PF,PARITY16(rem)^PARITY16(quo16));
 		}
 		break;
 		case 0x07: {
@@ -38164,7 +38164,7 @@ void handlerCommand32Code00F6P66_PM() {
 		break;
 		case 0x04: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
-			reg_AX_16=((uint16_t)reg_AL_8)*((uint16_t)(*(uint8_t*)target));
+			reg_AX_16u=((uint16_t)reg_AL_8u)*((uint16_t)(*(uint8_t*)target));
 			FillFlagsNoCFOF();
 			SET_FLAG(ZF,reg_AL_8 == 0);
 			SET_FLAG(PF,PARITY16(reg_AX_16));
@@ -38179,7 +38179,7 @@ void handlerCommand32Code00F6P66_PM() {
 			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
 			reg_AX_16 = reg_AL_8 * (*((int8_t*)target));
 			FillFlagsNoCFOF();
-			SET_FLAG(ZF, reg_AX_16 == 0);
+			SET_FLAG(ZF, reg_AL_8 == 0);
 			SET_FLAG(SF, reg_AL_8 & 0x80);
 			if ((reg_AX_16 & 0xff80)==0xff80 || (reg_AX_16 & 0xff80)==0x0000) {
 				SET_FLAG(CF,0);SET_FLAG(OF,0);
@@ -38191,15 +38191,15 @@ void handlerCommand32Code00F6P66_PM() {
 		case 0x06: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
 			uint8_t val= *(uint8_t*)(target);
-			uint16_t quo=reg_AX_16 / val;
-			uint8_t rem=(uint8_t)(reg_AX_16 % val);
-			uint8_t quo8=(uint8_t)(quo&0xff);
-			reg_AH_8=rem;
-			reg_AL_8=quo8;
+			uint16_t quo = reg_AX_16u / val;
+			uint8_t rem = (uint8_t)(reg_AX_16 % val);
+			uint8_t quo8 = (uint8_t)(quo&0xff);
+			reg_AH_8u=rem;
+			reg_AL_8u=quo8;
 			FillFlags();
 			SET_FLAG(ZF,(rem==0)&&((quo8&1)!=0));
 			SET_FLAG(CF,((rem&3) >= 1 && (rem&3) <= 2));
-			SET_FLAG(PF,parity_lookup[rem&0xff]^parity_lookup[quo8&0xff]^GET_FLAG(PF));
+			SET_FLAG(PF,parity_lookup[rem]^parity_lookup[quo8]);
 		}
 		break;
 		case 0x07: {
@@ -38252,7 +38252,7 @@ void handlerCommand32Code00F6_PM() {
 		break;
 		case 0x04: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
-			reg_AX_16=((uint16_t)reg_AL_8)*((uint16_t)(*(uint8_t*)target));
+			reg_AX_16u=((uint16_t)reg_AL_8u)*((uint16_t)(*(uint8_t*)target));
 			FillFlagsNoCFOF();
 			SET_FLAG(ZF,reg_AL_8 == 0);
 			SET_FLAG(PF,PARITY16(reg_AX_16));
@@ -38267,7 +38267,7 @@ void handlerCommand32Code00F6_PM() {
 			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
 			reg_AX_16 = reg_AL_8 * (*((int8_t*)target));
 			FillFlagsNoCFOF();
-			SET_FLAG(ZF, reg_AX_16 == 0);
+			SET_FLAG(ZF, reg_AL_8 == 0);
 			SET_FLAG(SF, reg_AL_8 & 0x80);
 			if ((reg_AX_16 & 0xff80)==0xff80 || (reg_AX_16 & 0xff80)==0x0000) {
 				SET_FLAG(CF,0);SET_FLAG(OF,0);
@@ -38279,15 +38279,15 @@ void handlerCommand32Code00F6_PM() {
 		case 0x06: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
 			uint8_t val= *(uint8_t*)(target);
-			uint16_t quo=reg_AX_16 / val;
-			uint8_t rem=(uint8_t)(reg_AX_16 % val);
-			uint8_t quo8=(uint8_t)(quo&0xff);
-			reg_AH_8=rem;
-			reg_AL_8=quo8;
+			uint16_t quo = reg_AX_16u / val;
+			uint8_t rem = (uint8_t)(reg_AX_16 % val);
+			uint8_t quo8 = (uint8_t)(quo&0xff);
+			reg_AH_8u=rem;
+			reg_AL_8u=quo8;
 			FillFlags();
 			SET_FLAG(ZF,(rem==0)&&((quo8&1)!=0));
 			SET_FLAG(CF,((rem&3) >= 1 && (rem&3) <= 2));
-			SET_FLAG(PF,parity_lookup[rem&0xff]^parity_lookup[quo8&0xff]^GET_FLAG(PF));
+			SET_FLAG(PF,parity_lookup[rem]^parity_lookup[quo8]);
 		}
 		break;
 		case 0x07: {
@@ -38340,12 +38340,12 @@ void handlerCommand32Code00F7P66_PM() {
 		break;
 		case 0x04: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For16(mrmByte);
-			uint32_t tempu=(uint32_t)reg_AX_16*(uint32_t)(*(uint16_t*)(target));
+			uint32_t tempu=((uint32_t)reg_AX_16u)*(uint32_t)(*(uint16_t*)(target));
 			reg_AX_16=(uint16_t)(tempu);
 			reg_DX_16=(uint16_t)(tempu >> 16);
 			FillFlagsNoCFOF();
 			SET_FLAG(ZF,reg_AX_16 == 0);
-			SET_FLAG(PF,PARITY16(reg_AX_16)^PARITY16(reg_DX_16)^GET_FLAG(PF));
+			SET_FLAG(PF,PARITY16(reg_AX_16)^PARITY16(reg_DX_16));
 			if (reg_DX_16) {
 				SET_FLAG(CF,1);SET_FLAG(OF,1);
 			} else {
@@ -38371,16 +38371,16 @@ void handlerCommand32Code00F7P66_PM() {
 		case 0x06: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For16(mrmByte);
 			uint16_t val= *(uint16_t*)(target);
-			uint32_t num=((uint32_t)reg_DX_16<<16)|reg_AX_16;
+			uint32_t num=((uint32_t)reg_DX_16u<<16) | reg_AX_16u;
 			uint32_t quo=num/val;
 			uint16_t rem=(uint16_t)(num % val);
 			uint16_t quo16=(uint16_t)(quo&0xffff);
-			reg_DX_16=rem;
-			reg_AX_16=quo16;
+			reg_DX_16u=rem;
+			reg_AX_16u=quo16;
 			FillFlags();
 			SET_FLAG(ZF,(rem==0)&&((quo16&1)!=0));
 			SET_FLAG(CF,((rem&3) >= 1 && (rem&3) <= 2));
-			SET_FLAG(PF,PARITY16(rem&0xffff)^PARITY16(quo16&0xffff)^GET_FLAG(PF));
+			SET_FLAG(PF,PARITY16(rem)^PARITY16(quo16));
 		}
 		break;
 		case 0x07: {
@@ -38434,12 +38434,12 @@ void handlerCommand32Code00F7_PM() {
 		break;
 		case 0x04: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
-			uint64_t tempu=(uint64_t)reg_AX_32*(uint64_t)(*(uint32_t*)(target));
+			uint64_t tempu=((uint64_t)reg_AX_32u)*((uint64_t)(*(uint32_t*)(target)));
 			reg_AX_32=(uint32_t)(tempu);
 			reg_DX_32=(uint32_t)(tempu >> 32);
 			FillFlagsNoCFOF();
 			SET_FLAG(ZF,reg_AX_32 == 0);
-			SET_FLAG(PF,PARITY32(reg_AX_32)^PARITY32(reg_DX_32)^GET_FLAG(PF));
+			SET_FLAG(PF,PARITY32(reg_AX_32)^PARITY32(reg_DX_32));
 			if (reg_DX_32) {
 				SET_FLAG(CF,1);SET_FLAG(OF,1);
 			} else {
@@ -38467,16 +38467,16 @@ void handlerCommand32Code00F7_PM() {
 		case 0x06: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
 			uint32_t val= *(uint32_t*)(target);
-			uint64_t num=(((uint64_t)reg_DX_32)<<32)|reg_AX_32;
+			uint64_t num=(((uint64_t)reg_DX_32u)<<32) | reg_AX_32u;
 			uint64_t quo=num/val;
 			uint32_t rem=(uint32_t)(num % val);
 			uint32_t quo32=(uint32_t)(quo&0xffffffff);
-			reg_DX_32=rem;
-			reg_AX_32=quo32;
+			reg_DX_32u=rem;
+			reg_AX_32u=quo32;
 			FillFlags();
 			SET_FLAG(ZF,(rem==0)&&((quo32&1)!=0));
 			SET_FLAG(CF,((rem&3) >= 1 && (rem&3) <= 2));
-			SET_FLAG(PF,PARITY32(rem&0xffffffff)^PARITY32(quo32&0xffffffff)^GET_FLAG(PF));
+			SET_FLAG(PF,PARITY32(rem)^PARITY32(quo32));
 		}
 		break;
 		case 0x07: {
