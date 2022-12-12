@@ -354,7 +354,7 @@ final class FirstTest: XCTestCase {
 //    }
 
     func test10() throws {
-        testContext = TestContextPrince
+        testContext = TestContextNone
         let wrapContext = WrapContext()
 
         let testPath = "/Users/alexandershipin/Documents/projects/Palindrome/Sources/TestSource/prince/reg.txt"
@@ -376,7 +376,7 @@ final class FirstTest: XCTestCase {
 
         wrapContext.loadProgram(with: .program, programm)
 
-        let number = 21447
+        let number = 0
         let value = runFullModeToEndWithStopForTest(Int32(number))
         let result = String(cString: value!)
         value?.deallocate()
@@ -437,16 +437,16 @@ final class FirstTest: XCTestCase {
     }
 
     func test99_09Mul() {
-        baseTestFunction(name: "Mul", suffix: "")
+        baseTestFunction(name: "Mul", suffix: "", map: [.init(" ", remove: ["PO", "PE"])])
     }
 
     func test99_09IMul() {
-        baseTestFunction(name: "IMul", suffix: "")
+        baseTestFunction(name: "IMul", suffix: "", map: [.init(" ", remove: ["PO", "PE"])])
     }
 
     func test99_10Rol() {
         baseTestFunction(name: "Rol", suffix: "_one_00")
-        baseTestFunction(name: "Rol", suffix: "_one_ff")
+        baseTestFunction(name: "Rol", suffix: "_one_ff") // Ror
     }
 
     func test99_11Sar() {
@@ -466,11 +466,18 @@ final class FirstTest: XCTestCase {
     }
 
     func test99_14Rcr() {
-        baseTestFunction(name: "Rcr", suffix: "_00")
-        baseTestFunction(name: "Rcr", suffix: "_ff")
+        baseTestFunction(name: "Rcr", suffix: "_00", map: [.init(not: "CX=0001", remove: ["OV", "NV"])])
+        baseTestFunction(name: "Rcr", suffix: "_ff", map: [.init(not: "CX=0001", remove: ["OV", "NV"])])
     }
 
-    func baseTestFunction(name: String, suffix: String, file: StaticString = #file, line: UInt = #line, function: String = #function) {
+    func baseTestFunction(
+        name: String,
+        suffix: String,
+        map: [String.CommandMap] = [],
+        file: StaticString = #file,
+        line: UInt = #line,
+        function: String = #function
+    ) {
         let path = "/Users/alexandershipin/Documents/projects/Palindrome/Sources/TestSource/Base/" + name + "/full\(suffix).log"
         let content = try! String(contentsOfFile: path)
 
@@ -485,10 +492,8 @@ final class FirstTest: XCTestCase {
         let result = String(cString: value!)
         value?.deallocate()
 
-        let error = result.getErrorCommand(source: log)
+        let error = result.getErrorCommand(source: log,  ignoreFlags: false, maps: map)
         TAssert(error == nil || error == count, file: file, line: line, function: function)
-
-        // runFullModeToEndWithStop(Int32(1000))
     }
 }
 

@@ -1,28 +1,28 @@
 let SHL = Formatter(
     customizers: [
+        "value = value & 0x1F;",
         "if (value == 0) { return; }",
         "",
-        "(*(uint%dataSize_t*)target) = (*(uint%dataSize_t*)target) << (value - 1);",
-        "SET_FLAG(CF, (*(uint%dataSize_t*)target) & %firstBitMask);",
-        "(*(uint%dataSize_t*)target) = (*(uint%dataSize_t*)target) << 1;",
+        "LazyFlagVarB8 = value;",
+        "LazyFlagVarA%dataSize = *(u%int*)target;",
+        "(*(uint%dataSize_t*)target) = (*(uint%dataSize_t*)target) << value;",
         "",
         "LazyFlagResultContainer%dataSize = (*(uint%dataSize_t*)target);",
-        "if (value == 1) { SET_FLAG(OF, (((*(uint%dataSize_t*)target) & %firstBitMask) ? 1 : 0) ^ CF); }",
-        "lazyFlagType = t_VALUE%dataSize;"
+        "lazyFlagType=t_SHL%dataSize;"
     ]
 )
 
 let SHR = Formatter(
     customizers: [
+        "value = value & 0x1F;",
         "if (value == 0) { return; }",
         "",
-        "if (value == 1) { SET_FLAG(OF, (*(uint%dataSize_t*)target) & %firstBitMask) };",
-        "(*(uint%dataSize_t*)target) = (*(uint%dataSize_t*)target) >> (value % %dataSize - 1);",
-        "SET_FLAG(CF, (*(uint%dataSize_t*)target) & 1);",
-        "(*(uint%dataSize_t*)target) = (*(uint%dataSize_t*)target) >> 1;",
+        "LazyFlagVarB8 = value;",
+        "LazyFlagVarA%dataSize = *(u%int*)target;",
+        "(*(uint%dataSize_t*)target) = (*(uint%dataSize_t*)target) >> (value);",
         "",
         "LazyFlagResultContainer%dataSize = (*(uint%dataSize_t*)target);",
-        "lazyFlagType = t_VALUE%dataSize;"
+        "lazyFlagType=t_SHR%dataSize;"
     ]
 )
 
@@ -30,78 +30,69 @@ let SAL = SHL
 
 let SAR = Formatter(
     customizers: [
+        "value = value & 0x1F;",
         "if (value == 0) { return; }",
+        "if (value > %dataSize) { value = %dataSize; }",
+        "FillFlagsNoCFOF();",
         "",
-        "uint64_t tmp = ((*(int%dataSize_t*)target) < 0) ? 0xFFFFFFFFFFFFFFFF : 0;",
-        "*(uint%dataSize_t*)(((uint8_t*)&tmp) + 4) = (*(uint%dataSize_t*)target);",
+        "LazyFlagVarB8 = value;",
+        "LazyFlagVarA%dataSize = *(u%int*)target;",
+        "if (LazyFlagVarA%dataSize & %firstBitMask) {",
+        "LazyFlagResultContainer%dataSize = ((LazyFlagVarA%dataSize) >> value) | ((0xFFFFFFFF) << (%dataSize - value));",
+        "} else {",
+        "LazyFlagResultContainer%dataSize = (LazyFlagVarA%dataSize) >> value;",
+        "}",
+        "(*(u%int*)target) = LazyFlagResultContainer%dataSize;",
         "",
-        "tmp = tmp >> (value % %dataSize - 1);",
-        "SET_FLAG(CF, tmp & 1);",
-        "tmp = tmp >> 1;",
-        "",
-        "(*(uint%dataSize_t*)target) = (*(uint%dataSize_t*)(((uint8_t*)&tmp) + 4));",
-        "",
-        "SET_FLAG(OF, 0);",
-        "LazyFlagResultContainer%dataSize = (*(uint%dataSize_t*)target);",
-        "lazyFlagType = t_VALUE%dataSize;"
+        "lazyFlagType=t_SAR%dataSize;"
     ]
 )
 
 //
 let ROL = Formatter(
     customizers: [
+        "value = value & 0x1F;",
         "if (value == 0) { return; }",
-        "FillFlags();",
+        "FillFlagsNoCFOF();",
+        "value = value % %dataSize;",
         "",
-        "uint%2dataSize_t tmp = 0;",
-        "*(uint%dataSize_t*)(((uint8_t*)&tmp)) = (*(uint%dataSize_t*)target);",
-        "*(uint%dataSize_t*)(((uint8_t*)&tmp) + (%dataSize / 8)) = (*(uint%dataSize_t*)target);",
+        "u%int tmp = ((*(u%int*)target) << value) | ((*(u%int*)target) >> (%dataSize - value));",
         "",
-        "SET_FLAG(CF, (tmp << (value % %dataSize + %dataSize - 1)) & %firstBitMask);",
-        "tmp = tmp << (value % %dataSize);",
-        "",
-        "(*(uint%dataSize_t*)target) = (*(uint%dataSize_t*)(((uint8_t*)&tmp)));",
-        "if (value == 1) { SET_FLAG(OF, (((*(uint%dataSize_t*)target) & %firstBitMask) ? 1 : 0) ^ CF); }",
+        "(*(u%int*)target) = tmp;",
+        "SET_FLAG(CF, (tmp & 1));",
+        "SET_FLAG(OF, (tmp >> (%dataSize - 1)) ^ CF );",
         ""
     ]
 )
 
 let ROR = Formatter(
     customizers: [
+        "value = value & 0x1F;",
         "if (value == 0) { return; }",
-        "FillFlags();",
-        "if (value == 1) { SET_FLAG(OF, (((*(uint%dataSize_t*)target) & %firstBitMask) ? 1 : 0) ^ CF); }",
+        "FillFlagsNoCFOF();",
+        "value = value % %dataSize;",
         "",
-        "uint%2dataSize_t tmp = 0;",
-        "*(uint%dataSize_t*)(((uint8_t*)&tmp)) = (*(uint%dataSize_t*)target);",
-        "*(uint%dataSize_t*)(((uint8_t*)&tmp) + (%dataSize / 8)) = (*(uint%dataSize_t*)target);",
+        "u%int tmp = ((*(u%int*)target) >> value) | ((*(u%int*)target) << (%dataSize - value));",
         "",
-        "tmp = tmp >> (value % %dataSize - 1);",
-        "SET_FLAG(CF, tmp & 1);",
-        "tmp = tmp >> 1;",
+        "(*(uint%dataSize_t*)target) = tmp;",
         "",
-        "(*(uint%dataSize_t*)target) = (*(uint%dataSize_t*)(((uint8_t*)&tmp + 4)));",
+        "SET_FLAG(CF, (tmp & %firstBitMask));",
+        "SET_FLAG(OF, (tmp ^ (tmp << 1)) & %firstBitMask);",
         ""
     ]
 )
 
 let RCL = Formatter(
     customizers: [
+        "value = (value & 0x1F) % (%dataSize + 1);",
         "if (value == 0) { return; }",
         "FillFlags();",
         "",
-        "uint%2dataSize_t tmp = 0;",
-        "*(uint%dataSize_t*)(((uint8_t*)&tmp) + (%dataSize / 8)) = (*(uint%dataSize_t*)target);",
-        "tmp = tmp >> 1;",
-        "uint%dataSize_t mask = GET_FLAG(CF);",
-        "*(uint%dataSize_t*)(((uint8_t*)&tmp) + (%dataSize / 8)) |= mask;",
-        "*(uint%dataSize_t*)(((uint8_t*)&tmp)) = (*(uint%dataSize_t*)target);",
+        "SET_FLAG(CF, (((*(u%int*)target) >> (%dataSize - value)) & 0x1) );",
+        "u%int tmp = ((*(u%int*)target) << value) | ((u%int)CF >> (%dataSize - value + 1)) | ((*(u%int*)target) >> (%dataSize - value));",
         "",
-        "SET_FLAG(CF, (tmp << (value % (%dataSize + 1) + %dataSize)) & %firstBitMask);",
-        "tmp = tmp << ((value % (%dataSize + 1)));",
-        "",
-        "(*(uint%dataSize_t*)target) = *(uint%dataSize_t*)((uint8_t*)&tmp);",
-        "if (value == 1) { SET_FLAG(OF, (((*(uint%dataSize_t*)target) & %firstBitMask) ? 1 : 0) ^ CF); }",
+        "(*(u%int*)target) = tmp;",
+        "SET_FLAG(OF, (tmp >> (%dataSize - 1)) ^ CF );",
         ""
     ]
 )
@@ -110,22 +101,19 @@ let RCL = Formatter(
 
 let RCR = Formatter(
     customizers: [
+        "value = (value & 0x1F) % (%dataSize + 1);",
         "if (value == 0) { return; }",
         "FillFlags();",
         "",
-        "if (value == 1) { SET_FLAG(OF, (((*(uint%dataSize_t*)target) & %firstBitMask) ? 1 : 0) ^ CF); }",
+        "u%int tmp = *(u%int*)target;",
+        "LazyFlagVarB8 = value;",
+        "LazyFlagVarA%dataSize = tmp;",
+
+        "tmp = (tmp >> value) | ((u%int)CF << (%dataSize - value)) | (tmp << (%dataSize - value + 1));",
         "",
-        "uint%dataSize_t tmp = 0;",
-        "*(uint%dataSize_t*)(((uint8_t*)&tmp)) = (*(uint%dataSize_t*)target);",
-        "*(uint%dataSize_t*)(((uint8_t*)&tmp) + (%dataSize / 8)) = GET_FLAG(CF);",
-        "tmp = tmp << 1;",
-        "*(uint%dataSize_t*)(((uint8_t*)&tmp) + (%dataSize / 8)) = (*(uint%dataSize_t*)target);",
-        "",
-        "tmp = tmp >> ((value % (%dataSize + 1)) - 1);",
-        "SET_FLAG(CF, tmp & 1);",
-        "tmp = tmp >> 1;",
-        "",
-        "(*(uint%dataSize_t*)target) = *(uint%dataSize_t*)((uint8_t*)&tmp + (%dataSize / 8));",
+        "(*(u%int*)target) = tmp;",
+        "SET_FLAG(CF, (((LazyFlagVarA%dataSize) >> (value - 1)) & 1));",
+        "SET_FLAG(OF, (tmp ^ (tmp << 1)) & %firstBitMask);",
         ""
     ]
 )
@@ -172,7 +160,7 @@ let D2 = Command(
             .prefixData,
             .functionName,
             .settings([.changeableData]),
-            .nnn(bitsShift, prepare: TemplateFormat("uint8_t value = reg_CL_8u & 0x1F;"))
+            .nnn(bitsShift, prepare: TemplateFormat("uint8_t value = reg_CL_8u;"))
         ]
     ),
     installFormatter: InitialFormatter()
@@ -191,7 +179,7 @@ let C0 = Command(
             .prefixData,
             .functionName,
             .settings([.changeableData]),
-            .nnn(bitsShift, prepare: TemplateFormat("uint8_t value = read8u() & 0x1F;"))
+            .nnn(bitsShift, prepare: TemplateFormat("uint8_t value = read8u();"))
         ]
     ),
     installFormatter: InitialFormatter()

@@ -165,8 +165,9 @@ private let MULTreg = BaseFormat{ info in
         return """
         reg_AX_16u=((uint16_t)reg_AL_8u)*((uint16_t)(*(uint8_t*)target));
         FillFlagsNoCFOF();
-        SET_FLAG(ZF,reg_AL_8 == 0);
-        SET_FLAG(PF,PARITY16(reg_AX_16));
+        SET_FLAG(ZF,reg_AL_8u == 0);
+        SET_FLAG(SF,reg_AL_8u & 0x80);
+        SET_FLAG(PF,PARITY8(reg_AX_16u));
         if (reg_AX_16 & 0xff00) {
         SET_FLAG(CF,1);SET_FLAG(OF,1);
         } else {
@@ -176,11 +177,12 @@ private let MULTreg = BaseFormat{ info in
     } else if info.dataSize == 16 {
         return """
         uint32_t tempu=((uint32_t)reg_AX_16u)*(uint32_t)(*(uint16_t*)(target));
-        reg_AX_16=(uint16_t)(tempu);
-        reg_DX_16=(uint16_t)(tempu >> 16);
+        reg_AX_16u=(uint16_t)(tempu);
+        reg_DX_16u=(uint16_t)(tempu >> 16);
         FillFlagsNoCFOF();
+        SET_FLAG(SF,reg_AX_16 & 0x8000);
         SET_FLAG(ZF,reg_AX_16 == 0);
-        SET_FLAG(PF,PARITY16(reg_AX_16)^PARITY16(reg_DX_16));
+        SET_FLAG(PF,!(PARITY16(reg_AX_16u) ^ PARITY16(reg_DX_16u)));
         if (reg_DX_16) {
         SET_FLAG(CF,1);SET_FLAG(OF,1);
         } else {
@@ -190,11 +192,12 @@ private let MULTreg = BaseFormat{ info in
     } else {
         return """
         uint64_t tempu=((uint64_t)reg_AX_32u)*((uint64_t)(*(uint32_t*)(target)));
-        reg_AX_32=(uint32_t)(tempu);
-        reg_DX_32=(uint32_t)(tempu >> 32);
+        reg_AX_32u=(uint32_t)(tempu);
+        reg_DX_32u=(uint32_t)(tempu >> 32);
         FillFlagsNoCFOF();
-        SET_FLAG(ZF,reg_AX_32 == 0);
-        SET_FLAG(PF,PARITY32(reg_AX_32)^PARITY32(reg_DX_32));
+        SET_FLAG(SF,reg_AX_32u & 0x80000000);
+        SET_FLAG(ZF,reg_AX_32u == 0);
+        SET_FLAG(PF,!(PARITY32(reg_AX_32) ^ PARITY32(reg_DX_32)));
         if (reg_DX_32) {
         SET_FLAG(CF,1);SET_FLAG(OF,1);
         } else {

@@ -75,12 +75,33 @@ extension String {
         return result
     }
 
-    func getErrorCommand(source: String) -> Int? {
-        var raws1 = self.removeAllTwoSpaceSpace().convertIgnore(flags: ["PO", "PE", "NA", "AC", "NC", "CY", "NG", "PL", "OV", "NV"]).split(separator: "\n")
-        var raws2 = source.removeAllTwoSpaceSpace().convertIgnore(flags: ["PO", "PE", "NA", "AC", "NC", "CY", "NG", "PL", "OV", "NV"]).split(separator: "\n")
+    func generateCommands(ignoreFlags: Bool = true, maps: [CommandMap] = []) -> [String] {
+        let flags = ignoreFlags ? ["PO", "PE", "NA", "AC", "NC", "CY", "NG", "PL", "OV", "NV"] : []
 
-        raws1 = raws1.map { $0.hasSuffix(" ") ? $0.dropLast() : $0 }
-        raws2 = raws2.map { $0.hasSuffix(" ") ? $0.dropLast() : $0 }
+        let raws = self
+            .removeAllTwoSpaceSpace()
+            .convertIgnore(flags: flags)
+            .split(separator: "\n")
+            .map(String.init)
+            .map {
+                $0.hasSuffix(" ") ? String($0.dropLast()) : $0
+            }
+        var result: [String] = []
+        for i in 0..<(raws.count/2) {
+            var text = "\(raws[i * 2])\n\(raws[i * 2 + 1])"
+            for map in maps {
+                if (map.condition(text)) {
+                    text = map.map(text)
+                }
+            }
+            result.append(text)
+        }
+        return result
+    }
+
+    func getErrorCommand(source: String, ignoreFlags: Bool = true, maps: [CommandMap] = []) -> Int? {
+        let raws1 = self.generateCommands(ignoreFlags: ignoreFlags, maps: maps)
+        let raws2 = source.generateCommands(ignoreFlags: ignoreFlags,maps: maps)
 
         var index = 0
 
@@ -92,19 +113,49 @@ extension String {
             return nil
         }
         let generator = FunctionGenerator()
-        let instruct = index / 2
+        let instruct = index
         generator.add("ERROR in instruction \(instruct)")
-        if instruct * 2 + 1 < raws1.count {
+        if instruct < raws1.count {
             generator.add("Result:")
-            generator.add("\(raws1[instruct * 2])")
-            generator.add("\(raws1[instruct * 2 + 1])")
+            generator.add("\(raws1[instruct])")
         }
-        if (index / 2) * 2 + 1 < raws2.count {
+        if instruct < raws2.count {
             generator.add("Real result:")
-            generator.add("\(raws2[instruct * 2])")
-            generator.add("\(raws2[instruct * 2 + 1])")
+            generator.add("\(raws2[instruct])")
         }
         print("\n\(generator.text)")
         return instruct
+    }
+
+    struct CommandMap {
+        let condition: (String) -> Bool
+        let map: (String) -> String
+
+        init(condition: @escaping (String) -> Bool, map: @escaping (String) -> String) {
+            self.condition = condition
+            self.map = map
+        }
+
+        init(_ contains: String, remove: [String]) {
+            self.condition = { $0.contains(contains) }
+            self.map = { text in
+                var result = text
+                for item in remove {
+                    result = result.replacingOccurrences(of: item, with: "")
+                }
+                return result
+            }
+        }
+
+        init(not contains: String, remove: [String]) {
+            self.condition = { !$0.contains(contains) }
+            self.map = { text in
+                var result = text
+                for item in remove {
+                    result = result.replacingOccurrences(of: item, with: "")
+                }
+                return result
+            }
+        }
     }
 }

@@ -5358,104 +5358,97 @@ void handlerCommand16Code00C0P66_RM() {
 	switch (nnn) {
 		case 0: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
-			uint8_t value = read8u() & 0x1F;
+			uint8_t value = read8u();
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			FillFlags();
-			uint16_t tmp = 0;
-			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
-			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
-			SET_FLAG(CF, (tmp << (value % 8 + 8 - 1)) & 0x80);
-			tmp = tmp << (value % 8);
-			(*(uint8_t*)target) = (*(uint8_t*)(((uint8_t*)&tmp)));
-			if (value == 1) { SET_FLAG(OF, (((*(uint8_t*)target) & 0x80) ? 1 : 0) ^ CF); }
+			FillFlagsNoCFOF();
+			value = value % 8;
+			uint8_t tmp = ((*(uint8_t*)target) << value) | ((*(uint8_t*)target) >> (8 - value));
+			(*(uint8_t*)target) = tmp;
+			SET_FLAG(CF, (tmp & 1));
+			SET_FLAG(OF, (tmp >> (8 - 1)) ^ CF );
 		}
 		break;
 		case 1: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
-			uint8_t value = read8u() & 0x1F;
+			uint8_t value = read8u();
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			FillFlags();
-			if (value == 1) { SET_FLAG(OF, (((*(uint8_t*)target) & 0x80) ? 1 : 0) ^ CF); }
-			uint16_t tmp = 0;
-			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
-			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
-			tmp = tmp >> (value % 8 - 1);
-			SET_FLAG(CF, tmp & 1);
-			tmp = tmp >> 1;
-			(*(uint8_t*)target) = (*(uint8_t*)(((uint8_t*)&tmp + 4)));
+			FillFlagsNoCFOF();
+			value = value % 8;
+			uint8_t tmp = ((*(uint8_t*)target) >> value) | ((*(uint8_t*)target) << (8 - value));
+			(*(uint8_t*)target) = tmp;
+			SET_FLAG(CF, (tmp & 0x80));
+			SET_FLAG(OF, (tmp ^ (tmp << 1)) & 0x80);
 		}
 		break;
 		case 2: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
-			uint8_t value = read8u() & 0x1F;
+			uint8_t value = read8u();
+			value = (value & 0x1F) % (8 + 1);
 			if (value == 0) { return; }
 			FillFlags();
-			uint16_t tmp = 0;
-			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
-			tmp = tmp >> 1;
-			uint8_t mask = GET_FLAG(CF);
-			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) |= mask;
-			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
-			SET_FLAG(CF, (tmp << (value % (8 + 1) + 8)) & 0x80);
-			tmp = tmp << ((value % (8 + 1)));
-			(*(uint8_t*)target) = *(uint8_t*)((uint8_t*)&tmp);
-			if (value == 1) { SET_FLAG(OF, (((*(uint8_t*)target) & 0x80) ? 1 : 0) ^ CF); }
+			SET_FLAG(CF, (((*(uint8_t*)target) >> (8 - value)) & 0x1) );
+			uint8_t tmp = ((*(uint8_t*)target) << value) | ((uint8_t)CF >> (8 - value + 1)) | ((*(uint8_t*)target) >> (8 - value));
+			(*(uint8_t*)target) = tmp;
+			SET_FLAG(OF, (tmp >> (8 - 1)) ^ CF );
 		}
 		break;
 		case 3: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
-			uint8_t value = read8u() & 0x1F;
+			uint8_t value = read8u();
+			value = (value & 0x1F) % (8 + 1);
 			if (value == 0) { return; }
 			FillFlags();
-			if (value == 1) { SET_FLAG(OF, (((*(uint8_t*)target) & 0x80) ? 1 : 0) ^ CF); }
-			uint8_t tmp = 0;
-			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
-			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = GET_FLAG(CF);
-			tmp = tmp << 1;
-			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
-			tmp = tmp >> ((value % (8 + 1)) - 1);
-			SET_FLAG(CF, tmp & 1);
-			tmp = tmp >> 1;
-			(*(uint8_t*)target) = *(uint8_t*)((uint8_t*)&tmp + (8 / 8));
+			uint8_t tmp = *(uint8_t*)target;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = tmp;
+			tmp = (tmp >> value) | ((uint8_t)CF << (8 - value)) | (tmp << (8 - value + 1));
+			(*(uint8_t*)target) = tmp;
+			SET_FLAG(CF, (((LazyFlagVarA8) >> (value - 1)) & 1));
+			SET_FLAG(OF, (tmp ^ (tmp << 1)) & 0x80);
 		}
 		break;
 		case 4: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
-			uint8_t value = read8u() & 0x1F;
+			uint8_t value = read8u();
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			(*(uint8_t*)target) = (*(uint8_t*)target) << (value - 1);
-			SET_FLAG(CF, (*(uint8_t*)target) & 0x80);
-			(*(uint8_t*)target) = (*(uint8_t*)target) << 1;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = *(uint8_t*)target;
+			(*(uint8_t*)target) = (*(uint8_t*)target) << value;
 			LazyFlagResultContainer8 = (*(uint8_t*)target);
-			if (value == 1) { SET_FLAG(OF, (((*(uint8_t*)target) & 0x80) ? 1 : 0) ^ CF); }
-			lazyFlagType = t_VALUE8;
+			lazyFlagType=t_SHL8;
 		}
 		break;
 		case 5: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
-			uint8_t value = read8u() & 0x1F;
+			uint8_t value = read8u();
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			if (value == 1) { SET_FLAG(OF, (*(uint8_t*)target) & 0x80) };
-			(*(uint8_t*)target) = (*(uint8_t*)target) >> (value % 8 - 1);
-			SET_FLAG(CF, (*(uint8_t*)target) & 1);
-			(*(uint8_t*)target) = (*(uint8_t*)target) >> 1;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = *(uint8_t*)target;
+			(*(uint8_t*)target) = (*(uint8_t*)target) >> (value);
 			LazyFlagResultContainer8 = (*(uint8_t*)target);
-			lazyFlagType = t_VALUE8;
+			lazyFlagType=t_SHR8;
 		}
 		break;
 		case 7: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
-			uint8_t value = read8u() & 0x1F;
+			uint8_t value = read8u();
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			uint64_t tmp = ((*(int8_t*)target) < 0) ? 0xFFFFFFFFFFFFFFFF : 0;
-			*(uint8_t*)(((uint8_t*)&tmp) + 4) = (*(uint8_t*)target);
-			tmp = tmp >> (value % 8 - 1);
-			SET_FLAG(CF, tmp & 1);
-			tmp = tmp >> 1;
-			(*(uint8_t*)target) = (*(uint8_t*)(((uint8_t*)&tmp) + 4));
-			SET_FLAG(OF, 0);
-			LazyFlagResultContainer8 = (*(uint8_t*)target);
-			lazyFlagType = t_VALUE8;
+			if (value > 8) { value = 8; }
+			FillFlagsNoCFOF();
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = *(uint8_t*)target;
+			if (LazyFlagVarA8 & 0x80) {
+				LazyFlagResultContainer8 = ((LazyFlagVarA8) >> value) | ((0xFFFFFFFF) << (8 - value));
+			} else {
+				LazyFlagResultContainer8 = (LazyFlagVarA8) >> value;
+			}
+			(*(uint8_t*)target) = LazyFlagResultContainer8;
+			lazyFlagType=t_SAR8;
 		}
 		break;
 		default:
@@ -5470,104 +5463,97 @@ void handlerCommand16Code00C0_RM() {
 	switch (nnn) {
 		case 0: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
-			uint8_t value = read8u() & 0x1F;
+			uint8_t value = read8u();
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			FillFlags();
-			uint16_t tmp = 0;
-			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
-			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
-			SET_FLAG(CF, (tmp << (value % 8 + 8 - 1)) & 0x80);
-			tmp = tmp << (value % 8);
-			(*(uint8_t*)target) = (*(uint8_t*)(((uint8_t*)&tmp)));
-			if (value == 1) { SET_FLAG(OF, (((*(uint8_t*)target) & 0x80) ? 1 : 0) ^ CF); }
+			FillFlagsNoCFOF();
+			value = value % 8;
+			uint8_t tmp = ((*(uint8_t*)target) << value) | ((*(uint8_t*)target) >> (8 - value));
+			(*(uint8_t*)target) = tmp;
+			SET_FLAG(CF, (tmp & 1));
+			SET_FLAG(OF, (tmp >> (8 - 1)) ^ CF );
 		}
 		break;
 		case 1: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
-			uint8_t value = read8u() & 0x1F;
+			uint8_t value = read8u();
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			FillFlags();
-			if (value == 1) { SET_FLAG(OF, (((*(uint8_t*)target) & 0x80) ? 1 : 0) ^ CF); }
-			uint16_t tmp = 0;
-			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
-			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
-			tmp = tmp >> (value % 8 - 1);
-			SET_FLAG(CF, tmp & 1);
-			tmp = tmp >> 1;
-			(*(uint8_t*)target) = (*(uint8_t*)(((uint8_t*)&tmp + 4)));
+			FillFlagsNoCFOF();
+			value = value % 8;
+			uint8_t tmp = ((*(uint8_t*)target) >> value) | ((*(uint8_t*)target) << (8 - value));
+			(*(uint8_t*)target) = tmp;
+			SET_FLAG(CF, (tmp & 0x80));
+			SET_FLAG(OF, (tmp ^ (tmp << 1)) & 0x80);
 		}
 		break;
 		case 2: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
-			uint8_t value = read8u() & 0x1F;
+			uint8_t value = read8u();
+			value = (value & 0x1F) % (8 + 1);
 			if (value == 0) { return; }
 			FillFlags();
-			uint16_t tmp = 0;
-			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
-			tmp = tmp >> 1;
-			uint8_t mask = GET_FLAG(CF);
-			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) |= mask;
-			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
-			SET_FLAG(CF, (tmp << (value % (8 + 1) + 8)) & 0x80);
-			tmp = tmp << ((value % (8 + 1)));
-			(*(uint8_t*)target) = *(uint8_t*)((uint8_t*)&tmp);
-			if (value == 1) { SET_FLAG(OF, (((*(uint8_t*)target) & 0x80) ? 1 : 0) ^ CF); }
+			SET_FLAG(CF, (((*(uint8_t*)target) >> (8 - value)) & 0x1) );
+			uint8_t tmp = ((*(uint8_t*)target) << value) | ((uint8_t)CF >> (8 - value + 1)) | ((*(uint8_t*)target) >> (8 - value));
+			(*(uint8_t*)target) = tmp;
+			SET_FLAG(OF, (tmp >> (8 - 1)) ^ CF );
 		}
 		break;
 		case 3: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
-			uint8_t value = read8u() & 0x1F;
+			uint8_t value = read8u();
+			value = (value & 0x1F) % (8 + 1);
 			if (value == 0) { return; }
 			FillFlags();
-			if (value == 1) { SET_FLAG(OF, (((*(uint8_t*)target) & 0x80) ? 1 : 0) ^ CF); }
-			uint8_t tmp = 0;
-			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
-			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = GET_FLAG(CF);
-			tmp = tmp << 1;
-			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
-			tmp = tmp >> ((value % (8 + 1)) - 1);
-			SET_FLAG(CF, tmp & 1);
-			tmp = tmp >> 1;
-			(*(uint8_t*)target) = *(uint8_t*)((uint8_t*)&tmp + (8 / 8));
+			uint8_t tmp = *(uint8_t*)target;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = tmp;
+			tmp = (tmp >> value) | ((uint8_t)CF << (8 - value)) | (tmp << (8 - value + 1));
+			(*(uint8_t*)target) = tmp;
+			SET_FLAG(CF, (((LazyFlagVarA8) >> (value - 1)) & 1));
+			SET_FLAG(OF, (tmp ^ (tmp << 1)) & 0x80);
 		}
 		break;
 		case 4: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
-			uint8_t value = read8u() & 0x1F;
+			uint8_t value = read8u();
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			(*(uint8_t*)target) = (*(uint8_t*)target) << (value - 1);
-			SET_FLAG(CF, (*(uint8_t*)target) & 0x80);
-			(*(uint8_t*)target) = (*(uint8_t*)target) << 1;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = *(uint8_t*)target;
+			(*(uint8_t*)target) = (*(uint8_t*)target) << value;
 			LazyFlagResultContainer8 = (*(uint8_t*)target);
-			if (value == 1) { SET_FLAG(OF, (((*(uint8_t*)target) & 0x80) ? 1 : 0) ^ CF); }
-			lazyFlagType = t_VALUE8;
+			lazyFlagType=t_SHL8;
 		}
 		break;
 		case 5: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
-			uint8_t value = read8u() & 0x1F;
+			uint8_t value = read8u();
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			if (value == 1) { SET_FLAG(OF, (*(uint8_t*)target) & 0x80) };
-			(*(uint8_t*)target) = (*(uint8_t*)target) >> (value % 8 - 1);
-			SET_FLAG(CF, (*(uint8_t*)target) & 1);
-			(*(uint8_t*)target) = (*(uint8_t*)target) >> 1;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = *(uint8_t*)target;
+			(*(uint8_t*)target) = (*(uint8_t*)target) >> (value);
 			LazyFlagResultContainer8 = (*(uint8_t*)target);
-			lazyFlagType = t_VALUE8;
+			lazyFlagType=t_SHR8;
 		}
 		break;
 		case 7: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
-			uint8_t value = read8u() & 0x1F;
+			uint8_t value = read8u();
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			uint64_t tmp = ((*(int8_t*)target) < 0) ? 0xFFFFFFFFFFFFFFFF : 0;
-			*(uint8_t*)(((uint8_t*)&tmp) + 4) = (*(uint8_t*)target);
-			tmp = tmp >> (value % 8 - 1);
-			SET_FLAG(CF, tmp & 1);
-			tmp = tmp >> 1;
-			(*(uint8_t*)target) = (*(uint8_t*)(((uint8_t*)&tmp) + 4));
-			SET_FLAG(OF, 0);
-			LazyFlagResultContainer8 = (*(uint8_t*)target);
-			lazyFlagType = t_VALUE8;
+			if (value > 8) { value = 8; }
+			FillFlagsNoCFOF();
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = *(uint8_t*)target;
+			if (LazyFlagVarA8 & 0x80) {
+				LazyFlagResultContainer8 = ((LazyFlagVarA8) >> value) | ((0xFFFFFFFF) << (8 - value));
+			} else {
+				LazyFlagResultContainer8 = (LazyFlagVarA8) >> value;
+			}
+			(*(uint8_t*)target) = LazyFlagResultContainer8;
+			lazyFlagType=t_SAR8;
 		}
 		break;
 		default:
@@ -5582,104 +5568,97 @@ void handlerCommand16Code00C1P66_RM() {
 	switch (nnn) {
 		case 0: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For32(mrmByte);
-			uint8_t value = read8u() & 0x1F;
+			uint8_t value = read8u();
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			FillFlags();
-			uint64_t tmp = 0;
-			*(uint32_t*)(((uint8_t*)&tmp)) = (*(uint32_t*)target);
-			*(uint32_t*)(((uint8_t*)&tmp) + (32 / 8)) = (*(uint32_t*)target);
-			SET_FLAG(CF, (tmp << (value % 32 + 32 - 1)) & 0x80000000);
-			tmp = tmp << (value % 32);
-			(*(uint32_t*)target) = (*(uint32_t*)(((uint8_t*)&tmp)));
-			if (value == 1) { SET_FLAG(OF, (((*(uint32_t*)target) & 0x80000000) ? 1 : 0) ^ CF); }
+			FillFlagsNoCFOF();
+			value = value % 32;
+			uint32_t tmp = ((*(uint32_t*)target) << value) | ((*(uint32_t*)target) >> (32 - value));
+			(*(uint32_t*)target) = tmp;
+			SET_FLAG(CF, (tmp & 1));
+			SET_FLAG(OF, (tmp >> (32 - 1)) ^ CF );
 		}
 		break;
 		case 1: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For32(mrmByte);
-			uint8_t value = read8u() & 0x1F;
+			uint8_t value = read8u();
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			FillFlags();
-			if (value == 1) { SET_FLAG(OF, (((*(uint32_t*)target) & 0x80000000) ? 1 : 0) ^ CF); }
-			uint64_t tmp = 0;
-			*(uint32_t*)(((uint8_t*)&tmp)) = (*(uint32_t*)target);
-			*(uint32_t*)(((uint8_t*)&tmp) + (32 / 8)) = (*(uint32_t*)target);
-			tmp = tmp >> (value % 32 - 1);
-			SET_FLAG(CF, tmp & 1);
-			tmp = tmp >> 1;
-			(*(uint32_t*)target) = (*(uint32_t*)(((uint8_t*)&tmp + 4)));
+			FillFlagsNoCFOF();
+			value = value % 32;
+			uint32_t tmp = ((*(uint32_t*)target) >> value) | ((*(uint32_t*)target) << (32 - value));
+			(*(uint32_t*)target) = tmp;
+			SET_FLAG(CF, (tmp & 0x80000000));
+			SET_FLAG(OF, (tmp ^ (tmp << 1)) & 0x80000000);
 		}
 		break;
 		case 2: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For32(mrmByte);
-			uint8_t value = read8u() & 0x1F;
+			uint8_t value = read8u();
+			value = (value & 0x1F) % (32 + 1);
 			if (value == 0) { return; }
 			FillFlags();
-			uint64_t tmp = 0;
-			*(uint32_t*)(((uint8_t*)&tmp) + (32 / 8)) = (*(uint32_t*)target);
-			tmp = tmp >> 1;
-			uint32_t mask = GET_FLAG(CF);
-			*(uint32_t*)(((uint8_t*)&tmp) + (32 / 8)) |= mask;
-			*(uint32_t*)(((uint8_t*)&tmp)) = (*(uint32_t*)target);
-			SET_FLAG(CF, (tmp << (value % (32 + 1) + 32)) & 0x80000000);
-			tmp = tmp << ((value % (32 + 1)));
-			(*(uint32_t*)target) = *(uint32_t*)((uint8_t*)&tmp);
-			if (value == 1) { SET_FLAG(OF, (((*(uint32_t*)target) & 0x80000000) ? 1 : 0) ^ CF); }
+			SET_FLAG(CF, (((*(uint32_t*)target) >> (32 - value)) & 0x1) );
+			uint32_t tmp = ((*(uint32_t*)target) << value) | ((uint32_t)CF >> (32 - value + 1)) | ((*(uint32_t*)target) >> (32 - value));
+			(*(uint32_t*)target) = tmp;
+			SET_FLAG(OF, (tmp >> (32 - 1)) ^ CF );
 		}
 		break;
 		case 3: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For32(mrmByte);
-			uint8_t value = read8u() & 0x1F;
+			uint8_t value = read8u();
+			value = (value & 0x1F) % (32 + 1);
 			if (value == 0) { return; }
 			FillFlags();
-			if (value == 1) { SET_FLAG(OF, (((*(uint32_t*)target) & 0x80000000) ? 1 : 0) ^ CF); }
-			uint32_t tmp = 0;
-			*(uint32_t*)(((uint8_t*)&tmp)) = (*(uint32_t*)target);
-			*(uint32_t*)(((uint8_t*)&tmp) + (32 / 8)) = GET_FLAG(CF);
-			tmp = tmp << 1;
-			*(uint32_t*)(((uint8_t*)&tmp) + (32 / 8)) = (*(uint32_t*)target);
-			tmp = tmp >> ((value % (32 + 1)) - 1);
-			SET_FLAG(CF, tmp & 1);
-			tmp = tmp >> 1;
-			(*(uint32_t*)target) = *(uint32_t*)((uint8_t*)&tmp + (32 / 8));
+			uint32_t tmp = *(uint32_t*)target;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA32 = tmp;
+			tmp = (tmp >> value) | ((uint32_t)CF << (32 - value)) | (tmp << (32 - value + 1));
+			(*(uint32_t*)target) = tmp;
+			SET_FLAG(CF, (((LazyFlagVarA32) >> (value - 1)) & 1));
+			SET_FLAG(OF, (tmp ^ (tmp << 1)) & 0x80000000);
 		}
 		break;
 		case 4: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For32(mrmByte);
-			uint8_t value = read8u() & 0x1F;
+			uint8_t value = read8u();
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			(*(uint32_t*)target) = (*(uint32_t*)target) << (value - 1);
-			SET_FLAG(CF, (*(uint32_t*)target) & 0x80000000);
-			(*(uint32_t*)target) = (*(uint32_t*)target) << 1;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA32 = *(uint32_t*)target;
+			(*(uint32_t*)target) = (*(uint32_t*)target) << value;
 			LazyFlagResultContainer32 = (*(uint32_t*)target);
-			if (value == 1) { SET_FLAG(OF, (((*(uint32_t*)target) & 0x80000000) ? 1 : 0) ^ CF); }
-			lazyFlagType = t_VALUE32;
+			lazyFlagType=t_SHL32;
 		}
 		break;
 		case 5: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For32(mrmByte);
-			uint8_t value = read8u() & 0x1F;
+			uint8_t value = read8u();
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			if (value == 1) { SET_FLAG(OF, (*(uint32_t*)target) & 0x80000000) };
-			(*(uint32_t*)target) = (*(uint32_t*)target) >> (value % 32 - 1);
-			SET_FLAG(CF, (*(uint32_t*)target) & 1);
-			(*(uint32_t*)target) = (*(uint32_t*)target) >> 1;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA32 = *(uint32_t*)target;
+			(*(uint32_t*)target) = (*(uint32_t*)target) >> (value);
 			LazyFlagResultContainer32 = (*(uint32_t*)target);
-			lazyFlagType = t_VALUE32;
+			lazyFlagType=t_SHR32;
 		}
 		break;
 		case 7: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For32(mrmByte);
-			uint8_t value = read8u() & 0x1F;
+			uint8_t value = read8u();
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			uint64_t tmp = ((*(int32_t*)target) < 0) ? 0xFFFFFFFFFFFFFFFF : 0;
-			*(uint32_t*)(((uint8_t*)&tmp) + 4) = (*(uint32_t*)target);
-			tmp = tmp >> (value % 32 - 1);
-			SET_FLAG(CF, tmp & 1);
-			tmp = tmp >> 1;
-			(*(uint32_t*)target) = (*(uint32_t*)(((uint8_t*)&tmp) + 4));
-			SET_FLAG(OF, 0);
-			LazyFlagResultContainer32 = (*(uint32_t*)target);
-			lazyFlagType = t_VALUE32;
+			if (value > 32) { value = 32; }
+			FillFlagsNoCFOF();
+			LazyFlagVarB8 = value;
+			LazyFlagVarA32 = *(uint32_t*)target;
+			if (LazyFlagVarA32 & 0x80000000) {
+				LazyFlagResultContainer32 = ((LazyFlagVarA32) >> value) | ((0xFFFFFFFF) << (32 - value));
+			} else {
+				LazyFlagResultContainer32 = (LazyFlagVarA32) >> value;
+			}
+			(*(uint32_t*)target) = LazyFlagResultContainer32;
+			lazyFlagType=t_SAR32;
 		}
 		break;
 		default:
@@ -5694,104 +5673,97 @@ void handlerCommand16Code00C1_RM() {
 	switch (nnn) {
 		case 0: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
-			uint8_t value = read8u() & 0x1F;
+			uint8_t value = read8u();
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			FillFlags();
-			uint32_t tmp = 0;
-			*(uint16_t*)(((uint8_t*)&tmp)) = (*(uint16_t*)target);
-			*(uint16_t*)(((uint8_t*)&tmp) + (16 / 8)) = (*(uint16_t*)target);
-			SET_FLAG(CF, (tmp << (value % 16 + 16 - 1)) & 0x8000);
-			tmp = tmp << (value % 16);
-			(*(uint16_t*)target) = (*(uint16_t*)(((uint8_t*)&tmp)));
-			if (value == 1) { SET_FLAG(OF, (((*(uint16_t*)target) & 0x8000) ? 1 : 0) ^ CF); }
+			FillFlagsNoCFOF();
+			value = value % 16;
+			uint16_t tmp = ((*(uint16_t*)target) << value) | ((*(uint16_t*)target) >> (16 - value));
+			(*(uint16_t*)target) = tmp;
+			SET_FLAG(CF, (tmp & 1));
+			SET_FLAG(OF, (tmp >> (16 - 1)) ^ CF );
 		}
 		break;
 		case 1: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
-			uint8_t value = read8u() & 0x1F;
+			uint8_t value = read8u();
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			FillFlags();
-			if (value == 1) { SET_FLAG(OF, (((*(uint16_t*)target) & 0x8000) ? 1 : 0) ^ CF); }
-			uint32_t tmp = 0;
-			*(uint16_t*)(((uint8_t*)&tmp)) = (*(uint16_t*)target);
-			*(uint16_t*)(((uint8_t*)&tmp) + (16 / 8)) = (*(uint16_t*)target);
-			tmp = tmp >> (value % 16 - 1);
-			SET_FLAG(CF, tmp & 1);
-			tmp = tmp >> 1;
-			(*(uint16_t*)target) = (*(uint16_t*)(((uint8_t*)&tmp + 4)));
+			FillFlagsNoCFOF();
+			value = value % 16;
+			uint16_t tmp = ((*(uint16_t*)target) >> value) | ((*(uint16_t*)target) << (16 - value));
+			(*(uint16_t*)target) = tmp;
+			SET_FLAG(CF, (tmp & 0x8000));
+			SET_FLAG(OF, (tmp ^ (tmp << 1)) & 0x8000);
 		}
 		break;
 		case 2: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
-			uint8_t value = read8u() & 0x1F;
+			uint8_t value = read8u();
+			value = (value & 0x1F) % (16 + 1);
 			if (value == 0) { return; }
 			FillFlags();
-			uint32_t tmp = 0;
-			*(uint16_t*)(((uint8_t*)&tmp) + (16 / 8)) = (*(uint16_t*)target);
-			tmp = tmp >> 1;
-			uint16_t mask = GET_FLAG(CF);
-			*(uint16_t*)(((uint8_t*)&tmp) + (16 / 8)) |= mask;
-			*(uint16_t*)(((uint8_t*)&tmp)) = (*(uint16_t*)target);
-			SET_FLAG(CF, (tmp << (value % (16 + 1) + 16)) & 0x8000);
-			tmp = tmp << ((value % (16 + 1)));
-			(*(uint16_t*)target) = *(uint16_t*)((uint8_t*)&tmp);
-			if (value == 1) { SET_FLAG(OF, (((*(uint16_t*)target) & 0x8000) ? 1 : 0) ^ CF); }
+			SET_FLAG(CF, (((*(uint16_t*)target) >> (16 - value)) & 0x1) );
+			uint16_t tmp = ((*(uint16_t*)target) << value) | ((uint16_t)CF >> (16 - value + 1)) | ((*(uint16_t*)target) >> (16 - value));
+			(*(uint16_t*)target) = tmp;
+			SET_FLAG(OF, (tmp >> (16 - 1)) ^ CF );
 		}
 		break;
 		case 3: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
-			uint8_t value = read8u() & 0x1F;
+			uint8_t value = read8u();
+			value = (value & 0x1F) % (16 + 1);
 			if (value == 0) { return; }
 			FillFlags();
-			if (value == 1) { SET_FLAG(OF, (((*(uint16_t*)target) & 0x8000) ? 1 : 0) ^ CF); }
-			uint16_t tmp = 0;
-			*(uint16_t*)(((uint8_t*)&tmp)) = (*(uint16_t*)target);
-			*(uint16_t*)(((uint8_t*)&tmp) + (16 / 8)) = GET_FLAG(CF);
-			tmp = tmp << 1;
-			*(uint16_t*)(((uint8_t*)&tmp) + (16 / 8)) = (*(uint16_t*)target);
-			tmp = tmp >> ((value % (16 + 1)) - 1);
-			SET_FLAG(CF, tmp & 1);
-			tmp = tmp >> 1;
-			(*(uint16_t*)target) = *(uint16_t*)((uint8_t*)&tmp + (16 / 8));
+			uint16_t tmp = *(uint16_t*)target;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA16 = tmp;
+			tmp = (tmp >> value) | ((uint16_t)CF << (16 - value)) | (tmp << (16 - value + 1));
+			(*(uint16_t*)target) = tmp;
+			SET_FLAG(CF, (((LazyFlagVarA16) >> (value - 1)) & 1));
+			SET_FLAG(OF, (tmp ^ (tmp << 1)) & 0x8000);
 		}
 		break;
 		case 4: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
-			uint8_t value = read8u() & 0x1F;
+			uint8_t value = read8u();
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			(*(uint16_t*)target) = (*(uint16_t*)target) << (value - 1);
-			SET_FLAG(CF, (*(uint16_t*)target) & 0x8000);
-			(*(uint16_t*)target) = (*(uint16_t*)target) << 1;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA16 = *(uint16_t*)target;
+			(*(uint16_t*)target) = (*(uint16_t*)target) << value;
 			LazyFlagResultContainer16 = (*(uint16_t*)target);
-			if (value == 1) { SET_FLAG(OF, (((*(uint16_t*)target) & 0x8000) ? 1 : 0) ^ CF); }
-			lazyFlagType = t_VALUE16;
+			lazyFlagType=t_SHL16;
 		}
 		break;
 		case 5: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
-			uint8_t value = read8u() & 0x1F;
+			uint8_t value = read8u();
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			if (value == 1) { SET_FLAG(OF, (*(uint16_t*)target) & 0x8000) };
-			(*(uint16_t*)target) = (*(uint16_t*)target) >> (value % 16 - 1);
-			SET_FLAG(CF, (*(uint16_t*)target) & 1);
-			(*(uint16_t*)target) = (*(uint16_t*)target) >> 1;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA16 = *(uint16_t*)target;
+			(*(uint16_t*)target) = (*(uint16_t*)target) >> (value);
 			LazyFlagResultContainer16 = (*(uint16_t*)target);
-			lazyFlagType = t_VALUE16;
+			lazyFlagType=t_SHR16;
 		}
 		break;
 		case 7: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
-			uint8_t value = read8u() & 0x1F;
+			uint8_t value = read8u();
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			uint64_t tmp = ((*(int16_t*)target) < 0) ? 0xFFFFFFFFFFFFFFFF : 0;
-			*(uint16_t*)(((uint8_t*)&tmp) + 4) = (*(uint16_t*)target);
-			tmp = tmp >> (value % 16 - 1);
-			SET_FLAG(CF, tmp & 1);
-			tmp = tmp >> 1;
-			(*(uint16_t*)target) = (*(uint16_t*)(((uint8_t*)&tmp) + 4));
-			SET_FLAG(OF, 0);
-			LazyFlagResultContainer16 = (*(uint16_t*)target);
-			lazyFlagType = t_VALUE16;
+			if (value > 16) { value = 16; }
+			FillFlagsNoCFOF();
+			LazyFlagVarB8 = value;
+			LazyFlagVarA16 = *(uint16_t*)target;
+			if (LazyFlagVarA16 & 0x8000) {
+				LazyFlagResultContainer16 = ((LazyFlagVarA16) >> value) | ((0xFFFFFFFF) << (16 - value));
+			} else {
+				LazyFlagResultContainer16 = (LazyFlagVarA16) >> value;
+			}
+			(*(uint16_t*)target) = LazyFlagResultContainer16;
+			lazyFlagType=t_SAR16;
 		}
 		break;
 		default:
@@ -6010,103 +5982,96 @@ void handlerCommand16Code00D0P66_RM() {
 		case 0: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
 			uint8_t value = 1;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			FillFlags();
-			uint16_t tmp = 0;
-			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
-			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
-			SET_FLAG(CF, (tmp << (value % 8 + 8 - 1)) & 0x80);
-			tmp = tmp << (value % 8);
-			(*(uint8_t*)target) = (*(uint8_t*)(((uint8_t*)&tmp)));
-			if (value == 1) { SET_FLAG(OF, (((*(uint8_t*)target) & 0x80) ? 1 : 0) ^ CF); }
+			FillFlagsNoCFOF();
+			value = value % 8;
+			uint8_t tmp = ((*(uint8_t*)target) << value) | ((*(uint8_t*)target) >> (8 - value));
+			(*(uint8_t*)target) = tmp;
+			SET_FLAG(CF, (tmp & 1));
+			SET_FLAG(OF, (tmp >> (8 - 1)) ^ CF );
 		}
 		break;
 		case 1: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
 			uint8_t value = 1;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			FillFlags();
-			if (value == 1) { SET_FLAG(OF, (((*(uint8_t*)target) & 0x80) ? 1 : 0) ^ CF); }
-			uint16_t tmp = 0;
-			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
-			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
-			tmp = tmp >> (value % 8 - 1);
-			SET_FLAG(CF, tmp & 1);
-			tmp = tmp >> 1;
-			(*(uint8_t*)target) = (*(uint8_t*)(((uint8_t*)&tmp + 4)));
+			FillFlagsNoCFOF();
+			value = value % 8;
+			uint8_t tmp = ((*(uint8_t*)target) >> value) | ((*(uint8_t*)target) << (8 - value));
+			(*(uint8_t*)target) = tmp;
+			SET_FLAG(CF, (tmp & 0x80));
+			SET_FLAG(OF, (tmp ^ (tmp << 1)) & 0x80);
 		}
 		break;
 		case 2: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
 			uint8_t value = 1;
+			value = (value & 0x1F) % (8 + 1);
 			if (value == 0) { return; }
 			FillFlags();
-			uint16_t tmp = 0;
-			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
-			tmp = tmp >> 1;
-			uint8_t mask = GET_FLAG(CF);
-			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) |= mask;
-			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
-			SET_FLAG(CF, (tmp << (value % (8 + 1) + 8)) & 0x80);
-			tmp = tmp << ((value % (8 + 1)));
-			(*(uint8_t*)target) = *(uint8_t*)((uint8_t*)&tmp);
-			if (value == 1) { SET_FLAG(OF, (((*(uint8_t*)target) & 0x80) ? 1 : 0) ^ CF); }
+			SET_FLAG(CF, (((*(uint8_t*)target) >> (8 - value)) & 0x1) );
+			uint8_t tmp = ((*(uint8_t*)target) << value) | ((uint8_t)CF >> (8 - value + 1)) | ((*(uint8_t*)target) >> (8 - value));
+			(*(uint8_t*)target) = tmp;
+			SET_FLAG(OF, (tmp >> (8 - 1)) ^ CF );
 		}
 		break;
 		case 3: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
 			uint8_t value = 1;
+			value = (value & 0x1F) % (8 + 1);
 			if (value == 0) { return; }
 			FillFlags();
-			if (value == 1) { SET_FLAG(OF, (((*(uint8_t*)target) & 0x80) ? 1 : 0) ^ CF); }
-			uint8_t tmp = 0;
-			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
-			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = GET_FLAG(CF);
-			tmp = tmp << 1;
-			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
-			tmp = tmp >> ((value % (8 + 1)) - 1);
-			SET_FLAG(CF, tmp & 1);
-			tmp = tmp >> 1;
-			(*(uint8_t*)target) = *(uint8_t*)((uint8_t*)&tmp + (8 / 8));
+			uint8_t tmp = *(uint8_t*)target;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = tmp;
+			tmp = (tmp >> value) | ((uint8_t)CF << (8 - value)) | (tmp << (8 - value + 1));
+			(*(uint8_t*)target) = tmp;
+			SET_FLAG(CF, (((LazyFlagVarA8) >> (value - 1)) & 1));
+			SET_FLAG(OF, (tmp ^ (tmp << 1)) & 0x80);
 		}
 		break;
 		case 4: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
 			uint8_t value = 1;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			(*(uint8_t*)target) = (*(uint8_t*)target) << (value - 1);
-			SET_FLAG(CF, (*(uint8_t*)target) & 0x80);
-			(*(uint8_t*)target) = (*(uint8_t*)target) << 1;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = *(uint8_t*)target;
+			(*(uint8_t*)target) = (*(uint8_t*)target) << value;
 			LazyFlagResultContainer8 = (*(uint8_t*)target);
-			if (value == 1) { SET_FLAG(OF, (((*(uint8_t*)target) & 0x80) ? 1 : 0) ^ CF); }
-			lazyFlagType = t_VALUE8;
+			lazyFlagType=t_SHL8;
 		}
 		break;
 		case 5: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
 			uint8_t value = 1;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			if (value == 1) { SET_FLAG(OF, (*(uint8_t*)target) & 0x80) };
-			(*(uint8_t*)target) = (*(uint8_t*)target) >> (value % 8 - 1);
-			SET_FLAG(CF, (*(uint8_t*)target) & 1);
-			(*(uint8_t*)target) = (*(uint8_t*)target) >> 1;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = *(uint8_t*)target;
+			(*(uint8_t*)target) = (*(uint8_t*)target) >> (value);
 			LazyFlagResultContainer8 = (*(uint8_t*)target);
-			lazyFlagType = t_VALUE8;
+			lazyFlagType=t_SHR8;
 		}
 		break;
 		case 7: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
 			uint8_t value = 1;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			uint64_t tmp = ((*(int8_t*)target) < 0) ? 0xFFFFFFFFFFFFFFFF : 0;
-			*(uint8_t*)(((uint8_t*)&tmp) + 4) = (*(uint8_t*)target);
-			tmp = tmp >> (value % 8 - 1);
-			SET_FLAG(CF, tmp & 1);
-			tmp = tmp >> 1;
-			(*(uint8_t*)target) = (*(uint8_t*)(((uint8_t*)&tmp) + 4));
-			SET_FLAG(OF, 0);
-			LazyFlagResultContainer8 = (*(uint8_t*)target);
-			lazyFlagType = t_VALUE8;
+			if (value > 8) { value = 8; }
+			FillFlagsNoCFOF();
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = *(uint8_t*)target;
+			if (LazyFlagVarA8 & 0x80) {
+				LazyFlagResultContainer8 = ((LazyFlagVarA8) >> value) | ((0xFFFFFFFF) << (8 - value));
+			} else {
+				LazyFlagResultContainer8 = (LazyFlagVarA8) >> value;
+			}
+			(*(uint8_t*)target) = LazyFlagResultContainer8;
+			lazyFlagType=t_SAR8;
 		}
 		break;
 		default:
@@ -6122,103 +6087,96 @@ void handlerCommand16Code00D0_RM() {
 		case 0: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
 			uint8_t value = 1;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			FillFlags();
-			uint16_t tmp = 0;
-			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
-			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
-			SET_FLAG(CF, (tmp << (value % 8 + 8 - 1)) & 0x80);
-			tmp = tmp << (value % 8);
-			(*(uint8_t*)target) = (*(uint8_t*)(((uint8_t*)&tmp)));
-			if (value == 1) { SET_FLAG(OF, (((*(uint8_t*)target) & 0x80) ? 1 : 0) ^ CF); }
+			FillFlagsNoCFOF();
+			value = value % 8;
+			uint8_t tmp = ((*(uint8_t*)target) << value) | ((*(uint8_t*)target) >> (8 - value));
+			(*(uint8_t*)target) = tmp;
+			SET_FLAG(CF, (tmp & 1));
+			SET_FLAG(OF, (tmp >> (8 - 1)) ^ CF );
 		}
 		break;
 		case 1: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
 			uint8_t value = 1;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			FillFlags();
-			if (value == 1) { SET_FLAG(OF, (((*(uint8_t*)target) & 0x80) ? 1 : 0) ^ CF); }
-			uint16_t tmp = 0;
-			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
-			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
-			tmp = tmp >> (value % 8 - 1);
-			SET_FLAG(CF, tmp & 1);
-			tmp = tmp >> 1;
-			(*(uint8_t*)target) = (*(uint8_t*)(((uint8_t*)&tmp + 4)));
+			FillFlagsNoCFOF();
+			value = value % 8;
+			uint8_t tmp = ((*(uint8_t*)target) >> value) | ((*(uint8_t*)target) << (8 - value));
+			(*(uint8_t*)target) = tmp;
+			SET_FLAG(CF, (tmp & 0x80));
+			SET_FLAG(OF, (tmp ^ (tmp << 1)) & 0x80);
 		}
 		break;
 		case 2: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
 			uint8_t value = 1;
+			value = (value & 0x1F) % (8 + 1);
 			if (value == 0) { return; }
 			FillFlags();
-			uint16_t tmp = 0;
-			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
-			tmp = tmp >> 1;
-			uint8_t mask = GET_FLAG(CF);
-			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) |= mask;
-			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
-			SET_FLAG(CF, (tmp << (value % (8 + 1) + 8)) & 0x80);
-			tmp = tmp << ((value % (8 + 1)));
-			(*(uint8_t*)target) = *(uint8_t*)((uint8_t*)&tmp);
-			if (value == 1) { SET_FLAG(OF, (((*(uint8_t*)target) & 0x80) ? 1 : 0) ^ CF); }
+			SET_FLAG(CF, (((*(uint8_t*)target) >> (8 - value)) & 0x1) );
+			uint8_t tmp = ((*(uint8_t*)target) << value) | ((uint8_t)CF >> (8 - value + 1)) | ((*(uint8_t*)target) >> (8 - value));
+			(*(uint8_t*)target) = tmp;
+			SET_FLAG(OF, (tmp >> (8 - 1)) ^ CF );
 		}
 		break;
 		case 3: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
 			uint8_t value = 1;
+			value = (value & 0x1F) % (8 + 1);
 			if (value == 0) { return; }
 			FillFlags();
-			if (value == 1) { SET_FLAG(OF, (((*(uint8_t*)target) & 0x80) ? 1 : 0) ^ CF); }
-			uint8_t tmp = 0;
-			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
-			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = GET_FLAG(CF);
-			tmp = tmp << 1;
-			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
-			tmp = tmp >> ((value % (8 + 1)) - 1);
-			SET_FLAG(CF, tmp & 1);
-			tmp = tmp >> 1;
-			(*(uint8_t*)target) = *(uint8_t*)((uint8_t*)&tmp + (8 / 8));
+			uint8_t tmp = *(uint8_t*)target;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = tmp;
+			tmp = (tmp >> value) | ((uint8_t)CF << (8 - value)) | (tmp << (8 - value + 1));
+			(*(uint8_t*)target) = tmp;
+			SET_FLAG(CF, (((LazyFlagVarA8) >> (value - 1)) & 1));
+			SET_FLAG(OF, (tmp ^ (tmp << 1)) & 0x80);
 		}
 		break;
 		case 4: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
 			uint8_t value = 1;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			(*(uint8_t*)target) = (*(uint8_t*)target) << (value - 1);
-			SET_FLAG(CF, (*(uint8_t*)target) & 0x80);
-			(*(uint8_t*)target) = (*(uint8_t*)target) << 1;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = *(uint8_t*)target;
+			(*(uint8_t*)target) = (*(uint8_t*)target) << value;
 			LazyFlagResultContainer8 = (*(uint8_t*)target);
-			if (value == 1) { SET_FLAG(OF, (((*(uint8_t*)target) & 0x80) ? 1 : 0) ^ CF); }
-			lazyFlagType = t_VALUE8;
+			lazyFlagType=t_SHL8;
 		}
 		break;
 		case 5: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
 			uint8_t value = 1;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			if (value == 1) { SET_FLAG(OF, (*(uint8_t*)target) & 0x80) };
-			(*(uint8_t*)target) = (*(uint8_t*)target) >> (value % 8 - 1);
-			SET_FLAG(CF, (*(uint8_t*)target) & 1);
-			(*(uint8_t*)target) = (*(uint8_t*)target) >> 1;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = *(uint8_t*)target;
+			(*(uint8_t*)target) = (*(uint8_t*)target) >> (value);
 			LazyFlagResultContainer8 = (*(uint8_t*)target);
-			lazyFlagType = t_VALUE8;
+			lazyFlagType=t_SHR8;
 		}
 		break;
 		case 7: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
 			uint8_t value = 1;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			uint64_t tmp = ((*(int8_t*)target) < 0) ? 0xFFFFFFFFFFFFFFFF : 0;
-			*(uint8_t*)(((uint8_t*)&tmp) + 4) = (*(uint8_t*)target);
-			tmp = tmp >> (value % 8 - 1);
-			SET_FLAG(CF, tmp & 1);
-			tmp = tmp >> 1;
-			(*(uint8_t*)target) = (*(uint8_t*)(((uint8_t*)&tmp) + 4));
-			SET_FLAG(OF, 0);
-			LazyFlagResultContainer8 = (*(uint8_t*)target);
-			lazyFlagType = t_VALUE8;
+			if (value > 8) { value = 8; }
+			FillFlagsNoCFOF();
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = *(uint8_t*)target;
+			if (LazyFlagVarA8 & 0x80) {
+				LazyFlagResultContainer8 = ((LazyFlagVarA8) >> value) | ((0xFFFFFFFF) << (8 - value));
+			} else {
+				LazyFlagResultContainer8 = (LazyFlagVarA8) >> value;
+			}
+			(*(uint8_t*)target) = LazyFlagResultContainer8;
+			lazyFlagType=t_SAR8;
 		}
 		break;
 		default:
@@ -6234,103 +6192,96 @@ void handlerCommand16Code00D1P66_RM() {
 		case 0: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For32(mrmByte);
 			uint8_t value = 1;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			FillFlags();
-			uint64_t tmp = 0;
-			*(uint32_t*)(((uint8_t*)&tmp)) = (*(uint32_t*)target);
-			*(uint32_t*)(((uint8_t*)&tmp) + (32 / 8)) = (*(uint32_t*)target);
-			SET_FLAG(CF, (tmp << (value % 32 + 32 - 1)) & 0x80000000);
-			tmp = tmp << (value % 32);
-			(*(uint32_t*)target) = (*(uint32_t*)(((uint8_t*)&tmp)));
-			if (value == 1) { SET_FLAG(OF, (((*(uint32_t*)target) & 0x80000000) ? 1 : 0) ^ CF); }
+			FillFlagsNoCFOF();
+			value = value % 32;
+			uint32_t tmp = ((*(uint32_t*)target) << value) | ((*(uint32_t*)target) >> (32 - value));
+			(*(uint32_t*)target) = tmp;
+			SET_FLAG(CF, (tmp & 1));
+			SET_FLAG(OF, (tmp >> (32 - 1)) ^ CF );
 		}
 		break;
 		case 1: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For32(mrmByte);
 			uint8_t value = 1;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			FillFlags();
-			if (value == 1) { SET_FLAG(OF, (((*(uint32_t*)target) & 0x80000000) ? 1 : 0) ^ CF); }
-			uint64_t tmp = 0;
-			*(uint32_t*)(((uint8_t*)&tmp)) = (*(uint32_t*)target);
-			*(uint32_t*)(((uint8_t*)&tmp) + (32 / 8)) = (*(uint32_t*)target);
-			tmp = tmp >> (value % 32 - 1);
-			SET_FLAG(CF, tmp & 1);
-			tmp = tmp >> 1;
-			(*(uint32_t*)target) = (*(uint32_t*)(((uint8_t*)&tmp + 4)));
+			FillFlagsNoCFOF();
+			value = value % 32;
+			uint32_t tmp = ((*(uint32_t*)target) >> value) | ((*(uint32_t*)target) << (32 - value));
+			(*(uint32_t*)target) = tmp;
+			SET_FLAG(CF, (tmp & 0x80000000));
+			SET_FLAG(OF, (tmp ^ (tmp << 1)) & 0x80000000);
 		}
 		break;
 		case 2: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For32(mrmByte);
 			uint8_t value = 1;
+			value = (value & 0x1F) % (32 + 1);
 			if (value == 0) { return; }
 			FillFlags();
-			uint64_t tmp = 0;
-			*(uint32_t*)(((uint8_t*)&tmp) + (32 / 8)) = (*(uint32_t*)target);
-			tmp = tmp >> 1;
-			uint32_t mask = GET_FLAG(CF);
-			*(uint32_t*)(((uint8_t*)&tmp) + (32 / 8)) |= mask;
-			*(uint32_t*)(((uint8_t*)&tmp)) = (*(uint32_t*)target);
-			SET_FLAG(CF, (tmp << (value % (32 + 1) + 32)) & 0x80000000);
-			tmp = tmp << ((value % (32 + 1)));
-			(*(uint32_t*)target) = *(uint32_t*)((uint8_t*)&tmp);
-			if (value == 1) { SET_FLAG(OF, (((*(uint32_t*)target) & 0x80000000) ? 1 : 0) ^ CF); }
+			SET_FLAG(CF, (((*(uint32_t*)target) >> (32 - value)) & 0x1) );
+			uint32_t tmp = ((*(uint32_t*)target) << value) | ((uint32_t)CF >> (32 - value + 1)) | ((*(uint32_t*)target) >> (32 - value));
+			(*(uint32_t*)target) = tmp;
+			SET_FLAG(OF, (tmp >> (32 - 1)) ^ CF );
 		}
 		break;
 		case 3: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For32(mrmByte);
 			uint8_t value = 1;
+			value = (value & 0x1F) % (32 + 1);
 			if (value == 0) { return; }
 			FillFlags();
-			if (value == 1) { SET_FLAG(OF, (((*(uint32_t*)target) & 0x80000000) ? 1 : 0) ^ CF); }
-			uint32_t tmp = 0;
-			*(uint32_t*)(((uint8_t*)&tmp)) = (*(uint32_t*)target);
-			*(uint32_t*)(((uint8_t*)&tmp) + (32 / 8)) = GET_FLAG(CF);
-			tmp = tmp << 1;
-			*(uint32_t*)(((uint8_t*)&tmp) + (32 / 8)) = (*(uint32_t*)target);
-			tmp = tmp >> ((value % (32 + 1)) - 1);
-			SET_FLAG(CF, tmp & 1);
-			tmp = tmp >> 1;
-			(*(uint32_t*)target) = *(uint32_t*)((uint8_t*)&tmp + (32 / 8));
+			uint32_t tmp = *(uint32_t*)target;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA32 = tmp;
+			tmp = (tmp >> value) | ((uint32_t)CF << (32 - value)) | (tmp << (32 - value + 1));
+			(*(uint32_t*)target) = tmp;
+			SET_FLAG(CF, (((LazyFlagVarA32) >> (value - 1)) & 1));
+			SET_FLAG(OF, (tmp ^ (tmp << 1)) & 0x80000000);
 		}
 		break;
 		case 4: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For32(mrmByte);
 			uint8_t value = 1;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			(*(uint32_t*)target) = (*(uint32_t*)target) << (value - 1);
-			SET_FLAG(CF, (*(uint32_t*)target) & 0x80000000);
-			(*(uint32_t*)target) = (*(uint32_t*)target) << 1;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA32 = *(uint32_t*)target;
+			(*(uint32_t*)target) = (*(uint32_t*)target) << value;
 			LazyFlagResultContainer32 = (*(uint32_t*)target);
-			if (value == 1) { SET_FLAG(OF, (((*(uint32_t*)target) & 0x80000000) ? 1 : 0) ^ CF); }
-			lazyFlagType = t_VALUE32;
+			lazyFlagType=t_SHL32;
 		}
 		break;
 		case 5: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For32(mrmByte);
 			uint8_t value = 1;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			if (value == 1) { SET_FLAG(OF, (*(uint32_t*)target) & 0x80000000) };
-			(*(uint32_t*)target) = (*(uint32_t*)target) >> (value % 32 - 1);
-			SET_FLAG(CF, (*(uint32_t*)target) & 1);
-			(*(uint32_t*)target) = (*(uint32_t*)target) >> 1;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA32 = *(uint32_t*)target;
+			(*(uint32_t*)target) = (*(uint32_t*)target) >> (value);
 			LazyFlagResultContainer32 = (*(uint32_t*)target);
-			lazyFlagType = t_VALUE32;
+			lazyFlagType=t_SHR32;
 		}
 		break;
 		case 7: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For32(mrmByte);
 			uint8_t value = 1;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			uint64_t tmp = ((*(int32_t*)target) < 0) ? 0xFFFFFFFFFFFFFFFF : 0;
-			*(uint32_t*)(((uint8_t*)&tmp) + 4) = (*(uint32_t*)target);
-			tmp = tmp >> (value % 32 - 1);
-			SET_FLAG(CF, tmp & 1);
-			tmp = tmp >> 1;
-			(*(uint32_t*)target) = (*(uint32_t*)(((uint8_t*)&tmp) + 4));
-			SET_FLAG(OF, 0);
-			LazyFlagResultContainer32 = (*(uint32_t*)target);
-			lazyFlagType = t_VALUE32;
+			if (value > 32) { value = 32; }
+			FillFlagsNoCFOF();
+			LazyFlagVarB8 = value;
+			LazyFlagVarA32 = *(uint32_t*)target;
+			if (LazyFlagVarA32 & 0x80000000) {
+				LazyFlagResultContainer32 = ((LazyFlagVarA32) >> value) | ((0xFFFFFFFF) << (32 - value));
+			} else {
+				LazyFlagResultContainer32 = (LazyFlagVarA32) >> value;
+			}
+			(*(uint32_t*)target) = LazyFlagResultContainer32;
+			lazyFlagType=t_SAR32;
 		}
 		break;
 		default:
@@ -6346,103 +6297,96 @@ void handlerCommand16Code00D1_RM() {
 		case 0: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
 			uint8_t value = 1;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			FillFlags();
-			uint32_t tmp = 0;
-			*(uint16_t*)(((uint8_t*)&tmp)) = (*(uint16_t*)target);
-			*(uint16_t*)(((uint8_t*)&tmp) + (16 / 8)) = (*(uint16_t*)target);
-			SET_FLAG(CF, (tmp << (value % 16 + 16 - 1)) & 0x8000);
-			tmp = tmp << (value % 16);
-			(*(uint16_t*)target) = (*(uint16_t*)(((uint8_t*)&tmp)));
-			if (value == 1) { SET_FLAG(OF, (((*(uint16_t*)target) & 0x8000) ? 1 : 0) ^ CF); }
+			FillFlagsNoCFOF();
+			value = value % 16;
+			uint16_t tmp = ((*(uint16_t*)target) << value) | ((*(uint16_t*)target) >> (16 - value));
+			(*(uint16_t*)target) = tmp;
+			SET_FLAG(CF, (tmp & 1));
+			SET_FLAG(OF, (tmp >> (16 - 1)) ^ CF );
 		}
 		break;
 		case 1: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
 			uint8_t value = 1;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			FillFlags();
-			if (value == 1) { SET_FLAG(OF, (((*(uint16_t*)target) & 0x8000) ? 1 : 0) ^ CF); }
-			uint32_t tmp = 0;
-			*(uint16_t*)(((uint8_t*)&tmp)) = (*(uint16_t*)target);
-			*(uint16_t*)(((uint8_t*)&tmp) + (16 / 8)) = (*(uint16_t*)target);
-			tmp = tmp >> (value % 16 - 1);
-			SET_FLAG(CF, tmp & 1);
-			tmp = tmp >> 1;
-			(*(uint16_t*)target) = (*(uint16_t*)(((uint8_t*)&tmp + 4)));
+			FillFlagsNoCFOF();
+			value = value % 16;
+			uint16_t tmp = ((*(uint16_t*)target) >> value) | ((*(uint16_t*)target) << (16 - value));
+			(*(uint16_t*)target) = tmp;
+			SET_FLAG(CF, (tmp & 0x8000));
+			SET_FLAG(OF, (tmp ^ (tmp << 1)) & 0x8000);
 		}
 		break;
 		case 2: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
 			uint8_t value = 1;
+			value = (value & 0x1F) % (16 + 1);
 			if (value == 0) { return; }
 			FillFlags();
-			uint32_t tmp = 0;
-			*(uint16_t*)(((uint8_t*)&tmp) + (16 / 8)) = (*(uint16_t*)target);
-			tmp = tmp >> 1;
-			uint16_t mask = GET_FLAG(CF);
-			*(uint16_t*)(((uint8_t*)&tmp) + (16 / 8)) |= mask;
-			*(uint16_t*)(((uint8_t*)&tmp)) = (*(uint16_t*)target);
-			SET_FLAG(CF, (tmp << (value % (16 + 1) + 16)) & 0x8000);
-			tmp = tmp << ((value % (16 + 1)));
-			(*(uint16_t*)target) = *(uint16_t*)((uint8_t*)&tmp);
-			if (value == 1) { SET_FLAG(OF, (((*(uint16_t*)target) & 0x8000) ? 1 : 0) ^ CF); }
+			SET_FLAG(CF, (((*(uint16_t*)target) >> (16 - value)) & 0x1) );
+			uint16_t tmp = ((*(uint16_t*)target) << value) | ((uint16_t)CF >> (16 - value + 1)) | ((*(uint16_t*)target) >> (16 - value));
+			(*(uint16_t*)target) = tmp;
+			SET_FLAG(OF, (tmp >> (16 - 1)) ^ CF );
 		}
 		break;
 		case 3: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
 			uint8_t value = 1;
+			value = (value & 0x1F) % (16 + 1);
 			if (value == 0) { return; }
 			FillFlags();
-			if (value == 1) { SET_FLAG(OF, (((*(uint16_t*)target) & 0x8000) ? 1 : 0) ^ CF); }
-			uint16_t tmp = 0;
-			*(uint16_t*)(((uint8_t*)&tmp)) = (*(uint16_t*)target);
-			*(uint16_t*)(((uint8_t*)&tmp) + (16 / 8)) = GET_FLAG(CF);
-			tmp = tmp << 1;
-			*(uint16_t*)(((uint8_t*)&tmp) + (16 / 8)) = (*(uint16_t*)target);
-			tmp = tmp >> ((value % (16 + 1)) - 1);
-			SET_FLAG(CF, tmp & 1);
-			tmp = tmp >> 1;
-			(*(uint16_t*)target) = *(uint16_t*)((uint8_t*)&tmp + (16 / 8));
+			uint16_t tmp = *(uint16_t*)target;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA16 = tmp;
+			tmp = (tmp >> value) | ((uint16_t)CF << (16 - value)) | (tmp << (16 - value + 1));
+			(*(uint16_t*)target) = tmp;
+			SET_FLAG(CF, (((LazyFlagVarA16) >> (value - 1)) & 1));
+			SET_FLAG(OF, (tmp ^ (tmp << 1)) & 0x8000);
 		}
 		break;
 		case 4: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
 			uint8_t value = 1;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			(*(uint16_t*)target) = (*(uint16_t*)target) << (value - 1);
-			SET_FLAG(CF, (*(uint16_t*)target) & 0x8000);
-			(*(uint16_t*)target) = (*(uint16_t*)target) << 1;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA16 = *(uint16_t*)target;
+			(*(uint16_t*)target) = (*(uint16_t*)target) << value;
 			LazyFlagResultContainer16 = (*(uint16_t*)target);
-			if (value == 1) { SET_FLAG(OF, (((*(uint16_t*)target) & 0x8000) ? 1 : 0) ^ CF); }
-			lazyFlagType = t_VALUE16;
+			lazyFlagType=t_SHL16;
 		}
 		break;
 		case 5: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
 			uint8_t value = 1;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			if (value == 1) { SET_FLAG(OF, (*(uint16_t*)target) & 0x8000) };
-			(*(uint16_t*)target) = (*(uint16_t*)target) >> (value % 16 - 1);
-			SET_FLAG(CF, (*(uint16_t*)target) & 1);
-			(*(uint16_t*)target) = (*(uint16_t*)target) >> 1;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA16 = *(uint16_t*)target;
+			(*(uint16_t*)target) = (*(uint16_t*)target) >> (value);
 			LazyFlagResultContainer16 = (*(uint16_t*)target);
-			lazyFlagType = t_VALUE16;
+			lazyFlagType=t_SHR16;
 		}
 		break;
 		case 7: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
 			uint8_t value = 1;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			uint64_t tmp = ((*(int16_t*)target) < 0) ? 0xFFFFFFFFFFFFFFFF : 0;
-			*(uint16_t*)(((uint8_t*)&tmp) + 4) = (*(uint16_t*)target);
-			tmp = tmp >> (value % 16 - 1);
-			SET_FLAG(CF, tmp & 1);
-			tmp = tmp >> 1;
-			(*(uint16_t*)target) = (*(uint16_t*)(((uint8_t*)&tmp) + 4));
-			SET_FLAG(OF, 0);
-			LazyFlagResultContainer16 = (*(uint16_t*)target);
-			lazyFlagType = t_VALUE16;
+			if (value > 16) { value = 16; }
+			FillFlagsNoCFOF();
+			LazyFlagVarB8 = value;
+			LazyFlagVarA16 = *(uint16_t*)target;
+			if (LazyFlagVarA16 & 0x8000) {
+				LazyFlagResultContainer16 = ((LazyFlagVarA16) >> value) | ((0xFFFFFFFF) << (16 - value));
+			} else {
+				LazyFlagResultContainer16 = (LazyFlagVarA16) >> value;
+			}
+			(*(uint16_t*)target) = LazyFlagResultContainer16;
+			lazyFlagType=t_SAR16;
 		}
 		break;
 		default:
@@ -6457,104 +6401,97 @@ void handlerCommand16Code00D2P66_RM() {
 	switch (nnn) {
 		case 0: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
-			uint8_t value = reg_CL_8u & 0x1F;
+			uint8_t value = reg_CL_8u;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			FillFlags();
-			uint16_t tmp = 0;
-			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
-			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
-			SET_FLAG(CF, (tmp << (value % 8 + 8 - 1)) & 0x80);
-			tmp = tmp << (value % 8);
-			(*(uint8_t*)target) = (*(uint8_t*)(((uint8_t*)&tmp)));
-			if (value == 1) { SET_FLAG(OF, (((*(uint8_t*)target) & 0x80) ? 1 : 0) ^ CF); }
+			FillFlagsNoCFOF();
+			value = value % 8;
+			uint8_t tmp = ((*(uint8_t*)target) << value) | ((*(uint8_t*)target) >> (8 - value));
+			(*(uint8_t*)target) = tmp;
+			SET_FLAG(CF, (tmp & 1));
+			SET_FLAG(OF, (tmp >> (8 - 1)) ^ CF );
 		}
 		break;
 		case 1: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
-			uint8_t value = reg_CL_8u & 0x1F;
+			uint8_t value = reg_CL_8u;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			FillFlags();
-			if (value == 1) { SET_FLAG(OF, (((*(uint8_t*)target) & 0x80) ? 1 : 0) ^ CF); }
-			uint16_t tmp = 0;
-			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
-			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
-			tmp = tmp >> (value % 8 - 1);
-			SET_FLAG(CF, tmp & 1);
-			tmp = tmp >> 1;
-			(*(uint8_t*)target) = (*(uint8_t*)(((uint8_t*)&tmp + 4)));
+			FillFlagsNoCFOF();
+			value = value % 8;
+			uint8_t tmp = ((*(uint8_t*)target) >> value) | ((*(uint8_t*)target) << (8 - value));
+			(*(uint8_t*)target) = tmp;
+			SET_FLAG(CF, (tmp & 0x80));
+			SET_FLAG(OF, (tmp ^ (tmp << 1)) & 0x80);
 		}
 		break;
 		case 2: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
-			uint8_t value = reg_CL_8u & 0x1F;
+			uint8_t value = reg_CL_8u;
+			value = (value & 0x1F) % (8 + 1);
 			if (value == 0) { return; }
 			FillFlags();
-			uint16_t tmp = 0;
-			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
-			tmp = tmp >> 1;
-			uint8_t mask = GET_FLAG(CF);
-			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) |= mask;
-			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
-			SET_FLAG(CF, (tmp << (value % (8 + 1) + 8)) & 0x80);
-			tmp = tmp << ((value % (8 + 1)));
-			(*(uint8_t*)target) = *(uint8_t*)((uint8_t*)&tmp);
-			if (value == 1) { SET_FLAG(OF, (((*(uint8_t*)target) & 0x80) ? 1 : 0) ^ CF); }
+			SET_FLAG(CF, (((*(uint8_t*)target) >> (8 - value)) & 0x1) );
+			uint8_t tmp = ((*(uint8_t*)target) << value) | ((uint8_t)CF >> (8 - value + 1)) | ((*(uint8_t*)target) >> (8 - value));
+			(*(uint8_t*)target) = tmp;
+			SET_FLAG(OF, (tmp >> (8 - 1)) ^ CF );
 		}
 		break;
 		case 3: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
-			uint8_t value = reg_CL_8u & 0x1F;
+			uint8_t value = reg_CL_8u;
+			value = (value & 0x1F) % (8 + 1);
 			if (value == 0) { return; }
 			FillFlags();
-			if (value == 1) { SET_FLAG(OF, (((*(uint8_t*)target) & 0x80) ? 1 : 0) ^ CF); }
-			uint8_t tmp = 0;
-			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
-			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = GET_FLAG(CF);
-			tmp = tmp << 1;
-			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
-			tmp = tmp >> ((value % (8 + 1)) - 1);
-			SET_FLAG(CF, tmp & 1);
-			tmp = tmp >> 1;
-			(*(uint8_t*)target) = *(uint8_t*)((uint8_t*)&tmp + (8 / 8));
+			uint8_t tmp = *(uint8_t*)target;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = tmp;
+			tmp = (tmp >> value) | ((uint8_t)CF << (8 - value)) | (tmp << (8 - value + 1));
+			(*(uint8_t*)target) = tmp;
+			SET_FLAG(CF, (((LazyFlagVarA8) >> (value - 1)) & 1));
+			SET_FLAG(OF, (tmp ^ (tmp << 1)) & 0x80);
 		}
 		break;
 		case 4: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
-			uint8_t value = reg_CL_8u & 0x1F;
+			uint8_t value = reg_CL_8u;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			(*(uint8_t*)target) = (*(uint8_t*)target) << (value - 1);
-			SET_FLAG(CF, (*(uint8_t*)target) & 0x80);
-			(*(uint8_t*)target) = (*(uint8_t*)target) << 1;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = *(uint8_t*)target;
+			(*(uint8_t*)target) = (*(uint8_t*)target) << value;
 			LazyFlagResultContainer8 = (*(uint8_t*)target);
-			if (value == 1) { SET_FLAG(OF, (((*(uint8_t*)target) & 0x80) ? 1 : 0) ^ CF); }
-			lazyFlagType = t_VALUE8;
+			lazyFlagType=t_SHL8;
 		}
 		break;
 		case 5: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
-			uint8_t value = reg_CL_8u & 0x1F;
+			uint8_t value = reg_CL_8u;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			if (value == 1) { SET_FLAG(OF, (*(uint8_t*)target) & 0x80) };
-			(*(uint8_t*)target) = (*(uint8_t*)target) >> (value % 8 - 1);
-			SET_FLAG(CF, (*(uint8_t*)target) & 1);
-			(*(uint8_t*)target) = (*(uint8_t*)target) >> 1;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = *(uint8_t*)target;
+			(*(uint8_t*)target) = (*(uint8_t*)target) >> (value);
 			LazyFlagResultContainer8 = (*(uint8_t*)target);
-			lazyFlagType = t_VALUE8;
+			lazyFlagType=t_SHR8;
 		}
 		break;
 		case 7: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
-			uint8_t value = reg_CL_8u & 0x1F;
+			uint8_t value = reg_CL_8u;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			uint64_t tmp = ((*(int8_t*)target) < 0) ? 0xFFFFFFFFFFFFFFFF : 0;
-			*(uint8_t*)(((uint8_t*)&tmp) + 4) = (*(uint8_t*)target);
-			tmp = tmp >> (value % 8 - 1);
-			SET_FLAG(CF, tmp & 1);
-			tmp = tmp >> 1;
-			(*(uint8_t*)target) = (*(uint8_t*)(((uint8_t*)&tmp) + 4));
-			SET_FLAG(OF, 0);
-			LazyFlagResultContainer8 = (*(uint8_t*)target);
-			lazyFlagType = t_VALUE8;
+			if (value > 8) { value = 8; }
+			FillFlagsNoCFOF();
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = *(uint8_t*)target;
+			if (LazyFlagVarA8 & 0x80) {
+				LazyFlagResultContainer8 = ((LazyFlagVarA8) >> value) | ((0xFFFFFFFF) << (8 - value));
+			} else {
+				LazyFlagResultContainer8 = (LazyFlagVarA8) >> value;
+			}
+			(*(uint8_t*)target) = LazyFlagResultContainer8;
+			lazyFlagType=t_SAR8;
 		}
 		break;
 		default:
@@ -6569,104 +6506,97 @@ void handlerCommand16Code00D2_RM() {
 	switch (nnn) {
 		case 0: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
-			uint8_t value = reg_CL_8u & 0x1F;
+			uint8_t value = reg_CL_8u;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			FillFlags();
-			uint16_t tmp = 0;
-			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
-			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
-			SET_FLAG(CF, (tmp << (value % 8 + 8 - 1)) & 0x80);
-			tmp = tmp << (value % 8);
-			(*(uint8_t*)target) = (*(uint8_t*)(((uint8_t*)&tmp)));
-			if (value == 1) { SET_FLAG(OF, (((*(uint8_t*)target) & 0x80) ? 1 : 0) ^ CF); }
+			FillFlagsNoCFOF();
+			value = value % 8;
+			uint8_t tmp = ((*(uint8_t*)target) << value) | ((*(uint8_t*)target) >> (8 - value));
+			(*(uint8_t*)target) = tmp;
+			SET_FLAG(CF, (tmp & 1));
+			SET_FLAG(OF, (tmp >> (8 - 1)) ^ CF );
 		}
 		break;
 		case 1: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
-			uint8_t value = reg_CL_8u & 0x1F;
+			uint8_t value = reg_CL_8u;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			FillFlags();
-			if (value == 1) { SET_FLAG(OF, (((*(uint8_t*)target) & 0x80) ? 1 : 0) ^ CF); }
-			uint16_t tmp = 0;
-			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
-			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
-			tmp = tmp >> (value % 8 - 1);
-			SET_FLAG(CF, tmp & 1);
-			tmp = tmp >> 1;
-			(*(uint8_t*)target) = (*(uint8_t*)(((uint8_t*)&tmp + 4)));
+			FillFlagsNoCFOF();
+			value = value % 8;
+			uint8_t tmp = ((*(uint8_t*)target) >> value) | ((*(uint8_t*)target) << (8 - value));
+			(*(uint8_t*)target) = tmp;
+			SET_FLAG(CF, (tmp & 0x80));
+			SET_FLAG(OF, (tmp ^ (tmp << 1)) & 0x80);
 		}
 		break;
 		case 2: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
-			uint8_t value = reg_CL_8u & 0x1F;
+			uint8_t value = reg_CL_8u;
+			value = (value & 0x1F) % (8 + 1);
 			if (value == 0) { return; }
 			FillFlags();
-			uint16_t tmp = 0;
-			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
-			tmp = tmp >> 1;
-			uint8_t mask = GET_FLAG(CF);
-			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) |= mask;
-			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
-			SET_FLAG(CF, (tmp << (value % (8 + 1) + 8)) & 0x80);
-			tmp = tmp << ((value % (8 + 1)));
-			(*(uint8_t*)target) = *(uint8_t*)((uint8_t*)&tmp);
-			if (value == 1) { SET_FLAG(OF, (((*(uint8_t*)target) & 0x80) ? 1 : 0) ^ CF); }
+			SET_FLAG(CF, (((*(uint8_t*)target) >> (8 - value)) & 0x1) );
+			uint8_t tmp = ((*(uint8_t*)target) << value) | ((uint8_t)CF >> (8 - value + 1)) | ((*(uint8_t*)target) >> (8 - value));
+			(*(uint8_t*)target) = tmp;
+			SET_FLAG(OF, (tmp >> (8 - 1)) ^ CF );
 		}
 		break;
 		case 3: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
-			uint8_t value = reg_CL_8u & 0x1F;
+			uint8_t value = reg_CL_8u;
+			value = (value & 0x1F) % (8 + 1);
 			if (value == 0) { return; }
 			FillFlags();
-			if (value == 1) { SET_FLAG(OF, (((*(uint8_t*)target) & 0x80) ? 1 : 0) ^ CF); }
-			uint8_t tmp = 0;
-			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
-			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = GET_FLAG(CF);
-			tmp = tmp << 1;
-			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
-			tmp = tmp >> ((value % (8 + 1)) - 1);
-			SET_FLAG(CF, tmp & 1);
-			tmp = tmp >> 1;
-			(*(uint8_t*)target) = *(uint8_t*)((uint8_t*)&tmp + (8 / 8));
+			uint8_t tmp = *(uint8_t*)target;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = tmp;
+			tmp = (tmp >> value) | ((uint8_t)CF << (8 - value)) | (tmp << (8 - value + 1));
+			(*(uint8_t*)target) = tmp;
+			SET_FLAG(CF, (((LazyFlagVarA8) >> (value - 1)) & 1));
+			SET_FLAG(OF, (tmp ^ (tmp << 1)) & 0x80);
 		}
 		break;
 		case 4: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
-			uint8_t value = reg_CL_8u & 0x1F;
+			uint8_t value = reg_CL_8u;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			(*(uint8_t*)target) = (*(uint8_t*)target) << (value - 1);
-			SET_FLAG(CF, (*(uint8_t*)target) & 0x80);
-			(*(uint8_t*)target) = (*(uint8_t*)target) << 1;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = *(uint8_t*)target;
+			(*(uint8_t*)target) = (*(uint8_t*)target) << value;
 			LazyFlagResultContainer8 = (*(uint8_t*)target);
-			if (value == 1) { SET_FLAG(OF, (((*(uint8_t*)target) & 0x80) ? 1 : 0) ^ CF); }
-			lazyFlagType = t_VALUE8;
+			lazyFlagType=t_SHL8;
 		}
 		break;
 		case 5: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
-			uint8_t value = reg_CL_8u & 0x1F;
+			uint8_t value = reg_CL_8u;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			if (value == 1) { SET_FLAG(OF, (*(uint8_t*)target) & 0x80) };
-			(*(uint8_t*)target) = (*(uint8_t*)target) >> (value % 8 - 1);
-			SET_FLAG(CF, (*(uint8_t*)target) & 1);
-			(*(uint8_t*)target) = (*(uint8_t*)target) >> 1;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = *(uint8_t*)target;
+			(*(uint8_t*)target) = (*(uint8_t*)target) >> (value);
 			LazyFlagResultContainer8 = (*(uint8_t*)target);
-			lazyFlagType = t_VALUE8;
+			lazyFlagType=t_SHR8;
 		}
 		break;
 		case 7: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
-			uint8_t value = reg_CL_8u & 0x1F;
+			uint8_t value = reg_CL_8u;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			uint64_t tmp = ((*(int8_t*)target) < 0) ? 0xFFFFFFFFFFFFFFFF : 0;
-			*(uint8_t*)(((uint8_t*)&tmp) + 4) = (*(uint8_t*)target);
-			tmp = tmp >> (value % 8 - 1);
-			SET_FLAG(CF, tmp & 1);
-			tmp = tmp >> 1;
-			(*(uint8_t*)target) = (*(uint8_t*)(((uint8_t*)&tmp) + 4));
-			SET_FLAG(OF, 0);
-			LazyFlagResultContainer8 = (*(uint8_t*)target);
-			lazyFlagType = t_VALUE8;
+			if (value > 8) { value = 8; }
+			FillFlagsNoCFOF();
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = *(uint8_t*)target;
+			if (LazyFlagVarA8 & 0x80) {
+				LazyFlagResultContainer8 = ((LazyFlagVarA8) >> value) | ((0xFFFFFFFF) << (8 - value));
+			} else {
+				LazyFlagResultContainer8 = (LazyFlagVarA8) >> value;
+			}
+			(*(uint8_t*)target) = LazyFlagResultContainer8;
+			lazyFlagType=t_SAR8;
 		}
 		break;
 		default:
@@ -6681,104 +6611,97 @@ void handlerCommand16Code00D3P66_RM() {
 	switch (nnn) {
 		case 0: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For32(mrmByte);
-			uint8_t value = reg_CL_8u & 0x1F;
+			uint8_t value = reg_CL_8u;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			FillFlags();
-			uint64_t tmp = 0;
-			*(uint32_t*)(((uint8_t*)&tmp)) = (*(uint32_t*)target);
-			*(uint32_t*)(((uint8_t*)&tmp) + (32 / 8)) = (*(uint32_t*)target);
-			SET_FLAG(CF, (tmp << (value % 32 + 32 - 1)) & 0x80000000);
-			tmp = tmp << (value % 32);
-			(*(uint32_t*)target) = (*(uint32_t*)(((uint8_t*)&tmp)));
-			if (value == 1) { SET_FLAG(OF, (((*(uint32_t*)target) & 0x80000000) ? 1 : 0) ^ CF); }
+			FillFlagsNoCFOF();
+			value = value % 32;
+			uint32_t tmp = ((*(uint32_t*)target) << value) | ((*(uint32_t*)target) >> (32 - value));
+			(*(uint32_t*)target) = tmp;
+			SET_FLAG(CF, (tmp & 1));
+			SET_FLAG(OF, (tmp >> (32 - 1)) ^ CF );
 		}
 		break;
 		case 1: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For32(mrmByte);
-			uint8_t value = reg_CL_8u & 0x1F;
+			uint8_t value = reg_CL_8u;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			FillFlags();
-			if (value == 1) { SET_FLAG(OF, (((*(uint32_t*)target) & 0x80000000) ? 1 : 0) ^ CF); }
-			uint64_t tmp = 0;
-			*(uint32_t*)(((uint8_t*)&tmp)) = (*(uint32_t*)target);
-			*(uint32_t*)(((uint8_t*)&tmp) + (32 / 8)) = (*(uint32_t*)target);
-			tmp = tmp >> (value % 32 - 1);
-			SET_FLAG(CF, tmp & 1);
-			tmp = tmp >> 1;
-			(*(uint32_t*)target) = (*(uint32_t*)(((uint8_t*)&tmp + 4)));
+			FillFlagsNoCFOF();
+			value = value % 32;
+			uint32_t tmp = ((*(uint32_t*)target) >> value) | ((*(uint32_t*)target) << (32 - value));
+			(*(uint32_t*)target) = tmp;
+			SET_FLAG(CF, (tmp & 0x80000000));
+			SET_FLAG(OF, (tmp ^ (tmp << 1)) & 0x80000000);
 		}
 		break;
 		case 2: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For32(mrmByte);
-			uint8_t value = reg_CL_8u & 0x1F;
+			uint8_t value = reg_CL_8u;
+			value = (value & 0x1F) % (32 + 1);
 			if (value == 0) { return; }
 			FillFlags();
-			uint64_t tmp = 0;
-			*(uint32_t*)(((uint8_t*)&tmp) + (32 / 8)) = (*(uint32_t*)target);
-			tmp = tmp >> 1;
-			uint32_t mask = GET_FLAG(CF);
-			*(uint32_t*)(((uint8_t*)&tmp) + (32 / 8)) |= mask;
-			*(uint32_t*)(((uint8_t*)&tmp)) = (*(uint32_t*)target);
-			SET_FLAG(CF, (tmp << (value % (32 + 1) + 32)) & 0x80000000);
-			tmp = tmp << ((value % (32 + 1)));
-			(*(uint32_t*)target) = *(uint32_t*)((uint8_t*)&tmp);
-			if (value == 1) { SET_FLAG(OF, (((*(uint32_t*)target) & 0x80000000) ? 1 : 0) ^ CF); }
+			SET_FLAG(CF, (((*(uint32_t*)target) >> (32 - value)) & 0x1) );
+			uint32_t tmp = ((*(uint32_t*)target) << value) | ((uint32_t)CF >> (32 - value + 1)) | ((*(uint32_t*)target) >> (32 - value));
+			(*(uint32_t*)target) = tmp;
+			SET_FLAG(OF, (tmp >> (32 - 1)) ^ CF );
 		}
 		break;
 		case 3: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For32(mrmByte);
-			uint8_t value = reg_CL_8u & 0x1F;
+			uint8_t value = reg_CL_8u;
+			value = (value & 0x1F) % (32 + 1);
 			if (value == 0) { return; }
 			FillFlags();
-			if (value == 1) { SET_FLAG(OF, (((*(uint32_t*)target) & 0x80000000) ? 1 : 0) ^ CF); }
-			uint32_t tmp = 0;
-			*(uint32_t*)(((uint8_t*)&tmp)) = (*(uint32_t*)target);
-			*(uint32_t*)(((uint8_t*)&tmp) + (32 / 8)) = GET_FLAG(CF);
-			tmp = tmp << 1;
-			*(uint32_t*)(((uint8_t*)&tmp) + (32 / 8)) = (*(uint32_t*)target);
-			tmp = tmp >> ((value % (32 + 1)) - 1);
-			SET_FLAG(CF, tmp & 1);
-			tmp = tmp >> 1;
-			(*(uint32_t*)target) = *(uint32_t*)((uint8_t*)&tmp + (32 / 8));
+			uint32_t tmp = *(uint32_t*)target;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA32 = tmp;
+			tmp = (tmp >> value) | ((uint32_t)CF << (32 - value)) | (tmp << (32 - value + 1));
+			(*(uint32_t*)target) = tmp;
+			SET_FLAG(CF, (((LazyFlagVarA32) >> (value - 1)) & 1));
+			SET_FLAG(OF, (tmp ^ (tmp << 1)) & 0x80000000);
 		}
 		break;
 		case 4: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For32(mrmByte);
-			uint8_t value = reg_CL_8u & 0x1F;
+			uint8_t value = reg_CL_8u;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			(*(uint32_t*)target) = (*(uint32_t*)target) << (value - 1);
-			SET_FLAG(CF, (*(uint32_t*)target) & 0x80000000);
-			(*(uint32_t*)target) = (*(uint32_t*)target) << 1;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA32 = *(uint32_t*)target;
+			(*(uint32_t*)target) = (*(uint32_t*)target) << value;
 			LazyFlagResultContainer32 = (*(uint32_t*)target);
-			if (value == 1) { SET_FLAG(OF, (((*(uint32_t*)target) & 0x80000000) ? 1 : 0) ^ CF); }
-			lazyFlagType = t_VALUE32;
+			lazyFlagType=t_SHL32;
 		}
 		break;
 		case 5: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For32(mrmByte);
-			uint8_t value = reg_CL_8u & 0x1F;
+			uint8_t value = reg_CL_8u;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			if (value == 1) { SET_FLAG(OF, (*(uint32_t*)target) & 0x80000000) };
-			(*(uint32_t*)target) = (*(uint32_t*)target) >> (value % 32 - 1);
-			SET_FLAG(CF, (*(uint32_t*)target) & 1);
-			(*(uint32_t*)target) = (*(uint32_t*)target) >> 1;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA32 = *(uint32_t*)target;
+			(*(uint32_t*)target) = (*(uint32_t*)target) >> (value);
 			LazyFlagResultContainer32 = (*(uint32_t*)target);
-			lazyFlagType = t_VALUE32;
+			lazyFlagType=t_SHR32;
 		}
 		break;
 		case 7: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For32(mrmByte);
-			uint8_t value = reg_CL_8u & 0x1F;
+			uint8_t value = reg_CL_8u;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			uint64_t tmp = ((*(int32_t*)target) < 0) ? 0xFFFFFFFFFFFFFFFF : 0;
-			*(uint32_t*)(((uint8_t*)&tmp) + 4) = (*(uint32_t*)target);
-			tmp = tmp >> (value % 32 - 1);
-			SET_FLAG(CF, tmp & 1);
-			tmp = tmp >> 1;
-			(*(uint32_t*)target) = (*(uint32_t*)(((uint8_t*)&tmp) + 4));
-			SET_FLAG(OF, 0);
-			LazyFlagResultContainer32 = (*(uint32_t*)target);
-			lazyFlagType = t_VALUE32;
+			if (value > 32) { value = 32; }
+			FillFlagsNoCFOF();
+			LazyFlagVarB8 = value;
+			LazyFlagVarA32 = *(uint32_t*)target;
+			if (LazyFlagVarA32 & 0x80000000) {
+				LazyFlagResultContainer32 = ((LazyFlagVarA32) >> value) | ((0xFFFFFFFF) << (32 - value));
+			} else {
+				LazyFlagResultContainer32 = (LazyFlagVarA32) >> value;
+			}
+			(*(uint32_t*)target) = LazyFlagResultContainer32;
+			lazyFlagType=t_SAR32;
 		}
 		break;
 		default:
@@ -6793,104 +6716,97 @@ void handlerCommand16Code00D3_RM() {
 	switch (nnn) {
 		case 0: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
-			uint8_t value = reg_CL_8u & 0x1F;
+			uint8_t value = reg_CL_8u;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			FillFlags();
-			uint32_t tmp = 0;
-			*(uint16_t*)(((uint8_t*)&tmp)) = (*(uint16_t*)target);
-			*(uint16_t*)(((uint8_t*)&tmp) + (16 / 8)) = (*(uint16_t*)target);
-			SET_FLAG(CF, (tmp << (value % 16 + 16 - 1)) & 0x8000);
-			tmp = tmp << (value % 16);
-			(*(uint16_t*)target) = (*(uint16_t*)(((uint8_t*)&tmp)));
-			if (value == 1) { SET_FLAG(OF, (((*(uint16_t*)target) & 0x8000) ? 1 : 0) ^ CF); }
+			FillFlagsNoCFOF();
+			value = value % 16;
+			uint16_t tmp = ((*(uint16_t*)target) << value) | ((*(uint16_t*)target) >> (16 - value));
+			(*(uint16_t*)target) = tmp;
+			SET_FLAG(CF, (tmp & 1));
+			SET_FLAG(OF, (tmp >> (16 - 1)) ^ CF );
 		}
 		break;
 		case 1: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
-			uint8_t value = reg_CL_8u & 0x1F;
+			uint8_t value = reg_CL_8u;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			FillFlags();
-			if (value == 1) { SET_FLAG(OF, (((*(uint16_t*)target) & 0x8000) ? 1 : 0) ^ CF); }
-			uint32_t tmp = 0;
-			*(uint16_t*)(((uint8_t*)&tmp)) = (*(uint16_t*)target);
-			*(uint16_t*)(((uint8_t*)&tmp) + (16 / 8)) = (*(uint16_t*)target);
-			tmp = tmp >> (value % 16 - 1);
-			SET_FLAG(CF, tmp & 1);
-			tmp = tmp >> 1;
-			(*(uint16_t*)target) = (*(uint16_t*)(((uint8_t*)&tmp + 4)));
+			FillFlagsNoCFOF();
+			value = value % 16;
+			uint16_t tmp = ((*(uint16_t*)target) >> value) | ((*(uint16_t*)target) << (16 - value));
+			(*(uint16_t*)target) = tmp;
+			SET_FLAG(CF, (tmp & 0x8000));
+			SET_FLAG(OF, (tmp ^ (tmp << 1)) & 0x8000);
 		}
 		break;
 		case 2: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
-			uint8_t value = reg_CL_8u & 0x1F;
+			uint8_t value = reg_CL_8u;
+			value = (value & 0x1F) % (16 + 1);
 			if (value == 0) { return; }
 			FillFlags();
-			uint32_t tmp = 0;
-			*(uint16_t*)(((uint8_t*)&tmp) + (16 / 8)) = (*(uint16_t*)target);
-			tmp = tmp >> 1;
-			uint16_t mask = GET_FLAG(CF);
-			*(uint16_t*)(((uint8_t*)&tmp) + (16 / 8)) |= mask;
-			*(uint16_t*)(((uint8_t*)&tmp)) = (*(uint16_t*)target);
-			SET_FLAG(CF, (tmp << (value % (16 + 1) + 16)) & 0x8000);
-			tmp = tmp << ((value % (16 + 1)));
-			(*(uint16_t*)target) = *(uint16_t*)((uint8_t*)&tmp);
-			if (value == 1) { SET_FLAG(OF, (((*(uint16_t*)target) & 0x8000) ? 1 : 0) ^ CF); }
+			SET_FLAG(CF, (((*(uint16_t*)target) >> (16 - value)) & 0x1) );
+			uint16_t tmp = ((*(uint16_t*)target) << value) | ((uint16_t)CF >> (16 - value + 1)) | ((*(uint16_t*)target) >> (16 - value));
+			(*(uint16_t*)target) = tmp;
+			SET_FLAG(OF, (tmp >> (16 - 1)) ^ CF );
 		}
 		break;
 		case 3: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
-			uint8_t value = reg_CL_8u & 0x1F;
+			uint8_t value = reg_CL_8u;
+			value = (value & 0x1F) % (16 + 1);
 			if (value == 0) { return; }
 			FillFlags();
-			if (value == 1) { SET_FLAG(OF, (((*(uint16_t*)target) & 0x8000) ? 1 : 0) ^ CF); }
-			uint16_t tmp = 0;
-			*(uint16_t*)(((uint8_t*)&tmp)) = (*(uint16_t*)target);
-			*(uint16_t*)(((uint8_t*)&tmp) + (16 / 8)) = GET_FLAG(CF);
-			tmp = tmp << 1;
-			*(uint16_t*)(((uint8_t*)&tmp) + (16 / 8)) = (*(uint16_t*)target);
-			tmp = tmp >> ((value % (16 + 1)) - 1);
-			SET_FLAG(CF, tmp & 1);
-			tmp = tmp >> 1;
-			(*(uint16_t*)target) = *(uint16_t*)((uint8_t*)&tmp + (16 / 8));
+			uint16_t tmp = *(uint16_t*)target;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA16 = tmp;
+			tmp = (tmp >> value) | ((uint16_t)CF << (16 - value)) | (tmp << (16 - value + 1));
+			(*(uint16_t*)target) = tmp;
+			SET_FLAG(CF, (((LazyFlagVarA16) >> (value - 1)) & 1));
+			SET_FLAG(OF, (tmp ^ (tmp << 1)) & 0x8000);
 		}
 		break;
 		case 4: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
-			uint8_t value = reg_CL_8u & 0x1F;
+			uint8_t value = reg_CL_8u;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			(*(uint16_t*)target) = (*(uint16_t*)target) << (value - 1);
-			SET_FLAG(CF, (*(uint16_t*)target) & 0x8000);
-			(*(uint16_t*)target) = (*(uint16_t*)target) << 1;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA16 = *(uint16_t*)target;
+			(*(uint16_t*)target) = (*(uint16_t*)target) << value;
 			LazyFlagResultContainer16 = (*(uint16_t*)target);
-			if (value == 1) { SET_FLAG(OF, (((*(uint16_t*)target) & 0x8000) ? 1 : 0) ^ CF); }
-			lazyFlagType = t_VALUE16;
+			lazyFlagType=t_SHL16;
 		}
 		break;
 		case 5: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
-			uint8_t value = reg_CL_8u & 0x1F;
+			uint8_t value = reg_CL_8u;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			if (value == 1) { SET_FLAG(OF, (*(uint16_t*)target) & 0x8000) };
-			(*(uint16_t*)target) = (*(uint16_t*)target) >> (value % 16 - 1);
-			SET_FLAG(CF, (*(uint16_t*)target) & 1);
-			(*(uint16_t*)target) = (*(uint16_t*)target) >> 1;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA16 = *(uint16_t*)target;
+			(*(uint16_t*)target) = (*(uint16_t*)target) >> (value);
 			LazyFlagResultContainer16 = (*(uint16_t*)target);
-			lazyFlagType = t_VALUE16;
+			lazyFlagType=t_SHR16;
 		}
 		break;
 		case 7: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
-			uint8_t value = reg_CL_8u & 0x1F;
+			uint8_t value = reg_CL_8u;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			uint64_t tmp = ((*(int16_t*)target) < 0) ? 0xFFFFFFFFFFFFFFFF : 0;
-			*(uint16_t*)(((uint8_t*)&tmp) + 4) = (*(uint16_t*)target);
-			tmp = tmp >> (value % 16 - 1);
-			SET_FLAG(CF, tmp & 1);
-			tmp = tmp >> 1;
-			(*(uint16_t*)target) = (*(uint16_t*)(((uint8_t*)&tmp) + 4));
-			SET_FLAG(OF, 0);
-			LazyFlagResultContainer16 = (*(uint16_t*)target);
-			lazyFlagType = t_VALUE16;
+			if (value > 16) { value = 16; }
+			FillFlagsNoCFOF();
+			LazyFlagVarB8 = value;
+			LazyFlagVarA16 = *(uint16_t*)target;
+			if (LazyFlagVarA16 & 0x8000) {
+				LazyFlagResultContainer16 = ((LazyFlagVarA16) >> value) | ((0xFFFFFFFF) << (16 - value));
+			} else {
+				LazyFlagResultContainer16 = (LazyFlagVarA16) >> value;
+			}
+			(*(uint16_t*)target) = LazyFlagResultContainer16;
+			lazyFlagType=t_SAR16;
 		}
 		break;
 		default:
@@ -8118,8 +8034,9 @@ void handlerCommand16Code00F6P66_RM() {
 			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
 			reg_AX_16u=((uint16_t)reg_AL_8u)*((uint16_t)(*(uint8_t*)target));
 			FillFlagsNoCFOF();
-			SET_FLAG(ZF,reg_AL_8 == 0);
-			SET_FLAG(PF,PARITY16(reg_AX_16));
+			SET_FLAG(ZF,reg_AL_8u == 0);
+			SET_FLAG(SF,reg_AL_8u & 0x80);
+			SET_FLAG(PF,PARITY8(reg_AL_8u));
 			if (reg_AX_16 & 0xff00) {
 				SET_FLAG(CF,1);SET_FLAG(OF,1);
 			} else {
@@ -8206,8 +8123,9 @@ void handlerCommand16Code00F6_RM() {
 			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
 			reg_AX_16u=((uint16_t)reg_AL_8u)*((uint16_t)(*(uint8_t*)target));
 			FillFlagsNoCFOF();
-			SET_FLAG(ZF,reg_AL_8 == 0);
-			SET_FLAG(PF,PARITY16(reg_AX_16));
+			SET_FLAG(ZF,reg_AL_8u == 0);
+			SET_FLAG(SF,reg_AL_8u & 0x80);
+			SET_FLAG(PF,PARITY8(reg_AL_8u));
 			if (reg_AX_16 & 0xff00) {
 				SET_FLAG(CF,1);SET_FLAG(OF,1);
 			} else {
@@ -8293,11 +8211,12 @@ void handlerCommand16Code00F7P66_RM() {
 		case 0x04: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For32(mrmByte);
 			uint64_t tempu=((uint64_t)reg_AX_32u)*((uint64_t)(*(uint32_t*)(target)));
-			reg_AX_32=(uint32_t)(tempu);
-			reg_DX_32=(uint32_t)(tempu >> 32);
+			reg_AX_32u=(uint32_t)(tempu);
+			reg_DX_32u=(uint32_t)(tempu >> 32);
 			FillFlagsNoCFOF();
-			SET_FLAG(ZF,reg_AX_32 == 0);
-			SET_FLAG(PF,PARITY32(reg_AX_32)^PARITY32(reg_DX_32));
+			SET_FLAG(SF,reg_AX_32u & 0x80000000);
+			SET_FLAG(ZF,reg_AX_32u == 0);
+			SET_FLAG(PF,!(PARITY32(reg_AX_32) ^ PARITY32(reg_DX_32)));
 			if (reg_DX_32) {
 				SET_FLAG(CF,1);SET_FLAG(OF,1);
 			} else {
@@ -8389,11 +8308,12 @@ void handlerCommand16Code00F7_RM() {
 		case 0x04: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
 			uint32_t tempu=((uint32_t)reg_AX_16u)*(uint32_t)(*(uint16_t*)(target));
-			reg_AX_16=(uint16_t)(tempu);
-			reg_DX_16=(uint16_t)(tempu >> 16);
+			reg_AX_16u=(uint16_t)(tempu);
+			reg_DX_16u=(uint16_t)(tempu >> 16);
 			FillFlagsNoCFOF();
+			SET_FLAG(SF,reg_AX_16 & 0x8000);
 			SET_FLAG(ZF,reg_AX_16 == 0);
-			SET_FLAG(PF,PARITY16(reg_AX_16)^PARITY16(reg_DX_16));
+			SET_FLAG(PF,!(PARITY16(reg_AX_16u) ^ PARITY16(reg_DX_16u)));
 			if (reg_DX_16) {
 				SET_FLAG(CF,1);SET_FLAG(OF,1);
 			} else {
@@ -15374,104 +15294,97 @@ void handlerCommand32Code00C0P66_RM() {
 	switch (nnn) {
 		case 0: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
-			uint8_t value = read8u() & 0x1F;
+			uint8_t value = read8u();
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			FillFlags();
-			uint16_t tmp = 0;
-			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
-			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
-			SET_FLAG(CF, (tmp << (value % 8 + 8 - 1)) & 0x80);
-			tmp = tmp << (value % 8);
-			(*(uint8_t*)target) = (*(uint8_t*)(((uint8_t*)&tmp)));
-			if (value == 1) { SET_FLAG(OF, (((*(uint8_t*)target) & 0x80) ? 1 : 0) ^ CF); }
+			FillFlagsNoCFOF();
+			value = value % 8;
+			uint8_t tmp = ((*(uint8_t*)target) << value) | ((*(uint8_t*)target) >> (8 - value));
+			(*(uint8_t*)target) = tmp;
+			SET_FLAG(CF, (tmp & 1));
+			SET_FLAG(OF, (tmp >> (8 - 1)) ^ CF );
 		}
 		break;
 		case 1: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
-			uint8_t value = read8u() & 0x1F;
+			uint8_t value = read8u();
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			FillFlags();
-			if (value == 1) { SET_FLAG(OF, (((*(uint8_t*)target) & 0x80) ? 1 : 0) ^ CF); }
-			uint16_t tmp = 0;
-			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
-			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
-			tmp = tmp >> (value % 8 - 1);
-			SET_FLAG(CF, tmp & 1);
-			tmp = tmp >> 1;
-			(*(uint8_t*)target) = (*(uint8_t*)(((uint8_t*)&tmp + 4)));
+			FillFlagsNoCFOF();
+			value = value % 8;
+			uint8_t tmp = ((*(uint8_t*)target) >> value) | ((*(uint8_t*)target) << (8 - value));
+			(*(uint8_t*)target) = tmp;
+			SET_FLAG(CF, (tmp & 0x80));
+			SET_FLAG(OF, (tmp ^ (tmp << 1)) & 0x80);
 		}
 		break;
 		case 2: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
-			uint8_t value = read8u() & 0x1F;
+			uint8_t value = read8u();
+			value = (value & 0x1F) % (8 + 1);
 			if (value == 0) { return; }
 			FillFlags();
-			uint16_t tmp = 0;
-			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
-			tmp = tmp >> 1;
-			uint8_t mask = GET_FLAG(CF);
-			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) |= mask;
-			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
-			SET_FLAG(CF, (tmp << (value % (8 + 1) + 8)) & 0x80);
-			tmp = tmp << ((value % (8 + 1)));
-			(*(uint8_t*)target) = *(uint8_t*)((uint8_t*)&tmp);
-			if (value == 1) { SET_FLAG(OF, (((*(uint8_t*)target) & 0x80) ? 1 : 0) ^ CF); }
+			SET_FLAG(CF, (((*(uint8_t*)target) >> (8 - value)) & 0x1) );
+			uint8_t tmp = ((*(uint8_t*)target) << value) | ((uint8_t)CF >> (8 - value + 1)) | ((*(uint8_t*)target) >> (8 - value));
+			(*(uint8_t*)target) = tmp;
+			SET_FLAG(OF, (tmp >> (8 - 1)) ^ CF );
 		}
 		break;
 		case 3: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
-			uint8_t value = read8u() & 0x1F;
+			uint8_t value = read8u();
+			value = (value & 0x1F) % (8 + 1);
 			if (value == 0) { return; }
 			FillFlags();
-			if (value == 1) { SET_FLAG(OF, (((*(uint8_t*)target) & 0x80) ? 1 : 0) ^ CF); }
-			uint8_t tmp = 0;
-			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
-			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = GET_FLAG(CF);
-			tmp = tmp << 1;
-			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
-			tmp = tmp >> ((value % (8 + 1)) - 1);
-			SET_FLAG(CF, tmp & 1);
-			tmp = tmp >> 1;
-			(*(uint8_t*)target) = *(uint8_t*)((uint8_t*)&tmp + (8 / 8));
+			uint8_t tmp = *(uint8_t*)target;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = tmp;
+			tmp = (tmp >> value) | ((uint8_t)CF << (8 - value)) | (tmp << (8 - value + 1));
+			(*(uint8_t*)target) = tmp;
+			SET_FLAG(CF, (((LazyFlagVarA8) >> (value - 1)) & 1));
+			SET_FLAG(OF, (tmp ^ (tmp << 1)) & 0x80);
 		}
 		break;
 		case 4: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
-			uint8_t value = read8u() & 0x1F;
+			uint8_t value = read8u();
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			(*(uint8_t*)target) = (*(uint8_t*)target) << (value - 1);
-			SET_FLAG(CF, (*(uint8_t*)target) & 0x80);
-			(*(uint8_t*)target) = (*(uint8_t*)target) << 1;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = *(uint8_t*)target;
+			(*(uint8_t*)target) = (*(uint8_t*)target) << value;
 			LazyFlagResultContainer8 = (*(uint8_t*)target);
-			if (value == 1) { SET_FLAG(OF, (((*(uint8_t*)target) & 0x80) ? 1 : 0) ^ CF); }
-			lazyFlagType = t_VALUE8;
+			lazyFlagType=t_SHL8;
 		}
 		break;
 		case 5: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
-			uint8_t value = read8u() & 0x1F;
+			uint8_t value = read8u();
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			if (value == 1) { SET_FLAG(OF, (*(uint8_t*)target) & 0x80) };
-			(*(uint8_t*)target) = (*(uint8_t*)target) >> (value % 8 - 1);
-			SET_FLAG(CF, (*(uint8_t*)target) & 1);
-			(*(uint8_t*)target) = (*(uint8_t*)target) >> 1;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = *(uint8_t*)target;
+			(*(uint8_t*)target) = (*(uint8_t*)target) >> (value);
 			LazyFlagResultContainer8 = (*(uint8_t*)target);
-			lazyFlagType = t_VALUE8;
+			lazyFlagType=t_SHR8;
 		}
 		break;
 		case 7: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
-			uint8_t value = read8u() & 0x1F;
+			uint8_t value = read8u();
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			uint64_t tmp = ((*(int8_t*)target) < 0) ? 0xFFFFFFFFFFFFFFFF : 0;
-			*(uint8_t*)(((uint8_t*)&tmp) + 4) = (*(uint8_t*)target);
-			tmp = tmp >> (value % 8 - 1);
-			SET_FLAG(CF, tmp & 1);
-			tmp = tmp >> 1;
-			(*(uint8_t*)target) = (*(uint8_t*)(((uint8_t*)&tmp) + 4));
-			SET_FLAG(OF, 0);
-			LazyFlagResultContainer8 = (*(uint8_t*)target);
-			lazyFlagType = t_VALUE8;
+			if (value > 8) { value = 8; }
+			FillFlagsNoCFOF();
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = *(uint8_t*)target;
+			if (LazyFlagVarA8 & 0x80) {
+				LazyFlagResultContainer8 = ((LazyFlagVarA8) >> value) | ((0xFFFFFFFF) << (8 - value));
+			} else {
+				LazyFlagResultContainer8 = (LazyFlagVarA8) >> value;
+			}
+			(*(uint8_t*)target) = LazyFlagResultContainer8;
+			lazyFlagType=t_SAR8;
 		}
 		break;
 		default:
@@ -15486,104 +15399,97 @@ void handlerCommand32Code00C0_RM() {
 	switch (nnn) {
 		case 0: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
-			uint8_t value = read8u() & 0x1F;
+			uint8_t value = read8u();
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			FillFlags();
-			uint16_t tmp = 0;
-			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
-			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
-			SET_FLAG(CF, (tmp << (value % 8 + 8 - 1)) & 0x80);
-			tmp = tmp << (value % 8);
-			(*(uint8_t*)target) = (*(uint8_t*)(((uint8_t*)&tmp)));
-			if (value == 1) { SET_FLAG(OF, (((*(uint8_t*)target) & 0x80) ? 1 : 0) ^ CF); }
+			FillFlagsNoCFOF();
+			value = value % 8;
+			uint8_t tmp = ((*(uint8_t*)target) << value) | ((*(uint8_t*)target) >> (8 - value));
+			(*(uint8_t*)target) = tmp;
+			SET_FLAG(CF, (tmp & 1));
+			SET_FLAG(OF, (tmp >> (8 - 1)) ^ CF );
 		}
 		break;
 		case 1: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
-			uint8_t value = read8u() & 0x1F;
+			uint8_t value = read8u();
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			FillFlags();
-			if (value == 1) { SET_FLAG(OF, (((*(uint8_t*)target) & 0x80) ? 1 : 0) ^ CF); }
-			uint16_t tmp = 0;
-			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
-			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
-			tmp = tmp >> (value % 8 - 1);
-			SET_FLAG(CF, tmp & 1);
-			tmp = tmp >> 1;
-			(*(uint8_t*)target) = (*(uint8_t*)(((uint8_t*)&tmp + 4)));
+			FillFlagsNoCFOF();
+			value = value % 8;
+			uint8_t tmp = ((*(uint8_t*)target) >> value) | ((*(uint8_t*)target) << (8 - value));
+			(*(uint8_t*)target) = tmp;
+			SET_FLAG(CF, (tmp & 0x80));
+			SET_FLAG(OF, (tmp ^ (tmp << 1)) & 0x80);
 		}
 		break;
 		case 2: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
-			uint8_t value = read8u() & 0x1F;
+			uint8_t value = read8u();
+			value = (value & 0x1F) % (8 + 1);
 			if (value == 0) { return; }
 			FillFlags();
-			uint16_t tmp = 0;
-			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
-			tmp = tmp >> 1;
-			uint8_t mask = GET_FLAG(CF);
-			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) |= mask;
-			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
-			SET_FLAG(CF, (tmp << (value % (8 + 1) + 8)) & 0x80);
-			tmp = tmp << ((value % (8 + 1)));
-			(*(uint8_t*)target) = *(uint8_t*)((uint8_t*)&tmp);
-			if (value == 1) { SET_FLAG(OF, (((*(uint8_t*)target) & 0x80) ? 1 : 0) ^ CF); }
+			SET_FLAG(CF, (((*(uint8_t*)target) >> (8 - value)) & 0x1) );
+			uint8_t tmp = ((*(uint8_t*)target) << value) | ((uint8_t)CF >> (8 - value + 1)) | ((*(uint8_t*)target) >> (8 - value));
+			(*(uint8_t*)target) = tmp;
+			SET_FLAG(OF, (tmp >> (8 - 1)) ^ CF );
 		}
 		break;
 		case 3: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
-			uint8_t value = read8u() & 0x1F;
+			uint8_t value = read8u();
+			value = (value & 0x1F) % (8 + 1);
 			if (value == 0) { return; }
 			FillFlags();
-			if (value == 1) { SET_FLAG(OF, (((*(uint8_t*)target) & 0x80) ? 1 : 0) ^ CF); }
-			uint8_t tmp = 0;
-			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
-			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = GET_FLAG(CF);
-			tmp = tmp << 1;
-			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
-			tmp = tmp >> ((value % (8 + 1)) - 1);
-			SET_FLAG(CF, tmp & 1);
-			tmp = tmp >> 1;
-			(*(uint8_t*)target) = *(uint8_t*)((uint8_t*)&tmp + (8 / 8));
+			uint8_t tmp = *(uint8_t*)target;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = tmp;
+			tmp = (tmp >> value) | ((uint8_t)CF << (8 - value)) | (tmp << (8 - value + 1));
+			(*(uint8_t*)target) = tmp;
+			SET_FLAG(CF, (((LazyFlagVarA8) >> (value - 1)) & 1));
+			SET_FLAG(OF, (tmp ^ (tmp << 1)) & 0x80);
 		}
 		break;
 		case 4: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
-			uint8_t value = read8u() & 0x1F;
+			uint8_t value = read8u();
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			(*(uint8_t*)target) = (*(uint8_t*)target) << (value - 1);
-			SET_FLAG(CF, (*(uint8_t*)target) & 0x80);
-			(*(uint8_t*)target) = (*(uint8_t*)target) << 1;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = *(uint8_t*)target;
+			(*(uint8_t*)target) = (*(uint8_t*)target) << value;
 			LazyFlagResultContainer8 = (*(uint8_t*)target);
-			if (value == 1) { SET_FLAG(OF, (((*(uint8_t*)target) & 0x80) ? 1 : 0) ^ CF); }
-			lazyFlagType = t_VALUE8;
+			lazyFlagType=t_SHL8;
 		}
 		break;
 		case 5: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
-			uint8_t value = read8u() & 0x1F;
+			uint8_t value = read8u();
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			if (value == 1) { SET_FLAG(OF, (*(uint8_t*)target) & 0x80) };
-			(*(uint8_t*)target) = (*(uint8_t*)target) >> (value % 8 - 1);
-			SET_FLAG(CF, (*(uint8_t*)target) & 1);
-			(*(uint8_t*)target) = (*(uint8_t*)target) >> 1;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = *(uint8_t*)target;
+			(*(uint8_t*)target) = (*(uint8_t*)target) >> (value);
 			LazyFlagResultContainer8 = (*(uint8_t*)target);
-			lazyFlagType = t_VALUE8;
+			lazyFlagType=t_SHR8;
 		}
 		break;
 		case 7: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
-			uint8_t value = read8u() & 0x1F;
+			uint8_t value = read8u();
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			uint64_t tmp = ((*(int8_t*)target) < 0) ? 0xFFFFFFFFFFFFFFFF : 0;
-			*(uint8_t*)(((uint8_t*)&tmp) + 4) = (*(uint8_t*)target);
-			tmp = tmp >> (value % 8 - 1);
-			SET_FLAG(CF, tmp & 1);
-			tmp = tmp >> 1;
-			(*(uint8_t*)target) = (*(uint8_t*)(((uint8_t*)&tmp) + 4));
-			SET_FLAG(OF, 0);
-			LazyFlagResultContainer8 = (*(uint8_t*)target);
-			lazyFlagType = t_VALUE8;
+			if (value > 8) { value = 8; }
+			FillFlagsNoCFOF();
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = *(uint8_t*)target;
+			if (LazyFlagVarA8 & 0x80) {
+				LazyFlagResultContainer8 = ((LazyFlagVarA8) >> value) | ((0xFFFFFFFF) << (8 - value));
+			} else {
+				LazyFlagResultContainer8 = (LazyFlagVarA8) >> value;
+			}
+			(*(uint8_t*)target) = LazyFlagResultContainer8;
+			lazyFlagType=t_SAR8;
 		}
 		break;
 		default:
@@ -15598,104 +15504,97 @@ void handlerCommand32Code00C1P66_RM() {
 	switch (nnn) {
 		case 0: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For16(mrmByte);
-			uint8_t value = read8u() & 0x1F;
+			uint8_t value = read8u();
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			FillFlags();
-			uint32_t tmp = 0;
-			*(uint16_t*)(((uint8_t*)&tmp)) = (*(uint16_t*)target);
-			*(uint16_t*)(((uint8_t*)&tmp) + (16 / 8)) = (*(uint16_t*)target);
-			SET_FLAG(CF, (tmp << (value % 16 + 16 - 1)) & 0x8000);
-			tmp = tmp << (value % 16);
-			(*(uint16_t*)target) = (*(uint16_t*)(((uint8_t*)&tmp)));
-			if (value == 1) { SET_FLAG(OF, (((*(uint16_t*)target) & 0x8000) ? 1 : 0) ^ CF); }
+			FillFlagsNoCFOF();
+			value = value % 16;
+			uint16_t tmp = ((*(uint16_t*)target) << value) | ((*(uint16_t*)target) >> (16 - value));
+			(*(uint16_t*)target) = tmp;
+			SET_FLAG(CF, (tmp & 1));
+			SET_FLAG(OF, (tmp >> (16 - 1)) ^ CF );
 		}
 		break;
 		case 1: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For16(mrmByte);
-			uint8_t value = read8u() & 0x1F;
+			uint8_t value = read8u();
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			FillFlags();
-			if (value == 1) { SET_FLAG(OF, (((*(uint16_t*)target) & 0x8000) ? 1 : 0) ^ CF); }
-			uint32_t tmp = 0;
-			*(uint16_t*)(((uint8_t*)&tmp)) = (*(uint16_t*)target);
-			*(uint16_t*)(((uint8_t*)&tmp) + (16 / 8)) = (*(uint16_t*)target);
-			tmp = tmp >> (value % 16 - 1);
-			SET_FLAG(CF, tmp & 1);
-			tmp = tmp >> 1;
-			(*(uint16_t*)target) = (*(uint16_t*)(((uint8_t*)&tmp + 4)));
+			FillFlagsNoCFOF();
+			value = value % 16;
+			uint16_t tmp = ((*(uint16_t*)target) >> value) | ((*(uint16_t*)target) << (16 - value));
+			(*(uint16_t*)target) = tmp;
+			SET_FLAG(CF, (tmp & 0x8000));
+			SET_FLAG(OF, (tmp ^ (tmp << 1)) & 0x8000);
 		}
 		break;
 		case 2: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For16(mrmByte);
-			uint8_t value = read8u() & 0x1F;
+			uint8_t value = read8u();
+			value = (value & 0x1F) % (16 + 1);
 			if (value == 0) { return; }
 			FillFlags();
-			uint32_t tmp = 0;
-			*(uint16_t*)(((uint8_t*)&tmp) + (16 / 8)) = (*(uint16_t*)target);
-			tmp = tmp >> 1;
-			uint16_t mask = GET_FLAG(CF);
-			*(uint16_t*)(((uint8_t*)&tmp) + (16 / 8)) |= mask;
-			*(uint16_t*)(((uint8_t*)&tmp)) = (*(uint16_t*)target);
-			SET_FLAG(CF, (tmp << (value % (16 + 1) + 16)) & 0x8000);
-			tmp = tmp << ((value % (16 + 1)));
-			(*(uint16_t*)target) = *(uint16_t*)((uint8_t*)&tmp);
-			if (value == 1) { SET_FLAG(OF, (((*(uint16_t*)target) & 0x8000) ? 1 : 0) ^ CF); }
+			SET_FLAG(CF, (((*(uint16_t*)target) >> (16 - value)) & 0x1) );
+			uint16_t tmp = ((*(uint16_t*)target) << value) | ((uint16_t)CF >> (16 - value + 1)) | ((*(uint16_t*)target) >> (16 - value));
+			(*(uint16_t*)target) = tmp;
+			SET_FLAG(OF, (tmp >> (16 - 1)) ^ CF );
 		}
 		break;
 		case 3: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For16(mrmByte);
-			uint8_t value = read8u() & 0x1F;
+			uint8_t value = read8u();
+			value = (value & 0x1F) % (16 + 1);
 			if (value == 0) { return; }
 			FillFlags();
-			if (value == 1) { SET_FLAG(OF, (((*(uint16_t*)target) & 0x8000) ? 1 : 0) ^ CF); }
-			uint16_t tmp = 0;
-			*(uint16_t*)(((uint8_t*)&tmp)) = (*(uint16_t*)target);
-			*(uint16_t*)(((uint8_t*)&tmp) + (16 / 8)) = GET_FLAG(CF);
-			tmp = tmp << 1;
-			*(uint16_t*)(((uint8_t*)&tmp) + (16 / 8)) = (*(uint16_t*)target);
-			tmp = tmp >> ((value % (16 + 1)) - 1);
-			SET_FLAG(CF, tmp & 1);
-			tmp = tmp >> 1;
-			(*(uint16_t*)target) = *(uint16_t*)((uint8_t*)&tmp + (16 / 8));
+			uint16_t tmp = *(uint16_t*)target;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA16 = tmp;
+			tmp = (tmp >> value) | ((uint16_t)CF << (16 - value)) | (tmp << (16 - value + 1));
+			(*(uint16_t*)target) = tmp;
+			SET_FLAG(CF, (((LazyFlagVarA16) >> (value - 1)) & 1));
+			SET_FLAG(OF, (tmp ^ (tmp << 1)) & 0x8000);
 		}
 		break;
 		case 4: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For16(mrmByte);
-			uint8_t value = read8u() & 0x1F;
+			uint8_t value = read8u();
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			(*(uint16_t*)target) = (*(uint16_t*)target) << (value - 1);
-			SET_FLAG(CF, (*(uint16_t*)target) & 0x8000);
-			(*(uint16_t*)target) = (*(uint16_t*)target) << 1;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA16 = *(uint16_t*)target;
+			(*(uint16_t*)target) = (*(uint16_t*)target) << value;
 			LazyFlagResultContainer16 = (*(uint16_t*)target);
-			if (value == 1) { SET_FLAG(OF, (((*(uint16_t*)target) & 0x8000) ? 1 : 0) ^ CF); }
-			lazyFlagType = t_VALUE16;
+			lazyFlagType=t_SHL16;
 		}
 		break;
 		case 5: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For16(mrmByte);
-			uint8_t value = read8u() & 0x1F;
+			uint8_t value = read8u();
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			if (value == 1) { SET_FLAG(OF, (*(uint16_t*)target) & 0x8000) };
-			(*(uint16_t*)target) = (*(uint16_t*)target) >> (value % 16 - 1);
-			SET_FLAG(CF, (*(uint16_t*)target) & 1);
-			(*(uint16_t*)target) = (*(uint16_t*)target) >> 1;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA16 = *(uint16_t*)target;
+			(*(uint16_t*)target) = (*(uint16_t*)target) >> (value);
 			LazyFlagResultContainer16 = (*(uint16_t*)target);
-			lazyFlagType = t_VALUE16;
+			lazyFlagType=t_SHR16;
 		}
 		break;
 		case 7: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For16(mrmByte);
-			uint8_t value = read8u() & 0x1F;
+			uint8_t value = read8u();
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			uint64_t tmp = ((*(int16_t*)target) < 0) ? 0xFFFFFFFFFFFFFFFF : 0;
-			*(uint16_t*)(((uint8_t*)&tmp) + 4) = (*(uint16_t*)target);
-			tmp = tmp >> (value % 16 - 1);
-			SET_FLAG(CF, tmp & 1);
-			tmp = tmp >> 1;
-			(*(uint16_t*)target) = (*(uint16_t*)(((uint8_t*)&tmp) + 4));
-			SET_FLAG(OF, 0);
-			LazyFlagResultContainer16 = (*(uint16_t*)target);
-			lazyFlagType = t_VALUE16;
+			if (value > 16) { value = 16; }
+			FillFlagsNoCFOF();
+			LazyFlagVarB8 = value;
+			LazyFlagVarA16 = *(uint16_t*)target;
+			if (LazyFlagVarA16 & 0x8000) {
+				LazyFlagResultContainer16 = ((LazyFlagVarA16) >> value) | ((0xFFFFFFFF) << (16 - value));
+			} else {
+				LazyFlagResultContainer16 = (LazyFlagVarA16) >> value;
+			}
+			(*(uint16_t*)target) = LazyFlagResultContainer16;
+			lazyFlagType=t_SAR16;
 		}
 		break;
 		default:
@@ -15710,104 +15609,97 @@ void handlerCommand32Code00C1_RM() {
 	switch (nnn) {
 		case 0: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
-			uint8_t value = read8u() & 0x1F;
+			uint8_t value = read8u();
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			FillFlags();
-			uint64_t tmp = 0;
-			*(uint32_t*)(((uint8_t*)&tmp)) = (*(uint32_t*)target);
-			*(uint32_t*)(((uint8_t*)&tmp) + (32 / 8)) = (*(uint32_t*)target);
-			SET_FLAG(CF, (tmp << (value % 32 + 32 - 1)) & 0x80000000);
-			tmp = tmp << (value % 32);
-			(*(uint32_t*)target) = (*(uint32_t*)(((uint8_t*)&tmp)));
-			if (value == 1) { SET_FLAG(OF, (((*(uint32_t*)target) & 0x80000000) ? 1 : 0) ^ CF); }
+			FillFlagsNoCFOF();
+			value = value % 32;
+			uint32_t tmp = ((*(uint32_t*)target) << value) | ((*(uint32_t*)target) >> (32 - value));
+			(*(uint32_t*)target) = tmp;
+			SET_FLAG(CF, (tmp & 1));
+			SET_FLAG(OF, (tmp >> (32 - 1)) ^ CF );
 		}
 		break;
 		case 1: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
-			uint8_t value = read8u() & 0x1F;
+			uint8_t value = read8u();
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			FillFlags();
-			if (value == 1) { SET_FLAG(OF, (((*(uint32_t*)target) & 0x80000000) ? 1 : 0) ^ CF); }
-			uint64_t tmp = 0;
-			*(uint32_t*)(((uint8_t*)&tmp)) = (*(uint32_t*)target);
-			*(uint32_t*)(((uint8_t*)&tmp) + (32 / 8)) = (*(uint32_t*)target);
-			tmp = tmp >> (value % 32 - 1);
-			SET_FLAG(CF, tmp & 1);
-			tmp = tmp >> 1;
-			(*(uint32_t*)target) = (*(uint32_t*)(((uint8_t*)&tmp + 4)));
+			FillFlagsNoCFOF();
+			value = value % 32;
+			uint32_t tmp = ((*(uint32_t*)target) >> value) | ((*(uint32_t*)target) << (32 - value));
+			(*(uint32_t*)target) = tmp;
+			SET_FLAG(CF, (tmp & 0x80000000));
+			SET_FLAG(OF, (tmp ^ (tmp << 1)) & 0x80000000);
 		}
 		break;
 		case 2: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
-			uint8_t value = read8u() & 0x1F;
+			uint8_t value = read8u();
+			value = (value & 0x1F) % (32 + 1);
 			if (value == 0) { return; }
 			FillFlags();
-			uint64_t tmp = 0;
-			*(uint32_t*)(((uint8_t*)&tmp) + (32 / 8)) = (*(uint32_t*)target);
-			tmp = tmp >> 1;
-			uint32_t mask = GET_FLAG(CF);
-			*(uint32_t*)(((uint8_t*)&tmp) + (32 / 8)) |= mask;
-			*(uint32_t*)(((uint8_t*)&tmp)) = (*(uint32_t*)target);
-			SET_FLAG(CF, (tmp << (value % (32 + 1) + 32)) & 0x80000000);
-			tmp = tmp << ((value % (32 + 1)));
-			(*(uint32_t*)target) = *(uint32_t*)((uint8_t*)&tmp);
-			if (value == 1) { SET_FLAG(OF, (((*(uint32_t*)target) & 0x80000000) ? 1 : 0) ^ CF); }
+			SET_FLAG(CF, (((*(uint32_t*)target) >> (32 - value)) & 0x1) );
+			uint32_t tmp = ((*(uint32_t*)target) << value) | ((uint32_t)CF >> (32 - value + 1)) | ((*(uint32_t*)target) >> (32 - value));
+			(*(uint32_t*)target) = tmp;
+			SET_FLAG(OF, (tmp >> (32 - 1)) ^ CF );
 		}
 		break;
 		case 3: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
-			uint8_t value = read8u() & 0x1F;
+			uint8_t value = read8u();
+			value = (value & 0x1F) % (32 + 1);
 			if (value == 0) { return; }
 			FillFlags();
-			if (value == 1) { SET_FLAG(OF, (((*(uint32_t*)target) & 0x80000000) ? 1 : 0) ^ CF); }
-			uint32_t tmp = 0;
-			*(uint32_t*)(((uint8_t*)&tmp)) = (*(uint32_t*)target);
-			*(uint32_t*)(((uint8_t*)&tmp) + (32 / 8)) = GET_FLAG(CF);
-			tmp = tmp << 1;
-			*(uint32_t*)(((uint8_t*)&tmp) + (32 / 8)) = (*(uint32_t*)target);
-			tmp = tmp >> ((value % (32 + 1)) - 1);
-			SET_FLAG(CF, tmp & 1);
-			tmp = tmp >> 1;
-			(*(uint32_t*)target) = *(uint32_t*)((uint8_t*)&tmp + (32 / 8));
+			uint32_t tmp = *(uint32_t*)target;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA32 = tmp;
+			tmp = (tmp >> value) | ((uint32_t)CF << (32 - value)) | (tmp << (32 - value + 1));
+			(*(uint32_t*)target) = tmp;
+			SET_FLAG(CF, (((LazyFlagVarA32) >> (value - 1)) & 1));
+			SET_FLAG(OF, (tmp ^ (tmp << 1)) & 0x80000000);
 		}
 		break;
 		case 4: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
-			uint8_t value = read8u() & 0x1F;
+			uint8_t value = read8u();
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			(*(uint32_t*)target) = (*(uint32_t*)target) << (value - 1);
-			SET_FLAG(CF, (*(uint32_t*)target) & 0x80000000);
-			(*(uint32_t*)target) = (*(uint32_t*)target) << 1;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA32 = *(uint32_t*)target;
+			(*(uint32_t*)target) = (*(uint32_t*)target) << value;
 			LazyFlagResultContainer32 = (*(uint32_t*)target);
-			if (value == 1) { SET_FLAG(OF, (((*(uint32_t*)target) & 0x80000000) ? 1 : 0) ^ CF); }
-			lazyFlagType = t_VALUE32;
+			lazyFlagType=t_SHL32;
 		}
 		break;
 		case 5: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
-			uint8_t value = read8u() & 0x1F;
+			uint8_t value = read8u();
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			if (value == 1) { SET_FLAG(OF, (*(uint32_t*)target) & 0x80000000) };
-			(*(uint32_t*)target) = (*(uint32_t*)target) >> (value % 32 - 1);
-			SET_FLAG(CF, (*(uint32_t*)target) & 1);
-			(*(uint32_t*)target) = (*(uint32_t*)target) >> 1;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA32 = *(uint32_t*)target;
+			(*(uint32_t*)target) = (*(uint32_t*)target) >> (value);
 			LazyFlagResultContainer32 = (*(uint32_t*)target);
-			lazyFlagType = t_VALUE32;
+			lazyFlagType=t_SHR32;
 		}
 		break;
 		case 7: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
-			uint8_t value = read8u() & 0x1F;
+			uint8_t value = read8u();
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			uint64_t tmp = ((*(int32_t*)target) < 0) ? 0xFFFFFFFFFFFFFFFF : 0;
-			*(uint32_t*)(((uint8_t*)&tmp) + 4) = (*(uint32_t*)target);
-			tmp = tmp >> (value % 32 - 1);
-			SET_FLAG(CF, tmp & 1);
-			tmp = tmp >> 1;
-			(*(uint32_t*)target) = (*(uint32_t*)(((uint8_t*)&tmp) + 4));
-			SET_FLAG(OF, 0);
-			LazyFlagResultContainer32 = (*(uint32_t*)target);
-			lazyFlagType = t_VALUE32;
+			if (value > 32) { value = 32; }
+			FillFlagsNoCFOF();
+			LazyFlagVarB8 = value;
+			LazyFlagVarA32 = *(uint32_t*)target;
+			if (LazyFlagVarA32 & 0x80000000) {
+				LazyFlagResultContainer32 = ((LazyFlagVarA32) >> value) | ((0xFFFFFFFF) << (32 - value));
+			} else {
+				LazyFlagResultContainer32 = (LazyFlagVarA32) >> value;
+			}
+			(*(uint32_t*)target) = LazyFlagResultContainer32;
+			lazyFlagType=t_SAR32;
 		}
 		break;
 		default:
@@ -16026,103 +15918,96 @@ void handlerCommand32Code00D0P66_RM() {
 		case 0: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
 			uint8_t value = 1;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			FillFlags();
-			uint16_t tmp = 0;
-			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
-			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
-			SET_FLAG(CF, (tmp << (value % 8 + 8 - 1)) & 0x80);
-			tmp = tmp << (value % 8);
-			(*(uint8_t*)target) = (*(uint8_t*)(((uint8_t*)&tmp)));
-			if (value == 1) { SET_FLAG(OF, (((*(uint8_t*)target) & 0x80) ? 1 : 0) ^ CF); }
+			FillFlagsNoCFOF();
+			value = value % 8;
+			uint8_t tmp = ((*(uint8_t*)target) << value) | ((*(uint8_t*)target) >> (8 - value));
+			(*(uint8_t*)target) = tmp;
+			SET_FLAG(CF, (tmp & 1));
+			SET_FLAG(OF, (tmp >> (8 - 1)) ^ CF );
 		}
 		break;
 		case 1: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
 			uint8_t value = 1;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			FillFlags();
-			if (value == 1) { SET_FLAG(OF, (((*(uint8_t*)target) & 0x80) ? 1 : 0) ^ CF); }
-			uint16_t tmp = 0;
-			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
-			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
-			tmp = tmp >> (value % 8 - 1);
-			SET_FLAG(CF, tmp & 1);
-			tmp = tmp >> 1;
-			(*(uint8_t*)target) = (*(uint8_t*)(((uint8_t*)&tmp + 4)));
+			FillFlagsNoCFOF();
+			value = value % 8;
+			uint8_t tmp = ((*(uint8_t*)target) >> value) | ((*(uint8_t*)target) << (8 - value));
+			(*(uint8_t*)target) = tmp;
+			SET_FLAG(CF, (tmp & 0x80));
+			SET_FLAG(OF, (tmp ^ (tmp << 1)) & 0x80);
 		}
 		break;
 		case 2: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
 			uint8_t value = 1;
+			value = (value & 0x1F) % (8 + 1);
 			if (value == 0) { return; }
 			FillFlags();
-			uint16_t tmp = 0;
-			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
-			tmp = tmp >> 1;
-			uint8_t mask = GET_FLAG(CF);
-			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) |= mask;
-			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
-			SET_FLAG(CF, (tmp << (value % (8 + 1) + 8)) & 0x80);
-			tmp = tmp << ((value % (8 + 1)));
-			(*(uint8_t*)target) = *(uint8_t*)((uint8_t*)&tmp);
-			if (value == 1) { SET_FLAG(OF, (((*(uint8_t*)target) & 0x80) ? 1 : 0) ^ CF); }
+			SET_FLAG(CF, (((*(uint8_t*)target) >> (8 - value)) & 0x1) );
+			uint8_t tmp = ((*(uint8_t*)target) << value) | ((uint8_t)CF >> (8 - value + 1)) | ((*(uint8_t*)target) >> (8 - value));
+			(*(uint8_t*)target) = tmp;
+			SET_FLAG(OF, (tmp >> (8 - 1)) ^ CF );
 		}
 		break;
 		case 3: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
 			uint8_t value = 1;
+			value = (value & 0x1F) % (8 + 1);
 			if (value == 0) { return; }
 			FillFlags();
-			if (value == 1) { SET_FLAG(OF, (((*(uint8_t*)target) & 0x80) ? 1 : 0) ^ CF); }
-			uint8_t tmp = 0;
-			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
-			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = GET_FLAG(CF);
-			tmp = tmp << 1;
-			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
-			tmp = tmp >> ((value % (8 + 1)) - 1);
-			SET_FLAG(CF, tmp & 1);
-			tmp = tmp >> 1;
-			(*(uint8_t*)target) = *(uint8_t*)((uint8_t*)&tmp + (8 / 8));
+			uint8_t tmp = *(uint8_t*)target;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = tmp;
+			tmp = (tmp >> value) | ((uint8_t)CF << (8 - value)) | (tmp << (8 - value + 1));
+			(*(uint8_t*)target) = tmp;
+			SET_FLAG(CF, (((LazyFlagVarA8) >> (value - 1)) & 1));
+			SET_FLAG(OF, (tmp ^ (tmp << 1)) & 0x80);
 		}
 		break;
 		case 4: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
 			uint8_t value = 1;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			(*(uint8_t*)target) = (*(uint8_t*)target) << (value - 1);
-			SET_FLAG(CF, (*(uint8_t*)target) & 0x80);
-			(*(uint8_t*)target) = (*(uint8_t*)target) << 1;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = *(uint8_t*)target;
+			(*(uint8_t*)target) = (*(uint8_t*)target) << value;
 			LazyFlagResultContainer8 = (*(uint8_t*)target);
-			if (value == 1) { SET_FLAG(OF, (((*(uint8_t*)target) & 0x80) ? 1 : 0) ^ CF); }
-			lazyFlagType = t_VALUE8;
+			lazyFlagType=t_SHL8;
 		}
 		break;
 		case 5: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
 			uint8_t value = 1;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			if (value == 1) { SET_FLAG(OF, (*(uint8_t*)target) & 0x80) };
-			(*(uint8_t*)target) = (*(uint8_t*)target) >> (value % 8 - 1);
-			SET_FLAG(CF, (*(uint8_t*)target) & 1);
-			(*(uint8_t*)target) = (*(uint8_t*)target) >> 1;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = *(uint8_t*)target;
+			(*(uint8_t*)target) = (*(uint8_t*)target) >> (value);
 			LazyFlagResultContainer8 = (*(uint8_t*)target);
-			lazyFlagType = t_VALUE8;
+			lazyFlagType=t_SHR8;
 		}
 		break;
 		case 7: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
 			uint8_t value = 1;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			uint64_t tmp = ((*(int8_t*)target) < 0) ? 0xFFFFFFFFFFFFFFFF : 0;
-			*(uint8_t*)(((uint8_t*)&tmp) + 4) = (*(uint8_t*)target);
-			tmp = tmp >> (value % 8 - 1);
-			SET_FLAG(CF, tmp & 1);
-			tmp = tmp >> 1;
-			(*(uint8_t*)target) = (*(uint8_t*)(((uint8_t*)&tmp) + 4));
-			SET_FLAG(OF, 0);
-			LazyFlagResultContainer8 = (*(uint8_t*)target);
-			lazyFlagType = t_VALUE8;
+			if (value > 8) { value = 8; }
+			FillFlagsNoCFOF();
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = *(uint8_t*)target;
+			if (LazyFlagVarA8 & 0x80) {
+				LazyFlagResultContainer8 = ((LazyFlagVarA8) >> value) | ((0xFFFFFFFF) << (8 - value));
+			} else {
+				LazyFlagResultContainer8 = (LazyFlagVarA8) >> value;
+			}
+			(*(uint8_t*)target) = LazyFlagResultContainer8;
+			lazyFlagType=t_SAR8;
 		}
 		break;
 		default:
@@ -16138,103 +16023,96 @@ void handlerCommand32Code00D0_RM() {
 		case 0: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
 			uint8_t value = 1;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			FillFlags();
-			uint16_t tmp = 0;
-			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
-			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
-			SET_FLAG(CF, (tmp << (value % 8 + 8 - 1)) & 0x80);
-			tmp = tmp << (value % 8);
-			(*(uint8_t*)target) = (*(uint8_t*)(((uint8_t*)&tmp)));
-			if (value == 1) { SET_FLAG(OF, (((*(uint8_t*)target) & 0x80) ? 1 : 0) ^ CF); }
+			FillFlagsNoCFOF();
+			value = value % 8;
+			uint8_t tmp = ((*(uint8_t*)target) << value) | ((*(uint8_t*)target) >> (8 - value));
+			(*(uint8_t*)target) = tmp;
+			SET_FLAG(CF, (tmp & 1));
+			SET_FLAG(OF, (tmp >> (8 - 1)) ^ CF );
 		}
 		break;
 		case 1: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
 			uint8_t value = 1;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			FillFlags();
-			if (value == 1) { SET_FLAG(OF, (((*(uint8_t*)target) & 0x80) ? 1 : 0) ^ CF); }
-			uint16_t tmp = 0;
-			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
-			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
-			tmp = tmp >> (value % 8 - 1);
-			SET_FLAG(CF, tmp & 1);
-			tmp = tmp >> 1;
-			(*(uint8_t*)target) = (*(uint8_t*)(((uint8_t*)&tmp + 4)));
+			FillFlagsNoCFOF();
+			value = value % 8;
+			uint8_t tmp = ((*(uint8_t*)target) >> value) | ((*(uint8_t*)target) << (8 - value));
+			(*(uint8_t*)target) = tmp;
+			SET_FLAG(CF, (tmp & 0x80));
+			SET_FLAG(OF, (tmp ^ (tmp << 1)) & 0x80);
 		}
 		break;
 		case 2: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
 			uint8_t value = 1;
+			value = (value & 0x1F) % (8 + 1);
 			if (value == 0) { return; }
 			FillFlags();
-			uint16_t tmp = 0;
-			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
-			tmp = tmp >> 1;
-			uint8_t mask = GET_FLAG(CF);
-			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) |= mask;
-			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
-			SET_FLAG(CF, (tmp << (value % (8 + 1) + 8)) & 0x80);
-			tmp = tmp << ((value % (8 + 1)));
-			(*(uint8_t*)target) = *(uint8_t*)((uint8_t*)&tmp);
-			if (value == 1) { SET_FLAG(OF, (((*(uint8_t*)target) & 0x80) ? 1 : 0) ^ CF); }
+			SET_FLAG(CF, (((*(uint8_t*)target) >> (8 - value)) & 0x1) );
+			uint8_t tmp = ((*(uint8_t*)target) << value) | ((uint8_t)CF >> (8 - value + 1)) | ((*(uint8_t*)target) >> (8 - value));
+			(*(uint8_t*)target) = tmp;
+			SET_FLAG(OF, (tmp >> (8 - 1)) ^ CF );
 		}
 		break;
 		case 3: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
 			uint8_t value = 1;
+			value = (value & 0x1F) % (8 + 1);
 			if (value == 0) { return; }
 			FillFlags();
-			if (value == 1) { SET_FLAG(OF, (((*(uint8_t*)target) & 0x80) ? 1 : 0) ^ CF); }
-			uint8_t tmp = 0;
-			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
-			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = GET_FLAG(CF);
-			tmp = tmp << 1;
-			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
-			tmp = tmp >> ((value % (8 + 1)) - 1);
-			SET_FLAG(CF, tmp & 1);
-			tmp = tmp >> 1;
-			(*(uint8_t*)target) = *(uint8_t*)((uint8_t*)&tmp + (8 / 8));
+			uint8_t tmp = *(uint8_t*)target;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = tmp;
+			tmp = (tmp >> value) | ((uint8_t)CF << (8 - value)) | (tmp << (8 - value + 1));
+			(*(uint8_t*)target) = tmp;
+			SET_FLAG(CF, (((LazyFlagVarA8) >> (value - 1)) & 1));
+			SET_FLAG(OF, (tmp ^ (tmp << 1)) & 0x80);
 		}
 		break;
 		case 4: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
 			uint8_t value = 1;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			(*(uint8_t*)target) = (*(uint8_t*)target) << (value - 1);
-			SET_FLAG(CF, (*(uint8_t*)target) & 0x80);
-			(*(uint8_t*)target) = (*(uint8_t*)target) << 1;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = *(uint8_t*)target;
+			(*(uint8_t*)target) = (*(uint8_t*)target) << value;
 			LazyFlagResultContainer8 = (*(uint8_t*)target);
-			if (value == 1) { SET_FLAG(OF, (((*(uint8_t*)target) & 0x80) ? 1 : 0) ^ CF); }
-			lazyFlagType = t_VALUE8;
+			lazyFlagType=t_SHL8;
 		}
 		break;
 		case 5: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
 			uint8_t value = 1;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			if (value == 1) { SET_FLAG(OF, (*(uint8_t*)target) & 0x80) };
-			(*(uint8_t*)target) = (*(uint8_t*)target) >> (value % 8 - 1);
-			SET_FLAG(CF, (*(uint8_t*)target) & 1);
-			(*(uint8_t*)target) = (*(uint8_t*)target) >> 1;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = *(uint8_t*)target;
+			(*(uint8_t*)target) = (*(uint8_t*)target) >> (value);
 			LazyFlagResultContainer8 = (*(uint8_t*)target);
-			lazyFlagType = t_VALUE8;
+			lazyFlagType=t_SHR8;
 		}
 		break;
 		case 7: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
 			uint8_t value = 1;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			uint64_t tmp = ((*(int8_t*)target) < 0) ? 0xFFFFFFFFFFFFFFFF : 0;
-			*(uint8_t*)(((uint8_t*)&tmp) + 4) = (*(uint8_t*)target);
-			tmp = tmp >> (value % 8 - 1);
-			SET_FLAG(CF, tmp & 1);
-			tmp = tmp >> 1;
-			(*(uint8_t*)target) = (*(uint8_t*)(((uint8_t*)&tmp) + 4));
-			SET_FLAG(OF, 0);
-			LazyFlagResultContainer8 = (*(uint8_t*)target);
-			lazyFlagType = t_VALUE8;
+			if (value > 8) { value = 8; }
+			FillFlagsNoCFOF();
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = *(uint8_t*)target;
+			if (LazyFlagVarA8 & 0x80) {
+				LazyFlagResultContainer8 = ((LazyFlagVarA8) >> value) | ((0xFFFFFFFF) << (8 - value));
+			} else {
+				LazyFlagResultContainer8 = (LazyFlagVarA8) >> value;
+			}
+			(*(uint8_t*)target) = LazyFlagResultContainer8;
+			lazyFlagType=t_SAR8;
 		}
 		break;
 		default:
@@ -16250,103 +16128,96 @@ void handlerCommand32Code00D1P66_RM() {
 		case 0: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For16(mrmByte);
 			uint8_t value = 1;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			FillFlags();
-			uint32_t tmp = 0;
-			*(uint16_t*)(((uint8_t*)&tmp)) = (*(uint16_t*)target);
-			*(uint16_t*)(((uint8_t*)&tmp) + (16 / 8)) = (*(uint16_t*)target);
-			SET_FLAG(CF, (tmp << (value % 16 + 16 - 1)) & 0x8000);
-			tmp = tmp << (value % 16);
-			(*(uint16_t*)target) = (*(uint16_t*)(((uint8_t*)&tmp)));
-			if (value == 1) { SET_FLAG(OF, (((*(uint16_t*)target) & 0x8000) ? 1 : 0) ^ CF); }
+			FillFlagsNoCFOF();
+			value = value % 16;
+			uint16_t tmp = ((*(uint16_t*)target) << value) | ((*(uint16_t*)target) >> (16 - value));
+			(*(uint16_t*)target) = tmp;
+			SET_FLAG(CF, (tmp & 1));
+			SET_FLAG(OF, (tmp >> (16 - 1)) ^ CF );
 		}
 		break;
 		case 1: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For16(mrmByte);
 			uint8_t value = 1;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			FillFlags();
-			if (value == 1) { SET_FLAG(OF, (((*(uint16_t*)target) & 0x8000) ? 1 : 0) ^ CF); }
-			uint32_t tmp = 0;
-			*(uint16_t*)(((uint8_t*)&tmp)) = (*(uint16_t*)target);
-			*(uint16_t*)(((uint8_t*)&tmp) + (16 / 8)) = (*(uint16_t*)target);
-			tmp = tmp >> (value % 16 - 1);
-			SET_FLAG(CF, tmp & 1);
-			tmp = tmp >> 1;
-			(*(uint16_t*)target) = (*(uint16_t*)(((uint8_t*)&tmp + 4)));
+			FillFlagsNoCFOF();
+			value = value % 16;
+			uint16_t tmp = ((*(uint16_t*)target) >> value) | ((*(uint16_t*)target) << (16 - value));
+			(*(uint16_t*)target) = tmp;
+			SET_FLAG(CF, (tmp & 0x8000));
+			SET_FLAG(OF, (tmp ^ (tmp << 1)) & 0x8000);
 		}
 		break;
 		case 2: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For16(mrmByte);
 			uint8_t value = 1;
+			value = (value & 0x1F) % (16 + 1);
 			if (value == 0) { return; }
 			FillFlags();
-			uint32_t tmp = 0;
-			*(uint16_t*)(((uint8_t*)&tmp) + (16 / 8)) = (*(uint16_t*)target);
-			tmp = tmp >> 1;
-			uint16_t mask = GET_FLAG(CF);
-			*(uint16_t*)(((uint8_t*)&tmp) + (16 / 8)) |= mask;
-			*(uint16_t*)(((uint8_t*)&tmp)) = (*(uint16_t*)target);
-			SET_FLAG(CF, (tmp << (value % (16 + 1) + 16)) & 0x8000);
-			tmp = tmp << ((value % (16 + 1)));
-			(*(uint16_t*)target) = *(uint16_t*)((uint8_t*)&tmp);
-			if (value == 1) { SET_FLAG(OF, (((*(uint16_t*)target) & 0x8000) ? 1 : 0) ^ CF); }
+			SET_FLAG(CF, (((*(uint16_t*)target) >> (16 - value)) & 0x1) );
+			uint16_t tmp = ((*(uint16_t*)target) << value) | ((uint16_t)CF >> (16 - value + 1)) | ((*(uint16_t*)target) >> (16 - value));
+			(*(uint16_t*)target) = tmp;
+			SET_FLAG(OF, (tmp >> (16 - 1)) ^ CF );
 		}
 		break;
 		case 3: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For16(mrmByte);
 			uint8_t value = 1;
+			value = (value & 0x1F) % (16 + 1);
 			if (value == 0) { return; }
 			FillFlags();
-			if (value == 1) { SET_FLAG(OF, (((*(uint16_t*)target) & 0x8000) ? 1 : 0) ^ CF); }
-			uint16_t tmp = 0;
-			*(uint16_t*)(((uint8_t*)&tmp)) = (*(uint16_t*)target);
-			*(uint16_t*)(((uint8_t*)&tmp) + (16 / 8)) = GET_FLAG(CF);
-			tmp = tmp << 1;
-			*(uint16_t*)(((uint8_t*)&tmp) + (16 / 8)) = (*(uint16_t*)target);
-			tmp = tmp >> ((value % (16 + 1)) - 1);
-			SET_FLAG(CF, tmp & 1);
-			tmp = tmp >> 1;
-			(*(uint16_t*)target) = *(uint16_t*)((uint8_t*)&tmp + (16 / 8));
+			uint16_t tmp = *(uint16_t*)target;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA16 = tmp;
+			tmp = (tmp >> value) | ((uint16_t)CF << (16 - value)) | (tmp << (16 - value + 1));
+			(*(uint16_t*)target) = tmp;
+			SET_FLAG(CF, (((LazyFlagVarA16) >> (value - 1)) & 1));
+			SET_FLAG(OF, (tmp ^ (tmp << 1)) & 0x8000);
 		}
 		break;
 		case 4: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For16(mrmByte);
 			uint8_t value = 1;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			(*(uint16_t*)target) = (*(uint16_t*)target) << (value - 1);
-			SET_FLAG(CF, (*(uint16_t*)target) & 0x8000);
-			(*(uint16_t*)target) = (*(uint16_t*)target) << 1;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA16 = *(uint16_t*)target;
+			(*(uint16_t*)target) = (*(uint16_t*)target) << value;
 			LazyFlagResultContainer16 = (*(uint16_t*)target);
-			if (value == 1) { SET_FLAG(OF, (((*(uint16_t*)target) & 0x8000) ? 1 : 0) ^ CF); }
-			lazyFlagType = t_VALUE16;
+			lazyFlagType=t_SHL16;
 		}
 		break;
 		case 5: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For16(mrmByte);
 			uint8_t value = 1;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			if (value == 1) { SET_FLAG(OF, (*(uint16_t*)target) & 0x8000) };
-			(*(uint16_t*)target) = (*(uint16_t*)target) >> (value % 16 - 1);
-			SET_FLAG(CF, (*(uint16_t*)target) & 1);
-			(*(uint16_t*)target) = (*(uint16_t*)target) >> 1;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA16 = *(uint16_t*)target;
+			(*(uint16_t*)target) = (*(uint16_t*)target) >> (value);
 			LazyFlagResultContainer16 = (*(uint16_t*)target);
-			lazyFlagType = t_VALUE16;
+			lazyFlagType=t_SHR16;
 		}
 		break;
 		case 7: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For16(mrmByte);
 			uint8_t value = 1;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			uint64_t tmp = ((*(int16_t*)target) < 0) ? 0xFFFFFFFFFFFFFFFF : 0;
-			*(uint16_t*)(((uint8_t*)&tmp) + 4) = (*(uint16_t*)target);
-			tmp = tmp >> (value % 16 - 1);
-			SET_FLAG(CF, tmp & 1);
-			tmp = tmp >> 1;
-			(*(uint16_t*)target) = (*(uint16_t*)(((uint8_t*)&tmp) + 4));
-			SET_FLAG(OF, 0);
-			LazyFlagResultContainer16 = (*(uint16_t*)target);
-			lazyFlagType = t_VALUE16;
+			if (value > 16) { value = 16; }
+			FillFlagsNoCFOF();
+			LazyFlagVarB8 = value;
+			LazyFlagVarA16 = *(uint16_t*)target;
+			if (LazyFlagVarA16 & 0x8000) {
+				LazyFlagResultContainer16 = ((LazyFlagVarA16) >> value) | ((0xFFFFFFFF) << (16 - value));
+			} else {
+				LazyFlagResultContainer16 = (LazyFlagVarA16) >> value;
+			}
+			(*(uint16_t*)target) = LazyFlagResultContainer16;
+			lazyFlagType=t_SAR16;
 		}
 		break;
 		default:
@@ -16362,103 +16233,96 @@ void handlerCommand32Code00D1_RM() {
 		case 0: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
 			uint8_t value = 1;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			FillFlags();
-			uint64_t tmp = 0;
-			*(uint32_t*)(((uint8_t*)&tmp)) = (*(uint32_t*)target);
-			*(uint32_t*)(((uint8_t*)&tmp) + (32 / 8)) = (*(uint32_t*)target);
-			SET_FLAG(CF, (tmp << (value % 32 + 32 - 1)) & 0x80000000);
-			tmp = tmp << (value % 32);
-			(*(uint32_t*)target) = (*(uint32_t*)(((uint8_t*)&tmp)));
-			if (value == 1) { SET_FLAG(OF, (((*(uint32_t*)target) & 0x80000000) ? 1 : 0) ^ CF); }
+			FillFlagsNoCFOF();
+			value = value % 32;
+			uint32_t tmp = ((*(uint32_t*)target) << value) | ((*(uint32_t*)target) >> (32 - value));
+			(*(uint32_t*)target) = tmp;
+			SET_FLAG(CF, (tmp & 1));
+			SET_FLAG(OF, (tmp >> (32 - 1)) ^ CF );
 		}
 		break;
 		case 1: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
 			uint8_t value = 1;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			FillFlags();
-			if (value == 1) { SET_FLAG(OF, (((*(uint32_t*)target) & 0x80000000) ? 1 : 0) ^ CF); }
-			uint64_t tmp = 0;
-			*(uint32_t*)(((uint8_t*)&tmp)) = (*(uint32_t*)target);
-			*(uint32_t*)(((uint8_t*)&tmp) + (32 / 8)) = (*(uint32_t*)target);
-			tmp = tmp >> (value % 32 - 1);
-			SET_FLAG(CF, tmp & 1);
-			tmp = tmp >> 1;
-			(*(uint32_t*)target) = (*(uint32_t*)(((uint8_t*)&tmp + 4)));
+			FillFlagsNoCFOF();
+			value = value % 32;
+			uint32_t tmp = ((*(uint32_t*)target) >> value) | ((*(uint32_t*)target) << (32 - value));
+			(*(uint32_t*)target) = tmp;
+			SET_FLAG(CF, (tmp & 0x80000000));
+			SET_FLAG(OF, (tmp ^ (tmp << 1)) & 0x80000000);
 		}
 		break;
 		case 2: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
 			uint8_t value = 1;
+			value = (value & 0x1F) % (32 + 1);
 			if (value == 0) { return; }
 			FillFlags();
-			uint64_t tmp = 0;
-			*(uint32_t*)(((uint8_t*)&tmp) + (32 / 8)) = (*(uint32_t*)target);
-			tmp = tmp >> 1;
-			uint32_t mask = GET_FLAG(CF);
-			*(uint32_t*)(((uint8_t*)&tmp) + (32 / 8)) |= mask;
-			*(uint32_t*)(((uint8_t*)&tmp)) = (*(uint32_t*)target);
-			SET_FLAG(CF, (tmp << (value % (32 + 1) + 32)) & 0x80000000);
-			tmp = tmp << ((value % (32 + 1)));
-			(*(uint32_t*)target) = *(uint32_t*)((uint8_t*)&tmp);
-			if (value == 1) { SET_FLAG(OF, (((*(uint32_t*)target) & 0x80000000) ? 1 : 0) ^ CF); }
+			SET_FLAG(CF, (((*(uint32_t*)target) >> (32 - value)) & 0x1) );
+			uint32_t tmp = ((*(uint32_t*)target) << value) | ((uint32_t)CF >> (32 - value + 1)) | ((*(uint32_t*)target) >> (32 - value));
+			(*(uint32_t*)target) = tmp;
+			SET_FLAG(OF, (tmp >> (32 - 1)) ^ CF );
 		}
 		break;
 		case 3: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
 			uint8_t value = 1;
+			value = (value & 0x1F) % (32 + 1);
 			if (value == 0) { return; }
 			FillFlags();
-			if (value == 1) { SET_FLAG(OF, (((*(uint32_t*)target) & 0x80000000) ? 1 : 0) ^ CF); }
-			uint32_t tmp = 0;
-			*(uint32_t*)(((uint8_t*)&tmp)) = (*(uint32_t*)target);
-			*(uint32_t*)(((uint8_t*)&tmp) + (32 / 8)) = GET_FLAG(CF);
-			tmp = tmp << 1;
-			*(uint32_t*)(((uint8_t*)&tmp) + (32 / 8)) = (*(uint32_t*)target);
-			tmp = tmp >> ((value % (32 + 1)) - 1);
-			SET_FLAG(CF, tmp & 1);
-			tmp = tmp >> 1;
-			(*(uint32_t*)target) = *(uint32_t*)((uint8_t*)&tmp + (32 / 8));
+			uint32_t tmp = *(uint32_t*)target;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA32 = tmp;
+			tmp = (tmp >> value) | ((uint32_t)CF << (32 - value)) | (tmp << (32 - value + 1));
+			(*(uint32_t*)target) = tmp;
+			SET_FLAG(CF, (((LazyFlagVarA32) >> (value - 1)) & 1));
+			SET_FLAG(OF, (tmp ^ (tmp << 1)) & 0x80000000);
 		}
 		break;
 		case 4: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
 			uint8_t value = 1;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			(*(uint32_t*)target) = (*(uint32_t*)target) << (value - 1);
-			SET_FLAG(CF, (*(uint32_t*)target) & 0x80000000);
-			(*(uint32_t*)target) = (*(uint32_t*)target) << 1;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA32 = *(uint32_t*)target;
+			(*(uint32_t*)target) = (*(uint32_t*)target) << value;
 			LazyFlagResultContainer32 = (*(uint32_t*)target);
-			if (value == 1) { SET_FLAG(OF, (((*(uint32_t*)target) & 0x80000000) ? 1 : 0) ^ CF); }
-			lazyFlagType = t_VALUE32;
+			lazyFlagType=t_SHL32;
 		}
 		break;
 		case 5: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
 			uint8_t value = 1;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			if (value == 1) { SET_FLAG(OF, (*(uint32_t*)target) & 0x80000000) };
-			(*(uint32_t*)target) = (*(uint32_t*)target) >> (value % 32 - 1);
-			SET_FLAG(CF, (*(uint32_t*)target) & 1);
-			(*(uint32_t*)target) = (*(uint32_t*)target) >> 1;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA32 = *(uint32_t*)target;
+			(*(uint32_t*)target) = (*(uint32_t*)target) >> (value);
 			LazyFlagResultContainer32 = (*(uint32_t*)target);
-			lazyFlagType = t_VALUE32;
+			lazyFlagType=t_SHR32;
 		}
 		break;
 		case 7: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
 			uint8_t value = 1;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			uint64_t tmp = ((*(int32_t*)target) < 0) ? 0xFFFFFFFFFFFFFFFF : 0;
-			*(uint32_t*)(((uint8_t*)&tmp) + 4) = (*(uint32_t*)target);
-			tmp = tmp >> (value % 32 - 1);
-			SET_FLAG(CF, tmp & 1);
-			tmp = tmp >> 1;
-			(*(uint32_t*)target) = (*(uint32_t*)(((uint8_t*)&tmp) + 4));
-			SET_FLAG(OF, 0);
-			LazyFlagResultContainer32 = (*(uint32_t*)target);
-			lazyFlagType = t_VALUE32;
+			if (value > 32) { value = 32; }
+			FillFlagsNoCFOF();
+			LazyFlagVarB8 = value;
+			LazyFlagVarA32 = *(uint32_t*)target;
+			if (LazyFlagVarA32 & 0x80000000) {
+				LazyFlagResultContainer32 = ((LazyFlagVarA32) >> value) | ((0xFFFFFFFF) << (32 - value));
+			} else {
+				LazyFlagResultContainer32 = (LazyFlagVarA32) >> value;
+			}
+			(*(uint32_t*)target) = LazyFlagResultContainer32;
+			lazyFlagType=t_SAR32;
 		}
 		break;
 		default:
@@ -16473,104 +16337,97 @@ void handlerCommand32Code00D2P66_RM() {
 	switch (nnn) {
 		case 0: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
-			uint8_t value = reg_CL_8u & 0x1F;
+			uint8_t value = reg_CL_8u;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			FillFlags();
-			uint16_t tmp = 0;
-			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
-			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
-			SET_FLAG(CF, (tmp << (value % 8 + 8 - 1)) & 0x80);
-			tmp = tmp << (value % 8);
-			(*(uint8_t*)target) = (*(uint8_t*)(((uint8_t*)&tmp)));
-			if (value == 1) { SET_FLAG(OF, (((*(uint8_t*)target) & 0x80) ? 1 : 0) ^ CF); }
+			FillFlagsNoCFOF();
+			value = value % 8;
+			uint8_t tmp = ((*(uint8_t*)target) << value) | ((*(uint8_t*)target) >> (8 - value));
+			(*(uint8_t*)target) = tmp;
+			SET_FLAG(CF, (tmp & 1));
+			SET_FLAG(OF, (tmp >> (8 - 1)) ^ CF );
 		}
 		break;
 		case 1: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
-			uint8_t value = reg_CL_8u & 0x1F;
+			uint8_t value = reg_CL_8u;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			FillFlags();
-			if (value == 1) { SET_FLAG(OF, (((*(uint8_t*)target) & 0x80) ? 1 : 0) ^ CF); }
-			uint16_t tmp = 0;
-			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
-			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
-			tmp = tmp >> (value % 8 - 1);
-			SET_FLAG(CF, tmp & 1);
-			tmp = tmp >> 1;
-			(*(uint8_t*)target) = (*(uint8_t*)(((uint8_t*)&tmp + 4)));
+			FillFlagsNoCFOF();
+			value = value % 8;
+			uint8_t tmp = ((*(uint8_t*)target) >> value) | ((*(uint8_t*)target) << (8 - value));
+			(*(uint8_t*)target) = tmp;
+			SET_FLAG(CF, (tmp & 0x80));
+			SET_FLAG(OF, (tmp ^ (tmp << 1)) & 0x80);
 		}
 		break;
 		case 2: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
-			uint8_t value = reg_CL_8u & 0x1F;
+			uint8_t value = reg_CL_8u;
+			value = (value & 0x1F) % (8 + 1);
 			if (value == 0) { return; }
 			FillFlags();
-			uint16_t tmp = 0;
-			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
-			tmp = tmp >> 1;
-			uint8_t mask = GET_FLAG(CF);
-			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) |= mask;
-			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
-			SET_FLAG(CF, (tmp << (value % (8 + 1) + 8)) & 0x80);
-			tmp = tmp << ((value % (8 + 1)));
-			(*(uint8_t*)target) = *(uint8_t*)((uint8_t*)&tmp);
-			if (value == 1) { SET_FLAG(OF, (((*(uint8_t*)target) & 0x80) ? 1 : 0) ^ CF); }
+			SET_FLAG(CF, (((*(uint8_t*)target) >> (8 - value)) & 0x1) );
+			uint8_t tmp = ((*(uint8_t*)target) << value) | ((uint8_t)CF >> (8 - value + 1)) | ((*(uint8_t*)target) >> (8 - value));
+			(*(uint8_t*)target) = tmp;
+			SET_FLAG(OF, (tmp >> (8 - 1)) ^ CF );
 		}
 		break;
 		case 3: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
-			uint8_t value = reg_CL_8u & 0x1F;
+			uint8_t value = reg_CL_8u;
+			value = (value & 0x1F) % (8 + 1);
 			if (value == 0) { return; }
 			FillFlags();
-			if (value == 1) { SET_FLAG(OF, (((*(uint8_t*)target) & 0x80) ? 1 : 0) ^ CF); }
-			uint8_t tmp = 0;
-			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
-			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = GET_FLAG(CF);
-			tmp = tmp << 1;
-			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
-			tmp = tmp >> ((value % (8 + 1)) - 1);
-			SET_FLAG(CF, tmp & 1);
-			tmp = tmp >> 1;
-			(*(uint8_t*)target) = *(uint8_t*)((uint8_t*)&tmp + (8 / 8));
+			uint8_t tmp = *(uint8_t*)target;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = tmp;
+			tmp = (tmp >> value) | ((uint8_t)CF << (8 - value)) | (tmp << (8 - value + 1));
+			(*(uint8_t*)target) = tmp;
+			SET_FLAG(CF, (((LazyFlagVarA8) >> (value - 1)) & 1));
+			SET_FLAG(OF, (tmp ^ (tmp << 1)) & 0x80);
 		}
 		break;
 		case 4: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
-			uint8_t value = reg_CL_8u & 0x1F;
+			uint8_t value = reg_CL_8u;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			(*(uint8_t*)target) = (*(uint8_t*)target) << (value - 1);
-			SET_FLAG(CF, (*(uint8_t*)target) & 0x80);
-			(*(uint8_t*)target) = (*(uint8_t*)target) << 1;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = *(uint8_t*)target;
+			(*(uint8_t*)target) = (*(uint8_t*)target) << value;
 			LazyFlagResultContainer8 = (*(uint8_t*)target);
-			if (value == 1) { SET_FLAG(OF, (((*(uint8_t*)target) & 0x80) ? 1 : 0) ^ CF); }
-			lazyFlagType = t_VALUE8;
+			lazyFlagType=t_SHL8;
 		}
 		break;
 		case 5: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
-			uint8_t value = reg_CL_8u & 0x1F;
+			uint8_t value = reg_CL_8u;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			if (value == 1) { SET_FLAG(OF, (*(uint8_t*)target) & 0x80) };
-			(*(uint8_t*)target) = (*(uint8_t*)target) >> (value % 8 - 1);
-			SET_FLAG(CF, (*(uint8_t*)target) & 1);
-			(*(uint8_t*)target) = (*(uint8_t*)target) >> 1;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = *(uint8_t*)target;
+			(*(uint8_t*)target) = (*(uint8_t*)target) >> (value);
 			LazyFlagResultContainer8 = (*(uint8_t*)target);
-			lazyFlagType = t_VALUE8;
+			lazyFlagType=t_SHR8;
 		}
 		break;
 		case 7: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
-			uint8_t value = reg_CL_8u & 0x1F;
+			uint8_t value = reg_CL_8u;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			uint64_t tmp = ((*(int8_t*)target) < 0) ? 0xFFFFFFFFFFFFFFFF : 0;
-			*(uint8_t*)(((uint8_t*)&tmp) + 4) = (*(uint8_t*)target);
-			tmp = tmp >> (value % 8 - 1);
-			SET_FLAG(CF, tmp & 1);
-			tmp = tmp >> 1;
-			(*(uint8_t*)target) = (*(uint8_t*)(((uint8_t*)&tmp) + 4));
-			SET_FLAG(OF, 0);
-			LazyFlagResultContainer8 = (*(uint8_t*)target);
-			lazyFlagType = t_VALUE8;
+			if (value > 8) { value = 8; }
+			FillFlagsNoCFOF();
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = *(uint8_t*)target;
+			if (LazyFlagVarA8 & 0x80) {
+				LazyFlagResultContainer8 = ((LazyFlagVarA8) >> value) | ((0xFFFFFFFF) << (8 - value));
+			} else {
+				LazyFlagResultContainer8 = (LazyFlagVarA8) >> value;
+			}
+			(*(uint8_t*)target) = LazyFlagResultContainer8;
+			lazyFlagType=t_SAR8;
 		}
 		break;
 		default:
@@ -16585,104 +16442,97 @@ void handlerCommand32Code00D2_RM() {
 	switch (nnn) {
 		case 0: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
-			uint8_t value = reg_CL_8u & 0x1F;
+			uint8_t value = reg_CL_8u;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			FillFlags();
-			uint16_t tmp = 0;
-			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
-			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
-			SET_FLAG(CF, (tmp << (value % 8 + 8 - 1)) & 0x80);
-			tmp = tmp << (value % 8);
-			(*(uint8_t*)target) = (*(uint8_t*)(((uint8_t*)&tmp)));
-			if (value == 1) { SET_FLAG(OF, (((*(uint8_t*)target) & 0x80) ? 1 : 0) ^ CF); }
+			FillFlagsNoCFOF();
+			value = value % 8;
+			uint8_t tmp = ((*(uint8_t*)target) << value) | ((*(uint8_t*)target) >> (8 - value));
+			(*(uint8_t*)target) = tmp;
+			SET_FLAG(CF, (tmp & 1));
+			SET_FLAG(OF, (tmp >> (8 - 1)) ^ CF );
 		}
 		break;
 		case 1: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
-			uint8_t value = reg_CL_8u & 0x1F;
+			uint8_t value = reg_CL_8u;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			FillFlags();
-			if (value == 1) { SET_FLAG(OF, (((*(uint8_t*)target) & 0x80) ? 1 : 0) ^ CF); }
-			uint16_t tmp = 0;
-			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
-			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
-			tmp = tmp >> (value % 8 - 1);
-			SET_FLAG(CF, tmp & 1);
-			tmp = tmp >> 1;
-			(*(uint8_t*)target) = (*(uint8_t*)(((uint8_t*)&tmp + 4)));
+			FillFlagsNoCFOF();
+			value = value % 8;
+			uint8_t tmp = ((*(uint8_t*)target) >> value) | ((*(uint8_t*)target) << (8 - value));
+			(*(uint8_t*)target) = tmp;
+			SET_FLAG(CF, (tmp & 0x80));
+			SET_FLAG(OF, (tmp ^ (tmp << 1)) & 0x80);
 		}
 		break;
 		case 2: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
-			uint8_t value = reg_CL_8u & 0x1F;
+			uint8_t value = reg_CL_8u;
+			value = (value & 0x1F) % (8 + 1);
 			if (value == 0) { return; }
 			FillFlags();
-			uint16_t tmp = 0;
-			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
-			tmp = tmp >> 1;
-			uint8_t mask = GET_FLAG(CF);
-			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) |= mask;
-			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
-			SET_FLAG(CF, (tmp << (value % (8 + 1) + 8)) & 0x80);
-			tmp = tmp << ((value % (8 + 1)));
-			(*(uint8_t*)target) = *(uint8_t*)((uint8_t*)&tmp);
-			if (value == 1) { SET_FLAG(OF, (((*(uint8_t*)target) & 0x80) ? 1 : 0) ^ CF); }
+			SET_FLAG(CF, (((*(uint8_t*)target) >> (8 - value)) & 0x1) );
+			uint8_t tmp = ((*(uint8_t*)target) << value) | ((uint8_t)CF >> (8 - value + 1)) | ((*(uint8_t*)target) >> (8 - value));
+			(*(uint8_t*)target) = tmp;
+			SET_FLAG(OF, (tmp >> (8 - 1)) ^ CF );
 		}
 		break;
 		case 3: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
-			uint8_t value = reg_CL_8u & 0x1F;
+			uint8_t value = reg_CL_8u;
+			value = (value & 0x1F) % (8 + 1);
 			if (value == 0) { return; }
 			FillFlags();
-			if (value == 1) { SET_FLAG(OF, (((*(uint8_t*)target) & 0x80) ? 1 : 0) ^ CF); }
-			uint8_t tmp = 0;
-			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
-			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = GET_FLAG(CF);
-			tmp = tmp << 1;
-			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
-			tmp = tmp >> ((value % (8 + 1)) - 1);
-			SET_FLAG(CF, tmp & 1);
-			tmp = tmp >> 1;
-			(*(uint8_t*)target) = *(uint8_t*)((uint8_t*)&tmp + (8 / 8));
+			uint8_t tmp = *(uint8_t*)target;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = tmp;
+			tmp = (tmp >> value) | ((uint8_t)CF << (8 - value)) | (tmp << (8 - value + 1));
+			(*(uint8_t*)target) = tmp;
+			SET_FLAG(CF, (((LazyFlagVarA8) >> (value - 1)) & 1));
+			SET_FLAG(OF, (tmp ^ (tmp << 1)) & 0x80);
 		}
 		break;
 		case 4: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
-			uint8_t value = reg_CL_8u & 0x1F;
+			uint8_t value = reg_CL_8u;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			(*(uint8_t*)target) = (*(uint8_t*)target) << (value - 1);
-			SET_FLAG(CF, (*(uint8_t*)target) & 0x80);
-			(*(uint8_t*)target) = (*(uint8_t*)target) << 1;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = *(uint8_t*)target;
+			(*(uint8_t*)target) = (*(uint8_t*)target) << value;
 			LazyFlagResultContainer8 = (*(uint8_t*)target);
-			if (value == 1) { SET_FLAG(OF, (((*(uint8_t*)target) & 0x80) ? 1 : 0) ^ CF); }
-			lazyFlagType = t_VALUE8;
+			lazyFlagType=t_SHL8;
 		}
 		break;
 		case 5: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
-			uint8_t value = reg_CL_8u & 0x1F;
+			uint8_t value = reg_CL_8u;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			if (value == 1) { SET_FLAG(OF, (*(uint8_t*)target) & 0x80) };
-			(*(uint8_t*)target) = (*(uint8_t*)target) >> (value % 8 - 1);
-			SET_FLAG(CF, (*(uint8_t*)target) & 1);
-			(*(uint8_t*)target) = (*(uint8_t*)target) >> 1;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = *(uint8_t*)target;
+			(*(uint8_t*)target) = (*(uint8_t*)target) >> (value);
 			LazyFlagResultContainer8 = (*(uint8_t*)target);
-			lazyFlagType = t_VALUE8;
+			lazyFlagType=t_SHR8;
 		}
 		break;
 		case 7: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
-			uint8_t value = reg_CL_8u & 0x1F;
+			uint8_t value = reg_CL_8u;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			uint64_t tmp = ((*(int8_t*)target) < 0) ? 0xFFFFFFFFFFFFFFFF : 0;
-			*(uint8_t*)(((uint8_t*)&tmp) + 4) = (*(uint8_t*)target);
-			tmp = tmp >> (value % 8 - 1);
-			SET_FLAG(CF, tmp & 1);
-			tmp = tmp >> 1;
-			(*(uint8_t*)target) = (*(uint8_t*)(((uint8_t*)&tmp) + 4));
-			SET_FLAG(OF, 0);
-			LazyFlagResultContainer8 = (*(uint8_t*)target);
-			lazyFlagType = t_VALUE8;
+			if (value > 8) { value = 8; }
+			FillFlagsNoCFOF();
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = *(uint8_t*)target;
+			if (LazyFlagVarA8 & 0x80) {
+				LazyFlagResultContainer8 = ((LazyFlagVarA8) >> value) | ((0xFFFFFFFF) << (8 - value));
+			} else {
+				LazyFlagResultContainer8 = (LazyFlagVarA8) >> value;
+			}
+			(*(uint8_t*)target) = LazyFlagResultContainer8;
+			lazyFlagType=t_SAR8;
 		}
 		break;
 		default:
@@ -16697,104 +16547,97 @@ void handlerCommand32Code00D3P66_RM() {
 	switch (nnn) {
 		case 0: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For16(mrmByte);
-			uint8_t value = reg_CL_8u & 0x1F;
+			uint8_t value = reg_CL_8u;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			FillFlags();
-			uint32_t tmp = 0;
-			*(uint16_t*)(((uint8_t*)&tmp)) = (*(uint16_t*)target);
-			*(uint16_t*)(((uint8_t*)&tmp) + (16 / 8)) = (*(uint16_t*)target);
-			SET_FLAG(CF, (tmp << (value % 16 + 16 - 1)) & 0x8000);
-			tmp = tmp << (value % 16);
-			(*(uint16_t*)target) = (*(uint16_t*)(((uint8_t*)&tmp)));
-			if (value == 1) { SET_FLAG(OF, (((*(uint16_t*)target) & 0x8000) ? 1 : 0) ^ CF); }
+			FillFlagsNoCFOF();
+			value = value % 16;
+			uint16_t tmp = ((*(uint16_t*)target) << value) | ((*(uint16_t*)target) >> (16 - value));
+			(*(uint16_t*)target) = tmp;
+			SET_FLAG(CF, (tmp & 1));
+			SET_FLAG(OF, (tmp >> (16 - 1)) ^ CF );
 		}
 		break;
 		case 1: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For16(mrmByte);
-			uint8_t value = reg_CL_8u & 0x1F;
+			uint8_t value = reg_CL_8u;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			FillFlags();
-			if (value == 1) { SET_FLAG(OF, (((*(uint16_t*)target) & 0x8000) ? 1 : 0) ^ CF); }
-			uint32_t tmp = 0;
-			*(uint16_t*)(((uint8_t*)&tmp)) = (*(uint16_t*)target);
-			*(uint16_t*)(((uint8_t*)&tmp) + (16 / 8)) = (*(uint16_t*)target);
-			tmp = tmp >> (value % 16 - 1);
-			SET_FLAG(CF, tmp & 1);
-			tmp = tmp >> 1;
-			(*(uint16_t*)target) = (*(uint16_t*)(((uint8_t*)&tmp + 4)));
+			FillFlagsNoCFOF();
+			value = value % 16;
+			uint16_t tmp = ((*(uint16_t*)target) >> value) | ((*(uint16_t*)target) << (16 - value));
+			(*(uint16_t*)target) = tmp;
+			SET_FLAG(CF, (tmp & 0x8000));
+			SET_FLAG(OF, (tmp ^ (tmp << 1)) & 0x8000);
 		}
 		break;
 		case 2: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For16(mrmByte);
-			uint8_t value = reg_CL_8u & 0x1F;
+			uint8_t value = reg_CL_8u;
+			value = (value & 0x1F) % (16 + 1);
 			if (value == 0) { return; }
 			FillFlags();
-			uint32_t tmp = 0;
-			*(uint16_t*)(((uint8_t*)&tmp) + (16 / 8)) = (*(uint16_t*)target);
-			tmp = tmp >> 1;
-			uint16_t mask = GET_FLAG(CF);
-			*(uint16_t*)(((uint8_t*)&tmp) + (16 / 8)) |= mask;
-			*(uint16_t*)(((uint8_t*)&tmp)) = (*(uint16_t*)target);
-			SET_FLAG(CF, (tmp << (value % (16 + 1) + 16)) & 0x8000);
-			tmp = tmp << ((value % (16 + 1)));
-			(*(uint16_t*)target) = *(uint16_t*)((uint8_t*)&tmp);
-			if (value == 1) { SET_FLAG(OF, (((*(uint16_t*)target) & 0x8000) ? 1 : 0) ^ CF); }
+			SET_FLAG(CF, (((*(uint16_t*)target) >> (16 - value)) & 0x1) );
+			uint16_t tmp = ((*(uint16_t*)target) << value) | ((uint16_t)CF >> (16 - value + 1)) | ((*(uint16_t*)target) >> (16 - value));
+			(*(uint16_t*)target) = tmp;
+			SET_FLAG(OF, (tmp >> (16 - 1)) ^ CF );
 		}
 		break;
 		case 3: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For16(mrmByte);
-			uint8_t value = reg_CL_8u & 0x1F;
+			uint8_t value = reg_CL_8u;
+			value = (value & 0x1F) % (16 + 1);
 			if (value == 0) { return; }
 			FillFlags();
-			if (value == 1) { SET_FLAG(OF, (((*(uint16_t*)target) & 0x8000) ? 1 : 0) ^ CF); }
-			uint16_t tmp = 0;
-			*(uint16_t*)(((uint8_t*)&tmp)) = (*(uint16_t*)target);
-			*(uint16_t*)(((uint8_t*)&tmp) + (16 / 8)) = GET_FLAG(CF);
-			tmp = tmp << 1;
-			*(uint16_t*)(((uint8_t*)&tmp) + (16 / 8)) = (*(uint16_t*)target);
-			tmp = tmp >> ((value % (16 + 1)) - 1);
-			SET_FLAG(CF, tmp & 1);
-			tmp = tmp >> 1;
-			(*(uint16_t*)target) = *(uint16_t*)((uint8_t*)&tmp + (16 / 8));
+			uint16_t tmp = *(uint16_t*)target;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA16 = tmp;
+			tmp = (tmp >> value) | ((uint16_t)CF << (16 - value)) | (tmp << (16 - value + 1));
+			(*(uint16_t*)target) = tmp;
+			SET_FLAG(CF, (((LazyFlagVarA16) >> (value - 1)) & 1));
+			SET_FLAG(OF, (tmp ^ (tmp << 1)) & 0x8000);
 		}
 		break;
 		case 4: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For16(mrmByte);
-			uint8_t value = reg_CL_8u & 0x1F;
+			uint8_t value = reg_CL_8u;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			(*(uint16_t*)target) = (*(uint16_t*)target) << (value - 1);
-			SET_FLAG(CF, (*(uint16_t*)target) & 0x8000);
-			(*(uint16_t*)target) = (*(uint16_t*)target) << 1;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA16 = *(uint16_t*)target;
+			(*(uint16_t*)target) = (*(uint16_t*)target) << value;
 			LazyFlagResultContainer16 = (*(uint16_t*)target);
-			if (value == 1) { SET_FLAG(OF, (((*(uint16_t*)target) & 0x8000) ? 1 : 0) ^ CF); }
-			lazyFlagType = t_VALUE16;
+			lazyFlagType=t_SHL16;
 		}
 		break;
 		case 5: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For16(mrmByte);
-			uint8_t value = reg_CL_8u & 0x1F;
+			uint8_t value = reg_CL_8u;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			if (value == 1) { SET_FLAG(OF, (*(uint16_t*)target) & 0x8000) };
-			(*(uint16_t*)target) = (*(uint16_t*)target) >> (value % 16 - 1);
-			SET_FLAG(CF, (*(uint16_t*)target) & 1);
-			(*(uint16_t*)target) = (*(uint16_t*)target) >> 1;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA16 = *(uint16_t*)target;
+			(*(uint16_t*)target) = (*(uint16_t*)target) >> (value);
 			LazyFlagResultContainer16 = (*(uint16_t*)target);
-			lazyFlagType = t_VALUE16;
+			lazyFlagType=t_SHR16;
 		}
 		break;
 		case 7: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For16(mrmByte);
-			uint8_t value = reg_CL_8u & 0x1F;
+			uint8_t value = reg_CL_8u;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			uint64_t tmp = ((*(int16_t*)target) < 0) ? 0xFFFFFFFFFFFFFFFF : 0;
-			*(uint16_t*)(((uint8_t*)&tmp) + 4) = (*(uint16_t*)target);
-			tmp = tmp >> (value % 16 - 1);
-			SET_FLAG(CF, tmp & 1);
-			tmp = tmp >> 1;
-			(*(uint16_t*)target) = (*(uint16_t*)(((uint8_t*)&tmp) + 4));
-			SET_FLAG(OF, 0);
-			LazyFlagResultContainer16 = (*(uint16_t*)target);
-			lazyFlagType = t_VALUE16;
+			if (value > 16) { value = 16; }
+			FillFlagsNoCFOF();
+			LazyFlagVarB8 = value;
+			LazyFlagVarA16 = *(uint16_t*)target;
+			if (LazyFlagVarA16 & 0x8000) {
+				LazyFlagResultContainer16 = ((LazyFlagVarA16) >> value) | ((0xFFFFFFFF) << (16 - value));
+			} else {
+				LazyFlagResultContainer16 = (LazyFlagVarA16) >> value;
+			}
+			(*(uint16_t*)target) = LazyFlagResultContainer16;
+			lazyFlagType=t_SAR16;
 		}
 		break;
 		default:
@@ -16809,104 +16652,97 @@ void handlerCommand32Code00D3_RM() {
 	switch (nnn) {
 		case 0: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
-			uint8_t value = reg_CL_8u & 0x1F;
+			uint8_t value = reg_CL_8u;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			FillFlags();
-			uint64_t tmp = 0;
-			*(uint32_t*)(((uint8_t*)&tmp)) = (*(uint32_t*)target);
-			*(uint32_t*)(((uint8_t*)&tmp) + (32 / 8)) = (*(uint32_t*)target);
-			SET_FLAG(CF, (tmp << (value % 32 + 32 - 1)) & 0x80000000);
-			tmp = tmp << (value % 32);
-			(*(uint32_t*)target) = (*(uint32_t*)(((uint8_t*)&tmp)));
-			if (value == 1) { SET_FLAG(OF, (((*(uint32_t*)target) & 0x80000000) ? 1 : 0) ^ CF); }
+			FillFlagsNoCFOF();
+			value = value % 32;
+			uint32_t tmp = ((*(uint32_t*)target) << value) | ((*(uint32_t*)target) >> (32 - value));
+			(*(uint32_t*)target) = tmp;
+			SET_FLAG(CF, (tmp & 1));
+			SET_FLAG(OF, (tmp >> (32 - 1)) ^ CF );
 		}
 		break;
 		case 1: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
-			uint8_t value = reg_CL_8u & 0x1F;
+			uint8_t value = reg_CL_8u;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			FillFlags();
-			if (value == 1) { SET_FLAG(OF, (((*(uint32_t*)target) & 0x80000000) ? 1 : 0) ^ CF); }
-			uint64_t tmp = 0;
-			*(uint32_t*)(((uint8_t*)&tmp)) = (*(uint32_t*)target);
-			*(uint32_t*)(((uint8_t*)&tmp) + (32 / 8)) = (*(uint32_t*)target);
-			tmp = tmp >> (value % 32 - 1);
-			SET_FLAG(CF, tmp & 1);
-			tmp = tmp >> 1;
-			(*(uint32_t*)target) = (*(uint32_t*)(((uint8_t*)&tmp + 4)));
+			FillFlagsNoCFOF();
+			value = value % 32;
+			uint32_t tmp = ((*(uint32_t*)target) >> value) | ((*(uint32_t*)target) << (32 - value));
+			(*(uint32_t*)target) = tmp;
+			SET_FLAG(CF, (tmp & 0x80000000));
+			SET_FLAG(OF, (tmp ^ (tmp << 1)) & 0x80000000);
 		}
 		break;
 		case 2: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
-			uint8_t value = reg_CL_8u & 0x1F;
+			uint8_t value = reg_CL_8u;
+			value = (value & 0x1F) % (32 + 1);
 			if (value == 0) { return; }
 			FillFlags();
-			uint64_t tmp = 0;
-			*(uint32_t*)(((uint8_t*)&tmp) + (32 / 8)) = (*(uint32_t*)target);
-			tmp = tmp >> 1;
-			uint32_t mask = GET_FLAG(CF);
-			*(uint32_t*)(((uint8_t*)&tmp) + (32 / 8)) |= mask;
-			*(uint32_t*)(((uint8_t*)&tmp)) = (*(uint32_t*)target);
-			SET_FLAG(CF, (tmp << (value % (32 + 1) + 32)) & 0x80000000);
-			tmp = tmp << ((value % (32 + 1)));
-			(*(uint32_t*)target) = *(uint32_t*)((uint8_t*)&tmp);
-			if (value == 1) { SET_FLAG(OF, (((*(uint32_t*)target) & 0x80000000) ? 1 : 0) ^ CF); }
+			SET_FLAG(CF, (((*(uint32_t*)target) >> (32 - value)) & 0x1) );
+			uint32_t tmp = ((*(uint32_t*)target) << value) | ((uint32_t)CF >> (32 - value + 1)) | ((*(uint32_t*)target) >> (32 - value));
+			(*(uint32_t*)target) = tmp;
+			SET_FLAG(OF, (tmp >> (32 - 1)) ^ CF );
 		}
 		break;
 		case 3: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
-			uint8_t value = reg_CL_8u & 0x1F;
+			uint8_t value = reg_CL_8u;
+			value = (value & 0x1F) % (32 + 1);
 			if (value == 0) { return; }
 			FillFlags();
-			if (value == 1) { SET_FLAG(OF, (((*(uint32_t*)target) & 0x80000000) ? 1 : 0) ^ CF); }
-			uint32_t tmp = 0;
-			*(uint32_t*)(((uint8_t*)&tmp)) = (*(uint32_t*)target);
-			*(uint32_t*)(((uint8_t*)&tmp) + (32 / 8)) = GET_FLAG(CF);
-			tmp = tmp << 1;
-			*(uint32_t*)(((uint8_t*)&tmp) + (32 / 8)) = (*(uint32_t*)target);
-			tmp = tmp >> ((value % (32 + 1)) - 1);
-			SET_FLAG(CF, tmp & 1);
-			tmp = tmp >> 1;
-			(*(uint32_t*)target) = *(uint32_t*)((uint8_t*)&tmp + (32 / 8));
+			uint32_t tmp = *(uint32_t*)target;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA32 = tmp;
+			tmp = (tmp >> value) | ((uint32_t)CF << (32 - value)) | (tmp << (32 - value + 1));
+			(*(uint32_t*)target) = tmp;
+			SET_FLAG(CF, (((LazyFlagVarA32) >> (value - 1)) & 1));
+			SET_FLAG(OF, (tmp ^ (tmp << 1)) & 0x80000000);
 		}
 		break;
 		case 4: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
-			uint8_t value = reg_CL_8u & 0x1F;
+			uint8_t value = reg_CL_8u;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			(*(uint32_t*)target) = (*(uint32_t*)target) << (value - 1);
-			SET_FLAG(CF, (*(uint32_t*)target) & 0x80000000);
-			(*(uint32_t*)target) = (*(uint32_t*)target) << 1;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA32 = *(uint32_t*)target;
+			(*(uint32_t*)target) = (*(uint32_t*)target) << value;
 			LazyFlagResultContainer32 = (*(uint32_t*)target);
-			if (value == 1) { SET_FLAG(OF, (((*(uint32_t*)target) & 0x80000000) ? 1 : 0) ^ CF); }
-			lazyFlagType = t_VALUE32;
+			lazyFlagType=t_SHL32;
 		}
 		break;
 		case 5: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
-			uint8_t value = reg_CL_8u & 0x1F;
+			uint8_t value = reg_CL_8u;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			if (value == 1) { SET_FLAG(OF, (*(uint32_t*)target) & 0x80000000) };
-			(*(uint32_t*)target) = (*(uint32_t*)target) >> (value % 32 - 1);
-			SET_FLAG(CF, (*(uint32_t*)target) & 1);
-			(*(uint32_t*)target) = (*(uint32_t*)target) >> 1;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA32 = *(uint32_t*)target;
+			(*(uint32_t*)target) = (*(uint32_t*)target) >> (value);
 			LazyFlagResultContainer32 = (*(uint32_t*)target);
-			lazyFlagType = t_VALUE32;
+			lazyFlagType=t_SHR32;
 		}
 		break;
 		case 7: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
-			uint8_t value = reg_CL_8u & 0x1F;
+			uint8_t value = reg_CL_8u;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			uint64_t tmp = ((*(int32_t*)target) < 0) ? 0xFFFFFFFFFFFFFFFF : 0;
-			*(uint32_t*)(((uint8_t*)&tmp) + 4) = (*(uint32_t*)target);
-			tmp = tmp >> (value % 32 - 1);
-			SET_FLAG(CF, tmp & 1);
-			tmp = tmp >> 1;
-			(*(uint32_t*)target) = (*(uint32_t*)(((uint8_t*)&tmp) + 4));
-			SET_FLAG(OF, 0);
-			LazyFlagResultContainer32 = (*(uint32_t*)target);
-			lazyFlagType = t_VALUE32;
+			if (value > 32) { value = 32; }
+			FillFlagsNoCFOF();
+			LazyFlagVarB8 = value;
+			LazyFlagVarA32 = *(uint32_t*)target;
+			if (LazyFlagVarA32 & 0x80000000) {
+				LazyFlagResultContainer32 = ((LazyFlagVarA32) >> value) | ((0xFFFFFFFF) << (32 - value));
+			} else {
+				LazyFlagResultContainer32 = (LazyFlagVarA32) >> value;
+			}
+			(*(uint32_t*)target) = LazyFlagResultContainer32;
+			lazyFlagType=t_SAR32;
 		}
 		break;
 		default:
@@ -18134,8 +17970,9 @@ void handlerCommand32Code00F6P66_RM() {
 			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
 			reg_AX_16u=((uint16_t)reg_AL_8u)*((uint16_t)(*(uint8_t*)target));
 			FillFlagsNoCFOF();
-			SET_FLAG(ZF,reg_AL_8 == 0);
-			SET_FLAG(PF,PARITY16(reg_AX_16));
+			SET_FLAG(ZF,reg_AL_8u == 0);
+			SET_FLAG(SF,reg_AL_8u & 0x80);
+			SET_FLAG(PF,PARITY8(reg_AL_8u));
 			if (reg_AX_16 & 0xff00) {
 				SET_FLAG(CF,1);SET_FLAG(OF,1);
 			} else {
@@ -18222,8 +18059,9 @@ void handlerCommand32Code00F6_RM() {
 			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
 			reg_AX_16u=((uint16_t)reg_AL_8u)*((uint16_t)(*(uint8_t*)target));
 			FillFlagsNoCFOF();
-			SET_FLAG(ZF,reg_AL_8 == 0);
-			SET_FLAG(PF,PARITY16(reg_AX_16));
+			SET_FLAG(ZF,reg_AL_8u == 0);
+			SET_FLAG(SF,reg_AL_8u & 0x80);
+			SET_FLAG(PF,PARITY8(reg_AL_8u));
 			if (reg_AX_16 & 0xff00) {
 				SET_FLAG(CF,1);SET_FLAG(OF,1);
 			} else {
@@ -18309,11 +18147,12 @@ void handlerCommand32Code00F7P66_RM() {
 		case 0x04: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For16(mrmByte);
 			uint32_t tempu=((uint32_t)reg_AX_16u)*(uint32_t)(*(uint16_t*)(target));
-			reg_AX_16=(uint16_t)(tempu);
-			reg_DX_16=(uint16_t)(tempu >> 16);
+			reg_AX_16u=(uint16_t)(tempu);
+			reg_DX_16u=(uint16_t)(tempu >> 16);
 			FillFlagsNoCFOF();
+			SET_FLAG(SF,reg_AX_16 & 0x8000);
 			SET_FLAG(ZF,reg_AX_16 == 0);
-			SET_FLAG(PF,PARITY16(reg_AX_16)^PARITY16(reg_DX_16));
+			SET_FLAG(PF,!(PARITY16(reg_AX_16u) ^ PARITY16(reg_DX_16u)));
 			if (reg_DX_16) {
 				SET_FLAG(CF,1);SET_FLAG(OF,1);
 			} else {
@@ -18403,11 +18242,12 @@ void handlerCommand32Code00F7_RM() {
 		case 0x04: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
 			uint64_t tempu=((uint64_t)reg_AX_32u)*((uint64_t)(*(uint32_t*)(target)));
-			reg_AX_32=(uint32_t)(tempu);
-			reg_DX_32=(uint32_t)(tempu >> 32);
+			reg_AX_32u=(uint32_t)(tempu);
+			reg_DX_32u=(uint32_t)(tempu >> 32);
 			FillFlagsNoCFOF();
-			SET_FLAG(ZF,reg_AX_32 == 0);
-			SET_FLAG(PF,PARITY32(reg_AX_32)^PARITY32(reg_DX_32));
+			SET_FLAG(SF,reg_AX_32u & 0x80000000);
+			SET_FLAG(ZF,reg_AX_32u == 0);
+			SET_FLAG(PF,!(PARITY32(reg_AX_32) ^ PARITY32(reg_DX_32)));
 			if (reg_DX_32) {
 				SET_FLAG(CF,1);SET_FLAG(OF,1);
 			} else {
@@ -25390,104 +25230,97 @@ void handlerCommand16Code00C0P66_PM() {
 	switch (nnn) {
 		case 0: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
-			uint8_t value = read8u() & 0x1F;
+			uint8_t value = read8u();
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			FillFlags();
-			uint16_t tmp = 0;
-			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
-			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
-			SET_FLAG(CF, (tmp << (value % 8 + 8 - 1)) & 0x80);
-			tmp = tmp << (value % 8);
-			(*(uint8_t*)target) = (*(uint8_t*)(((uint8_t*)&tmp)));
-			if (value == 1) { SET_FLAG(OF, (((*(uint8_t*)target) & 0x80) ? 1 : 0) ^ CF); }
+			FillFlagsNoCFOF();
+			value = value % 8;
+			uint8_t tmp = ((*(uint8_t*)target) << value) | ((*(uint8_t*)target) >> (8 - value));
+			(*(uint8_t*)target) = tmp;
+			SET_FLAG(CF, (tmp & 1));
+			SET_FLAG(OF, (tmp >> (8 - 1)) ^ CF );
 		}
 		break;
 		case 1: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
-			uint8_t value = read8u() & 0x1F;
+			uint8_t value = read8u();
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			FillFlags();
-			if (value == 1) { SET_FLAG(OF, (((*(uint8_t*)target) & 0x80) ? 1 : 0) ^ CF); }
-			uint16_t tmp = 0;
-			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
-			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
-			tmp = tmp >> (value % 8 - 1);
-			SET_FLAG(CF, tmp & 1);
-			tmp = tmp >> 1;
-			(*(uint8_t*)target) = (*(uint8_t*)(((uint8_t*)&tmp + 4)));
+			FillFlagsNoCFOF();
+			value = value % 8;
+			uint8_t tmp = ((*(uint8_t*)target) >> value) | ((*(uint8_t*)target) << (8 - value));
+			(*(uint8_t*)target) = tmp;
+			SET_FLAG(CF, (tmp & 0x80));
+			SET_FLAG(OF, (tmp ^ (tmp << 1)) & 0x80);
 		}
 		break;
 		case 2: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
-			uint8_t value = read8u() & 0x1F;
+			uint8_t value = read8u();
+			value = (value & 0x1F) % (8 + 1);
 			if (value == 0) { return; }
 			FillFlags();
-			uint16_t tmp = 0;
-			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
-			tmp = tmp >> 1;
-			uint8_t mask = GET_FLAG(CF);
-			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) |= mask;
-			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
-			SET_FLAG(CF, (tmp << (value % (8 + 1) + 8)) & 0x80);
-			tmp = tmp << ((value % (8 + 1)));
-			(*(uint8_t*)target) = *(uint8_t*)((uint8_t*)&tmp);
-			if (value == 1) { SET_FLAG(OF, (((*(uint8_t*)target) & 0x80) ? 1 : 0) ^ CF); }
+			SET_FLAG(CF, (((*(uint8_t*)target) >> (8 - value)) & 0x1) );
+			uint8_t tmp = ((*(uint8_t*)target) << value) | ((uint8_t)CF >> (8 - value + 1)) | ((*(uint8_t*)target) >> (8 - value));
+			(*(uint8_t*)target) = tmp;
+			SET_FLAG(OF, (tmp >> (8 - 1)) ^ CF );
 		}
 		break;
 		case 3: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
-			uint8_t value = read8u() & 0x1F;
+			uint8_t value = read8u();
+			value = (value & 0x1F) % (8 + 1);
 			if (value == 0) { return; }
 			FillFlags();
-			if (value == 1) { SET_FLAG(OF, (((*(uint8_t*)target) & 0x80) ? 1 : 0) ^ CF); }
-			uint8_t tmp = 0;
-			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
-			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = GET_FLAG(CF);
-			tmp = tmp << 1;
-			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
-			tmp = tmp >> ((value % (8 + 1)) - 1);
-			SET_FLAG(CF, tmp & 1);
-			tmp = tmp >> 1;
-			(*(uint8_t*)target) = *(uint8_t*)((uint8_t*)&tmp + (8 / 8));
+			uint8_t tmp = *(uint8_t*)target;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = tmp;
+			tmp = (tmp >> value) | ((uint8_t)CF << (8 - value)) | (tmp << (8 - value + 1));
+			(*(uint8_t*)target) = tmp;
+			SET_FLAG(CF, (((LazyFlagVarA8) >> (value - 1)) & 1));
+			SET_FLAG(OF, (tmp ^ (tmp << 1)) & 0x80);
 		}
 		break;
 		case 4: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
-			uint8_t value = read8u() & 0x1F;
+			uint8_t value = read8u();
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			(*(uint8_t*)target) = (*(uint8_t*)target) << (value - 1);
-			SET_FLAG(CF, (*(uint8_t*)target) & 0x80);
-			(*(uint8_t*)target) = (*(uint8_t*)target) << 1;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = *(uint8_t*)target;
+			(*(uint8_t*)target) = (*(uint8_t*)target) << value;
 			LazyFlagResultContainer8 = (*(uint8_t*)target);
-			if (value == 1) { SET_FLAG(OF, (((*(uint8_t*)target) & 0x80) ? 1 : 0) ^ CF); }
-			lazyFlagType = t_VALUE8;
+			lazyFlagType=t_SHL8;
 		}
 		break;
 		case 5: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
-			uint8_t value = read8u() & 0x1F;
+			uint8_t value = read8u();
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			if (value == 1) { SET_FLAG(OF, (*(uint8_t*)target) & 0x80) };
-			(*(uint8_t*)target) = (*(uint8_t*)target) >> (value % 8 - 1);
-			SET_FLAG(CF, (*(uint8_t*)target) & 1);
-			(*(uint8_t*)target) = (*(uint8_t*)target) >> 1;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = *(uint8_t*)target;
+			(*(uint8_t*)target) = (*(uint8_t*)target) >> (value);
 			LazyFlagResultContainer8 = (*(uint8_t*)target);
-			lazyFlagType = t_VALUE8;
+			lazyFlagType=t_SHR8;
 		}
 		break;
 		case 7: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
-			uint8_t value = read8u() & 0x1F;
+			uint8_t value = read8u();
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			uint64_t tmp = ((*(int8_t*)target) < 0) ? 0xFFFFFFFFFFFFFFFF : 0;
-			*(uint8_t*)(((uint8_t*)&tmp) + 4) = (*(uint8_t*)target);
-			tmp = tmp >> (value % 8 - 1);
-			SET_FLAG(CF, tmp & 1);
-			tmp = tmp >> 1;
-			(*(uint8_t*)target) = (*(uint8_t*)(((uint8_t*)&tmp) + 4));
-			SET_FLAG(OF, 0);
-			LazyFlagResultContainer8 = (*(uint8_t*)target);
-			lazyFlagType = t_VALUE8;
+			if (value > 8) { value = 8; }
+			FillFlagsNoCFOF();
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = *(uint8_t*)target;
+			if (LazyFlagVarA8 & 0x80) {
+				LazyFlagResultContainer8 = ((LazyFlagVarA8) >> value) | ((0xFFFFFFFF) << (8 - value));
+			} else {
+				LazyFlagResultContainer8 = (LazyFlagVarA8) >> value;
+			}
+			(*(uint8_t*)target) = LazyFlagResultContainer8;
+			lazyFlagType=t_SAR8;
 		}
 		break;
 		default:
@@ -25502,104 +25335,97 @@ void handlerCommand16Code00C0_PM() {
 	switch (nnn) {
 		case 0: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
-			uint8_t value = read8u() & 0x1F;
+			uint8_t value = read8u();
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			FillFlags();
-			uint16_t tmp = 0;
-			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
-			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
-			SET_FLAG(CF, (tmp << (value % 8 + 8 - 1)) & 0x80);
-			tmp = tmp << (value % 8);
-			(*(uint8_t*)target) = (*(uint8_t*)(((uint8_t*)&tmp)));
-			if (value == 1) { SET_FLAG(OF, (((*(uint8_t*)target) & 0x80) ? 1 : 0) ^ CF); }
+			FillFlagsNoCFOF();
+			value = value % 8;
+			uint8_t tmp = ((*(uint8_t*)target) << value) | ((*(uint8_t*)target) >> (8 - value));
+			(*(uint8_t*)target) = tmp;
+			SET_FLAG(CF, (tmp & 1));
+			SET_FLAG(OF, (tmp >> (8 - 1)) ^ CF );
 		}
 		break;
 		case 1: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
-			uint8_t value = read8u() & 0x1F;
+			uint8_t value = read8u();
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			FillFlags();
-			if (value == 1) { SET_FLAG(OF, (((*(uint8_t*)target) & 0x80) ? 1 : 0) ^ CF); }
-			uint16_t tmp = 0;
-			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
-			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
-			tmp = tmp >> (value % 8 - 1);
-			SET_FLAG(CF, tmp & 1);
-			tmp = tmp >> 1;
-			(*(uint8_t*)target) = (*(uint8_t*)(((uint8_t*)&tmp + 4)));
+			FillFlagsNoCFOF();
+			value = value % 8;
+			uint8_t tmp = ((*(uint8_t*)target) >> value) | ((*(uint8_t*)target) << (8 - value));
+			(*(uint8_t*)target) = tmp;
+			SET_FLAG(CF, (tmp & 0x80));
+			SET_FLAG(OF, (tmp ^ (tmp << 1)) & 0x80);
 		}
 		break;
 		case 2: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
-			uint8_t value = read8u() & 0x1F;
+			uint8_t value = read8u();
+			value = (value & 0x1F) % (8 + 1);
 			if (value == 0) { return; }
 			FillFlags();
-			uint16_t tmp = 0;
-			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
-			tmp = tmp >> 1;
-			uint8_t mask = GET_FLAG(CF);
-			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) |= mask;
-			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
-			SET_FLAG(CF, (tmp << (value % (8 + 1) + 8)) & 0x80);
-			tmp = tmp << ((value % (8 + 1)));
-			(*(uint8_t*)target) = *(uint8_t*)((uint8_t*)&tmp);
-			if (value == 1) { SET_FLAG(OF, (((*(uint8_t*)target) & 0x80) ? 1 : 0) ^ CF); }
+			SET_FLAG(CF, (((*(uint8_t*)target) >> (8 - value)) & 0x1) );
+			uint8_t tmp = ((*(uint8_t*)target) << value) | ((uint8_t)CF >> (8 - value + 1)) | ((*(uint8_t*)target) >> (8 - value));
+			(*(uint8_t*)target) = tmp;
+			SET_FLAG(OF, (tmp >> (8 - 1)) ^ CF );
 		}
 		break;
 		case 3: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
-			uint8_t value = read8u() & 0x1F;
+			uint8_t value = read8u();
+			value = (value & 0x1F) % (8 + 1);
 			if (value == 0) { return; }
 			FillFlags();
-			if (value == 1) { SET_FLAG(OF, (((*(uint8_t*)target) & 0x80) ? 1 : 0) ^ CF); }
-			uint8_t tmp = 0;
-			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
-			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = GET_FLAG(CF);
-			tmp = tmp << 1;
-			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
-			tmp = tmp >> ((value % (8 + 1)) - 1);
-			SET_FLAG(CF, tmp & 1);
-			tmp = tmp >> 1;
-			(*(uint8_t*)target) = *(uint8_t*)((uint8_t*)&tmp + (8 / 8));
+			uint8_t tmp = *(uint8_t*)target;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = tmp;
+			tmp = (tmp >> value) | ((uint8_t)CF << (8 - value)) | (tmp << (8 - value + 1));
+			(*(uint8_t*)target) = tmp;
+			SET_FLAG(CF, (((LazyFlagVarA8) >> (value - 1)) & 1));
+			SET_FLAG(OF, (tmp ^ (tmp << 1)) & 0x80);
 		}
 		break;
 		case 4: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
-			uint8_t value = read8u() & 0x1F;
+			uint8_t value = read8u();
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			(*(uint8_t*)target) = (*(uint8_t*)target) << (value - 1);
-			SET_FLAG(CF, (*(uint8_t*)target) & 0x80);
-			(*(uint8_t*)target) = (*(uint8_t*)target) << 1;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = *(uint8_t*)target;
+			(*(uint8_t*)target) = (*(uint8_t*)target) << value;
 			LazyFlagResultContainer8 = (*(uint8_t*)target);
-			if (value == 1) { SET_FLAG(OF, (((*(uint8_t*)target) & 0x80) ? 1 : 0) ^ CF); }
-			lazyFlagType = t_VALUE8;
+			lazyFlagType=t_SHL8;
 		}
 		break;
 		case 5: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
-			uint8_t value = read8u() & 0x1F;
+			uint8_t value = read8u();
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			if (value == 1) { SET_FLAG(OF, (*(uint8_t*)target) & 0x80) };
-			(*(uint8_t*)target) = (*(uint8_t*)target) >> (value % 8 - 1);
-			SET_FLAG(CF, (*(uint8_t*)target) & 1);
-			(*(uint8_t*)target) = (*(uint8_t*)target) >> 1;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = *(uint8_t*)target;
+			(*(uint8_t*)target) = (*(uint8_t*)target) >> (value);
 			LazyFlagResultContainer8 = (*(uint8_t*)target);
-			lazyFlagType = t_VALUE8;
+			lazyFlagType=t_SHR8;
 		}
 		break;
 		case 7: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
-			uint8_t value = read8u() & 0x1F;
+			uint8_t value = read8u();
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			uint64_t tmp = ((*(int8_t*)target) < 0) ? 0xFFFFFFFFFFFFFFFF : 0;
-			*(uint8_t*)(((uint8_t*)&tmp) + 4) = (*(uint8_t*)target);
-			tmp = tmp >> (value % 8 - 1);
-			SET_FLAG(CF, tmp & 1);
-			tmp = tmp >> 1;
-			(*(uint8_t*)target) = (*(uint8_t*)(((uint8_t*)&tmp) + 4));
-			SET_FLAG(OF, 0);
-			LazyFlagResultContainer8 = (*(uint8_t*)target);
-			lazyFlagType = t_VALUE8;
+			if (value > 8) { value = 8; }
+			FillFlagsNoCFOF();
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = *(uint8_t*)target;
+			if (LazyFlagVarA8 & 0x80) {
+				LazyFlagResultContainer8 = ((LazyFlagVarA8) >> value) | ((0xFFFFFFFF) << (8 - value));
+			} else {
+				LazyFlagResultContainer8 = (LazyFlagVarA8) >> value;
+			}
+			(*(uint8_t*)target) = LazyFlagResultContainer8;
+			lazyFlagType=t_SAR8;
 		}
 		break;
 		default:
@@ -25614,104 +25440,97 @@ void handlerCommand16Code00C1P66_PM() {
 	switch (nnn) {
 		case 0: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For32(mrmByte);
-			uint8_t value = read8u() & 0x1F;
+			uint8_t value = read8u();
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			FillFlags();
-			uint64_t tmp = 0;
-			*(uint32_t*)(((uint8_t*)&tmp)) = (*(uint32_t*)target);
-			*(uint32_t*)(((uint8_t*)&tmp) + (32 / 8)) = (*(uint32_t*)target);
-			SET_FLAG(CF, (tmp << (value % 32 + 32 - 1)) & 0x80000000);
-			tmp = tmp << (value % 32);
-			(*(uint32_t*)target) = (*(uint32_t*)(((uint8_t*)&tmp)));
-			if (value == 1) { SET_FLAG(OF, (((*(uint32_t*)target) & 0x80000000) ? 1 : 0) ^ CF); }
+			FillFlagsNoCFOF();
+			value = value % 32;
+			uint32_t tmp = ((*(uint32_t*)target) << value) | ((*(uint32_t*)target) >> (32 - value));
+			(*(uint32_t*)target) = tmp;
+			SET_FLAG(CF, (tmp & 1));
+			SET_FLAG(OF, (tmp >> (32 - 1)) ^ CF );
 		}
 		break;
 		case 1: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For32(mrmByte);
-			uint8_t value = read8u() & 0x1F;
+			uint8_t value = read8u();
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			FillFlags();
-			if (value == 1) { SET_FLAG(OF, (((*(uint32_t*)target) & 0x80000000) ? 1 : 0) ^ CF); }
-			uint64_t tmp = 0;
-			*(uint32_t*)(((uint8_t*)&tmp)) = (*(uint32_t*)target);
-			*(uint32_t*)(((uint8_t*)&tmp) + (32 / 8)) = (*(uint32_t*)target);
-			tmp = tmp >> (value % 32 - 1);
-			SET_FLAG(CF, tmp & 1);
-			tmp = tmp >> 1;
-			(*(uint32_t*)target) = (*(uint32_t*)(((uint8_t*)&tmp + 4)));
+			FillFlagsNoCFOF();
+			value = value % 32;
+			uint32_t tmp = ((*(uint32_t*)target) >> value) | ((*(uint32_t*)target) << (32 - value));
+			(*(uint32_t*)target) = tmp;
+			SET_FLAG(CF, (tmp & 0x80000000));
+			SET_FLAG(OF, (tmp ^ (tmp << 1)) & 0x80000000);
 		}
 		break;
 		case 2: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For32(mrmByte);
-			uint8_t value = read8u() & 0x1F;
+			uint8_t value = read8u();
+			value = (value & 0x1F) % (32 + 1);
 			if (value == 0) { return; }
 			FillFlags();
-			uint64_t tmp = 0;
-			*(uint32_t*)(((uint8_t*)&tmp) + (32 / 8)) = (*(uint32_t*)target);
-			tmp = tmp >> 1;
-			uint32_t mask = GET_FLAG(CF);
-			*(uint32_t*)(((uint8_t*)&tmp) + (32 / 8)) |= mask;
-			*(uint32_t*)(((uint8_t*)&tmp)) = (*(uint32_t*)target);
-			SET_FLAG(CF, (tmp << (value % (32 + 1) + 32)) & 0x80000000);
-			tmp = tmp << ((value % (32 + 1)));
-			(*(uint32_t*)target) = *(uint32_t*)((uint8_t*)&tmp);
-			if (value == 1) { SET_FLAG(OF, (((*(uint32_t*)target) & 0x80000000) ? 1 : 0) ^ CF); }
+			SET_FLAG(CF, (((*(uint32_t*)target) >> (32 - value)) & 0x1) );
+			uint32_t tmp = ((*(uint32_t*)target) << value) | ((uint32_t)CF >> (32 - value + 1)) | ((*(uint32_t*)target) >> (32 - value));
+			(*(uint32_t*)target) = tmp;
+			SET_FLAG(OF, (tmp >> (32 - 1)) ^ CF );
 		}
 		break;
 		case 3: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For32(mrmByte);
-			uint8_t value = read8u() & 0x1F;
+			uint8_t value = read8u();
+			value = (value & 0x1F) % (32 + 1);
 			if (value == 0) { return; }
 			FillFlags();
-			if (value == 1) { SET_FLAG(OF, (((*(uint32_t*)target) & 0x80000000) ? 1 : 0) ^ CF); }
-			uint32_t tmp = 0;
-			*(uint32_t*)(((uint8_t*)&tmp)) = (*(uint32_t*)target);
-			*(uint32_t*)(((uint8_t*)&tmp) + (32 / 8)) = GET_FLAG(CF);
-			tmp = tmp << 1;
-			*(uint32_t*)(((uint8_t*)&tmp) + (32 / 8)) = (*(uint32_t*)target);
-			tmp = tmp >> ((value % (32 + 1)) - 1);
-			SET_FLAG(CF, tmp & 1);
-			tmp = tmp >> 1;
-			(*(uint32_t*)target) = *(uint32_t*)((uint8_t*)&tmp + (32 / 8));
+			uint32_t tmp = *(uint32_t*)target;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA32 = tmp;
+			tmp = (tmp >> value) | ((uint32_t)CF << (32 - value)) | (tmp << (32 - value + 1));
+			(*(uint32_t*)target) = tmp;
+			SET_FLAG(CF, (((LazyFlagVarA32) >> (value - 1)) & 1));
+			SET_FLAG(OF, (tmp ^ (tmp << 1)) & 0x80000000);
 		}
 		break;
 		case 4: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For32(mrmByte);
-			uint8_t value = read8u() & 0x1F;
+			uint8_t value = read8u();
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			(*(uint32_t*)target) = (*(uint32_t*)target) << (value - 1);
-			SET_FLAG(CF, (*(uint32_t*)target) & 0x80000000);
-			(*(uint32_t*)target) = (*(uint32_t*)target) << 1;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA32 = *(uint32_t*)target;
+			(*(uint32_t*)target) = (*(uint32_t*)target) << value;
 			LazyFlagResultContainer32 = (*(uint32_t*)target);
-			if (value == 1) { SET_FLAG(OF, (((*(uint32_t*)target) & 0x80000000) ? 1 : 0) ^ CF); }
-			lazyFlagType = t_VALUE32;
+			lazyFlagType=t_SHL32;
 		}
 		break;
 		case 5: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For32(mrmByte);
-			uint8_t value = read8u() & 0x1F;
+			uint8_t value = read8u();
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			if (value == 1) { SET_FLAG(OF, (*(uint32_t*)target) & 0x80000000) };
-			(*(uint32_t*)target) = (*(uint32_t*)target) >> (value % 32 - 1);
-			SET_FLAG(CF, (*(uint32_t*)target) & 1);
-			(*(uint32_t*)target) = (*(uint32_t*)target) >> 1;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA32 = *(uint32_t*)target;
+			(*(uint32_t*)target) = (*(uint32_t*)target) >> (value);
 			LazyFlagResultContainer32 = (*(uint32_t*)target);
-			lazyFlagType = t_VALUE32;
+			lazyFlagType=t_SHR32;
 		}
 		break;
 		case 7: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For32(mrmByte);
-			uint8_t value = read8u() & 0x1F;
+			uint8_t value = read8u();
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			uint64_t tmp = ((*(int32_t*)target) < 0) ? 0xFFFFFFFFFFFFFFFF : 0;
-			*(uint32_t*)(((uint8_t*)&tmp) + 4) = (*(uint32_t*)target);
-			tmp = tmp >> (value % 32 - 1);
-			SET_FLAG(CF, tmp & 1);
-			tmp = tmp >> 1;
-			(*(uint32_t*)target) = (*(uint32_t*)(((uint8_t*)&tmp) + 4));
-			SET_FLAG(OF, 0);
-			LazyFlagResultContainer32 = (*(uint32_t*)target);
-			lazyFlagType = t_VALUE32;
+			if (value > 32) { value = 32; }
+			FillFlagsNoCFOF();
+			LazyFlagVarB8 = value;
+			LazyFlagVarA32 = *(uint32_t*)target;
+			if (LazyFlagVarA32 & 0x80000000) {
+				LazyFlagResultContainer32 = ((LazyFlagVarA32) >> value) | ((0xFFFFFFFF) << (32 - value));
+			} else {
+				LazyFlagResultContainer32 = (LazyFlagVarA32) >> value;
+			}
+			(*(uint32_t*)target) = LazyFlagResultContainer32;
+			lazyFlagType=t_SAR32;
 		}
 		break;
 		default:
@@ -25726,104 +25545,97 @@ void handlerCommand16Code00C1_PM() {
 	switch (nnn) {
 		case 0: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
-			uint8_t value = read8u() & 0x1F;
+			uint8_t value = read8u();
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			FillFlags();
-			uint32_t tmp = 0;
-			*(uint16_t*)(((uint8_t*)&tmp)) = (*(uint16_t*)target);
-			*(uint16_t*)(((uint8_t*)&tmp) + (16 / 8)) = (*(uint16_t*)target);
-			SET_FLAG(CF, (tmp << (value % 16 + 16 - 1)) & 0x8000);
-			tmp = tmp << (value % 16);
-			(*(uint16_t*)target) = (*(uint16_t*)(((uint8_t*)&tmp)));
-			if (value == 1) { SET_FLAG(OF, (((*(uint16_t*)target) & 0x8000) ? 1 : 0) ^ CF); }
+			FillFlagsNoCFOF();
+			value = value % 16;
+			uint16_t tmp = ((*(uint16_t*)target) << value) | ((*(uint16_t*)target) >> (16 - value));
+			(*(uint16_t*)target) = tmp;
+			SET_FLAG(CF, (tmp & 1));
+			SET_FLAG(OF, (tmp >> (16 - 1)) ^ CF );
 		}
 		break;
 		case 1: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
-			uint8_t value = read8u() & 0x1F;
+			uint8_t value = read8u();
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			FillFlags();
-			if (value == 1) { SET_FLAG(OF, (((*(uint16_t*)target) & 0x8000) ? 1 : 0) ^ CF); }
-			uint32_t tmp = 0;
-			*(uint16_t*)(((uint8_t*)&tmp)) = (*(uint16_t*)target);
-			*(uint16_t*)(((uint8_t*)&tmp) + (16 / 8)) = (*(uint16_t*)target);
-			tmp = tmp >> (value % 16 - 1);
-			SET_FLAG(CF, tmp & 1);
-			tmp = tmp >> 1;
-			(*(uint16_t*)target) = (*(uint16_t*)(((uint8_t*)&tmp + 4)));
+			FillFlagsNoCFOF();
+			value = value % 16;
+			uint16_t tmp = ((*(uint16_t*)target) >> value) | ((*(uint16_t*)target) << (16 - value));
+			(*(uint16_t*)target) = tmp;
+			SET_FLAG(CF, (tmp & 0x8000));
+			SET_FLAG(OF, (tmp ^ (tmp << 1)) & 0x8000);
 		}
 		break;
 		case 2: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
-			uint8_t value = read8u() & 0x1F;
+			uint8_t value = read8u();
+			value = (value & 0x1F) % (16 + 1);
 			if (value == 0) { return; }
 			FillFlags();
-			uint32_t tmp = 0;
-			*(uint16_t*)(((uint8_t*)&tmp) + (16 / 8)) = (*(uint16_t*)target);
-			tmp = tmp >> 1;
-			uint16_t mask = GET_FLAG(CF);
-			*(uint16_t*)(((uint8_t*)&tmp) + (16 / 8)) |= mask;
-			*(uint16_t*)(((uint8_t*)&tmp)) = (*(uint16_t*)target);
-			SET_FLAG(CF, (tmp << (value % (16 + 1) + 16)) & 0x8000);
-			tmp = tmp << ((value % (16 + 1)));
-			(*(uint16_t*)target) = *(uint16_t*)((uint8_t*)&tmp);
-			if (value == 1) { SET_FLAG(OF, (((*(uint16_t*)target) & 0x8000) ? 1 : 0) ^ CF); }
+			SET_FLAG(CF, (((*(uint16_t*)target) >> (16 - value)) & 0x1) );
+			uint16_t tmp = ((*(uint16_t*)target) << value) | ((uint16_t)CF >> (16 - value + 1)) | ((*(uint16_t*)target) >> (16 - value));
+			(*(uint16_t*)target) = tmp;
+			SET_FLAG(OF, (tmp >> (16 - 1)) ^ CF );
 		}
 		break;
 		case 3: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
-			uint8_t value = read8u() & 0x1F;
+			uint8_t value = read8u();
+			value = (value & 0x1F) % (16 + 1);
 			if (value == 0) { return; }
 			FillFlags();
-			if (value == 1) { SET_FLAG(OF, (((*(uint16_t*)target) & 0x8000) ? 1 : 0) ^ CF); }
-			uint16_t tmp = 0;
-			*(uint16_t*)(((uint8_t*)&tmp)) = (*(uint16_t*)target);
-			*(uint16_t*)(((uint8_t*)&tmp) + (16 / 8)) = GET_FLAG(CF);
-			tmp = tmp << 1;
-			*(uint16_t*)(((uint8_t*)&tmp) + (16 / 8)) = (*(uint16_t*)target);
-			tmp = tmp >> ((value % (16 + 1)) - 1);
-			SET_FLAG(CF, tmp & 1);
-			tmp = tmp >> 1;
-			(*(uint16_t*)target) = *(uint16_t*)((uint8_t*)&tmp + (16 / 8));
+			uint16_t tmp = *(uint16_t*)target;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA16 = tmp;
+			tmp = (tmp >> value) | ((uint16_t)CF << (16 - value)) | (tmp << (16 - value + 1));
+			(*(uint16_t*)target) = tmp;
+			SET_FLAG(CF, (((LazyFlagVarA16) >> (value - 1)) & 1));
+			SET_FLAG(OF, (tmp ^ (tmp << 1)) & 0x8000);
 		}
 		break;
 		case 4: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
-			uint8_t value = read8u() & 0x1F;
+			uint8_t value = read8u();
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			(*(uint16_t*)target) = (*(uint16_t*)target) << (value - 1);
-			SET_FLAG(CF, (*(uint16_t*)target) & 0x8000);
-			(*(uint16_t*)target) = (*(uint16_t*)target) << 1;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA16 = *(uint16_t*)target;
+			(*(uint16_t*)target) = (*(uint16_t*)target) << value;
 			LazyFlagResultContainer16 = (*(uint16_t*)target);
-			if (value == 1) { SET_FLAG(OF, (((*(uint16_t*)target) & 0x8000) ? 1 : 0) ^ CF); }
-			lazyFlagType = t_VALUE16;
+			lazyFlagType=t_SHL16;
 		}
 		break;
 		case 5: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
-			uint8_t value = read8u() & 0x1F;
+			uint8_t value = read8u();
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			if (value == 1) { SET_FLAG(OF, (*(uint16_t*)target) & 0x8000) };
-			(*(uint16_t*)target) = (*(uint16_t*)target) >> (value % 16 - 1);
-			SET_FLAG(CF, (*(uint16_t*)target) & 1);
-			(*(uint16_t*)target) = (*(uint16_t*)target) >> 1;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA16 = *(uint16_t*)target;
+			(*(uint16_t*)target) = (*(uint16_t*)target) >> (value);
 			LazyFlagResultContainer16 = (*(uint16_t*)target);
-			lazyFlagType = t_VALUE16;
+			lazyFlagType=t_SHR16;
 		}
 		break;
 		case 7: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
-			uint8_t value = read8u() & 0x1F;
+			uint8_t value = read8u();
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			uint64_t tmp = ((*(int16_t*)target) < 0) ? 0xFFFFFFFFFFFFFFFF : 0;
-			*(uint16_t*)(((uint8_t*)&tmp) + 4) = (*(uint16_t*)target);
-			tmp = tmp >> (value % 16 - 1);
-			SET_FLAG(CF, tmp & 1);
-			tmp = tmp >> 1;
-			(*(uint16_t*)target) = (*(uint16_t*)(((uint8_t*)&tmp) + 4));
-			SET_FLAG(OF, 0);
-			LazyFlagResultContainer16 = (*(uint16_t*)target);
-			lazyFlagType = t_VALUE16;
+			if (value > 16) { value = 16; }
+			FillFlagsNoCFOF();
+			LazyFlagVarB8 = value;
+			LazyFlagVarA16 = *(uint16_t*)target;
+			if (LazyFlagVarA16 & 0x8000) {
+				LazyFlagResultContainer16 = ((LazyFlagVarA16) >> value) | ((0xFFFFFFFF) << (16 - value));
+			} else {
+				LazyFlagResultContainer16 = (LazyFlagVarA16) >> value;
+			}
+			(*(uint16_t*)target) = LazyFlagResultContainer16;
+			lazyFlagType=t_SAR16;
 		}
 		break;
 		default:
@@ -26042,103 +25854,96 @@ void handlerCommand16Code00D0P66_PM() {
 		case 0: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
 			uint8_t value = 1;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			FillFlags();
-			uint16_t tmp = 0;
-			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
-			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
-			SET_FLAG(CF, (tmp << (value % 8 + 8 - 1)) & 0x80);
-			tmp = tmp << (value % 8);
-			(*(uint8_t*)target) = (*(uint8_t*)(((uint8_t*)&tmp)));
-			if (value == 1) { SET_FLAG(OF, (((*(uint8_t*)target) & 0x80) ? 1 : 0) ^ CF); }
+			FillFlagsNoCFOF();
+			value = value % 8;
+			uint8_t tmp = ((*(uint8_t*)target) << value) | ((*(uint8_t*)target) >> (8 - value));
+			(*(uint8_t*)target) = tmp;
+			SET_FLAG(CF, (tmp & 1));
+			SET_FLAG(OF, (tmp >> (8 - 1)) ^ CF );
 		}
 		break;
 		case 1: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
 			uint8_t value = 1;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			FillFlags();
-			if (value == 1) { SET_FLAG(OF, (((*(uint8_t*)target) & 0x80) ? 1 : 0) ^ CF); }
-			uint16_t tmp = 0;
-			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
-			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
-			tmp = tmp >> (value % 8 - 1);
-			SET_FLAG(CF, tmp & 1);
-			tmp = tmp >> 1;
-			(*(uint8_t*)target) = (*(uint8_t*)(((uint8_t*)&tmp + 4)));
+			FillFlagsNoCFOF();
+			value = value % 8;
+			uint8_t tmp = ((*(uint8_t*)target) >> value) | ((*(uint8_t*)target) << (8 - value));
+			(*(uint8_t*)target) = tmp;
+			SET_FLAG(CF, (tmp & 0x80));
+			SET_FLAG(OF, (tmp ^ (tmp << 1)) & 0x80);
 		}
 		break;
 		case 2: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
 			uint8_t value = 1;
+			value = (value & 0x1F) % (8 + 1);
 			if (value == 0) { return; }
 			FillFlags();
-			uint16_t tmp = 0;
-			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
-			tmp = tmp >> 1;
-			uint8_t mask = GET_FLAG(CF);
-			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) |= mask;
-			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
-			SET_FLAG(CF, (tmp << (value % (8 + 1) + 8)) & 0x80);
-			tmp = tmp << ((value % (8 + 1)));
-			(*(uint8_t*)target) = *(uint8_t*)((uint8_t*)&tmp);
-			if (value == 1) { SET_FLAG(OF, (((*(uint8_t*)target) & 0x80) ? 1 : 0) ^ CF); }
+			SET_FLAG(CF, (((*(uint8_t*)target) >> (8 - value)) & 0x1) );
+			uint8_t tmp = ((*(uint8_t*)target) << value) | ((uint8_t)CF >> (8 - value + 1)) | ((*(uint8_t*)target) >> (8 - value));
+			(*(uint8_t*)target) = tmp;
+			SET_FLAG(OF, (tmp >> (8 - 1)) ^ CF );
 		}
 		break;
 		case 3: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
 			uint8_t value = 1;
+			value = (value & 0x1F) % (8 + 1);
 			if (value == 0) { return; }
 			FillFlags();
-			if (value == 1) { SET_FLAG(OF, (((*(uint8_t*)target) & 0x80) ? 1 : 0) ^ CF); }
-			uint8_t tmp = 0;
-			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
-			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = GET_FLAG(CF);
-			tmp = tmp << 1;
-			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
-			tmp = tmp >> ((value % (8 + 1)) - 1);
-			SET_FLAG(CF, tmp & 1);
-			tmp = tmp >> 1;
-			(*(uint8_t*)target) = *(uint8_t*)((uint8_t*)&tmp + (8 / 8));
+			uint8_t tmp = *(uint8_t*)target;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = tmp;
+			tmp = (tmp >> value) | ((uint8_t)CF << (8 - value)) | (tmp << (8 - value + 1));
+			(*(uint8_t*)target) = tmp;
+			SET_FLAG(CF, (((LazyFlagVarA8) >> (value - 1)) & 1));
+			SET_FLAG(OF, (tmp ^ (tmp << 1)) & 0x80);
 		}
 		break;
 		case 4: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
 			uint8_t value = 1;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			(*(uint8_t*)target) = (*(uint8_t*)target) << (value - 1);
-			SET_FLAG(CF, (*(uint8_t*)target) & 0x80);
-			(*(uint8_t*)target) = (*(uint8_t*)target) << 1;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = *(uint8_t*)target;
+			(*(uint8_t*)target) = (*(uint8_t*)target) << value;
 			LazyFlagResultContainer8 = (*(uint8_t*)target);
-			if (value == 1) { SET_FLAG(OF, (((*(uint8_t*)target) & 0x80) ? 1 : 0) ^ CF); }
-			lazyFlagType = t_VALUE8;
+			lazyFlagType=t_SHL8;
 		}
 		break;
 		case 5: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
 			uint8_t value = 1;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			if (value == 1) { SET_FLAG(OF, (*(uint8_t*)target) & 0x80) };
-			(*(uint8_t*)target) = (*(uint8_t*)target) >> (value % 8 - 1);
-			SET_FLAG(CF, (*(uint8_t*)target) & 1);
-			(*(uint8_t*)target) = (*(uint8_t*)target) >> 1;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = *(uint8_t*)target;
+			(*(uint8_t*)target) = (*(uint8_t*)target) >> (value);
 			LazyFlagResultContainer8 = (*(uint8_t*)target);
-			lazyFlagType = t_VALUE8;
+			lazyFlagType=t_SHR8;
 		}
 		break;
 		case 7: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
 			uint8_t value = 1;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			uint64_t tmp = ((*(int8_t*)target) < 0) ? 0xFFFFFFFFFFFFFFFF : 0;
-			*(uint8_t*)(((uint8_t*)&tmp) + 4) = (*(uint8_t*)target);
-			tmp = tmp >> (value % 8 - 1);
-			SET_FLAG(CF, tmp & 1);
-			tmp = tmp >> 1;
-			(*(uint8_t*)target) = (*(uint8_t*)(((uint8_t*)&tmp) + 4));
-			SET_FLAG(OF, 0);
-			LazyFlagResultContainer8 = (*(uint8_t*)target);
-			lazyFlagType = t_VALUE8;
+			if (value > 8) { value = 8; }
+			FillFlagsNoCFOF();
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = *(uint8_t*)target;
+			if (LazyFlagVarA8 & 0x80) {
+				LazyFlagResultContainer8 = ((LazyFlagVarA8) >> value) | ((0xFFFFFFFF) << (8 - value));
+			} else {
+				LazyFlagResultContainer8 = (LazyFlagVarA8) >> value;
+			}
+			(*(uint8_t*)target) = LazyFlagResultContainer8;
+			lazyFlagType=t_SAR8;
 		}
 		break;
 		default:
@@ -26154,103 +25959,96 @@ void handlerCommand16Code00D0_PM() {
 		case 0: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
 			uint8_t value = 1;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			FillFlags();
-			uint16_t tmp = 0;
-			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
-			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
-			SET_FLAG(CF, (tmp << (value % 8 + 8 - 1)) & 0x80);
-			tmp = tmp << (value % 8);
-			(*(uint8_t*)target) = (*(uint8_t*)(((uint8_t*)&tmp)));
-			if (value == 1) { SET_FLAG(OF, (((*(uint8_t*)target) & 0x80) ? 1 : 0) ^ CF); }
+			FillFlagsNoCFOF();
+			value = value % 8;
+			uint8_t tmp = ((*(uint8_t*)target) << value) | ((*(uint8_t*)target) >> (8 - value));
+			(*(uint8_t*)target) = tmp;
+			SET_FLAG(CF, (tmp & 1));
+			SET_FLAG(OF, (tmp >> (8 - 1)) ^ CF );
 		}
 		break;
 		case 1: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
 			uint8_t value = 1;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			FillFlags();
-			if (value == 1) { SET_FLAG(OF, (((*(uint8_t*)target) & 0x80) ? 1 : 0) ^ CF); }
-			uint16_t tmp = 0;
-			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
-			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
-			tmp = tmp >> (value % 8 - 1);
-			SET_FLAG(CF, tmp & 1);
-			tmp = tmp >> 1;
-			(*(uint8_t*)target) = (*(uint8_t*)(((uint8_t*)&tmp + 4)));
+			FillFlagsNoCFOF();
+			value = value % 8;
+			uint8_t tmp = ((*(uint8_t*)target) >> value) | ((*(uint8_t*)target) << (8 - value));
+			(*(uint8_t*)target) = tmp;
+			SET_FLAG(CF, (tmp & 0x80));
+			SET_FLAG(OF, (tmp ^ (tmp << 1)) & 0x80);
 		}
 		break;
 		case 2: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
 			uint8_t value = 1;
+			value = (value & 0x1F) % (8 + 1);
 			if (value == 0) { return; }
 			FillFlags();
-			uint16_t tmp = 0;
-			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
-			tmp = tmp >> 1;
-			uint8_t mask = GET_FLAG(CF);
-			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) |= mask;
-			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
-			SET_FLAG(CF, (tmp << (value % (8 + 1) + 8)) & 0x80);
-			tmp = tmp << ((value % (8 + 1)));
-			(*(uint8_t*)target) = *(uint8_t*)((uint8_t*)&tmp);
-			if (value == 1) { SET_FLAG(OF, (((*(uint8_t*)target) & 0x80) ? 1 : 0) ^ CF); }
+			SET_FLAG(CF, (((*(uint8_t*)target) >> (8 - value)) & 0x1) );
+			uint8_t tmp = ((*(uint8_t*)target) << value) | ((uint8_t)CF >> (8 - value + 1)) | ((*(uint8_t*)target) >> (8 - value));
+			(*(uint8_t*)target) = tmp;
+			SET_FLAG(OF, (tmp >> (8 - 1)) ^ CF );
 		}
 		break;
 		case 3: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
 			uint8_t value = 1;
+			value = (value & 0x1F) % (8 + 1);
 			if (value == 0) { return; }
 			FillFlags();
-			if (value == 1) { SET_FLAG(OF, (((*(uint8_t*)target) & 0x80) ? 1 : 0) ^ CF); }
-			uint8_t tmp = 0;
-			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
-			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = GET_FLAG(CF);
-			tmp = tmp << 1;
-			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
-			tmp = tmp >> ((value % (8 + 1)) - 1);
-			SET_FLAG(CF, tmp & 1);
-			tmp = tmp >> 1;
-			(*(uint8_t*)target) = *(uint8_t*)((uint8_t*)&tmp + (8 / 8));
+			uint8_t tmp = *(uint8_t*)target;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = tmp;
+			tmp = (tmp >> value) | ((uint8_t)CF << (8 - value)) | (tmp << (8 - value + 1));
+			(*(uint8_t*)target) = tmp;
+			SET_FLAG(CF, (((LazyFlagVarA8) >> (value - 1)) & 1));
+			SET_FLAG(OF, (tmp ^ (tmp << 1)) & 0x80);
 		}
 		break;
 		case 4: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
 			uint8_t value = 1;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			(*(uint8_t*)target) = (*(uint8_t*)target) << (value - 1);
-			SET_FLAG(CF, (*(uint8_t*)target) & 0x80);
-			(*(uint8_t*)target) = (*(uint8_t*)target) << 1;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = *(uint8_t*)target;
+			(*(uint8_t*)target) = (*(uint8_t*)target) << value;
 			LazyFlagResultContainer8 = (*(uint8_t*)target);
-			if (value == 1) { SET_FLAG(OF, (((*(uint8_t*)target) & 0x80) ? 1 : 0) ^ CF); }
-			lazyFlagType = t_VALUE8;
+			lazyFlagType=t_SHL8;
 		}
 		break;
 		case 5: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
 			uint8_t value = 1;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			if (value == 1) { SET_FLAG(OF, (*(uint8_t*)target) & 0x80) };
-			(*(uint8_t*)target) = (*(uint8_t*)target) >> (value % 8 - 1);
-			SET_FLAG(CF, (*(uint8_t*)target) & 1);
-			(*(uint8_t*)target) = (*(uint8_t*)target) >> 1;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = *(uint8_t*)target;
+			(*(uint8_t*)target) = (*(uint8_t*)target) >> (value);
 			LazyFlagResultContainer8 = (*(uint8_t*)target);
-			lazyFlagType = t_VALUE8;
+			lazyFlagType=t_SHR8;
 		}
 		break;
 		case 7: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
 			uint8_t value = 1;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			uint64_t tmp = ((*(int8_t*)target) < 0) ? 0xFFFFFFFFFFFFFFFF : 0;
-			*(uint8_t*)(((uint8_t*)&tmp) + 4) = (*(uint8_t*)target);
-			tmp = tmp >> (value % 8 - 1);
-			SET_FLAG(CF, tmp & 1);
-			tmp = tmp >> 1;
-			(*(uint8_t*)target) = (*(uint8_t*)(((uint8_t*)&tmp) + 4));
-			SET_FLAG(OF, 0);
-			LazyFlagResultContainer8 = (*(uint8_t*)target);
-			lazyFlagType = t_VALUE8;
+			if (value > 8) { value = 8; }
+			FillFlagsNoCFOF();
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = *(uint8_t*)target;
+			if (LazyFlagVarA8 & 0x80) {
+				LazyFlagResultContainer8 = ((LazyFlagVarA8) >> value) | ((0xFFFFFFFF) << (8 - value));
+			} else {
+				LazyFlagResultContainer8 = (LazyFlagVarA8) >> value;
+			}
+			(*(uint8_t*)target) = LazyFlagResultContainer8;
+			lazyFlagType=t_SAR8;
 		}
 		break;
 		default:
@@ -26266,103 +26064,96 @@ void handlerCommand16Code00D1P66_PM() {
 		case 0: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For32(mrmByte);
 			uint8_t value = 1;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			FillFlags();
-			uint64_t tmp = 0;
-			*(uint32_t*)(((uint8_t*)&tmp)) = (*(uint32_t*)target);
-			*(uint32_t*)(((uint8_t*)&tmp) + (32 / 8)) = (*(uint32_t*)target);
-			SET_FLAG(CF, (tmp << (value % 32 + 32 - 1)) & 0x80000000);
-			tmp = tmp << (value % 32);
-			(*(uint32_t*)target) = (*(uint32_t*)(((uint8_t*)&tmp)));
-			if (value == 1) { SET_FLAG(OF, (((*(uint32_t*)target) & 0x80000000) ? 1 : 0) ^ CF); }
+			FillFlagsNoCFOF();
+			value = value % 32;
+			uint32_t tmp = ((*(uint32_t*)target) << value) | ((*(uint32_t*)target) >> (32 - value));
+			(*(uint32_t*)target) = tmp;
+			SET_FLAG(CF, (tmp & 1));
+			SET_FLAG(OF, (tmp >> (32 - 1)) ^ CF );
 		}
 		break;
 		case 1: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For32(mrmByte);
 			uint8_t value = 1;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			FillFlags();
-			if (value == 1) { SET_FLAG(OF, (((*(uint32_t*)target) & 0x80000000) ? 1 : 0) ^ CF); }
-			uint64_t tmp = 0;
-			*(uint32_t*)(((uint8_t*)&tmp)) = (*(uint32_t*)target);
-			*(uint32_t*)(((uint8_t*)&tmp) + (32 / 8)) = (*(uint32_t*)target);
-			tmp = tmp >> (value % 32 - 1);
-			SET_FLAG(CF, tmp & 1);
-			tmp = tmp >> 1;
-			(*(uint32_t*)target) = (*(uint32_t*)(((uint8_t*)&tmp + 4)));
+			FillFlagsNoCFOF();
+			value = value % 32;
+			uint32_t tmp = ((*(uint32_t*)target) >> value) | ((*(uint32_t*)target) << (32 - value));
+			(*(uint32_t*)target) = tmp;
+			SET_FLAG(CF, (tmp & 0x80000000));
+			SET_FLAG(OF, (tmp ^ (tmp << 1)) & 0x80000000);
 		}
 		break;
 		case 2: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For32(mrmByte);
 			uint8_t value = 1;
+			value = (value & 0x1F) % (32 + 1);
 			if (value == 0) { return; }
 			FillFlags();
-			uint64_t tmp = 0;
-			*(uint32_t*)(((uint8_t*)&tmp) + (32 / 8)) = (*(uint32_t*)target);
-			tmp = tmp >> 1;
-			uint32_t mask = GET_FLAG(CF);
-			*(uint32_t*)(((uint8_t*)&tmp) + (32 / 8)) |= mask;
-			*(uint32_t*)(((uint8_t*)&tmp)) = (*(uint32_t*)target);
-			SET_FLAG(CF, (tmp << (value % (32 + 1) + 32)) & 0x80000000);
-			tmp = tmp << ((value % (32 + 1)));
-			(*(uint32_t*)target) = *(uint32_t*)((uint8_t*)&tmp);
-			if (value == 1) { SET_FLAG(OF, (((*(uint32_t*)target) & 0x80000000) ? 1 : 0) ^ CF); }
+			SET_FLAG(CF, (((*(uint32_t*)target) >> (32 - value)) & 0x1) );
+			uint32_t tmp = ((*(uint32_t*)target) << value) | ((uint32_t)CF >> (32 - value + 1)) | ((*(uint32_t*)target) >> (32 - value));
+			(*(uint32_t*)target) = tmp;
+			SET_FLAG(OF, (tmp >> (32 - 1)) ^ CF );
 		}
 		break;
 		case 3: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For32(mrmByte);
 			uint8_t value = 1;
+			value = (value & 0x1F) % (32 + 1);
 			if (value == 0) { return; }
 			FillFlags();
-			if (value == 1) { SET_FLAG(OF, (((*(uint32_t*)target) & 0x80000000) ? 1 : 0) ^ CF); }
-			uint32_t tmp = 0;
-			*(uint32_t*)(((uint8_t*)&tmp)) = (*(uint32_t*)target);
-			*(uint32_t*)(((uint8_t*)&tmp) + (32 / 8)) = GET_FLAG(CF);
-			tmp = tmp << 1;
-			*(uint32_t*)(((uint8_t*)&tmp) + (32 / 8)) = (*(uint32_t*)target);
-			tmp = tmp >> ((value % (32 + 1)) - 1);
-			SET_FLAG(CF, tmp & 1);
-			tmp = tmp >> 1;
-			(*(uint32_t*)target) = *(uint32_t*)((uint8_t*)&tmp + (32 / 8));
+			uint32_t tmp = *(uint32_t*)target;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA32 = tmp;
+			tmp = (tmp >> value) | ((uint32_t)CF << (32 - value)) | (tmp << (32 - value + 1));
+			(*(uint32_t*)target) = tmp;
+			SET_FLAG(CF, (((LazyFlagVarA32) >> (value - 1)) & 1));
+			SET_FLAG(OF, (tmp ^ (tmp << 1)) & 0x80000000);
 		}
 		break;
 		case 4: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For32(mrmByte);
 			uint8_t value = 1;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			(*(uint32_t*)target) = (*(uint32_t*)target) << (value - 1);
-			SET_FLAG(CF, (*(uint32_t*)target) & 0x80000000);
-			(*(uint32_t*)target) = (*(uint32_t*)target) << 1;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA32 = *(uint32_t*)target;
+			(*(uint32_t*)target) = (*(uint32_t*)target) << value;
 			LazyFlagResultContainer32 = (*(uint32_t*)target);
-			if (value == 1) { SET_FLAG(OF, (((*(uint32_t*)target) & 0x80000000) ? 1 : 0) ^ CF); }
-			lazyFlagType = t_VALUE32;
+			lazyFlagType=t_SHL32;
 		}
 		break;
 		case 5: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For32(mrmByte);
 			uint8_t value = 1;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			if (value == 1) { SET_FLAG(OF, (*(uint32_t*)target) & 0x80000000) };
-			(*(uint32_t*)target) = (*(uint32_t*)target) >> (value % 32 - 1);
-			SET_FLAG(CF, (*(uint32_t*)target) & 1);
-			(*(uint32_t*)target) = (*(uint32_t*)target) >> 1;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA32 = *(uint32_t*)target;
+			(*(uint32_t*)target) = (*(uint32_t*)target) >> (value);
 			LazyFlagResultContainer32 = (*(uint32_t*)target);
-			lazyFlagType = t_VALUE32;
+			lazyFlagType=t_SHR32;
 		}
 		break;
 		case 7: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For32(mrmByte);
 			uint8_t value = 1;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			uint64_t tmp = ((*(int32_t*)target) < 0) ? 0xFFFFFFFFFFFFFFFF : 0;
-			*(uint32_t*)(((uint8_t*)&tmp) + 4) = (*(uint32_t*)target);
-			tmp = tmp >> (value % 32 - 1);
-			SET_FLAG(CF, tmp & 1);
-			tmp = tmp >> 1;
-			(*(uint32_t*)target) = (*(uint32_t*)(((uint8_t*)&tmp) + 4));
-			SET_FLAG(OF, 0);
-			LazyFlagResultContainer32 = (*(uint32_t*)target);
-			lazyFlagType = t_VALUE32;
+			if (value > 32) { value = 32; }
+			FillFlagsNoCFOF();
+			LazyFlagVarB8 = value;
+			LazyFlagVarA32 = *(uint32_t*)target;
+			if (LazyFlagVarA32 & 0x80000000) {
+				LazyFlagResultContainer32 = ((LazyFlagVarA32) >> value) | ((0xFFFFFFFF) << (32 - value));
+			} else {
+				LazyFlagResultContainer32 = (LazyFlagVarA32) >> value;
+			}
+			(*(uint32_t*)target) = LazyFlagResultContainer32;
+			lazyFlagType=t_SAR32;
 		}
 		break;
 		default:
@@ -26378,103 +26169,96 @@ void handlerCommand16Code00D1_PM() {
 		case 0: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
 			uint8_t value = 1;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			FillFlags();
-			uint32_t tmp = 0;
-			*(uint16_t*)(((uint8_t*)&tmp)) = (*(uint16_t*)target);
-			*(uint16_t*)(((uint8_t*)&tmp) + (16 / 8)) = (*(uint16_t*)target);
-			SET_FLAG(CF, (tmp << (value % 16 + 16 - 1)) & 0x8000);
-			tmp = tmp << (value % 16);
-			(*(uint16_t*)target) = (*(uint16_t*)(((uint8_t*)&tmp)));
-			if (value == 1) { SET_FLAG(OF, (((*(uint16_t*)target) & 0x8000) ? 1 : 0) ^ CF); }
+			FillFlagsNoCFOF();
+			value = value % 16;
+			uint16_t tmp = ((*(uint16_t*)target) << value) | ((*(uint16_t*)target) >> (16 - value));
+			(*(uint16_t*)target) = tmp;
+			SET_FLAG(CF, (tmp & 1));
+			SET_FLAG(OF, (tmp >> (16 - 1)) ^ CF );
 		}
 		break;
 		case 1: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
 			uint8_t value = 1;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			FillFlags();
-			if (value == 1) { SET_FLAG(OF, (((*(uint16_t*)target) & 0x8000) ? 1 : 0) ^ CF); }
-			uint32_t tmp = 0;
-			*(uint16_t*)(((uint8_t*)&tmp)) = (*(uint16_t*)target);
-			*(uint16_t*)(((uint8_t*)&tmp) + (16 / 8)) = (*(uint16_t*)target);
-			tmp = tmp >> (value % 16 - 1);
-			SET_FLAG(CF, tmp & 1);
-			tmp = tmp >> 1;
-			(*(uint16_t*)target) = (*(uint16_t*)(((uint8_t*)&tmp + 4)));
+			FillFlagsNoCFOF();
+			value = value % 16;
+			uint16_t tmp = ((*(uint16_t*)target) >> value) | ((*(uint16_t*)target) << (16 - value));
+			(*(uint16_t*)target) = tmp;
+			SET_FLAG(CF, (tmp & 0x8000));
+			SET_FLAG(OF, (tmp ^ (tmp << 1)) & 0x8000);
 		}
 		break;
 		case 2: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
 			uint8_t value = 1;
+			value = (value & 0x1F) % (16 + 1);
 			if (value == 0) { return; }
 			FillFlags();
-			uint32_t tmp = 0;
-			*(uint16_t*)(((uint8_t*)&tmp) + (16 / 8)) = (*(uint16_t*)target);
-			tmp = tmp >> 1;
-			uint16_t mask = GET_FLAG(CF);
-			*(uint16_t*)(((uint8_t*)&tmp) + (16 / 8)) |= mask;
-			*(uint16_t*)(((uint8_t*)&tmp)) = (*(uint16_t*)target);
-			SET_FLAG(CF, (tmp << (value % (16 + 1) + 16)) & 0x8000);
-			tmp = tmp << ((value % (16 + 1)));
-			(*(uint16_t*)target) = *(uint16_t*)((uint8_t*)&tmp);
-			if (value == 1) { SET_FLAG(OF, (((*(uint16_t*)target) & 0x8000) ? 1 : 0) ^ CF); }
+			SET_FLAG(CF, (((*(uint16_t*)target) >> (16 - value)) & 0x1) );
+			uint16_t tmp = ((*(uint16_t*)target) << value) | ((uint16_t)CF >> (16 - value + 1)) | ((*(uint16_t*)target) >> (16 - value));
+			(*(uint16_t*)target) = tmp;
+			SET_FLAG(OF, (tmp >> (16 - 1)) ^ CF );
 		}
 		break;
 		case 3: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
 			uint8_t value = 1;
+			value = (value & 0x1F) % (16 + 1);
 			if (value == 0) { return; }
 			FillFlags();
-			if (value == 1) { SET_FLAG(OF, (((*(uint16_t*)target) & 0x8000) ? 1 : 0) ^ CF); }
-			uint16_t tmp = 0;
-			*(uint16_t*)(((uint8_t*)&tmp)) = (*(uint16_t*)target);
-			*(uint16_t*)(((uint8_t*)&tmp) + (16 / 8)) = GET_FLAG(CF);
-			tmp = tmp << 1;
-			*(uint16_t*)(((uint8_t*)&tmp) + (16 / 8)) = (*(uint16_t*)target);
-			tmp = tmp >> ((value % (16 + 1)) - 1);
-			SET_FLAG(CF, tmp & 1);
-			tmp = tmp >> 1;
-			(*(uint16_t*)target) = *(uint16_t*)((uint8_t*)&tmp + (16 / 8));
+			uint16_t tmp = *(uint16_t*)target;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA16 = tmp;
+			tmp = (tmp >> value) | ((uint16_t)CF << (16 - value)) | (tmp << (16 - value + 1));
+			(*(uint16_t*)target) = tmp;
+			SET_FLAG(CF, (((LazyFlagVarA16) >> (value - 1)) & 1));
+			SET_FLAG(OF, (tmp ^ (tmp << 1)) & 0x8000);
 		}
 		break;
 		case 4: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
 			uint8_t value = 1;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			(*(uint16_t*)target) = (*(uint16_t*)target) << (value - 1);
-			SET_FLAG(CF, (*(uint16_t*)target) & 0x8000);
-			(*(uint16_t*)target) = (*(uint16_t*)target) << 1;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA16 = *(uint16_t*)target;
+			(*(uint16_t*)target) = (*(uint16_t*)target) << value;
 			LazyFlagResultContainer16 = (*(uint16_t*)target);
-			if (value == 1) { SET_FLAG(OF, (((*(uint16_t*)target) & 0x8000) ? 1 : 0) ^ CF); }
-			lazyFlagType = t_VALUE16;
+			lazyFlagType=t_SHL16;
 		}
 		break;
 		case 5: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
 			uint8_t value = 1;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			if (value == 1) { SET_FLAG(OF, (*(uint16_t*)target) & 0x8000) };
-			(*(uint16_t*)target) = (*(uint16_t*)target) >> (value % 16 - 1);
-			SET_FLAG(CF, (*(uint16_t*)target) & 1);
-			(*(uint16_t*)target) = (*(uint16_t*)target) >> 1;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA16 = *(uint16_t*)target;
+			(*(uint16_t*)target) = (*(uint16_t*)target) >> (value);
 			LazyFlagResultContainer16 = (*(uint16_t*)target);
-			lazyFlagType = t_VALUE16;
+			lazyFlagType=t_SHR16;
 		}
 		break;
 		case 7: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
 			uint8_t value = 1;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			uint64_t tmp = ((*(int16_t*)target) < 0) ? 0xFFFFFFFFFFFFFFFF : 0;
-			*(uint16_t*)(((uint8_t*)&tmp) + 4) = (*(uint16_t*)target);
-			tmp = tmp >> (value % 16 - 1);
-			SET_FLAG(CF, tmp & 1);
-			tmp = tmp >> 1;
-			(*(uint16_t*)target) = (*(uint16_t*)(((uint8_t*)&tmp) + 4));
-			SET_FLAG(OF, 0);
-			LazyFlagResultContainer16 = (*(uint16_t*)target);
-			lazyFlagType = t_VALUE16;
+			if (value > 16) { value = 16; }
+			FillFlagsNoCFOF();
+			LazyFlagVarB8 = value;
+			LazyFlagVarA16 = *(uint16_t*)target;
+			if (LazyFlagVarA16 & 0x8000) {
+				LazyFlagResultContainer16 = ((LazyFlagVarA16) >> value) | ((0xFFFFFFFF) << (16 - value));
+			} else {
+				LazyFlagResultContainer16 = (LazyFlagVarA16) >> value;
+			}
+			(*(uint16_t*)target) = LazyFlagResultContainer16;
+			lazyFlagType=t_SAR16;
 		}
 		break;
 		default:
@@ -26489,104 +26273,97 @@ void handlerCommand16Code00D2P66_PM() {
 	switch (nnn) {
 		case 0: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
-			uint8_t value = reg_CL_8u & 0x1F;
+			uint8_t value = reg_CL_8u;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			FillFlags();
-			uint16_t tmp = 0;
-			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
-			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
-			SET_FLAG(CF, (tmp << (value % 8 + 8 - 1)) & 0x80);
-			tmp = tmp << (value % 8);
-			(*(uint8_t*)target) = (*(uint8_t*)(((uint8_t*)&tmp)));
-			if (value == 1) { SET_FLAG(OF, (((*(uint8_t*)target) & 0x80) ? 1 : 0) ^ CF); }
+			FillFlagsNoCFOF();
+			value = value % 8;
+			uint8_t tmp = ((*(uint8_t*)target) << value) | ((*(uint8_t*)target) >> (8 - value));
+			(*(uint8_t*)target) = tmp;
+			SET_FLAG(CF, (tmp & 1));
+			SET_FLAG(OF, (tmp >> (8 - 1)) ^ CF );
 		}
 		break;
 		case 1: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
-			uint8_t value = reg_CL_8u & 0x1F;
+			uint8_t value = reg_CL_8u;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			FillFlags();
-			if (value == 1) { SET_FLAG(OF, (((*(uint8_t*)target) & 0x80) ? 1 : 0) ^ CF); }
-			uint16_t tmp = 0;
-			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
-			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
-			tmp = tmp >> (value % 8 - 1);
-			SET_FLAG(CF, tmp & 1);
-			tmp = tmp >> 1;
-			(*(uint8_t*)target) = (*(uint8_t*)(((uint8_t*)&tmp + 4)));
+			FillFlagsNoCFOF();
+			value = value % 8;
+			uint8_t tmp = ((*(uint8_t*)target) >> value) | ((*(uint8_t*)target) << (8 - value));
+			(*(uint8_t*)target) = tmp;
+			SET_FLAG(CF, (tmp & 0x80));
+			SET_FLAG(OF, (tmp ^ (tmp << 1)) & 0x80);
 		}
 		break;
 		case 2: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
-			uint8_t value = reg_CL_8u & 0x1F;
+			uint8_t value = reg_CL_8u;
+			value = (value & 0x1F) % (8 + 1);
 			if (value == 0) { return; }
 			FillFlags();
-			uint16_t tmp = 0;
-			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
-			tmp = tmp >> 1;
-			uint8_t mask = GET_FLAG(CF);
-			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) |= mask;
-			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
-			SET_FLAG(CF, (tmp << (value % (8 + 1) + 8)) & 0x80);
-			tmp = tmp << ((value % (8 + 1)));
-			(*(uint8_t*)target) = *(uint8_t*)((uint8_t*)&tmp);
-			if (value == 1) { SET_FLAG(OF, (((*(uint8_t*)target) & 0x80) ? 1 : 0) ^ CF); }
+			SET_FLAG(CF, (((*(uint8_t*)target) >> (8 - value)) & 0x1) );
+			uint8_t tmp = ((*(uint8_t*)target) << value) | ((uint8_t)CF >> (8 - value + 1)) | ((*(uint8_t*)target) >> (8 - value));
+			(*(uint8_t*)target) = tmp;
+			SET_FLAG(OF, (tmp >> (8 - 1)) ^ CF );
 		}
 		break;
 		case 3: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
-			uint8_t value = reg_CL_8u & 0x1F;
+			uint8_t value = reg_CL_8u;
+			value = (value & 0x1F) % (8 + 1);
 			if (value == 0) { return; }
 			FillFlags();
-			if (value == 1) { SET_FLAG(OF, (((*(uint8_t*)target) & 0x80) ? 1 : 0) ^ CF); }
-			uint8_t tmp = 0;
-			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
-			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = GET_FLAG(CF);
-			tmp = tmp << 1;
-			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
-			tmp = tmp >> ((value % (8 + 1)) - 1);
-			SET_FLAG(CF, tmp & 1);
-			tmp = tmp >> 1;
-			(*(uint8_t*)target) = *(uint8_t*)((uint8_t*)&tmp + (8 / 8));
+			uint8_t tmp = *(uint8_t*)target;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = tmp;
+			tmp = (tmp >> value) | ((uint8_t)CF << (8 - value)) | (tmp << (8 - value + 1));
+			(*(uint8_t*)target) = tmp;
+			SET_FLAG(CF, (((LazyFlagVarA8) >> (value - 1)) & 1));
+			SET_FLAG(OF, (tmp ^ (tmp << 1)) & 0x80);
 		}
 		break;
 		case 4: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
-			uint8_t value = reg_CL_8u & 0x1F;
+			uint8_t value = reg_CL_8u;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			(*(uint8_t*)target) = (*(uint8_t*)target) << (value - 1);
-			SET_FLAG(CF, (*(uint8_t*)target) & 0x80);
-			(*(uint8_t*)target) = (*(uint8_t*)target) << 1;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = *(uint8_t*)target;
+			(*(uint8_t*)target) = (*(uint8_t*)target) << value;
 			LazyFlagResultContainer8 = (*(uint8_t*)target);
-			if (value == 1) { SET_FLAG(OF, (((*(uint8_t*)target) & 0x80) ? 1 : 0) ^ CF); }
-			lazyFlagType = t_VALUE8;
+			lazyFlagType=t_SHL8;
 		}
 		break;
 		case 5: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
-			uint8_t value = reg_CL_8u & 0x1F;
+			uint8_t value = reg_CL_8u;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			if (value == 1) { SET_FLAG(OF, (*(uint8_t*)target) & 0x80) };
-			(*(uint8_t*)target) = (*(uint8_t*)target) >> (value % 8 - 1);
-			SET_FLAG(CF, (*(uint8_t*)target) & 1);
-			(*(uint8_t*)target) = (*(uint8_t*)target) >> 1;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = *(uint8_t*)target;
+			(*(uint8_t*)target) = (*(uint8_t*)target) >> (value);
 			LazyFlagResultContainer8 = (*(uint8_t*)target);
-			lazyFlagType = t_VALUE8;
+			lazyFlagType=t_SHR8;
 		}
 		break;
 		case 7: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
-			uint8_t value = reg_CL_8u & 0x1F;
+			uint8_t value = reg_CL_8u;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			uint64_t tmp = ((*(int8_t*)target) < 0) ? 0xFFFFFFFFFFFFFFFF : 0;
-			*(uint8_t*)(((uint8_t*)&tmp) + 4) = (*(uint8_t*)target);
-			tmp = tmp >> (value % 8 - 1);
-			SET_FLAG(CF, tmp & 1);
-			tmp = tmp >> 1;
-			(*(uint8_t*)target) = (*(uint8_t*)(((uint8_t*)&tmp) + 4));
-			SET_FLAG(OF, 0);
-			LazyFlagResultContainer8 = (*(uint8_t*)target);
-			lazyFlagType = t_VALUE8;
+			if (value > 8) { value = 8; }
+			FillFlagsNoCFOF();
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = *(uint8_t*)target;
+			if (LazyFlagVarA8 & 0x80) {
+				LazyFlagResultContainer8 = ((LazyFlagVarA8) >> value) | ((0xFFFFFFFF) << (8 - value));
+			} else {
+				LazyFlagResultContainer8 = (LazyFlagVarA8) >> value;
+			}
+			(*(uint8_t*)target) = LazyFlagResultContainer8;
+			lazyFlagType=t_SAR8;
 		}
 		break;
 		default:
@@ -26601,104 +26378,97 @@ void handlerCommand16Code00D2_PM() {
 	switch (nnn) {
 		case 0: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
-			uint8_t value = reg_CL_8u & 0x1F;
+			uint8_t value = reg_CL_8u;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			FillFlags();
-			uint16_t tmp = 0;
-			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
-			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
-			SET_FLAG(CF, (tmp << (value % 8 + 8 - 1)) & 0x80);
-			tmp = tmp << (value % 8);
-			(*(uint8_t*)target) = (*(uint8_t*)(((uint8_t*)&tmp)));
-			if (value == 1) { SET_FLAG(OF, (((*(uint8_t*)target) & 0x80) ? 1 : 0) ^ CF); }
+			FillFlagsNoCFOF();
+			value = value % 8;
+			uint8_t tmp = ((*(uint8_t*)target) << value) | ((*(uint8_t*)target) >> (8 - value));
+			(*(uint8_t*)target) = tmp;
+			SET_FLAG(CF, (tmp & 1));
+			SET_FLAG(OF, (tmp >> (8 - 1)) ^ CF );
 		}
 		break;
 		case 1: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
-			uint8_t value = reg_CL_8u & 0x1F;
+			uint8_t value = reg_CL_8u;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			FillFlags();
-			if (value == 1) { SET_FLAG(OF, (((*(uint8_t*)target) & 0x80) ? 1 : 0) ^ CF); }
-			uint16_t tmp = 0;
-			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
-			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
-			tmp = tmp >> (value % 8 - 1);
-			SET_FLAG(CF, tmp & 1);
-			tmp = tmp >> 1;
-			(*(uint8_t*)target) = (*(uint8_t*)(((uint8_t*)&tmp + 4)));
+			FillFlagsNoCFOF();
+			value = value % 8;
+			uint8_t tmp = ((*(uint8_t*)target) >> value) | ((*(uint8_t*)target) << (8 - value));
+			(*(uint8_t*)target) = tmp;
+			SET_FLAG(CF, (tmp & 0x80));
+			SET_FLAG(OF, (tmp ^ (tmp << 1)) & 0x80);
 		}
 		break;
 		case 2: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
-			uint8_t value = reg_CL_8u & 0x1F;
+			uint8_t value = reg_CL_8u;
+			value = (value & 0x1F) % (8 + 1);
 			if (value == 0) { return; }
 			FillFlags();
-			uint16_t tmp = 0;
-			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
-			tmp = tmp >> 1;
-			uint8_t mask = GET_FLAG(CF);
-			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) |= mask;
-			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
-			SET_FLAG(CF, (tmp << (value % (8 + 1) + 8)) & 0x80);
-			tmp = tmp << ((value % (8 + 1)));
-			(*(uint8_t*)target) = *(uint8_t*)((uint8_t*)&tmp);
-			if (value == 1) { SET_FLAG(OF, (((*(uint8_t*)target) & 0x80) ? 1 : 0) ^ CF); }
+			SET_FLAG(CF, (((*(uint8_t*)target) >> (8 - value)) & 0x1) );
+			uint8_t tmp = ((*(uint8_t*)target) << value) | ((uint8_t)CF >> (8 - value + 1)) | ((*(uint8_t*)target) >> (8 - value));
+			(*(uint8_t*)target) = tmp;
+			SET_FLAG(OF, (tmp >> (8 - 1)) ^ CF );
 		}
 		break;
 		case 3: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
-			uint8_t value = reg_CL_8u & 0x1F;
+			uint8_t value = reg_CL_8u;
+			value = (value & 0x1F) % (8 + 1);
 			if (value == 0) { return; }
 			FillFlags();
-			if (value == 1) { SET_FLAG(OF, (((*(uint8_t*)target) & 0x80) ? 1 : 0) ^ CF); }
-			uint8_t tmp = 0;
-			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
-			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = GET_FLAG(CF);
-			tmp = tmp << 1;
-			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
-			tmp = tmp >> ((value % (8 + 1)) - 1);
-			SET_FLAG(CF, tmp & 1);
-			tmp = tmp >> 1;
-			(*(uint8_t*)target) = *(uint8_t*)((uint8_t*)&tmp + (8 / 8));
+			uint8_t tmp = *(uint8_t*)target;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = tmp;
+			tmp = (tmp >> value) | ((uint8_t)CF << (8 - value)) | (tmp << (8 - value + 1));
+			(*(uint8_t*)target) = tmp;
+			SET_FLAG(CF, (((LazyFlagVarA8) >> (value - 1)) & 1));
+			SET_FLAG(OF, (tmp ^ (tmp << 1)) & 0x80);
 		}
 		break;
 		case 4: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
-			uint8_t value = reg_CL_8u & 0x1F;
+			uint8_t value = reg_CL_8u;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			(*(uint8_t*)target) = (*(uint8_t*)target) << (value - 1);
-			SET_FLAG(CF, (*(uint8_t*)target) & 0x80);
-			(*(uint8_t*)target) = (*(uint8_t*)target) << 1;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = *(uint8_t*)target;
+			(*(uint8_t*)target) = (*(uint8_t*)target) << value;
 			LazyFlagResultContainer8 = (*(uint8_t*)target);
-			if (value == 1) { SET_FLAG(OF, (((*(uint8_t*)target) & 0x80) ? 1 : 0) ^ CF); }
-			lazyFlagType = t_VALUE8;
+			lazyFlagType=t_SHL8;
 		}
 		break;
 		case 5: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
-			uint8_t value = reg_CL_8u & 0x1F;
+			uint8_t value = reg_CL_8u;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			if (value == 1) { SET_FLAG(OF, (*(uint8_t*)target) & 0x80) };
-			(*(uint8_t*)target) = (*(uint8_t*)target) >> (value % 8 - 1);
-			SET_FLAG(CF, (*(uint8_t*)target) & 1);
-			(*(uint8_t*)target) = (*(uint8_t*)target) >> 1;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = *(uint8_t*)target;
+			(*(uint8_t*)target) = (*(uint8_t*)target) >> (value);
 			LazyFlagResultContainer8 = (*(uint8_t*)target);
-			lazyFlagType = t_VALUE8;
+			lazyFlagType=t_SHR8;
 		}
 		break;
 		case 7: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
-			uint8_t value = reg_CL_8u & 0x1F;
+			uint8_t value = reg_CL_8u;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			uint64_t tmp = ((*(int8_t*)target) < 0) ? 0xFFFFFFFFFFFFFFFF : 0;
-			*(uint8_t*)(((uint8_t*)&tmp) + 4) = (*(uint8_t*)target);
-			tmp = tmp >> (value % 8 - 1);
-			SET_FLAG(CF, tmp & 1);
-			tmp = tmp >> 1;
-			(*(uint8_t*)target) = (*(uint8_t*)(((uint8_t*)&tmp) + 4));
-			SET_FLAG(OF, 0);
-			LazyFlagResultContainer8 = (*(uint8_t*)target);
-			lazyFlagType = t_VALUE8;
+			if (value > 8) { value = 8; }
+			FillFlagsNoCFOF();
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = *(uint8_t*)target;
+			if (LazyFlagVarA8 & 0x80) {
+				LazyFlagResultContainer8 = ((LazyFlagVarA8) >> value) | ((0xFFFFFFFF) << (8 - value));
+			} else {
+				LazyFlagResultContainer8 = (LazyFlagVarA8) >> value;
+			}
+			(*(uint8_t*)target) = LazyFlagResultContainer8;
+			lazyFlagType=t_SAR8;
 		}
 		break;
 		default:
@@ -26713,104 +26483,97 @@ void handlerCommand16Code00D3P66_PM() {
 	switch (nnn) {
 		case 0: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For32(mrmByte);
-			uint8_t value = reg_CL_8u & 0x1F;
+			uint8_t value = reg_CL_8u;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			FillFlags();
-			uint64_t tmp = 0;
-			*(uint32_t*)(((uint8_t*)&tmp)) = (*(uint32_t*)target);
-			*(uint32_t*)(((uint8_t*)&tmp) + (32 / 8)) = (*(uint32_t*)target);
-			SET_FLAG(CF, (tmp << (value % 32 + 32 - 1)) & 0x80000000);
-			tmp = tmp << (value % 32);
-			(*(uint32_t*)target) = (*(uint32_t*)(((uint8_t*)&tmp)));
-			if (value == 1) { SET_FLAG(OF, (((*(uint32_t*)target) & 0x80000000) ? 1 : 0) ^ CF); }
+			FillFlagsNoCFOF();
+			value = value % 32;
+			uint32_t tmp = ((*(uint32_t*)target) << value) | ((*(uint32_t*)target) >> (32 - value));
+			(*(uint32_t*)target) = tmp;
+			SET_FLAG(CF, (tmp & 1));
+			SET_FLAG(OF, (tmp >> (32 - 1)) ^ CF );
 		}
 		break;
 		case 1: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For32(mrmByte);
-			uint8_t value = reg_CL_8u & 0x1F;
+			uint8_t value = reg_CL_8u;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			FillFlags();
-			if (value == 1) { SET_FLAG(OF, (((*(uint32_t*)target) & 0x80000000) ? 1 : 0) ^ CF); }
-			uint64_t tmp = 0;
-			*(uint32_t*)(((uint8_t*)&tmp)) = (*(uint32_t*)target);
-			*(uint32_t*)(((uint8_t*)&tmp) + (32 / 8)) = (*(uint32_t*)target);
-			tmp = tmp >> (value % 32 - 1);
-			SET_FLAG(CF, tmp & 1);
-			tmp = tmp >> 1;
-			(*(uint32_t*)target) = (*(uint32_t*)(((uint8_t*)&tmp + 4)));
+			FillFlagsNoCFOF();
+			value = value % 32;
+			uint32_t tmp = ((*(uint32_t*)target) >> value) | ((*(uint32_t*)target) << (32 - value));
+			(*(uint32_t*)target) = tmp;
+			SET_FLAG(CF, (tmp & 0x80000000));
+			SET_FLAG(OF, (tmp ^ (tmp << 1)) & 0x80000000);
 		}
 		break;
 		case 2: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For32(mrmByte);
-			uint8_t value = reg_CL_8u & 0x1F;
+			uint8_t value = reg_CL_8u;
+			value = (value & 0x1F) % (32 + 1);
 			if (value == 0) { return; }
 			FillFlags();
-			uint64_t tmp = 0;
-			*(uint32_t*)(((uint8_t*)&tmp) + (32 / 8)) = (*(uint32_t*)target);
-			tmp = tmp >> 1;
-			uint32_t mask = GET_FLAG(CF);
-			*(uint32_t*)(((uint8_t*)&tmp) + (32 / 8)) |= mask;
-			*(uint32_t*)(((uint8_t*)&tmp)) = (*(uint32_t*)target);
-			SET_FLAG(CF, (tmp << (value % (32 + 1) + 32)) & 0x80000000);
-			tmp = tmp << ((value % (32 + 1)));
-			(*(uint32_t*)target) = *(uint32_t*)((uint8_t*)&tmp);
-			if (value == 1) { SET_FLAG(OF, (((*(uint32_t*)target) & 0x80000000) ? 1 : 0) ^ CF); }
+			SET_FLAG(CF, (((*(uint32_t*)target) >> (32 - value)) & 0x1) );
+			uint32_t tmp = ((*(uint32_t*)target) << value) | ((uint32_t)CF >> (32 - value + 1)) | ((*(uint32_t*)target) >> (32 - value));
+			(*(uint32_t*)target) = tmp;
+			SET_FLAG(OF, (tmp >> (32 - 1)) ^ CF );
 		}
 		break;
 		case 3: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For32(mrmByte);
-			uint8_t value = reg_CL_8u & 0x1F;
+			uint8_t value = reg_CL_8u;
+			value = (value & 0x1F) % (32 + 1);
 			if (value == 0) { return; }
 			FillFlags();
-			if (value == 1) { SET_FLAG(OF, (((*(uint32_t*)target) & 0x80000000) ? 1 : 0) ^ CF); }
-			uint32_t tmp = 0;
-			*(uint32_t*)(((uint8_t*)&tmp)) = (*(uint32_t*)target);
-			*(uint32_t*)(((uint8_t*)&tmp) + (32 / 8)) = GET_FLAG(CF);
-			tmp = tmp << 1;
-			*(uint32_t*)(((uint8_t*)&tmp) + (32 / 8)) = (*(uint32_t*)target);
-			tmp = tmp >> ((value % (32 + 1)) - 1);
-			SET_FLAG(CF, tmp & 1);
-			tmp = tmp >> 1;
-			(*(uint32_t*)target) = *(uint32_t*)((uint8_t*)&tmp + (32 / 8));
+			uint32_t tmp = *(uint32_t*)target;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA32 = tmp;
+			tmp = (tmp >> value) | ((uint32_t)CF << (32 - value)) | (tmp << (32 - value + 1));
+			(*(uint32_t*)target) = tmp;
+			SET_FLAG(CF, (((LazyFlagVarA32) >> (value - 1)) & 1));
+			SET_FLAG(OF, (tmp ^ (tmp << 1)) & 0x80000000);
 		}
 		break;
 		case 4: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For32(mrmByte);
-			uint8_t value = reg_CL_8u & 0x1F;
+			uint8_t value = reg_CL_8u;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			(*(uint32_t*)target) = (*(uint32_t*)target) << (value - 1);
-			SET_FLAG(CF, (*(uint32_t*)target) & 0x80000000);
-			(*(uint32_t*)target) = (*(uint32_t*)target) << 1;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA32 = *(uint32_t*)target;
+			(*(uint32_t*)target) = (*(uint32_t*)target) << value;
 			LazyFlagResultContainer32 = (*(uint32_t*)target);
-			if (value == 1) { SET_FLAG(OF, (((*(uint32_t*)target) & 0x80000000) ? 1 : 0) ^ CF); }
-			lazyFlagType = t_VALUE32;
+			lazyFlagType=t_SHL32;
 		}
 		break;
 		case 5: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For32(mrmByte);
-			uint8_t value = reg_CL_8u & 0x1F;
+			uint8_t value = reg_CL_8u;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			if (value == 1) { SET_FLAG(OF, (*(uint32_t*)target) & 0x80000000) };
-			(*(uint32_t*)target) = (*(uint32_t*)target) >> (value % 32 - 1);
-			SET_FLAG(CF, (*(uint32_t*)target) & 1);
-			(*(uint32_t*)target) = (*(uint32_t*)target) >> 1;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA32 = *(uint32_t*)target;
+			(*(uint32_t*)target) = (*(uint32_t*)target) >> (value);
 			LazyFlagResultContainer32 = (*(uint32_t*)target);
-			lazyFlagType = t_VALUE32;
+			lazyFlagType=t_SHR32;
 		}
 		break;
 		case 7: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For32(mrmByte);
-			uint8_t value = reg_CL_8u & 0x1F;
+			uint8_t value = reg_CL_8u;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			uint64_t tmp = ((*(int32_t*)target) < 0) ? 0xFFFFFFFFFFFFFFFF : 0;
-			*(uint32_t*)(((uint8_t*)&tmp) + 4) = (*(uint32_t*)target);
-			tmp = tmp >> (value % 32 - 1);
-			SET_FLAG(CF, tmp & 1);
-			tmp = tmp >> 1;
-			(*(uint32_t*)target) = (*(uint32_t*)(((uint8_t*)&tmp) + 4));
-			SET_FLAG(OF, 0);
-			LazyFlagResultContainer32 = (*(uint32_t*)target);
-			lazyFlagType = t_VALUE32;
+			if (value > 32) { value = 32; }
+			FillFlagsNoCFOF();
+			LazyFlagVarB8 = value;
+			LazyFlagVarA32 = *(uint32_t*)target;
+			if (LazyFlagVarA32 & 0x80000000) {
+				LazyFlagResultContainer32 = ((LazyFlagVarA32) >> value) | ((0xFFFFFFFF) << (32 - value));
+			} else {
+				LazyFlagResultContainer32 = (LazyFlagVarA32) >> value;
+			}
+			(*(uint32_t*)target) = LazyFlagResultContainer32;
+			lazyFlagType=t_SAR32;
 		}
 		break;
 		default:
@@ -26825,104 +26588,97 @@ void handlerCommand16Code00D3_PM() {
 	switch (nnn) {
 		case 0: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
-			uint8_t value = reg_CL_8u & 0x1F;
+			uint8_t value = reg_CL_8u;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			FillFlags();
-			uint32_t tmp = 0;
-			*(uint16_t*)(((uint8_t*)&tmp)) = (*(uint16_t*)target);
-			*(uint16_t*)(((uint8_t*)&tmp) + (16 / 8)) = (*(uint16_t*)target);
-			SET_FLAG(CF, (tmp << (value % 16 + 16 - 1)) & 0x8000);
-			tmp = tmp << (value % 16);
-			(*(uint16_t*)target) = (*(uint16_t*)(((uint8_t*)&tmp)));
-			if (value == 1) { SET_FLAG(OF, (((*(uint16_t*)target) & 0x8000) ? 1 : 0) ^ CF); }
+			FillFlagsNoCFOF();
+			value = value % 16;
+			uint16_t tmp = ((*(uint16_t*)target) << value) | ((*(uint16_t*)target) >> (16 - value));
+			(*(uint16_t*)target) = tmp;
+			SET_FLAG(CF, (tmp & 1));
+			SET_FLAG(OF, (tmp >> (16 - 1)) ^ CF );
 		}
 		break;
 		case 1: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
-			uint8_t value = reg_CL_8u & 0x1F;
+			uint8_t value = reg_CL_8u;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			FillFlags();
-			if (value == 1) { SET_FLAG(OF, (((*(uint16_t*)target) & 0x8000) ? 1 : 0) ^ CF); }
-			uint32_t tmp = 0;
-			*(uint16_t*)(((uint8_t*)&tmp)) = (*(uint16_t*)target);
-			*(uint16_t*)(((uint8_t*)&tmp) + (16 / 8)) = (*(uint16_t*)target);
-			tmp = tmp >> (value % 16 - 1);
-			SET_FLAG(CF, tmp & 1);
-			tmp = tmp >> 1;
-			(*(uint16_t*)target) = (*(uint16_t*)(((uint8_t*)&tmp + 4)));
+			FillFlagsNoCFOF();
+			value = value % 16;
+			uint16_t tmp = ((*(uint16_t*)target) >> value) | ((*(uint16_t*)target) << (16 - value));
+			(*(uint16_t*)target) = tmp;
+			SET_FLAG(CF, (tmp & 0x8000));
+			SET_FLAG(OF, (tmp ^ (tmp << 1)) & 0x8000);
 		}
 		break;
 		case 2: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
-			uint8_t value = reg_CL_8u & 0x1F;
+			uint8_t value = reg_CL_8u;
+			value = (value & 0x1F) % (16 + 1);
 			if (value == 0) { return; }
 			FillFlags();
-			uint32_t tmp = 0;
-			*(uint16_t*)(((uint8_t*)&tmp) + (16 / 8)) = (*(uint16_t*)target);
-			tmp = tmp >> 1;
-			uint16_t mask = GET_FLAG(CF);
-			*(uint16_t*)(((uint8_t*)&tmp) + (16 / 8)) |= mask;
-			*(uint16_t*)(((uint8_t*)&tmp)) = (*(uint16_t*)target);
-			SET_FLAG(CF, (tmp << (value % (16 + 1) + 16)) & 0x8000);
-			tmp = tmp << ((value % (16 + 1)));
-			(*(uint16_t*)target) = *(uint16_t*)((uint8_t*)&tmp);
-			if (value == 1) { SET_FLAG(OF, (((*(uint16_t*)target) & 0x8000) ? 1 : 0) ^ CF); }
+			SET_FLAG(CF, (((*(uint16_t*)target) >> (16 - value)) & 0x1) );
+			uint16_t tmp = ((*(uint16_t*)target) << value) | ((uint16_t)CF >> (16 - value + 1)) | ((*(uint16_t*)target) >> (16 - value));
+			(*(uint16_t*)target) = tmp;
+			SET_FLAG(OF, (tmp >> (16 - 1)) ^ CF );
 		}
 		break;
 		case 3: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
-			uint8_t value = reg_CL_8u & 0x1F;
+			uint8_t value = reg_CL_8u;
+			value = (value & 0x1F) % (16 + 1);
 			if (value == 0) { return; }
 			FillFlags();
-			if (value == 1) { SET_FLAG(OF, (((*(uint16_t*)target) & 0x8000) ? 1 : 0) ^ CF); }
-			uint16_t tmp = 0;
-			*(uint16_t*)(((uint8_t*)&tmp)) = (*(uint16_t*)target);
-			*(uint16_t*)(((uint8_t*)&tmp) + (16 / 8)) = GET_FLAG(CF);
-			tmp = tmp << 1;
-			*(uint16_t*)(((uint8_t*)&tmp) + (16 / 8)) = (*(uint16_t*)target);
-			tmp = tmp >> ((value % (16 + 1)) - 1);
-			SET_FLAG(CF, tmp & 1);
-			tmp = tmp >> 1;
-			(*(uint16_t*)target) = *(uint16_t*)((uint8_t*)&tmp + (16 / 8));
+			uint16_t tmp = *(uint16_t*)target;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA16 = tmp;
+			tmp = (tmp >> value) | ((uint16_t)CF << (16 - value)) | (tmp << (16 - value + 1));
+			(*(uint16_t*)target) = tmp;
+			SET_FLAG(CF, (((LazyFlagVarA16) >> (value - 1)) & 1));
+			SET_FLAG(OF, (tmp ^ (tmp << 1)) & 0x8000);
 		}
 		break;
 		case 4: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
-			uint8_t value = reg_CL_8u & 0x1F;
+			uint8_t value = reg_CL_8u;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			(*(uint16_t*)target) = (*(uint16_t*)target) << (value - 1);
-			SET_FLAG(CF, (*(uint16_t*)target) & 0x8000);
-			(*(uint16_t*)target) = (*(uint16_t*)target) << 1;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA16 = *(uint16_t*)target;
+			(*(uint16_t*)target) = (*(uint16_t*)target) << value;
 			LazyFlagResultContainer16 = (*(uint16_t*)target);
-			if (value == 1) { SET_FLAG(OF, (((*(uint16_t*)target) & 0x8000) ? 1 : 0) ^ CF); }
-			lazyFlagType = t_VALUE16;
+			lazyFlagType=t_SHL16;
 		}
 		break;
 		case 5: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
-			uint8_t value = reg_CL_8u & 0x1F;
+			uint8_t value = reg_CL_8u;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			if (value == 1) { SET_FLAG(OF, (*(uint16_t*)target) & 0x8000) };
-			(*(uint16_t*)target) = (*(uint16_t*)target) >> (value % 16 - 1);
-			SET_FLAG(CF, (*(uint16_t*)target) & 1);
-			(*(uint16_t*)target) = (*(uint16_t*)target) >> 1;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA16 = *(uint16_t*)target;
+			(*(uint16_t*)target) = (*(uint16_t*)target) >> (value);
 			LazyFlagResultContainer16 = (*(uint16_t*)target);
-			lazyFlagType = t_VALUE16;
+			lazyFlagType=t_SHR16;
 		}
 		break;
 		case 7: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
-			uint8_t value = reg_CL_8u & 0x1F;
+			uint8_t value = reg_CL_8u;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			uint64_t tmp = ((*(int16_t*)target) < 0) ? 0xFFFFFFFFFFFFFFFF : 0;
-			*(uint16_t*)(((uint8_t*)&tmp) + 4) = (*(uint16_t*)target);
-			tmp = tmp >> (value % 16 - 1);
-			SET_FLAG(CF, tmp & 1);
-			tmp = tmp >> 1;
-			(*(uint16_t*)target) = (*(uint16_t*)(((uint8_t*)&tmp) + 4));
-			SET_FLAG(OF, 0);
-			LazyFlagResultContainer16 = (*(uint16_t*)target);
-			lazyFlagType = t_VALUE16;
+			if (value > 16) { value = 16; }
+			FillFlagsNoCFOF();
+			LazyFlagVarB8 = value;
+			LazyFlagVarA16 = *(uint16_t*)target;
+			if (LazyFlagVarA16 & 0x8000) {
+				LazyFlagResultContainer16 = ((LazyFlagVarA16) >> value) | ((0xFFFFFFFF) << (16 - value));
+			} else {
+				LazyFlagResultContainer16 = (LazyFlagVarA16) >> value;
+			}
+			(*(uint16_t*)target) = LazyFlagResultContainer16;
+			lazyFlagType=t_SAR16;
 		}
 		break;
 		default:
@@ -28150,8 +27906,9 @@ void handlerCommand16Code00F6P66_PM() {
 			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
 			reg_AX_16u=((uint16_t)reg_AL_8u)*((uint16_t)(*(uint8_t*)target));
 			FillFlagsNoCFOF();
-			SET_FLAG(ZF,reg_AL_8 == 0);
-			SET_FLAG(PF,PARITY16(reg_AX_16));
+			SET_FLAG(ZF,reg_AL_8u == 0);
+			SET_FLAG(SF,reg_AL_8u & 0x80);
+			SET_FLAG(PF,PARITY8(reg_AL_8u));
 			if (reg_AX_16 & 0xff00) {
 				SET_FLAG(CF,1);SET_FLAG(OF,1);
 			} else {
@@ -28238,8 +27995,9 @@ void handlerCommand16Code00F6_PM() {
 			uint8_t* target = (uint8_t*)readAddressMRM16For8(mrmByte);
 			reg_AX_16u=((uint16_t)reg_AL_8u)*((uint16_t)(*(uint8_t*)target));
 			FillFlagsNoCFOF();
-			SET_FLAG(ZF,reg_AL_8 == 0);
-			SET_FLAG(PF,PARITY16(reg_AX_16));
+			SET_FLAG(ZF,reg_AL_8u == 0);
+			SET_FLAG(SF,reg_AL_8u & 0x80);
+			SET_FLAG(PF,PARITY8(reg_AL_8u));
 			if (reg_AX_16 & 0xff00) {
 				SET_FLAG(CF,1);SET_FLAG(OF,1);
 			} else {
@@ -28325,11 +28083,12 @@ void handlerCommand16Code00F7P66_PM() {
 		case 0x04: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For32(mrmByte);
 			uint64_t tempu=((uint64_t)reg_AX_32u)*((uint64_t)(*(uint32_t*)(target)));
-			reg_AX_32=(uint32_t)(tempu);
-			reg_DX_32=(uint32_t)(tempu >> 32);
+			reg_AX_32u=(uint32_t)(tempu);
+			reg_DX_32u=(uint32_t)(tempu >> 32);
 			FillFlagsNoCFOF();
-			SET_FLAG(ZF,reg_AX_32 == 0);
-			SET_FLAG(PF,PARITY32(reg_AX_32)^PARITY32(reg_DX_32));
+			SET_FLAG(SF,reg_AX_32u & 0x80000000);
+			SET_FLAG(ZF,reg_AX_32u == 0);
+			SET_FLAG(PF,!(PARITY32(reg_AX_32) ^ PARITY32(reg_DX_32)));
 			if (reg_DX_32) {
 				SET_FLAG(CF,1);SET_FLAG(OF,1);
 			} else {
@@ -28421,11 +28180,12 @@ void handlerCommand16Code00F7_PM() {
 		case 0x04: {
 			uint8_t* target = (uint8_t*)readAddressMRM16For16(mrmByte);
 			uint32_t tempu=((uint32_t)reg_AX_16u)*(uint32_t)(*(uint16_t*)(target));
-			reg_AX_16=(uint16_t)(tempu);
-			reg_DX_16=(uint16_t)(tempu >> 16);
+			reg_AX_16u=(uint16_t)(tempu);
+			reg_DX_16u=(uint16_t)(tempu >> 16);
 			FillFlagsNoCFOF();
+			SET_FLAG(SF,reg_AX_16 & 0x8000);
 			SET_FLAG(ZF,reg_AX_16 == 0);
-			SET_FLAG(PF,PARITY16(reg_AX_16)^PARITY16(reg_DX_16));
+			SET_FLAG(PF,!(PARITY16(reg_AX_16u) ^ PARITY16(reg_DX_16u)));
 			if (reg_DX_16) {
 				SET_FLAG(CF,1);SET_FLAG(OF,1);
 			} else {
@@ -35406,104 +35166,97 @@ void handlerCommand32Code00C0P66_PM() {
 	switch (nnn) {
 		case 0: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
-			uint8_t value = read8u() & 0x1F;
+			uint8_t value = read8u();
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			FillFlags();
-			uint16_t tmp = 0;
-			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
-			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
-			SET_FLAG(CF, (tmp << (value % 8 + 8 - 1)) & 0x80);
-			tmp = tmp << (value % 8);
-			(*(uint8_t*)target) = (*(uint8_t*)(((uint8_t*)&tmp)));
-			if (value == 1) { SET_FLAG(OF, (((*(uint8_t*)target) & 0x80) ? 1 : 0) ^ CF); }
+			FillFlagsNoCFOF();
+			value = value % 8;
+			uint8_t tmp = ((*(uint8_t*)target) << value) | ((*(uint8_t*)target) >> (8 - value));
+			(*(uint8_t*)target) = tmp;
+			SET_FLAG(CF, (tmp & 1));
+			SET_FLAG(OF, (tmp >> (8 - 1)) ^ CF );
 		}
 		break;
 		case 1: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
-			uint8_t value = read8u() & 0x1F;
+			uint8_t value = read8u();
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			FillFlags();
-			if (value == 1) { SET_FLAG(OF, (((*(uint8_t*)target) & 0x80) ? 1 : 0) ^ CF); }
-			uint16_t tmp = 0;
-			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
-			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
-			tmp = tmp >> (value % 8 - 1);
-			SET_FLAG(CF, tmp & 1);
-			tmp = tmp >> 1;
-			(*(uint8_t*)target) = (*(uint8_t*)(((uint8_t*)&tmp + 4)));
+			FillFlagsNoCFOF();
+			value = value % 8;
+			uint8_t tmp = ((*(uint8_t*)target) >> value) | ((*(uint8_t*)target) << (8 - value));
+			(*(uint8_t*)target) = tmp;
+			SET_FLAG(CF, (tmp & 0x80));
+			SET_FLAG(OF, (tmp ^ (tmp << 1)) & 0x80);
 		}
 		break;
 		case 2: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
-			uint8_t value = read8u() & 0x1F;
+			uint8_t value = read8u();
+			value = (value & 0x1F) % (8 + 1);
 			if (value == 0) { return; }
 			FillFlags();
-			uint16_t tmp = 0;
-			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
-			tmp = tmp >> 1;
-			uint8_t mask = GET_FLAG(CF);
-			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) |= mask;
-			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
-			SET_FLAG(CF, (tmp << (value % (8 + 1) + 8)) & 0x80);
-			tmp = tmp << ((value % (8 + 1)));
-			(*(uint8_t*)target) = *(uint8_t*)((uint8_t*)&tmp);
-			if (value == 1) { SET_FLAG(OF, (((*(uint8_t*)target) & 0x80) ? 1 : 0) ^ CF); }
+			SET_FLAG(CF, (((*(uint8_t*)target) >> (8 - value)) & 0x1) );
+			uint8_t tmp = ((*(uint8_t*)target) << value) | ((uint8_t)CF >> (8 - value + 1)) | ((*(uint8_t*)target) >> (8 - value));
+			(*(uint8_t*)target) = tmp;
+			SET_FLAG(OF, (tmp >> (8 - 1)) ^ CF );
 		}
 		break;
 		case 3: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
-			uint8_t value = read8u() & 0x1F;
+			uint8_t value = read8u();
+			value = (value & 0x1F) % (8 + 1);
 			if (value == 0) { return; }
 			FillFlags();
-			if (value == 1) { SET_FLAG(OF, (((*(uint8_t*)target) & 0x80) ? 1 : 0) ^ CF); }
-			uint8_t tmp = 0;
-			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
-			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = GET_FLAG(CF);
-			tmp = tmp << 1;
-			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
-			tmp = tmp >> ((value % (8 + 1)) - 1);
-			SET_FLAG(CF, tmp & 1);
-			tmp = tmp >> 1;
-			(*(uint8_t*)target) = *(uint8_t*)((uint8_t*)&tmp + (8 / 8));
+			uint8_t tmp = *(uint8_t*)target;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = tmp;
+			tmp = (tmp >> value) | ((uint8_t)CF << (8 - value)) | (tmp << (8 - value + 1));
+			(*(uint8_t*)target) = tmp;
+			SET_FLAG(CF, (((LazyFlagVarA8) >> (value - 1)) & 1));
+			SET_FLAG(OF, (tmp ^ (tmp << 1)) & 0x80);
 		}
 		break;
 		case 4: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
-			uint8_t value = read8u() & 0x1F;
+			uint8_t value = read8u();
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			(*(uint8_t*)target) = (*(uint8_t*)target) << (value - 1);
-			SET_FLAG(CF, (*(uint8_t*)target) & 0x80);
-			(*(uint8_t*)target) = (*(uint8_t*)target) << 1;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = *(uint8_t*)target;
+			(*(uint8_t*)target) = (*(uint8_t*)target) << value;
 			LazyFlagResultContainer8 = (*(uint8_t*)target);
-			if (value == 1) { SET_FLAG(OF, (((*(uint8_t*)target) & 0x80) ? 1 : 0) ^ CF); }
-			lazyFlagType = t_VALUE8;
+			lazyFlagType=t_SHL8;
 		}
 		break;
 		case 5: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
-			uint8_t value = read8u() & 0x1F;
+			uint8_t value = read8u();
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			if (value == 1) { SET_FLAG(OF, (*(uint8_t*)target) & 0x80) };
-			(*(uint8_t*)target) = (*(uint8_t*)target) >> (value % 8 - 1);
-			SET_FLAG(CF, (*(uint8_t*)target) & 1);
-			(*(uint8_t*)target) = (*(uint8_t*)target) >> 1;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = *(uint8_t*)target;
+			(*(uint8_t*)target) = (*(uint8_t*)target) >> (value);
 			LazyFlagResultContainer8 = (*(uint8_t*)target);
-			lazyFlagType = t_VALUE8;
+			lazyFlagType=t_SHR8;
 		}
 		break;
 		case 7: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
-			uint8_t value = read8u() & 0x1F;
+			uint8_t value = read8u();
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			uint64_t tmp = ((*(int8_t*)target) < 0) ? 0xFFFFFFFFFFFFFFFF : 0;
-			*(uint8_t*)(((uint8_t*)&tmp) + 4) = (*(uint8_t*)target);
-			tmp = tmp >> (value % 8 - 1);
-			SET_FLAG(CF, tmp & 1);
-			tmp = tmp >> 1;
-			(*(uint8_t*)target) = (*(uint8_t*)(((uint8_t*)&tmp) + 4));
-			SET_FLAG(OF, 0);
-			LazyFlagResultContainer8 = (*(uint8_t*)target);
-			lazyFlagType = t_VALUE8;
+			if (value > 8) { value = 8; }
+			FillFlagsNoCFOF();
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = *(uint8_t*)target;
+			if (LazyFlagVarA8 & 0x80) {
+				LazyFlagResultContainer8 = ((LazyFlagVarA8) >> value) | ((0xFFFFFFFF) << (8 - value));
+			} else {
+				LazyFlagResultContainer8 = (LazyFlagVarA8) >> value;
+			}
+			(*(uint8_t*)target) = LazyFlagResultContainer8;
+			lazyFlagType=t_SAR8;
 		}
 		break;
 		default:
@@ -35518,104 +35271,97 @@ void handlerCommand32Code00C0_PM() {
 	switch (nnn) {
 		case 0: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
-			uint8_t value = read8u() & 0x1F;
+			uint8_t value = read8u();
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			FillFlags();
-			uint16_t tmp = 0;
-			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
-			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
-			SET_FLAG(CF, (tmp << (value % 8 + 8 - 1)) & 0x80);
-			tmp = tmp << (value % 8);
-			(*(uint8_t*)target) = (*(uint8_t*)(((uint8_t*)&tmp)));
-			if (value == 1) { SET_FLAG(OF, (((*(uint8_t*)target) & 0x80) ? 1 : 0) ^ CF); }
+			FillFlagsNoCFOF();
+			value = value % 8;
+			uint8_t tmp = ((*(uint8_t*)target) << value) | ((*(uint8_t*)target) >> (8 - value));
+			(*(uint8_t*)target) = tmp;
+			SET_FLAG(CF, (tmp & 1));
+			SET_FLAG(OF, (tmp >> (8 - 1)) ^ CF );
 		}
 		break;
 		case 1: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
-			uint8_t value = read8u() & 0x1F;
+			uint8_t value = read8u();
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			FillFlags();
-			if (value == 1) { SET_FLAG(OF, (((*(uint8_t*)target) & 0x80) ? 1 : 0) ^ CF); }
-			uint16_t tmp = 0;
-			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
-			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
-			tmp = tmp >> (value % 8 - 1);
-			SET_FLAG(CF, tmp & 1);
-			tmp = tmp >> 1;
-			(*(uint8_t*)target) = (*(uint8_t*)(((uint8_t*)&tmp + 4)));
+			FillFlagsNoCFOF();
+			value = value % 8;
+			uint8_t tmp = ((*(uint8_t*)target) >> value) | ((*(uint8_t*)target) << (8 - value));
+			(*(uint8_t*)target) = tmp;
+			SET_FLAG(CF, (tmp & 0x80));
+			SET_FLAG(OF, (tmp ^ (tmp << 1)) & 0x80);
 		}
 		break;
 		case 2: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
-			uint8_t value = read8u() & 0x1F;
+			uint8_t value = read8u();
+			value = (value & 0x1F) % (8 + 1);
 			if (value == 0) { return; }
 			FillFlags();
-			uint16_t tmp = 0;
-			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
-			tmp = tmp >> 1;
-			uint8_t mask = GET_FLAG(CF);
-			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) |= mask;
-			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
-			SET_FLAG(CF, (tmp << (value % (8 + 1) + 8)) & 0x80);
-			tmp = tmp << ((value % (8 + 1)));
-			(*(uint8_t*)target) = *(uint8_t*)((uint8_t*)&tmp);
-			if (value == 1) { SET_FLAG(OF, (((*(uint8_t*)target) & 0x80) ? 1 : 0) ^ CF); }
+			SET_FLAG(CF, (((*(uint8_t*)target) >> (8 - value)) & 0x1) );
+			uint8_t tmp = ((*(uint8_t*)target) << value) | ((uint8_t)CF >> (8 - value + 1)) | ((*(uint8_t*)target) >> (8 - value));
+			(*(uint8_t*)target) = tmp;
+			SET_FLAG(OF, (tmp >> (8 - 1)) ^ CF );
 		}
 		break;
 		case 3: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
-			uint8_t value = read8u() & 0x1F;
+			uint8_t value = read8u();
+			value = (value & 0x1F) % (8 + 1);
 			if (value == 0) { return; }
 			FillFlags();
-			if (value == 1) { SET_FLAG(OF, (((*(uint8_t*)target) & 0x80) ? 1 : 0) ^ CF); }
-			uint8_t tmp = 0;
-			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
-			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = GET_FLAG(CF);
-			tmp = tmp << 1;
-			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
-			tmp = tmp >> ((value % (8 + 1)) - 1);
-			SET_FLAG(CF, tmp & 1);
-			tmp = tmp >> 1;
-			(*(uint8_t*)target) = *(uint8_t*)((uint8_t*)&tmp + (8 / 8));
+			uint8_t tmp = *(uint8_t*)target;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = tmp;
+			tmp = (tmp >> value) | ((uint8_t)CF << (8 - value)) | (tmp << (8 - value + 1));
+			(*(uint8_t*)target) = tmp;
+			SET_FLAG(CF, (((LazyFlagVarA8) >> (value - 1)) & 1));
+			SET_FLAG(OF, (tmp ^ (tmp << 1)) & 0x80);
 		}
 		break;
 		case 4: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
-			uint8_t value = read8u() & 0x1F;
+			uint8_t value = read8u();
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			(*(uint8_t*)target) = (*(uint8_t*)target) << (value - 1);
-			SET_FLAG(CF, (*(uint8_t*)target) & 0x80);
-			(*(uint8_t*)target) = (*(uint8_t*)target) << 1;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = *(uint8_t*)target;
+			(*(uint8_t*)target) = (*(uint8_t*)target) << value;
 			LazyFlagResultContainer8 = (*(uint8_t*)target);
-			if (value == 1) { SET_FLAG(OF, (((*(uint8_t*)target) & 0x80) ? 1 : 0) ^ CF); }
-			lazyFlagType = t_VALUE8;
+			lazyFlagType=t_SHL8;
 		}
 		break;
 		case 5: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
-			uint8_t value = read8u() & 0x1F;
+			uint8_t value = read8u();
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			if (value == 1) { SET_FLAG(OF, (*(uint8_t*)target) & 0x80) };
-			(*(uint8_t*)target) = (*(uint8_t*)target) >> (value % 8 - 1);
-			SET_FLAG(CF, (*(uint8_t*)target) & 1);
-			(*(uint8_t*)target) = (*(uint8_t*)target) >> 1;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = *(uint8_t*)target;
+			(*(uint8_t*)target) = (*(uint8_t*)target) >> (value);
 			LazyFlagResultContainer8 = (*(uint8_t*)target);
-			lazyFlagType = t_VALUE8;
+			lazyFlagType=t_SHR8;
 		}
 		break;
 		case 7: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
-			uint8_t value = read8u() & 0x1F;
+			uint8_t value = read8u();
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			uint64_t tmp = ((*(int8_t*)target) < 0) ? 0xFFFFFFFFFFFFFFFF : 0;
-			*(uint8_t*)(((uint8_t*)&tmp) + 4) = (*(uint8_t*)target);
-			tmp = tmp >> (value % 8 - 1);
-			SET_FLAG(CF, tmp & 1);
-			tmp = tmp >> 1;
-			(*(uint8_t*)target) = (*(uint8_t*)(((uint8_t*)&tmp) + 4));
-			SET_FLAG(OF, 0);
-			LazyFlagResultContainer8 = (*(uint8_t*)target);
-			lazyFlagType = t_VALUE8;
+			if (value > 8) { value = 8; }
+			FillFlagsNoCFOF();
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = *(uint8_t*)target;
+			if (LazyFlagVarA8 & 0x80) {
+				LazyFlagResultContainer8 = ((LazyFlagVarA8) >> value) | ((0xFFFFFFFF) << (8 - value));
+			} else {
+				LazyFlagResultContainer8 = (LazyFlagVarA8) >> value;
+			}
+			(*(uint8_t*)target) = LazyFlagResultContainer8;
+			lazyFlagType=t_SAR8;
 		}
 		break;
 		default:
@@ -35630,104 +35376,97 @@ void handlerCommand32Code00C1P66_PM() {
 	switch (nnn) {
 		case 0: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For16(mrmByte);
-			uint8_t value = read8u() & 0x1F;
+			uint8_t value = read8u();
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			FillFlags();
-			uint32_t tmp = 0;
-			*(uint16_t*)(((uint8_t*)&tmp)) = (*(uint16_t*)target);
-			*(uint16_t*)(((uint8_t*)&tmp) + (16 / 8)) = (*(uint16_t*)target);
-			SET_FLAG(CF, (tmp << (value % 16 + 16 - 1)) & 0x8000);
-			tmp = tmp << (value % 16);
-			(*(uint16_t*)target) = (*(uint16_t*)(((uint8_t*)&tmp)));
-			if (value == 1) { SET_FLAG(OF, (((*(uint16_t*)target) & 0x8000) ? 1 : 0) ^ CF); }
+			FillFlagsNoCFOF();
+			value = value % 16;
+			uint16_t tmp = ((*(uint16_t*)target) << value) | ((*(uint16_t*)target) >> (16 - value));
+			(*(uint16_t*)target) = tmp;
+			SET_FLAG(CF, (tmp & 1));
+			SET_FLAG(OF, (tmp >> (16 - 1)) ^ CF );
 		}
 		break;
 		case 1: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For16(mrmByte);
-			uint8_t value = read8u() & 0x1F;
+			uint8_t value = read8u();
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			FillFlags();
-			if (value == 1) { SET_FLAG(OF, (((*(uint16_t*)target) & 0x8000) ? 1 : 0) ^ CF); }
-			uint32_t tmp = 0;
-			*(uint16_t*)(((uint8_t*)&tmp)) = (*(uint16_t*)target);
-			*(uint16_t*)(((uint8_t*)&tmp) + (16 / 8)) = (*(uint16_t*)target);
-			tmp = tmp >> (value % 16 - 1);
-			SET_FLAG(CF, tmp & 1);
-			tmp = tmp >> 1;
-			(*(uint16_t*)target) = (*(uint16_t*)(((uint8_t*)&tmp + 4)));
+			FillFlagsNoCFOF();
+			value = value % 16;
+			uint16_t tmp = ((*(uint16_t*)target) >> value) | ((*(uint16_t*)target) << (16 - value));
+			(*(uint16_t*)target) = tmp;
+			SET_FLAG(CF, (tmp & 0x8000));
+			SET_FLAG(OF, (tmp ^ (tmp << 1)) & 0x8000);
 		}
 		break;
 		case 2: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For16(mrmByte);
-			uint8_t value = read8u() & 0x1F;
+			uint8_t value = read8u();
+			value = (value & 0x1F) % (16 + 1);
 			if (value == 0) { return; }
 			FillFlags();
-			uint32_t tmp = 0;
-			*(uint16_t*)(((uint8_t*)&tmp) + (16 / 8)) = (*(uint16_t*)target);
-			tmp = tmp >> 1;
-			uint16_t mask = GET_FLAG(CF);
-			*(uint16_t*)(((uint8_t*)&tmp) + (16 / 8)) |= mask;
-			*(uint16_t*)(((uint8_t*)&tmp)) = (*(uint16_t*)target);
-			SET_FLAG(CF, (tmp << (value % (16 + 1) + 16)) & 0x8000);
-			tmp = tmp << ((value % (16 + 1)));
-			(*(uint16_t*)target) = *(uint16_t*)((uint8_t*)&tmp);
-			if (value == 1) { SET_FLAG(OF, (((*(uint16_t*)target) & 0x8000) ? 1 : 0) ^ CF); }
+			SET_FLAG(CF, (((*(uint16_t*)target) >> (16 - value)) & 0x1) );
+			uint16_t tmp = ((*(uint16_t*)target) << value) | ((uint16_t)CF >> (16 - value + 1)) | ((*(uint16_t*)target) >> (16 - value));
+			(*(uint16_t*)target) = tmp;
+			SET_FLAG(OF, (tmp >> (16 - 1)) ^ CF );
 		}
 		break;
 		case 3: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For16(mrmByte);
-			uint8_t value = read8u() & 0x1F;
+			uint8_t value = read8u();
+			value = (value & 0x1F) % (16 + 1);
 			if (value == 0) { return; }
 			FillFlags();
-			if (value == 1) { SET_FLAG(OF, (((*(uint16_t*)target) & 0x8000) ? 1 : 0) ^ CF); }
-			uint16_t tmp = 0;
-			*(uint16_t*)(((uint8_t*)&tmp)) = (*(uint16_t*)target);
-			*(uint16_t*)(((uint8_t*)&tmp) + (16 / 8)) = GET_FLAG(CF);
-			tmp = tmp << 1;
-			*(uint16_t*)(((uint8_t*)&tmp) + (16 / 8)) = (*(uint16_t*)target);
-			tmp = tmp >> ((value % (16 + 1)) - 1);
-			SET_FLAG(CF, tmp & 1);
-			tmp = tmp >> 1;
-			(*(uint16_t*)target) = *(uint16_t*)((uint8_t*)&tmp + (16 / 8));
+			uint16_t tmp = *(uint16_t*)target;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA16 = tmp;
+			tmp = (tmp >> value) | ((uint16_t)CF << (16 - value)) | (tmp << (16 - value + 1));
+			(*(uint16_t*)target) = tmp;
+			SET_FLAG(CF, (((LazyFlagVarA16) >> (value - 1)) & 1));
+			SET_FLAG(OF, (tmp ^ (tmp << 1)) & 0x8000);
 		}
 		break;
 		case 4: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For16(mrmByte);
-			uint8_t value = read8u() & 0x1F;
+			uint8_t value = read8u();
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			(*(uint16_t*)target) = (*(uint16_t*)target) << (value - 1);
-			SET_FLAG(CF, (*(uint16_t*)target) & 0x8000);
-			(*(uint16_t*)target) = (*(uint16_t*)target) << 1;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA16 = *(uint16_t*)target;
+			(*(uint16_t*)target) = (*(uint16_t*)target) << value;
 			LazyFlagResultContainer16 = (*(uint16_t*)target);
-			if (value == 1) { SET_FLAG(OF, (((*(uint16_t*)target) & 0x8000) ? 1 : 0) ^ CF); }
-			lazyFlagType = t_VALUE16;
+			lazyFlagType=t_SHL16;
 		}
 		break;
 		case 5: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For16(mrmByte);
-			uint8_t value = read8u() & 0x1F;
+			uint8_t value = read8u();
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			if (value == 1) { SET_FLAG(OF, (*(uint16_t*)target) & 0x8000) };
-			(*(uint16_t*)target) = (*(uint16_t*)target) >> (value % 16 - 1);
-			SET_FLAG(CF, (*(uint16_t*)target) & 1);
-			(*(uint16_t*)target) = (*(uint16_t*)target) >> 1;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA16 = *(uint16_t*)target;
+			(*(uint16_t*)target) = (*(uint16_t*)target) >> (value);
 			LazyFlagResultContainer16 = (*(uint16_t*)target);
-			lazyFlagType = t_VALUE16;
+			lazyFlagType=t_SHR16;
 		}
 		break;
 		case 7: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For16(mrmByte);
-			uint8_t value = read8u() & 0x1F;
+			uint8_t value = read8u();
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			uint64_t tmp = ((*(int16_t*)target) < 0) ? 0xFFFFFFFFFFFFFFFF : 0;
-			*(uint16_t*)(((uint8_t*)&tmp) + 4) = (*(uint16_t*)target);
-			tmp = tmp >> (value % 16 - 1);
-			SET_FLAG(CF, tmp & 1);
-			tmp = tmp >> 1;
-			(*(uint16_t*)target) = (*(uint16_t*)(((uint8_t*)&tmp) + 4));
-			SET_FLAG(OF, 0);
-			LazyFlagResultContainer16 = (*(uint16_t*)target);
-			lazyFlagType = t_VALUE16;
+			if (value > 16) { value = 16; }
+			FillFlagsNoCFOF();
+			LazyFlagVarB8 = value;
+			LazyFlagVarA16 = *(uint16_t*)target;
+			if (LazyFlagVarA16 & 0x8000) {
+				LazyFlagResultContainer16 = ((LazyFlagVarA16) >> value) | ((0xFFFFFFFF) << (16 - value));
+			} else {
+				LazyFlagResultContainer16 = (LazyFlagVarA16) >> value;
+			}
+			(*(uint16_t*)target) = LazyFlagResultContainer16;
+			lazyFlagType=t_SAR16;
 		}
 		break;
 		default:
@@ -35742,104 +35481,97 @@ void handlerCommand32Code00C1_PM() {
 	switch (nnn) {
 		case 0: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
-			uint8_t value = read8u() & 0x1F;
+			uint8_t value = read8u();
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			FillFlags();
-			uint64_t tmp = 0;
-			*(uint32_t*)(((uint8_t*)&tmp)) = (*(uint32_t*)target);
-			*(uint32_t*)(((uint8_t*)&tmp) + (32 / 8)) = (*(uint32_t*)target);
-			SET_FLAG(CF, (tmp << (value % 32 + 32 - 1)) & 0x80000000);
-			tmp = tmp << (value % 32);
-			(*(uint32_t*)target) = (*(uint32_t*)(((uint8_t*)&tmp)));
-			if (value == 1) { SET_FLAG(OF, (((*(uint32_t*)target) & 0x80000000) ? 1 : 0) ^ CF); }
+			FillFlagsNoCFOF();
+			value = value % 32;
+			uint32_t tmp = ((*(uint32_t*)target) << value) | ((*(uint32_t*)target) >> (32 - value));
+			(*(uint32_t*)target) = tmp;
+			SET_FLAG(CF, (tmp & 1));
+			SET_FLAG(OF, (tmp >> (32 - 1)) ^ CF );
 		}
 		break;
 		case 1: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
-			uint8_t value = read8u() & 0x1F;
+			uint8_t value = read8u();
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			FillFlags();
-			if (value == 1) { SET_FLAG(OF, (((*(uint32_t*)target) & 0x80000000) ? 1 : 0) ^ CF); }
-			uint64_t tmp = 0;
-			*(uint32_t*)(((uint8_t*)&tmp)) = (*(uint32_t*)target);
-			*(uint32_t*)(((uint8_t*)&tmp) + (32 / 8)) = (*(uint32_t*)target);
-			tmp = tmp >> (value % 32 - 1);
-			SET_FLAG(CF, tmp & 1);
-			tmp = tmp >> 1;
-			(*(uint32_t*)target) = (*(uint32_t*)(((uint8_t*)&tmp + 4)));
+			FillFlagsNoCFOF();
+			value = value % 32;
+			uint32_t tmp = ((*(uint32_t*)target) >> value) | ((*(uint32_t*)target) << (32 - value));
+			(*(uint32_t*)target) = tmp;
+			SET_FLAG(CF, (tmp & 0x80000000));
+			SET_FLAG(OF, (tmp ^ (tmp << 1)) & 0x80000000);
 		}
 		break;
 		case 2: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
-			uint8_t value = read8u() & 0x1F;
+			uint8_t value = read8u();
+			value = (value & 0x1F) % (32 + 1);
 			if (value == 0) { return; }
 			FillFlags();
-			uint64_t tmp = 0;
-			*(uint32_t*)(((uint8_t*)&tmp) + (32 / 8)) = (*(uint32_t*)target);
-			tmp = tmp >> 1;
-			uint32_t mask = GET_FLAG(CF);
-			*(uint32_t*)(((uint8_t*)&tmp) + (32 / 8)) |= mask;
-			*(uint32_t*)(((uint8_t*)&tmp)) = (*(uint32_t*)target);
-			SET_FLAG(CF, (tmp << (value % (32 + 1) + 32)) & 0x80000000);
-			tmp = tmp << ((value % (32 + 1)));
-			(*(uint32_t*)target) = *(uint32_t*)((uint8_t*)&tmp);
-			if (value == 1) { SET_FLAG(OF, (((*(uint32_t*)target) & 0x80000000) ? 1 : 0) ^ CF); }
+			SET_FLAG(CF, (((*(uint32_t*)target) >> (32 - value)) & 0x1) );
+			uint32_t tmp = ((*(uint32_t*)target) << value) | ((uint32_t)CF >> (32 - value + 1)) | ((*(uint32_t*)target) >> (32 - value));
+			(*(uint32_t*)target) = tmp;
+			SET_FLAG(OF, (tmp >> (32 - 1)) ^ CF );
 		}
 		break;
 		case 3: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
-			uint8_t value = read8u() & 0x1F;
+			uint8_t value = read8u();
+			value = (value & 0x1F) % (32 + 1);
 			if (value == 0) { return; }
 			FillFlags();
-			if (value == 1) { SET_FLAG(OF, (((*(uint32_t*)target) & 0x80000000) ? 1 : 0) ^ CF); }
-			uint32_t tmp = 0;
-			*(uint32_t*)(((uint8_t*)&tmp)) = (*(uint32_t*)target);
-			*(uint32_t*)(((uint8_t*)&tmp) + (32 / 8)) = GET_FLAG(CF);
-			tmp = tmp << 1;
-			*(uint32_t*)(((uint8_t*)&tmp) + (32 / 8)) = (*(uint32_t*)target);
-			tmp = tmp >> ((value % (32 + 1)) - 1);
-			SET_FLAG(CF, tmp & 1);
-			tmp = tmp >> 1;
-			(*(uint32_t*)target) = *(uint32_t*)((uint8_t*)&tmp + (32 / 8));
+			uint32_t tmp = *(uint32_t*)target;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA32 = tmp;
+			tmp = (tmp >> value) | ((uint32_t)CF << (32 - value)) | (tmp << (32 - value + 1));
+			(*(uint32_t*)target) = tmp;
+			SET_FLAG(CF, (((LazyFlagVarA32) >> (value - 1)) & 1));
+			SET_FLAG(OF, (tmp ^ (tmp << 1)) & 0x80000000);
 		}
 		break;
 		case 4: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
-			uint8_t value = read8u() & 0x1F;
+			uint8_t value = read8u();
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			(*(uint32_t*)target) = (*(uint32_t*)target) << (value - 1);
-			SET_FLAG(CF, (*(uint32_t*)target) & 0x80000000);
-			(*(uint32_t*)target) = (*(uint32_t*)target) << 1;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA32 = *(uint32_t*)target;
+			(*(uint32_t*)target) = (*(uint32_t*)target) << value;
 			LazyFlagResultContainer32 = (*(uint32_t*)target);
-			if (value == 1) { SET_FLAG(OF, (((*(uint32_t*)target) & 0x80000000) ? 1 : 0) ^ CF); }
-			lazyFlagType = t_VALUE32;
+			lazyFlagType=t_SHL32;
 		}
 		break;
 		case 5: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
-			uint8_t value = read8u() & 0x1F;
+			uint8_t value = read8u();
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			if (value == 1) { SET_FLAG(OF, (*(uint32_t*)target) & 0x80000000) };
-			(*(uint32_t*)target) = (*(uint32_t*)target) >> (value % 32 - 1);
-			SET_FLAG(CF, (*(uint32_t*)target) & 1);
-			(*(uint32_t*)target) = (*(uint32_t*)target) >> 1;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA32 = *(uint32_t*)target;
+			(*(uint32_t*)target) = (*(uint32_t*)target) >> (value);
 			LazyFlagResultContainer32 = (*(uint32_t*)target);
-			lazyFlagType = t_VALUE32;
+			lazyFlagType=t_SHR32;
 		}
 		break;
 		case 7: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
-			uint8_t value = read8u() & 0x1F;
+			uint8_t value = read8u();
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			uint64_t tmp = ((*(int32_t*)target) < 0) ? 0xFFFFFFFFFFFFFFFF : 0;
-			*(uint32_t*)(((uint8_t*)&tmp) + 4) = (*(uint32_t*)target);
-			tmp = tmp >> (value % 32 - 1);
-			SET_FLAG(CF, tmp & 1);
-			tmp = tmp >> 1;
-			(*(uint32_t*)target) = (*(uint32_t*)(((uint8_t*)&tmp) + 4));
-			SET_FLAG(OF, 0);
-			LazyFlagResultContainer32 = (*(uint32_t*)target);
-			lazyFlagType = t_VALUE32;
+			if (value > 32) { value = 32; }
+			FillFlagsNoCFOF();
+			LazyFlagVarB8 = value;
+			LazyFlagVarA32 = *(uint32_t*)target;
+			if (LazyFlagVarA32 & 0x80000000) {
+				LazyFlagResultContainer32 = ((LazyFlagVarA32) >> value) | ((0xFFFFFFFF) << (32 - value));
+			} else {
+				LazyFlagResultContainer32 = (LazyFlagVarA32) >> value;
+			}
+			(*(uint32_t*)target) = LazyFlagResultContainer32;
+			lazyFlagType=t_SAR32;
 		}
 		break;
 		default:
@@ -36058,103 +35790,96 @@ void handlerCommand32Code00D0P66_PM() {
 		case 0: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
 			uint8_t value = 1;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			FillFlags();
-			uint16_t tmp = 0;
-			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
-			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
-			SET_FLAG(CF, (tmp << (value % 8 + 8 - 1)) & 0x80);
-			tmp = tmp << (value % 8);
-			(*(uint8_t*)target) = (*(uint8_t*)(((uint8_t*)&tmp)));
-			if (value == 1) { SET_FLAG(OF, (((*(uint8_t*)target) & 0x80) ? 1 : 0) ^ CF); }
+			FillFlagsNoCFOF();
+			value = value % 8;
+			uint8_t tmp = ((*(uint8_t*)target) << value) | ((*(uint8_t*)target) >> (8 - value));
+			(*(uint8_t*)target) = tmp;
+			SET_FLAG(CF, (tmp & 1));
+			SET_FLAG(OF, (tmp >> (8 - 1)) ^ CF );
 		}
 		break;
 		case 1: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
 			uint8_t value = 1;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			FillFlags();
-			if (value == 1) { SET_FLAG(OF, (((*(uint8_t*)target) & 0x80) ? 1 : 0) ^ CF); }
-			uint16_t tmp = 0;
-			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
-			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
-			tmp = tmp >> (value % 8 - 1);
-			SET_FLAG(CF, tmp & 1);
-			tmp = tmp >> 1;
-			(*(uint8_t*)target) = (*(uint8_t*)(((uint8_t*)&tmp + 4)));
+			FillFlagsNoCFOF();
+			value = value % 8;
+			uint8_t tmp = ((*(uint8_t*)target) >> value) | ((*(uint8_t*)target) << (8 - value));
+			(*(uint8_t*)target) = tmp;
+			SET_FLAG(CF, (tmp & 0x80));
+			SET_FLAG(OF, (tmp ^ (tmp << 1)) & 0x80);
 		}
 		break;
 		case 2: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
 			uint8_t value = 1;
+			value = (value & 0x1F) % (8 + 1);
 			if (value == 0) { return; }
 			FillFlags();
-			uint16_t tmp = 0;
-			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
-			tmp = tmp >> 1;
-			uint8_t mask = GET_FLAG(CF);
-			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) |= mask;
-			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
-			SET_FLAG(CF, (tmp << (value % (8 + 1) + 8)) & 0x80);
-			tmp = tmp << ((value % (8 + 1)));
-			(*(uint8_t*)target) = *(uint8_t*)((uint8_t*)&tmp);
-			if (value == 1) { SET_FLAG(OF, (((*(uint8_t*)target) & 0x80) ? 1 : 0) ^ CF); }
+			SET_FLAG(CF, (((*(uint8_t*)target) >> (8 - value)) & 0x1) );
+			uint8_t tmp = ((*(uint8_t*)target) << value) | ((uint8_t)CF >> (8 - value + 1)) | ((*(uint8_t*)target) >> (8 - value));
+			(*(uint8_t*)target) = tmp;
+			SET_FLAG(OF, (tmp >> (8 - 1)) ^ CF );
 		}
 		break;
 		case 3: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
 			uint8_t value = 1;
+			value = (value & 0x1F) % (8 + 1);
 			if (value == 0) { return; }
 			FillFlags();
-			if (value == 1) { SET_FLAG(OF, (((*(uint8_t*)target) & 0x80) ? 1 : 0) ^ CF); }
-			uint8_t tmp = 0;
-			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
-			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = GET_FLAG(CF);
-			tmp = tmp << 1;
-			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
-			tmp = tmp >> ((value % (8 + 1)) - 1);
-			SET_FLAG(CF, tmp & 1);
-			tmp = tmp >> 1;
-			(*(uint8_t*)target) = *(uint8_t*)((uint8_t*)&tmp + (8 / 8));
+			uint8_t tmp = *(uint8_t*)target;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = tmp;
+			tmp = (tmp >> value) | ((uint8_t)CF << (8 - value)) | (tmp << (8 - value + 1));
+			(*(uint8_t*)target) = tmp;
+			SET_FLAG(CF, (((LazyFlagVarA8) >> (value - 1)) & 1));
+			SET_FLAG(OF, (tmp ^ (tmp << 1)) & 0x80);
 		}
 		break;
 		case 4: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
 			uint8_t value = 1;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			(*(uint8_t*)target) = (*(uint8_t*)target) << (value - 1);
-			SET_FLAG(CF, (*(uint8_t*)target) & 0x80);
-			(*(uint8_t*)target) = (*(uint8_t*)target) << 1;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = *(uint8_t*)target;
+			(*(uint8_t*)target) = (*(uint8_t*)target) << value;
 			LazyFlagResultContainer8 = (*(uint8_t*)target);
-			if (value == 1) { SET_FLAG(OF, (((*(uint8_t*)target) & 0x80) ? 1 : 0) ^ CF); }
-			lazyFlagType = t_VALUE8;
+			lazyFlagType=t_SHL8;
 		}
 		break;
 		case 5: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
 			uint8_t value = 1;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			if (value == 1) { SET_FLAG(OF, (*(uint8_t*)target) & 0x80) };
-			(*(uint8_t*)target) = (*(uint8_t*)target) >> (value % 8 - 1);
-			SET_FLAG(CF, (*(uint8_t*)target) & 1);
-			(*(uint8_t*)target) = (*(uint8_t*)target) >> 1;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = *(uint8_t*)target;
+			(*(uint8_t*)target) = (*(uint8_t*)target) >> (value);
 			LazyFlagResultContainer8 = (*(uint8_t*)target);
-			lazyFlagType = t_VALUE8;
+			lazyFlagType=t_SHR8;
 		}
 		break;
 		case 7: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
 			uint8_t value = 1;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			uint64_t tmp = ((*(int8_t*)target) < 0) ? 0xFFFFFFFFFFFFFFFF : 0;
-			*(uint8_t*)(((uint8_t*)&tmp) + 4) = (*(uint8_t*)target);
-			tmp = tmp >> (value % 8 - 1);
-			SET_FLAG(CF, tmp & 1);
-			tmp = tmp >> 1;
-			(*(uint8_t*)target) = (*(uint8_t*)(((uint8_t*)&tmp) + 4));
-			SET_FLAG(OF, 0);
-			LazyFlagResultContainer8 = (*(uint8_t*)target);
-			lazyFlagType = t_VALUE8;
+			if (value > 8) { value = 8; }
+			FillFlagsNoCFOF();
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = *(uint8_t*)target;
+			if (LazyFlagVarA8 & 0x80) {
+				LazyFlagResultContainer8 = ((LazyFlagVarA8) >> value) | ((0xFFFFFFFF) << (8 - value));
+			} else {
+				LazyFlagResultContainer8 = (LazyFlagVarA8) >> value;
+			}
+			(*(uint8_t*)target) = LazyFlagResultContainer8;
+			lazyFlagType=t_SAR8;
 		}
 		break;
 		default:
@@ -36170,103 +35895,96 @@ void handlerCommand32Code00D0_PM() {
 		case 0: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
 			uint8_t value = 1;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			FillFlags();
-			uint16_t tmp = 0;
-			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
-			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
-			SET_FLAG(CF, (tmp << (value % 8 + 8 - 1)) & 0x80);
-			tmp = tmp << (value % 8);
-			(*(uint8_t*)target) = (*(uint8_t*)(((uint8_t*)&tmp)));
-			if (value == 1) { SET_FLAG(OF, (((*(uint8_t*)target) & 0x80) ? 1 : 0) ^ CF); }
+			FillFlagsNoCFOF();
+			value = value % 8;
+			uint8_t tmp = ((*(uint8_t*)target) << value) | ((*(uint8_t*)target) >> (8 - value));
+			(*(uint8_t*)target) = tmp;
+			SET_FLAG(CF, (tmp & 1));
+			SET_FLAG(OF, (tmp >> (8 - 1)) ^ CF );
 		}
 		break;
 		case 1: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
 			uint8_t value = 1;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			FillFlags();
-			if (value == 1) { SET_FLAG(OF, (((*(uint8_t*)target) & 0x80) ? 1 : 0) ^ CF); }
-			uint16_t tmp = 0;
-			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
-			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
-			tmp = tmp >> (value % 8 - 1);
-			SET_FLAG(CF, tmp & 1);
-			tmp = tmp >> 1;
-			(*(uint8_t*)target) = (*(uint8_t*)(((uint8_t*)&tmp + 4)));
+			FillFlagsNoCFOF();
+			value = value % 8;
+			uint8_t tmp = ((*(uint8_t*)target) >> value) | ((*(uint8_t*)target) << (8 - value));
+			(*(uint8_t*)target) = tmp;
+			SET_FLAG(CF, (tmp & 0x80));
+			SET_FLAG(OF, (tmp ^ (tmp << 1)) & 0x80);
 		}
 		break;
 		case 2: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
 			uint8_t value = 1;
+			value = (value & 0x1F) % (8 + 1);
 			if (value == 0) { return; }
 			FillFlags();
-			uint16_t tmp = 0;
-			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
-			tmp = tmp >> 1;
-			uint8_t mask = GET_FLAG(CF);
-			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) |= mask;
-			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
-			SET_FLAG(CF, (tmp << (value % (8 + 1) + 8)) & 0x80);
-			tmp = tmp << ((value % (8 + 1)));
-			(*(uint8_t*)target) = *(uint8_t*)((uint8_t*)&tmp);
-			if (value == 1) { SET_FLAG(OF, (((*(uint8_t*)target) & 0x80) ? 1 : 0) ^ CF); }
+			SET_FLAG(CF, (((*(uint8_t*)target) >> (8 - value)) & 0x1) );
+			uint8_t tmp = ((*(uint8_t*)target) << value) | ((uint8_t)CF >> (8 - value + 1)) | ((*(uint8_t*)target) >> (8 - value));
+			(*(uint8_t*)target) = tmp;
+			SET_FLAG(OF, (tmp >> (8 - 1)) ^ CF );
 		}
 		break;
 		case 3: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
 			uint8_t value = 1;
+			value = (value & 0x1F) % (8 + 1);
 			if (value == 0) { return; }
 			FillFlags();
-			if (value == 1) { SET_FLAG(OF, (((*(uint8_t*)target) & 0x80) ? 1 : 0) ^ CF); }
-			uint8_t tmp = 0;
-			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
-			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = GET_FLAG(CF);
-			tmp = tmp << 1;
-			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
-			tmp = tmp >> ((value % (8 + 1)) - 1);
-			SET_FLAG(CF, tmp & 1);
-			tmp = tmp >> 1;
-			(*(uint8_t*)target) = *(uint8_t*)((uint8_t*)&tmp + (8 / 8));
+			uint8_t tmp = *(uint8_t*)target;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = tmp;
+			tmp = (tmp >> value) | ((uint8_t)CF << (8 - value)) | (tmp << (8 - value + 1));
+			(*(uint8_t*)target) = tmp;
+			SET_FLAG(CF, (((LazyFlagVarA8) >> (value - 1)) & 1));
+			SET_FLAG(OF, (tmp ^ (tmp << 1)) & 0x80);
 		}
 		break;
 		case 4: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
 			uint8_t value = 1;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			(*(uint8_t*)target) = (*(uint8_t*)target) << (value - 1);
-			SET_FLAG(CF, (*(uint8_t*)target) & 0x80);
-			(*(uint8_t*)target) = (*(uint8_t*)target) << 1;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = *(uint8_t*)target;
+			(*(uint8_t*)target) = (*(uint8_t*)target) << value;
 			LazyFlagResultContainer8 = (*(uint8_t*)target);
-			if (value == 1) { SET_FLAG(OF, (((*(uint8_t*)target) & 0x80) ? 1 : 0) ^ CF); }
-			lazyFlagType = t_VALUE8;
+			lazyFlagType=t_SHL8;
 		}
 		break;
 		case 5: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
 			uint8_t value = 1;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			if (value == 1) { SET_FLAG(OF, (*(uint8_t*)target) & 0x80) };
-			(*(uint8_t*)target) = (*(uint8_t*)target) >> (value % 8 - 1);
-			SET_FLAG(CF, (*(uint8_t*)target) & 1);
-			(*(uint8_t*)target) = (*(uint8_t*)target) >> 1;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = *(uint8_t*)target;
+			(*(uint8_t*)target) = (*(uint8_t*)target) >> (value);
 			LazyFlagResultContainer8 = (*(uint8_t*)target);
-			lazyFlagType = t_VALUE8;
+			lazyFlagType=t_SHR8;
 		}
 		break;
 		case 7: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
 			uint8_t value = 1;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			uint64_t tmp = ((*(int8_t*)target) < 0) ? 0xFFFFFFFFFFFFFFFF : 0;
-			*(uint8_t*)(((uint8_t*)&tmp) + 4) = (*(uint8_t*)target);
-			tmp = tmp >> (value % 8 - 1);
-			SET_FLAG(CF, tmp & 1);
-			tmp = tmp >> 1;
-			(*(uint8_t*)target) = (*(uint8_t*)(((uint8_t*)&tmp) + 4));
-			SET_FLAG(OF, 0);
-			LazyFlagResultContainer8 = (*(uint8_t*)target);
-			lazyFlagType = t_VALUE8;
+			if (value > 8) { value = 8; }
+			FillFlagsNoCFOF();
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = *(uint8_t*)target;
+			if (LazyFlagVarA8 & 0x80) {
+				LazyFlagResultContainer8 = ((LazyFlagVarA8) >> value) | ((0xFFFFFFFF) << (8 - value));
+			} else {
+				LazyFlagResultContainer8 = (LazyFlagVarA8) >> value;
+			}
+			(*(uint8_t*)target) = LazyFlagResultContainer8;
+			lazyFlagType=t_SAR8;
 		}
 		break;
 		default:
@@ -36282,103 +36000,96 @@ void handlerCommand32Code00D1P66_PM() {
 		case 0: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For16(mrmByte);
 			uint8_t value = 1;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			FillFlags();
-			uint32_t tmp = 0;
-			*(uint16_t*)(((uint8_t*)&tmp)) = (*(uint16_t*)target);
-			*(uint16_t*)(((uint8_t*)&tmp) + (16 / 8)) = (*(uint16_t*)target);
-			SET_FLAG(CF, (tmp << (value % 16 + 16 - 1)) & 0x8000);
-			tmp = tmp << (value % 16);
-			(*(uint16_t*)target) = (*(uint16_t*)(((uint8_t*)&tmp)));
-			if (value == 1) { SET_FLAG(OF, (((*(uint16_t*)target) & 0x8000) ? 1 : 0) ^ CF); }
+			FillFlagsNoCFOF();
+			value = value % 16;
+			uint16_t tmp = ((*(uint16_t*)target) << value) | ((*(uint16_t*)target) >> (16 - value));
+			(*(uint16_t*)target) = tmp;
+			SET_FLAG(CF, (tmp & 1));
+			SET_FLAG(OF, (tmp >> (16 - 1)) ^ CF );
 		}
 		break;
 		case 1: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For16(mrmByte);
 			uint8_t value = 1;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			FillFlags();
-			if (value == 1) { SET_FLAG(OF, (((*(uint16_t*)target) & 0x8000) ? 1 : 0) ^ CF); }
-			uint32_t tmp = 0;
-			*(uint16_t*)(((uint8_t*)&tmp)) = (*(uint16_t*)target);
-			*(uint16_t*)(((uint8_t*)&tmp) + (16 / 8)) = (*(uint16_t*)target);
-			tmp = tmp >> (value % 16 - 1);
-			SET_FLAG(CF, tmp & 1);
-			tmp = tmp >> 1;
-			(*(uint16_t*)target) = (*(uint16_t*)(((uint8_t*)&tmp + 4)));
+			FillFlagsNoCFOF();
+			value = value % 16;
+			uint16_t tmp = ((*(uint16_t*)target) >> value) | ((*(uint16_t*)target) << (16 - value));
+			(*(uint16_t*)target) = tmp;
+			SET_FLAG(CF, (tmp & 0x8000));
+			SET_FLAG(OF, (tmp ^ (tmp << 1)) & 0x8000);
 		}
 		break;
 		case 2: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For16(mrmByte);
 			uint8_t value = 1;
+			value = (value & 0x1F) % (16 + 1);
 			if (value == 0) { return; }
 			FillFlags();
-			uint32_t tmp = 0;
-			*(uint16_t*)(((uint8_t*)&tmp) + (16 / 8)) = (*(uint16_t*)target);
-			tmp = tmp >> 1;
-			uint16_t mask = GET_FLAG(CF);
-			*(uint16_t*)(((uint8_t*)&tmp) + (16 / 8)) |= mask;
-			*(uint16_t*)(((uint8_t*)&tmp)) = (*(uint16_t*)target);
-			SET_FLAG(CF, (tmp << (value % (16 + 1) + 16)) & 0x8000);
-			tmp = tmp << ((value % (16 + 1)));
-			(*(uint16_t*)target) = *(uint16_t*)((uint8_t*)&tmp);
-			if (value == 1) { SET_FLAG(OF, (((*(uint16_t*)target) & 0x8000) ? 1 : 0) ^ CF); }
+			SET_FLAG(CF, (((*(uint16_t*)target) >> (16 - value)) & 0x1) );
+			uint16_t tmp = ((*(uint16_t*)target) << value) | ((uint16_t)CF >> (16 - value + 1)) | ((*(uint16_t*)target) >> (16 - value));
+			(*(uint16_t*)target) = tmp;
+			SET_FLAG(OF, (tmp >> (16 - 1)) ^ CF );
 		}
 		break;
 		case 3: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For16(mrmByte);
 			uint8_t value = 1;
+			value = (value & 0x1F) % (16 + 1);
 			if (value == 0) { return; }
 			FillFlags();
-			if (value == 1) { SET_FLAG(OF, (((*(uint16_t*)target) & 0x8000) ? 1 : 0) ^ CF); }
-			uint16_t tmp = 0;
-			*(uint16_t*)(((uint8_t*)&tmp)) = (*(uint16_t*)target);
-			*(uint16_t*)(((uint8_t*)&tmp) + (16 / 8)) = GET_FLAG(CF);
-			tmp = tmp << 1;
-			*(uint16_t*)(((uint8_t*)&tmp) + (16 / 8)) = (*(uint16_t*)target);
-			tmp = tmp >> ((value % (16 + 1)) - 1);
-			SET_FLAG(CF, tmp & 1);
-			tmp = tmp >> 1;
-			(*(uint16_t*)target) = *(uint16_t*)((uint8_t*)&tmp + (16 / 8));
+			uint16_t tmp = *(uint16_t*)target;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA16 = tmp;
+			tmp = (tmp >> value) | ((uint16_t)CF << (16 - value)) | (tmp << (16 - value + 1));
+			(*(uint16_t*)target) = tmp;
+			SET_FLAG(CF, (((LazyFlagVarA16) >> (value - 1)) & 1));
+			SET_FLAG(OF, (tmp ^ (tmp << 1)) & 0x8000);
 		}
 		break;
 		case 4: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For16(mrmByte);
 			uint8_t value = 1;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			(*(uint16_t*)target) = (*(uint16_t*)target) << (value - 1);
-			SET_FLAG(CF, (*(uint16_t*)target) & 0x8000);
-			(*(uint16_t*)target) = (*(uint16_t*)target) << 1;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA16 = *(uint16_t*)target;
+			(*(uint16_t*)target) = (*(uint16_t*)target) << value;
 			LazyFlagResultContainer16 = (*(uint16_t*)target);
-			if (value == 1) { SET_FLAG(OF, (((*(uint16_t*)target) & 0x8000) ? 1 : 0) ^ CF); }
-			lazyFlagType = t_VALUE16;
+			lazyFlagType=t_SHL16;
 		}
 		break;
 		case 5: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For16(mrmByte);
 			uint8_t value = 1;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			if (value == 1) { SET_FLAG(OF, (*(uint16_t*)target) & 0x8000) };
-			(*(uint16_t*)target) = (*(uint16_t*)target) >> (value % 16 - 1);
-			SET_FLAG(CF, (*(uint16_t*)target) & 1);
-			(*(uint16_t*)target) = (*(uint16_t*)target) >> 1;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA16 = *(uint16_t*)target;
+			(*(uint16_t*)target) = (*(uint16_t*)target) >> (value);
 			LazyFlagResultContainer16 = (*(uint16_t*)target);
-			lazyFlagType = t_VALUE16;
+			lazyFlagType=t_SHR16;
 		}
 		break;
 		case 7: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For16(mrmByte);
 			uint8_t value = 1;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			uint64_t tmp = ((*(int16_t*)target) < 0) ? 0xFFFFFFFFFFFFFFFF : 0;
-			*(uint16_t*)(((uint8_t*)&tmp) + 4) = (*(uint16_t*)target);
-			tmp = tmp >> (value % 16 - 1);
-			SET_FLAG(CF, tmp & 1);
-			tmp = tmp >> 1;
-			(*(uint16_t*)target) = (*(uint16_t*)(((uint8_t*)&tmp) + 4));
-			SET_FLAG(OF, 0);
-			LazyFlagResultContainer16 = (*(uint16_t*)target);
-			lazyFlagType = t_VALUE16;
+			if (value > 16) { value = 16; }
+			FillFlagsNoCFOF();
+			LazyFlagVarB8 = value;
+			LazyFlagVarA16 = *(uint16_t*)target;
+			if (LazyFlagVarA16 & 0x8000) {
+				LazyFlagResultContainer16 = ((LazyFlagVarA16) >> value) | ((0xFFFFFFFF) << (16 - value));
+			} else {
+				LazyFlagResultContainer16 = (LazyFlagVarA16) >> value;
+			}
+			(*(uint16_t*)target) = LazyFlagResultContainer16;
+			lazyFlagType=t_SAR16;
 		}
 		break;
 		default:
@@ -36394,103 +36105,96 @@ void handlerCommand32Code00D1_PM() {
 		case 0: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
 			uint8_t value = 1;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			FillFlags();
-			uint64_t tmp = 0;
-			*(uint32_t*)(((uint8_t*)&tmp)) = (*(uint32_t*)target);
-			*(uint32_t*)(((uint8_t*)&tmp) + (32 / 8)) = (*(uint32_t*)target);
-			SET_FLAG(CF, (tmp << (value % 32 + 32 - 1)) & 0x80000000);
-			tmp = tmp << (value % 32);
-			(*(uint32_t*)target) = (*(uint32_t*)(((uint8_t*)&tmp)));
-			if (value == 1) { SET_FLAG(OF, (((*(uint32_t*)target) & 0x80000000) ? 1 : 0) ^ CF); }
+			FillFlagsNoCFOF();
+			value = value % 32;
+			uint32_t tmp = ((*(uint32_t*)target) << value) | ((*(uint32_t*)target) >> (32 - value));
+			(*(uint32_t*)target) = tmp;
+			SET_FLAG(CF, (tmp & 1));
+			SET_FLAG(OF, (tmp >> (32 - 1)) ^ CF );
 		}
 		break;
 		case 1: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
 			uint8_t value = 1;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			FillFlags();
-			if (value == 1) { SET_FLAG(OF, (((*(uint32_t*)target) & 0x80000000) ? 1 : 0) ^ CF); }
-			uint64_t tmp = 0;
-			*(uint32_t*)(((uint8_t*)&tmp)) = (*(uint32_t*)target);
-			*(uint32_t*)(((uint8_t*)&tmp) + (32 / 8)) = (*(uint32_t*)target);
-			tmp = tmp >> (value % 32 - 1);
-			SET_FLAG(CF, tmp & 1);
-			tmp = tmp >> 1;
-			(*(uint32_t*)target) = (*(uint32_t*)(((uint8_t*)&tmp + 4)));
+			FillFlagsNoCFOF();
+			value = value % 32;
+			uint32_t tmp = ((*(uint32_t*)target) >> value) | ((*(uint32_t*)target) << (32 - value));
+			(*(uint32_t*)target) = tmp;
+			SET_FLAG(CF, (tmp & 0x80000000));
+			SET_FLAG(OF, (tmp ^ (tmp << 1)) & 0x80000000);
 		}
 		break;
 		case 2: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
 			uint8_t value = 1;
+			value = (value & 0x1F) % (32 + 1);
 			if (value == 0) { return; }
 			FillFlags();
-			uint64_t tmp = 0;
-			*(uint32_t*)(((uint8_t*)&tmp) + (32 / 8)) = (*(uint32_t*)target);
-			tmp = tmp >> 1;
-			uint32_t mask = GET_FLAG(CF);
-			*(uint32_t*)(((uint8_t*)&tmp) + (32 / 8)) |= mask;
-			*(uint32_t*)(((uint8_t*)&tmp)) = (*(uint32_t*)target);
-			SET_FLAG(CF, (tmp << (value % (32 + 1) + 32)) & 0x80000000);
-			tmp = tmp << ((value % (32 + 1)));
-			(*(uint32_t*)target) = *(uint32_t*)((uint8_t*)&tmp);
-			if (value == 1) { SET_FLAG(OF, (((*(uint32_t*)target) & 0x80000000) ? 1 : 0) ^ CF); }
+			SET_FLAG(CF, (((*(uint32_t*)target) >> (32 - value)) & 0x1) );
+			uint32_t tmp = ((*(uint32_t*)target) << value) | ((uint32_t)CF >> (32 - value + 1)) | ((*(uint32_t*)target) >> (32 - value));
+			(*(uint32_t*)target) = tmp;
+			SET_FLAG(OF, (tmp >> (32 - 1)) ^ CF );
 		}
 		break;
 		case 3: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
 			uint8_t value = 1;
+			value = (value & 0x1F) % (32 + 1);
 			if (value == 0) { return; }
 			FillFlags();
-			if (value == 1) { SET_FLAG(OF, (((*(uint32_t*)target) & 0x80000000) ? 1 : 0) ^ CF); }
-			uint32_t tmp = 0;
-			*(uint32_t*)(((uint8_t*)&tmp)) = (*(uint32_t*)target);
-			*(uint32_t*)(((uint8_t*)&tmp) + (32 / 8)) = GET_FLAG(CF);
-			tmp = tmp << 1;
-			*(uint32_t*)(((uint8_t*)&tmp) + (32 / 8)) = (*(uint32_t*)target);
-			tmp = tmp >> ((value % (32 + 1)) - 1);
-			SET_FLAG(CF, tmp & 1);
-			tmp = tmp >> 1;
-			(*(uint32_t*)target) = *(uint32_t*)((uint8_t*)&tmp + (32 / 8));
+			uint32_t tmp = *(uint32_t*)target;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA32 = tmp;
+			tmp = (tmp >> value) | ((uint32_t)CF << (32 - value)) | (tmp << (32 - value + 1));
+			(*(uint32_t*)target) = tmp;
+			SET_FLAG(CF, (((LazyFlagVarA32) >> (value - 1)) & 1));
+			SET_FLAG(OF, (tmp ^ (tmp << 1)) & 0x80000000);
 		}
 		break;
 		case 4: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
 			uint8_t value = 1;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			(*(uint32_t*)target) = (*(uint32_t*)target) << (value - 1);
-			SET_FLAG(CF, (*(uint32_t*)target) & 0x80000000);
-			(*(uint32_t*)target) = (*(uint32_t*)target) << 1;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA32 = *(uint32_t*)target;
+			(*(uint32_t*)target) = (*(uint32_t*)target) << value;
 			LazyFlagResultContainer32 = (*(uint32_t*)target);
-			if (value == 1) { SET_FLAG(OF, (((*(uint32_t*)target) & 0x80000000) ? 1 : 0) ^ CF); }
-			lazyFlagType = t_VALUE32;
+			lazyFlagType=t_SHL32;
 		}
 		break;
 		case 5: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
 			uint8_t value = 1;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			if (value == 1) { SET_FLAG(OF, (*(uint32_t*)target) & 0x80000000) };
-			(*(uint32_t*)target) = (*(uint32_t*)target) >> (value % 32 - 1);
-			SET_FLAG(CF, (*(uint32_t*)target) & 1);
-			(*(uint32_t*)target) = (*(uint32_t*)target) >> 1;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA32 = *(uint32_t*)target;
+			(*(uint32_t*)target) = (*(uint32_t*)target) >> (value);
 			LazyFlagResultContainer32 = (*(uint32_t*)target);
-			lazyFlagType = t_VALUE32;
+			lazyFlagType=t_SHR32;
 		}
 		break;
 		case 7: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
 			uint8_t value = 1;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			uint64_t tmp = ((*(int32_t*)target) < 0) ? 0xFFFFFFFFFFFFFFFF : 0;
-			*(uint32_t*)(((uint8_t*)&tmp) + 4) = (*(uint32_t*)target);
-			tmp = tmp >> (value % 32 - 1);
-			SET_FLAG(CF, tmp & 1);
-			tmp = tmp >> 1;
-			(*(uint32_t*)target) = (*(uint32_t*)(((uint8_t*)&tmp) + 4));
-			SET_FLAG(OF, 0);
-			LazyFlagResultContainer32 = (*(uint32_t*)target);
-			lazyFlagType = t_VALUE32;
+			if (value > 32) { value = 32; }
+			FillFlagsNoCFOF();
+			LazyFlagVarB8 = value;
+			LazyFlagVarA32 = *(uint32_t*)target;
+			if (LazyFlagVarA32 & 0x80000000) {
+				LazyFlagResultContainer32 = ((LazyFlagVarA32) >> value) | ((0xFFFFFFFF) << (32 - value));
+			} else {
+				LazyFlagResultContainer32 = (LazyFlagVarA32) >> value;
+			}
+			(*(uint32_t*)target) = LazyFlagResultContainer32;
+			lazyFlagType=t_SAR32;
 		}
 		break;
 		default:
@@ -36505,104 +36209,97 @@ void handlerCommand32Code00D2P66_PM() {
 	switch (nnn) {
 		case 0: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
-			uint8_t value = reg_CL_8u & 0x1F;
+			uint8_t value = reg_CL_8u;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			FillFlags();
-			uint16_t tmp = 0;
-			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
-			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
-			SET_FLAG(CF, (tmp << (value % 8 + 8 - 1)) & 0x80);
-			tmp = tmp << (value % 8);
-			(*(uint8_t*)target) = (*(uint8_t*)(((uint8_t*)&tmp)));
-			if (value == 1) { SET_FLAG(OF, (((*(uint8_t*)target) & 0x80) ? 1 : 0) ^ CF); }
+			FillFlagsNoCFOF();
+			value = value % 8;
+			uint8_t tmp = ((*(uint8_t*)target) << value) | ((*(uint8_t*)target) >> (8 - value));
+			(*(uint8_t*)target) = tmp;
+			SET_FLAG(CF, (tmp & 1));
+			SET_FLAG(OF, (tmp >> (8 - 1)) ^ CF );
 		}
 		break;
 		case 1: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
-			uint8_t value = reg_CL_8u & 0x1F;
+			uint8_t value = reg_CL_8u;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			FillFlags();
-			if (value == 1) { SET_FLAG(OF, (((*(uint8_t*)target) & 0x80) ? 1 : 0) ^ CF); }
-			uint16_t tmp = 0;
-			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
-			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
-			tmp = tmp >> (value % 8 - 1);
-			SET_FLAG(CF, tmp & 1);
-			tmp = tmp >> 1;
-			(*(uint8_t*)target) = (*(uint8_t*)(((uint8_t*)&tmp + 4)));
+			FillFlagsNoCFOF();
+			value = value % 8;
+			uint8_t tmp = ((*(uint8_t*)target) >> value) | ((*(uint8_t*)target) << (8 - value));
+			(*(uint8_t*)target) = tmp;
+			SET_FLAG(CF, (tmp & 0x80));
+			SET_FLAG(OF, (tmp ^ (tmp << 1)) & 0x80);
 		}
 		break;
 		case 2: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
-			uint8_t value = reg_CL_8u & 0x1F;
+			uint8_t value = reg_CL_8u;
+			value = (value & 0x1F) % (8 + 1);
 			if (value == 0) { return; }
 			FillFlags();
-			uint16_t tmp = 0;
-			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
-			tmp = tmp >> 1;
-			uint8_t mask = GET_FLAG(CF);
-			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) |= mask;
-			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
-			SET_FLAG(CF, (tmp << (value % (8 + 1) + 8)) & 0x80);
-			tmp = tmp << ((value % (8 + 1)));
-			(*(uint8_t*)target) = *(uint8_t*)((uint8_t*)&tmp);
-			if (value == 1) { SET_FLAG(OF, (((*(uint8_t*)target) & 0x80) ? 1 : 0) ^ CF); }
+			SET_FLAG(CF, (((*(uint8_t*)target) >> (8 - value)) & 0x1) );
+			uint8_t tmp = ((*(uint8_t*)target) << value) | ((uint8_t)CF >> (8 - value + 1)) | ((*(uint8_t*)target) >> (8 - value));
+			(*(uint8_t*)target) = tmp;
+			SET_FLAG(OF, (tmp >> (8 - 1)) ^ CF );
 		}
 		break;
 		case 3: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
-			uint8_t value = reg_CL_8u & 0x1F;
+			uint8_t value = reg_CL_8u;
+			value = (value & 0x1F) % (8 + 1);
 			if (value == 0) { return; }
 			FillFlags();
-			if (value == 1) { SET_FLAG(OF, (((*(uint8_t*)target) & 0x80) ? 1 : 0) ^ CF); }
-			uint8_t tmp = 0;
-			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
-			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = GET_FLAG(CF);
-			tmp = tmp << 1;
-			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
-			tmp = tmp >> ((value % (8 + 1)) - 1);
-			SET_FLAG(CF, tmp & 1);
-			tmp = tmp >> 1;
-			(*(uint8_t*)target) = *(uint8_t*)((uint8_t*)&tmp + (8 / 8));
+			uint8_t tmp = *(uint8_t*)target;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = tmp;
+			tmp = (tmp >> value) | ((uint8_t)CF << (8 - value)) | (tmp << (8 - value + 1));
+			(*(uint8_t*)target) = tmp;
+			SET_FLAG(CF, (((LazyFlagVarA8) >> (value - 1)) & 1));
+			SET_FLAG(OF, (tmp ^ (tmp << 1)) & 0x80);
 		}
 		break;
 		case 4: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
-			uint8_t value = reg_CL_8u & 0x1F;
+			uint8_t value = reg_CL_8u;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			(*(uint8_t*)target) = (*(uint8_t*)target) << (value - 1);
-			SET_FLAG(CF, (*(uint8_t*)target) & 0x80);
-			(*(uint8_t*)target) = (*(uint8_t*)target) << 1;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = *(uint8_t*)target;
+			(*(uint8_t*)target) = (*(uint8_t*)target) << value;
 			LazyFlagResultContainer8 = (*(uint8_t*)target);
-			if (value == 1) { SET_FLAG(OF, (((*(uint8_t*)target) & 0x80) ? 1 : 0) ^ CF); }
-			lazyFlagType = t_VALUE8;
+			lazyFlagType=t_SHL8;
 		}
 		break;
 		case 5: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
-			uint8_t value = reg_CL_8u & 0x1F;
+			uint8_t value = reg_CL_8u;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			if (value == 1) { SET_FLAG(OF, (*(uint8_t*)target) & 0x80) };
-			(*(uint8_t*)target) = (*(uint8_t*)target) >> (value % 8 - 1);
-			SET_FLAG(CF, (*(uint8_t*)target) & 1);
-			(*(uint8_t*)target) = (*(uint8_t*)target) >> 1;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = *(uint8_t*)target;
+			(*(uint8_t*)target) = (*(uint8_t*)target) >> (value);
 			LazyFlagResultContainer8 = (*(uint8_t*)target);
-			lazyFlagType = t_VALUE8;
+			lazyFlagType=t_SHR8;
 		}
 		break;
 		case 7: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
-			uint8_t value = reg_CL_8u & 0x1F;
+			uint8_t value = reg_CL_8u;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			uint64_t tmp = ((*(int8_t*)target) < 0) ? 0xFFFFFFFFFFFFFFFF : 0;
-			*(uint8_t*)(((uint8_t*)&tmp) + 4) = (*(uint8_t*)target);
-			tmp = tmp >> (value % 8 - 1);
-			SET_FLAG(CF, tmp & 1);
-			tmp = tmp >> 1;
-			(*(uint8_t*)target) = (*(uint8_t*)(((uint8_t*)&tmp) + 4));
-			SET_FLAG(OF, 0);
-			LazyFlagResultContainer8 = (*(uint8_t*)target);
-			lazyFlagType = t_VALUE8;
+			if (value > 8) { value = 8; }
+			FillFlagsNoCFOF();
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = *(uint8_t*)target;
+			if (LazyFlagVarA8 & 0x80) {
+				LazyFlagResultContainer8 = ((LazyFlagVarA8) >> value) | ((0xFFFFFFFF) << (8 - value));
+			} else {
+				LazyFlagResultContainer8 = (LazyFlagVarA8) >> value;
+			}
+			(*(uint8_t*)target) = LazyFlagResultContainer8;
+			lazyFlagType=t_SAR8;
 		}
 		break;
 		default:
@@ -36617,104 +36314,97 @@ void handlerCommand32Code00D2_PM() {
 	switch (nnn) {
 		case 0: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
-			uint8_t value = reg_CL_8u & 0x1F;
+			uint8_t value = reg_CL_8u;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			FillFlags();
-			uint16_t tmp = 0;
-			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
-			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
-			SET_FLAG(CF, (tmp << (value % 8 + 8 - 1)) & 0x80);
-			tmp = tmp << (value % 8);
-			(*(uint8_t*)target) = (*(uint8_t*)(((uint8_t*)&tmp)));
-			if (value == 1) { SET_FLAG(OF, (((*(uint8_t*)target) & 0x80) ? 1 : 0) ^ CF); }
+			FillFlagsNoCFOF();
+			value = value % 8;
+			uint8_t tmp = ((*(uint8_t*)target) << value) | ((*(uint8_t*)target) >> (8 - value));
+			(*(uint8_t*)target) = tmp;
+			SET_FLAG(CF, (tmp & 1));
+			SET_FLAG(OF, (tmp >> (8 - 1)) ^ CF );
 		}
 		break;
 		case 1: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
-			uint8_t value = reg_CL_8u & 0x1F;
+			uint8_t value = reg_CL_8u;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			FillFlags();
-			if (value == 1) { SET_FLAG(OF, (((*(uint8_t*)target) & 0x80) ? 1 : 0) ^ CF); }
-			uint16_t tmp = 0;
-			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
-			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
-			tmp = tmp >> (value % 8 - 1);
-			SET_FLAG(CF, tmp & 1);
-			tmp = tmp >> 1;
-			(*(uint8_t*)target) = (*(uint8_t*)(((uint8_t*)&tmp + 4)));
+			FillFlagsNoCFOF();
+			value = value % 8;
+			uint8_t tmp = ((*(uint8_t*)target) >> value) | ((*(uint8_t*)target) << (8 - value));
+			(*(uint8_t*)target) = tmp;
+			SET_FLAG(CF, (tmp & 0x80));
+			SET_FLAG(OF, (tmp ^ (tmp << 1)) & 0x80);
 		}
 		break;
 		case 2: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
-			uint8_t value = reg_CL_8u & 0x1F;
+			uint8_t value = reg_CL_8u;
+			value = (value & 0x1F) % (8 + 1);
 			if (value == 0) { return; }
 			FillFlags();
-			uint16_t tmp = 0;
-			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
-			tmp = tmp >> 1;
-			uint8_t mask = GET_FLAG(CF);
-			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) |= mask;
-			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
-			SET_FLAG(CF, (tmp << (value % (8 + 1) + 8)) & 0x80);
-			tmp = tmp << ((value % (8 + 1)));
-			(*(uint8_t*)target) = *(uint8_t*)((uint8_t*)&tmp);
-			if (value == 1) { SET_FLAG(OF, (((*(uint8_t*)target) & 0x80) ? 1 : 0) ^ CF); }
+			SET_FLAG(CF, (((*(uint8_t*)target) >> (8 - value)) & 0x1) );
+			uint8_t tmp = ((*(uint8_t*)target) << value) | ((uint8_t)CF >> (8 - value + 1)) | ((*(uint8_t*)target) >> (8 - value));
+			(*(uint8_t*)target) = tmp;
+			SET_FLAG(OF, (tmp >> (8 - 1)) ^ CF );
 		}
 		break;
 		case 3: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
-			uint8_t value = reg_CL_8u & 0x1F;
+			uint8_t value = reg_CL_8u;
+			value = (value & 0x1F) % (8 + 1);
 			if (value == 0) { return; }
 			FillFlags();
-			if (value == 1) { SET_FLAG(OF, (((*(uint8_t*)target) & 0x80) ? 1 : 0) ^ CF); }
-			uint8_t tmp = 0;
-			*(uint8_t*)(((uint8_t*)&tmp)) = (*(uint8_t*)target);
-			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = GET_FLAG(CF);
-			tmp = tmp << 1;
-			*(uint8_t*)(((uint8_t*)&tmp) + (8 / 8)) = (*(uint8_t*)target);
-			tmp = tmp >> ((value % (8 + 1)) - 1);
-			SET_FLAG(CF, tmp & 1);
-			tmp = tmp >> 1;
-			(*(uint8_t*)target) = *(uint8_t*)((uint8_t*)&tmp + (8 / 8));
+			uint8_t tmp = *(uint8_t*)target;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = tmp;
+			tmp = (tmp >> value) | ((uint8_t)CF << (8 - value)) | (tmp << (8 - value + 1));
+			(*(uint8_t*)target) = tmp;
+			SET_FLAG(CF, (((LazyFlagVarA8) >> (value - 1)) & 1));
+			SET_FLAG(OF, (tmp ^ (tmp << 1)) & 0x80);
 		}
 		break;
 		case 4: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
-			uint8_t value = reg_CL_8u & 0x1F;
+			uint8_t value = reg_CL_8u;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			(*(uint8_t*)target) = (*(uint8_t*)target) << (value - 1);
-			SET_FLAG(CF, (*(uint8_t*)target) & 0x80);
-			(*(uint8_t*)target) = (*(uint8_t*)target) << 1;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = *(uint8_t*)target;
+			(*(uint8_t*)target) = (*(uint8_t*)target) << value;
 			LazyFlagResultContainer8 = (*(uint8_t*)target);
-			if (value == 1) { SET_FLAG(OF, (((*(uint8_t*)target) & 0x80) ? 1 : 0) ^ CF); }
-			lazyFlagType = t_VALUE8;
+			lazyFlagType=t_SHL8;
 		}
 		break;
 		case 5: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
-			uint8_t value = reg_CL_8u & 0x1F;
+			uint8_t value = reg_CL_8u;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			if (value == 1) { SET_FLAG(OF, (*(uint8_t*)target) & 0x80) };
-			(*(uint8_t*)target) = (*(uint8_t*)target) >> (value % 8 - 1);
-			SET_FLAG(CF, (*(uint8_t*)target) & 1);
-			(*(uint8_t*)target) = (*(uint8_t*)target) >> 1;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = *(uint8_t*)target;
+			(*(uint8_t*)target) = (*(uint8_t*)target) >> (value);
 			LazyFlagResultContainer8 = (*(uint8_t*)target);
-			lazyFlagType = t_VALUE8;
+			lazyFlagType=t_SHR8;
 		}
 		break;
 		case 7: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
-			uint8_t value = reg_CL_8u & 0x1F;
+			uint8_t value = reg_CL_8u;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			uint64_t tmp = ((*(int8_t*)target) < 0) ? 0xFFFFFFFFFFFFFFFF : 0;
-			*(uint8_t*)(((uint8_t*)&tmp) + 4) = (*(uint8_t*)target);
-			tmp = tmp >> (value % 8 - 1);
-			SET_FLAG(CF, tmp & 1);
-			tmp = tmp >> 1;
-			(*(uint8_t*)target) = (*(uint8_t*)(((uint8_t*)&tmp) + 4));
-			SET_FLAG(OF, 0);
-			LazyFlagResultContainer8 = (*(uint8_t*)target);
-			lazyFlagType = t_VALUE8;
+			if (value > 8) { value = 8; }
+			FillFlagsNoCFOF();
+			LazyFlagVarB8 = value;
+			LazyFlagVarA8 = *(uint8_t*)target;
+			if (LazyFlagVarA8 & 0x80) {
+				LazyFlagResultContainer8 = ((LazyFlagVarA8) >> value) | ((0xFFFFFFFF) << (8 - value));
+			} else {
+				LazyFlagResultContainer8 = (LazyFlagVarA8) >> value;
+			}
+			(*(uint8_t*)target) = LazyFlagResultContainer8;
+			lazyFlagType=t_SAR8;
 		}
 		break;
 		default:
@@ -36729,104 +36419,97 @@ void handlerCommand32Code00D3P66_PM() {
 	switch (nnn) {
 		case 0: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For16(mrmByte);
-			uint8_t value = reg_CL_8u & 0x1F;
+			uint8_t value = reg_CL_8u;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			FillFlags();
-			uint32_t tmp = 0;
-			*(uint16_t*)(((uint8_t*)&tmp)) = (*(uint16_t*)target);
-			*(uint16_t*)(((uint8_t*)&tmp) + (16 / 8)) = (*(uint16_t*)target);
-			SET_FLAG(CF, (tmp << (value % 16 + 16 - 1)) & 0x8000);
-			tmp = tmp << (value % 16);
-			(*(uint16_t*)target) = (*(uint16_t*)(((uint8_t*)&tmp)));
-			if (value == 1) { SET_FLAG(OF, (((*(uint16_t*)target) & 0x8000) ? 1 : 0) ^ CF); }
+			FillFlagsNoCFOF();
+			value = value % 16;
+			uint16_t tmp = ((*(uint16_t*)target) << value) | ((*(uint16_t*)target) >> (16 - value));
+			(*(uint16_t*)target) = tmp;
+			SET_FLAG(CF, (tmp & 1));
+			SET_FLAG(OF, (tmp >> (16 - 1)) ^ CF );
 		}
 		break;
 		case 1: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For16(mrmByte);
-			uint8_t value = reg_CL_8u & 0x1F;
+			uint8_t value = reg_CL_8u;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			FillFlags();
-			if (value == 1) { SET_FLAG(OF, (((*(uint16_t*)target) & 0x8000) ? 1 : 0) ^ CF); }
-			uint32_t tmp = 0;
-			*(uint16_t*)(((uint8_t*)&tmp)) = (*(uint16_t*)target);
-			*(uint16_t*)(((uint8_t*)&tmp) + (16 / 8)) = (*(uint16_t*)target);
-			tmp = tmp >> (value % 16 - 1);
-			SET_FLAG(CF, tmp & 1);
-			tmp = tmp >> 1;
-			(*(uint16_t*)target) = (*(uint16_t*)(((uint8_t*)&tmp + 4)));
+			FillFlagsNoCFOF();
+			value = value % 16;
+			uint16_t tmp = ((*(uint16_t*)target) >> value) | ((*(uint16_t*)target) << (16 - value));
+			(*(uint16_t*)target) = tmp;
+			SET_FLAG(CF, (tmp & 0x8000));
+			SET_FLAG(OF, (tmp ^ (tmp << 1)) & 0x8000);
 		}
 		break;
 		case 2: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For16(mrmByte);
-			uint8_t value = reg_CL_8u & 0x1F;
+			uint8_t value = reg_CL_8u;
+			value = (value & 0x1F) % (16 + 1);
 			if (value == 0) { return; }
 			FillFlags();
-			uint32_t tmp = 0;
-			*(uint16_t*)(((uint8_t*)&tmp) + (16 / 8)) = (*(uint16_t*)target);
-			tmp = tmp >> 1;
-			uint16_t mask = GET_FLAG(CF);
-			*(uint16_t*)(((uint8_t*)&tmp) + (16 / 8)) |= mask;
-			*(uint16_t*)(((uint8_t*)&tmp)) = (*(uint16_t*)target);
-			SET_FLAG(CF, (tmp << (value % (16 + 1) + 16)) & 0x8000);
-			tmp = tmp << ((value % (16 + 1)));
-			(*(uint16_t*)target) = *(uint16_t*)((uint8_t*)&tmp);
-			if (value == 1) { SET_FLAG(OF, (((*(uint16_t*)target) & 0x8000) ? 1 : 0) ^ CF); }
+			SET_FLAG(CF, (((*(uint16_t*)target) >> (16 - value)) & 0x1) );
+			uint16_t tmp = ((*(uint16_t*)target) << value) | ((uint16_t)CF >> (16 - value + 1)) | ((*(uint16_t*)target) >> (16 - value));
+			(*(uint16_t*)target) = tmp;
+			SET_FLAG(OF, (tmp >> (16 - 1)) ^ CF );
 		}
 		break;
 		case 3: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For16(mrmByte);
-			uint8_t value = reg_CL_8u & 0x1F;
+			uint8_t value = reg_CL_8u;
+			value = (value & 0x1F) % (16 + 1);
 			if (value == 0) { return; }
 			FillFlags();
-			if (value == 1) { SET_FLAG(OF, (((*(uint16_t*)target) & 0x8000) ? 1 : 0) ^ CF); }
-			uint16_t tmp = 0;
-			*(uint16_t*)(((uint8_t*)&tmp)) = (*(uint16_t*)target);
-			*(uint16_t*)(((uint8_t*)&tmp) + (16 / 8)) = GET_FLAG(CF);
-			tmp = tmp << 1;
-			*(uint16_t*)(((uint8_t*)&tmp) + (16 / 8)) = (*(uint16_t*)target);
-			tmp = tmp >> ((value % (16 + 1)) - 1);
-			SET_FLAG(CF, tmp & 1);
-			tmp = tmp >> 1;
-			(*(uint16_t*)target) = *(uint16_t*)((uint8_t*)&tmp + (16 / 8));
+			uint16_t tmp = *(uint16_t*)target;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA16 = tmp;
+			tmp = (tmp >> value) | ((uint16_t)CF << (16 - value)) | (tmp << (16 - value + 1));
+			(*(uint16_t*)target) = tmp;
+			SET_FLAG(CF, (((LazyFlagVarA16) >> (value - 1)) & 1));
+			SET_FLAG(OF, (tmp ^ (tmp << 1)) & 0x8000);
 		}
 		break;
 		case 4: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For16(mrmByte);
-			uint8_t value = reg_CL_8u & 0x1F;
+			uint8_t value = reg_CL_8u;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			(*(uint16_t*)target) = (*(uint16_t*)target) << (value - 1);
-			SET_FLAG(CF, (*(uint16_t*)target) & 0x8000);
-			(*(uint16_t*)target) = (*(uint16_t*)target) << 1;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA16 = *(uint16_t*)target;
+			(*(uint16_t*)target) = (*(uint16_t*)target) << value;
 			LazyFlagResultContainer16 = (*(uint16_t*)target);
-			if (value == 1) { SET_FLAG(OF, (((*(uint16_t*)target) & 0x8000) ? 1 : 0) ^ CF); }
-			lazyFlagType = t_VALUE16;
+			lazyFlagType=t_SHL16;
 		}
 		break;
 		case 5: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For16(mrmByte);
-			uint8_t value = reg_CL_8u & 0x1F;
+			uint8_t value = reg_CL_8u;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			if (value == 1) { SET_FLAG(OF, (*(uint16_t*)target) & 0x8000) };
-			(*(uint16_t*)target) = (*(uint16_t*)target) >> (value % 16 - 1);
-			SET_FLAG(CF, (*(uint16_t*)target) & 1);
-			(*(uint16_t*)target) = (*(uint16_t*)target) >> 1;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA16 = *(uint16_t*)target;
+			(*(uint16_t*)target) = (*(uint16_t*)target) >> (value);
 			LazyFlagResultContainer16 = (*(uint16_t*)target);
-			lazyFlagType = t_VALUE16;
+			lazyFlagType=t_SHR16;
 		}
 		break;
 		case 7: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For16(mrmByte);
-			uint8_t value = reg_CL_8u & 0x1F;
+			uint8_t value = reg_CL_8u;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			uint64_t tmp = ((*(int16_t*)target) < 0) ? 0xFFFFFFFFFFFFFFFF : 0;
-			*(uint16_t*)(((uint8_t*)&tmp) + 4) = (*(uint16_t*)target);
-			tmp = tmp >> (value % 16 - 1);
-			SET_FLAG(CF, tmp & 1);
-			tmp = tmp >> 1;
-			(*(uint16_t*)target) = (*(uint16_t*)(((uint8_t*)&tmp) + 4));
-			SET_FLAG(OF, 0);
-			LazyFlagResultContainer16 = (*(uint16_t*)target);
-			lazyFlagType = t_VALUE16;
+			if (value > 16) { value = 16; }
+			FillFlagsNoCFOF();
+			LazyFlagVarB8 = value;
+			LazyFlagVarA16 = *(uint16_t*)target;
+			if (LazyFlagVarA16 & 0x8000) {
+				LazyFlagResultContainer16 = ((LazyFlagVarA16) >> value) | ((0xFFFFFFFF) << (16 - value));
+			} else {
+				LazyFlagResultContainer16 = (LazyFlagVarA16) >> value;
+			}
+			(*(uint16_t*)target) = LazyFlagResultContainer16;
+			lazyFlagType=t_SAR16;
 		}
 		break;
 		default:
@@ -36841,104 +36524,97 @@ void handlerCommand32Code00D3_PM() {
 	switch (nnn) {
 		case 0: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
-			uint8_t value = reg_CL_8u & 0x1F;
+			uint8_t value = reg_CL_8u;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			FillFlags();
-			uint64_t tmp = 0;
-			*(uint32_t*)(((uint8_t*)&tmp)) = (*(uint32_t*)target);
-			*(uint32_t*)(((uint8_t*)&tmp) + (32 / 8)) = (*(uint32_t*)target);
-			SET_FLAG(CF, (tmp << (value % 32 + 32 - 1)) & 0x80000000);
-			tmp = tmp << (value % 32);
-			(*(uint32_t*)target) = (*(uint32_t*)(((uint8_t*)&tmp)));
-			if (value == 1) { SET_FLAG(OF, (((*(uint32_t*)target) & 0x80000000) ? 1 : 0) ^ CF); }
+			FillFlagsNoCFOF();
+			value = value % 32;
+			uint32_t tmp = ((*(uint32_t*)target) << value) | ((*(uint32_t*)target) >> (32 - value));
+			(*(uint32_t*)target) = tmp;
+			SET_FLAG(CF, (tmp & 1));
+			SET_FLAG(OF, (tmp >> (32 - 1)) ^ CF );
 		}
 		break;
 		case 1: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
-			uint8_t value = reg_CL_8u & 0x1F;
+			uint8_t value = reg_CL_8u;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			FillFlags();
-			if (value == 1) { SET_FLAG(OF, (((*(uint32_t*)target) & 0x80000000) ? 1 : 0) ^ CF); }
-			uint64_t tmp = 0;
-			*(uint32_t*)(((uint8_t*)&tmp)) = (*(uint32_t*)target);
-			*(uint32_t*)(((uint8_t*)&tmp) + (32 / 8)) = (*(uint32_t*)target);
-			tmp = tmp >> (value % 32 - 1);
-			SET_FLAG(CF, tmp & 1);
-			tmp = tmp >> 1;
-			(*(uint32_t*)target) = (*(uint32_t*)(((uint8_t*)&tmp + 4)));
+			FillFlagsNoCFOF();
+			value = value % 32;
+			uint32_t tmp = ((*(uint32_t*)target) >> value) | ((*(uint32_t*)target) << (32 - value));
+			(*(uint32_t*)target) = tmp;
+			SET_FLAG(CF, (tmp & 0x80000000));
+			SET_FLAG(OF, (tmp ^ (tmp << 1)) & 0x80000000);
 		}
 		break;
 		case 2: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
-			uint8_t value = reg_CL_8u & 0x1F;
+			uint8_t value = reg_CL_8u;
+			value = (value & 0x1F) % (32 + 1);
 			if (value == 0) { return; }
 			FillFlags();
-			uint64_t tmp = 0;
-			*(uint32_t*)(((uint8_t*)&tmp) + (32 / 8)) = (*(uint32_t*)target);
-			tmp = tmp >> 1;
-			uint32_t mask = GET_FLAG(CF);
-			*(uint32_t*)(((uint8_t*)&tmp) + (32 / 8)) |= mask;
-			*(uint32_t*)(((uint8_t*)&tmp)) = (*(uint32_t*)target);
-			SET_FLAG(CF, (tmp << (value % (32 + 1) + 32)) & 0x80000000);
-			tmp = tmp << ((value % (32 + 1)));
-			(*(uint32_t*)target) = *(uint32_t*)((uint8_t*)&tmp);
-			if (value == 1) { SET_FLAG(OF, (((*(uint32_t*)target) & 0x80000000) ? 1 : 0) ^ CF); }
+			SET_FLAG(CF, (((*(uint32_t*)target) >> (32 - value)) & 0x1) );
+			uint32_t tmp = ((*(uint32_t*)target) << value) | ((uint32_t)CF >> (32 - value + 1)) | ((*(uint32_t*)target) >> (32 - value));
+			(*(uint32_t*)target) = tmp;
+			SET_FLAG(OF, (tmp >> (32 - 1)) ^ CF );
 		}
 		break;
 		case 3: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
-			uint8_t value = reg_CL_8u & 0x1F;
+			uint8_t value = reg_CL_8u;
+			value = (value & 0x1F) % (32 + 1);
 			if (value == 0) { return; }
 			FillFlags();
-			if (value == 1) { SET_FLAG(OF, (((*(uint32_t*)target) & 0x80000000) ? 1 : 0) ^ CF); }
-			uint32_t tmp = 0;
-			*(uint32_t*)(((uint8_t*)&tmp)) = (*(uint32_t*)target);
-			*(uint32_t*)(((uint8_t*)&tmp) + (32 / 8)) = GET_FLAG(CF);
-			tmp = tmp << 1;
-			*(uint32_t*)(((uint8_t*)&tmp) + (32 / 8)) = (*(uint32_t*)target);
-			tmp = tmp >> ((value % (32 + 1)) - 1);
-			SET_FLAG(CF, tmp & 1);
-			tmp = tmp >> 1;
-			(*(uint32_t*)target) = *(uint32_t*)((uint8_t*)&tmp + (32 / 8));
+			uint32_t tmp = *(uint32_t*)target;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA32 = tmp;
+			tmp = (tmp >> value) | ((uint32_t)CF << (32 - value)) | (tmp << (32 - value + 1));
+			(*(uint32_t*)target) = tmp;
+			SET_FLAG(CF, (((LazyFlagVarA32) >> (value - 1)) & 1));
+			SET_FLAG(OF, (tmp ^ (tmp << 1)) & 0x80000000);
 		}
 		break;
 		case 4: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
-			uint8_t value = reg_CL_8u & 0x1F;
+			uint8_t value = reg_CL_8u;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			(*(uint32_t*)target) = (*(uint32_t*)target) << (value - 1);
-			SET_FLAG(CF, (*(uint32_t*)target) & 0x80000000);
-			(*(uint32_t*)target) = (*(uint32_t*)target) << 1;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA32 = *(uint32_t*)target;
+			(*(uint32_t*)target) = (*(uint32_t*)target) << value;
 			LazyFlagResultContainer32 = (*(uint32_t*)target);
-			if (value == 1) { SET_FLAG(OF, (((*(uint32_t*)target) & 0x80000000) ? 1 : 0) ^ CF); }
-			lazyFlagType = t_VALUE32;
+			lazyFlagType=t_SHL32;
 		}
 		break;
 		case 5: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
-			uint8_t value = reg_CL_8u & 0x1F;
+			uint8_t value = reg_CL_8u;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			if (value == 1) { SET_FLAG(OF, (*(uint32_t*)target) & 0x80000000) };
-			(*(uint32_t*)target) = (*(uint32_t*)target) >> (value % 32 - 1);
-			SET_FLAG(CF, (*(uint32_t*)target) & 1);
-			(*(uint32_t*)target) = (*(uint32_t*)target) >> 1;
+			LazyFlagVarB8 = value;
+			LazyFlagVarA32 = *(uint32_t*)target;
+			(*(uint32_t*)target) = (*(uint32_t*)target) >> (value);
 			LazyFlagResultContainer32 = (*(uint32_t*)target);
-			lazyFlagType = t_VALUE32;
+			lazyFlagType=t_SHR32;
 		}
 		break;
 		case 7: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
-			uint8_t value = reg_CL_8u & 0x1F;
+			uint8_t value = reg_CL_8u;
+			value = value & 0x1F;
 			if (value == 0) { return; }
-			uint64_t tmp = ((*(int32_t*)target) < 0) ? 0xFFFFFFFFFFFFFFFF : 0;
-			*(uint32_t*)(((uint8_t*)&tmp) + 4) = (*(uint32_t*)target);
-			tmp = tmp >> (value % 32 - 1);
-			SET_FLAG(CF, tmp & 1);
-			tmp = tmp >> 1;
-			(*(uint32_t*)target) = (*(uint32_t*)(((uint8_t*)&tmp) + 4));
-			SET_FLAG(OF, 0);
-			LazyFlagResultContainer32 = (*(uint32_t*)target);
-			lazyFlagType = t_VALUE32;
+			if (value > 32) { value = 32; }
+			FillFlagsNoCFOF();
+			LazyFlagVarB8 = value;
+			LazyFlagVarA32 = *(uint32_t*)target;
+			if (LazyFlagVarA32 & 0x80000000) {
+				LazyFlagResultContainer32 = ((LazyFlagVarA32) >> value) | ((0xFFFFFFFF) << (32 - value));
+			} else {
+				LazyFlagResultContainer32 = (LazyFlagVarA32) >> value;
+			}
+			(*(uint32_t*)target) = LazyFlagResultContainer32;
+			lazyFlagType=t_SAR32;
 		}
 		break;
 		default:
@@ -38166,8 +37842,9 @@ void handlerCommand32Code00F6P66_PM() {
 			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
 			reg_AX_16u=((uint16_t)reg_AL_8u)*((uint16_t)(*(uint8_t*)target));
 			FillFlagsNoCFOF();
-			SET_FLAG(ZF,reg_AL_8 == 0);
-			SET_FLAG(PF,PARITY16(reg_AX_16));
+			SET_FLAG(ZF,reg_AL_8u == 0);
+			SET_FLAG(SF,reg_AL_8u & 0x80);
+			SET_FLAG(PF,PARITY8(reg_AL_8u));
 			if (reg_AX_16 & 0xff00) {
 				SET_FLAG(CF,1);SET_FLAG(OF,1);
 			} else {
@@ -38254,8 +37931,9 @@ void handlerCommand32Code00F6_PM() {
 			uint8_t* target = (uint8_t*)readAddressMRM32For8(mrmByte);
 			reg_AX_16u=((uint16_t)reg_AL_8u)*((uint16_t)(*(uint8_t*)target));
 			FillFlagsNoCFOF();
-			SET_FLAG(ZF,reg_AL_8 == 0);
-			SET_FLAG(PF,PARITY16(reg_AX_16));
+			SET_FLAG(ZF,reg_AL_8u == 0);
+			SET_FLAG(SF,reg_AL_8u & 0x80);
+			SET_FLAG(PF,PARITY8(reg_AL_8u));
 			if (reg_AX_16 & 0xff00) {
 				SET_FLAG(CF,1);SET_FLAG(OF,1);
 			} else {
@@ -38341,11 +38019,12 @@ void handlerCommand32Code00F7P66_PM() {
 		case 0x04: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For16(mrmByte);
 			uint32_t tempu=((uint32_t)reg_AX_16u)*(uint32_t)(*(uint16_t*)(target));
-			reg_AX_16=(uint16_t)(tempu);
-			reg_DX_16=(uint16_t)(tempu >> 16);
+			reg_AX_16u=(uint16_t)(tempu);
+			reg_DX_16u=(uint16_t)(tempu >> 16);
 			FillFlagsNoCFOF();
+			SET_FLAG(SF,reg_AX_16 & 0x8000);
 			SET_FLAG(ZF,reg_AX_16 == 0);
-			SET_FLAG(PF,PARITY16(reg_AX_16)^PARITY16(reg_DX_16));
+			SET_FLAG(PF,!(PARITY16(reg_AX_16u) ^ PARITY16(reg_DX_16u)));
 			if (reg_DX_16) {
 				SET_FLAG(CF,1);SET_FLAG(OF,1);
 			} else {
@@ -38435,11 +38114,12 @@ void handlerCommand32Code00F7_PM() {
 		case 0x04: {
 			uint8_t* target = (uint8_t*)readAddressMRM32For32(mrmByte);
 			uint64_t tempu=((uint64_t)reg_AX_32u)*((uint64_t)(*(uint32_t*)(target)));
-			reg_AX_32=(uint32_t)(tempu);
-			reg_DX_32=(uint32_t)(tempu >> 32);
+			reg_AX_32u=(uint32_t)(tempu);
+			reg_DX_32u=(uint32_t)(tempu >> 32);
 			FillFlagsNoCFOF();
-			SET_FLAG(ZF,reg_AX_32 == 0);
-			SET_FLAG(PF,PARITY32(reg_AX_32)^PARITY32(reg_DX_32));
+			SET_FLAG(SF,reg_AX_32u & 0x80000000);
+			SET_FLAG(ZF,reg_AX_32u == 0);
+			SET_FLAG(PF,!(PARITY32(reg_AX_32) ^ PARITY32(reg_DX_32)));
 			if (reg_DX_32) {
 				SET_FLAG(CF,1);SET_FLAG(OF,1);
 			} else {

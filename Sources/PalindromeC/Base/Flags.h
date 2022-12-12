@@ -54,13 +54,17 @@ extern uint8_t VM;
 
 
 #define GET_FLAG(flag) (flag)
-#define SET_FLAG(flag, value) { flag = (((value) == 0) ? 0 : 1); }
+#define SET_FLAG(flag, value) { flag = (((value) == 0) ? 0x0 : 1); }
 
-#define SET_BIT(target, bit, value) { target ^= (-(int8_t)((value ? 1 : 0)) ^ target) & (1UL << bit); }
+#define SET_BIT(target, bit, value) { target ^= (-(int8_t)(((value) ? 1 : 0)) ^ target) & (1UL << bit); }
 
-#define PARITY16(x)  (parity_lookup[((x))&0xff]^parity_lookup[(x>>8)&0xff])
-#define PARITY32(x)  (PARITY16((x)&0xffff)^PARITY16(((x)>>16)&0xffff))
-extern uint16_t parity_lookup[256];
+extern uint8_t parity_lookup[0x100];
+extern uint8_t parity_lookup16[0x10000];
+
+#define PARITY8(x)  (parity_lookup[((x)&0xff)])
+#define PARITY16(x) (parity_lookup16[(x)&0xffff])
+#define PARITY32(x) (!(PARITY16((x)&0xffff)^PARITY16(((x)>>16)&0xffff)))
+
 
 typedef enum {
     t_UNKNOWN=0,
@@ -156,5 +160,7 @@ void FillFlagsNoCFOF(void);
 void EncodeFlagsRegister();
 void DecodeFlagsRegister16();
 void DecodeFlagsRegister32();
+
+void FlagInstall();
 
 #endif /* Flags_h */

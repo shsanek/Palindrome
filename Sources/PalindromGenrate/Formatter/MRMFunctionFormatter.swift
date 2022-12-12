@@ -120,6 +120,8 @@ struct ReplaceTemplateFormat: IFormatter {
             text = text?.replacingOccurrences(of: "%\(h.name)", with: h.value)
         }
         return text?
+            .replacingOccurrences(of: "%int", with: "int%dataSize_t")
+            .replacingOccurrences(of: "%2int", with: "int%2dataSize_t")
             .replacingOccurrences(of: "%addressMask", with: info.addressMask)
             .replacingOccurrences(of: "%addressSize", with: "\(info.addressSize)")
             .replacingOccurrences(of: "%dataType", with: "\(info.sign)int\(info.dataSize)_t")
@@ -132,7 +134,6 @@ struct ReplaceTemplateFormat: IFormatter {
             .replacingOccurrences(of: "%firstBitMask", with: "\(info.firstBitMask)")
             .replacingOccurrences(of: "%1/2dataSize", with: "\(info.dataSize / 2)")
             .replacingOccurrences(of: "%MOD", with: info.mode == .mod16 ? "16" : "32")
-
     }
 }
 

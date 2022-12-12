@@ -68,7 +68,8 @@ Context* resetContext() {
     context.pmode = 0;
     resetStack();
     setRegisterPointers();
-
+    FlagInstall();
+    
     pthread_mutex_init(&context.interruptLock, NULL);
     pthread_mutex_init(&context.mainThreadLock, NULL);
     pthread_mutex_init(&context.interruptImplementationLock, NULL);
