@@ -19,7 +19,7 @@ typedef struct VirtualMemoryTable {
 uint8_t* VirtualMemoryPointerMap[0x3FFF];
 
 uint16_t BasePointerMapIndex = 0;
-uint8_t* BasePointerMap[0xFFFF];
+uint8_t* BasePointerMap[0x10000];
 #define BASE_POINTER_MASK 0xFFFF0000;
 #define OFFSET_POINTER_MASK 0x0000FFFF;
 

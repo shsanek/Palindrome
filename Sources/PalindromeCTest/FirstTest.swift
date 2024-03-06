@@ -353,8 +353,22 @@ final class FirstTest: XCTestCase {
 //        runFullModeToEndWithStop(100000);
 //    }
 
-    func test10() throws {
+    func testNotTest() throws {
         testContext = TestContextNone
+        let wrapContext = WrapContext()
+
+        let programm = try! Data(
+            contentsOf: URL.init(
+                fileURLWithPath: "/Users/alexandershipin/Downloads/Half-Life-SteamRIP.com/Half-Life/steamapps/common/Half-Life/hl.exe"
+            )
+        )
+        wrapContext.loadProgram(with: .program, programm)
+
+        runFullModeToEndWithStop(0);
+    }
+
+    func test10() throws {
+        testContext = TestContextPrince
         let wrapContext = WrapContext()
 
         let testPath = "/Users/alexandershipin/Documents/projects/Palindrome/Sources/TestSource/prince/reg.txt"
@@ -376,7 +390,7 @@ final class FirstTest: XCTestCase {
 
         wrapContext.loadProgram(with: .program, programm)
 
-        let number = 0
+        let number = 17000
         let value = runFullModeToEndWithStopForTest(Int32(number))
         let result = String(cString: value!)
         value?.deallocate()

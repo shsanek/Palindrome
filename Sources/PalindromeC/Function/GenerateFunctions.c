@@ -8036,7 +8036,7 @@ void handlerCommand16Code00F6P66_RM() {
 			FillFlagsNoCFOF();
 			SET_FLAG(ZF,reg_AL_8u == 0);
 			SET_FLAG(SF,reg_AL_8u & 0x80);
-			SET_FLAG(PF,PARITY8(reg_AL_8u));
+			SET_FLAG(PF,PARITY8(reg_AX_16u));
 			if (reg_AX_16 & 0xff00) {
 				SET_FLAG(CF,1);SET_FLAG(OF,1);
 			} else {
@@ -8125,7 +8125,7 @@ void handlerCommand16Code00F6_RM() {
 			FillFlagsNoCFOF();
 			SET_FLAG(ZF,reg_AL_8u == 0);
 			SET_FLAG(SF,reg_AL_8u & 0x80);
-			SET_FLAG(PF,PARITY8(reg_AL_8u));
+			SET_FLAG(PF,PARITY8(reg_AX_16u));
 			if (reg_AX_16 & 0xff00) {
 				SET_FLAG(CF,1);SET_FLAG(OF,1);
 			} else {
@@ -17972,7 +17972,7 @@ void handlerCommand32Code00F6P66_RM() {
 			FillFlagsNoCFOF();
 			SET_FLAG(ZF,reg_AL_8u == 0);
 			SET_FLAG(SF,reg_AL_8u & 0x80);
-			SET_FLAG(PF,PARITY8(reg_AL_8u));
+			SET_FLAG(PF,PARITY8(reg_AX_16u));
 			if (reg_AX_16 & 0xff00) {
 				SET_FLAG(CF,1);SET_FLAG(OF,1);
 			} else {
@@ -18061,7 +18061,7 @@ void handlerCommand32Code00F6_RM() {
 			FillFlagsNoCFOF();
 			SET_FLAG(ZF,reg_AL_8u == 0);
 			SET_FLAG(SF,reg_AL_8u & 0x80);
-			SET_FLAG(PF,PARITY8(reg_AL_8u));
+			SET_FLAG(PF,PARITY8(reg_AX_16u));
 			if (reg_AX_16 & 0xff00) {
 				SET_FLAG(CF,1);SET_FLAG(OF,1);
 			} else {
@@ -27908,7 +27908,7 @@ void handlerCommand16Code00F6P66_PM() {
 			FillFlagsNoCFOF();
 			SET_FLAG(ZF,reg_AL_8u == 0);
 			SET_FLAG(SF,reg_AL_8u & 0x80);
-			SET_FLAG(PF,PARITY8(reg_AL_8u));
+			SET_FLAG(PF,PARITY8(reg_AX_16u));
 			if (reg_AX_16 & 0xff00) {
 				SET_FLAG(CF,1);SET_FLAG(OF,1);
 			} else {
@@ -27997,7 +27997,7 @@ void handlerCommand16Code00F6_PM() {
 			FillFlagsNoCFOF();
 			SET_FLAG(ZF,reg_AL_8u == 0);
 			SET_FLAG(SF,reg_AL_8u & 0x80);
-			SET_FLAG(PF,PARITY8(reg_AL_8u));
+			SET_FLAG(PF,PARITY8(reg_AX_16u));
 			if (reg_AX_16 & 0xff00) {
 				SET_FLAG(CF,1);SET_FLAG(OF,1);
 			} else {
@@ -37844,7 +37844,7 @@ void handlerCommand32Code00F6P66_PM() {
 			FillFlagsNoCFOF();
 			SET_FLAG(ZF,reg_AL_8u == 0);
 			SET_FLAG(SF,reg_AL_8u & 0x80);
-			SET_FLAG(PF,PARITY8(reg_AL_8u));
+			SET_FLAG(PF,PARITY8(reg_AX_16u));
 			if (reg_AX_16 & 0xff00) {
 				SET_FLAG(CF,1);SET_FLAG(OF,1);
 			} else {
@@ -37933,7 +37933,7 @@ void handlerCommand32Code00F6_PM() {
 			FillFlagsNoCFOF();
 			SET_FLAG(ZF,reg_AL_8u == 0);
 			SET_FLAG(SF,reg_AL_8u & 0x80);
-			SET_FLAG(PF,PARITY8(reg_AL_8u));
+			SET_FLAG(PF,PARITY8(reg_AX_16u));
 			if (reg_AX_16 & 0xff00) {
 				SET_FLAG(CF,1);SET_FLAG(OF,1);
 			} else {

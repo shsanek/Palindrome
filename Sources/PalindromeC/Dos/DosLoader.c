@@ -8,6 +8,7 @@
 #include "DosLoader.h"
 #include "VideoServiceInterrupt.h"
 #include "../include/Base.h"
+#include "Windows/WindowsHeader.h"
 
 typedef struct DOSHeader {
     /// 0000h
@@ -284,11 +285,20 @@ void loadDosProgram(uint8_t *program, uint size) {
     uint16_t magic = *(uint16_t*)program;
     if (magic == 23117) {
         // EXE
-        loadRealModForDos(); realModCPUSetting(); // для PE програм нужно будет убрать
-        loadMZDosProgram();
+        uint8_t* pe = program + (*(uint16_t*)(program + 0x3C));
+        if ((*((uint32_t*)pe)) == 0x00004550){
+            // Windows
+            loadWindows32NT(pe, program);
+        } else {
+            // Dos
+            loadRealModForDos();
+            realModCPUSetting(); // для PE програм нужно будет убрать
+            loadMZDosProgram();
+        }
     } else {
         // COM
-        loadRealModForDos(); realModCPUSetting();
+        loadRealModForDos();
+        realModCPUSetting();
         loadCOMDosProgram(size);
     }
 }
